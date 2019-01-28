@@ -2,12 +2,20 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <!-- Necessarily Declarations -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <link rel="alternate icon" type="image/png" href="favicon.png">
 
-        <title>Laravel</title>
+        <title>Home | CodeMaster</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
+        <link href="https://fonts.geekzu.org/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
+        <link href="https://cdn.mundb.xyz/fonts/MDI-WXSS/MDI.css" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
         <style>
@@ -81,17 +89,16 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    CodeMaster
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+                    <a href="problem">Problem</a>
+                    <a href="status">Status</a>
+                    <a href="contest">Contest</a>
+                    <a href="group">Group</a>
+                    <a href="account">Account</a>
+                </div> 
             </div>
         </div>
     </body>
