@@ -118,7 +118,7 @@
                 <div></div>
                 <div></div>
             </div>
-            <p>ATSAST疯狂加载中……</p>
+            <p>Preparing CodeMaster</p>
         </div>
     </loading>
     <!-- Style -->
@@ -133,7 +133,7 @@
         <img src="">
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom:30px;">
-        <a class="navbar-brand" href="https://mundb.xyz/"><img src="https://cdn.mundb.xyz/img/atsast/icon_white.png" height="30"> AT SAST</a>
+        <a class="navbar-brand" href="/"><img src="https://cdn.mundb.xyz/img/atsast/icon_white.png" height="30"> CodeMaster</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -141,26 +141,29 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item />">
-                    <a class="nav-link" href="https://mundb.xyz/">发现 <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item  active />">
-                    <a class="nav-link" href="https://mundb.xyz/courses">课程</a>
+                    <a class="nav-link" href="/problem">Problem</a>
                 </li>
                 <li class="nav-item />">
-                    <a class="nav-link" href="https://mundb.xyz/contests">活动</a>
+                    <a class="nav-link" href="/status">Status</a>
                 </li>
                 <li class="nav-item />">
-                    <a class="nav-link" href="https://mundb.xyz/pastebin">PasteBin</a>
+                    <a class="nav-link" href="/contest">Contest</a>
+                </li>
+                <li class="nav-item />">
+                    <a class="nav-link" href="/group">Group</a>
                 </li>
             </ul>
 
             <ul class="navbar-nav mundb-nav-right">
-                <form action="https://mundb.xyz/search" method="get" class="form-inline my-2 my-lg-0 mundb-inline">
+                <form action="/search" method="get" class="form-inline my-2 my-lg-0 mundb-inline">
                     <span class="bmd-form-group"><input class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" placeholder="搜索" aria-label="搜索"></span>
                 </form>
 
                 <li class="nav-item mundb-no-shrink />">
-                    <a class="nav-link" href="https://mundb.xyz/account">登录 / 注册</a>
+                    <a class="nav-link" href="/account">Account</a>
                 </li>
             </ul>
         </div>
@@ -178,18 +181,6 @@
     <script>
         $(document).ready(function () { $('body').bootstrapMaterialDesign(); });
         window.addEventListener("load",function() {
-
-            // compatable with proxy
-
-            $.each($("a"),function(i,link){
-                $(link).attr("href",$(link).attr("href").replace(/https:\/\/static.1cf.co/gi,'https://cdn.mundb.xyz'));
-                // link.href=link.href.replace(/https:\/\/static.1cf.co/gi,'https://cdn.mundb.xyz');
-            });
-
-            $.each($("img"),function(i,image){
-                $(image).attr("src",$(image).attr("src").replace(/https:\/\/static.1cf.co/gi,'https://cdn.mundb.xyz'));
-                // image.src=image.src.replace(/https:\/\/static.1cf.co/gi,'https://cdn.mundb.xyz');
-            });
 
             $('loading').css({"opacity":"0","pointer-events":"none"});
 
