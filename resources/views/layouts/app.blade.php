@@ -19,82 +19,92 @@
     <link rel="alternate icon" type="image/png" href="https://cdn.mundb.xyz/img/atsast/favicon.png">
     <!-- Loading Style -->
     <style>
-    loading > div{
-        text-align: center;
-    }
-    loading p{
-        font-weight:100;
-    }
-    loading{
-        display:flex;
-        z-index:999;
-        position:fixed;
-        top:0;
-        bottom:0;
-        right:0;
-        left:0;
-        justify-content:center;
-        align-items:center;
-        background: #f5f5f5;
-        transition:.2s ease-out .0s;
-        opacity:1;
-    }
+        loading>div {
+            text-align: center;
+        }
 
-    .lds-ellipsis {
-        display: inline-block;
-        position: relative;
-        width: 64px;
-        height: 64px;
-    }
-    .lds-ellipsis div {
-        position: absolute;
-        top: 27px;
-        width: 11px;
-        height: 11px;
-        border-radius: 50%;
-        background: rgba(0,0,0,.54);
-        animation-timing-function: cubic-bezier(0, 1, 1, 0);
-    }
-    .lds-ellipsis div:nth-child(1) {
-        left: 6px;
-        animation: lds-ellipsis1 0.6s infinite;
-    }
-    .lds-ellipsis div:nth-child(2) {
-        left: 6px;
-        animation: lds-ellipsis2 0.6s infinite;
-    }
-    .lds-ellipsis div:nth-child(3) {
-        left: 26px;
-        animation: lds-ellipsis2 0.6s infinite;
-    }
-    .lds-ellipsis div:nth-child(4) {
-        left: 45px;
-        animation: lds-ellipsis3 0.6s infinite;
-    }
-    @keyframes lds-ellipsis1 {
-        0% {
-            transform: scale(0);
+        loading p {
+            font-weight: 100;
         }
-        100% {
-            transform: scale(1);
+
+        loading {
+            display: flex;
+            z-index: 999;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            justify-content: center;
+            align-items: center;
+            background: #f5f5f5;
+            transition: .2s ease-out .0s;
+            opacity: 1;
         }
-    }
-    @keyframes lds-ellipsis3 {
-        0% {
-            transform: scale(1);
+
+        .lds-ellipsis {
+            display: inline-block;
+            position: relative;
+            width: 64px;
+            height: 64px;
         }
-        100% {
-            transform: scale(0);
+
+        .lds-ellipsis div {
+            position: absolute;
+            top: 27px;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, .54);
+            animation-timing-function: cubic-bezier(0, 1, 1, 0);
         }
-    }
-    @keyframes lds-ellipsis2 {
-        0% {
-            transform: translate(0, 0);
+
+        .lds-ellipsis div:nth-child(1) {
+            left: 6px;
+            animation: lds-ellipsis1 0.6s infinite;
         }
-        100% {
-            transform: translate(19px, 0);
+
+        .lds-ellipsis div:nth-child(2) {
+            left: 6px;
+            animation: lds-ellipsis2 0.6s infinite;
         }
-    }
+
+        .lds-ellipsis div:nth-child(3) {
+            left: 26px;
+            animation: lds-ellipsis2 0.6s infinite;
+        }
+
+        .lds-ellipsis div:nth-child(4) {
+            left: 45px;
+            animation: lds-ellipsis3 0.6s infinite;
+        }
+
+        @keyframes lds-ellipsis1 {
+            0% {
+                transform: scale(0);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes lds-ellipsis3 {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(0);
+            }
+        }
+
+        @keyframes lds-ellipsis2 {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(19px, 0);
+            }
+        }
     </style>
 </head>
 
@@ -123,36 +133,37 @@
         <img src="">
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom:30px;">
-    <a class="navbar-brand" href="https://mundb.xyz/"><img src="https://cdn.mundb.xyz/img/atsast/icon_white.png" height="30"> AT SAST</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="https://mundb.xyz/"><img src="https://cdn.mundb.xyz/img/atsast/icon_white.png" height="30"> AT SAST</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-        <li class="nav-item />">
-            <a class="nav-link" href="https://mundb.xyz/">发现 <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item  active />">
-            <a class="nav-link" href="https://mundb.xyz/courses">课程</a>
-        </li>
-        <li class="nav-item />">
-            <a class="nav-link" href="https://mundb.xyz/contests">活动</a>
-        </li>
-        <li class="nav-item />">
-            <a class="nav-link" href="https://mundb.xyz/pastebin">PasteBin</a>
-        </li>
-        </ul>
-
-        <ul class="navbar-nav mundb-nav-right">
-            <form action="https://mundb.xyz/search" method="get" class="form-inline my-2 my-lg-0 mundb-inline">
-                <span class="bmd-form-group"><input class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" placeholder="搜索" aria-label="搜索"></span>
-            </form>
-
-            <li class="nav-item mundb-no-shrink />">
-                <a class="nav-link" href="https://mundb.xyz/account">登录 / 注册</a>
-            </li>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item />">
+                    <a class="nav-link" href="https://mundb.xyz/">发现 <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item  active />">
+                    <a class="nav-link" href="https://mundb.xyz/courses">课程</a>
+                </li>
+                <li class="nav-item />">
+                    <a class="nav-link" href="https://mundb.xyz/contests">活动</a>
+                </li>
+                <li class="nav-item />">
+                    <a class="nav-link" href="https://mundb.xyz/pastebin">PasteBin</a>
+                </li>
             </ul>
-    </div>
+
+            <ul class="navbar-nav mundb-nav-right">
+                <form action="https://mundb.xyz/search" method="get" class="form-inline my-2 my-lg-0 mundb-inline">
+                    <span class="bmd-form-group"><input class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" placeholder="搜索" aria-label="搜索"></span>
+                </form>
+
+                <li class="nav-item mundb-no-shrink />">
+                    <a class="nav-link" href="https://mundb.xyz/account">登录 / 注册</a>
+                </li>
+            </ul>
+        </div>
     </nav>
 
     @yield('template')
