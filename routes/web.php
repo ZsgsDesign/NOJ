@@ -13,4 +13,8 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
+
+Route::get('/account', function () {
+    return 'Account';
+})->name('account');
