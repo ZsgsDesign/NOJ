@@ -44,14 +44,14 @@
                     <tbody>
                             <tr>
                                 <th scope="row">LG1001</th>
-                                <td>A+B Problem</td>
+                                <td><a href="/problem/LG1001">A+B Problem</a></td>
                                 <td>0</td>
                                 <td>100%</td>
                                 <td>N / A</td>
                             </tr>
                             <tr>
                                 <th scope="row">CF500A</th>
-                                <td>New Year Transportation</td>
+                                <td><a href="/problem/LG1001">New Year Transportation</a></td>
                                 <td>0</td>
                                 <td>34%</td>
                                 <td>Easy</td>

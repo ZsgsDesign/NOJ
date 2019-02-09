@@ -15,10 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/account', function () {
-    return view('account');
-})->name('account');
+Route::get('/account', 'MainController@account')->name('account');
 
-Route::get('/problem', function () {
-    return view('problem');
-})->name('problem');
+Route::get('/problem', 'MainController@problem')->name('problem');
