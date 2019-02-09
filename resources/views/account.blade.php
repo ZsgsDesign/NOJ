@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title') Home @endsection
+@section('title') Account @endsection
 
 @section('site') CodeMaster @endsection
 

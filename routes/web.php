@@ -18,3 +18,7 @@ Route::get('/', function () {
 Route::get('/account', function () {
     return view('account');
 })->name('account');
+
+Route::get('/problem', function () {
+    return view('problem');
+})->name('problem');
