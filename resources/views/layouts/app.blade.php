@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="UTF-8">
@@ -143,7 +143,7 @@
                 <li class="nav-item />">
                     <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item  active />">
+                <li class="nav-item />">
                     <a class="nav-link" href="/problem">Problem</a>
                 </li>
                 <li class="nav-item />">
@@ -159,7 +159,7 @@
 
             <ul class="navbar-nav mundb-nav-right">
                 <form action="/search" method="get" class="form-inline my-2 my-lg-0 mundb-inline">
-                    <span class="bmd-form-group"><input class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" placeholder="搜索" aria-label="搜索"></span>
+                    <span class="bmd-form-group"><input class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" placeholder="OnmiSearch" aria-label="search"></span>
                 </form>
 
                 <li class="nav-item mundb-no-shrink />">
@@ -172,7 +172,7 @@
     @yield('template')
 
     <footer class="mundb-footer bg-dark text-light d-print-none">
-        Copyright© Auxiliary Teaching for SAST 2018, all rights reserved.
+        Copyright &copy; CodeMaster 2018-2019, all rights reserved.
     </footer>
     <script src="https://cdn.mundb.xyz/js/jquery-3.2.1.min.js"></script>
     <script src="https://cdn.mundb.xyz/js/popper.min.js"></script>

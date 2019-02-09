@@ -16,5 +16,5 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/account', function () {
-    return 'Account';
+    return view('account');
 })->name('account');
