@@ -142,19 +142,19 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item />">
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link @if ($page_title === "Home") active @endif" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item />">
                     <a class="nav-link @if ($page_title === "Problem") active @endif" href="/problem">Problem</a>
                 </li>
                 <li class="nav-item />">
-                    <a class="nav-link" href="/status">Status</a>
+                    <a class="nav-link @if ($page_title === "Status") active @endif" href="/status">Status</a>
                 </li>
                 <li class="nav-item />">
-                    <a class="nav-link" href="/contest">Contest</a>
+                    <a class="nav-link @if ($page_title === "Contest") active @endif" href="/contest">Contest</a>
                 </li>
                 <li class="nav-item />">
-                    <a class="nav-link" href="/group">Group</a>
+                    <a class="nav-link @if ($page_title === "Group") active @endif" href="/group">Group</a>
                 </li>
             </ul>
 
@@ -164,7 +164,7 @@
                 </form>
 
                 <li class="nav-item mundb-no-shrink />">
-                    <a class="nav-link" href="/account">Account</a>
+                    <a class="nav-link @if ($page_title === "Account") active @endif" href="/account">Account</a>
                 </li>
             </ul>
         </div>
