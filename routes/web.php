@@ -11,6 +11,8 @@
 |
 */
 
+Route::redirect('/home', '/', 301);
+
 Route::get('/', function () {
     return view('welcome');
 })->name('home');

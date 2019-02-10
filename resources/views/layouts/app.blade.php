@@ -189,8 +189,8 @@
                             <div class="dropdown-menu dropdown-menu-right">
                                 <div class="dropdown-header"><img src="https://cdn.mundb.xyz/img/atsast/upload/2/15453661701.jpg" class="mundb-avatar" id="atsast_nav_avatar" /><div><h6>{{ Auth::user()["name"] }}<br/><small>{{ Auth::user()->email }}</small></h6></div></div>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/account/profile"><i class="MDI account-circle"></i> Dashboard</a>
-                                <a class="dropdown-item" href="/account/contests"><i class="MDI airballoon"></i> Submissions</a>
+                                <a class="dropdown-item" href="/account/dashboard"><i class="MDI account-circle"></i> Dashboard</a>
+                                <a class="dropdown-item" href="/account/submissions"><i class="MDI airballoon"></i> Submissions</a>
                                 <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> Advanced Settings</a>
                                 @if ("admin"===false)
                                 <div class="dropdown-divider"></div>
