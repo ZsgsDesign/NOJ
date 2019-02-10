@@ -83,14 +83,7 @@
     label[for="agreement"] {
         display: inline-block;
     }
-
-    canvas#atsast-background-canvas {
-        position: fixed;
-        z-index: -1;
-        top: 0;
-    }
 </style>
-<!-- <canvas id="atsast-background-canvas"></canvas> -->
 <div class="container mundb-standard-container">
     <div class="row justify-content-sm-center">
         <div class="col-sm-12 col-md-8 col-lg-6">
@@ -121,8 +114,6 @@
                                     <label for="email" class="bmd-label-floating">Email</label>
                                     <input type="email" name="email" class="form-control" id="login_email" required>
                                     <div class="invalid-feedback">Please fill in your email</div>
-                                    <span class="bmd-help">Only available for NJUPT email system only</span>
-                                    <span class="bmd-help">e.g. Q17010217@njupt.edu.cn</span>
                                 </div>
                                 <div class="form-group">
                                     <label for="password" class="bmd-label-floating">Password</label>
@@ -137,19 +128,40 @@
                         </form>
                     </div>
                     <div class="tab-pane fade " id="register" role="tabpanel" aria-labelledby="register-tab">
-                        <form class="needs-validation" action="?action=register" method="post" id="register_form" novalidate>
+                        <form class="needs-validation" method="POST" action="{{ route('register') }}" id="register_form" novalidate>
+                            @csrf
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="email" class="bmd-label-floating">Your email</label>
-                                    <input type="email" name="email" class="form-control" id="register_email" required>
-                                    <div class="invalid-feedback">Please fill in your email</div>
-                                    <span class="bmd-help">Only available for NJUPT email system only</span>
-                                    <span class="bmd-help">e.g. Q17010217@njupt.edu.cn</span>
+                                    <label for="email" class="bmd-label-floating">Nick Name</label>
+                                    <input type="email" name="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" id="register_nick_name" value="{{ old('name') }}" required>
+                                    @if ($errors->has('name'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('name') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                                 <div class="form-group">
-                                    <label for="password" class="bmd-label-floating">Set your password</label>
+                                    <label for="email" class="bmd-label-floating">Email</label>
+                                    <input type="email" name="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" id="register_email" value="{{ old('email') }}" required>
+                                    @if ($errors->has('email'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('email') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="bmd-label-floating">Password</label>
                                     <input type="password" name="password" class="form-control" id="register_password" required>
-                                    <div class="invalid-feedback">Please fill in your password</div>
+                                    @if ($errors->has('password'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('password') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="bmd-label-floating">Confirm Password</label>
+                                    <input type="password" name="password_confirmation" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" id="register_password_again" required>
+                                    <div class="invalid-feedback">Please confirm your password</div>
                                 </div>
                                 <div class="form-group">
                                     <div class="checkbox">
@@ -168,7 +180,6 @@
         </div>
     </div>
 </div>
-<!-- <script src="https://cdn.mundb.xyz/js/atsast.canvas.background.js"></script> -->
 <script>
     window.addEventListener("load",function() {
         $('#login-tab').on('click', function (e) {
@@ -188,17 +199,17 @@
             }
         });
 
-        var forms = document.getElementsByClassName('needs-validation');
-        var validation = Array.prototype.filter.call(forms, function (form) {
-            form.addEventListener('submit', function (event) {
-                if (form.checkValidity() === false) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-            }, false);
+        // var forms = document.getElementsByClassName('needs-validation');
+        // var validation = Array.prototype.filter.call(forms, function (form) {
+        //     form.addEventListener('submit', function (event) {
+        //         if (form.checkValidity() === false) {
+        //             event.preventDefault();
+        //             event.stopPropagation();
+        //         }
+        //         form.classList.add('was-validated');
+        //     }, false);
 
-        }, false);
+        // }, false);
 
     }, false);
 

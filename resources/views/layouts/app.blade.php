@@ -1,3 +1,18 @@
+<?php
+    $current_hour=date("H");
+    if ($current_hour<6) {
+        $greeting="Get to bed";
+    } elseif ($current_hour<12) {
+        $greeting="Good morning";
+    } elseif ($current_hour<18) {
+        $greeting="Good afternoon";
+    } elseif ($current_hour<22) {
+        $greeting="Good evening";
+    } else {
+        $greeting="Good Night";
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -10,6 +25,8 @@
     <meta name="developer" content="">
     <meta name="version" content="">
     <meta name="subversion" content="">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Necessarily Declarations -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -164,7 +181,44 @@
                 </form>
 
                 <li class="nav-item mundb-no-shrink />">
-                    <a class="nav-link @if ($page_title === "Account") active @endif" href="/account">Account</a>
+                    @guest
+                        <a class="nav-link @if ($page_title === "Account") active @endif" href="/account">Account</a>
+                    @else
+                        <li class="nav-item dropdown mundb-btn-ucenter">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{$greeting}}, {{ Auth::user()["name"] }}</a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <div class="dropdown-header"><img src="https://cdn.mundb.xyz/img/atsast/upload/2/15453661701.jpg" class="mundb-avatar" id="atsast_nav_avatar" /><div><h6>{{ Auth::user()["name"] }}<br/><small>{{ Auth::user()->email }}</small></h6></div></div>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/account/profile"><i class="MDI account-circle"></i> Dashboard</a>
+                                <a class="dropdown-item" href="/account/contests"><i class="MDI airballoon"></i> Submissions</a>
+                                <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> Advanced Settings</a>
+                                @if ("admin"===false)
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/admin"><i class="MDI view-dashboard"></i> Admin Tools</a>
+                                @endif
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/system/logs"><i class="MDI update"></i> Upgrade Log</a>
+                                <a class="dropdown-item" href="/system/bugs"><i class="MDI bug"></i> Report BUG</a>
+                                <div class="dropdown-divider"></div>
+                                <a  class="dropdown-item text-danger"
+                                    href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">
+                                    <i class="MDI exit-to-app text-danger"></i> {{ __('Logout') }}
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                        <script>
+                          window.addEventListener("load", function () {
+                            $('.dropdown-header').click(function (e) {
+                              e.stopPropagation();
+                            });
+                          }, false);
+                        </script>
+                    @endguest
                 </li>
             </ul>
         </div>
