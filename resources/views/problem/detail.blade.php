@@ -150,6 +150,32 @@
     separate-line.stick {
         transform: scaleY(1.5);
     }
+
+    .cm-empty{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        height: 10rem;
+    }
+
+    badge{
+        display: inline-block;
+        padding: 0.25rem 0.75em;
+        font-weight: 700;
+        line-height: 1.5;
+        text-align: center;
+        vertical-align: baseline;
+        border-radius: 0.125rem;
+        background-color: #f5f5f5;
+        margin: 1rem;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
+        border-radius: 4px;
+        transition: .2s ease-out .0s;
+        color: #7a8e97;
+        background: #fff;
+        position: relative;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+    }
 </style>
 
 <div class="container mundb-standard-container">
@@ -172,9 +198,20 @@
                 <p>Info</p>
                 <div>
                     <a href="{{$detail["oj_detail"]["home_page"]}}" target="_blank"><img src="{{$detail["oj_detail"]["logo"]}}" alt="{{$detail["oj_detail"]["name"]}}" class="img-fluid mb-3"></a>
-                    <p>Provider: <span class="wemd-black-text">{{$detail["oj_detail"]["name"]}}</span></p>
-                    <p><span>Origin:</span> <a href="{{$detail["origin"]}}" target="_blank">HERE</a></p>
+                    <p>Provider <span class="wemd-black-text">{{$detail["oj_detail"]["name"]}}</span></p>
+                    <p><span>Origin</span> <a href="{{$detail["origin"]}}" target="_blank"><i class="MDI link-variant"></i> HERE</a></p>
                     <separate-line class="ultra-thin mb-3 mt-3"></separate-line>
+                    <p><span>Tags </span> <span class="badge badge-secondary">Brutal</span></p>
+                    <p><span>Submitted </span> <span class="wemd-black-text"> 124</span></p>
+                    <p><span>Passed </span> <span class="wemd-black-text"> 62</span></p>
+                    <p><span>AC Rate </span> <span class="wemd-black-text"> 50.0%</span></p>
+                    <p><span>Date </span> <span class="wemd-black-text"> 02/10/2019 15:48:59</span></p>
+                </div>
+            </paper-card>
+            <paper-card>
+                <p>Related</p>
+                <div class="cm-empty">
+                    <badge>Nothing Yet</badge>
                 </div>
             </paper-card>
         </div>
