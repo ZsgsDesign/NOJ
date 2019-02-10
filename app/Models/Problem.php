@@ -12,7 +12,9 @@ class Problem extends Model
     public function detail($pcode)
     {
         $prob_detail = DB::table($this->tableName)->where("pcode", $pcode)->first();
-        $prob_detail["desc_parsed"]=Markdown::convertToHtml($prob_detail["desc"]);;
+        if(!is_null($prob_detail)) {
+            $prob_detail["desc_parsed"]=Markdown::convertToHtml($prob_detail["desc"]);
+        }
         return $prob_detail;
     }
 }

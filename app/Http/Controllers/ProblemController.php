@@ -16,6 +16,6 @@ class ProblemController extends Controller
     {
         $problem=new Problem();
         $prob_detail=$problem->detail($pcode);
-        return view('problem.detail', ['detail' => $prob_detail]);
+        return is_null($prob_detail) ? redirect("/problem") : view('problem.detail', ['detail' => $prob_detail]);
     }
 }
