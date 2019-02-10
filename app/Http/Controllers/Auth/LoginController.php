@@ -39,6 +39,9 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        return redirect("/account");
+        return view("auth.login", [
+            'page_title'=>"Register",
+            'site_title'=>"CodeMaster"
+        ]);
     }
 }

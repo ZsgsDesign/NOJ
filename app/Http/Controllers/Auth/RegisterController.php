@@ -72,6 +72,9 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        return redirect("/account");
+        return view("auth.register", [
+            'page_title'=>"Register",
+            'site_title'=>"CodeMaster"
+        ]);
     }
 }

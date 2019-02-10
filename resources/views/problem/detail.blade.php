@@ -194,6 +194,7 @@
                     <p>Provider <span class="wemd-black-text">{{$detail["oj_detail"]["name"]}}</span></p>
                     <p><span>Origin</span> <a href="{{$detail["origin"]}}" target="_blank"><i class="MDI link-variant"></i> HERE</a></p>
                     <separate-line class="ultra-thin mb-3 mt-3"></separate-line>
+                    <p><span>Code </span> <span class="wemd-black-text"> {{$detail["pcode"]}}</span></p>
                     <p><span>Tags </span> <span class="badge badge-secondary">Brutal</span></p>
                     <p><span>Submitted </span> <span class="wemd-black-text"> 124</span></p>
                     <p><span>Passed </span> <span class="wemd-black-text"> 62</span></p>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Problem;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Auth;
 
 class MainController extends Controller
 {
@@ -27,11 +29,8 @@ class MainController extends Controller
      *
      * @return Response
      */
-    public function account()
+    public function account(Request $request)
     {
-        return view('account', [
-            'page_title'=>"Account",
-            'site_title'=>"CodeMaster"
-        ]);
+        return Auth::check() ? redirect("/account/dashboard") : redirect("/login");
     }
 }
