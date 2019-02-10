@@ -12,8 +12,10 @@ class Problem extends Model
     public function detail($pcode)
     {
         $prob_detail = DB::table($this->tableName)->where("pcode", $pcode)->first();
-        if(!is_null($prob_detail)) {
-            $prob_detail["desc_parsed"]=Markdown::convertToHtml($prob_detail["desc"]);
+        // [Depreciated] Joint Query was depreciated here for code maintenance reasons
+        if (!is_null($prob_detail)) {
+            $prob_detail["desc_parsed"] = Markdown::convertToHtml($prob_detail["desc"]);
+            $prob_detail["oj_detail"] = DB::table("oj")->where("oid", $prob_detail["OJ"])->first();
         }
         return $prob_detail;
     }

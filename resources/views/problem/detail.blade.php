@@ -170,6 +170,12 @@
             </paper-card>
             <paper-card>
                 <p>Info</p>
+                <div>
+                    <a href="{{$detail["oj_detail"]["home_page"]}}" target="_blank"><img src="{{$detail["oj_detail"]["logo"]}}" alt="{{$detail["oj_detail"]["name"]}}" class="img-fluid mb-3"></a>
+                    <p>Provider: <span class="wemd-black-text">{{$detail["oj_detail"]["name"]}}</span></p>
+                    <p><span>Origin:</span> <a href="{{$detail["origin"]}}" target="_blank">HERE</a></p>
+                    <separate-line class="ultra-thin mb-3 mt-3"></separate-line>
+                </div>
             </paper-card>
         </div>
     </div>
