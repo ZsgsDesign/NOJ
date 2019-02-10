@@ -77,12 +77,10 @@
 
     fresh-container>:first-child {
         margin-top: 0;
-        padding-top: 0;
     }
 
     fresh-container>:last-child {
         margin-bottom: 0;
-        padding-bottom: 0;
     }
 
     fresh-container pre {
