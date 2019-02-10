@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@section('title') Account @endsection
-
-@section('site') CodeMaster @endsection
-
 @section('template')
 
 <style>

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title') | @yield('site')</title>
+    <title>{{$page_title}} | {{$site_title}}</title>
     <!-- Copyright Information -->
     <meta name="author" content="">
     <meta name="organization" content="">
@@ -145,7 +145,7 @@
                     <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item />">
-                    <a class="nav-link" href="/problem">Problem</a>
+                    <a class="nav-link @if ($page_title === "Problem") active @endif" href="/problem">Problem</a>
                 </li>
                 <li class="nav-item />">
                     <a class="nav-link" href="/status">Status</a>
