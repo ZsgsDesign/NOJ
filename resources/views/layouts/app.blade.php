@@ -123,6 +123,7 @@
     </loading>
     <!-- Style -->
     <link rel="stylesheet" href="https://fonts.geekzu.org/css?family=Roboto:300,300i,400,400i,500,500i,700,700i">
+    <link rel="stylesheet" href="https://fonts.geekzu.org/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i">
     <link rel="stylesheet" href="https://cdn.mundb.xyz/css/bootstrap-material-design.min.css">
     <link rel="stylesheet" href="https://cdn.mundb.xyz/css/wemd-color-scheme.css">
     <link rel="stylesheet" href="https://cdn.mundb.xyz/css/atsast.css">

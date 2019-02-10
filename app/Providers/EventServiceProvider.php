@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Database\Events\StatementPrepared;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -28,7 +29,8 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
-
-        //
+        Event::listen(StatementPrepared::class, function ($event) {
+            $event->statement->setFetchMode(\PDO::FETCH_ASSOC);
+        });
     }
 }

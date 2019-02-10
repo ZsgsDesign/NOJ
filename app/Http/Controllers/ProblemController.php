@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Problem;
 use App\Http\Controllers\Controller;
 
-class MainController extends Controller
+class ProblemController extends Controller
 {
     /**
-     * Show the Problem Page.
+     * Show the Problem Detail Page.
      *
-     * @param  array  $filter
      * @return Response
      */
-    public function problem()
+    public function detail($pcode)
     {
-        return view('problem', ['version' => "1.0"]);
+        $problem=new Problem();
+        $prob_detail=$problem->detail($pcode);
+        return view('problem.detail', ['detail' => $prob_detail]);
     }
 }

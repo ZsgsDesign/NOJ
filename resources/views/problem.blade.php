@@ -6,7 +6,6 @@
 @endsection
 
 @section('template')
-
 <style>
     card {
         display: block;

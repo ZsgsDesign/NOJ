@@ -18,3 +18,5 @@ Route::get('/', function () {
 Route::get('/account', 'MainController@account')->name('account');
 
 Route::get('/problem', 'MainController@problem')->name('problem');
+
+Route::get('/problem/{pcode}', 'ProblemController@detail')->name('problem_detail');
