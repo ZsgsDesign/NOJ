@@ -8,7 +8,7 @@
 @section('template')
 
 <style>
-    card {
+    paper-card {
         display: block;
         box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
         border-radius: 4px;
@@ -21,7 +21,7 @@
         margin-bottom: 2rem;
     }
 
-    card:hover {
+    paper-card:hover {
         box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
     }
 
@@ -106,25 +106,71 @@
         line-height: 1.4;
         tab-size: 8;
         hyphens: none;
-        margin-bottom:1rem;
+        margin-bottom: 1rem;
         padding: .8rem;
         overflow: auto;
+    }
+
+    .cm-action-group {
+        margin: 0;
+        margin-bottom: 2rem;
+        padding: 0;
+        display: flex;
+    }
+
+    .cm-action-group>button {
+        text-align: left;
+        margin: .3125rem 0;
+        border-radius: 0;
+    }
+
+    .cm-action-group i {
+        display: inline-block;
+        transform: scale(1.5);
+        margin-right: 1rem;
+    }
+
+    separate-line {
+        display: block;
+        margin: 0;
+        padding: 0;
+        height: 1px;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.25);
+    }
+
+    separate-line.ultra-thin {
+        transform: scaleY(0.5);
+    }
+
+    separate-line.thin {
+        transform: scaleY(0.75);
+    }
+
+    separate-line.stick {
+        transform: scaleY(1.5);
     }
 </style>
 
 <div class="container mundb-standard-container">
     <div class="row">
         <div class="col-sm-12 col-lg-9">
-            <card class="p-5">
+            <paper-card class="p-5">
                 <fresh-container>
                     {!! $detail["desc_parsed"] !!}
                 </fresh-container>
-            </card>
+            </paper-card>
         </div>
         <div class="col-sm-12 col-lg-3">
-            <card>
+            <paper-card class="btn-group-vertical cm-action-group" role="group" aria-label="vertical button group">
+                <button type="button" class="btn btn-secondary"><i class="MDI send"></i>Login & Submit</button>
+                <separate-line class="ultra-thin"></separate-line>
+                <button type="button" class="btn btn-secondary"><i class="MDI comment-multiple-outline"></i>Discussion</button>
+                <button type="button" class="btn btn-secondary"><i class="MDI comment-check-outline"></i>Solution</button>
+            </paper-card>
+            <paper-card>
                 <p>Info</p>
-            </card>
+            </paper-card>
         </div>
     </div>
 </div>
