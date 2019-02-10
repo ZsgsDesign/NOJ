@@ -7,7 +7,7 @@
 
 @section('template')
 <style>
-    card {
+    paper-card {
         display: block;
         box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
         border-radius: 4px;
@@ -20,8 +20,13 @@
         margin-bottom: 2rem;
     }
 
-    card:hover {
+    paper-card:hover {
         box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
+    }
+
+    .cm-fw{
+        white-space: nowrap;
+        width:1px;
     }
 
 
@@ -29,35 +34,30 @@
 <div class="container mundb-standard-container">
     <div class="row">
         <div class="col-sm-12 col-lg-9">
-            <card>
+            <paper-card>
                 <table class="table table-borderless">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col" class="cm-fw">#</th>
                             <th scope="col">Problem</th>
-                            <th scope="col">Submit Count</th>
-                            <th scope="col">AC Rate</th>
-                            <th scope="col">Difficulty</th>
+                            <th scope="col" class="cm-fw">Submitted</th>
+                            <th scope="col" class="cm-fw">Passed</th>
+                            <th scope="col" class="cm-fw">AC Rate</th>
                         </tr>
                     </thead>
                     <tbody>
-                            <tr>
-                                <th scope="row">LG1001</th>
-                                <td><a href="/problem/LG1001">A+B Problem</a></td>
-                                <td>0</td>
-                                <td>100%</td>
-                                <td>N / A</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">CF500A</th>
-                                <td><a href="/problem/LG1001">New Year Transportation</a></td>
-                                <td>0</td>
-                                <td>34%</td>
-                                <td>Easy</td>
-                            </tr>
+                        @foreach ($prob_list as $p)
+                        <tr>
+                            <th scope="row">{{$p["pcode"]}}</th>
+                            <td><a href="/problem/{{$p["pcode"]}}">{{$p["title"]}}</a></td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>100%</td>
+                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
-            </card>
+            </paper-card>
         </div>
         <div class="col-sm-12 col-lg-3">
             <card>

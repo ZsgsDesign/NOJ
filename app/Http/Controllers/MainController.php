@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Problem;
 use App\Http\Controllers\Controller;
 
 class MainController extends Controller
 {
     /**
-     * Show the profile for the given user.
+     * Show the Problem General Page.
      *
-     * @param  int  $id
      * @return Response
      */
     public function problem()
     {
-        return view('problem', ['version' => "1.0"]);
+        $problem=new Problem();
+        $prob_list=$problem->list();
+        return view('problem', ['prob_list' => $prob_list]);
     }
 }
