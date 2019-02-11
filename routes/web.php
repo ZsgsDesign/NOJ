@@ -23,4 +23,6 @@ Route::get('/problem', 'MainController@problem')->name('problem');
 
 Route::get('/problem/{pcode}', 'ProblemController@detail')->name('problem_detail');
 
+Route::get('/problem/{pcode}/editor', 'ProblemController@editor')->name('problem_editor');
+
 Auth::routes();

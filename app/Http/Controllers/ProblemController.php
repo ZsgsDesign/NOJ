@@ -23,4 +23,21 @@ class ProblemController extends Controller
                                             'detail' => $prob_detail
                                         ]);
     }
+
+    /**
+     * Show the Problem Editor Page.
+     *
+     * @return Response
+     */
+    public function editor($pcode)
+    {
+        $problem=new Problem();
+        $prob_detail=$problem->detail($pcode);
+        return is_null($prob_detail) ?  redirect("/problem") :
+                                        view('problem.editor', [
+                                            'page_title'=>$prob_detail["title"],
+                                            'site_title'=>"CodeMaster",
+                                            'detail' => $prob_detail
+                                        ]);
+    }
 }

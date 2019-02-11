@@ -120,7 +120,7 @@
     .cm-action-group i {
         display: inline-block;
         transform: scale(1.5);
-        margin-right: 1rem;
+        margin-right: 0.75rem;
     }
 
     separate-line {
@@ -182,10 +182,10 @@
         </div>
         <div class="col-sm-12 col-lg-3">
             <paper-card class="btn-group-vertical cm-action-group" role="group" aria-label="vertical button group">
-                <button type="button" class="btn btn-secondary"><i class="MDI send"></i>Login & Submit</button>
+                <button type="button" class="btn btn-secondary" id="submitBtn"><i class="MDI send"></i>@guest Login & Submit @else Submit @endguest</button>
                 <separate-line class="ultra-thin"></separate-line>
-                <button type="button" class="btn btn-secondary"><i class="MDI comment-multiple-outline"></i>Discussion</button>
-                <button type="button" class="btn btn-secondary"><i class="MDI comment-check-outline"></i>Solution</button>
+                <button type="button" class="btn btn-secondary"><i class="MDI comment-multiple-outline"></i> Discussion </button>
+                <button type="button" class="btn btn-secondary"><i class="MDI comment-check-outline"></i> Solution </button>
             </paper-card>
             <paper-card>
                 <p>Info</p>
@@ -215,6 +215,14 @@
     window.addEventListener("load",function() {
 
     }, false);
+
+    document.getElementById("submitBtn").addEventListener("click",function(){
+        @guest
+        location.href="/login";
+        @else
+        location.href="/problem/{{$detail["pcode"]}}/editor";
+        @endguest
+    },false)
 
 </script>
 @endsection
