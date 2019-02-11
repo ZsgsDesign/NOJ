@@ -144,6 +144,7 @@
     <link rel="stylesheet" href="https://cdn.mundb.xyz/css/bootstrap-material-design.min.css">
     <link rel="stylesheet" href="https://cdn.mundb.xyz/css/wemd-color-scheme.css">
     <link rel="stylesheet" href="https://cdn.mundb.xyz/css/atsast.css">
+    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/animate.min.css">
     <link rel="stylesheet" href="https://cdn.mundb.xyz/fonts/MDI-WXSS/MDI.css">
     <link rel="stylesheet" href="https://cdn.mundb.xyz/fonts/Devicon/devicon.css">
     <!-- Background -->

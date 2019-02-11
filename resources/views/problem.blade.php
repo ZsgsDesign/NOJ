@@ -24,6 +24,11 @@
         width:1px;
     }
 
+    .pagination .page-item > a.page-link{
+        border-radius: 4px;
+        transition: .2s ease-out .0s;
+    }
+
 
 </style>
 <div class="container mundb-standard-container">
@@ -53,9 +58,20 @@
                     </tbody>
                 </table>
             </paper-card>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                    <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Previous</a></li>
+
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
         </div>
         <div class="col-sm-12 col-lg-3">
-            <card>
+            <paper-card>
                 <p>Filter</p>
                 <div class="mb-2">
                         <span class="badge badge-info">Code Forces</span>
@@ -68,7 +84,7 @@
                         <span class="badge badge-secondary">Brutal</span>
                         <span class="badge badge-secondary">...</span>
                 </div>
-            </card>
+            </paper-card>
         </div>
     </div>
 </div>

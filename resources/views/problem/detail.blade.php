@@ -174,20 +174,20 @@
 <div class="container mundb-standard-container">
     <div class="row">
         <div class="col-sm-12 col-lg-9">
-            <paper-card class="p-5">
+            <paper-card class="animated fadeInUp p-5">
                 <fresh-container>
                     {!! $detail["desc_parsed"] !!}
                 </fresh-container>
             </paper-card>
         </div>
         <div class="col-sm-12 col-lg-3">
-            <paper-card class="btn-group-vertical cm-action-group" role="group" aria-label="vertical button group">
+            <paper-card class="animated fadeInRight btn-group-vertical cm-action-group" role="group" aria-label="vertical button group">
                 <button type="button" class="btn btn-secondary" id="submitBtn"><i class="MDI send"></i>@guest Login & Submit @else Submit @endguest</button>
                 <separate-line class="ultra-thin"></separate-line>
                 <button type="button" class="btn btn-secondary"><i class="MDI comment-multiple-outline"></i> Discussion </button>
                 <button type="button" class="btn btn-secondary"><i class="MDI comment-check-outline"></i> Solution </button>
             </paper-card>
-            <paper-card>
+            <paper-card class="animated fadeInRight">
                 <p>Info</p>
                 <div>
                     <a href="{{$detail["oj_detail"]["home_page"]}}" target="_blank"><img src="{{$detail["oj_detail"]["logo"]}}" alt="{{$detail["oj_detail"]["name"]}}" class="img-fluid mb-3"></a>
@@ -202,7 +202,7 @@
                     <p><span>Date </span> <span class="wemd-black-text"> 02/10/2019 15:48:59</span></p>
                 </div>
             </paper-card>
-            <paper-card>
+            <paper-card class="animated fadeInRight">
                 <p>Related</p>
                 <div class="cm-empty">
                     <badge>Nothing Yet</badge>

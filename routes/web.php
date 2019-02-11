@@ -20,9 +20,9 @@ Route::get('/', function () {
 Route::get('/account', 'MainController@account')->name('account');
 
 Route::get('/problem', 'MainController@problem')->name('problem');
-
 Route::get('/problem/{pcode}', 'ProblemController@detail')->name('problem_detail');
-
 Route::get('/problem/{pcode}/editor', 'ProblemController@editor')->name('problem_editor');
+
+Route::get('/group', 'GroupController@index')->name('group');
 
 Auth::routes();
