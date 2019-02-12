@@ -1,0 +1,136 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<algorithm>
+#include<vector>
+#include<set>
+#include<map>
+#include<unordered_map>
+#include<queue>
+#include<stack>
+#include<iterator>
+#include<cmath>
+#include<string>
+#include<sstream>
+#include<cstring>
+#include<ctype.h>       
+#include<iomanip>
+#include<functional>
+#include<bitset>
+#include<stdio.h> 
+#include<fstream>
+#include<stdlib.h>
+#include<math.h>
+#include<ctime>
+#include<string>
+#include<cstdio>
+#include<locale>
+#include<codecvt>
+using namespace std;
+#define lop(i,a,n) for(ll i=a;i<n;++i)
+#define loop(i,n,a)for(ll i=n-1;i>=a;--i)
+#define R_(s)      freopen(s, "r", stdin)
+#define W_(s)      freopen(s, "w", stdout)
+#define R_W        R_("in.txt"),W_("out.txt")
+#define ll         long long
+#define ld         long double
+#define ii         pair<ll,ll>
+#define vii        vector<ii>
+#define vi         vector<int>
+#define vll        vector<ll>
+#define vs         vector<string>
+#define vvii       vector<vector<ii>>
+#define vvi        vector<vector<int>>
+#define vvll       vector<vector<ll>>
+#define sz(v)      (ll)v.size()
+#define all(v)     v.begin(),v.end()
+#define sc(n)      scanf("%d",&n)
+#define scl(n)     scanf("%lld",&n)
+#define pr1(n)     printf("%d\n",n)
+#define pr2(n)     printf("%d " ,n)
+#define pr4(n)     printf("%lld\n",n)
+#define pr3(n)     cout<<fixed<<setprecision(2)<<n<<endl
+#define endl       "\n"
+#define PI         2*acos(0.0)
+#define DFS_GRAY  -1
+#define DFS_WHITE  0
+#define DFS_BLACK  1
+#define oo  1e9
+#define OO  1e18
+#define EPS 1e-9
+int dr[] = { 1, 0, -1, 0, -1, -1, 1, 1 };
+int dc[] = { 0, -1, 0, 1, -1, 1, -1, 1 };
+const int MAX = 1e5 + 7;
+const int MOD = 1e9;
+char T[MAX];
+char P[MAX];
+int n, m;
+int RA[MAX], tempRA[MAX];
+int SA[MAX], tempSA[MAX];
+int LCP[MAX], PLCP[MAX], Phi[MAX];
+int c[MAX]; 
+void countingSort(int k)
+{
+    int sum = 0;
+    memset(c, 0, sizeof(c));
+    lop(i, 0, n)
+        c[i + k < n ? RA[i + k] : 0]++;
+    lop(i, 0, max(260, n)){
+        int t = c[i];c[i] = sum;sum += t;
+    }
+    lop(i, 0, n)
+        tempSA[c[SA[i] + k < n ? RA[SA[i] + k] : 0]++] = SA[i];
+    lop(i, 0, n)SA[i] = tempSA[i];
+}
+void buildSA()
+{
+    int i, k, r;
+    lop(i,0,n) RA[i] = T[i], SA[i] = i;
+    for (k = 1; k < n; k <<= 1) { 
+        countingSort(k);
+        countingSort(0); 
+        tempRA[SA[0]] = r = 0; 
+        lop(i, 1, n)
+            tempRA[SA[i]] = (RA[SA[i]] == RA[SA[i - 1]] && RA[SA[i] + k] == RA[SA[i - 1] + k]) ? r : ++r;
+        lop(i, 0, n)            RA[i] = tempRA[i];
+        if (RA[SA[n - 1]] == n - 1) break; 
+    }
+}
+
+void buildLCP()
+{
+    Phi[SA[0]] = -1;
+    lop(i, 1, n)Phi[SA[i]] = SA[i - 1];
+    int L = 0;
+    lop(i, 0, n)
+    { 
+        if (Phi[i] == -1) { PLCP[i] = 0; continue; } 
+        while (T[i + L] == T[Phi[i] + L]) L++;
+        PLCP[i] = L;
+        L = max(L - 1, 0);
+    }
+    lop(i, 0, n)
+        LCP[i] = PLCP[SA[i]];
+
+}
+
+void not_brute()
+{
+    int ans = 0;
+    lop(i, 1, n)ans+= (n - SA[i] - 1 - LCP[i]);
+    cout << ans << endl;
+}
+int main()
+{
+    int t; sc(t);
+    while(t--)
+    {
+        scanf("%s", T);
+        n = (int)strlen(T);
+        T[n++] = "$";
+        buildSA();
+        buildLCP();
+        //for (int i = 0; i < n; i++) printf("%d %d %s\n", SA[i], LCP[i], T + SA[i]);
+        //brute_fource();
+        not_brute();
+    }
+}

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Submission;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\VirtualJudge\PostSubmitController;
 
 class SubmitController extends Controller
 {
@@ -33,7 +34,8 @@ class SubmitController extends Controller
                 'uid'=>Auth::user()->id,
                 'pid'=>''
             ];
-            $curl =new postsoutionController($sub,$_POST['oj']);
+
+            $curl =new PostSubmitController($sub,$_POST['oj']);
 
             // insert submission
 
