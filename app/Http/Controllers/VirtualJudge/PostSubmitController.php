@@ -56,11 +56,11 @@ class PostSubmitController extends CurlController
     {
         $this->sub['language']=substr($_POST["lang"], 1, 50);
         $this->sub['soultion']=$_POST["solution"];
-        $this->sub['pid']=$_POST["id"];
+        $this->sub['pid']=$_POST["pid"];
 
         $code=$_POST["solution"];
         $lang=substr($_POST["lang"], 0, 1);
-        $pro_id=$_POST['IID'];
+        $pro_id=$_POST['iid'];
 
         $params = [
             'problemid' => $pro_id,
@@ -78,7 +78,7 @@ class PostSubmitController extends CurlController
     }
     private function uva()
     {
-        if (!isset($_POST["id"])||!isset($_POST["IID"])||!isset($_COOKIE["user_handle"])&&!isset($_POST["solution"])) {
+        if (!isset($_POST["pid"])||!isset($_POST["iid"])||!isset($_COOKIE["user_handle"])&&!isset($_POST["solution"])) {
             redirect("/");
         }
         $response=$this->grab_page('https://uva.onlinejudge.org', 'uva');
@@ -88,13 +88,13 @@ class PostSubmitController extends CurlController
         } else {
             $this->sub['language']=substr($_POST["lang"], 1, 50);
             $this->sub['soultion']=$_POST["solution"];
-            $this->sub['pid']=$_POST["id"];
+            $this->sub['pid']=$_POST["pid"];
             $this->sub['verdict']="Judge Error";
         }
     }
     private function uvalive()
     {
-        if (!isset($_POST["id"])||!isset($_POST["IID"])||!isset($_COOKIE["user_handle"])&&!isset($_POST["solution"])) {
+        if (!isset($_POST["pid"])||!isset($_POST["iid"])||!isset($_COOKIE["user_handle"])&&!isset($_POST["solution"])) {
             redirect("/");
         }
         $this->uva_live_login('https://icpcarchive.ecs.baylor.edu', 'https://icpcarchive.ecs.baylor.edu/index.php?option=com_comprofiler&task=login', 'uvalive');
@@ -125,14 +125,14 @@ class PostSubmitController extends CurlController
     {
         $this->sub['language']=substr($_POST["lang"], 2, 50);
         $this->sub['soultion']=$_POST["solution"];
-        $this->sub['pid']=$_POST["id"];
+        $this->sub['pid']=$_POST["pid"];
         $s_num=$this->MODEL->count_soulution($this->sub['soultion']);
         $space='';
         for ($i=0;$i<$s_num;$i++) {
             $space.=' ';
         }
-        $contestId = $_POST["CID"];
-        $submittedProblemIndex = $_POST["IID"];
+        $contestId = $_POST["cid"];
+        $submittedProblemIndex = $_POST["iid"];
         $var=substr($_POST["lang"], 0, 2);
         $programTypeId=$var;
         if ($var[0]==0) {
@@ -141,7 +141,7 @@ class PostSubmitController extends CurlController
         $source =($space.chr(10).$_POST["solution"]);
 
 
-        $response=$this->grab_page("codeforces.com/contest/{$_POST['CID']}/submit", "codeforces");
+        $response=$this->grab_page("codeforces.com/contest/{$_POST['cid']}/submit", "codeforces");
 
 
         $exploded = explode("name='csrf_token' value='", $response);
@@ -158,7 +158,7 @@ class PostSubmitController extends CurlController
                 'sourceFile' => '',
             );
 
-        $response=$this->post_data("codeforces.com/contest/{$_POST['CID']}/submit?csrf_token=".$token, http_build_query($params), "codeforces", true);
+        $response=$this->post_data("codeforces.com/contest/{$_POST['cid']}/submit?csrf_token=".$token, http_build_query($params), "codeforces", true);
         if (substr_count($response, 'My Submissions')!=2) {
             $exploded = explode('<span class="error for__source">', $response);
             $this->sub['verdict'] = explode("</span>", $exploded[1])[0];
@@ -166,7 +166,7 @@ class PostSubmitController extends CurlController
     }
     private function codeforces()
     {
-        if (!isset($_POST["id"])||!isset($_POST["CID"])||!isset($_POST["IID"])||!isset($_COOKIE["user_handle"])&&!isset($_POST["solution"])) {
+        if (!isset($_POST["pid"])||!isset($_POST["cid"])||!isset($_POST["iid"])||!isset($_COOKIE["user_handle"])&&!isset($_POST["solution"])) {
             redirect("/");
         }
         $this->codeforce_login();
@@ -205,14 +205,14 @@ class PostSubmitController extends CurlController
         }
         $this->sub['language']=substr($_POST["lang"], $x, strlen($_POST["lang"]));
         $this->sub['soultion']=$_POST["solution"];
-        $this->sub['pid']=$_POST["id"]; // 500A
+        $this->sub['pid']=$_POST["pid"]; // 500A
         $lang=substr($_POST["lang"], 0, $x);
 
         $params = [
             'subm_file' => '',
             'file' => $_POST["solution"],
             'lang' => $lang,
-            'problemcode' => $_POST['IID'],
+            'problemcode' => $_POST['iid'],
             'submit' => 'Submit!',
         ];
 
@@ -226,7 +226,7 @@ class PostSubmitController extends CurlController
 
     private function spoj()
     {
-        if (!isset($_POST["id"])||!isset($_POST["IID"])||!isset($_POST["IID"])||!isset($_COOKIE["user_handle"])&&!isset($_POST["solution"])) {
+        if (!isset($_POST["pid"])||!isset($_POST["iid"])||!isset($_POST["iid"])||!isset($_COOKIE["user_handle"])&&!isset($_POST["solution"])) {
             redirect("/");
         }
         $this->spoj_login();
