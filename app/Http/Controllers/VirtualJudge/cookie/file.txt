@@ -1,5 +1,8 @@
-#include<bits\stdc++.h>
+#include<stdio.h>
 
 int main(){
-    return 0; //random lalalalalala
+    while(1){
+        //
+    }
+    return 0;
 }

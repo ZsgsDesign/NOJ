@@ -27,7 +27,7 @@ class Submit
 
             $sub=[
                 'time'=>'0',
-                'verdict'=>'Waiting',
+                'verdict'=>'Judging',
                 'solution'=>'',
                 'language'=>'',
                 'submission_date'=>time(),
@@ -55,7 +55,6 @@ class Submit
                 "sid"=>$sid
             ];
         }
-        return $this->ret;
     }
 
     /**

@@ -429,7 +429,7 @@
             </right-side>
         </top-side>
         <bottom-side>
-            <div style="color: #7a8e97"><i class="MDI checkbox-blank-circle"></i> NOT SUBMIT</div>
+            <div style="color: #7a8e97"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">NOT SUBMIT</span></div>
             <div>
                 <button type="button" class="btn btn-secondary"> <i class="MDI history"></i> History</button>
                 <div class="btn-group dropup">
@@ -472,6 +472,9 @@
 
         $( "#submitBtn" ).click(function() {
             // console.log(editor.getValue());
+            $("#verdict_text").text("Submitting...");
+            $("#verdict_circle").removeClass();
+            $("#verdict_circle").addClass("wemd-blue-text");
             $.ajax({
                 type: 'POST',
                 url: '/ajax/submitSolution',
@@ -489,8 +492,17 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
                     console.log(ret);
+                    if(ret.ret==200){
+                        // submitted
+                        $("#verdict_text").text("Judging...");
+                        $("#verdict_circle").removeClass();
+                        $("#verdict_circle").addClass("wemd-blue-text");
+                    }
                 }, error: function(xhr, type){
-                    alert('Ajax error!')
+                    conosole.log('Ajax error!');
+                    $("#verdict_text").text("Submit Error");
+                    $("#verdict_circle").removeClass();
+                    $("#verdict_circle").addClass("wemd-red-text");
                 }
             });
         });

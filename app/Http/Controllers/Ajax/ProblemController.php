@@ -22,6 +22,6 @@ class ProblemController extends Controller
 
         $vj_submit = new Submit($all_data);
 
-        return response()->json($vj_submit);
+        return response()->json($vj_submit->ret);
     }
 }
