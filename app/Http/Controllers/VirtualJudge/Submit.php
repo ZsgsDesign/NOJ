@@ -27,7 +27,7 @@ class Submit
 
             $sub=[
                 'time'=>'0',
-                'verdict'=>'Judging',
+                'verdict'=>'Waiting',
                 'solution'=>'',
                 'language'=>'',
                 'submission_date'=>time(),

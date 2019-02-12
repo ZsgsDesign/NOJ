@@ -11,9 +11,9 @@ class Judge extends Core
     public function __construct()
     {
         $this->MODEL=new Judger();
-        $ret=array();
+        $ret=[];
 
-        $uva_v=array(
+        $uva_v=[
             'Wrong answer'=>"Wrong Answer",
             'Accepted'=>"Accepted",
             'Runtime error'=>"Runtime Error",
@@ -22,13 +22,24 @@ class Judge extends Core
             'Submission error'=>'Submission Error',
             'Compilation error'=>"Compile Error",
             'Output Limit Exceeded'=>"Output limit exceeded",
-            );
+        ];
 
-        $codeforces_v=array("COMPILATION_ERROR"=>"Compile Error","RUNTIME_ERROR"=> "Runtime Error","WRONG_ANSWER"=> "Wrong Answer",
-            "TIME_LIMIT_EXCEEDED"=>"Time Limit Exceed" ,"OK"=>"Accepted" ,"MEMORY_LIMIT_EXCEEDED"=>"Memory Limit Exceed","PRESENTATION_ERROR"=>"Presentation Error");
+        $codeforces_v=[
+            "COMPILATION_ERROR"=>"Compile Error",
+            "RUNTIME_ERROR"=> "Runtime Error",
+            "WRONG_ANSWER"=> "Wrong Answer",
+            "TIME_LIMIT_EXCEEDED"=>"Time Limit Exceed" ,
+            "OK"=>"Accepted" ,
+            "MEMORY_LIMIT_EXCEEDED"=>"Memory Limit Exceed",
+            "PRESENTATION_ERROR"=>"Presentation Error"];
 
-        $spoj_v=array("compilation error"=>"Compile Error","runtime error"=> "Runtime Error","wrong answer"=> "Wrong Answer",
-            "time limit exceeded"=>"Time Limit Exceed" ,"accepted"=>"Accepted");
+        $spoj_v=[
+            "compilation error"=>"Compile Error",
+            "runtime error"=> "Runtime Error",
+            "wrong answer"=> "Wrong Answer",
+            "time limit exceeded"=>"Time Limit Exceed",
+            "accepted"=>"Accepted"
+        ];
 
         $result=$this->MODEL->get_wating_submission();
 
@@ -37,10 +48,20 @@ class Judge extends Core
         $uval=$this->get_last_uvalive($this->MODEL->count_wating_submission('UvaLive'));
         $sj=$this->get_last_spoj($this->MODEL->count_wating_submission('Spoj'));
 
-        $color=array("Waiting"=>"teal","Judge Error"=>"BLACK","Compile Error"=>"darkorange","Runtime Error"=>"darkred","Wrong Answer"=>"darkred",
-                "Time Limit Exceed"=>"peru","Accepted"=>"darkgreen","Memory Limit Exceed"=>"peru","Presentation Error"=>"darkred","Judging"=>"darkred"
-                ,'Submission Error'=>'BLUE','Output limit exceeded'=>'peru'
-                );
+        $color=[
+            "Waiting"=>"blue",
+            "Judge Error"=>"black",
+            "Compile Error"=>"orange",
+            "Runtime Error"=>"red",
+            "Wrong Answer"=>"red",
+            "Time Limit Exceed"=>"deep-purple",
+            "Accepted"=>"green",
+            "Memory Limit Exceed"=>"deep-purple",
+            "Presentation Error"=>"red",
+            "Judging"=>"blue",
+            'Submission Error'=>'black',
+            'Output limit exceeded'=>'deep-purple'
+        ];
 
 
 
@@ -48,6 +69,7 @@ class Judge extends Core
         $j=0;
         $k=0;
         $l=0;
+
         while ($row=mysqli_fetch_assoc($result)) {
             if ($row['from_oj']=='CodeForces') {
                 if (isset($codeforces_v[$cf[$i][2]])) {
@@ -100,6 +122,7 @@ class Judge extends Core
         }
         echo json_encode($ret);
     }
+
     private function get_last_uva($num)
     {
         $ret=array();
@@ -143,6 +166,7 @@ class Judge extends Core
             $i+=50;
         }
     }
+
     private function get_last_uvalive($num)
     {
         $ret=array();
@@ -182,6 +206,7 @@ class Judge extends Core
             $i+=50;
         }
     }
+
     private function get_last_codeforces($num)
     {
         $ret=array();
@@ -206,6 +231,7 @@ class Judge extends Core
         }
         return array_reverse($ret);
     }
+
     private function get_last_spoj($num)
     {
         $ret=array();
@@ -263,4 +289,3 @@ class Judge extends Core
         }
     }
 }
-    $controller=new statusController;
