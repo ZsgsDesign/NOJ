@@ -472,16 +472,26 @@
 
         $( "#submitBtn" ).click(function() {
             // console.log(editor.getValue());
-            $.ajax("/ajax/submitSolution",{
-                lang: chosen_lang,
-                pid:{{$detail["pid"]}},
-                pcode:"{{$detail["pcode"]}}",
-                cid:{{$detail["contest_id"]}},
-                iid:"{{$detail["index_id"]}}",
-                oj:"{{$detail["oj_detail"]["ocode"]}}",
-                solution: editor.getValue()
-            }, ret => {
-
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/submitSolution',
+                data: {
+                    lang: chosen_lang,
+                    pid:{{$detail["pid"]}},
+                    pcode:"{{$detail["pcode"]}}",
+                    cid:{{$detail["contest_id"]}},
+                    iid:"{{$detail["index_id"]}}",
+                    oj:"{{$detail["oj_detail"]["ocode"]}}",
+                    solution: editor.getValue()
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                }, error: function(xhr, type){
+                    alert('Ajax error!')
+                }
             });
         });
 

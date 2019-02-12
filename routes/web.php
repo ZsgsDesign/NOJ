@@ -27,4 +27,8 @@ Route::get('/group', 'GroupController@index')->name('group');
 
 Route::get('/contest', 'ContestController@index')->name('contest');
 
+Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function(){
+    Route::post('submitSolution', 'ProblemController@submitSolution');
+});
+
 Auth::routes();

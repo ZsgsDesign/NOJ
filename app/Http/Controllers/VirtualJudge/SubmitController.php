@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\VirtualJudge;
 
 use App\Models\Submission;
 use App\Http\Controllers\Controller;
