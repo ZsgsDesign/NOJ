@@ -8,11 +8,13 @@ class Core extends Curl
 {
     private $sub;
     private $MODEL;
+    public $post_data=[];
 
-    public function __construct(& $sub, $oj)
+    public function __construct(& $sub, $oj, $all_data)
     {
         $this->sub=& $sub;
         $this->MODEL=new Submission;
+        $this->post_data=$all_data;
 
         if ($oj=='uva') $this->uva();
         if ($oj=='uvalive') $this->uvalive();
@@ -56,13 +58,13 @@ class Core extends Curl
     }
     public function uva_live_submit($url, $oj)
     {
-        $this->sub['language']=substr($_POST["lang"], 1, 50);
-        $this->sub['soultion']=$_POST["solution"];
-        $this->sub['pid']=$_POST["pid"];
+        $this->sub['language']=substr($this->post_data["lang"], 1, 50);
+        $this->sub['soultion']=$this->post_data["solution"];
+        $this->sub['pid']=$this->post_data["pid"];
 
-        $code=$_POST["solution"];
-        $lang=substr($_POST["lang"], 0, 1);
-        $pro_id=$_POST['iid'];
+        $code=$this->post_data["solution"];
+        $lang=substr($this->post_data["lang"], 0, 1);
+        $pro_id=$this->post_data['iid'];
 
         $params = [
             'problemid' => $pro_id,
@@ -80,7 +82,7 @@ class Core extends Curl
     }
     private function uva()
     {
-        if (!isset($_POST["pid"])||!isset($_POST["iid"])||!isset($_COOKIE["user_handle"])&&!isset($_POST["solution"])) {
+        if (!isset($this->post_data["pid"])||!isset($this->post_data["iid"])||!isset($_COOKIE["user_handle"])&&!isset($this->post_data["solution"])) {
             redirect("/");
         }
         $response=$this->grab_page('https://uva.onlinejudge.org', 'uva');
@@ -88,15 +90,15 @@ class Core extends Curl
             $this->uva_live_login('https://uva.onlinejudge.org', 'https://uva.onlinejudge.org/index.php?option=com_comprofiler&task=login', 'uva');
             $this->uva_live_submit('https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=save_submission', 'uva');
         } else {
-            $this->sub['language']=substr($_POST["lang"], 1, 50);
-            $this->sub['soultion']=$_POST["solution"];
-            $this->sub['pid']=$_POST["pid"];
+            $this->sub['language']=substr($this->post_data["lang"], 1, 50);
+            $this->sub['soultion']=$this->post_data["solution"];
+            $this->sub['pid']=$this->post_data["pid"];
             $this->sub['verdict']="Judge Error";
         }
     }
     private function uvalive()
     {
-        if (!isset($_POST["pid"])||!isset($_POST["iid"])||!isset($_COOKIE["user_handle"])&&!isset($_POST["solution"])) {
+        if (!isset($this->post_data["pid"])||!isset($this->post_data["iid"])||!isset($_COOKIE["user_handle"])&&!isset($this->post_data["solution"])) {
             redirect("/");
         }
         $this->uva_live_login('https://icpcarchive.ecs.baylor.edu', 'https://icpcarchive.ecs.baylor.edu/index.php?option=com_comprofiler&task=login', 'uvalive');
@@ -125,25 +127,25 @@ class Core extends Curl
     }
     private function codeforces_submit()
     {
-        $this->sub['language']=substr($_POST["lang"], 2, 50);
-        $this->sub['soultion']=$_POST["solution"];
-        $this->sub['pid']=$_POST["pid"];
+        $this->sub['language']=substr($this->post_data["lang"], 2, 50);
+        $this->sub['soultion']=$this->post_data["solution"];
+        $this->sub['pid']=$this->post_data["pid"];
         $s_num=$this->MODEL->count_solution($this->sub['soultion']);
         $space='';
         for ($i=0;$i<$s_num;$i++) {
             $space.=' ';
         }
-        $contestId = $_POST["cid"];
-        $submittedProblemIndex = $_POST["iid"];
-        $var=substr($_POST["lang"], 0, 2);
+        $contestId = $this->post_data["cid"];
+        $submittedProblemIndex = $this->post_data["iid"];
+        $var=substr($this->post_data["lang"], 0, 2);
         $programTypeId=$var;
         if ($var[0]==0) {
             $programTypeId=$var[1];
         }
-        $source =($space.chr(10).$_POST["solution"]);
+        $source =($space.chr(10).$this->post_data["solution"]);
 
 
-        $response=$this->grab_page("codeforces.com/contest/{$_POST['cid']}/submit", "codeforces");
+        $response=$this->grab_page("codeforces.com/contest/{$this->post_data['cid']}/submit", "codeforces");
 
 
         $exploded = explode("name='csrf_token' value='", $response);
@@ -160,7 +162,7 @@ class Core extends Curl
             'sourceFile' => '',
         ];
 
-        $response=$this->post_data("codeforces.com/contest/{$_POST['cid']}/submit?csrf_token=".$token, http_build_query($params), "codeforces", true);
+        $response=$this->post_data("codeforces.com/contest/{$this->post_data['cid']}/submit?csrf_token=".$token, http_build_query($params), "codeforces", true);
         if (substr_count($response, 'My Submissions')!=2) {
             $exploded = explode('<span class="error for__source">', $response);
             $this->sub['verdict'] = explode("</span>", $exploded[1])[0];
@@ -168,7 +170,7 @@ class Core extends Curl
     }
     private function codeforces()
     {
-        if (!isset($_POST["pid"])||!isset($_POST["cid"])||!isset($_POST["iid"])||!isset($_COOKIE["user_handle"])&&!isset($_POST["solution"])) {
+        if (!isset($this->post_data["pid"])||!isset($this->post_data["cid"])||!isset($this->post_data["iid"])||!isset($_COOKIE["user_handle"])&&!isset($this->post_data["solution"])) {
             redirect("/");
         }
         $this->codeforce_login();
@@ -198,23 +200,23 @@ class Core extends Curl
     public function spoj_submit()
     {
         $x=0;
-        for ($i=0;$i<strlen($_POST["lang"]);$i++) {
-            if (is_numeric($_POST["lang"][$i])) {
+        for ($i=0;$i<strlen($this->post_data["lang"]);$i++) {
+            if (is_numeric($this->post_data["lang"][$i])) {
                 $x++;
             } else {
                 break;
             }
         }
-        $this->sub['language']=substr($_POST["lang"], $x, strlen($_POST["lang"]));
-        $this->sub['soultion']=$_POST["solution"];
-        $this->sub['pid']=$_POST["pid"]; // 500A
-        $lang=substr($_POST["lang"], 0, $x);
+        $this->sub['language']=substr($this->post_data["lang"], $x, strlen($this->post_data["lang"]));
+        $this->sub['soultion']=$this->post_data["solution"];
+        $this->sub['pid']=$this->post_data["pid"]; // 500A
+        $lang=substr($this->post_data["lang"], 0, $x);
 
         $params = [
             'subm_file' => '',
-            'file' => $_POST["solution"],
+            'file' => $this->post_data["solution"],
             'lang' => $lang,
-            'problemcode' => $_POST['iid'],
+            'problemcode' => $this->post_data['iid'],
             'submit' => 'Submit!',
         ];
 
@@ -228,7 +230,7 @@ class Core extends Curl
 
     private function spoj()
     {
-        if (!isset($_POST["pid"])||!isset($_POST["iid"])||!isset($_POST["iid"])||!isset($_COOKIE["user_handle"])&&!isset($_POST["solution"])) {
+        if (!isset($this->post_data["pid"])||!isset($this->post_data["iid"])||!isset($this->post_data["iid"])||!isset($_COOKIE["user_handle"])&&!isset($this->post_data["solution"])) {
             redirect("/");
         }
         $this->spoj_login();

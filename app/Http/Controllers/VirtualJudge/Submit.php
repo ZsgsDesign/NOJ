@@ -36,7 +36,7 @@ class Submit
                 'pid'=>''
             ];
 
-            $curl = new Core($sub,$this->post_data['oj']);
+            $curl = new Core($sub,$this->post_data['oj'],$this->post_data);
 
             // insert submission
 
