@@ -34,7 +34,7 @@
 <div class="container mundb-standard-container">
     <div class="row">
         <div class="col-sm-12 col-lg-9">
-            <paper-card>
+            <paper-card class="animated bounceInLeft">
                 <table class="table table-borderless">
                     <thead>
                         <tr>
@@ -58,7 +58,7 @@
                     </tbody>
                 </table>
             </paper-card>
-            <nav aria-label="Page navigation example">
+            <nav class="animated fadeInUp">
                 <ul class="pagination justify-content-end">
                     <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Previous</a></li>
 
@@ -71,18 +71,21 @@
             </nav>
         </div>
         <div class="col-sm-12 col-lg-3">
-            <paper-card>
+            <paper-card class="animated bounceInRight">
                 <p>Filter</p>
                 <div class="mb-2">
-                        <span class="badge badge-info">Code Forces</span>
-                        <span class="badge badge-info">LuoGu</span>
+                    <span class="badge badge-info">Code Forces</span>
+                    <span class="badge badge-info">SPOJ</span>
+                    <span class="badge badge-info">UVa</span>
+                    <span class="badge badge-info">UVa Live</span>
+                    <span class="badge badge-info">LuoGu</span>
                 </div>
                 <div>
-                        <span class="badge badge-secondary">String</span>
-                        <span class="badge badge-secondary">DP</span>
-                        <span class="badge badge-secondary">Permualtion</span>
-                        <span class="badge badge-secondary">Brutal</span>
-                        <span class="badge badge-secondary">...</span>
+                    <span class="badge badge-secondary">String</span>
+                    <span class="badge badge-secondary">DP</span>
+                    <span class="badge badge-secondary">Permualtion</span>
+                    <span class="badge badge-secondary">Brutal</span>
+                    <span class="badge badge-secondary">...</span>
                 </div>
             </paper-card>
         </div>

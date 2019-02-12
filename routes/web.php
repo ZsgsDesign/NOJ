@@ -25,4 +25,6 @@ Route::get('/problem/{pcode}/editor', 'ProblemController@editor')->name('problem
 
 Route::get('/group', 'GroupController@index')->name('group');
 
+Route::get('/contest', 'ContestController@index')->name('contest');
+
 Auth::routes();
