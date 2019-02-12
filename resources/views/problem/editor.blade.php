@@ -403,6 +403,10 @@
             border-radius: .125rem;
         }
 
+        .show>.btn-secondary.dropdown-toggle{
+            color: #6c757d;
+        }
+
     </style>
 
     <div class="immersive-container">
@@ -474,7 +478,7 @@
                 pcode:"{{$detail["pcode"]}}",
                 cid:{{$detail["contest_id"]}},
                 iid:"{{$detail["index_id"]}}",
-                oj:"codeforces",
+                oj:"{{$detail["oj_detail"]["ocode"]}}",
                 solution: editor.getValue()
             }, ret => {
 

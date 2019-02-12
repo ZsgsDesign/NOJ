@@ -149,16 +149,16 @@ class PostSubmitController extends CurlController
         $exploded = explode("name='csrf_token' value='", $response);
         $token = explode("'/>", $exploded[2])[0];
 
-        $params = array(
-                'csrf_token' => $token,
-                'action' => 'submitSolutionFormSubmitted',
-                'ftaa' => '',
-                'bfaa' => '',
-                'submittedProblemIndex' => $submittedProblemIndex,
-                'programTypeId' => $programTypeId,
-                'source' => $source,
-                'sourceFile' => '',
-            );
+        $params = [
+            'csrf_token' => $token,
+            'action' => 'submitSolutionFormSubmitted',
+            'ftaa' => '',
+            'bfaa' => '',
+            'submittedProblemIndex' => $submittedProblemIndex,
+            'programTypeId' => $programTypeId,
+            'source' => $source,
+            'sourceFile' => '',
+        ];
 
         $response=$this->post_data("codeforces.com/contest/{$_POST['cid']}/submit?csrf_token=".$token, http_build_query($params), "codeforces", true);
         if (substr_count($response, 'My Submissions')!=2) {
@@ -222,7 +222,7 @@ class PostSubmitController extends CurlController
         $response=$this->post_data('http://www.spoj.com/submit/complete/', $data, 'spoj', true);
         if (substr_count($response, 'Solution submitted!')==0) {
             $exploded = explode('<p align="center">', $response);
-            $this->sub['verdict'] = $this->multiexplode(array("!","."), $exploded[1])[0];
+            $this->sub['verdict'] = $this->multiexplode(["!","."], $exploded[1])[0];
         }
     }
 

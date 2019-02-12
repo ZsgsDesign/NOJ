@@ -34,7 +34,7 @@ class SubmitController extends Controller
                 'pid'=>''
             ];
 
-            $curl =new PostSubmitController($sub,$_POST['oj']);
+            $curl = new PostSubmitController($sub,$_POST['oj']);
 
             // insert submission
 
