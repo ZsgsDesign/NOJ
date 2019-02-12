@@ -2,9 +2,8 @@
 namespace App\Http\Controllers\VirtualJudge;
 
 use App\Models\Submission;
-use App\Http\Controllers\Controller;
 
-class CurlController extends Controller
+class Curl
 {
 
     public function __construct()

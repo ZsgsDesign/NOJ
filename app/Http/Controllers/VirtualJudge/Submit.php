@@ -3,23 +3,25 @@
 namespace App\Http\Controllers\VirtualJudge;
 
 use App\Models\Submission;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\VirtualJudge\Core;
 
-class SubmitController extends Controller
+class Submit
 {
     public $ret=[];
+    public $post_data=[];
 
     /**
      * Initial
      *
      * @return Response
      */
-    public function __construct()
+    public function __construct($all_data)
     {
-        $this->ret['statue']='OK';
-        $this->ret['solution']="";
+        $this->post_data=$all_data;
+        $this->ret['ret']=200;
+        $this->ret['desc']="successful";
         $this->validate_solution();
-        if($this->ret['statue']=='OK')
+        if($this->ret['ret']==200)
         {
             set_time_limit(0);
 
@@ -34,7 +36,7 @@ class SubmitController extends Controller
                 'pid'=>''
             ];
 
-            $curl = new PostSubmitController($sub,$_POST['oj']);
+            $curl = new Core($sub,$this->post_data['oj']);
 
             // insert submission
 
@@ -43,7 +45,7 @@ class SubmitController extends Controller
 
 
         }
-        echo json_encode($this->ret);
+        return $this->ret;
     }
 
     /**
@@ -53,24 +55,30 @@ class SubmitController extends Controller
      */
     private function validate_solution()
     {
-        if(!isset($_POST['solution'])) {
-            $this->ret['statue']='NOT';return;
-        }
-        $solution=trim($_POST['solution']);
-        if(strlen($solution)==0)
-        {
-            $this->ret['statue']='NOT';
-            $this->ret['solution']="solution must be filled";
+        if(!isset($this->post_data['solution'])) {
+            $this->ret['ret']=1003;
+            $this->ret['desc']="param incomplete";
             return;
         }
-        $f = fopen("cookie/file.txt", "w") or die("Unable to open file!");
+        $solution=trim($this->post_data['solution']);
+        if(strlen($solution)==0)
+        {
+            $this->ret['ret']=3001;
+            $this->ret['desc']="solution must be filled";
+            return;
+        }
+        if(!($f = fopen("cookie/file.txt", "w"))){
+            $this->ret['ret']=1004;
+            $this->ret['desc']="permission denied";
+            return;
+        }
         fwrite($f,$solution);
         fclose($f);
         $size=filesize('cookie/file.txt');
         if($size>100*1000)
         {
-            $this->ret['statue']='NOT';
-            $this->ret['solution']="solution length is too big";
+            $this->ret['ret']=3002;
+            $this->ret['desc']="solution size limit exceed";
             return;
         }
     }

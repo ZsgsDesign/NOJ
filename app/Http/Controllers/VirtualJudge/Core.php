@@ -2,9 +2,9 @@
 namespace App\Http\Controllers\VirtualJudge;
 
 use App\Models\Submission;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\VirtualJudge\Curl;
 
-class PostSubmitController extends CurlController
+class Core extends Curl
 {
     private $sub;
     private $MODEL;
