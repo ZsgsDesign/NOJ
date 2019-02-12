@@ -79,7 +79,7 @@ class PostSubmitController extends CurlController
     private function uva()
     {
         if (!isset($_POST["id"])||!isset($_POST["IID"])||!isset($_COOKIE["user_handle"])&&!isset($_POST["solution"])) {
-            redirect("http://old.ojsystem.com/index.php");
+            redirect("/");
         }
         $response=$this->grab_page('https://uva.onlinejudge.org', 'uva');
         if (!(strpos($response, 'UVa Online Judge - Offline') !== false)&&strlen($response)!=0) {
@@ -95,7 +95,7 @@ class PostSubmitController extends CurlController
     private function uvalive()
     {
         if (!isset($_POST["id"])||!isset($_POST["IID"])||!isset($_COOKIE["user_handle"])&&!isset($_POST["solution"])) {
-            redirect("http://old.ojsystem.com/index.php");
+            redirect("/");
         }
         $this->uva_live_login('https://icpcarchive.ecs.baylor.edu', 'https://icpcarchive.ecs.baylor.edu/index.php?option=com_comprofiler&task=login', 'uvalive');
         $this->uva_live_submit('https://icpcarchive.ecs.baylor.edu/index.php?option=com_onlinejudge&Itemid=8&page=save_submission', 'uvalive');
@@ -109,7 +109,7 @@ class PostSubmitController extends CurlController
             $exploded = explode("name='csrf_token' value='", $response);
             $token = explode("'/>", $exploded[2])[0];
 
-            $params = array(
+            $params = [
                     'csrf_token' => $token,
                     'action' => 'enter',
                     'ftaa' => '',
@@ -117,7 +117,7 @@ class PostSubmitController extends CurlController
                     'handle' => 'codemaster_cf',
                     'password' => '123456',
                     'remember' => true,
-                );
+            ];
             $this->login('http://codeforces.com/enter', http_build_query($params), 'codeforces');
         }
     }
@@ -167,7 +167,7 @@ class PostSubmitController extends CurlController
     private function codeforces()
     {
         if (!isset($_POST["id"])||!isset($_POST["CID"])||!isset($_POST["IID"])||!isset($_COOKIE["user_handle"])&&!isset($_POST["solution"])) {
-            redirect("http://old.ojsystem.com/index.php");
+            redirect("/");
         }
         $this->codeforce_login();
         $this->codeforces_submit();
@@ -176,12 +176,12 @@ class PostSubmitController extends CurlController
     {
         $response=$this->grab_page('http://www.spoj.com', 'spoj');
         if (!(strpos($response, 'sign-out') !== false)) {
-            $params = array(
-                        'next_raw' => "/",
-                        'autologin' => '1',
-                        'login_user' => 'codemaster_spoj',
-                        'password' => '123456'
-                    );
+            $params = [
+                'next_raw' => "/",
+                'autologin' => '1',
+                'login_user' => 'codemaster_spoj',
+                'password' => '123456'
+            ];
 
             $data=http_build_query($params);
             $this->login('http://www.spoj.com/login', $data, 'spoj');
@@ -208,13 +208,14 @@ class PostSubmitController extends CurlController
         $this->sub['Problem_id']=$_POST["id"];
         $lang=substr($_POST["lang"], 0, $x);
 
-        $params = array(
+        $params = [
             'subm_file' => '',
             'file' => $_POST["solution"],
             'lang' => $lang,
             'problemcode' => $_POST['IID'],
             'submit' => 'Submit!',
-            );
+        ];
+
         $data=http_build_query($params);
         $response=$this->post_data('http://www.spoj.com/submit/complete/', $data, 'spoj', true);
         if (substr_count($response, 'Solution submitted!')==0) {
@@ -222,10 +223,11 @@ class PostSubmitController extends CurlController
             $this->sub['Verdict'] = $this->multiexplode(array("!","."), $exploded[1])[0];
         }
     }
+
     private function spoj()
     {
         if (!isset($_POST["id"])||!isset($_POST["IID"])||!isset($_POST["IID"])||!isset($_COOKIE["user_handle"])&&!isset($_POST["solution"])) {
-            redirect("http://old.ojsystem.com/index.php");
+            redirect("/");
         }
         $this->spoj_login();
         $this->spoj_submit();
