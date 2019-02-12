@@ -23,21 +23,22 @@ class SubmitController extends Controller
         {
             set_time_limit(0);
 
-            $sub=array(
-            'TIME'=>'0',
-            'Verdict'=>'Waiting',
-            'Soultion'=>'',
-            'Language'=>'',
-            'submission_date'=>time(),
-            'memory'=>'0',
-            'user_Handle'=>$_COOKIE['user_handle'],
-            'Problem_id'=>'',
-            );
+            $sub=[
+                'time'=>'0',
+                'verdict'=>'Waiting',
+                'soultion'=>'',
+                'language'=>'',
+                'submission_date'=>time(),
+                'memory'=>'0',
+                'uid'=>Auth::user()->id,
+                'pid'=>''
+            ];
             $curl =new postsoutionController($sub,$_POST['oj']);
 
             // insert submission
 
             $submission = new Submission();
+            $submission->insert($sub);
 
 
         }
@@ -51,8 +52,9 @@ class SubmitController extends Controller
      */
     private function validate_solution()
     {
-        if(!isset($_POST['solution']))
-        {$this->ret['statue']='NOT';return;}
+        if(!isset($_POST['solution'])) {
+            $this->ret['statue']='NOT';return;
+        }
         $solution=trim($_POST['solution']);
         if(strlen($solution)==0)
         {
