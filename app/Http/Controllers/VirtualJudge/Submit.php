@@ -4,6 +4,7 @@ namespace App\Http\Controllers\VirtualJudge;
 
 use App\Models\Submission;
 use App\Http\Controllers\VirtualJudge\Core;
+use Auth;
 
 class Submit
 {
@@ -40,7 +41,11 @@ class Submit
             // insert submission
 
             $submission = new Submission();
-            $submission->insert($sub);
+            $sid = $submission->insert($sub);
+
+            $this->ret["data"]=[
+                "sid"=>$sid
+            ];
         }
         return $this->ret;
     }
@@ -63,14 +68,14 @@ class Submit
             $this->ret['desc']="solution must be filled";
             return;
         }
-        if (!($f = fopen("cookie/file.txt", "w"))) {
+        if (!($f = fopen(__DIR__."/cookie/file.txt", "w"))) {
             $this->ret['ret']=1004;
             $this->ret['desc']="permission denied";
             return;
         }
         fwrite($f, $solution);
         fclose($f);
-        $size=filesize('cookie/file.txt');
+        $size=filesize(__DIR__.'/cookie/file.txt');
         if ($size>100*1000) {
             $this->ret['ret']=3002;
             $this->ret['desc']="solution size limit exceed";

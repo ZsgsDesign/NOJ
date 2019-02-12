@@ -14,7 +14,7 @@ class Submission extends Model
 
         if(strlen($sub['verdict'])==0) $sub['verdict']="Judge Error";
 
-        $prob_detail = DB::table($this->tableName)->insert([
+        $sid = DB::table($this->tableName)->insertGetId([
             'time' => $sub['time'],
             'verdict' => $sub['verdict'],
             'soultion' => $sub['soultion'],
@@ -24,6 +24,8 @@ class Submission extends Model
             'uid' => $sub['uid'],
             'pid' => $sub['pid'],
         ]);
+
+        return $sid;
     }
 
     public function count_solution($s)

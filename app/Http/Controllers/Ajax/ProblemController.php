@@ -20,14 +20,8 @@ class ProblemController extends Controller
     {
         $all_data = $request->all();
 
-        $vj_submit = new Submit();
+        $vj_submit = new Submit($all_data);
 
-        return response()->json([
-            'ret' => $vj_submit['ret'],
-            'desc' => $vj_submit['desc'],
-            'data' => [
-                "sid" => 1
-            ]
-        ]);
+        return response()->json($vj_submit);
     }
 }
