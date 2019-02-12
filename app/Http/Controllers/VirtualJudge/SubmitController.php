@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Submission;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\VirtualJudge\PostSubmitController;
 
 class SubmitController extends Controller
 {

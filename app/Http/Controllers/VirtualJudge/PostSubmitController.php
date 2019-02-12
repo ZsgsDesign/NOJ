@@ -54,9 +54,9 @@ class PostSubmitController extends CurlController
     }
     public function uva_live_submit($url, $oj)
     {
-        $this->sub['Language']=substr($_POST["lang"], 1, 50);
-        $this->sub['Soultion']=$_POST["solution"];
-        $this->sub['Problem_id']=$_POST["id"];
+        $this->sub['language']=substr($_POST["lang"], 1, 50);
+        $this->sub['soultion']=$_POST["solution"];
+        $this->sub['pid']=$_POST["id"];
 
         $code=$_POST["solution"];
         $lang=substr($_POST["lang"], 0, 1);
@@ -73,7 +73,7 @@ class PostSubmitController extends CurlController
         $response=$this->post_data($url, $data, $oj, true);
         if (substr_count($response, 'Submission+received+with+ID')==0) {
             $exploded = explode('mosmsg=', $response);
-            $this->sub['Verdict'] = urldecode(explode('"', $exploded[2])[0]);
+            $this->sub['verdict'] = urldecode(explode('"', $exploded[2])[0]);
         }
     }
     private function uva()
@@ -86,10 +86,10 @@ class PostSubmitController extends CurlController
             $this->uva_live_login('https://uva.onlinejudge.org', 'https://uva.onlinejudge.org/index.php?option=com_comprofiler&task=login', 'uva');
             $this->uva_live_submit('https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=save_submission', 'uva');
         } else {
-            $this->sub['Language']=substr($_POST["lang"], 1, 50);
-            $this->sub['Soultion']=$_POST["solution"];
-            $this->sub['Problem_id']=$_POST["id"];
-            $this->sub['Verdict']="Judge Error";
+            $this->sub['language']=substr($_POST["lang"], 1, 50);
+            $this->sub['soultion']=$_POST["solution"];
+            $this->sub['pid']=$_POST["id"];
+            $this->sub['verdict']="Judge Error";
         }
     }
     private function uvalive()
@@ -110,23 +110,23 @@ class PostSubmitController extends CurlController
             $token = explode("'/>", $exploded[2])[0];
 
             $params = [
-                    'csrf_token' => $token,
-                    'action' => 'enter',
-                    'ftaa' => '',
-                    'bfaa' => '',
-                    'handle' => 'codemaster_cf',
-                    'password' => '123456',
-                    'remember' => true,
+                'csrf_token' => $token,
+                'action' => 'enter',
+                'ftaa' => '',
+                'bfaa' => '',
+                'handle' => 'codemaster_cf',
+                'password' => '123456',
+                'remember' => true,
             ];
             $this->login('http://codeforces.com/enter', http_build_query($params), 'codeforces');
         }
     }
     private function codeforces_submit()
     {
-        $this->sub['Language']=substr($_POST["lang"], 2, 50);
-        $this->sub['Soultion']=$_POST["solution"];
-        $this->sub['Problem_id']=$_POST["id"];
-        $s_num=$this->MODEL->count_soulution($this->sub['Soultion']);
+        $this->sub['language']=substr($_POST["lang"], 2, 50);
+        $this->sub['soultion']=$_POST["solution"];
+        $this->sub['pid']=$_POST["id"];
+        $s_num=$this->MODEL->count_soulution($this->sub['soultion']);
         $space='';
         for ($i=0;$i<$s_num;$i++) {
             $space.=' ';
@@ -161,7 +161,7 @@ class PostSubmitController extends CurlController
         $response=$this->post_data("codeforces.com/contest/{$_POST['CID']}/submit?csrf_token=".$token, http_build_query($params), "codeforces", true);
         if (substr_count($response, 'My Submissions')!=2) {
             $exploded = explode('<span class="error for__source">', $response);
-            $this->sub['Verdict'] = explode("</span>", $exploded[1])[0];
+            $this->sub['verdict'] = explode("</span>", $exploded[1])[0];
         }
     }
     private function codeforces()
@@ -203,9 +203,9 @@ class PostSubmitController extends CurlController
                 break;
             }
         }
-        $this->sub['Language']=substr($_POST["lang"], $x, strlen($_POST["lang"]));
-        $this->sub['Soultion']=$_POST["solution"];
-        $this->sub['Problem_id']=$_POST["id"];
+        $this->sub['language']=substr($_POST["lang"], $x, strlen($_POST["lang"]));
+        $this->sub['soultion']=$_POST["solution"];
+        $this->sub['pid']=$_POST["id"]; // 500A
         $lang=substr($_POST["lang"], 0, $x);
 
         $params = [
@@ -220,7 +220,7 @@ class PostSubmitController extends CurlController
         $response=$this->post_data('http://www.spoj.com/submit/complete/', $data, 'spoj', true);
         if (substr_count($response, 'Solution submitted!')==0) {
             $exploded = explode('<p align="center">', $response);
-            $this->sub['Verdict'] = $this->multiexplode(array("!","."), $exploded[1])[0];
+            $this->sub['verdict'] = $this->multiexplode(array("!","."), $exploded[1])[0];
         }
     }
 

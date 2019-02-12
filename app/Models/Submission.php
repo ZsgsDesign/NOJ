@@ -11,41 +11,18 @@ class Submission extends Model
 
     public function insert($sub)
     {
-        $prob_detail = DB::table($this->tableName)->where("pcode", $pcode)->first();
 
-        if(strlen($sub['Verdict'])==0)$sub['Verdict']="Judge Error";
-        $sub['Soultion']=mysqli_real_escape_string($this->db,$sub['Soultion']);
-        $sub['Verdict']=mysqli_real_escape_string($this->db,$sub['Verdict']);
-        $sub['Language']=mysqli_real_escape_string($this->db,$sub['Language']);
+        if(strlen($sub['verdict'])==0) $sub['verdict']="Judge Error";
 
-        $query="INSERT INTO submission";
-        $query.="(
-            TIME,
-            Verdict,
-            Soultion,
-            Language,
-            submission_date,
-            memory,
-            user_Handle,
-            Problem_id
-        ) ";
-
-        $query.="VALUES(
-            {$sub['TIME']},
-            '{$sub['Verdict']}',
-            '{$sub['Soultion']}',
-            '{$sub['Language']}',
-            '{$sub['submission_date']}',
-            {$sub['memory']},
-            '{$sub['user_Handle']}',
-            {$sub['Problem_id']}
-        )";
-
-        if(!mysqli_query($this->db,$query))
-        {
-            die("query failed "." ".mysqli_error($this->db));
-        }
-
-        return $prob_detail;
+        $prob_detail = DB::table($this->tableName)->insert([
+            'time' => $sub['time'],
+            'verdict' => $sub['verdict'],
+            'soultion' => $sub['soultion'],
+            'language' => $sub['language'],
+            'submission_date' => $sub['submission_date'],
+            'memory' => $sub['memory'],
+            'uid' => $sub['uid'],
+            'pid' => $sub['pid'],
+        ]);
     }
 }

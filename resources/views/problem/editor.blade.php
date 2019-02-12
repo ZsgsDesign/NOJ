@@ -424,7 +424,7 @@
                         <button class="dropdown-item lang-selector" data-comp="java" data-lang="java" data-lcode="java"><i class="devicon-java-plain"></i> Java</button>
                     </div>
                     </div>
-                <button type="button" class="btn btn-primary"> <i class="MDI send"></i> Submit Code</button>
+                <button type="button" class="btn btn-primary" id="submitBtn"> <i class="MDI send"></i> Submit Code</button>
             </div>
 
         </bottom-side>
@@ -447,6 +447,21 @@
             var model = editor.getModel();
             monaco.editor.setModelLanguage(model, $( this ).data("lang"));
             $("#cur_lang_selector").html($( this ).html());
+        });
+
+        $( "#submitBtn" ).click(function() {
+            // console.log(editor.getValue());
+            $.ajax("/ajax/submitSolution",{
+                lang: "01GNU G++ 5.1.0",
+                pid:{{$detail["pid"]}},
+                pcode:"{{$detail["pcode"]}}",
+                cid:{{$detail["contest_id"]}},
+                iid:"{{$detail["index_id"]}}",
+                oj:"codeforces",
+                solution: editor.getValue()
+            }, ret => {
+
+            });
         });
 
         document.getElementById("backBtn").addEventListener("click",function(){
