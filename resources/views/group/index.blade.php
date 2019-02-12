@@ -30,6 +30,7 @@
     group-card > div:first-of-type > shadow-div {
         display: block;
         position: absolute;
+        overflow: hidden;
         top:0;
         bottom:0;
         right:0;
@@ -40,6 +41,11 @@
         object-fit: cover;
         width:100%;
         height: 100%;
+        transition: .2s ease-out .0s;
+    }
+
+    group-card > div:first-of-type > shadow-div > img:hover{
+        transform: scale(1.2);
     }
 
     group-card > div:last-of-type{
@@ -68,6 +74,10 @@
         font-weight: 500;
     }
 
+    .cm-group-action{
+        height: 4rem;
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <div>
@@ -78,12 +88,15 @@
             <group-card>
                 <div>
                     <shadow-div>
-                        <img src="https://cdn.mundb.xyz/img/bing.png">
+                        <img src="https://cdn.mundb.xyz/img/coding.jpeg">
                     </shadow-div>
                 </div>
                 <div>
                     <p class="cm-group-name"><i class="MDI marker-check wemd-light-blue-text"></i> CodeMaster Official Group</p>
                     <small class="cm-group-info">3 Members</small>
+                    <div class="cm-group-action">
+
+                        </div>
                 </div>
             </group-card>
         </div>
@@ -91,12 +104,15 @@
             <group-card>
                 <div>
                     <shadow-div>
-                        <img src="https://cdn.mundb.xyz/img/bing.png">
+                        <img src="https://cdn.mundb.xyz/img/njupt.jpg">
                     </shadow-div>
                 </div>
                 <div>
                     <p class="cm-group-name">SAST NiuBi</p>
                     <small class="cm-group-info">2 Members</small>
+                    <div class="cm-group-action">
+
+                    </div>
                 </div>
             </group-card>
         </div>
@@ -109,12 +125,15 @@
             <group-card>
                 <div>
                     <shadow-div>
-                        <img src="https://cdn.mundb.xyz/img/bing.png">
+                        <img src="https://cdn.mundb.xyz/img/coding.jpeg">
                     </shadow-div>
                 </div>
                 <div>
                     <p class="cm-group-name"><i class="MDI marker-check wemd-light-blue-text"></i> CodeMaster Official Group</p>
                     <small class="cm-group-info">3 Members</small>
+                    <div class="cm-group-action">
+
+                        </div>
                 </div>
             </group-card>
         </div>
