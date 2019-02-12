@@ -28,7 +28,7 @@ class Submit
             $sub=[
                 'time'=>'0',
                 'verdict'=>'Waiting',
-                'soultion'=>'',
+                'solution'=>'',
                 'language'=>'',
                 'submission_date'=>time(),
                 'memory'=>'0',
@@ -39,6 +39,14 @@ class Submit
             $curl = new Core($sub, $this->post_data['oj'], $this->post_data);
 
             // insert submission
+
+            if($sub["pid"]==''){
+                return [
+                    'ret'=>1003,
+                    'desc'=>'param incomplete',
+                    'data'=>null
+                ];
+            }
 
             $submission = new Submission();
             $sid = $submission->insert($sub);

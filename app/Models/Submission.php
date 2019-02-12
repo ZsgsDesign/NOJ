@@ -17,7 +17,7 @@ class Submission extends Model
         $sid = DB::table($this->tableName)->insertGetId([
             'time' => $sub['time'],
             'verdict' => $sub['verdict'],
-            'soultion' => $sub['soultion'],
+            'solution' => $sub['solution'],
             'language' => $sub['language'],
             'submission_date' => $sub['submission_date'],
             'memory' => $sub['memory'],

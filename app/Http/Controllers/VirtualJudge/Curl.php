@@ -43,6 +43,8 @@ class Curl
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__)."/cookie/cacert.pem");
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
         curl_setopt($ch, CURLOPT_COOKIEFILE, dirname(__FILE__) ."/cookie/{$oj}_cookie.txt");

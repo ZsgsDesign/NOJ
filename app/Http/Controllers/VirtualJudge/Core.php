@@ -68,7 +68,7 @@ class Core extends Curl
     public function uva_live_submit($url, $oj)
     {
         $this->sub['language']=substr($this->post_data["lang"], 1, 50);
-        $this->sub['soultion']=$this->post_data["solution"];
+        $this->sub['solution']=$this->post_data["solution"];
         $this->sub['pid']=$this->post_data["pid"];
 
         $code=$this->post_data["solution"];
@@ -100,7 +100,7 @@ class Core extends Curl
             $this->uva_live_submit('https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=save_submission', 'uva');
         } else {
             $this->sub['language']=substr($this->post_data["lang"], 1, 50);
-            $this->sub['soultion']=$this->post_data["solution"];
+            $this->sub['solution']=$this->post_data["solution"];
             $this->sub['pid']=$this->post_data["pid"];
             $this->sub['verdict']="Judge Error";
         }
@@ -124,13 +124,12 @@ class Core extends Curl
 
             $judger=new Judger();
             $judger_list=$judger->list(2);
-
             $params = [
                 'csrf_token' => $token,
                 'action' => 'enter',
                 'ftaa' => '',
                 'bfaa' => '',
-                'handle' => $judger_list[0]["handle"],
+                'handleOrEmail' => $judger_list[0]["handle"], //I wanna kill for handleOrEmail
                 'password' => $judger_list[0]["password"],
                 'remember' => true,
             ];
@@ -140,9 +139,9 @@ class Core extends Curl
     private function codeforces_submit()
     {
         $this->sub['language']=substr($this->post_data["lang"], 2, 50);
-        $this->sub['soultion']=$this->post_data["solution"];
+        $this->sub['solution']=$this->post_data["solution"];
         $this->sub['pid']=$this->post_data["pid"];
-        $s_num=$this->MODEL->count_solution($this->sub['soultion']);
+        $s_num=$this->MODEL->count_solution($this->sub['solution']);
         $space='';
         for ($i=0;$i<$s_num;$i++) {
             $space.=' ';
@@ -171,6 +170,7 @@ class Core extends Curl
             'submittedProblemIndex' => $submittedProblemIndex,
             'programTypeId' => $programTypeId,
             'source' => $source,
+            'tabSize' => 4,
             'sourceFile' => '',
         ];
 
@@ -182,8 +182,8 @@ class Core extends Curl
     }
     private function codeforces()
     {
-        if (!isset($this->post_data["pid"])||!isset($this->post_data["cid"])||!isset($this->post_data["iid"])||!isset($_COOKIE["user_handle"])&&!isset($this->post_data["solution"])) {
-            redirect("/");
+        if (!isset($this->post_data["pid"])||!isset($this->post_data["cid"])||!isset($this->post_data["iid"])||!isset($this->post_data["solution"])) {
+            return;
         }
         $this->codeforce_login();
         $this->codeforces_submit();
@@ -220,7 +220,7 @@ class Core extends Curl
             }
         }
         $this->sub['language']=substr($this->post_data["lang"], $x, strlen($this->post_data["lang"]));
-        $this->sub['soultion']=$this->post_data["solution"];
+        $this->sub['solution']=$this->post_data["solution"];
         $this->sub['pid']=$this->post_data["pid"]; // 500A
         $lang=substr($this->post_data["lang"], 0, $x);
 

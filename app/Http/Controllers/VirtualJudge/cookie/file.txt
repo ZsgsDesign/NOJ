@@ -1,6 +1,5 @@
-#include<cstdio>
+#include<bits\stdc++.h>
 
 int main(){
-    printf("F**k you.\n");
-    return 0;
+    return 0; //random lalalalalala
 }
