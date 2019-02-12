@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\VirtualJudge;
 
 use App\Models\Submission;
+use App\Models\Judger;
 use App\Http\Controllers\VirtualJudge\Curl;
 
 class Core extends Curl
@@ -16,10 +17,18 @@ class Core extends Curl
         $this->MODEL=new Submission;
         $this->post_data=$all_data;
 
-        if ($oj=='uva') $this->uva();
-        if ($oj=='uvalive') $this->uvalive();
-        if ($oj=='codeforces') $this->codeforces();
-        if ($oj=='spoj') $this->spoj();
+        if ($oj=='uva') {
+            $this->uva();
+        }
+        if ($oj=='uvalive') {
+            $this->uvalive();
+        }
+        if ($oj=='codeforces') {
+            $this->codeforces();
+        }
+        if ($oj=='spoj') {
+            $this->spoj();
+        }
     }
 
     protected function uva_live_login($url1, $url2, $oj)
@@ -113,13 +122,16 @@ class Core extends Curl
             $exploded = explode("name='csrf_token' value='", $response);
             $token = explode("'/>", $exploded[2])[0];
 
+            $judger=new Judger();
+            $judger_list=$judger->list(2);
+
             $params = [
                 'csrf_token' => $token,
                 'action' => 'enter',
                 'ftaa' => '',
                 'bfaa' => '',
-                'handle' => 'codemaster_cf',
-                'password' => '123456',
+                'handle' => $judger_list[0]["handle"],
+                'password' => $judger_list[0]["password"],
                 'remember' => true,
             ];
             $this->login('http://codeforces.com/enter', http_build_query($params), 'codeforces');
