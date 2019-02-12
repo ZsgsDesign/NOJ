@@ -389,6 +389,20 @@
             background-color: rgba(0, 0, 0, 0.2);
         }
 
+        .dropdown-menu .dropdown-item.lang-selector{
+            flex-wrap: nowrap;
+        }
+
+        .cm-scrollable-menu{
+            height: auto;
+            max-height: 61.8vh;
+            overflow-x: hidden;
+        }
+
+        .btn-group .dropdown-menu {
+            border-radius: .125rem;
+        }
+
     </style>
 
     <div class="immersive-container">
@@ -418,7 +432,7 @@
                     <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_lang_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="{{$compiler_list[0]['icon']}}"></i> {{$compiler_list[0]['display_name']}}
                     </button>
-                    <div class="dropdown-menu">
+                    <div class="dropdown-menu cm-scrollable-menu">
                         @foreach ($compiler_list as $c)
                             <button class="dropdown-item lang-selector" data-comp="{{$c['comp']}}" data-lang="{{$c['lang']}}" data-lcode="{{$c['lcode']}}"><i class="{{$c['icon']}}"></i> {{$c['display_name']}}</button>
                         @endforeach
@@ -442,20 +456,20 @@
     <script>
         $(document).ready(function () { $('body').bootstrapMaterialDesign(); });
 
-        var choosen_lang="{{$compiler_list[0]['lcode']}}";
+        var chosen_lang="{{$compiler_list[0]['lcode']}}";
 
         $( ".lang-selector" ).click(function() {
             // console.log($( this ).data("lang"));
             var model = editor.getModel();
             monaco.editor.setModelLanguage(model, $( this ).data("lang"));
             $("#cur_lang_selector").html($( this ).html());
-            choosen_lang=$( this ).data("lcode");
+            chosen_lang=$( this ).data("lcode");
         });
 
         $( "#submitBtn" ).click(function() {
             // console.log(editor.getValue());
             $.ajax("/ajax/submitSolution",{
-                lang: "01GNU G++ 5.1.0",
+                lang: chosen_lang,
                 pid:{{$detail["pid"]}},
                 pcode:"{{$detail["pcode"]}}",
                 cid:{{$detail["contest_id"]}},
