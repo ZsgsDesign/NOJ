@@ -416,12 +416,12 @@
                 <button type="button" class="btn btn-secondary"> <i class="MDI history"></i> History</button>
                 <div class="btn-group dropup">
                     <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_lang_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="devicon-cplusplus-plain"></i> C++
+                        <i class="{{$compiler_list[0]['icon']}}"></i> {{$compiler_list[0]['display_name']}}
                     </button>
                     <div class="dropdown-menu">
-                        <button class="dropdown-item lang-selector" data-comp="c" data-lang="c" data-lcode="clang"><i class="devicon-c-plain"></i> C</button>
-                        <button class="dropdown-item lang-selector" data-comp="c" data-lang="cpp" data-lcode="cpp"><i class="devicon-cplusplus-plain"></i> C++</button>
-                        <button class="dropdown-item lang-selector" data-comp="java" data-lang="java" data-lcode="java"><i class="devicon-java-plain"></i> Java</button>
+                        @foreach ($compiler_list as $c)
+                            <button class="dropdown-item lang-selector" data-comp="{{$c['comp']}}" data-lang="{{$c['lang']}}" data-lcode="{{$c['lcode']}}"><i class="{{$c['icon']}}"></i> {{$c['display_name']}}</button>
+                        @endforeach
                     </div>
                     </div>
                 <button type="button" class="btn btn-primary" id="submitBtn"> <i class="MDI send"></i> Submit Code</button>
@@ -442,11 +442,14 @@
     <script>
         $(document).ready(function () { $('body').bootstrapMaterialDesign(); });
 
+        var choosen_lang="{{$compiler_list[0]['lcode']}}";
+
         $( ".lang-selector" ).click(function() {
             // console.log($( this ).data("lang"));
             var model = editor.getModel();
             monaco.editor.setModelLanguage(model, $( this ).data("lang"));
             $("#cur_lang_selector").html($( this ).html());
+            choosen_lang=$( this ).data("lcode");
         });
 
         $( "#submitBtn" ).click(function() {

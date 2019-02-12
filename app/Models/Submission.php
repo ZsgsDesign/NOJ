@@ -25,4 +25,9 @@ class Submission extends Model
             'pid' => $sub['pid'],
         ]);
     }
+
+    public function count_solution($s)
+    {
+        return DB::table($this->tableName)->where(['solution'=>$s])->count();
+    }
 }

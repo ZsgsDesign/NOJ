@@ -7,10 +7,12 @@ use App\Http\Controllers\Controller;
 class PostSubmitController extends CurlController
 {
     private $sub;
+    private $MODEL;
 
     public function __construct(& $sub, $oj)
     {
         $this->sub=& $sub;
+        $this->MODEL=new Submission;
 
         if ($oj=='uva') $this->uva();
         if ($oj=='uvalive') $this->uvalive();
@@ -126,7 +128,7 @@ class PostSubmitController extends CurlController
         $this->sub['language']=substr($_POST["lang"], 2, 50);
         $this->sub['soultion']=$_POST["solution"];
         $this->sub['pid']=$_POST["pid"];
-        $s_num=$this->MODEL->count_soulution($this->sub['soultion']);
+        $s_num=$this->MODEL->count_solution($this->sub['soultion']);
         $space='';
         for ($i=0;$i<$s_num;$i++) {
             $space.=' ';
