@@ -457,7 +457,7 @@
             background: #fff;
             padding: 1rem;
             position: relative;
-            border: 1px solid rgba(0, 0, 0, 0.15);
+            /* border: 1px solid rgba(0, 0, 0, 0.15); */
             margin-bottom: 2rem;
             width:auto;
         }
