@@ -19,13 +19,14 @@ Route::get('/', function () {
 
 Route::get('/account', 'MainController@account')->name('account');
 
-Route::get('/problem', 'MainController@problem')->name('problem');
+Route::get('/problem', 'ProblemController@index')->name('problem_index');
 Route::get('/problem/{pcode}', 'ProblemController@detail')->name('problem_detail');
 Route::get('/problem/{pcode}/editor', 'ProblemController@editor')->name('problem_editor');
 
-Route::get('/group', 'GroupController@index')->name('group');
+Route::get('/group', 'GroupController@index')->name('group_index');
+Route::get('/group/{gcode}', 'GroupController@detail')->name('group_detail');
 
-Route::get('/contest', 'ContestController@index')->name('contest');
+Route::get('/contest', 'ContestController@index')->name('contest_index');
 
 Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function(){
     Route::post('submitSolution', 'ProblemController@submitSolution');

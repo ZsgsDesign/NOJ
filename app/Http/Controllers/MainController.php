@@ -10,21 +10,6 @@ use Auth;
 class MainController extends Controller
 {
     /**
-     * Show the Problem General Page.
-     *
-     * @return Response
-     */
-    public function problem()
-    {
-        $problem=new Problem();
-        $prob_list=$problem->list();
-        return view('problem', [
-            'page_title'=>"Problem",
-            'site_title'=>"CodeMaster",
-            'prob_list' => $prob_list
-        ]);
-    }
-    /**
      * Show the Account Login and Register Page.
      *
      * @return Response

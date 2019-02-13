@@ -19,4 +19,17 @@ class GroupController extends Controller
             'site_title'=>"CodeMaster"
         ]);
     }
+
+    /**
+     * Show the Group Detail Page.
+     *
+     * @return Response
+     */
+    public function detail()
+    {
+        return view('group.detail', [
+            'page_title'=>"Group Detail",
+            'site_title'=>"CodeMaster"
+        ]);
+    }
 }

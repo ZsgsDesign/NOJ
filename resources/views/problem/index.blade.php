@@ -50,9 +50,9 @@
                         <tr>
                             <th scope="row">{{$p["pcode"]}}</th>
                             <td><a href="/problem/{{$p["pcode"]}}">{{$p["title"]}}</a></td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>100%</td>
+                            <td>{{$p["submission_count"]}}</td>
+                            <td>{{$p["passed_count"]}}</td>
+                            <td>{{$p["ac_rate"]}}%</td>
                         </tr>
                         @endforeach
                     </tbody>

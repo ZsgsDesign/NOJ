@@ -16,6 +16,10 @@
         overflow:hidden;
     }
 
+    a:hover{
+        text-decoration: none;
+    }
+
     group-card:hover {
         box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
     }
@@ -85,20 +89,22 @@
     </div>
     <div class="row">
         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <group-card>
-                <div>
-                    <shadow-div>
-                        <img src="https://cdn.mundb.xyz/img/coding.jpeg">
-                    </shadow-div>
-                </div>
-                <div>
-                    <p class="cm-group-name"><i class="MDI marker-check wemd-light-blue-text"></i> CodeMaster Official Group</p>
-                    <small class="cm-group-info">3 Members</small>
-                    <div class="cm-group-action">
+            <a href="/group/cog">
+                <group-card>
+                    <div>
+                        <shadow-div>
+                            <img src="https://cdn.mundb.xyz/img/coding.jpeg">
+                        </shadow-div>
+                    </div>
+                    <div>
+                        <p class="cm-group-name"><i class="MDI marker-check wemd-light-blue-text"></i> CodeMaster Official Group</p>
+                        <small class="cm-group-info">3 Members</small>
+                        <div class="cm-group-action">
 
-                        </div>
-                </div>
-            </group-card>
+                            </div>
+                    </div>
+                </group-card>
+            </a>
         </div>
         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
             <group-card>

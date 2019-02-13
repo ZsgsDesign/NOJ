@@ -11,6 +11,21 @@ use Auth;
 class ProblemController extends Controller
 {
     /**
+     * Show the Problem Index Page.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        $problem=new Problem();
+        $prob_list=$problem->list();
+        return view('problem.index', [
+            'page_title'=>"Problem",
+            'site_title'=>"CodeMaster",
+            'prob_list' => $prob_list
+        ]);
+    }
+    /**
      * Show the Problem Detail Page.
      *
      * @return Response
