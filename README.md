@@ -5,15 +5,15 @@ CodeMaster's another online judge platform
 
 - [ ] Basic Home Page
 - [ ] General
-    - [ ] Cron Support
+    - [X] Cron Support
     - [ ] Notification Support
         - [ ] Browser
         - [ ] Mail
     - [ ] System Version
     - [ ] System Bug Report
 - [ ] User System
-    - [ ] User Login
-    - [ ] User Register
+    - [X] User Login
+    - [X] User Register
     - [ ] User Password Retrive
     - [ ] User Email Verify
     - [ ] DashBoard
@@ -28,25 +28,25 @@ CodeMaster's another online judge platform
     - [ ] Contest Search
     - [ ] OnmiSearch Support
 - [ ] Problem System
-    - [ ] Problem List
+    - [X] Problem List
     - [ ] Problem Tag
     - [ ] Problem Filter
-    - [ ] Problem Details
+    - [X] Problem Details
     - [ ] Problem Solution
     - [ ] Problem Discussion
     - [ ] Problem Submit
-        - [ ] Problem Immersive Mode
-        - [ ] Problem Editor
-        - [ ] Problem Submit History
-        - [ ] Problem Compiler List
-        - [ ] Problem Status Bar
-        - [ ] Problem Virtual Judge
-            - [ ] Submit to VJ
-                - [ ] CodeForces
+        - [X] Problem Immersive Mode
+        - [X] Problem Editor
+        - [X] Problem Submit History
+        - [X] Problem Compiler List
+        - [X] Problem Status Bar
+        - [X] Problem Virtual Judge
+            - [X] Submit to VJ
+                - [X] CodeForces
                 - [ ] UVa
                 - [ ] UVa Live
                 - [ ] SPOJ
-            - [ ] Retrive Status
+            - [X] Retrive Status
         - [ ] Problem Online Judge
             - [ ] Judge Server
             - [ ] Judger
@@ -61,7 +61,7 @@ CodeMaster's another online judge platform
         - [ ] Code Download
         - [ ] Code Share
 - [ ] Contest System
-    - [ ] Contest List
+    - [X] Contest List
     - [ ] Contest Tag
     - [ ] Contest Filter
     - [ ] Contest Details
@@ -82,8 +82,8 @@ CodeMaster's another online judge platform
     - [ ] Contest Clone
     - [ ] Contest Replay
 - [ ] Group System
-    - [ ] Group List
-    - [ ] Group Details
+    - [X] Group List
+    - [X] Group Details
         - [ ] Group Timeline
         - [ ] Group Member Management
             - [ ] Invite
