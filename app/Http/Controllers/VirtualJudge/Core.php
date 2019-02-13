@@ -158,7 +158,6 @@ class Core extends Curl
 
         $response=$this->grab_page("codeforces.com/contest/{$this->post_data['cid']}/submit", "codeforces");
 
-
         $exploded = explode("name='csrf_token' value='", $response);
         $token = explode("'/>", $exploded[2])[0];
 
@@ -173,9 +172,9 @@ class Core extends Curl
             'tabSize' => 4,
             'sourceFile' => '',
         ];
-
         $response=$this->post_data("codeforces.com/contest/{$this->post_data['cid']}/submit?csrf_token=".$token, http_build_query($params), "codeforces", true);
         if (substr_count($response, 'My Submissions')!=2) {
+            // Forbidden?
             $exploded = explode('<span class="error for__source">', $response);
             $this->sub['verdict'] = explode("</span>", $exploded[1])[0];
         }

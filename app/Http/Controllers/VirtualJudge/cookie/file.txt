@@ -1,8 +1,6 @@
 #include<stdio.h>
 
 int main(){
-    while(1){
-        //
-    }
+    printf("lalala\n"); // la
     return 0;
 }

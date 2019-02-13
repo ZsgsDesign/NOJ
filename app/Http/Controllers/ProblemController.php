@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Problem;
+use App\Models\Submission;
 use App\Models\Compiler;
 use App\Http\Controllers\Controller;
+use Auth;
 
 class ProblemController extends Controller
 {
@@ -34,14 +36,23 @@ class ProblemController extends Controller
     {
         $problem=new Problem();
         $compiler=new Compiler();
+        $submission=new Submission();
         $prob_detail=$problem->detail($pcode);
         $compiler_list=$compiler->list($prob_detail["OJ"]);
+        $prob_status=$submission->getProblemStatus($prob_detail["pid"], Auth::user()->id);
+        if(empty($prob_status)){
+            $prob_status=[
+                "verdict"=>"NOT SUBMIT",
+                "color"=>""
+            ];
+        }
         return is_null($prob_detail) ?  redirect("/problem") :
                                         view('problem.editor', [
                                             'page_title'=>$prob_detail["title"],
                                             'site_title'=>"CodeMaster",
                                             'detail' => $prob_detail,
-                                            'compiler_list' => $compiler_list
+                                            'compiler_list' => $compiler_list,
+                                            'status' => $prob_status
                                         ]);
     }
 }

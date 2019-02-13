@@ -48,6 +48,7 @@ class Curl
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
         curl_setopt($ch, CURLOPT_COOKIEFILE, dirname(__FILE__) ."/cookie/{$oj}_cookie.txt");
+        curl_setopt($ch, CURLOPT_COOKIEJAR, dirname(__FILE__)."/cookie/{$oj}_cookie.txt");
         curl_setopt($ch, CURLOPT_URL, $site);
         ob_start();
         $response= curl_exec($ch);
@@ -75,6 +76,7 @@ class Curl
 
         curl_setopt($datapost, CURLOPT_POSTFIELDS, $data);
         curl_setopt($datapost, CURLOPT_COOKIEFILE, dirname(__FILE__)."/cookie/{$oj}_cookie.txt");
+        curl_setopt($datapost, CURLOPT_COOKIEJAR, dirname(__FILE__)."/cookie/{$oj}_cookie.txt");
         ob_start();
         $response=curl_exec($datapost);
         if (curl_errno($datapost)) {

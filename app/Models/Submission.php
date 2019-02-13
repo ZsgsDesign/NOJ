@@ -56,7 +56,7 @@ class Submission extends Model
 
     public function getProblemSubmission($pid,$uid)
     {
-        return DB::table($this->tableName)->where(['sid'=>$sid])->first();
+        return DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid])->get();
     }
 
     public function count_solution($s)

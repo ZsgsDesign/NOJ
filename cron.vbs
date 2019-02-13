@@ -1,2 +1,2 @@
 Set ws = CreateObject("Wscript.Shell")
-ws.run "cmd /c laravel.schedule.bat",vbhide
+ws.run "cmd /c C:\Users\ZsgsD\Desktop\workspace\CodeMaster\laravel.schedule.bat",vbhide

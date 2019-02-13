@@ -429,7 +429,7 @@
             </right-side>
         </top-side>
         <bottom-side>
-            <div style="color: #7a8e97"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">NOT SUBMIT</span></div>
+            <div style="color: #7a8e97" id="verdict_info" class="{{$status["color"]}}"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">{{$status["verdict"]}}</span></div>
             <div>
                 <button type="button" class="btn btn-secondary"> <i class="MDI history"></i> History</button>
                 <div class="btn-group dropup">
@@ -473,8 +473,8 @@
         $( "#submitBtn" ).click(function() {
             // console.log(editor.getValue());
             $("#verdict_text").text("Submitting...");
-            $("#verdict_circle").removeClass();
-            $("#verdict_circle").addClass("wemd-blue-text");
+            $("#verdict_info").removeClass();
+            $("#verdict_info").addClass("wemd-blue-text");
             $.ajax({
                 type: 'POST',
                 url: '/ajax/submitSolution',
@@ -495,8 +495,8 @@
                     if(ret.ret==200){
                         // submitted
                         $("#verdict_text").text("Waiting");
-                        $("#verdict_circle").removeClass();
-                        $("#verdict_circle").addClass("wemd-blue-text");
+                        $("#verdict_info").removeClass();
+                        $("#verdict_info").addClass("wemd-blue-text");
                         var tempInterval=setInterval(()=>{
                             $.ajax({
                                 type: 'POST',
@@ -511,8 +511,8 @@
                                     console.log(ret);
                                     if(ret.ret==200){
                                         $("#verdict_text").text(ret.data.verdict);
-                                        $("#verdict_circle").removeClass();
-                                        $("#verdict_circle").addClass(ret.data.color);
+                                        $("#verdict_info").removeClass();
+                                        $("#verdict_info").addClass(ret.data.color);
                                         clearInterval(tempInterval);
                                     }
                                 }, error: function(xhr, type){
@@ -524,8 +524,8 @@
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
                     $("#verdict_text").text("System Error");
-                    $("#verdict_circle").removeClass();
-                    $("#verdict_circle").addClass("wemd-black-text");
+                    $("#verdict_info").removeClass();
+                    $("#verdict_info").addClass("wemd-black-text");
                 }
             });
         });
