@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
+use App\Http\Controllers\VirtualJudge\Judge;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
@@ -24,8 +25,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->call(function () {
+
+            for ($i=1;$i<=12;$i++){
+                new Judge();
+            }
+            sleep(5);
+
+        })->everyMinute();
     }
 
     /**

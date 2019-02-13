@@ -50,7 +50,8 @@ class Submission extends Model
 
     public function getProblemStatus($pid,$uid)
     {
-        return DB::table($this->tableName)->where(['sid'=>$sid])->first();
+        $ac=DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'verdict'=>'Accepted'])->orderBy('time', 'desc')->first(); // Get the very first AC record
+        return empty($ac) ? DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid])->first() : $ac;
     }
 
     public function getProblemSubmission($pid,$uid)
@@ -84,7 +85,8 @@ class Submission extends Model
                                             ->update([
                                                 'time' => $sub['time'],
                                                 'verdict' => $sub['verdict'],
-                                                'memory' => $sub['memory']
+                                                'memory' => $sub['memory'],
+                                                'color' => $this->colorScheme[$sub['verdict']]
                                             ]);
     }
 }
