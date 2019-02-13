@@ -66,10 +66,12 @@
         flex-shrink: 1;
         flex-grow: 1;
         height: 0px; /* so that 100% would work */
+        overflow: hidden;
     }
 
-    group-container > div{
-        height:100%;
+    group-container > div,
+    group-container > div > div{
+        height: 100%;
     }
 
     ::-webkit-scrollbar {
@@ -215,6 +217,105 @@
         margin-bottom: 0.5rem;
         color: rgba(0,0,0,0.93);
     }
+
+    header-div{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    header-div > *{
+        margin-bottom: 0;
+    }
+
+    #member_header{
+        cursor: pointer;
+    }
+
+    #member_header > p{
+        margin-bottom: 0;
+    }
+
+    #member_header > p:last-of-type > i{
+        display: inline-block;
+        transition: .2s ease-out .0s;
+    }
+
+    #member_header[aria-expanded^="true"] > p:last-of-type > i{
+        transform: rotate(180deg);
+    }
+
+    .cm-simu-btn{
+        cursor: pointer;
+        transition: .2s ease-out .0s;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 85%;
+    }
+    .cm-simu-btn:hover{
+        filter: brightness(0.75);
+    }
+
+    place-holder{
+        display: block;
+    }
+
+    user-card{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    user-card user-avatar{
+        display: block;
+        padding-right:1rem;
+    }
+    user-card user-avatar img{
+        height: 3rem;
+        width: 3rem;
+        border-radius: 2000px;
+        object-fit: cover;
+        overflow: hidden;
+    }
+    user-card user-info{
+        display: block;
+    }
+    user-card user-info p{
+        margin-bottom:0;
+    }
+
+    user-card:last-of-type{
+        margin-bottom: 0;
+    }
+
+    .badge-role{
+        color:#fff;
+        vertical-align: text-bottom;
+    }
+
+    .cm-user-name{
+        color:rgba(0,0,0,0.93);
+    }
+
+    .cm-nick-name{
+        color:rgba(0,0,0,0.42);
+    }
+
+    empty-container{
+        display:block;
+        text-align: center;
+    }
+
+    empty-container i{
+        font-size:5rem;
+        color:rgba(0,0,0,0.42);
+    }
+
+    empty-container p{
+        font-size: 1rem;
+        color:rgba(0,0,0,0.54);
+    }
+
 </style>
 <group-container>
     <div class="row no-gutters">
@@ -259,7 +360,7 @@
                         <li class="list-group-item">
                             <i class="MDI star-circle"></i>
                             <div class="bmd-list-group-col">
-                                <p class="list-group-item-heading">Admin</p>
+                                <p class="list-group-item-heading">John Doe</p>
                                 <p class="list-group-item-text">Creator</p>
                             </div>
                         </li>
@@ -290,12 +391,74 @@
         </div>
         <div class="col-sm-12 col-md-9">
             <right-side>
-                <paper-card>
-                    3
-                </paper-card>
-                <paper-card>
-                    2
-                </paper-card>
+                <div class="row">
+                    <div class="col-sm-12 col-md-7">
+                        <empty-container>
+                            <i class="MDI package-variant"></i>
+                            <p>Nothing in the timeline.</p>
+                        </empty-container>
+                    </div>
+                    <div class="col-sm-12 col-md-5">
+                        <paper-card>
+                            <header-div>
+                                <p><i class="MDI account-circle"></i> My Profile</p>
+                                <p class="wemd-green-text cm-simu-btn"><i class="MDI pencil"></i> Edit</p>
+                            </header-div>
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <i class="MDI account-card-details"></i>
+                                    <div class="bmd-list-group-col">
+                                        <p class="list-group-item-heading">John Doe</p>
+                                        <p class="list-group-item-text">Nick Name</p>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="MDI google-circles"></i>
+                                    <div class="bmd-list-group-col">
+                                        <p class="list-group-item-heading">None</p>
+                                        <p class="list-group-item-text">Sub Group</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </paper-card>
+                        <paper-card>
+                            <header-div id="member_header" data-toggle="collapse" data-target="#collapse_member" aria-expanded="false">
+                                <p><i class="MDI account-multiple"></i> Members</p>
+                                <p>3 <i class="MDI chevron-down"></i></p>
+                            </header-div>
+                            <div id="collapse_member" class="collapse hide">
+                                <place-holder style="height:1rem;"></place-holder>
+                                <user-card>
+                                    <user-avatar>
+                                        <img src="https://cdn.mundb.xyz/img/atsast/upload/2/15453661701.jpg">
+                                    </user-avatar>
+                                    <user-info>
+                                        <p><span class="badge badge-role wemd-amber">Leader</span> <span class="cm-user-name">Admin</span> <span class="cm-nick-name">(John Doe)</span></p>
+                                        <p><small><i class="MDI google-circles"></i> None</small></p>
+                                    </user-info>
+                                </user-card>
+                                <user-card>
+                                    <user-avatar>
+                                        <img src="https://cdn.mundb.xyz/img/atsast/upload/87/15408093570.jpg">
+                                    </user-avatar>
+                                    <user-info>
+                                        <p><span class="badge badge-role wemd-light-blue">Manager</span> <span class="cm-user-name">Q17010217</span> <span class="cm-nick-name">(张佑杰)</span></p>
+                                        <p><small><i class="MDI google-circles"></i> None</small></p>
+                                    </user-info>
+                                </user-card>
+                                <user-card>
+                                    <user-avatar>
+                                        <img src="https://cdn.mundb.xyz/img/avatar/default.png">
+                                    </user-avatar>
+                                    <user-info>
+                                        <p><span class="badge badge-role wemd-grey">Member</span> <span class="cm-user-name">zsgsdesign</span></p>
+                                        <p><small><i class="MDI google-circles"></i> None</small></p>
+                                    </user-info>
+                                </user-card>
+                            </div>
+                        </paper-card>
+                    </div>
+                </div>
             </right-side>
         </div>
     </div>
