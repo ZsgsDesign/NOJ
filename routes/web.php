@@ -31,6 +31,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function(){
     Route::post('submitSolution', 'ProblemController@submitSolution');
     Route::post('judgeStatus', 'ProblemController@judgeStatus');
     Route::post('manualJudge', 'ProblemController@manualJudge');
+    Route::post('submitHistory', 'ProblemController@submitHistory');
 });
 
 Auth::routes();

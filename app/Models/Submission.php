@@ -38,6 +38,8 @@ class Submission extends Model
             'uid' => $sub['uid'],
             'pid' => $sub['pid'],
             'color' => $this->colorScheme[$sub['verdict']],
+            'remote_id'=>"",
+            'compile_info'=>"",
         ]);
 
         return $sid;
@@ -50,13 +52,13 @@ class Submission extends Model
 
     public function getProblemStatus($pid,$uid)
     {
-        $ac=DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'verdict'=>'Accepted'])->orderBy('time', 'desc')->first(); // Get the very first AC record
+        $ac=DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'verdict'=>'Accepted'])->orderBy('submission_date', 'desc')->first(); // Get the very first AC record
         return empty($ac) ? DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid])->first() : $ac;
     }
 
     public function getProblemSubmission($pid,$uid)
     {
-        return DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid])->get();
+        return DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid])->orderBy('submission_date', 'desc')->limit(10)->get();
     }
 
     public function count_solution($s)
@@ -86,7 +88,8 @@ class Submission extends Model
                                                 'time' => $sub['time'],
                                                 'verdict' => $sub['verdict'],
                                                 'memory' => $sub['memory'],
-                                                'color' => $this->colorScheme[$sub['verdict']]
+                                                'color' => $this->colorScheme[$sub['verdict']],
+                                                'remote_id' => $sub['remote_id']
                                             ]);
     }
 }

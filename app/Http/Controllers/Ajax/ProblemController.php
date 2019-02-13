@@ -60,4 +60,25 @@ class ProblemController extends Controller
             "data" => $vj_judge->ret
         ]);
     }
+
+    /**
+     * The Ajax Problem Manual Judge.
+     * [Notice] THIS FUNCTION IS FOR TEST ONLY, SHALL BE STRICTLY FORBIDDEN UNDER PRODUCTION ENVIRONMENT.
+     *
+     * @return Response
+     */
+    public function submitHistory(Request $request)
+    {
+        $all_data = $request->all();
+        $submission=new Submission();
+        $history=$submission->getProblemSubmission($all_data["pid"],Auth::user()->id);
+
+        return response()->json([
+            "ret" => 200,
+            "desc" => "successful",
+            "data" => [
+                "history" => $history
+            ]
+        ]);
+    }
 }

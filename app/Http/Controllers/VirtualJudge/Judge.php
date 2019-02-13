@@ -61,6 +61,7 @@ class Judge extends Core
                     $sub['verdict'] = $codeforces_v[$cf[$i][2]];
                     $sub['time'] = $cf[$i][0];
                     $sub['memory'] = $cf[$i][1];
+                    $sub['remote_id'] = $cf[$i][3];
 
                     $ret[$row['sid']] = [
                         "verdict"=>$sub['verdict']
@@ -231,7 +232,7 @@ class Judge extends Core
                 if (!isset($result["result"][$i]["verdict"])) {
                     return array_reverse($ret);
                 }
-                array_push($ret, array($result["result"][$i]["timeConsumedMillis"],$result["result"][$i]["memoryConsumedBytes"]/1000,$result["result"][$i]["verdict"]));
+                array_push($ret, array($result["result"][$i]["timeConsumedMillis"],$result["result"][$i]["memoryConsumedBytes"]/1000,$result["result"][$i]["verdict"],$result["result"][$i]["id"]));
             }
         }
         return array_reverse($ret);

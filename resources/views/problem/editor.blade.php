@@ -431,7 +431,7 @@
         <bottom-side>
             <div style="color: #7a8e97" id="verdict_info" class="{{$status["color"]}}"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">{{$status["verdict"]}}</span></div>
             <div>
-                <button type="button" class="btn btn-secondary"> <i class="MDI history"></i> History</button>
+                <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> History</button>
                 <div class="btn-group dropup">
                     <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_lang_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="{{$compiler_list[0]['icon']}}"></i> {{$compiler_list[0]['display_name']}}
@@ -447,6 +447,63 @@
 
         </bottom-side>
     </div>
+    <style>
+        .sm-modal{
+            display: block;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
+            border-radius: 4px;
+            transition: .2s ease-out .0s;
+            color: #7a8e97;
+            background: #fff;
+            padding: 1rem;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            margin-bottom: 2rem;
+            width:auto;
+        }
+        .sm-modal:hover {
+            box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
+        }
+        .modal-title{
+            font-weight: bold;
+            font-family: roboto;
+        }
+        .sm-modal td{
+            white-space: nowrap;
+        }
+
+        .modal-dialog {
+            max-width:50vw;
+            justify-content: center;
+        }
+
+    </style>
+    <div id="historyModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content sm-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="MDI history"></i> Submit History</h5>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Time</th>
+                                <th scope="col">Memory</th>
+                                <th scope="col">Language</th>
+                                <th scope="col">Result</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history_container">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
         window.addEventListener("load",function() {
 
@@ -460,6 +517,7 @@
     <script>
         $(document).ready(function () { $('body').bootstrapMaterialDesign(); });
 
+        var historyOpen=false;
         var chosen_lang="{{$compiler_list[0]['lcode']}}";
 
         $( ".lang-selector" ).click(function() {
@@ -468,6 +526,41 @@
             monaco.editor.setModelLanguage(model, $( this ).data("lang"));
             $("#cur_lang_selector").html($( this ).html());
             chosen_lang=$( this ).data("lcode");
+        });
+
+        $( "#historyBtn" ).click(function(){
+            historyOpen=true;
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/submitHistory',
+                data: {
+                    pid: {{$detail["pid"]}}
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if(ret.ret==200){
+                        $("#history_container").html("");
+                        ret.data.history.forEach(ele => {
+                            $("#history_container").append(`
+                                <tr>
+                                    <td>${ele.time}</td>
+                                    <td>${ele.memory}</td>
+                                    <td>${ele.language}</td>
+                                    <td class="${ele.color}"><i class="MDI checkbox-blank-circle"></i> ${ele.verdict}</td>
+                                </tr>
+                            `);
+                        });
+                    }
+                    $('#historyModal').modal();
+                    historyOpen=false;
+                }, error: function(xhr, type){
+                    console.log('Ajax error while posting to submitHistory!');
+                    historyOpen=false;
+                }
+            });
         });
 
         $( "#submitBtn" ).click(function() {
@@ -513,7 +606,9 @@
                                         $("#verdict_text").text(ret.data.verdict);
                                         $("#verdict_info").removeClass();
                                         $("#verdict_info").addClass(ret.data.color);
-                                        clearInterval(tempInterval);
+                                        if(ret.data.verdict!="Waiting" && ret.data.verdict!="Judging"){
+                                            clearInterval(tempInterval);
+                                        }
                                     }
                                 }, error: function(xhr, type){
                                     console.log('Ajax error while posting to judgeStatus!');

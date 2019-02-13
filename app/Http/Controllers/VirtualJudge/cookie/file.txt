@@ -1,6 +1,8 @@
-#include<stdio.h>
+#include<bits\stdc++.h>
+
+int a[100000000000000000000];
 
 int main(){
-    printf("lalala\n"); // la
+    for(int i=1;i<=1e9;i++) a[i]=12345678;
     return 0;
 }
