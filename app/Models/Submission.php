@@ -8,6 +8,20 @@ use Illuminate\Support\Facades\DB;
 class Submission extends Model
 {
     protected $tableName = 'submission';
+    public $colorScheme=[
+        "Waiting"=>"wemd-blue-text",
+        "Judge Error"=>"wemd-black-text",
+        "Compile Error"=>"wemd-orange-text",
+        "Runtime Error"=>"wemd-red-text",
+        "Wrong Answer"=>"wemd-red-text",
+        "Time Limit Exceed"=>"wemd-deep-purple-text",
+        "Accepted"=>"wemd-green-text",
+        "Memory Limit Exceed"=>"wemd-deep-purple-text",
+        "Presentation Error"=>"wemd-red-text",
+        "Judging"=>"wemd-blue-text",
+        'Submission Error'=>'wemd-black-text',
+        'Output limit exceeded'=>'wemd-deep-purple-text'
+    ];
 
     public function insert($sub)
     {
@@ -23,13 +37,54 @@ class Submission extends Model
             'memory' => $sub['memory'],
             'uid' => $sub['uid'],
             'pid' => $sub['pid'],
+            'color' => $this->colorScheme[$sub['verdict']],
         ]);
 
         return $sid;
     }
 
+    public function getJudgeStatus($sid)
+    {
+        return DB::table($this->tableName)->where(['sid'=>$sid])->first();
+    }
+
+    public function getProblemStatus($pid,$uid)
+    {
+        return DB::table($this->tableName)->where(['sid'=>$sid])->first();
+    }
+
+    public function getProblemSubmission($pid,$uid)
+    {
+        return DB::table($this->tableName)->where(['sid'=>$sid])->first();
+    }
+
     public function count_solution($s)
     {
         return DB::table($this->tableName)->where(['solution'=>$s])->count();
+    }
+
+    public function get_wating_submission()
+    {
+        return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
+                                            ->select("sid","OJ as oid")
+                                            ->where(['verdict'=>'Waiting'])
+                                            ->get();
+    }
+
+    public function count_wating_submission($oid)
+    {
+        return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
+                                            ->where(['verdict'=>'Waiting','OJ'=>$oid])
+                                            ->count();
+    }
+
+    public function update_submission($sid,$sub)
+    {
+        return DB::table($this->tableName)  ->where(['sid'=>$sid])
+                                            ->update([
+                                                'time' => $sub['time'],
+                                                'verdict' => $sub['verdict'],
+                                                'memory' => $sub['memory']
+                                            ]);
     }
 }

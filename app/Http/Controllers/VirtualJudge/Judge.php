@@ -8,9 +8,10 @@ use App\Http\Controllers\VirtualJudge\Core;
 class Judge extends Core
 {
     private $MODEL;
+    public $ret=[];
     public function __construct()
     {
-        $this->MODEL=new Judger();
+        $this->MODEL=new Submission();
         $ret=[];
 
         $uva_v=[
@@ -43,86 +44,75 @@ class Judge extends Core
 
         $result=$this->MODEL->get_wating_submission();
 
-        $cf=$this->get_last_codeforces($this->MODEL->count_wating_submission('CodeForces'));
-        $uva=$this->get_last_uva($this->MODEL->count_wating_submission('Uva'));
-        $uval=$this->get_last_uvalive($this->MODEL->count_wating_submission('UvaLive'));
-        $sj=$this->get_last_spoj($this->MODEL->count_wating_submission('Spoj'));
-
-        $color=[
-            "Waiting"=>"blue",
-            "Judge Error"=>"black",
-            "Compile Error"=>"orange",
-            "Runtime Error"=>"red",
-            "Wrong Answer"=>"red",
-            "Time Limit Exceed"=>"deep-purple",
-            "Accepted"=>"green",
-            "Memory Limit Exceed"=>"deep-purple",
-            "Presentation Error"=>"red",
-            "Judging"=>"blue",
-            'Submission Error'=>'black',
-            'Output limit exceeded'=>'deep-purple'
-        ];
-
-
+        $cf=$this->get_last_codeforces($this->MODEL->count_wating_submission(2));
+        // $uva=$this->get_last_uva($this->MODEL->count_wating_submission('Uva'));
+        // $uval=$this->get_last_uvalive($this->MODEL->count_wating_submission('UvaLive'));
+        // $sj=$this->get_last_spoj($this->MODEL->count_wating_submission('Spoj'));
 
         $i=0;
         $j=0;
         $k=0;
         $l=0;
 
-        while ($row=mysqli_fetch_assoc($result)) {
-            if ($row['from_oj']=='CodeForces') {
+        foreach ($result as $row) {
+            if ($row['oid']==2) {
                 if (isset($codeforces_v[$cf[$i][2]])) {
-                    $sub['Verdict']=$codeforces_v[$cf[$i][2]];
-                    $sub['TIME']=$cf[$i][0];
-                    $sub['memory']=$cf[$i][1];
-                    //array_push($ret,$row['submission_id']=>$sub['Verdict']);
-                    $v=$sub['Verdict'];
-                    $ret[$row['submission_id']]="<div style='color:{$color[$v]};'>"  .$sub['Verdict']. "</div>";
-                    $this->MODEL->update_submission($row['submission_id'], $sub);
+
+                    $sub['verdict'] = $codeforces_v[$cf[$i][2]];
+                    $sub['time'] = $cf[$i][0];
+                    $sub['memory'] = $cf[$i][1];
+
+                    $ret[$row['sid']] = [
+                        "verdict"=>$sub['verdict']
+                    ];
+
+                    $this->MODEL->update_submission($row['sid'], $sub);
                 }
                 $i++;
             }
-            if ($row['from_oj']=='Spoj') {
-                if (isset($spoj_v[$sj[$j][2]])) {
-                    $sub['Verdict']=$spoj_v[$sj[$j][2]];
-                    $sub['TIME']=$sj[$j][0];
-                    $sub['memory']=$sj[$j][1];
-                    //array_push($ret,$row['submission_id']=>$sub['Verdict']);
-                    $v=$sub['Verdict'];
-                    $ret[$row['submission_id']]="<div style='color:{$color[$v]};'>"  .$sub['Verdict']. "</div>";
-                    $this->MODEL->update_submission($row['submission_id'], $sub);
-                }
-                $j++;
-            }
-            if ($row['from_oj']=='Uva') {
-                if (isset($uva_v[$uva[$k][2]])) {
-                    $sub['Verdict']=$uva_v[$uva[$k][2]];
-                    $sub['TIME']=$uva[$k][0];
-                    $sub['memory']=$uva[$k][1];
-                    //array_push($ret,$row['submission_id']=>$sub['Verdict']);
-                    $v=$sub['Verdict'];
-                    $ret[$row['submission_id']]="<div style='color:{$color[$v]};'>"  .$sub['Verdict']. "</div>";
-                    $this->MODEL->update_submission($row['submission_id'], $sub);
-                }
-                $k++;
-            }
-            if ($row['from_oj']=='UvaLive') {
-                if (isset($uva_v[$uval[$l][2]])) {
-                    $sub['Verdict']=$uva_v[$uval[$l][2]];
-                    $sub['TIME']=$uval[$l][0];
-                    $sub['memory']=$uval[$l][1];
-                    //array_push($ret,$row['submission_id']=>$sub['Verdict']);
-                    $v=$sub['Verdict'];
-                    $ret[$row['submission_id']]="<div style='color:{$color[$v]};'>"  .$sub['Verdict']. "</div>";
-                    $this->MODEL->update_submission($row['submission_id'], $sub);
-                }
-                $l++;
-            }
+            // if ($row['oid']=='Spoj') {
+            //     if (isset($spoj_v[$sj[$j][2]])) {
+            //         $sub['verdict']=$spoj_v[$sj[$j][2]];
+            //         $sub['time']=$sj[$j][0];
+            //         $sub['memory']=$sj[$j][1];
+            //         $v=$sub['verdict'];
+            //         $ret[$row['sid']]="<div style='color:{$color[$v]};'>"  .$sub['Verdict']. "</div>";
+            //         $this->MODEL->update_submission($row['sid'], $sub);
+            //     }
+            //     $j++;
+            // }
+            // if ($row['oid']=='Uva') {
+            //     if (isset($uva_v[$uva[$k][2]])) {
+            //         $sub['verdict']=$uva_v[$uva[$k][2]];
+            //         $sub['time']=$uva[$k][0];
+            //         $sub['memory']=$uva[$k][1];
+            //         $v=$sub['verdict'];
+            //         $ret[$row['sid']]="<div style='color:{$color[$v]};'>"  .$sub['Verdict']. "</div>";
+            //         $this->MODEL->update_submission($row['sid'], $sub);
+            //     }
+            //     $k++;
+            // }
+            // if ($row['oid']=='UvaLive') {
+            //     if (isset($uva_v[$uval[$l][2]])) {
+            //         $sub['verdict']=$uva_v[$uval[$l][2]];
+            //         $sub['time']=$uval[$l][0];
+            //         $sub['memory']=$uval[$l][1];
+            //         $v=$sub['verdict'];
+            //         $ret[$row['sid']]="<div style='color:{$color[$v]};'>"  .$sub['Verdict']. "</div>";
+            //         $this->MODEL->update_submission($row['sid'], $sub);
+            //     }
+            //     $l++;
+            // }
         }
-        echo json_encode($ret);
+        $this->ret=$ret;
     }
-
+    /**
+     * [Not Finished] Get last time UVa submission by using API.
+     *
+     * @param integer $num
+     *
+     * @return void
+     */
     private function get_last_uva($num)
     {
         $ret=array();
@@ -167,6 +157,13 @@ class Judge extends Core
         }
     }
 
+    /**
+     * [Not Finished] Get last time UVa Live submission by using API.
+     *
+     * @param integer $num
+     *
+     * @return void
+     */
     private function get_last_uvalive($num)
     {
         $ret=array();
@@ -207,6 +204,14 @@ class Judge extends Core
         }
     }
 
+
+    /**
+     * [Not Finished] Get last time CodeForces submission by using API.
+     *
+     * @param integer $num
+     *
+     * @return void
+     */
     private function get_last_codeforces($num)
     {
         $ret=array();
@@ -215,7 +220,7 @@ class Judge extends Core
         }
 
         $ch=curl_init();
-        $url="http://codeforces.com/api/user.status?handle=Our_Judge&from=1&count={$num}";
+        $url="http://codeforces.com/api/user.status?handle=codemaster4&from=1&count={$num}";
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response=curl_exec($ch);
@@ -232,6 +237,13 @@ class Judge extends Core
         return array_reverse($ret);
     }
 
+    /**
+     * [Not Finished] Get last time SPOJ submission by using API.
+     *
+     * @param integer $num
+     *
+     * @return void
+     */
     private function get_last_spoj($num)
     {
         $ret=array();

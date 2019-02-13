@@ -494,15 +494,38 @@
                     console.log(ret);
                     if(ret.ret==200){
                         // submitted
-                        $("#verdict_text").text("Judging...");
+                        $("#verdict_text").text("Waiting");
                         $("#verdict_circle").removeClass();
                         $("#verdict_circle").addClass("wemd-blue-text");
+                        var tempInterval=setInterval(()=>{
+                            $.ajax({
+                                type: 'POST',
+                                url: '/ajax/judgeStatus',
+                                data: {
+                                    sid: ret.data.sid
+                                },
+                                dataType: 'json',
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                }, success: function(ret){
+                                    console.log(ret);
+                                    if(ret.ret==200){
+                                        $("#verdict_text").text(ret.data.verdict);
+                                        $("#verdict_circle").removeClass();
+                                        $("#verdict_circle").addClass(ret.data.color);
+                                        clearInterval(tempInterval);
+                                    }
+                                }, error: function(xhr, type){
+                                    console.log('Ajax error while posting to judgeStatus!');
+                                }
+                            });
+                        },5000);
                     }
                 }, error: function(xhr, type){
-                    conosole.log('Ajax error!');
-                    $("#verdict_text").text("Submit Error");
+                    console.log('Ajax error!');
+                    $("#verdict_text").text("System Error");
                     $("#verdict_circle").removeClass();
-                    $("#verdict_circle").addClass("wemd-red-text");
+                    $("#verdict_circle").addClass("wemd-black-text");
                 }
             });
         });
