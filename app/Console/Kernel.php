@@ -29,8 +29,8 @@ class Kernel extends ConsoleKernel
 
             for ($i=1;$i<=12;$i++){
                 new Judge();
+                sleep(5);
             }
-            sleep(5);
 
         })->everyMinute();
     }
