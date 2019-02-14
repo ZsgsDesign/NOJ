@@ -50,9 +50,9 @@ class Crawler
         if (!$result) {
             die("query failed "." ".mysqli_error($db));
         }
-        $arr=array();
+        $arr=[];
         while ($row=mysqli_fetch_row($result)) {
-            array_push($arr, array($row[0],$row[1]));
+            array_push($arr, [$row[0], $row[1]]);
         }
         usort($arr, "cmp");
         $m=count($arr)/10;
@@ -75,9 +75,9 @@ class Crawler
         if (!$result) {
             die("query failed "." ".mysqli_error($db));
         }
-        $arr=array();
+        $arr=[];
         while ($row=mysqli_fetch_row($result)) {
-            array_push($arr, array($row[0],$row[1]));
+            array_push($arr, [$row[0], $row[1]]);
         }
         usort($arr, "cmp");
         $m=count($arr)/10;
@@ -100,9 +100,9 @@ class Crawler
         if (!$result) {
             die("query failed "." ".mysqli_error($db));
         }
-        $arr=array();
+        $arr=[];
         while ($row=mysqli_fetch_row($result)) {
-            array_push($arr, array($row[0],$row[1]));
+            array_push($arr, [$row[0], $row[1]]);
         }
         usort($arr, "cmp");
         $m=count($arr)/10;
