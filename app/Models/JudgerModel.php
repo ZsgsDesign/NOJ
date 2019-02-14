@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class Judger extends Model
+class JudgerModel extends Model
 {
     protected $tableName = 'judger';
 

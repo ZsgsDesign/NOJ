@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class Submission extends Model
+class SubmissionModel extends Model
 {
     protected $tableName = 'submission';
     public $colorScheme=[

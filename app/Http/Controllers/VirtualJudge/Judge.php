@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers\VirtualJudge;
 
-use App\Models\Submission;
-use App\Models\Judger;
+use App\Models\SubmissionModel;
+use App\Models\JudgerModel;
 use App\Http\Controllers\VirtualJudge\Core;
 
 class Judge extends Core
@@ -11,7 +11,7 @@ class Judge extends Core
     public $ret=[];
     public function __construct()
     {
-        $this->MODEL=new Submission();
+        $this->MODEL=new SubmissionModel();
         $ret=[];
 
         $uva_v=[

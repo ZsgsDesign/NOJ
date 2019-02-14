@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers\VirtualJudge;
 
-use App\Models\Submission;
-use App\Models\Judger;
+use App\Models\SubmissionModel;
+use App\Models\JudgerModel;
 use App\Http\Controllers\VirtualJudge\Curl;
 
 class Core extends Curl
@@ -14,7 +14,7 @@ class Core extends Curl
     public function __construct(& $sub, $oj, $all_data)
     {
         $this->sub=& $sub;
-        $this->MODEL=new Submission;
+        $this->MODEL=new SubmissionModel();
         $this->post_data=$all_data;
 
         if ($oj=='uva') {
@@ -122,7 +122,7 @@ class Core extends Curl
             $exploded = explode("name='csrf_token' value='", $response);
             $token = explode("'/>", $exploded[2])[0];
 
-            $judger=new Judger();
+            $judger=new JudgerModel();
             $judger_list=$judger->list(2);
             $params = [
                 'csrf_token' => $token,

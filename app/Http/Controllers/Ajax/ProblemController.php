@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Ajax;
 
 use App\Http\Requests;
-use App\Models\Submission;
+use App\Models\SubmissionModel;
 use App\Http\Controllers\VirtualJudge\Submit;
 use App\Http\Controllers\VirtualJudge\Judge;
 use App\Http\Controllers\Controller;
@@ -34,7 +34,7 @@ class ProblemController extends Controller
     {
         // [ToDo] can only query personal judge info.
         $all_data = $request->all();
-        $submission=new Submission();
+        $submission=new SubmissionModel();
         $status=$submission->getJudgeStatus($all_data["sid"]);
 
         return response()->json([
@@ -70,7 +70,7 @@ class ProblemController extends Controller
     public function submitHistory(Request $request)
     {
         $all_data = $request->all();
-        $submission=new Submission();
+        $submission=new SubmissionModel();
         $history=$submission->getProblemSubmission($all_data["pid"],Auth::user()->id);
 
         return response()->json([

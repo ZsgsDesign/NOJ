@@ -6,7 +6,7 @@ use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class Problem extends Model
+class ProblemModel extends Model
 {
     protected $tableName = 'problem';
 

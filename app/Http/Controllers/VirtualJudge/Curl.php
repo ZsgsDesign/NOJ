@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers\VirtualJudge;
 
-use App\Models\Submission;
+use App\Models\SubmissionModel;
 
 class Curl
 {

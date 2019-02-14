@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\VirtualJudge;
 
-use App\Models\Submission;
+use App\Models\SubmissionModel;
 use App\Http\Controllers\VirtualJudge\Core;
 use Auth;
 
@@ -48,7 +48,7 @@ class Submit
                 ];
             }
 
-            $submission = new Submission();
+            $submission = new SubmissionModel();
             $sid = $submission->insert($sub);
 
             $this->ret["data"]=[

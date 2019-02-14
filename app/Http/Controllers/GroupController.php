@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Problem;
 use App\Http\Controllers\Controller;
 
 class GroupController extends Controller

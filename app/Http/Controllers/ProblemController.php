@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Problem;
-use App\Models\Submission;
+use App\Models\ProblemModel;
+use App\Models\SubmissionModel;
 use App\Models\CompilerModel;
 use App\Http\Controllers\Controller;
 use Auth;
@@ -17,7 +17,7 @@ class ProblemController extends Controller
      */
     public function index()
     {
-        $problem=new Problem();
+        $problem=new ProblemModel();
         $prob_list=$problem->list();
         return view('problem.index', [
             'page_title'=>"Problem",
@@ -32,7 +32,7 @@ class ProblemController extends Controller
      */
     public function detail($pcode)
     {
-        $problem=new Problem();
+        $problem=new ProblemModel();
         $prob_detail=$problem->detail($pcode);
         return is_null($prob_detail) ?  redirect("/problem") :
                                         view('problem.detail', [
@@ -49,9 +49,9 @@ class ProblemController extends Controller
      */
     public function editor($pcode)
     {
-        $problem=new Problem();
+        $problem=new ProblemModel();
         $compiler=new CompilerModel();
-        $submission=new Submission();
+        $submission=new SubmissionModel();
         $prob_detail=$problem->detail($pcode);
         $compiler_list=$compiler->list($prob_detail["OJ"]);
         $prob_status=$submission->getProblemStatus($prob_detail["pid"], Auth::user()->id);
