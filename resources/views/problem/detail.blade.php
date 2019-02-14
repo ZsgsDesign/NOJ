@@ -176,7 +176,33 @@
         <div class="col-sm-12 col-lg-9">
             <paper-card class="animated fadeInUp p-5">
                 <fresh-container>
-                    {!! $detail["desc_parsed"] !!}
+                    <fresh-container>
+                        <h1>{{$detail["title"]}}</h1>
+                        <h2>Description:</h2>
+
+                        {!!$detail["parsed"]["description"]!!}
+
+                        <h2>Input:</h2>
+
+                        {!!$detail["parsed"]["input"]!!}
+
+                        <h2>Output:</h2>
+
+                        {!!$detail["parsed"]["output"]!!}
+
+                        @foreach($detail["samples"] as $ps)
+
+                            <h2>Sample Input:</h2>
+
+                            <pre>{{$ps['sample_input']}}</pre>
+
+                            <h2>Sample Output:</h2>
+
+                            <pre>{{$ps['sample_output']}}</pre>
+
+                        @endforeach
+
+                    </fresh-container>
                 </fresh-container>
             </paper-card>
         </div>

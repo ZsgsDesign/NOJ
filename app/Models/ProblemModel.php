@@ -15,8 +15,13 @@ class ProblemModel extends Model
         $prob_detail = DB::table($this->tableName)->where("pcode", $pcode)->first();
         // [Depreciated] Joint Query was depreciated here for code maintenance reasons
         if (!is_null($prob_detail)) {
-            $prob_detail["desc_parsed"] = Markdown::convertToHtml($prob_detail["desc"]);
+            $prob_detail["parsed"] = [
+                "description"=>Markdown::convertToHtml($prob_detail["description"]),
+                "input"=>Markdown::convertToHtml($prob_detail["input"]),
+                "output"=>Markdown::convertToHtml($prob_detail["output"])
+            ];
             $prob_detail["oj_detail"] = DB::table("oj")->where("oid", $prob_detail["OJ"])->first();
+            $prob_detail["samples"] = DB::table("problem_sample")->where("pid", $prob_detail["pid"])->get()->all();
         }
         return $prob_detail;
     }
