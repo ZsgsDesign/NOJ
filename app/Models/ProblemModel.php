@@ -75,4 +75,52 @@ class ProblemModel extends Model
         DB::table("problem_tag")->where(["pid"=>$pid])->update(["difficulty"=>$diff_level]);
         return true;
     }
+
+    public function insertProblem($data){
+        $pid = DB::table($this->tableName)->insertGetId([
+            'difficulty'=>-1,
+            'title'=>$data['title'],
+            'time_limit'=>$data['time_limit'],
+            'memory_limit'=>$data['memory_limit'],
+            'OJ'=>$data['OJ'],
+            'description'=>$data['description'],
+            'input'=>$data['input'],
+            'output'=>$data['output'],
+            'note'=>$data['note'],
+            'input_type'=>$data['input_type'],
+            'output_type'=>$data['output_type'],
+            'pcode'=>$data['pcode'],
+            'contest_id'=>$data['contest_id'],
+            'index_id'=>$data['index_id'],
+            'origin'=>$data['origin'],
+            'source'=>$data['source'],
+            'solved_count'=>$data['solved_count'],
+            // 'sample_input'=>$data['sample_input'],
+            // 'sample_output'=>$data['sample_output']
+        ]);
+    }
+
+    public function updateProblem($data){
+        DB::table($this->tableName)->where(["pcode"=>$data['pcode']])->update([
+            'difficulty'=>-1,
+            'title'=>$data['title'],
+            'time_limit'=>$data['time_limit'],
+            'memory_limit'=>$data['memory_limit'],
+            'OJ'=>$data['OJ'],
+            'description'=>$data['description'],
+            'input'=>$data['input'],
+            'output'=>$data['output'],
+            'note'=>$data['note'],
+            'input_type'=>$data['input_type'],
+            'output_type'=>$data['output_type'],
+            'contest_id'=>$data['contest_id'],
+            'index_id'=>$data['index_id'],
+            'origin'=>$data['origin'],
+            'source'=>$data['source'],
+            'solved_count'=>$data['solved_count'],
+            // 'sample_input'=>$data['sample_input'],
+            // 'sample_output'=>$data['sample_output']
+        ]);
+        return $this->pid($data['pcode']);
+    }
 }

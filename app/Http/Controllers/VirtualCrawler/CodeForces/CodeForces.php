@@ -8,6 +8,7 @@ use Auth;
 
 class CodeForces extends Crawler
 {
+    public $oid=2;
     /**
      * Initial
      *
@@ -25,7 +26,7 @@ class CodeForces extends Crawler
 
     public function judge_level(){
         $problemModel=new ProblemModel();
-        $arr=$problemModel->getSolvedCount(2);
+        $arr=$problemModel->getSolvedCount($this->oid);
 		usort($arr,["Crawler","cmp"]);
 		$m = count($arr)/10;
 		for($i=1;$i<=count($arr);$i++)
@@ -135,7 +136,7 @@ class CodeForces extends Crawler
                 $this->pro['pcode']="CF".$result['result']['problems'][$i]['contestId'].$result['result']['problems'][$i]['index'];
                 $this->pro['index_id']=$result['result']['problems'][$i]['index'];
                 $this->pro['contest_id']=$result['result']['problems'][$i]['contestId'];
-                $this->pro['OJ']=2;
+                $this->pro['OJ']=$this->oid;
 
                 $now=time()-$start;
                 fwrite($f, "{$this->pro['pcode']} start at {$now}".PHP_EOL);
@@ -146,9 +147,9 @@ class CodeForces extends Crawler
 
                 if ($pid) {
                     $problemModel->clearTags($pid);
-                    $new_pid=$this->update_problem();
+                    $new_pid=$this->update_problem($this->oid);
                 } else {
-                    $new_pid=$this->insert_problem();
+                    $new_pid=$this->insert_problem($this->oid);
                 }
 
                 for ($j=0;$j<count($result['result']['problems'][$i]['tags']);$j++) {

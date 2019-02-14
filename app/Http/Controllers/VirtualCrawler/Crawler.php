@@ -8,8 +8,6 @@ use Auth;
 class Crawler
 {
     public $pro=[
-        'difficulty'=>'',
-        'type'=>'',
         'pcode'=>'',
         'solved_count'=>'',
         'time_limit'=>'',
@@ -110,93 +108,15 @@ class Crawler
         return $content;
     }
 
-    public function insert_problem($OJ="CodeForces")
+    public function insert_problem($oid=2)
     {
-        $query="INSERT INTO problem";
-        $query.="(
-            difficulty,
-            title,
-            time_limit,
-            memory_limit,
-            OJ,
-            description,
-            input,
-            output,
-            note,
-            input_type,
-            output_type,
-            pcode,
-            contest_id,
-            index_id,
-            origin,
-            source,
-            solved_count,
-            sample_input,
-            sample_output
-        ) ";
-
-        $query.="VALUES(
-            -1,
-            '{$this->pro['title']}',
-            '{$this->pro['time_limit']}',
-            '{$this->pro['memory_limit']}',
-            '{$this->pro['OJ']}',
-            '{$this->pro['description']}',
-            '{$this->pro['input']}',
-            '{$this->pro['output']}',
-            '{$this->pro['note']}',
-            '{$this->pro['input_type']}',
-            '{$this->pro['output_type']}',
-            '{$this->pro['pcode']}',
-            '{$this->pro['contest_id']}',
-            '{$this->pro['index_id']}',
-            '{$this->pro['origin']}',
-            '{$this->pro['source']}',
-            {$this->pro['solved_count']},
-            '{$this->pro['sample_input']}',
-            '{$this->pro['sample_output']}'
-        )";
-        if (!mysqli_query($db, $query)) {
-            die("query failed "." ".mysqli_error($db));
-        }
-        $query="SELECT problem_id FROM problem where pcode='{$this->pro['pcode']}' AND OJ='{$OJ}'";
-        $res=mysqli_query($db, $query);
-        if (!$res) {
-            die("query failed "." ".mysqli_error($db));
-        }
-        return mysqli_fetch_row($res)[0];
+        $problemModel=new ProblemModel();
+        return $problemModel->insertProblem($this->pro);
     }
-    public function update_problem($OJ=2)
+
+    public function update_problem($oid=2)
     {
-        global $db,$pro;
-        $query="UPDATE problem ";
-        $query.="SET
-                difficulty=-1,
-                title='{$pro['title']}',
-                time_limit='{$pro['time_limit']}',
-                memory_limit='{$pro['memory_limit']}',
-                description='{$pro['description']}',
-                input='{$pro['input']}',
-                output='{$pro['output']}',
-                note='{$pro['note']}',
-                input_type='{$pro['input_type']}',
-                output_type='{$pro['output_type']}',
-                contest_id='{$pro['contest_id']}',
-                index_id='{$pro['index_id']}',
-                origin='{$pro['origin']}',
-                source='{$pro['source']}',
-                solved_count= {$pro['solved_count']},
-                sample_input='{$pro['sample_input']}',
-                sample_output='{$pro['sample_output']}'
-                WHERE OJ='{$pro['OJ']}' AND pcode='{$pro['pcode']}'";
-        if (!mysqli_query($db, $query)) {
-            die("query failed "." ".mysqli_error($db));
-        }
-        $query="SELECT problem_id FROM problem where pcode='{$pro['pcode']}' AND OJ='{$OJ}'";
-        $res=mysqli_query($db, $query);
-        if (!$res) {
-            die("query failed "." ".mysqli_error($db));
-        }
-        return mysqli_fetch_row($res)[0];
+        $problemModel=new ProblemModel();
+        return $problemModel->updateProblem($this->pro);
     }
 }
