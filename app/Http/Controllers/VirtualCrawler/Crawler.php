@@ -37,84 +37,9 @@ class Crawler
         set_time_limit(0);
     }
 
-    public function cmp($a, $b)
+    public static function cmp($a, $b)
     {
         return ($a[1]>$b[1])?-1:1;
-    }
-
-    public function update_level_codeforces()
-    {
-        global $db;
-        $query="SELECT problem_id,solved_count FROM problem WHERE from_oj='CodeForces'";
-        $result=mysqli_query($db, $query);
-        if (!$result) {
-            die("query failed "." ".mysqli_error($db));
-        }
-        $arr=[];
-        while ($row=mysqli_fetch_row($result)) {
-            array_push($arr, [$row[0], $row[1]]);
-        }
-        usort($arr, "cmp");
-        $m=count($arr)/10;
-        for ($i=1;$i<=count($arr);$i++) {
-            //echo $arr[$i-1][1]."  ".ceil($i/$m)."<br>";
-            $level =ceil($i/$m);
-            $query="UPDATE problem SET difficulty={$level} WHERE problem_id={$arr[$i-1][0]}";
-            $result=mysqli_query($db, $query);
-            if (!$result) {
-                die("query failed "." ".mysqli_error($db));
-            }
-        }
-    }
-
-    public function update_level_uva()
-    {
-        global $db;
-        $query="SELECT problem_id,solved_count FROM problem WHERE from_oj='Uva'";
-        $result=mysqli_query($db, $query);
-        if (!$result) {
-            die("query failed "." ".mysqli_error($db));
-        }
-        $arr=[];
-        while ($row=mysqli_fetch_row($result)) {
-            array_push($arr, [$row[0], $row[1]]);
-        }
-        usort($arr, "cmp");
-        $m=count($arr)/10;
-        for ($i=1;$i<=count($arr);$i++) {
-            //echo $arr[$i-1][1]."  ".ceil($i/$m)."<br>";
-            $level =ceil($i/$m);
-            $query="UPDATE problem SET difficulty={$level} WHERE problem_id={$arr[$i-1][0]}";
-            $result=mysqli_query($db, $query);
-            if (!$result) {
-                die("query failed "." ".mysqli_error($db));
-            }
-        }
-    }
-
-    public function update_level_spoj()
-    {
-        global $db;
-        $query="SELECT problem_id,solved_count FROM problem WHERE from_oj='Spoj'";
-        $result=mysqli_query($db, $query);
-        if (!$result) {
-            die("query failed "." ".mysqli_error($db));
-        }
-        $arr=[];
-        while ($row=mysqli_fetch_row($result)) {
-            array_push($arr, [$row[0], $row[1]]);
-        }
-        usort($arr, "cmp");
-        $m=count($arr)/10;
-        for ($i=1;$i<=count($arr);$i++) {
-            //echo $arr[$i-1][1]."  ".ceil($i/$m)."<br>";
-            $level =ceil($i/$m);
-            $query="UPDATE problem SET difficulty={$level} WHERE problem_id={$arr[$i-1][0]}";
-            $result=mysqli_query($db, $query);
-            if (!$result) {
-                die("query failed "." ".mysqli_error($db));
-            }
-        }
     }
 
     public function process_and_get_image($ori, $path, $baseurl, $space_deli, $cookie)
@@ -123,6 +48,7 @@ class Crawler
         $para["base"]=$baseurl;
         $para["trans"]=!$space_deli;
         $para["cookie"]=$cookie;
+
         if ($space_deli) {
             $reg="/< *im[a]?g[^>]*src *= *[\"\\']?([^\"\\' >]*)[^>]*>/si";
         } else {
@@ -156,16 +82,16 @@ class Crawler
             fwrite($fp, $content);
             fclose($fp);
             return $result;
+
         }, $ori);
     }
 
     public function pcrawler_process_info($path, $baseurl, $space_deli=true, $cookie="")
     {
-        global $pro;
-        $pro["description"]=process_and_get_image($pro["description"], $path, $baseurl, $space_deli, $cookie);
-        $pro["input"]=process_and_get_image($pro["input"], $path, $baseurl, $space_deli, $cookie);
-        $pro["output"]=process_and_get_image($pro["output"], $path, $baseurl, $space_deli, $cookie);
-        $pro["notes"]=process_and_get_image($pro["notes"], $path, $baseurl, $space_deli, $cookie);
+        $this->pro["description"]=$this->process_and_get_image($pro["description"], $path, $baseurl, $space_deli, $cookie);
+        $this->pro["input"]=$this->process_and_get_image($pro["input"], $path, $baseurl, $space_deli, $cookie);
+        $this->pro["output"]=$this->process_and_get_image($pro["output"], $path, $baseurl, $space_deli, $cookie);
+        $this->pro["notes"]=$this->process_and_get_image($pro["notes"], $path, $baseurl, $space_deli, $cookie);
     }
 
     public function get_url($url)
@@ -183,7 +109,6 @@ class Crawler
 
     public function insert_problem($OJ="CodeForces")
     {
-        global $db,$pro;
         $query="INSERT INTO problem";
         $query.="(
             difficulty,
@@ -209,29 +134,29 @@ class Crawler
 
         $query.="VALUES(
             -1,
-            '{$pro['name']}',
-            '{$pro['time_limit']}',
-            '{$pro['memory_limit']}',
-            '{$pro['from_oj']}',
-            '{$pro['description']}',
-            '{$pro['input']}',
-            '{$pro['output']}',
-            '{$pro['notes']}',
-            '{$pro['input_type']}',
-            '{$pro['output_type']}',
-            '{$pro['id']}',
-            '{$pro['contest_id']}',
-            '{$pro['ind']}',
-            '{$pro['url']}',
-            '{$pro['source']}',
-            {$pro['solved_count']},
-            '{$pro['sample_input']}',
-            '{$pro['sample_output']}'
+            '{$this->pro['name']}',
+            '{$this->pro['time_limit']}',
+            '{$this->pro['memory_limit']}',
+            '{$this->pro['from_oj']}',
+            '{$this->pro['description']}',
+            '{$this->pro['input']}',
+            '{$this->pro['output']}',
+            '{$this->pro['notes']}',
+            '{$this->pro['input_type']}',
+            '{$this->pro['output_type']}',
+            '{$this->pro['id']}',
+            '{$this->pro['contest_id']}',
+            '{$this->pro['ind']}',
+            '{$this->pro['url']}',
+            '{$this->pro['source']}',
+            {$this->pro['solved_count']},
+            '{$this->pro['sample_input']}',
+            '{$this->pro['sample_output']}'
         )";
         if (!mysqli_query($db, $query)) {
             die("query failed "." ".mysqli_error($db));
         }
-        $query="SELECT problem_id FROM problem where id='{$pro['id']}' AND from_oj='{$OJ}'";
+        $query="SELECT problem_id FROM problem where id='{$this->pro['id']}' AND from_oj='{$OJ}'";
         $res=mysqli_query($db, $query);
         if (!$res) {
             die("query failed "." ".mysqli_error($db));
