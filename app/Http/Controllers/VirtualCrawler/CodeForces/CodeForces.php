@@ -39,7 +39,7 @@ class CodeForces extends CrawlerBase
     public function Extract_CodeForces($cid, $num, $url, $default_desc="")
     {
         $pid=$cid.$num;
-        $content=get_url($url);
+        $content=$this->get_url($url);
         $content_type=get_headers($url, 1)["Content-Type"];
         if (stripos($content, "<title>Codeforces</title>")===false) {
             if (stripos($content, "<title>Attachments")!==false) {
