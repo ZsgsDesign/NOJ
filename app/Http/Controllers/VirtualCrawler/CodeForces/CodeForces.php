@@ -80,12 +80,13 @@ class CodeForces extends CrawlerBase
 
                     $sample_list=HtmlDomParser::str_get_html($temp_sample);
                     $sample_pairs=count($sample_list->find('pre'))/2;
+                    $this->pro["sample"]=[];
                     for ($i=1;$i<=$sample_pairs;$i++) {
-                        $sample_input=$sample_list->find('pre')[$i-1];
-                        $sample_out=$sample_list->find('pre')[$i];
+                        $sample_input=$sample_list->find('pre')[$i-1]->innertext;
+                        $sample_output=$sample_list->find('pre')[$i]->innertext;
                         array_push($this->pro["sample"], [
                             "sample_input"=>$sample_input,
-                            "sample_input"=>$sample_out
+                            "sample_output"=>$sample_output
                         ]);
                     }
 
