@@ -234,6 +234,11 @@
             overflow: auto;
         }
 
+        fresh-container li{
+            margin-bottom: 1rem;
+        }
+
+
         .cm-action-group {
             margin: 0;
             margin-bottom: 2rem;

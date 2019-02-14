@@ -12,7 +12,8 @@
         "fideloper/proxy": "^4.0",
         "graham-campbell/markdown": "^10.2",
         "laravel/framework": "5.7.*",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "sunra/php-simple-html-dom-parser": "^1.5"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

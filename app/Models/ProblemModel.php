@@ -18,7 +18,8 @@ class ProblemModel extends Model
             $prob_detail["parsed"] = [
                 "description"=>Markdown::convertToHtml($prob_detail["description"]),
                 "input"=>Markdown::convertToHtml($prob_detail["input"]),
-                "output"=>Markdown::convertToHtml($prob_detail["output"])
+                "output"=>Markdown::convertToHtml($prob_detail["output"]),
+                "note"=>Markdown::convertToHtml($prob_detail["note"])
             ];
             $prob_detail["oj_detail"] = DB::table("oj")->where("oid", $prob_detail["OJ"])->first();
             $prob_detail["samples"] = DB::table("problem_sample")->where("pid", $prob_detail["pid"])->get()->all();
@@ -77,7 +78,7 @@ class ProblemModel extends Model
     }
 
     public function insertProblem($data){
-        $pid = DB::table($this->tableName)->insertGetId([
+        return DB::table($this->tableName)->insertGetId([
             'difficulty'=>-1,
             'title'=>$data['title'],
             'time_limit'=>$data['time_limit'],

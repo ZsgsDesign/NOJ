@@ -104,6 +104,10 @@
         overflow: auto;
     }
 
+    fresh-container li{
+        margin-bottom: 1rem;
+    }
+
     .cm-action-group {
         margin: 0;
         margin-bottom: 2rem;
@@ -202,6 +206,14 @@
 
                         @endforeach
 
+                        @unless(trim($detail["parsed"]["note"])=="")
+
+                        <h2>Note:</h2>
+
+                        {!!$detail["parsed"]["note"]!!}
+
+                        @endunless
+
                     </fresh-container>
                 </fresh-container>
             </paper-card>
@@ -218,7 +230,7 @@
                 <div>
                     <a href="{{$detail["oj_detail"]["home_page"]}}" target="_blank"><img src="{{$detail["oj_detail"]["logo"]}}" alt="{{$detail["oj_detail"]["name"]}}" class="img-fluid mb-3"></a>
                     <p>Provider <span class="wemd-black-text">{{$detail["oj_detail"]["name"]}}</span></p>
-                    <p><span>Origin</span> <a href="{{$detail["origin"]}}" target="_blank"><i class="MDI link-variant"></i> HERE</a></p>
+                    <p><span>Origin</span> <a href="{{$detail["origin"]}}" target="_blank"><i class="MDI link-variant"></i> {{$detail['source']}}</a></p>
                     <separate-line class="ultra-thin mb-3 mt-3"></separate-line>
                     <p><span>Code </span> <span class="wemd-black-text"> {{$detail["pcode"]}}</span></p>
                     <p><span>Tags </span> <span class="badge badge-secondary">Brutal</span></p>
