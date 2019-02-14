@@ -78,8 +78,9 @@ class ProblemModel extends Model
     }
 
     public function insertProblem($data){
-        return DB::table($this->tableName)->insertGetId([
+        $pid = DB::table($this->tableName)->insertGetId([
             'difficulty'=>-1,
+            'file'=>$data['file'],
             'title'=>$data['title'],
             'time_limit'=>$data['time_limit'],
             'memory_limit'=>$data['memory_limit'],
@@ -95,15 +96,26 @@ class ProblemModel extends Model
             'index_id'=>$data['index_id'],
             'origin'=>$data['origin'],
             'source'=>$data['source'],
-            'solved_count'=>$data['solved_count'],
-            // 'sample_input'=>$data['sample_input'],
-            // 'sample_output'=>$data['sample_output']
+            'solved_count'=>$data['solved_count']
         ]);
+
+        if (!empty($data["sample"])) {
+            foreach ($data["sample"] as $d) {
+                DB::table("problem_sample")->insert([
+                    'pid'=>$pid,
+                    'sample_input'=>$d['sample_input'],
+                    'sample_output'=>$d['sample_output'],
+                ]);
+            }
+        }
+
+        return $pid;
     }
 
     public function updateProblem($data){
         DB::table($this->tableName)->where(["pcode"=>$data['pcode']])->update([
             'difficulty'=>-1,
+            'file'=>$data['file'],
             'title'=>$data['title'],
             'time_limit'=>$data['time_limit'],
             'memory_limit'=>$data['memory_limit'],
@@ -118,10 +130,23 @@ class ProblemModel extends Model
             'index_id'=>$data['index_id'],
             'origin'=>$data['origin'],
             'source'=>$data['source'],
-            'solved_count'=>$data['solved_count'],
-            // 'sample_input'=>$data['sample_input'],
-            // 'sample_output'=>$data['sample_output']
+            'solved_count'=>$data['solved_count']
         ]);
-        return $this->pid($data['pcode']);
+
+        $pid=$this->pid($data['pcode']);
+
+        DB::table("problem_sample")->where(["pid"=>$pid])->delete();
+
+        if (!empty($data["sample"])) {
+            foreach ($data["sample"] as $d) {
+                DB::table("problem_sample")->insert([
+                    'pid'=>$pid,
+                    'sample_input'=>$d['sample_input'],
+                    'sample_output'=>$d['sample_output'],
+                ]);
+            }
+        }
+
+        return $pid;
     }
 }

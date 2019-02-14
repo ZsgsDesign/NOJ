@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\VirtualCrawler;
 
 use App\Models\ProblemModel;
+use Sunra\PhpSimple\HtmlDomParser;
 use Auth;
 
 class CrawlerBase
 {
     public $pro=[
+        'file'=> 0 ,
         'pcode'=>'',
         'solved_count'=>'',
         'time_limit'=>'',
@@ -24,8 +26,7 @@ class CrawlerBase
         'index_id'=>'',
         'origin'=>'',
         'source'=>'',
-        'sample_input'=>'',
-        'sample_output'=>''
+        'sample'=>[]
     ];
 
     /**
