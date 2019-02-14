@@ -32,6 +32,7 @@ class GroupController extends Controller
      */
     public function detail()
     {
+        $groupModel=new GroupModel();
         return view('group.detail', [
             'page_title'=>"Group Detail",
             'site_title'=>"CodeMaster"

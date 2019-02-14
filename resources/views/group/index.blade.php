@@ -88,61 +88,51 @@
         <p class="cm-tending"><i class="MDI fire wemd-red-text"></i> Tending Groups</p>
     </div>
     <div class="row">
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <a href="/group/cog">
-                <group-card>
-                    <div>
-                        <shadow-div>
-                            <img src="https://cdn.mundb.xyz/img/coding.jpeg">
-                        </shadow-div>
-                    </div>
-                    <div>
-                        <p class="cm-group-name"><i class="MDI marker-check wemd-light-blue-text"></i> CodeMaster Official Group</p>
-                        <small class="cm-group-info">3 Members</small>
-                        <div class="cm-group-action">
+        @foreach ($tending as $t)
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <a href="/group/{{$t['gcode']}}">
+                    <group-card>
+                        <div>
+                            <shadow-div>
+                                <img src="{{$t['img']}}">
+                            </shadow-div>
+                        </div>
+                        <div>
+                            <p class="cm-group-name">@if($t['verified'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif {{$t['name']}}</p>
+                            <small class="cm-group-info">{{$t['members']}} Members</small>
+                            <div class="cm-group-action">
 
-                            </div>
-                    </div>
-                </group-card>
-            </a>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <group-card>
-                <div>
-                    <shadow-div>
-                        <img src="https://cdn.mundb.xyz/img/njupt.jpg">
-                    </shadow-div>
-                </div>
-                <div>
-                    <p class="cm-group-name">SAST NiuBi</p>
-                    <small class="cm-group-info">2 Members</small>
-                    <div class="cm-group-action">
-
-                    </div>
-                </div>
-            </group-card>
-        </div>
+                                </div>
+                        </div>
+                    </group-card>
+                </a>
+            </div>
+        @endforeach
     </div>
     <div>
         <p class="cm-mine-group">My Groups</p>
     </div>
     <div class="row">
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <group-card>
-                <div>
-                    <shadow-div>
-                        <img src="https://cdn.mundb.xyz/img/coding.jpeg">
-                    </shadow-div>
-                </div>
-                <div>
-                    <p class="cm-group-name"><i class="MDI marker-check wemd-light-blue-text"></i> CodeMaster Official Group</p>
-                    <small class="cm-group-info">3 Members</small>
-                    <div class="cm-group-action">
-
+        @foreach ($mine as $m)
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <a href="/group/{{$m['gcode']}}">
+                    <group-card>
+                        <div>
+                            <shadow-div>
+                                <img src="{{$m['img']}}">
+                            </shadow-div>
                         </div>
-                </div>
-            </group-card>
-        </div>
+                        <div>
+                            <p class="cm-group-name">@if($m['verified'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif {{$t['name']}}</p>
+                            <small class="cm-group-info">{{$m['members']}} Members</small>
+                            <div class="cm-group-action">
+
+                                </div>
+                        </div>
+                    </group-card>
+                </a>
+            </div>
+        @endforeach
     </div>
 </div>
 <script>
