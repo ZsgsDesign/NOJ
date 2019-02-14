@@ -9,6 +9,7 @@ use App\Http\Controllers\VirtualJudge\Judge;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Controllers\VirtualCrawler\Crawler;
 use Auth;
 
 class ProblemController extends Controller
@@ -62,8 +63,7 @@ class ProblemController extends Controller
     }
 
     /**
-     * The Ajax Problem Manual Judge.
-     * [Notice] THIS FUNCTION IS FOR TEST ONLY, SHALL BE STRICTLY FORBIDDEN UNDER PRODUCTION ENVIRONMENT.
+     * Get the Submit History.
      *
      * @return Response
      */
@@ -79,6 +79,25 @@ class ProblemController extends Controller
             "data" => [
                 "history" => $history
             ]
+        ]);
+    }
+
+    /**
+     * Crawler Ajax Control.
+     * [Notice] THIS FUNCTION IS FOR TEST ONLY, SHALL BE STRICTLY FORBIDDEN UNDER PRODUCTION ENVIRONMENT.
+     *
+     * @return Response
+     */
+    public function crawler(Request $request)
+    {
+        $all_data = $request->all();
+
+        new Crawler($all_data["name"],$all_data["action"],$all_data["con"]);
+
+        return response()->json([
+            "ret" => 200,
+            "desc" => "successful",
+            "data" => null
         ]);
     }
 }

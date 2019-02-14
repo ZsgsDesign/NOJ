@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\VirtualCrawler;
+namespace App\Http\Controllers\VirtualCrawler\CodeForces;
 
-use App\Http\Controllers\VirtualCrawler\Crawler;
+use App\Http\Controllers\VirtualCrawler\CrawlerBase;
 use App\Models\ProblemModel;
 use Auth;
 
-class CodeForces extends Crawler
+class CodeForces extends CrawlerBase
 {
     public $oid=2;
     /**
@@ -27,7 +27,7 @@ class CodeForces extends Crawler
     public function judge_level(){
         $problemModel=new ProblemModel();
         $arr=$problemModel->getSolvedCount($this->oid);
-		usort($arr,["Crawler","cmp"]);
+		usort($arr,["CrawlerBase","cmp"]);
 		$m = count($arr)/10;
 		for($i=1;$i<=count($arr);$i++)
 		{
@@ -116,7 +116,7 @@ class CodeForces extends Crawler
         $result=json_decode($response, true);
         if ($result["status"]=="OK") {
             $now=time()-$start;
-            $f = fopen(__DIR__."/codeforces_status.txt", "w") or die("Unable to open file!");
+            $f = fopen(__DIR__."/codeforces_status.log", "w") or die("Unable to open file!");
             fwrite($f, "CodeForces API Success at {$now}".PHP_EOL);
             for ($i=count($result['result']['problems'])-1;$i>=0;$i--) {
 
@@ -141,7 +141,7 @@ class CodeForces extends Crawler
                 $now=time()-$start;
                 fwrite($f, "{$this->pro['pcode']} start at {$now}".PHP_EOL);
 
-                Extract_CodeForces($this->pro['contest_id'], $this->pro['index_id'], $this->pro['origin']);
+                $this->Extract_CodeForces($this->pro['contest_id'], $this->pro['index_id'], $this->pro['origin']);
 
                 $pid=$problemModel->pid($this->pro['pcode']);
 
