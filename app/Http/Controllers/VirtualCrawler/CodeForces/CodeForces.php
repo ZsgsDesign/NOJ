@@ -36,7 +36,7 @@ class CodeForces extends CrawlerBase
 		}
     }
 
-    public function Extract_CodeForces($cid, $num, $url, $default_desc="")
+    public function extractCodeForces($cid, $num, $url, $default_desc="")
     {
         $pid=$cid.$num;
         $content=$this->get_url($url);
@@ -141,7 +141,7 @@ class CodeForces extends CrawlerBase
                 $now=time()-$start;
                 fwrite($f, "{$this->pro['pcode']} start at {$now}".PHP_EOL);
 
-                $this->Extract_CodeForces($this->pro['contest_id'], $this->pro['index_id'], $this->pro['origin']);
+                $this->extractCodeForces($this->pro['contest_id'], $this->pro['index_id'], $this->pro['origin']);
 
                 $pid=$problemModel->pid($this->pro['pcode']);
 
