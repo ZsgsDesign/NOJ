@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\VirtualCrawler;
 
 use App\Http\Controllers\VirtualCrawler\Crawler;
+use App\Models\ProblemModel;
 use Auth;
 
 class CodeForces extends Crawler
@@ -38,6 +39,7 @@ class CodeForces extends Crawler
                 $this->pro["output_type"]= $second_step[0];
 
                 if (stripos($content_type, "text/html")!==false) {
+
                     if (preg_match("/time limit per test<\\/div>(.*) second/sU", $content, $matches)) {
                         $this->pro["time_limit"]=intval(trim($matches[1]))*1000;
                     }
@@ -53,13 +55,14 @@ class CodeForces extends Crawler
                     if (preg_match("/Output<\\/div>(.*)<\\/div>/sU", $content, $matches)) {
                         $this->pro["output"]=trim($matches[1]);
                     }
+
                     $this->pro["sample_input"]=explode('<div class="sample-test">', $content)[1];
                     if (!(strpos($content, '<div class="note">') !== false)) {
                         $this->pro["sample_input"]=explode('<script type="text/javascript">', $this->pro["sample_input"])[0];
                     } else {
                         $this->pro["sample_input"]=explode('<div class="note">', $this->pro["sample_input"])[0];
                     }
-                    //echo $this->pro["sample_input"];exit;
+
                     $this->pro["sample_output"]="";
                     if (preg_match("/Note<\\/div>(.*)<\\/div><\\/div>/sU", $content, $matches)) {
                         $this->pro["notes"]=trim(($matches[1]));
@@ -67,15 +70,16 @@ class CodeForces extends Crawler
                     if (preg_match("/<th class=\"left\" style=\"width:100%;\">(.*)<\\/th>/sU", $content, $matches)) {
                         $this->pro["source"]=trim(strip_tags($matches[1]));
                     }
+
                 } else {
                     if (stripos($content_type, "application/pdf")!==false) {
                         $ext="pdf";
                     } elseif (stripos($content_type, "application/msword")!==false) {
                         $ext="doc";
-                    } elseif (stripos($content_type, "application/application/vnd.openxmlformats-officedocument.wordprocessingml.document")!==false) {
+                    } elseif (stripos($content_type, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")!==false) {
                         $ext="docx";
                     }
-                    file_put_contents($config["base_local_path"]."external/gym/$cid$num.$ext", $content);
+                    file_put_contents(base_path("public/external/gym/$cid$num.$ext"), $content);
                     $this->pro["description"].="<a href=\"external/gym/$cid$num.$ext\">[Attachment Link]</a>";
                 }
             }
@@ -87,7 +91,7 @@ class CodeForces extends Crawler
 
     public function CodeForces($con)
     {
-        global $db,$pro;
+        $problemModel=new ProblemModel();
         $start=time();
         $ch=curl_init();
         $url="http://codeforces.com/api/problemset.problems";
@@ -98,18 +102,11 @@ class CodeForces extends Crawler
         $result=json_decode($response, true);
         if ($result["status"]=="OK") {
             $now=time()-$start;
-            $f = fopen("codeforces_status.txt", "w") or die("Unable to open file!");
-            fwrite($f, "CodeForces api Success at {$now}".PHP_EOL);
+            $f = fopen(__DIR__."/codeforces_status.txt", "w") or die("Unable to open file!");
+            fwrite($f, "CodeForces API Success at {$now}".PHP_EOL);
             for ($i=count($result['result']['problems'])-1;$i>=0;$i--) {
 
-                /*if(IS_RUN('codeforces')=="false")
-                {
-                    $now=time()-$start;
-                    fwrite($f, "codeforces Force Stop At {$now}".PHP_EOL);
-                    return;
-                }*/
-
-                foreach ($pro as $x=>$y) {
+                foreach ($this->pro as $x=>$y) {
                     $this->pro[$x]='';
                 }
                 if ($con!='all') {
@@ -121,36 +118,20 @@ class CodeForces extends Crawler
                 $this->pro['url'] = "http://codeforces.com/contest/{$result['result']['problems'][$i]['contestId']}/problem/{$result['result']['problems'][$i]['index']}";
                 $this->pro['name']=str_replace('"', "'", $result['result']['problems'][$i]['name']);
                 $this->pro['solved_count']=$result['result']['problemStatistics'][$i]['solvedCount'];
-                $this->pro['id']=$result['result']['problems'][$i]['contestId'].$result['result']['problems'][$i]['index'];
+                $this->pro['pcode']="CF".$result['result']['problems'][$i]['contestId'].$result['result']['problems'][$i]['index'];
                 $this->pro['ind']=$result['result']['problems'][$i]['index'];
                 $this->pro['contest_id']=$result['result']['problems'][$i]['contestId'];
                 $this->pro['from_oj']='CodeForces';
 
                 $now=time()-$start;
-                fwrite($f, "P{$this->pro['id']} start at {$now}".PHP_EOL);
+                fwrite($f, "{$this->pro['pcode']} start at {$now}".PHP_EOL);
 
                 Extract_CodeForces($this->pro['contest_id'], $this->pro['ind'], $this->pro['url']);
 
-                foreach ($pro as $x=>$y) {
-                    $this->pro[$x]=mysqli_real_escape_string($db, $y);
-                }
+                $pid=$problemModel->pid($this->pro['pcode']);
 
-
-
-                $query="SELECT problem_id FROM problem where id='{$this->pro['id']}' AND from_oj='CodeForces'";
-                $res=mysqli_query($db, $query);
-                if (!$res) {
-                    die("query failed "." ".mysqli_error($db));
-                }
-                $row=mysqli_num_rows($res);
-                $new;
-                if ($row!=0) {
-                    $r=mysqli_fetch_row($res);
-                    $query="DELETE FROM problem_category where problem_id={$r[0]}";
-                    $rr=mysqli_query($db, $query);
-                    if (!$rr) {
-                        die("query failed samples"." ".mysqli_error($db));
-                    }
+                if ($pid) {
+                    $problemModel->clearTags($pid);
                     $new=update_problem();
                 } else {
                     $new=insert_problem();
@@ -169,7 +150,7 @@ class CodeForces extends Crawler
                 }
 
                 $now=time()-$start;
-                fwrite($f, "P{$this->pro['id']} end at {$now}".PHP_EOL);
+                fwrite($f, "{$this->pro['pcode']} end at {$now}".PHP_EOL);
             }
             $now=time()-$start;
             fwrite($f, "Updata All Problems end at {$now}".PHP_EOL);

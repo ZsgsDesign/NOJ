@@ -48,4 +48,16 @@ class ProblemModel extends Model
         }
         return $prob_list;
     }
+
+    public function pid($pcode)
+    {
+        $temp = DB::table($this->tableName)->where(["pcode"=>$pcode])->select("pid")->first();
+        return empty($temp) ? 0 : $temp["pid"];
+    }
+
+    public function clearTags($pid)
+    {
+        DB::table("problem_tag")->where(["pid"=>$pid])->delete();
+        return true;
+    }
 }

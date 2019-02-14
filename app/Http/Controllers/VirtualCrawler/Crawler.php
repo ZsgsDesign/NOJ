@@ -122,7 +122,7 @@ class Crawler
             notes,
             input_type,
             output_type,
-            id,
+            pcode,
             contest_id,
             ind,
             link,
@@ -144,7 +144,7 @@ class Crawler
             '{$this->pro['notes']}',
             '{$this->pro['input_type']}',
             '{$this->pro['output_type']}',
-            '{$this->pro['id']}',
+            '{$this->pro['pcode']}',
             '{$this->pro['contest_id']}',
             '{$this->pro['ind']}',
             '{$this->pro['url']}',
@@ -156,7 +156,7 @@ class Crawler
         if (!mysqli_query($db, $query)) {
             die("query failed "." ".mysqli_error($db));
         }
-        $query="SELECT problem_id FROM problem where id='{$this->pro['id']}' AND from_oj='{$OJ}'";
+        $query="SELECT problem_id FROM problem where pcode='{$this->pro['pcode']}' AND from_oj='{$OJ}'";
         $res=mysqli_query($db, $query);
         if (!$res) {
             die("query failed "." ".mysqli_error($db));
@@ -185,11 +185,11 @@ class Crawler
                 solved_count= {$pro['solved_count']},
                 sample_input='{$pro['sample_input']}',
                 sample_output='{$pro['sample_output']}'
-                WHERE from_oj='{$pro['from_oj']}' AND id='{$pro['id']}'";
+                WHERE from_oj='{$pro['from_oj']}' AND pcode='{$pro['pcode']}'";
         if (!mysqli_query($db, $query)) {
             die("query failed "." ".mysqli_error($db));
         }
-        $query="SELECT problem_id FROM problem where id='{$pro['id']}' AND from_oj='{$OJ}'";
+        $query="SELECT problem_id FROM problem where pcode='{$pro['pcode']}' AND from_oj='{$OJ}'";
         $res=mysqli_query($db, $query);
         if (!$res) {
             die("query failed "." ".mysqli_error($db));
