@@ -60,4 +60,10 @@ class ProblemModel extends Model
         DB::table("problem_tag")->where(["pid"=>$pid])->delete();
         return true;
     }
+
+    public function addTags($pid,$tag)
+    {
+        DB::table("problem_tag")->insert(["pid"=>$pid,"tag"=>$tag]);
+        return true;
+    }
 }

@@ -109,6 +109,7 @@ class CodeForces extends Crawler
                 foreach ($this->pro as $x=>$y) {
                     $this->pro[$x]='';
                 }
+
                 if ($con!='all') {
                     if ($con!=$result['result']['problems'][$i]['contestId']) {
                         continue;
@@ -116,38 +117,32 @@ class CodeForces extends Crawler
                 }
 
                 $this->pro['url'] = "http://codeforces.com/contest/{$result['result']['problems'][$i]['contestId']}/problem/{$result['result']['problems'][$i]['index']}";
-                $this->pro['name']=str_replace('"', "'", $result['result']['problems'][$i]['name']);
+                $this->pro['title']=str_replace('"', "'", $result['result']['problems'][$i]['name']);
                 $this->pro['solved_count']=$result['result']['problemStatistics'][$i]['solvedCount'];
                 $this->pro['pcode']="CF".$result['result']['problems'][$i]['contestId'].$result['result']['problems'][$i]['index'];
-                $this->pro['ind']=$result['result']['problems'][$i]['index'];
+                $this->pro['index_id']=$result['result']['problems'][$i]['index'];
                 $this->pro['contest_id']=$result['result']['problems'][$i]['contestId'];
-                $this->pro['from_oj']='CodeForces';
+                $this->pro['OJ']=2;
 
                 $now=time()-$start;
                 fwrite($f, "{$this->pro['pcode']} start at {$now}".PHP_EOL);
 
-                Extract_CodeForces($this->pro['contest_id'], $this->pro['ind'], $this->pro['url']);
+                Extract_CodeForces($this->pro['contest_id'], $this->pro['index_id'], $this->pro['url']);
 
                 $pid=$problemModel->pid($this->pro['pcode']);
 
                 if ($pid) {
                     $problemModel->clearTags($pid);
-                    $new=update_problem();
+                    $new_pid=$this->update_problem();
                 } else {
-                    $new=insert_problem();
+                    $new_pid=$this->insert_problem();
                 }
-
-
-
 
                 for ($j=0;$j<count($result['result']['problems'][$i]['tags']);$j++) {
-                    $query="INSERT INTO problem_category(problem_id,category_name) ";
-                    $query.="VALUES({$new},'{$result['result']['problems'][$i]['tags'][$j]}')";
-                    $res=mysqli_query($db, $query);
-                    if (!$res) {
-                        die("query failed Category"." ".mysqli_error($db));
-                    }
+                    $problemModel->addTags($new_pid, $result['result']['problems'][$i]['tags'][$j]);
                 }
+
+                // Why not foreach ?????? I don't know...
 
                 $now=time()-$start;
                 fwrite($f, "{$this->pro['pcode']} end at {$now}".PHP_EOL);

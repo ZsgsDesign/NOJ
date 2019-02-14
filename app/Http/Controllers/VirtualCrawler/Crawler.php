@@ -7,19 +7,19 @@ use Auth;
 class Crawler
 {
     public $pro=[
-        'name'=>'',
+        'title'=>'',
         'time_limit'=>'',
         'memory_limit'=>'',
-        'from_oj'=>'',
+        'OJ'=>'',
         'description'=>'',
         'input'=>'',
         'output'=>'',
         'notes'=>'',
         'input_type'=>'',
         'output_type'=>'',
-        'id'=>'',
+        'pcode'=>'',
         'contest_id'=>'',
-        'ind'=>'',
+        'index_id'=>'',
         'url'=>'',
         'source'=>'',
         'solved_count'=>'',
@@ -112,10 +112,10 @@ class Crawler
         $query="INSERT INTO problem";
         $query.="(
             difficulty,
-            name,
+            title,
             time_limit,
             memory_limit,
-            from_oj,
+            OJ,
             description,
             input,
             output,
@@ -124,7 +124,7 @@ class Crawler
             output_type,
             pcode,
             contest_id,
-            ind,
+            index_id,
             link,
             source,
             solved_count,
@@ -134,10 +134,10 @@ class Crawler
 
         $query.="VALUES(
             -1,
-            '{$this->pro['name']}',
+            '{$this->pro['title']}',
             '{$this->pro['time_limit']}',
             '{$this->pro['memory_limit']}',
-            '{$this->pro['from_oj']}',
+            '{$this->pro['OJ']}',
             '{$this->pro['description']}',
             '{$this->pro['input']}',
             '{$this->pro['output']}',
@@ -146,7 +146,7 @@ class Crawler
             '{$this->pro['output_type']}',
             '{$this->pro['pcode']}',
             '{$this->pro['contest_id']}',
-            '{$this->pro['ind']}',
+            '{$this->pro['index_id']}',
             '{$this->pro['url']}',
             '{$this->pro['source']}',
             {$this->pro['solved_count']},
@@ -156,20 +156,20 @@ class Crawler
         if (!mysqli_query($db, $query)) {
             die("query failed "." ".mysqli_error($db));
         }
-        $query="SELECT problem_id FROM problem where pcode='{$this->pro['pcode']}' AND from_oj='{$OJ}'";
+        $query="SELECT problem_id FROM problem where pcode='{$this->pro['pcode']}' AND OJ='{$OJ}'";
         $res=mysqli_query($db, $query);
         if (!$res) {
             die("query failed "." ".mysqli_error($db));
         }
         return mysqli_fetch_row($res)[0];
     }
-    public function update_problem($OJ="CodeForces")
+    public function update_problem($OJ=2)
     {
         global $db,$pro;
         $query="UPDATE problem ";
         $query.="SET
                 difficulty=-1,
-                name='{$pro['name']}',
+                title='{$pro['title']}',
                 time_limit='{$pro['time_limit']}',
                 memory_limit='{$pro['memory_limit']}',
                 description='{$pro['description']}',
@@ -179,17 +179,17 @@ class Crawler
                 input_type='{$pro['input_type']}',
                 output_type='{$pro['output_type']}',
                 contest_id='{$pro['contest_id']}',
-                ind='{$pro['ind']}',
+                index_id='{$pro['index_id']}',
                 link='{$pro['url']}',
                 source='{$pro['source']}',
                 solved_count= {$pro['solved_count']},
                 sample_input='{$pro['sample_input']}',
                 sample_output='{$pro['sample_output']}'
-                WHERE from_oj='{$pro['from_oj']}' AND pcode='{$pro['pcode']}'";
+                WHERE OJ='{$pro['OJ']}' AND pcode='{$pro['pcode']}'";
         if (!mysqli_query($db, $query)) {
             die("query failed "." ".mysqli_error($db));
         }
-        $query="SELECT problem_id FROM problem where pcode='{$pro['pcode']}' AND from_oj='{$OJ}'";
+        $query="SELECT problem_id FROM problem where pcode='{$pro['pcode']}' AND OJ='{$OJ}'";
         $res=mysqli_query($db, $query);
         if (!$res) {
             die("query failed "." ".mysqli_error($db));
