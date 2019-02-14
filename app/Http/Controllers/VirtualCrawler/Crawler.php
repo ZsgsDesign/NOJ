@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\VirtualCrawler;
 
+use App\Models\ProblemModel;
 use Auth;
 
 class Crawler
@@ -20,7 +21,7 @@ class Crawler
         'pcode'=>'',
         'contest_id'=>'',
         'index_id'=>'',
-        'url'=>'',
+        'origin'=>'',
         'source'=>'',
         'solved_count'=>'',
         'sample_input'=>'',
@@ -34,7 +35,7 @@ class Crawler
      */
     public function __construct()
     {
-        set_time_limit(0);
+
     }
 
     public static function cmp($a, $b)
@@ -125,7 +126,7 @@ class Crawler
             pcode,
             contest_id,
             index_id,
-            link,
+            origin,
             source,
             solved_count,
             sample_input,
@@ -147,7 +148,7 @@ class Crawler
             '{$this->pro['pcode']}',
             '{$this->pro['contest_id']}',
             '{$this->pro['index_id']}',
-            '{$this->pro['url']}',
+            '{$this->pro['origin']}',
             '{$this->pro['source']}',
             {$this->pro['solved_count']},
             '{$this->pro['sample_input']}',
@@ -180,7 +181,7 @@ class Crawler
                 output_type='{$pro['output_type']}',
                 contest_id='{$pro['contest_id']}',
                 index_id='{$pro['index_id']}',
-                link='{$pro['url']}',
+                origin='{$pro['origin']}',
                 source='{$pro['source']}',
                 solved_count= {$pro['solved_count']},
                 sample_input='{$pro['sample_input']}',

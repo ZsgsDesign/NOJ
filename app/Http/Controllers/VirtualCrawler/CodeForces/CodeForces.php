@@ -13,13 +13,10 @@ class CodeForces extends Crawler
      *
      * @return Response
      */
-    public function __construct()
+    public function __construct($con='all')
     {
-        if (isset($_GET['con'])) {
-            $this->Codeforces($_GET['con']);
-        } else {
-            $this->Codeforces('all');
-        }
+        set_time_limit(0); // Pandora's box, engage!
+        $this->Codeforces($con);
     }
 
     public function Extract_CodeForces($cid, $num, $url, $default_desc="")
@@ -116,7 +113,7 @@ class CodeForces extends Crawler
                     }
                 }
 
-                $this->pro['url'] = "http://codeforces.com/contest/{$result['result']['problems'][$i]['contestId']}/problem/{$result['result']['problems'][$i]['index']}";
+                $this->pro['origin'] = "http://codeforces.com/contest/{$result['result']['problems'][$i]['contestId']}/problem/{$result['result']['problems'][$i]['index']}";
                 $this->pro['title']=str_replace('"', "'", $result['result']['problems'][$i]['name']);
                 $this->pro['solved_count']=$result['result']['problemStatistics'][$i]['solvedCount'];
                 $this->pro['pcode']="CF".$result['result']['problems'][$i]['contestId'].$result['result']['problems'][$i]['index'];
@@ -127,7 +124,7 @@ class CodeForces extends Crawler
                 $now=time()-$start;
                 fwrite($f, "{$this->pro['pcode']} start at {$now}".PHP_EOL);
 
-                Extract_CodeForces($this->pro['contest_id'], $this->pro['index_id'], $this->pro['url']);
+                Extract_CodeForces($this->pro['contest_id'], $this->pro['index_id'], $this->pro['origin']);
 
                 $pid=$problemModel->pid($this->pro['pcode']);
 
