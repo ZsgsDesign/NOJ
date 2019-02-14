@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContestModel;
 use App\Http\Controllers\Controller;
 
 class ContestController extends Controller
@@ -13,9 +14,12 @@ class ContestController extends Controller
      */
     public function index()
     {
+        $contentModel=new ContestModel();
+        $contest_list=$contentModel->list();
         return view('contest.index', [
             'page_title'=>"Contest",
-            'site_title'=>"CodeMaster"
+            'site_title'=>"CodeMaster",
+            "contest_list"=>$contest_list
         ]);
     }
 }
