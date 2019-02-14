@@ -8,22 +8,24 @@ use Auth;
 class Crawler
 {
     public $pro=[
-        'title'=>'',
+        'difficulty'=>'',
+        'type'=>'',
+        'pcode'=>'',
+        'solved_count'=>'',
         'time_limit'=>'',
         'memory_limit'=>'',
+        'title'=>'',
         'OJ'=>'',
         'description'=>'',
         'input'=>'',
         'output'=>'',
-        'notes'=>'',
+        'note'=>'',
         'input_type'=>'',
         'output_type'=>'',
-        'pcode'=>'',
         'contest_id'=>'',
         'index_id'=>'',
         'origin'=>'',
         'source'=>'',
-        'solved_count'=>'',
         'sample_input'=>'',
         'sample_output'=>''
     ];
@@ -92,7 +94,7 @@ class Crawler
         $this->pro["description"]=$this->process_and_get_image($pro["description"], $path, $baseurl, $space_deli, $cookie);
         $this->pro["input"]=$this->process_and_get_image($pro["input"], $path, $baseurl, $space_deli, $cookie);
         $this->pro["output"]=$this->process_and_get_image($pro["output"], $path, $baseurl, $space_deli, $cookie);
-        $this->pro["notes"]=$this->process_and_get_image($pro["notes"], $path, $baseurl, $space_deli, $cookie);
+        $this->pro["note"]=$this->process_and_get_image($pro["note"], $path, $baseurl, $space_deli, $cookie);
     }
 
     public function get_url($url)
@@ -120,7 +122,7 @@ class Crawler
             description,
             input,
             output,
-            notes,
+            note,
             input_type,
             output_type,
             pcode,
@@ -142,7 +144,7 @@ class Crawler
             '{$this->pro['description']}',
             '{$this->pro['input']}',
             '{$this->pro['output']}',
-            '{$this->pro['notes']}',
+            '{$this->pro['note']}',
             '{$this->pro['input_type']}',
             '{$this->pro['output_type']}',
             '{$this->pro['pcode']}',
@@ -176,7 +178,7 @@ class Crawler
                 description='{$pro['description']}',
                 input='{$pro['input']}',
                 output='{$pro['output']}',
-                notes='{$pro['notes']}',
+                note='{$pro['note']}',
                 input_type='{$pro['input_type']}',
                 output_type='{$pro['output_type']}',
                 contest_id='{$pro['contest_id']}',

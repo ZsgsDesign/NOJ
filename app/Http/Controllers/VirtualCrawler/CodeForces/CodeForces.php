@@ -78,7 +78,7 @@ class CodeForces extends Crawler
 
                     $this->pro["sample_output"]="";
                     if (preg_match("/Note<\\/div>(.*)<\\/div><\\/div>/sU", $content, $matches)) {
-                        $this->pro["notes"]=trim(($matches[1]));
+                        $this->pro["note"]=trim(($matches[1]));
                     }
                     if (preg_match("/<th class=\"left\" style=\"width:100%;\">(.*)<\\/th>/sU", $content, $matches)) {
                         $this->pro["source"]=trim(strip_tags($matches[1]));
