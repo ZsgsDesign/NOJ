@@ -13,10 +13,26 @@ class CodeForces extends Crawler
      *
      * @return Response
      */
-    public function __construct($con='all')
+    public function __construct($action='crawl_problem',$con='all')
     {
         set_time_limit(0); // Pandora's box, engage!
-        $this->Codeforces($con);
+        if($action=='judge_level'){
+            $this->judge_level();
+        }else{
+            $this->Codeforces($con);
+        }
+    }
+
+    public function judge_level(){
+        $problemModel=new ProblemModel();
+        $arr=$problemModel->getSolvedCount(2);
+		usort($arr,["Crawler","cmp"]);
+		$m = count($arr)/10;
+		for($i=1;$i<=count($arr);$i++)
+		{
+            $level =ceil($i/$m);
+            $problemModel->updateDifficulty($arr[$i-1][0],$level);
+		}
     }
 
     public function Extract_CodeForces($cid, $num, $url, $default_desc="")

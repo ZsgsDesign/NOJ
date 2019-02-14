@@ -66,4 +66,13 @@ class ProblemModel extends Model
         DB::table("problem_tag")->insert(["pid"=>$pid,"tag"=>$tag]);
         return true;
     }
+
+    public function getSolvedCount($oid){
+        return DB::table($this->tableName)->select("pid","solved_count")->where(["OJ"=>$oid])->get()->all();
+    }
+
+    public function updateDifficulty($pid,$diff_level){
+        DB::table("problem_tag")->where(["pid"=>$pid])->update(["difficulty"=>$diff_level]);
+        return true;
+    }
 }
