@@ -16,10 +16,12 @@ class ContestController extends Controller
     {
         $contentModel=new ContestModel();
         $contest_list=$contentModel->list();
+        $featured=$contentModel->featured();
         return view('contest.index', [
             'page_title'=>"Contest",
             'site_title'=>"CodeMaster",
-            "contest_list"=>$contest_list
+            'contest_list'=>$contest_list,
+            'featured'=>$featured
         ]);
     }
 }

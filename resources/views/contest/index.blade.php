@@ -107,56 +107,31 @@
 <div class="container mundb-standard-container">
     <div class="row">
         <div class="col-sm-12 col-md-8">
+            @foreach($contest_list as $c)
             <contest-card>
                 <date-div>
-                    <p class="sm-date">12</p>
-                    <small class="sm-month">Feb, 2019</small>
+                    <p class="sm-date">{{$c['date_parsed']['date']}}</p>
+                    <small class="sm-month">{{$c['date_parsed']['month_year']}}</small>
                 </date-div>
                 <info-div>
-                    <h5 class="sm-contest-title"><i class="MDI marker-check wemd-light-blue-text"></i> <i class="MDI seal wemd-purple-text"></i> <i class="MDI do-not-disturb-off wemd-teal-text"></i> CodeMaster All-Star Contest</h5>
+                    <h5 class="sm-contest-title">@if($c['verified'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif @if($c['rated'])<i class="MDI seal wemd-purple-text"></i>@endif @if($c['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text"></i>@endif {{$c['name']}}</h5>
                     <p class="sm-contest-info">
-                        <span class="badge badge-pill wemd-amber sm-contest-type"><i class="MDI trophy"></i> ACM</span>
-                        <span class="sm-contest-time"><i class="MDI clock"></i> 5 hours</span>
+                        <span class="badge badge-pill wemd-amber sm-contest-type"><i class="MDI trophy"></i> {{$c['rule_parsed']}}</span>
+                        <span class="sm-contest-time"><i class="MDI clock"></i> {{$c['length']}}</span>
                         <span class="sm-contest-scale"><i class="MDI account-multiple"></i> 3</span>
                     </p>
                 </info-div>
             </contest-card>
-            <contest-card>
-                <date-div>
-                    <p class="sm-date">11</p>
-                    <small class="sm-month">Feb, 2019</small>
-                </date-div>
-                <info-div>
-                    <h5 class="sm-contest-title">John's NvZhuang Contest</h5>
-                    <p class="sm-contest-info">
-                        <span class="badge badge-pill wemd-amber sm-contest-type"><i class="MDI trophy"></i> OI</span>
-                        <span class="sm-contest-time"><i class="MDI clock"></i> 1 hours</span>
-                        <span class="sm-contest-scale"><i class="MDI account-multiple"></i> 2</span>
-                    </p>
-                </info-div>
-            </contest-card>
-            <contest-card>
-                <date-div>
-                    <p class="sm-date">10</p>
-                    <small class="sm-month">Feb, 2019</small>
-                </date-div>
-                <info-div>
-                    <h5 class="sm-contest-title"><i class="MDI marker-check wemd-light-blue-text"></i> CodeMaster Special Contest</h5>
-                    <p class="sm-contest-info">
-                        <span class="badge badge-pill wemd-amber sm-contest-type"><i class="MDI trophy"></i> Special OI</span>
-                        <span class="sm-contest-time"><i class="MDI clock"></i> 3 hours</span>
-                        <span class="sm-contest-scale"><i class="MDI account-multiple"></i> 1</span>
-                    </p>
-                </info-div>
-            </contest-card>
+            @endforeach
         </div>
         <div class="col-sm-12 col-md-4">
             <div>
                 <p class="cm-tending"><i class="MDI star wemd-amber-text"></i> Featured Contest</p>
-                <paper-card style="text-align:center;s">
-                        <h5 class="sm-contest-title">CodeMaster All-Star Contest</h5>
-                        <p>12, Feb, 2019 - 5 hours</p>
-                        <h5><i class="MDI marker-check wemd-light-blue-text"></i> <i class="MDI seal wemd-purple-text"></i> <i class="MDI do-not-disturb-off wemd-teal-text"></i> <span class="wemd-amber-text"><i class="MDI trophy"></i> ACM</span></h5>
+                <paper-card style="text-align:center;">
+                    <h5 class="sm-contest-title">{{$c['name']}}</h5>
+                    <p>{{$featured['date_parsed']['date']}}, {{$featured['date_parsed']['month_year']}} - {{$c['length']}}</p>
+                    <h5>@if($featured['verified'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif @if($featured['rated'])<i class="MDI seal wemd-purple-text"></i>@endif @if($featured['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text"></i>@endif <span class="wemd-amber-text"><i class="MDI trophy"></i> {{$featured['rule_parsed']}}</span></h5>
+                    <button type="button" class="btn btn-outline-primary mt-4">Know More</button>
                 </paper-card>
             </div>
         </div>

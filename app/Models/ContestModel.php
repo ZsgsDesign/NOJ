@@ -47,4 +47,21 @@ class ContestModel extends Model
         }
         return $contest_list;
     }
+
+    public function featured()
+    {
+        $featured = DB::table($this->tableName)->where([
+            "public"=>1,
+            "audit_status"=>1,
+            "featured"=>1
+        ])->orderBy('begin_time', 'desc')->first();
+
+        $featured["rule_parsed"]=$this->rule[$featured["rule"]];
+        $featured["date_parsed"]=[
+            "date"=>date_format(date_create($featured["begin_time"]),'j'),
+            "month_year"=>date_format(date_create($featured["begin_time"]),'M, Y'),
+        ];
+        $featured["length"]=$this->calc_length($featured["begin_time"],$featured["end_time"]);
+        return $featured;
+    }
 }

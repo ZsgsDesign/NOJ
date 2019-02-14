@@ -89,8 +89,8 @@ CodeMaster's another online judge platform
             - [ ] Invite
             - [ ] Delete
             - [ ] Sub Group
-        - [ ] Group Profile
-        - [ ] Group General Info
+        - [X] Group Profile
+        - [X] Group General Info
         - [ ] Group Functions
             - [ ] Group Announcement
             - [ ] Group Posts
