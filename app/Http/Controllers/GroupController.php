@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\GroupModel;
 use App\Http\Controllers\Controller;
+use Auth;
 
 class GroupController extends Controller
 {
@@ -30,12 +31,18 @@ class GroupController extends Controller
      *
      * @return Response
      */
-    public function detail()
+    public function detail($gcode)
     {
         $groupModel=new GroupModel();
+        $basic_info=$groupModel->details($gcode);
+        $my_profile=$groupModel->user_profile(Auth::user()->id,$basic_info["gid"]);
+        $member_list=$groupModel->user_list($basic_info["gid"]);
         return view('group.detail', [
             'page_title'=>"Group Detail",
-            'site_title'=>"CodeMaster"
+            'site_title'=>"CodeMaster",
+            "basic_info"=>$basic_info,
+            'my_profile'=>$my_profile,
+            'member_list'=>$member_list
         ]);
     }
 }

@@ -325,7 +325,7 @@
                     <group-image>
                         <shadow-layer></shadow-layer>
                         <shadow-div>
-                            <img src="https://cdn.mundb.xyz/img/coding.jpeg">
+                            <img src="{{$basic_info['img']}}">
                         </shadow-div>
                     </group-image>
                     <shadow-button class="btn-group">
@@ -341,10 +341,10 @@
 
                     <info-div>
                         <div class="mb-5">
-                            <small>3 Members - Public Group</small>
+                            <small>{{$basic_info['members']}} Members - @if($basic_info['public'])<span>Public</span>@else<span>Private</span>@endif Group</small>
                         </div>
-                        <h3><i class="MDI marker-check wemd-light-blue-text"></i> <span>CodeMaster Official Group</span></h3>
-                        <p><i class="MDI tag-multiple"></i> Tags : ACM, University</p>
+                        <h3>@if($basic_info['verified'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif <span>{{$basic_info['name']}}</span></h3>
+                    <p><i class="MDI tag-multiple"></i> Tags : @foreach($basic_info['tags'] as $t){{$t['tag']}}@unless($loop->last),@endif @endforeach</p>
                         <button type="button" class="btn btn-raised btn-success">Join</button>
                     </info-div>
                     <separate-line class="ultra-thin"></separate-line>
@@ -353,7 +353,7 @@
                     <ul class="list-group">
                         <li class="list-group-item">
                             <div class="bmd-list-group-col" style="margin-right:0;">
-                                <p class="list-group-item-heading" style="line-height:1.5;margin-right:0;">This is the official group of CodeMaster, providing you with the first-hand info and excited monthly contest.</p>
+                                <p class="list-group-item-heading" style="line-height:1.5;margin-right:0;">{{$basic_info['description']}}</p>
                                 <p class="list-group-item-text">Description</p>
                             </div>
                         </li>
@@ -361,27 +361,27 @@
                             <i class="MDI star-circle"></i>
                             <div class="bmd-list-group-col">
                                 <p class="list-group-item-heading">John Doe</p>
-                                <p class="list-group-item-text">Creator</p>
+                                <p class="list-group-item-text">Leader</p>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <i class="MDI email"></i>
                             <div class="bmd-list-group-col">
-                                <p class="list-group-item-heading">Invitation & Application</p>
+                                <p class="list-group-item-heading">@if($basic_info['join_policy']==3)<span>Invitation & Application</span>@elseif(($basic_info['join_policy']==2))<span>Application</span>@else<span>Invitation</span>@endif</p>
                                 <p class="list-group-item-text">Join Policy</p>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <i class="MDI trophy"></i>
                             <div class="bmd-list-group-col">
-                                <p class="list-group-item-heading">1 Ahead, 3 On Going, 13 Passed</p>
+                                <p class="list-group-item-heading">0 Ahead, 0 On Going, 0 Passed</p>
                                 <p class="list-group-item-text">Contests</p>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <i class="MDI clock"></i>
                             <div class="bmd-list-group-col">
-                                <p class="list-group-item-heading">Feb 13, 2019</p>
+                                <p class="list-group-item-heading">{{$basic_info['create_time_foramt']}}</p>
                                 <p class="list-group-item-text">Create Time</p>
                             </div>
                         </li>
@@ -408,7 +408,7 @@
                                 <li class="list-group-item">
                                     <i class="MDI account-card-details"></i>
                                     <div class="bmd-list-group-col">
-                                        <p class="list-group-item-heading">John Doe</p>
+                                        <p class="list-group-item-heading">{{$my_profile['nick_name']}}</p>
                                         <p class="list-group-item-text">Nick Name</p>
                                     </div>
                                 </li>
@@ -424,37 +424,21 @@
                         <paper-card>
                             <header-div id="member_header" data-toggle="collapse" data-target="#collapse_member" aria-expanded="false">
                                 <p><i class="MDI account-multiple"></i> Members</p>
-                                <p>3 <i class="MDI chevron-down"></i></p>
+                                <p>{{$basic_info['members']}} <i class="MDI chevron-down"></i></p>
                             </header-div>
                             <div id="collapse_member" class="collapse hide">
                                 <place-holder style="height:1rem;"></place-holder>
+                                @foreach($member_list as $m)
                                 <user-card>
                                     <user-avatar>
                                         <img src="https://cdn.mundb.xyz/img/atsast/upload/2/15453661701.jpg">
                                     </user-avatar>
                                     <user-info>
-                                        <p><span class="badge badge-role wemd-amber">Leader</span> <span class="cm-user-name">Admin</span> <span class="cm-nick-name">(John Doe)</span></p>
+                                        <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">Admin</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
                                         <p><small><i class="MDI google-circles"></i> None</small></p>
                                     </user-info>
                                 </user-card>
-                                <user-card>
-                                    <user-avatar>
-                                        <img src="https://cdn.mundb.xyz/img/atsast/upload/87/15408093570.jpg">
-                                    </user-avatar>
-                                    <user-info>
-                                        <p><span class="badge badge-role wemd-light-blue">Manager</span> <span class="cm-user-name">Q17010217</span> <span class="cm-nick-name">(张佑杰)</span></p>
-                                        <p><small><i class="MDI google-circles"></i> None</small></p>
-                                    </user-info>
-                                </user-card>
-                                <user-card>
-                                    <user-avatar>
-                                        <img src="https://cdn.mundb.xyz/img/avatar/default.png">
-                                    </user-avatar>
-                                    <user-info>
-                                        <p><span class="badge badge-role wemd-grey">Member</span> <span class="cm-user-name">zsgsdesign</span></p>
-                                        <p><small><i class="MDI google-circles"></i> None</small></p>
-                                    </user-info>
-                                </user-card>
+                                @endforeach
                             </div>
                         </paper-card>
                     </div>
