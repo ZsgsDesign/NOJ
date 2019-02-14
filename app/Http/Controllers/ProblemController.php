@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Problem;
 use App\Models\Submission;
-use App\Models\Compiler;
+use App\Models\CompilerModel;
 use App\Http\Controllers\Controller;
 use Auth;
 
@@ -50,7 +50,7 @@ class ProblemController extends Controller
     public function editor($pcode)
     {
         $problem=new Problem();
-        $compiler=new Compiler();
+        $compiler=new CompilerModel();
         $submission=new Submission();
         $prob_detail=$problem->detail($pcode);
         $compiler_list=$compiler->list($prob_detail["OJ"]);

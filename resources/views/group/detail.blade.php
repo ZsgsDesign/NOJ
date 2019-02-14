@@ -320,7 +320,7 @@
 <group-container>
     <div class="row no-gutters">
         <div class="col-sm-12 col-md-3">
-            <left-side>
+            <left-side class="animated fadeInLeft">
                 <div>
                     <group-image>
                         <shadow-layer></shadow-layer>

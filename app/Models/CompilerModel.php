@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class Compiler extends Model
+class CompilerModel extends Model
 {
     protected $tableName = 'compiler';
 
