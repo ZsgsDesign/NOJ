@@ -45,7 +45,7 @@ class ContestController extends Controller
         return view('contest.detail', [
             'page_title'=>"Contest",
             'site_title'=>"CodeMaster",
-            'detail'=>$contest_detail
+            'detail'=>$contest_detail["data"]["contest_detail"]
         ]);
     }
 }

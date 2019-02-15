@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -59,6 +60,14 @@ class ContestModel extends Model
                 "data"=>null
             ];
         }else{
+            $contest_detail["rule_parsed"]=$this->rule[$contest_detail["rule"]];
+            $contest_detail["date_parsed"]=[
+                "date"=>date_format(date_create($contest_detail["begin_time"]),'j'),
+                "month_year"=>date_format(date_create($contest_detail["begin_time"]),'M, Y'),
+            ];
+            $contest_detail["length"]=$this->calc_length($contest_detail["begin_time"],$contest_detail["end_time"]);
+            $contest_detail["description_parsed"]=Markdown::convertToHtml($contest_detail["description"]);
+            $contest_detail["group_info"]=DB::table("group")->where(["gid"=>$contest_detail["gid"]])->first();
             return [
                 "ret"=>200,
                 "desc"=>"succeed",

@@ -113,6 +113,98 @@
     .list-group-item .list-group-item-text{
         line-height: 1.2;
     }
+
+    fresh-container {
+        display: block;
+        all: initial;
+        font-family: 'Montserrat';
+    }
+
+    fresh-container h1,
+    fresh-container h2,
+    fresh-container h3,
+    fresh-container h4,
+    fresh-container h5,
+    fresh-container h6 {
+        line-height: 1.2;
+        margin-top: 1em;
+        margin-bottom: 16px;
+        color: #000;
+    }
+
+    fresh-container h1 {
+        font-size: 2.25em;
+        font-weight: 600;
+        padding-bottom: .3em
+    }
+
+    fresh-container h2 {
+        font-size: 1.75em;
+        font-weight: 600;
+        padding-bottom: .3em
+    }
+
+    fresh-container h3 {
+        font-size: 1.5em;
+        font-weight: 600
+    }
+
+    fresh-container h4 {
+        font-size: 1.25em;
+        font-weight: 600
+    }
+
+    fresh-container h5 {
+        font-size: 1em;
+        font-weight: 600
+    }
+
+    fresh-container h6 {
+        font-size: 1em;
+        font-weight: 600
+    }
+
+    fresh-container p {
+        line-height: 1.6;
+        color: #333;
+    }
+
+    fresh-container>:first-child {
+        margin-top: 0;
+    }
+
+    fresh-container>:last-child {
+        margin-bottom: 0;
+    }
+
+    fresh-container pre {
+        background-color: rgb(245, 245, 245);
+        border: 1px solid #d6d6d6;
+        border-radius: 3px;
+        color: rgb(51, 51, 51);
+        display: block;
+        font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+        font-size: .85rem;
+        text-align: left;
+        white-space: pre;
+        word-spacing: normal;
+        word-break: normal;
+        word-wrap: normal;
+        line-height: 1.4;
+        tab-size: 8;
+        hyphens: none;
+        margin-bottom: 1rem;
+        padding: .8rem;
+        overflow: auto;
+    }
+
+    fresh-container li{
+        margin-bottom: 1rem;
+    }
+
+    fresh-container img{
+        max-width: 100%;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -126,10 +218,10 @@
                 <div>
                     <h5>CodeMaster All-Star Contest</h5>
                     <badge-div>
-                        <span class="badge badge-pill wemd-amber sm-contest-type"><i class="MDI trophy"></i> ACM</span>
-                        <span><i class="MDI marker-check wemd-light-blue-text"></i></span>
-                        <span><i class="MDI seal wemd-purple-text"></i></span>
-                        <span><i class="MDI do-not-disturb-off wemd-teal-text"></i></span>
+                        <span class="badge badge-pill wemd-amber sm-contest-type"><i class="MDI trophy"></i> {{$detail['rule_parsed']}}</span>
+                        @if($detail['verified'])<span><i class="MDI marker-check wemd-light-blue-text"></i></span>@endif
+                        @if($detail['rated'])<span><i class="MDI seal wemd-purple-text"></i></span>@endif
+                        @if($detail['anticheated'])<span><i class="MDI do-not-disturb-off wemd-teal-text"></i></span>@endif
                     </badge-div>
                     {{-- <button class="btn btn-raised btn-primary">1</button> --}}
 
@@ -138,14 +230,14 @@
                             <li class="list-group-item">
                                 <i class="MDI calendar-clock"></i>
                                 <div class="bmd-list-group-col">
-                                    <p class="list-group-item-heading">02/14/2019 20:21:22</p>
+                                    <p class="list-group-item-heading">{{$detail['begin_time']}}</p>
                                     <p class="list-group-item-text">Begin Time</p>
                                 </div>
                             </li>
                             <li class="list-group-item">
                                 <i class="MDI timelapse"></i>
                                 <div class="bmd-list-group-col">
-                                    <p class="list-group-item-heading">2 Hours</p>
+                                    <p class="list-group-item-heading">{{$detail['length']}}</p>
                                     <p class="list-group-item-text">Length</p>
                                 </div>
                             </li>
@@ -159,20 +251,22 @@
                             <li class="list-group-item">
                                 <i class="MDI google-circles-extended"></i>
                                 <div class="bmd-list-group-col">
-                                    <p class="list-group-item-heading">CodeMaster Official Group</p>
-                                    <p class="list-group-item-text">Held Group</p>
+                                    <p class="list-group-item-heading">{{$detail['group_info']['name']}}</p>
+                                    <p class="list-group-item-text">Organizer</p>
                                 </div>
                             </li>
                         </ul>
                     </detail-info>
                     <div style="text-align:right;">
-                        <button type="button" class="btn btn-info">Register</button>
+                        <button type="button" class="btn btn-info">Enter</button>
                     </div>
                 </div>
             </contest-card>
         </div>
         <div class="col-sm-12 col-md-8">
-            <paper-card>2</paper-card>
+            <paper-card>
+                <fresh-container>{!!$detail["description_parsed"]!!}</fresh-container>
+            </paper-card>
         </div>
     </div>
 </div>

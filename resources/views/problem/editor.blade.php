@@ -572,7 +572,7 @@
     <script src="https://cdn.mundb.xyz/js/bootstrap-material-design.js"></script>
     <script src="https://cdn.mundb.xyz/vscode/vs/loader.js"></script>
     <script>
-        $(document).ready(function () { $('body').bootstrapMaterialDesign(); });
+        $(document).ready(function () { $('body').bootstrapMaterialDesign();$('[data-toggle="tooltip"]').tooltip(); });
 
         var historyOpen=false;
         var chosen_lang="{{$compiler_list[$pref]['lcode']}}";

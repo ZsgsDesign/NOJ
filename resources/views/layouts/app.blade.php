@@ -235,7 +235,7 @@
     <script src="https://cdn.mundb.xyz/js/snackbar.min.js"></script>
     <script src="https://cdn.mundb.xyz/js/bootstrap-material-design.js"></script>
     <script>
-        $(document).ready(function () { $('body').bootstrapMaterialDesign(); });
+        $(document).ready(function () { $('body').bootstrapMaterialDesign();$('[data-toggle="tooltip"]').tooltip(); });
         window.addEventListener("load",function() {
 
             $('loading').css({"opacity":"0","pointer-events":"none"});
