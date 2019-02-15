@@ -375,6 +375,7 @@
             position: sticky;
             top: 0;
             background: linear-gradient(0, rgba(250, 250, 250, 0) 0%, rgba(250, 250, 250, 1) 20%);
+            z-index: 1;
         }
 
         .prob-header *{
@@ -412,20 +413,71 @@
             color: #6c757d;
         }
 
+        .cm-performance-optimistic{
+            will-change: opacity;
+        }
+
+        .cm-delay{
+            animation-delay: 0.2s;
+        }
+
     </style>
 
     <div class="immersive-container">
         <top-side>
             <left-side>
-                <div class="prob-header">
+                <div class="prob-header animated pre-animated cm-performance-optimistic">
                     <button class="btn btn-outline-secondary" id="backBtn"><i class="MDI arrow-left"></i>  Back</button>
-                    <info-badge title="AC Rate"><i class="MDI checkbox-multiple-marked-circle"></i> 100%</info-badge>
-                    <info-badge title="Time Limit"><i class="MDI timer"></i> 1000ms</info-badge>
-                    <info-badge title="Memory Limit"><i class="MDI memory"></i> 32767K</info-badge>
+                    <info-badge title="AC Rate"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['ac_rate']}}%</info-badge>
+                    <info-badge title="Time Limit"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
+                    <info-badge title="Memory Limit"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
                 </div>
-                <fresh-container>
-                    {!! $detail["desc_parsed"] !!}
-                </fresh-container>
+                <div class="animated pre-animated cm-performance-optimistic cm-delay">
+                    <link rel="stylesheet" href="/css/oj/{{$detail["oj_detail"]["ocode"]}}.css">
+                    <fresh-container>
+                        <h1>{{$detail["title"]}}</h1>
+                        <h2>Description:</h2>
+
+                        {!!$detail["parsed"]["description"]!!}
+
+                        @unless(trim($detail["parsed"]["input"])=="")
+
+                        <h2>Input:</h2>
+
+                        {!!$detail["parsed"]["input"]!!}
+
+                        @endunless
+
+                        @unless(trim($detail["parsed"]["output"])=="")
+
+                        <h2>Output:</h2>
+
+                        {!!$detail["parsed"]["output"]!!}
+
+                        @endunless
+
+                        @foreach($detail["samples"] as $ps)
+
+                            <h2>Sample Input:</h2>
+
+                            <pre>{!!$ps['sample_input']!!}</pre>
+
+                            <h2>Sample Output:</h2>
+
+                            <pre>{!!$ps['sample_output']!!}</pre>
+
+                        @endforeach
+
+                        @unless(trim($detail["parsed"]["note"])=="")
+
+                        <h2>Note:</h2>
+
+                        {!!$detail["parsed"]["note"]!!}
+
+                        @endunless
+
+                    </fresh-container>
+                </div>
             </left-side>
             <right-side style="background: rgb(30, 30, 30);">
                 <div id="vscode_container" style="width:100%;height:100%;">
@@ -636,6 +688,8 @@
 
         window.addEventListener("load",function() {
             $('loading').css({"opacity":"0","pointer-events":"none"});
+
+            $(".pre-animated").addClass("fadeInLeft");
 
             require.config({ paths: { 'vs': 'https://cdn.mundb.xyz/vscode/vs' }});
 

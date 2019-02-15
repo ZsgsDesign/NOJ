@@ -1,0 +1,94 @@
+fresh-container .tex-formula {
+    font-family: times new roman,sans-serif;
+    vertical-align: middle;
+    margin: 0;
+    border:medium none;
+    position: relative;
+    bottom: 2px;
+}
+
+fresh-container .tex-span {
+    font-size: 125%;
+    font-family: times new roman,sans-serif;
+    white-space: nowrap;
+}
+
+fresh-container .tex-font-size-tiny {
+    font-size: 70%;
+}
+
+fresh-container .tex-font-size-script {
+    font-size: 75%;
+}
+
+fresh-container .tex-font-size-footnotes {
+    font-size: 85%;
+}
+
+fresh-container .tex-font-size-small {
+    font-size: 85%;
+}
+
+fresh-container .tex-font-size-normal {
+    font-size: 100%;
+}
+
+fresh-container .tex-font-size-large-1 {
+    font-size: 115%;
+}
+
+fresh-container .tex-font-size-large-2 {
+    font-size: 130%;
+}
+
+fresh-container .tex-font-size-large-3 {
+    font-size: 145%;
+}
+
+fresh-container .tex-font-size-huge-1 {
+    font-size: 175%;
+}
+
+fresh-container .tex-font-size-huge-2 {
+    font-size: 200%;
+}
+
+
+fresh-container .tex-font-style-sf {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+fresh-container .tex-font-style-tt {
+    font-size: 110%;
+    font-family: courier new,monospace;
+}
+
+
+
+fresh-container .tex-font-style-bf {
+    font-weight: bold;
+}
+
+fresh-container .tex-font-style-it {
+    font-style: italic;
+}
+
+fresh-container .tex-font-style-sl {
+    font-style: italic;
+}
+
+fresh-container .tex-font-style-sc {
+    text-transform: uppercase;
+}
+
+fresh-container .tex-font-style-striked {
+    text-decoration: line-through;
+}
+
+fresh-container .tex-font-style-underline {
+    text-decoration: underline;
+}
+
+fresh-container .tex-graphics {
+    display: block;
+}

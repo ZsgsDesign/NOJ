@@ -182,56 +182,71 @@
     .badgee-tag:last-of-type{
         margin-right:0;
     }
+
+    info-div{
+        display:block;
+    }
+
+    info-badge{
+        font-weight: bold;
+        color:rgba(0, 0, 0, 0.42);
+        display: inline-block;
+        margin-right: 1rem;
+        font-family:'Courier New', Courier, monospace;
+    }
 </style>
 
 <div class="container mundb-standard-container">
     <div class="row">
         <div class="col-sm-12 col-lg-9">
             <paper-card class="animated fadeInUp p-5">
+                <link rel="stylesheet" href="/css/oj/{{$detail["oj_detail"]["ocode"]}}.css">
                 <fresh-container>
-                    <fresh-container>
-                        <h1>{{$detail["title"]}}</h1>
-                        <h2>Description:</h2>
+                    <h1>{{$detail["title"]}}</h1>
+                    <info-div>
+                        <info-badge title="Time Limit"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
+                        <info-badge title="Memory Limit"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
+                    </info-div>
+                    <h2>Description:</h2>
 
-                        {!!$detail["parsed"]["description"]!!}
+                    {!!$detail["parsed"]["description"]!!}
 
-                        @unless(trim($detail["parsed"]["input"])=="")
+                    @unless(trim($detail["parsed"]["input"])=="")
 
-                        <h2>Input:</h2>
+                    <h2>Input:</h2>
 
-                        {!!$detail["parsed"]["input"]!!}
+                    {!!$detail["parsed"]["input"]!!}
 
-                        @endunless
+                    @endunless
 
-                        @unless(trim($detail["parsed"]["output"])=="")
+                    @unless(trim($detail["parsed"]["output"])=="")
 
-                        <h2>Output:</h2>
+                    <h2>Output:</h2>
 
-                        {!!$detail["parsed"]["output"]!!}
+                    {!!$detail["parsed"]["output"]!!}
 
-                        @endunless
+                    @endunless
 
-                        @foreach($detail["samples"] as $ps)
+                    @foreach($detail["samples"] as $ps)
 
-                            <h2>Sample Input:</h2>
+                        <h2>Sample Input:</h2>
 
-                            <pre>{!!$ps['sample_input']!!}</pre>
+                        <pre>{!!$ps['sample_input']!!}</pre>
 
-                            <h2>Sample Output:</h2>
+                        <h2>Sample Output:</h2>
 
-                            <pre>{!!$ps['sample_output']!!}</pre>
+                        <pre>{!!$ps['sample_output']!!}</pre>
 
-                        @endforeach
+                    @endforeach
 
-                        @unless(trim($detail["parsed"]["note"])=="")
+                    @unless(trim($detail["parsed"]["note"])=="")
 
-                        <h2>Note:</h2>
+                    <h2>Note:</h2>
 
-                        {!!$detail["parsed"]["note"]!!}
+                    {!!$detail["parsed"]["note"]!!}
 
-                        @endunless
+                    @endunless
 
-                    </fresh-container>
                 </fresh-container>
             </paper-card>
         </div>
