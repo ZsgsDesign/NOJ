@@ -141,6 +141,8 @@ class Core extends Curl
         $this->sub['language']=substr($this->post_data["lang"], 2, 50);
         $this->sub['solution']=$this->post_data["solution"];
         $this->sub['pid']=$this->post_data["pid"];
+        $this->sub['coid']=$this->post_data["coid"];
+
         $s_num=$this->MODEL->count_solution($this->sub['solution']);
         $space='';
         for ($i=0;$i<$s_num;$i++) {
@@ -181,7 +183,7 @@ class Core extends Curl
     }
     private function codeforces()
     {
-        if (!isset($this->post_data["pid"])||!isset($this->post_data["cid"])||!isset($this->post_data["iid"])||!isset($this->post_data["solution"])) {
+        if (!isset($this->post_data["pid"])||!isset($this->post_data["cid"])||!isset($this->post_data["coid"])||!isset($this->post_data["iid"])||!isset($this->post_data["solution"])) {
             return;
         }
         $this->codeforce_login();

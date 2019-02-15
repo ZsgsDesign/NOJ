@@ -495,7 +495,7 @@
                     </button>
                     <div class="dropdown-menu cm-scrollable-menu">
                         @foreach ($compiler_list as $c)
-                            <button class="dropdown-item lang-selector" data-comp="{{$c['comp']}}" data-lang="{{$c['lang']}}" data-lcode="{{$c['lcode']}}"><i class="{{$c['icon']}}"></i> {{$c['display_name']}}</button>
+                            <button class="dropdown-item lang-selector" data-coid="{{$c['coid']}}" data-comp="{{$c['comp']}}" data-lang="{{$c['lang']}}" data-lcode="{{$c['lcode']}}"><i class="{{$c['icon']}}"></i> {{$c['display_name']}}</button>
                         @endforeach
                     </div>
                     </div>
@@ -576,6 +576,7 @@
 
         var historyOpen=false;
         var chosen_lang="{{$compiler_list[0]['lcode']}}";
+        var chosen_coid="{{$compiler_list[0]['coid']}}";
 
         $( ".lang-selector" ).click(function() {
             // console.log($( this ).data("lang"));
@@ -583,6 +584,7 @@
             monaco.editor.setModelLanguage(model, $( this ).data("lang"));
             $("#cur_lang_selector").html($( this ).html());
             chosen_lang=$( this ).data("lcode");
+            chosen_coid=$( this ).data("coid");
         });
 
         $( "#historyBtn" ).click(function(){
@@ -635,6 +637,7 @@
                     cid:{{$detail["contest_id"]}},
                     iid:"{{$detail["index_id"]}}",
                     oj:"{{$detail["oj_detail"]["ocode"]}}",
+                    coid: chosen_coid,
                     solution: editor.getValue()
                 },
                 dataType: 'json',
@@ -672,6 +675,11 @@
                                 }
                             });
                         },5000);
+                    }else{
+                        console.log(ret.desc);
+                        $("#verdict_text").text("System Error");
+                        $("#verdict_info").removeClass();
+                        $("#verdict_info").addClass("wemd-black-text");
                     }
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
