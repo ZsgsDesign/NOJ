@@ -491,7 +491,7 @@
                 <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> History</button>
                 <div class="btn-group dropup">
                     <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_lang_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="{{$compiler_list[0]['icon']}}"></i> {{$compiler_list[0]['display_name']}}
+                        <i class="{{$compiler_list[$pref]['icon']}}"></i> {{$compiler_list[$pref]['display_name']}}
                     </button>
                     <div class="dropdown-menu cm-scrollable-menu">
                         @foreach ($compiler_list as $c)
@@ -575,8 +575,8 @@
         $(document).ready(function () { $('body').bootstrapMaterialDesign(); });
 
         var historyOpen=false;
-        var chosen_lang="{{$compiler_list[0]['lcode']}}";
-        var chosen_coid="{{$compiler_list[0]['coid']}}";
+        var chosen_lang="{{$compiler_list[$pref]['lcode']}}";
+        var chosen_coid="{{$compiler_list[$pref]['coid']}}";
 
         $( ".lang-selector" ).click(function() {
             // console.log($( this ).data("lang"));
@@ -719,8 +719,8 @@
 
             require(["vs/editor/editor.main"], function () {
                 editor = monaco.editor.create(document.getElementById('vscode'), {
-                    value: "",
-                    language: "cpp",
+                    value: "{!!$submit_code!!}",
+                    language: "{{$compiler_list[$pref]['lang']}}",
                     theme: "vs-dark",
                     fontSize: 16,
                     formatOnPaste: true,

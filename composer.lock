@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "817958b2f1b18369b787c27267130ba4",
+    "content-hash": "52e02d7eb3829aae544cba2a8a2a7056",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -706,17 +706,74 @@
             "time": "2018-09-29T18:48:56+00:00"
         },
         {
-            "name": "laravel/framework",
-            "version": "v5.7.17",
+            "name": "laracasts/utilities",
+            "version": "3.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laravel/framework.git",
-                "reference": "a15898e2de5f5ae5548a09349c558ef0435d495a"
+                "url": "https://github.com/laracasts/PHP-Vars-To-Js-Transformer.git",
+                "reference": "298fb3c6f29901a4550c4f98b57c05f368341d04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/a15898e2de5f5ae5548a09349c558ef0435d495a",
-                "reference": "a15898e2de5f5ae5548a09349c558ef0435d495a",
+                "url": "https://api.github.com/repos/laracasts/PHP-Vars-To-Js-Transformer/zipball/298fb3c6f29901a4550c4f98b57c05f368341d04",
+                "reference": "298fb3c6f29901a4550c4f98b57c05f368341d04",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpspec/phpspec": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Laracasts\\Utilities\\JavaScript\\JavaScriptServiceProvider"
+                    ],
+                    "aliases": {
+                        "JavaScript": "Laracasts\\Utilities\\JavaScript\\JavaScriptFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Laracasts\\Utilities\\JavaScript\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeffrey Way",
+                    "email": "jeffrey@laracasts.com"
+                }
+            ],
+            "description": "Transform your PHP to JavaScript",
+            "keywords": [
+                "javascript",
+                "laravel"
+            ],
+            "time": "2017-09-01T17:25:57+00:00"
+        },
+        {
+            "name": "laravel/framework",
+            "version": "v5.7.26",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "ca3bc9769969e8af3bd9878a3e0242051c74dae4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/ca3bc9769969e8af3bd9878a3e0242051c74dae4",
+                "reference": "ca3bc9769969e8af3bd9878a3e0242051c74dae4",
                 "shasum": ""
             },
             "require": {
@@ -790,7 +847,7 @@
                 "moontoast/math": "^1.1",
                 "orchestra/testbench-core": "3.7.*",
                 "pda/pheanstalk": "^3.0",
-                "phpunit/phpunit": "^7.0",
+                "phpunit/phpunit": "^7.5",
                 "predis/predis": "^1.1.1",
                 "symfony/css-selector": "^4.1",
                 "symfony/dom-crawler": "^4.1",
@@ -849,7 +906,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2018-12-12T14:38:09+00:00"
+            "time": "2019-02-12T14:52:21+00:00"
         },
         {
             "name": "laravel/nexmo-notification-channel",
