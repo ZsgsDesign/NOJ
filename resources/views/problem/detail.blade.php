@@ -173,6 +173,15 @@
         position: relative;
         border: 1px solid rgba(0, 0, 0, 0.15);
     }
+
+    .badge-tag{
+        margin-right:0.5rem;
+        display: inline-block;
+    }
+
+    .badgee-tag:last-of-type{
+        margin-right:0;
+    }
 </style>
 
 <div class="container mundb-standard-container">
@@ -186,23 +195,31 @@
 
                         {!!$detail["parsed"]["description"]!!}
 
+                        @unless(trim($detail["parsed"]["input"])=="")
+
                         <h2>Input:</h2>
 
                         {!!$detail["parsed"]["input"]!!}
+
+                        @endunless
+
+                        @unless(trim($detail["parsed"]["output"])=="")
 
                         <h2>Output:</h2>
 
                         {!!$detail["parsed"]["output"]!!}
 
+                        @endunless
+
                         @foreach($detail["samples"] as $ps)
 
                             <h2>Sample Input:</h2>
 
-                            <pre>{{$ps['sample_input']}}</pre>
+                            <pre>{!!$ps['sample_input']!!}</pre>
 
                             <h2>Sample Output:</h2>
 
-                            <pre>{{$ps['sample_output']}}</pre>
+                            <pre>{!!$ps['sample_output']!!}</pre>
 
                         @endforeach
 
@@ -233,11 +250,12 @@
                     <p><span>Origin</span> <a href="{{$detail["origin"]}}" target="_blank"><i class="MDI link-variant"></i> {{$detail['source']}}</a></p>
                     <separate-line class="ultra-thin mb-3 mt-3"></separate-line>
                     <p><span>Code </span> <span class="wemd-black-text"> {{$detail["pcode"]}}</span></p>
-                    <p><span>Tags </span> <span class="badge badge-secondary">Brutal</span></p>
-                    <p><span>Submitted </span> <span class="wemd-black-text"> 124</span></p>
-                    <p><span>Passed </span> <span class="wemd-black-text"> 62</span></p>
-                    <p><span>AC Rate </span> <span class="wemd-black-text"> 50.0%</span></p>
-                    <p><span>Date </span> <span class="wemd-black-text"> 02/10/2019 15:48:59</span></p>
+                    <p class="mb-0"><span>Tags </span></p>
+                    <div class="mb-3">@foreach($detail['tags'] as $t)<span class="badge badge-secondary badge-tag">{{$t["tag"]}}</span>@endforeach</div>
+                    <p><span>Submitted </span> <span class="wemd-black-text"> {{$detail['submission_count']}}</span></p>
+                    <p><span>Passed </span> <span class="wemd-black-text"> {{$detail['passed_count']}}</span></p>
+                    <p><span>AC Rate </span> <span class="wemd-black-text"> {{$detail['ac_rate']}}%</span></p>
+                    <p><span>Date </span> <span class="wemd-black-text"> {{$detail['update_date']}}</span></p>
                 </div>
             </paper-card>
             <paper-card class="animated fadeInRight">

@@ -21,8 +21,24 @@ class ProblemModel extends Model
                 "output"=>Markdown::convertToHtml($prob_detail["output"]),
                 "note"=>Markdown::convertToHtml($prob_detail["note"])
             ];
+            $prob_detail["update_date"]=date_format(date_create($prob_detail["update_date"]),'m/d/Y H:i:s');
             $prob_detail["oj_detail"] = DB::table("oj")->where("oid", $prob_detail["OJ"])->first();
             $prob_detail["samples"] = DB::table("problem_sample")->where("pid", $prob_detail["pid"])->get()->all();
+            $prob_detail["tags"] = DB::table("problem_tag")->where("pid", $prob_detail["pid"])->get()->all();
+            $prob_stat = DB::table("submission")->select(
+                DB::raw("count(sid) as submission_count"),
+                DB::raw("sum(verdict='accepted') as passed_count"),
+                DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
+            )->where(["pid"=>$prob_detail["pid"]])->first();
+            if($prob_stat["submission_count"]==0){
+                $prob_detail["submission_count"]=0;
+                $prob_detail["passed_count"]=0;
+                $prob_detail["ac_rate"]=0;
+            }else{
+                $prob_detail["submission_count"]=$prob_stat["submission_count"];
+                $prob_detail["passed_count"]=$prob_stat["passed_count"];
+                $prob_detail["ac_rate"]=round($prob_stat["ac_rate"],2);
+            }
         }
         return $prob_detail;
     }
@@ -96,7 +112,8 @@ class ProblemModel extends Model
             'index_id'=>$data['index_id'],
             'origin'=>$data['origin'],
             'source'=>$data['source'],
-            'solved_count'=>$data['solved_count']
+            'solved_count'=>$data['solved_count'],
+            'update_date'=>date("Y-m-d H:i:s")
         ]);
 
         if (!empty($data["sample"])) {
@@ -130,7 +147,8 @@ class ProblemModel extends Model
             'index_id'=>$data['index_id'],
             'origin'=>$data['origin'],
             'source'=>$data['source'],
-            'solved_count'=>$data['solved_count']
+            'solved_count'=>$data['solved_count'],
+            'update_date'=>date("Y-m-d H:i:s")
         ]);
 
         $pid=$this->pid($data['pcode']);

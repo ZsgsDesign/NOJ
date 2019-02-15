@@ -96,6 +96,11 @@ class CodeForces extends CrawlerBase
                     if (preg_match("/<th class=\"left\" style=\"width:100%;\">(.*)<\\/th>/sU", $content, $matches)) {
                         $this->pro["source"]=trim(strip_tags($matches[1]));
                     }
+
+                    $this->pro["description"]=str_replace("src=\"","src=\"http://codeforces.com/",$this->pro["description"]);
+                    $this->pro["input"]=str_replace("src=\"","src=\"http://codeforces.com/",$this->pro["input"]);
+                    $this->pro["output"]=str_replace("src=\"","src=\"http://codeforces.com/",$this->pro["output"]);
+                    $this->pro["note"]=str_replace("src=\"","src=\"http://codeforces.com/",$this->pro["note"]);
                 } else {
                     if (stripos($content_type, "application/pdf")!==false) {
                         $ext="pdf";
@@ -109,7 +114,7 @@ class CodeForces extends CrawlerBase
                         mkdir($dir, 0777, true);
                     }
                     file_put_contents(base_path("public/external/gym/$cid$num.$ext"), $content);
-                    $this->pro["description"].="<a href=\"external/gym/$cid$num.$ext\">[Attachment Link]</a>";
+                    $this->pro["description"].="<a href=\"/external/gym/$cid$num.$ext\">[Attachment Link]</a>";
                     $this->pro["time_limit"]=0;
                     $this->pro["memory_limit"]=0;
                     $this->pro["source"]="Here";
