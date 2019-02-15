@@ -103,35 +103,41 @@
         height: 4rem;
     }
 
+    a:hover{
+        text-decoration: none!important;
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
         <div class="col-sm-12 col-md-8">
             @foreach($contest_list as $c)
-            <contest-card>
-                <date-div>
-                    <p class="sm-date">{{$c['date_parsed']['date']}}</p>
-                    <small class="sm-month">{{$c['date_parsed']['month_year']}}</small>
-                </date-div>
-                <info-div>
-                    <h5 class="sm-contest-title">@if($c['verified'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif @if($c['rated'])<i class="MDI seal wemd-purple-text"></i>@endif @if($c['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text"></i>@endif {{$c['name']}}</h5>
-                    <p class="sm-contest-info">
-                        <span class="badge badge-pill wemd-amber sm-contest-type"><i class="MDI trophy"></i> {{$c['rule_parsed']}}</span>
-                        <span class="sm-contest-time"><i class="MDI clock"></i> {{$c['length']}}</span>
-                        <span class="sm-contest-scale"><i class="MDI account-multiple"></i> 3</span>
-                    </p>
-                </info-div>
-            </contest-card>
+            <a href="/contest/{{$c['cid']}}">
+                <contest-card>
+                    <date-div>
+                        <p class="sm-date">{{$c['date_parsed']['date']}}</p>
+                        <small class="sm-month">{{$c['date_parsed']['month_year']}}</small>
+                    </date-div>
+                    <info-div>
+                        <h5 class="sm-contest-title">@if($c['verified'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif @if($c['rated'])<i class="MDI seal wemd-purple-text"></i>@endif @if($c['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text"></i>@endif {{$c['name']}}</h5>
+                        <p class="sm-contest-info">
+                            <span class="badge badge-pill wemd-amber sm-contest-type"><i class="MDI trophy"></i> {{$c['rule_parsed']}}</span>
+                            <span class="sm-contest-time"><i class="MDI clock"></i> {{$c['length']}}</span>
+                            <span class="sm-contest-scale"><i class="MDI account-multiple"></i> 3</span>
+                        </p>
+                    </info-div>
+                </contest-card>
+            </a>
             @endforeach
         </div>
         <div class="col-sm-12 col-md-4">
             <div>
                 <p class="cm-tending"><i class="MDI star wemd-amber-text"></i> Featured Contest</p>
                 <paper-card style="text-align:center;">
-                    <h5 class="sm-contest-title">{{$c['name']}}</h5>
-                    <p>{{$featured['date_parsed']['date']}}, {{$featured['date_parsed']['month_year']}} - {{$c['length']}}</p>
+                    <h5 class="sm-contest-title">{{$featured['name']}}</h5>
+                    <p>{{$featured['date_parsed']['date']}}, {{$featured['date_parsed']['month_year']}} - {{$featured['length']}}</p>
                     <h5>@if($featured['verified'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif @if($featured['rated'])<i class="MDI seal wemd-purple-text"></i>@endif @if($featured['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text"></i>@endif <span class="wemd-amber-text"><i class="MDI trophy"></i> {{$featured['rule_parsed']}}</span></h5>
-                    <button type="button" class="btn btn-outline-primary mt-4">Know More</button>
+                    <a href="/contest/{{$featured['cid']}}"><button type="button" class="btn btn-outline-primary mt-4">Know More</button></a>
                 </paper-card>
             </div>
         </div>

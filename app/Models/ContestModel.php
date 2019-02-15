@@ -30,6 +30,45 @@ class ContestModel extends Model
         return $text;
     }
 
+    public function canViewContest($cid,$uid){
+        $contest_detail = DB::table($this->tableName)->where([
+            "cid"=>$cid
+        ])->first();
+
+        if($contest_detail["public"]==1){
+            return $contest_detail;
+        }else{
+            // group contest
+            if($uid==0) return [];
+            $group_info = DB::table("group_member")->where([
+                "uid"=>$uid,
+                "gid"=>$contest_detail['gid'],
+                ["role",">",0]
+            ])->first();
+            return empty($group_info) ? [] : $contest_detail;
+        }
+    }
+
+    public function detail($cid,$uid=0)
+    {
+        $contest_detail= $this->canViewContest($cid,$uid);
+        if(empty($contest_detail)){
+            return [
+                "ret"=>1000,
+                "desc"=>"You have no right to view this contest.",
+                "data"=>null
+            ];
+        }else{
+            return [
+                "ret"=>200,
+                "desc"=>"succeed",
+                "data"=>[
+                    "contest_detail"=>$contest_detail
+                ]
+            ];
+        }
+    }
+
     public function list()
     {
         $contest_list = DB::table($this->tableName)->where([
