@@ -428,9 +428,9 @@
             <left-side>
                 <div class="prob-header animated pre-animated cm-performance-optimistic">
                     <button class="btn btn-outline-secondary" id="backBtn"><i class="MDI arrow-left"></i>  Back</button>
-                    <info-badge title="AC Rate"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['ac_rate']}}%</info-badge>
-                    <info-badge title="Time Limit"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
-                    <info-badge title="Memory Limit"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
+                    <info-badge data-toggle="tooltip" data-placement="top" title="AC Rate"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['ac_rate']}}%</info-badge>
+                    <info-badge data-toggle="tooltip" data-placement="top" title="Time Limit"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
+                    <info-badge data-toggle="tooltip" data-placement="top" title="Memory Limit"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
                 </div>
                 <div class="animated pre-animated cm-performance-optimistic cm-delay">
                     <link rel="stylesheet" href="/css/oj/{{$detail["oj_detail"]["ocode"]}}.css">

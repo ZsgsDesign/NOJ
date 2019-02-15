@@ -204,8 +204,8 @@
                 <fresh-container>
                     <h1>{{$detail["title"]}}</h1>
                     <info-div>
-                        <info-badge title="Time Limit"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
-                        <info-badge title="Memory Limit"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
+                        <info-badge data-toggle="tooltip" data-placement="top" title="Time Limit"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
+                        <info-badge data-toggle="tooltip" data-placement="top" title="Memory Limit"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
                     </info-div>
                     <h2>Description:</h2>
 
