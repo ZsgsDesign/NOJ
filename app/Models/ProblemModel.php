@@ -45,9 +45,40 @@ class ProblemModel extends Model
 
     public function list()
     {
-        $prob_list = DB::table($this->tableName)->select("pid","pcode","title")->get()->all(); // return a array
-        // [ToDo] Paging required
-        foreach($prob_list as &$p) {
+        // $prob_list = DB::table($this->tableName)->select("pid","pcode","title")->get()->all(); // return a array
+        $prob = json_decode(DB::table($this->tableName)->select("pid","pcode","title")->paginate(10)->toJSON(),true);
+        if(empty($prob["data"])) return null;
+        $cur_page=$prob["current_page"];
+        $tot_page=$prob["last_page"];
+        $temp_page_list=[];
+        if($tot_page<=5) for($i=1;$i<=$tot_page;$i++) array_push($temp_page_list,$i);
+        else {
+            for($i=$cur_page-2;$i<=$cur_page+2;$i++) array_push($temp_page_list,$i);
+            if($temp_page_list[0]<1){
+                $temp_page_list[0]=$temp_page_list[4]+1;
+            }
+            if($temp_page_list[1]<1){
+                $temp_page_list[1]=$temp_page_list[4]+2;
+            }
+            if($temp_page_list[3]>$tot_page){
+                $temp_page_list[3]=$temp_page_list[0]-1;
+            }
+            if($temp_page_list[4]>$tot_page){
+                $temp_page_list[4]=$temp_page_list[0]-2;
+            }
+            sort($temp_page_list);
+        }
+        $prob["paginate"]["data"]=[];
+        $prob["paginate"]["previous"] = is_null($prob["prev_page_url"]) ? "" : "?page=".($cur_page-1);
+        $prob["paginate"]["next"] = is_null($prob["next_page_url"]) ? "" : "?page=".($cur_page+1);
+        foreach($temp_page_list as $p){
+            array_push($prob["paginate"]["data"],[
+                "page"=>$p,
+                "cur"=> $p==$cur_page ? 1 : 0,
+                "url"=>"?page=$p"
+            ]);
+        }
+        foreach($prob["data"] as &$p) {
             $prob_stat = DB::table("submission")->select(
                 DB::raw("count(sid) as submission_count"),
                 DB::raw("sum(verdict='accepted') as passed_count"),
@@ -63,7 +94,7 @@ class ProblemModel extends Model
                 $p["ac_rate"]=round($prob_stat["ac_rate"],2);
             }
         }
-        return $prob_list;
+        return $prob;
     }
 
     public function pid($pcode)

@@ -18,11 +18,12 @@ class ProblemController extends Controller
     public function index()
     {
         $problem=new ProblemModel();
-        $prob_list=$problem->list();
-        return view('problem.index', [
-            'page_title'=>"Problem",
-            'site_title'=>"CodeMaster",
-            'prob_list' => $prob_list
+        $prob=$problem->list();
+        return is_null($prob) ? redirect("/problem") : view('problem.index', [
+            'page_title' => "Problem",
+            'site_title' => "CodeMaster",
+            'prob_list' => $prob["data"],
+            'prob_paginate' => $prob["paginate"]
         ]);
     }
     /**

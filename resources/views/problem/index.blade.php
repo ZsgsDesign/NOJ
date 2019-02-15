@@ -29,7 +29,10 @@
         transition: .2s ease-out .0s;
     }
 
-
+    .pagination .page-item > a.page-link.cm-navi{
+        padding-right:1rem;
+        padding-left: 1rem;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -60,13 +63,13 @@
             </paper-card>
             <nav class="animated fadeInUp">
                 <ul class="pagination justify-content-end">
-                    <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Previous</a></li>
+                    <li class="page-item @unless($prob_paginate['previous']) disabled @endif"><a class="page-link cm-navi" href="{{$prob_paginate['previous']}}" tabindex="-1">Previous</a></li>
 
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    @foreach($prob_paginate['data'] as $pg)
+                        <li class="page-item @if($pg['cur']) disabled @endif"><a class="page-link" href="{{$pg['url']}}">{{$pg['page']}}</a></li>
+                    @endforeach
 
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    <li class="page-item @unless($prob_paginate['next']) disabled @endif"><a class="page-link cm-navi" href="{{$prob_paginate['next']}}">Next</a></li>
                 </ul>
             </nav>
         </div>
