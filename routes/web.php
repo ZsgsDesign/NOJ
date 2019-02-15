@@ -27,6 +27,7 @@ Route::get('/group', 'GroupController@index')->name('group_index');
 Route::get('/group/{gcode}', 'GroupController@detail')->name('group_detail');
 
 Route::get('/contest', 'ContestController@index')->name('contest_index');
+Route::get('/contest/{cid}', 'ContestController@detail')->name('contest_detail');
 
 Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function(){
     Route::post('submitSolution', 'ProblemController@submitSolution');
