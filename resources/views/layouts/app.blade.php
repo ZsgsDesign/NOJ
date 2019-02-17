@@ -160,19 +160,19 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item />">
-                    <a class="nav-link @if ($page_title === "Home") active @endif" href="/">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link @if ($navigation === "Home") active @endif" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item />">
-                    <a class="nav-link @if ($page_title === "Problem") active @endif" href="/problem">Problem</a>
+                    <a class="nav-link @if ($navigation === "Problem") active @endif" href="/problem">Problem</a>
                 </li>
                 <li class="nav-item />">
-                    <a class="nav-link @if ($page_title === "Status") active @endif" href="/status">Status</a>
+                    <a class="nav-link @if ($navigation === "Status") active @endif" href="/status">Status</a>
                 </li>
                 <li class="nav-item />">
-                    <a class="nav-link @if ($page_title === "Contest") active @endif" href="/contest">Contest</a>
+                    <a class="nav-link @if ($navigation === "Contest") active @endif" href="/contest">Contest</a>
                 </li>
                 <li class="nav-item />">
-                    <a class="nav-link @if ($page_title === "Group") active @endif" href="/group">Group</a>
+                    <a class="nav-link @if ($navigation === "Group") active @endif" href="/group">Group</a>
                 </li>
             </ul>
 
@@ -183,7 +183,7 @@
 
                 <li class="nav-item mundb-no-shrink />">
                     @guest
-                        <a class="nav-link @if ($page_title === "Account") active @endif" href="/account">Account</a>
+                        <a class="nav-link @if ($navigation === "Account") active @endif" href="/account">Account</a>
                     @else
                         <li class="nav-item dropdown mundb-btn-ucenter">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{$greeting}}, {{ Auth::user()["name"] }}</a>

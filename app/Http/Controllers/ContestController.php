@@ -21,6 +21,7 @@ class ContestController extends Controller
         return view('contest.index', [
             'page_title'=>"Contest",
             'site_title'=>"CodeMaster",
+            'navigation' => "Contest",
             'contest_list'=>$contest_list,
             'featured'=>$featured
         ]);
@@ -45,6 +46,7 @@ class ContestController extends Controller
         return view('contest.detail', [
             'page_title'=>"Contest",
             'site_title'=>"CodeMaster",
+            'navigation' => "Contest",
             'detail'=>$contest_detail["data"]["contest_detail"]
         ]);
     }
@@ -58,6 +60,7 @@ class ContestController extends Controller
     {
         return view('contest.board.challenge', [
             'page_title'=>"Challenge",
+            'navigation' => "Contest",
             'site_title'=>"Contest"
         ]);
     }
@@ -71,6 +74,7 @@ class ContestController extends Controller
     {
         return view('contest.board.rank', [
             'page_title'=>"Challenge",
+            'navigation' => "Contest",
             'site_title'=>"Contest"
         ]);
     }
@@ -84,6 +88,7 @@ class ContestController extends Controller
     {
         return view('contest.board.clarification', [
             'page_title'=>"Clarification",
+            'navigation' => "Contest",
             'site_title'=>"Contest"
         ]);
     }
@@ -97,6 +102,7 @@ class ContestController extends Controller
     {
         return view('contest.board.print', [
             'page_title'=>"Print",
+            'navigation' => "Contest",
             'site_title'=>"Contest"
         ]);
     }

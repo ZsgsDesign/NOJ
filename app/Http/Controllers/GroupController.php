@@ -16,13 +16,14 @@ class GroupController extends Controller
     public function index()
     {
         $groupModel=new GroupModel();
-        $tending_list=$groupModel->tending_list();
-        $mine_list=$groupModel->mine_list();
+        $tending_groups=$groupModel->tending_groups();
+        $user_groups=Auth::check() ? $groupModel->user_groups(Auth::user()->id) : [];
         return view('group.index', [
             'page_title' => "Group",
             'site_title' => "CodeMaster",
-            'tending' => $tending_list,
-            'mine' => $mine_list
+            'navigation' => "Group",
+            'tending' => $tending_groups,
+            'mine' => $user_groups
         ]);
     }
 
@@ -40,6 +41,7 @@ class GroupController extends Controller
         return view('group.detail', [
             'page_title'=>"Group Detail",
             'site_title'=>"CodeMaster",
+            'navigation' => "Group",
             "basic_info"=>$basic_info,
             'my_profile'=>$my_profile,
             'member_list'=>$member_list

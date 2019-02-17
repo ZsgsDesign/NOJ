@@ -23,6 +23,7 @@ class ProblemController extends Controller
         return is_null($prob) ? redirect("/problem") : view('problem.index', [
             'page_title' => "Problem",
             'site_title' => "CodeMaster",
+            'navigation' => "Problem",
             'prob_list' => $prob["data"],
             'prob_paginate' => $prob["paginate"]
         ]);
@@ -40,6 +41,7 @@ class ProblemController extends Controller
                                         view('problem.detail', [
                                             'page_title'=>$prob_detail["title"],
                                             'site_title'=>"CodeMaster",
+                                            'navigation' => "Problem",
                                             'detail' => $prob_detail
                                         ]);
     }
@@ -103,6 +105,7 @@ class ProblemController extends Controller
                                         view('problem.editor', [
                                             'page_title'=>$prob_detail["title"],
                                             'site_title'=>"CodeMaster",
+                                            'navigation' => "Problem",
                                             'detail' => $prob_detail,
                                             'compiler_list' => $compiler_list,
                                             'status' => $prob_status,

@@ -109,6 +109,7 @@
             </div>
         @endforeach
     </div>
+    @if(Auth::check())
     <div>
         <p class="cm-mine-group">My Groups</p>
     </div>
@@ -134,6 +135,7 @@
             </div>
         @endforeach
     </div>
+    @endif
 </div>
 <script>
 
