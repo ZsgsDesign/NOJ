@@ -21,18 +21,18 @@ Route::get('/account', 'MainController@account')->name('account');
 
 Route::get('/problem', 'ProblemController@index')->name('problem_index');
 Route::get('/problem/{pcode}', 'ProblemController@detail')->name('problem_detail');
-Route::get('/problem/{pcode}/editor', 'ProblemController@editor')->name('problem_editor');
+Route::get('/problem/{pcode}/editor', 'ProblemController@editor')->middleware('auth')->name('problem_editor');
 
 Route::get('/group', 'GroupController@index')->name('group_index');
-Route::get('/group/{gcode}', 'GroupController@detail')->name('group_detail');
+Route::get('/group/{gcode}', 'GroupController@detail')->middleware('auth')->name('group_detail');
 
 Route::get('/contest', 'ContestController@index')->name('contest_index');
 Route::get('/contest/{cid}', 'ContestController@detail')->name('contest_detail');
 Route::redirect('/contest/{cid}/board', '/contest/{cid}/board/challenge', 301);
-Route::get('/contest/{cid}/board/challenge', 'ContestController@challenge')->name('contest_challenge');
-Route::get('/contest/{cid}/board/rank', 'ContestController@rank')->name('contest_rank');
-Route::get('/contest/{cid}/board/clarification', 'ContestController@clarification')->name('contest_clarification');
-Route::get('/contest/{cid}/board/print', 'ContestController@print')->name('contest_print');
+Route::get('/contest/{cid}/board/challenge', 'ContestController@challenge')->middleware('auth')->name('contest_challenge');
+Route::get('/contest/{cid}/board/rank', 'ContestController@rank')->middleware('auth')->name('contest_rank');
+Route::get('/contest/{cid}/board/clarification', 'ContestController@clarification')->middleware('auth')->name('contest_clarification');
+Route::get('/contest/{cid}/board/print', 'ContestController@print')->middleware('auth')->name('contest_print');
 
 Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function(){
     Route::post('submitSolution', 'ProblemController@submitSolution');
