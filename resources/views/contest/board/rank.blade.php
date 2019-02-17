@@ -23,10 +23,34 @@
         text-decoration: none!important;
     }
 
+    nav-div{
+        display: block;
+        margin-bottom: 1rem;
+    }
+
+    nav-item{
+        display: inline-block;
+        color: rgba(0, 0, 0, 0.42);
+        padding: 0.25rem 0.5rem;
+        margin: 0rem 0.5rem;
+    }
+
+    nav-item.active{
+        color: rgba(0, 0, 0, 0.93);
+        color: #009688;
+        border-bottom: 2px solid #009688;
+    }
+
 </style>
 <div class="container mundb-standard-container">
+    <nav-div>
+        <a href="/contest/{{$cid}}/board/challenge"><nav-item>Challenge</nav-item></a>
+        <a href="/contest/{{$cid}}/board/rank"><nav-item class="active">Rank</nav-item></a>
+        <a href="/contest/{{$cid}}/board/clarification"><nav-item>Clarification</nav-item></a>
+        <a href="/contest/{{$cid}}/board/print"><nav-item>Print</nav-item></a>
+    </nav-div>
     <paper-card>
-       <h5>Rank</h5>
+        <h5>Rank</h5>
     </paper-card>
 </div>
 <script>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ContestModel;
 use App\Http\Controllers\Controller;
-use Auth;
+use Auth, Redirect;
 
 class ContestController extends Controller
 {
@@ -52,6 +52,16 @@ class ContestController extends Controller
     }
 
     /**
+     * Redirect the Contest Board Page.
+     *
+     * @return Response
+     */
+    public function board($cid)
+    {
+        return Redirect::route('contest_challenge', ['cid' => $cid]);
+    }
+
+    /**
      * Show the Contest Challenge Page.
      *
      * @return Response
@@ -61,7 +71,8 @@ class ContestController extends Controller
         return view('contest.board.challenge', [
             'page_title'=>"Challenge",
             'navigation' => "Contest",
-            'site_title'=>"Contest"
+            'site_title'=>"Contest",
+            'cid'=>1
         ]);
     }
 
@@ -75,7 +86,8 @@ class ContestController extends Controller
         return view('contest.board.rank', [
             'page_title'=>"Challenge",
             'navigation' => "Contest",
-            'site_title'=>"Contest"
+            'site_title'=>"Contest",
+            'cid'=>1
         ]);
     }
 
@@ -89,7 +101,8 @@ class ContestController extends Controller
         return view('contest.board.clarification', [
             'page_title'=>"Clarification",
             'navigation' => "Contest",
-            'site_title'=>"Contest"
+            'site_title'=>"Contest",
+            'cid'=>1
         ]);
     }
 
@@ -103,7 +116,8 @@ class ContestController extends Controller
         return view('contest.board.print', [
             'page_title'=>"Print",
             'navigation' => "Contest",
-            'site_title'=>"Contest"
+            'site_title'=>"Contest",
+            'cid'=>1
         ]);
     }
 }
