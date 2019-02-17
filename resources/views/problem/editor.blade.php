@@ -338,12 +338,8 @@
             padding-top: 0;
         }
 
-        right-side a,
-        right-side a:hover{
-            all:unset;
-        }
-        right-side a:hover{
-            background:#0f324a!important;
+        a.action-menu-item:hover{
+            text-decoration: none;
         }
 
         left-side,right-side{
@@ -491,11 +487,11 @@
                 <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> History</button>
                 <div class="btn-group dropup">
                     <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_lang_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="{{$compiler_list[$pref]['icon']}}"></i> {{$compiler_list[$pref]['display_name']}}
+                        <i class="{{$compiler_list[$pref]['icon']}} colored"></i> {{$compiler_list[$pref]['display_name']}}
                     </button>
                     <div class="dropdown-menu cm-scrollable-menu">
                         @foreach ($compiler_list as $c)
-                            <button class="dropdown-item lang-selector" data-coid="{{$c['coid']}}" data-comp="{{$c['comp']}}" data-lang="{{$c['lang']}}" data-lcode="{{$c['lcode']}}"><i class="{{$c['icon']}}"></i> {{$c['display_name']}}</button>
+                            <button class="dropdown-item lang-selector" data-coid="{{$c['coid']}}" data-comp="{{$c['comp']}}" data-lang="{{$c['lang']}}" data-lcode="{{$c['lcode']}}"><i class="{{$c['icon']}} colored"></i> {{$c['display_name']}}</button>
                         @endforeach
                     </div>
                     </div>

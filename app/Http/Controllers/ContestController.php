@@ -48,4 +48,56 @@ class ContestController extends Controller
             'detail'=>$contest_detail["data"]["contest_detail"]
         ]);
     }
+
+    /**
+     * Show the Contest Challenge Page.
+     *
+     * @return Response
+     */
+    public function challenge($cid)
+    {
+        return view('contest.board.challenge', [
+            'page_title'=>"Challenge",
+            'site_title'=>"Contest"
+        ]);
+    }
+
+    /**
+     * Show the Contest Rank Page.
+     *
+     * @return Response
+     */
+    public function rank($cid)
+    {
+        return view('contest.board.rank', [
+            'page_title'=>"Challenge",
+            'site_title'=>"Contest"
+        ]);
+    }
+
+    /**
+     * Show the Contest Clarification Page.
+     *
+     * @return Response
+     */
+    public function clarification($cid)
+    {
+        return view('contest.board.clarification', [
+            'page_title'=>"Clarification",
+            'site_title'=>"Contest"
+        ]);
+    }
+
+    /**
+     * Show the Contest Print Page.
+     *
+     * @return Response
+     */
+    public function print($cid)
+    {
+        return view('contest.board.print', [
+            'page_title'=>"Print",
+            'site_title'=>"Contest"
+        ]);
+    }
 }
