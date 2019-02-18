@@ -219,9 +219,9 @@
                     <h5>CodeMaster All-Star Contest</h5>
                     <badge-div>
                         <span class="badge badge-pill wemd-amber sm-contest-type"><i class="MDI trophy"></i> {{$detail['rule_parsed']}}</span>
-                        @if($detail['verified'])<span><i class="MDI marker-check wemd-light-blue-text"></i></span>@endif
-                        @if($detail['rated'])<span><i class="MDI seal wemd-purple-text"></i></span>@endif
-                        @if($detail['anticheated'])<span><i class="MDI do-not-disturb-off wemd-teal-text"></i></span>@endif
+                        @if($detail['verified'])<span><i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a verified contest"></i></span>@endif
+                        @if($detail['rated'])<span><i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="top" title="This is a rated contest"></i></span>@endif
+                        @if($detail['anticheated'])<span><i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="top" title="Anti-cheat enabled"></i></span>@endif
                     </badge-div>
                     {{-- <button class="btn btn-raised btn-primary">1</button> --}}
 
@@ -244,7 +244,7 @@
                             <li class="list-group-item">
                                 <i class="MDI buffer"></i>
                                 <div class="bmd-list-group-col">
-                                    <p class="list-group-item-heading">4</p>
+                                    <p class="list-group-item-heading">{{$detail['problem_count']}}</p>
                                     <p class="list-group-item-text">Problems</p>
                                 </div>
                             </li>

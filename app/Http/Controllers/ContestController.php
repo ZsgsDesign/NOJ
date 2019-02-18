@@ -72,7 +72,7 @@ class ContestController extends Controller
     public function challenge($cid)
     {
         $contestModel=new ContestModel();
-        $problemSet = $contestModel->contestProblems($cid);
+        $problemSet = $contestModel->contestProblems($cid,Auth::user()->id);
         return view('contest.board.challenge', [
             'page_title'=>"Challenge",
             'navigation' => "Contest",

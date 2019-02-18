@@ -93,6 +93,11 @@
         font-weight: bolder;
     }
 
+    .cisco-webex{
+        transform: scale(1.10);
+        display: inline-block;
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -111,7 +116,7 @@
 
                         <challenge-item class="btn" onclick="location.href='/contest/{{$cid}}/board/challenge/{{$p['ncode']}}'">
                             <div>
-                                <i class="MDI checkbox-blank-circle-outline wemd-green-text"></i>
+                                <i class="MDI {{$p["prob_status"]["icon"]}} {{$p["prob_status"]["color"]}}"></i>
                             </div>
                             <div>
                                 <p class="mb-0"><span>{{$p["ncode"]}}.</span> {{$p["title"]}}</p>

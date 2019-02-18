@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class ContestModel extends Model
 {
     protected $tableName = 'contest';
-    public $rule = ["Unknown","ACM","OI","Special OI"];
+    public $rule = ["Unknown","ACM","OI","Custom ACM","Custom OI"];
 
     public function calc_length($a,$b){
         $s=strtotime($b)-strtotime($a);
@@ -68,6 +68,7 @@ class ContestModel extends Model
             $contest_detail["length"]=$this->calc_length($contest_detail["begin_time"],$contest_detail["end_time"]);
             $contest_detail["description_parsed"]=Markdown::convertToHtml($contest_detail["description"]);
             $contest_detail["group_info"]=DB::table("group")->where(["gid"=>$contest_detail["gid"]])->first();
+            $contest_detail["problem_count"]=DB::table("contest_problem")->where(["cid"=>$cid])->count();
             return [
                 "ret"=>200,
                 "desc"=>"succeed",
@@ -121,8 +122,9 @@ class ContestModel extends Model
         return $str . chr($index % 26 + $start);
     }
 
-    public function contestProblems($cid)
+    public function contestProblems($cid,$uid)
     {
+        $submissionModel=new SubmissionModel();
         $problemSet = DB::table("contest_problem")->join("problem","contest_problem.pid","=","problem.pid")->where([
             "cid"=>$cid
         ])->orderBy('ncode', 'asc')->select("ncode","alias","contest_problem.pid as pid","title")->get()->all();
@@ -142,6 +144,19 @@ class ContestModel extends Model
                 $p["passed_count"]=$prob_stat["passed_count"];
                 $p["ac_rate"]=round($prob_stat["ac_rate"],2);
             }
+            $prob_status=$submissionModel->getProblemStatus($p["pid"], $uid,$cid);
+            if(empty($prob_status)) {
+                $p["prob_status"]=[
+                    "icon"=>"checkbox-blank-circle-outline",
+                    "color"=>"wemd-grey-text"
+                ];
+            } else {
+                $p["prob_status"]=[
+                    "icon"=>$prob_status["verdict"]=="Accepted" ? "checkbox-blank-circle" : "cisco-webex",
+                    "color"=>$prob_status["color"]
+                ];
+            }
+
         }
 
         return $problemSet;
