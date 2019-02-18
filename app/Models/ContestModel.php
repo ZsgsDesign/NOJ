@@ -127,6 +127,23 @@ class ContestModel extends Model
             "cid"=>$cid
         ])->orderBy('ncode', 'asc')->select("ncode","alias","contest_problem.pid as pid","title")->get()->all();
 
+        foreach($problemSet as &$p) {
+            $prob_stat = DB::table("submission")->select(
+                DB::raw("count(sid) as submission_count"),
+                DB::raw("sum(verdict='accepted') as passed_count"),
+                DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
+            )->where(["pid"=>$p["pid"],"cid"=>$cid])->first();
+            if($prob_stat["submission_count"]==0){
+                $p["submission_count"]=0;
+                $p["passed_count"]=0;
+                $p["ac_rate"]=0;
+            }else{
+                $p["submission_count"]=$prob_stat["submission_count"];
+                $p["passed_count"]=$prob_stat["passed_count"];
+                $p["ac_rate"]=round($prob_stat["ac_rate"],2);
+            }
+        }
+
         return $problemSet;
     }
 

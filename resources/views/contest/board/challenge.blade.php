@@ -115,7 +115,7 @@
                             </div>
                             <div>
                                 <p class="mb-0"><span>{{$p["ncode"]}}.</span> {{$p["title"]}}</p>
-                                <small>0 / 0</small>
+                                <small>{{$p["passed_count"]}} / {{$p["submission_count"]}}</small>
                             </div>
                         </challenge-item>
 
