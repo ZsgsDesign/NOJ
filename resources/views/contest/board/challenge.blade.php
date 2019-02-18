@@ -149,7 +149,7 @@
                             <div class="progress-bar wemd-light-blue" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
-                    <p class="cm-countdown">01:02:24</p>
+                    <p class="cm-countdown" id="countdown">00:00:00</p>
                 </div>
             </paper-card>
             <paper-card>
@@ -166,8 +166,30 @@
 </div>
 <script>
 
-    window.addEventListener("load",function() {
+    var remaining_time = {{$remaining_time}};
+    updateCountDown();
 
+    var countDownTimer = setInterval(function(){
+        remaining_time--;
+        updateCountDown();
+        if(remaining_time<=0){
+            remaining_time=0;
+            clearInterval(countDownTimer);
+        }
+    }, 1000);
+
+    function updateCountDown(){
+        remaining_hour=parseInt(remaining_time/3600);
+        remaining_min=parseInt((remaining_time-remaining_hour*3600)/60);
+        remaining_sec=parseInt((remaining_time-remaining_hour*3600-remaining_min*60));
+        remaining_hour=(remaining_hour<10?(remaining_hour==0?'00':'0'):'')+remaining_hour;
+        remaining_min=(remaining_min<10?(remaining_min==0?'00':'0'):'')+remaining_min;
+        remaining_sec=(remaining_sec<10?(remaining_sec==0?'00':'0'):'')+remaining_sec;
+        document.getElementById("countdown").innerText=remaining_hour+":"+remaining_min+":"+remaining_sec;
+    }
+
+    window.addEventListener("load",function() {
+        
     }, false);
 
 </script>

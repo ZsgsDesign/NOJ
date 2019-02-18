@@ -73,12 +73,17 @@ class ContestController extends Controller
     {
         $contestModel=new ContestModel();
         $problemSet = $contestModel->contestProblems($cid,Auth::user()->id);
+        $remainingTime = $contestModel->remainingTime($cid);
+        if ($remainingTime<=0) {
+            $remainingTime=0;
+        }
         return view('contest.board.challenge', [
             'page_title'=>"Challenge",
             'navigation' => "Contest",
             'site_title'=>"Contest",
             'cid'=>$cid,
-            'problem_set'=> $problemSet
+            'problem_set'=> $problemSet,
+            'remaining_time'=>$remainingTime
         ]);
     }
 

@@ -114,6 +114,15 @@ class ContestModel extends Model
         return $featured;
     }
 
+    public function remainingTime($cid){
+        $end_time = DB::table($this->tableName)->where([
+            "cid"=>$cid
+        ])->select("end_time")->first()["end_time"];
+        $end_time=strtotime($end_time);
+        $cur_time=time();
+        return $end_time-$cur_time;
+    }
+
     public function IntToChr($index, $start = 65) {
         $str = '';
         if (floor($index / 26) > 0) {
