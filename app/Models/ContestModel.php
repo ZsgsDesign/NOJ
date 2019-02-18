@@ -137,4 +137,11 @@ class ContestModel extends Model
             "ncode"=>$ncode
         ])->select("contest_problem.pid")->first()["pid"];
     }
+
+    public function getPcode($cid,$ncode)
+    {
+        return DB::table("problem")->where([
+            "cid"=>$cid
+        ])->select("contest_problem.pid")->first()["pcode"];
+    }
 }

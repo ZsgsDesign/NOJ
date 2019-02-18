@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContestModel;
+use App\Models\ProblemModel;
+use App\Models\CompilerModel;
+use App\Models\SubmissionModel;
 use App\Http\Controllers\Controller;
 use Auth, Redirect;
 
@@ -92,12 +95,13 @@ class ContestController extends Controller
         $submissionModel=new SubmissionModel();
 
         $pid=$contestModel->getPid($cid,$ncode);
+        $pcode=$problemModel->pcode($pid);
 
-        $prob_detail=$problemModel->detail($pcode);
+        $prob_detail=$problemModel->detail($pcode,$cid);
         $compiler_list=$compilerModel->list($prob_detail["OJ"]);
-        $prob_status=$submissionModel->getProblemStatus($prob_detail["pid"], Auth::user()->id);
+        $prob_status=$submissionModel->getProblemStatus($prob_detail["pid"], Auth::user()->id,$cid);
 
-        $compiler_pref=$compilerModel->pref($prob_detail["pid"], Auth::user()->id);
+        $compiler_pref=$compilerModel->pref($prob_detail["pid"], Auth::user()->id, $cid);
         $pref=-1;
         $submit_code="";
 

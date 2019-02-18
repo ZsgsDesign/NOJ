@@ -424,7 +424,11 @@
             <left-side>
                 <div class="prob-header animated pre-animated cm-performance-optimistic">
                     <button class="btn btn-outline-secondary" id="backBtn"><i class="MDI arrow-left"></i>  Back</button>
-                    <info-badge data-toggle="tooltip" data-placement="top" title="AC Rate"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['ac_rate']}}%</info-badge>
+                    @if($contest_mode)
+                        <info-badge data-toggle="tooltip" data-placement="top" title="Submission / Passed"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['passed_count']}} / {{$detail['submission_count']}}</info-badge>
+                    @else
+                        <info-badge data-toggle="tooltip" data-placement="top" title="AC Rate"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['ac_rate']}}%</info-badge>
+                    @endif
                     <info-badge data-toggle="tooltip" data-placement="top" title="Time Limit"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
                     <info-badge data-toggle="tooltip" data-placement="top" title="Memory Limit"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
                 </div>
@@ -589,7 +593,8 @@
                 type: 'POST',
                 url: '/ajax/submitHistory',
                 data: {
-                    pid: {{$detail["pid"]}}
+                    pid: {{$detail["pid"]}},
+                    @if($contest_mode) cid: {{$cid}} @endif
                 },
                 dataType: 'json',
                 headers: {
@@ -634,7 +639,8 @@
                     iid:"{{$detail["index_id"]}}",
                     oj:"{{$detail["oj_detail"]["ocode"]}}",
                     coid: chosen_coid,
-                    solution: editor.getValue()
+                    solution: editor.getValue(),
+                    @if($contest_mode) contest: {{$cid}} @endif
                 },
                 dataType: 'json',
                 headers: {
@@ -687,7 +693,11 @@
         });
 
         document.getElementById("backBtn").addEventListener("click",function(){
-            location.href="/problem/{{$detail["pcode"]}}";
+            @if($contest_mode)
+                location.href="/contest/{{$cid}}/board/challenge/";
+            @else
+                location.href="/problem/{{$detail["pcode"]}}";
+            @endif
         },false);
 
         window.addEventListener("load",function() {

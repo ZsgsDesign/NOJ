@@ -72,7 +72,12 @@ class ProblemController extends Controller
     {
         $all_data = $request->all();
         $submission=new SubmissionModel();
-        $history=$submission->getProblemSubmission($all_data["pid"],Auth::user()->id);
+        if(isset($all_data["cid"])){
+            $history=$submission->getProblemSubmission($all_data["pid"],Auth::user()->id,$all_data["cid"]);
+        } else {
+            $history=$submission->getProblemSubmission($all_data["pid"],Auth::user()->id);
+        }
+
 
         return response()->json([
             "ret" => 200,

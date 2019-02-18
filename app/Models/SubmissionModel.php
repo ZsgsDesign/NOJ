@@ -37,6 +37,7 @@ class SubmissionModel extends Model
             'memory' => $sub['memory'],
             'uid' => $sub['uid'],
             'pid' => $sub['pid'],
+            'cid' => $sub['cid'],
             'color' => $this->colorScheme[$sub['verdict']],
             'remote_id'=>"",
             'compile_info'=>"",
@@ -51,15 +52,21 @@ class SubmissionModel extends Model
         return DB::table($this->tableName)->where(['sid'=>$sid])->first();
     }
 
-    public function getProblemStatus($pid,$uid)
+    public function getProblemStatus($pid,$uid,$cid=0)
     {
-        $ac=DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'verdict'=>'Accepted'])->orderBy('submission_date', 'desc')->first(); // Get the very first AC record
-        return empty($ac) ? DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid])->first() : $ac;
+        if($cid){
+            $ac=DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'cid'=>$cid,'verdict'=>'Accepted'])->orderBy('submission_date', 'desc')->first(); // Get the very first AC record
+            return empty($ac) ? DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'cid'=>$cid])->first() : $ac;
+        }else{
+            $ac=DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'verdict'=>'Accepted'])->orderBy('submission_date', 'desc')->first(); // Get the very first AC record
+            return empty($ac) ? DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid])->first() : $ac;
+        }
     }
 
-    public function getProblemSubmission($pid,$uid)
+    public function getProblemSubmission($pid,$uid,$cid=0)
     {
-        return DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid])->orderBy('submission_date', 'desc')->limit(10)->get();
+        if($cid) return DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'cid'=>$cid])->orderBy('submission_date', 'desc')->limit(10)->get();
+        else return DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid])->orderBy('submission_date', 'desc')->limit(10)->get();
     }
 
     public function count_solution($s)

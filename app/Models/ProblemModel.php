@@ -10,7 +10,7 @@ class ProblemModel extends Model
 {
     protected $tableName = 'problem';
 
-    public function detail($pcode)
+    public function detail($pcode,$cid=0)
     {
         $prob_detail = DB::table($this->tableName)->where("pcode", $pcode)->first();
         // [Depreciated] Joint Query was depreciated here for code maintenance reasons
@@ -25,11 +25,19 @@ class ProblemModel extends Model
             $prob_detail["oj_detail"] = DB::table("oj")->where("oid", $prob_detail["OJ"])->first();
             $prob_detail["samples"] = DB::table("problem_sample")->where("pid", $prob_detail["pid"])->get()->all();
             $prob_detail["tags"] = DB::table("problem_tag")->where("pid", $prob_detail["pid"])->get()->all();
-            $prob_stat = DB::table("submission")->select(
-                DB::raw("count(sid) as submission_count"),
-                DB::raw("sum(verdict='accepted') as passed_count"),
-                DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
-            )->where(["pid"=>$prob_detail["pid"]])->first();
+            if($cid) {
+                $prob_stat = DB::table("submission")->select(
+                    DB::raw("count(sid) as submission_count"),
+                    DB::raw("sum(verdict='accepted') as passed_count"),
+                    DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
+                )->where(["pid"=>$prob_detail["pid"],"cid"=>$cid])->first();
+            } else {
+                $prob_stat = DB::table("submission")->select(
+                    DB::raw("count(sid) as submission_count"),
+                    DB::raw("sum(verdict='accepted') as passed_count"),
+                    DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
+                )->where(["pid"=>$prob_detail["pid"]])->first();
+            }
             if($prob_stat["submission_count"]==0){
                 $prob_detail["submission_count"]=0;
                 $prob_detail["passed_count"]=0;
@@ -101,6 +109,12 @@ class ProblemModel extends Model
     {
         $temp = DB::table($this->tableName)->where(["pcode"=>$pcode])->select("pid")->first();
         return empty($temp) ? 0 : $temp["pid"];
+    }
+
+    public function pcode($pid)
+    {
+        $temp = DB::table($this->tableName)->where(["pid"=>$pid])->select("pcode")->first();
+        return empty($temp) ? 0 : $temp["pcode"];
     }
 
     public function clearTags($pid)
