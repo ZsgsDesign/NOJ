@@ -152,7 +152,21 @@
         <img src="">
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom:30px;position:sticky;top:0;z-index:999;">
-        <a class="navbar-brand" href="/"><img src="https://cdn.mundb.xyz/img/atsast/icon_white.png" height="30"> CodeMaster</a>
+        
+        @if(isset($custom_info) && !is_null($custom_info))
+
+            <a class="navbar-brand" href="/group/{{$custom_info["gcode"]}}">
+                <img src="@if(empty($custom_info["custom_icon"])) https://cdn.mundb.xyz/img/atsast/icon_white.png @else {{$custom_info["custom_icon"]}} @endif" height="30"> @if(empty($custom_info["custom_title"])) CodeMaster @else {{$custom_info["custom_title"]}} @endif
+            </a>
+
+        @else
+
+            <a class="navbar-brand" href="/">
+                <img src="https://cdn.mundb.xyz/img/atsast/icon_white.png" height="30"> CodeMaster
+            </a>
+
+        @endif
+        
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

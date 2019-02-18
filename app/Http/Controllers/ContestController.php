@@ -74,6 +74,7 @@ class ContestController extends Controller
         $contestModel=new ContestModel();
         $problemSet = $contestModel->contestProblems($cid,Auth::user()->id);
         $remainingTime = $contestModel->remainingTime($cid);
+        $customInfo = $contestModel->getCustomInfo($cid);
         if ($remainingTime<=0) {
             $remainingTime=0;
         }
@@ -83,7 +84,8 @@ class ContestController extends Controller
             'site_title'=>"Contest",
             'cid'=>$cid,
             'problem_set'=> $problemSet,
-            'remaining_time'=>$remainingTime
+            'remaining_time'=>$remainingTime,
+            'custom_info' => $customInfo
         ]);
     }
 

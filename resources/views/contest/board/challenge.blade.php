@@ -179,12 +179,12 @@
     }, 1000);
 
     function updateCountDown(){
-        remaining_hour=parseInt(remaining_time/3600);
-        remaining_min=parseInt((remaining_time-remaining_hour*3600)/60);
-        remaining_sec=parseInt((remaining_time-remaining_hour*3600-remaining_min*60));
-        remaining_hour=(remaining_hour<10?(remaining_hour==0?'00':'0'):'')+remaining_hour;
-        remaining_min=(remaining_min<10?(remaining_min==0?'00':'0'):'')+remaining_min;
-        remaining_sec=(remaining_sec<10?(remaining_sec==0?'00':'0'):'')+remaining_sec;
+        remaining_hour = parseInt(remaining_time/3600);
+        remaining_min  = parseInt((remaining_time-remaining_hour*3600)/60);
+        remaining_sec  = parseInt((remaining_time-remaining_hour*3600-remaining_min*60));
+        remaining_hour = (remaining_hour<10?'0':'')+remaining_hour;
+        remaining_min  = (remaining_min<10?'0':'')+remaining_min;
+        remaining_sec  = (remaining_sec<10?'0':'')+remaining_sec;
         document.getElementById("countdown").innerText=remaining_hour+":"+remaining_min+":"+remaining_sec;
     }
 
