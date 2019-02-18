@@ -52,12 +52,17 @@
         display: block;
     }
 
-    challenge-item{
+    challenge-item.btn{
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
         padding: 1rem;
+        margin: 0;
         cursor: pointer;
+        text-align: left;
+        border-radius:0;
+        text-transform: none;
+        font-size: 1rem;
     }
 
     challenge-item:nth-of-type(even){
@@ -101,39 +106,39 @@
                     <a href="/contest/{{$cid}}/board/print"><nav-item>Print</nav-item></a>
                 </nav-div>
                 <challenge-container>
-                        <challenge-item>
-                                <div>
-                                    <i class="MDI checkbox-blank-circle-outline wemd-green-text"></i>
-                                </div>
-                                <div>
-                                    <p class="mb-0"><span>A.</span> New Year Transportation</p>
-                                    <small>51 / 111</small>
-                                </div>
-                            </challenge-item>
-                            <challenge-item>
-                                    <div>
-                                        <i class="MDI checkbox-blank-circle-outline wemd-green-text"></i>
-                                    </div>
-                                    <div>
-                                        <p class="mb-0"><span>B.</span> New Year Transportation</p>
-                                        <small>0 / 7</small>
-                                    </div>
-                                </challenge-item>
-                                <challenge-item>
-                                        <div>
-                                            <i class="MDI checkbox-blank-circle-outline wemd-green-text"></i>
-                                        </div>
-                                        <div>
-                                            <p class="mb-0"><span>C.</span> New Year Transportation</p>
-                                            <small>1 / 1</small>
-                                        </div>
-                                    </challenge-item>
+                        <challenge-item class="btn">
+                            <div>
+                                <i class="MDI checkbox-blank-circle-outline wemd-green-text"></i>
+                            </div>
+                            <div>
+                                <p class="mb-0"><span>A.</span> New Year Transportation</p>
+                                <small>51 / 111</small>
+                            </div>
+                        </challenge-item>
+                        <challenge-item class="btn">
+                            <div>
+                                <i class="MDI checkbox-blank-circle-outline wemd-green-text"></i>
+                            </div>
+                            <div>
+                                <p class="mb-0"><span>B.</span> New Year Transportation</p>
+                                <small>0 / 7</small>
+                            </div>
+                        </challenge-item>
+                        <challenge-item class="btn">
+                            <div>
+                                <i class="MDI checkbox-blank-circle-outline wemd-green-text"></i>
+                            </div>
+                            <div>
+                                <p class="mb-0"><span>C.</span> New Year Transportation</p>
+                                <small>1 / 1</small>
+                            </div>
+                        </challenge-item>
                 </challenge-container>
             </paper-card>
         </div>
         <div class="col-sm-12 col-md-4">
             <paper-card>
-                2
+                <h5>Announcements</h5>
             </paper-card>
         </div>
     </div>
