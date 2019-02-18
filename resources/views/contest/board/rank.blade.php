@@ -58,6 +58,13 @@
             <a href="/contest/{{$cid}}/board/clarification"><nav-item>Clarification</nav-item></a>
             <a href="/contest/{{$cid}}/board/print"><nav-item>Print</nav-item></a>
         </nav-div>
+        <div>
+                <div class="table-responsive">
+                        <table class="table">
+                          
+                        </table>
+                      </div>
+        </div>
     </paper-card>
 </div>
 <script>

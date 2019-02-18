@@ -52,21 +52,15 @@ class SubmissionModel extends Model
         return DB::table($this->tableName)->where(['sid'=>$sid])->first();
     }
 
-    public function getProblemStatus($pid,$uid,$cid=0)
+    public function getProblemStatus($pid,$uid,$cid=null)
     {
-        if($cid){
-            $ac=DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'cid'=>$cid,'verdict'=>'Accepted'])->orderBy('submission_date', 'desc')->first(); // Get the very first AC record
-            return empty($ac) ? DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'cid'=>$cid])->first() : $ac;
-        }else{
-            $ac=DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'verdict'=>'Accepted'])->orderBy('submission_date', 'desc')->first(); // Get the very first AC record
-            return empty($ac) ? DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid])->first() : $ac;
-        }
+        $ac=DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'cid'=>$cid,'verdict'=>'Accepted'])->orderBy('submission_date', 'desc')->first(); // Get the very first AC record
+        return empty($ac) ? DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'cid'=>$cid])->first() : $ac;
     }
 
-    public function getProblemSubmission($pid,$uid,$cid=0)
+    public function getProblemSubmission($pid,$uid,$cid=null)
     {
-        if($cid) return DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'cid'=>$cid])->orderBy('submission_date', 'desc')->limit(10)->get();
-        else return DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid])->orderBy('submission_date', 'desc')->limit(10)->get();
+        return DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'cid'=>$cid])->orderBy('submission_date', 'desc')->limit(10)->get();
     }
 
     public function count_solution($s)

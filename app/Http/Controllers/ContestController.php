@@ -170,11 +170,14 @@ class ContestController extends Controller
      */
     public function rank($cid)
     {
+        $contestModel=new ContestModel();
+        $customInfo = $contestModel->getCustomInfo($cid);
         return view('contest.board.rank', [
             'page_title'=>"Challenge",
             'navigation' => "Contest",
             'site_title'=>"Contest",
-            'cid'=>1
+            'cid'=>$cid,
+            'custom_info' => $customInfo
         ]);
     }
 
@@ -185,11 +188,14 @@ class ContestController extends Controller
      */
     public function clarification($cid)
     {
+        $contestModel=new ContestModel();
+        $customInfo = $contestModel->getCustomInfo($cid);
         return view('contest.board.clarification', [
             'page_title'=>"Clarification",
             'navigation' => "Contest",
             'site_title'=>"Contest",
-            'cid'=>1
+            'cid'=>$cid,
+            'custom_info' => $customInfo
         ]);
     }
 
@@ -200,11 +206,14 @@ class ContestController extends Controller
      */
     public function print($cid)
     {
+        $contestModel=new ContestModel();
+        $customInfo = $contestModel->getCustomInfo($cid);
         return view('contest.board.print', [
             'page_title'=>"Print",
             'navigation' => "Contest",
             'site_title'=>"Contest",
-            'cid'=>1
+            'cid'=>$cid,
+            'custom_info' => $customInfo
         ]);
     }
 }

@@ -10,7 +10,7 @@ class ProblemModel extends Model
 {
     protected $tableName = 'problem';
 
-    public function detail($pcode,$cid=0)
+    public function detail($pcode,$cid=null)
     {
         $prob_detail = DB::table($this->tableName)->where("pcode", $pcode)->first();
         // [Depreciated] Joint Query was depreciated here for code maintenance reasons

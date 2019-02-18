@@ -15,12 +15,8 @@ class CompilerModel extends Model
         return $compiler_list;
     }
 
-    public function pref($pid,$uid,$cid=0){
-        if($cid){
-            $last_submission = DB::table("submission")->where(["pid"=>$pid,"uid"=>$uid,"cid"=>$cid])->orderBy('submission_date', 'desc')->first();
-        } else {
-            $last_submission = DB::table("submission")->where(["pid"=>$pid,"uid"=>$uid])->orderBy('submission_date', 'desc')->first();
-        }
+    public function pref($pid,$uid,$cid=null){
+        $last_submission = DB::table("submission")->where(["pid"=>$pid,"uid"=>$uid,"cid"=>$cid])->orderBy('submission_date', 'desc')->first();
         if(empty($last_submission)){
             // get user pref for compilers
             return null;
