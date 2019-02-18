@@ -98,6 +98,17 @@
         display: inline-block;
     }
 
+    .cm-progressbar-container{
+        margin: 1rem 0;
+    }
+
+    .cm-countdown{
+        font-family: 'Montserrat';
+        font-size: 3rem;
+        text-align: center;
+        color: rgba(0, 0, 0, 0.42);
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -130,6 +141,17 @@
             </paper-card>
         </div>
         <div class="col-sm-12 col-md-4">
+            <paper-card>
+                <h5 style="text-align:center">Contest is running</h5>
+                <div>
+                    <div class="cm-progressbar-container d-none">
+                        <div class="progress wemd-light-blue wemd-lighten-4">
+                            <div class="progress-bar wemd-light-blue" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <p class="cm-countdown">01:02:24</p>
+                </div>
+            </paper-card>
             <paper-card>
                 <h5>Announcements</h5>
                 <div>
