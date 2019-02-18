@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('contest.board.app')
 
 @section('template')
 <style>

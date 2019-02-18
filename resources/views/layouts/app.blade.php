@@ -241,6 +241,8 @@
 
     @yield('template')
 
+    @yield('addition')
+
     <footer class="mundb-footer bg-dark text-light d-print-none">
         Copyright &copy; CodeMaster 2018-2019, all rights reserved.
     </footer>
