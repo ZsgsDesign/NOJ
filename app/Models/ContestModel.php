@@ -129,4 +129,12 @@ class ContestModel extends Model
 
         return $problemSet;
     }
+
+    public function getPid($cid,$ncode)
+    {
+        return DB::table("contest_problem")->where([
+            "cid"=>$cid,
+            "ncode"=>$ncode
+        ])->select("contest_problem.pid")->first()["pid"];
+    }
 }

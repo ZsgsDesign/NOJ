@@ -68,7 +68,7 @@ class ContestController extends Controller
      */
     public function challenge($cid)
     {
-        $contestModel=new contestModel();
+        $contestModel=new ContestModel();
         $problemSet = $contestModel->contestProblems($cid);
         return view('contest.board.challenge', [
             'page_title'=>"Challenge",
@@ -76,6 +76,79 @@ class ContestController extends Controller
             'site_title'=>"Contest",
             'cid'=>$cid,
             'problem_set'=> $problemSet
+        ]);
+    }
+
+    /**
+     * Show the Contest Editor Page.
+     *
+     * @return Response
+     */
+    public function editor($cid,$ncode)
+    {
+        $contestModel=new ContestModel();
+        $problemModel=new ProblemModel();
+        $compilerModel=new CompilerModel();
+        $submissionModel=new SubmissionModel();
+
+        $pid=$contestModel->getPid($cid,$ncode);
+
+        $prob_detail=$problemModel->detail($pcode);
+        $compiler_list=$compilerModel->list($prob_detail["OJ"]);
+        $prob_status=$submissionModel->getProblemStatus($prob_detail["pid"], Auth::user()->id);
+
+        $compiler_pref=$compilerModel->pref($prob_detail["pid"], Auth::user()->id);
+        $pref=-1;
+        $submit_code="";
+
+        if(!is_null($compiler_pref)){
+            $submit_code=$compiler_pref["code"];
+            // match precise compiler
+            for($i=0;$i<count($compiler_list);$i++){
+                if($compiler_list[$i]["coid"]==$compiler_pref["coid"]){
+                    $pref=$i;
+                    break;
+                }
+            }
+            if($pref==-1){
+                // precise compiler is dead, use  other compiler with same lang
+                for($i=0;$i<count($compiler_list);$i++){
+                    if($compiler_list[$i]["lang"]==$compiler_pref["detail"]["lang"]){
+                        $pref=$i;
+                        break;
+                    }
+                }
+            }
+            if($pref==-1){
+                // same lang compilers are all dead, use other compiler within the same group
+                for($i=0;$i<count($compiler_list);$i++){
+                    if($compiler_list[$i]["comp"]==$compiler_pref["detail"]["comp"]){
+                        $pref=$i;
+                        break;
+                    }
+                }
+            }
+            // the entire comp group dead
+        }
+
+        if(empty($prob_status)){
+            $prob_status=[
+                "verdict"=>"NOT SUBMIT",
+                "color"=>""
+            ];
+        }
+
+        return view('problem.editor', [
+            'page_title'=>"Problem Detail",
+            'navigation' => "Contest",
+            'site_title'=>"Contest",
+            'cid'=> $cid,
+            'detail' => $prob_detail,
+            'compiler_list' => $compiler_list,
+            'status' => $prob_status,
+            'pref' => $pref<0 ? 0 : $pref,
+            'submit_code' => $submit_code,
+            'contest_mode' => true
         ]);
     }
 

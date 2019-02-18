@@ -110,7 +110,8 @@ class ProblemController extends Controller
                                             'compiler_list' => $compiler_list,
                                             'status' => $prob_status,
                                             'pref'=>$pref<0 ? 0 : $pref,
-                                            'submit_code'=>$submit_code
+                                            'submit_code'=>$submit_code,
+                                            'contest_mode'=> false
                                         ]);
     }
 }

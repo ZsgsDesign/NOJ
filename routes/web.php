@@ -30,6 +30,7 @@ Route::get('/contest', 'ContestController@index')->name('contest_index');
 Route::get('/contest/{cid}', 'ContestController@detail')->name('contest_detail');
 Route::get('/contest/{cid}/board', 'ContestController@board')->middleware('auth')->name('contest_board');
 Route::get('/contest/{cid}/board/challenge', 'ContestController@challenge')->middleware('auth')->name('contest_challenge');
+Route::get('/contest/{cid}/board/challenge/{ncode}', 'ContestController@editor')->middleware('auth')->name('contest_editor');
 Route::get('/contest/{cid}/board/rank', 'ContestController@rank')->middleware('auth')->name('contest_rank');
 Route::get('/contest/{cid}/board/clarification', 'ContestController@clarification')->middleware('auth')->name('contest_clarification');
 Route::get('/contest/{cid}/board/print', 'ContestController@print')->middleware('auth')->name('contest_print');
