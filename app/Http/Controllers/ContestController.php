@@ -68,11 +68,14 @@ class ContestController extends Controller
      */
     public function challenge($cid)
     {
+        $contestModel=new contestModel();
+        $problemSet = $contestModel->contestProblems($cid);
         return view('contest.board.challenge', [
             'page_title'=>"Challenge",
             'navigation' => "Contest",
             'site_title'=>"Contest",
-            'cid'=>1
+            'cid'=>$cid,
+            'problem_set'=> $problemSet
         ]);
     }
 

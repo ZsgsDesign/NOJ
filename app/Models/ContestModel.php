@@ -112,4 +112,21 @@ class ContestModel extends Model
         $featured["length"]=$this->calc_length($featured["begin_time"],$featured["end_time"]);
         return $featured;
     }
+
+    public function IntToChr($index, $start = 65) {
+        $str = '';
+        if (floor($index / 26) > 0) {
+            $str .= IntToChr(floor($index / 26)-1);
+        }
+        return $str . chr($index % 26 + $start);
+    }
+
+    public function contestProblems($cid)
+    {
+        $problemSet = DB::table("contest_problem")->join("problem","contest_problem.pid","=","problem.pid")->where([
+            "cid"=>$cid
+        ])->orderBy('ncode', 'asc')->select("ncode","alias","contest_problem.pid as pid","title")->get()->all();
+
+        return $problemSet;
+    }
 }
