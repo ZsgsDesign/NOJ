@@ -25,32 +25,39 @@
 
     nav-div{
         display: block;
-        margin-bottom: 1rem;
+        margin-bottom: 0;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.15);
     }
 
     nav-item{
         display: inline-block;
         color: rgba(0, 0, 0, 0.42);
-        padding: 0.25rem 0.5rem;
-        margin: 0rem 0.5rem;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.85rem;
     }
 
     nav-item.active{
         color: rgba(0, 0, 0, 0.93);
-        color: #009688;
-        border-bottom: 2px solid #009688;
+        color: #03a9f4;
+        border-bottom: 2px solid #03a9f4;
+        margin-bottom: -2px;
+    }
+
+    h5{
+        margin-bottom: 1rem;
+        font-weight: bold;
     }
 
 </style>
 <div class="container mundb-standard-container">
-    <nav-div>
-        <a href="/contest/{{$cid}}/board/challenge"><nav-item>Challenge</nav-item></a>
-        <a href="/contest/{{$cid}}/board/rank"><nav-item>Rank</nav-item></a>
-        <a href="/contest/{{$cid}}/board/clarification"><nav-item>Clarification</nav-item></a>
-        <a href="/contest/{{$cid}}/board/print"><nav-item class="active">Print</nav-item></a>
-    </nav-div>
     <paper-card>
-        <h5>Print</h5>
+        <h5>CodeMaster All-Star Contest</h5>
+        <nav-div>
+            <a href="/contest/{{$cid}}/board/challenge"><nav-item>Challenge</nav-item></a>
+            <a href="/contest/{{$cid}}/board/rank"><nav-item>Rank</nav-item></a>
+            <a href="/contest/{{$cid}}/board/clarification"><nav-item>Clarification</nav-item></a>
+            <a href="/contest/{{$cid}}/board/print"><nav-item class="active">Print</nav-item></a>
+        </nav-div>
     </paper-card>
 </div>
 <script>
