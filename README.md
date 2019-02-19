@@ -104,6 +104,9 @@ CodeMaster's another online judge platform
 ## Credit
 
 [Laravel](https://github.com/laravel/laravel)
+
 [Markdown](https://github.com/GrahamCampbell/Laravel-Markdown)
+
 [Simple-HTML-Dom](https://github.com/sunra/php-simple-html-dom-parser)
+
 [Judger](https://github.com/QingdaoU/Judger)
