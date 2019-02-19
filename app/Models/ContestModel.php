@@ -201,6 +201,11 @@ class ContestModel extends Model
         ])->select("custom_icon", "custom_title", "gcode")->first() : null;
     }
 
+    public function contestProblemInfo($cid, $pid, $uid)
+    {
+        
+    }
+
     public function contestRank($cid, $uid)
     {
         // [ToDo] If the current user's in the organizer group show nick name
@@ -230,7 +235,8 @@ class ContestModel extends Model
                     "pid"=>$p["pid"],
                     "color"=>$prob_stat["color"],
                     "wrong_doings"=>$prob_stat["wrong_doings"],
-                    "solved_time_parsed"=>$prob_stat["solved_time_parsed"]
+                    "solved_time_parsed"=>$prob_stat["solved_time_parsed"],
+                    "first_blood"=>$prob_stat["is_first_blood"]
                 ];
                 $totPen+=$prob_stat["wrong_doings"]*20;
                 $totPen+=$prob_stat["solved_time"];
