@@ -29,7 +29,7 @@ CodeMaster's another online judge platform
     - [ ] OnmiSearch Support
 - [ ] Problem System
     - [X] Problem List
-    - [ ] Problem Tag
+    - [X] Problem Tag
     - [ ] Problem Filter
     - [X] Problem Details
     - [ ] Problem Solution
@@ -68,9 +68,9 @@ CodeMaster's another online judge platform
         - [ ] Contest Registration
         - [ ] Contest Temp Account
         - [ ] Leader Board
-        - [ ] Contest CountDown
-        - [ ] Contest Problem List
-        - [ ] Contest Problem Details
+        - [X] Contest CountDown
+        - [X] Contest Problem List
+        - [X] Contest Problem Details
         - [ ] Contest Announcements
         - [ ] Contest Admin Portal
             - [ ] Account Generate
@@ -104,3 +104,6 @@ CodeMaster's another online judge platform
 ## Credit
 
 [Laravel](https://github.com/laravel/laravel)
+[Markdown](https://github.com/GrahamCampbell/Laravel-Markdown)
+[Simple-HTML-Dom](https://github.com/sunra/php-simple-html-dom-parser)
+[Judger](https://github.com/QingdaoU/Judger)
