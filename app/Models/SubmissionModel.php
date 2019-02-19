@@ -20,7 +20,7 @@ class SubmissionModel extends Model
         "Presentation Error"=>"wemd-red-text",
         "Judging"=>"wemd-blue-text",
         'Submission Error'=>'wemd-black-text',
-        'Output limit exceeded'=>'wemd-deep-purple-text'
+        'Output Limit Exceeded'=>'wemd-deep-purple-text'
     ];
 
     public function insert($sub)

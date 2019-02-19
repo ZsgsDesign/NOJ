@@ -201,9 +201,75 @@ class ContestModel extends Model
         ])->select("custom_icon", "custom_title", "gcode")->first() : null;
     }
 
+
+    public function formatTime($seconds)
+    {
+        if ($seconds >3600) {
+            $hours =intval($seconds/3600);
+            $minutes = $seconds % 3600;
+            $time = $hours.":".gmstrftime('%M:%S', $minutes);
+        } else {
+            $time = gmstrftime('%H:%M:%S', $seconds);
+        }
+        return $time;
+    }
+
     public function contestProblemInfo($cid, $pid, $uid)
     {
-        
+        $ret=[
+            "color"=>"",
+            "solved"=>0,
+            "solved_time"=>"",
+            "solved_time_parsed"=>"",
+            "wrong_doings"=>0,
+            "color"=>"",
+        ];
+
+        $ac_record = DB::table("submission")->where([
+            "cid"=>$cid,
+            "pid"=>$pid,
+            "uid"=>$uid,
+            "verdict"=>"Accepted"
+        ])->orderBy('submission_date', 'asc')->first();
+
+        if (!empty($ac_record)) {
+            $ret["solved"]=1;
+
+            $ret["solved_time"]=$ac_record["submission_date"] - strtotime(DB::table($this->tableName)->where([
+                "cid"=>$cid
+            ])->first()["begin_time"]);
+
+            $ret["solved_time_parsed"]=$this->formatTime($ret["solved_time"]);
+
+            $ret["wrong_doings"] = DB::table("submission")->where([
+                "cid"=>$cid,
+                "pid"=>$pid,
+                "uid"=>$uid
+            ])->where("submission_date", "<", $ac_record["submission_date"])->count();
+
+            $is_first_blood = DB::table("submission")->where([
+                "cid"=>$cid,
+                "pid"=>$pid,
+                "verdict"=>"Accepted"
+            ])->where("submission_date", "<", $ac_record["submission_date"])->count();
+
+            $ret["color"]=$is_first_blood?"wemd-teal-text":"wemd-green-text";
+        } else {
+            $ret["wrong_doings"] = DB::table("submission")->where([
+                "cid"=>$cid,
+                "pid"=>$pid,
+                "uid"=>$uid
+            ])->whereIn('verdict', [
+                'Runtime Error',
+                'Wrong Answer',
+                'Time Limit Exceed',
+                'Memory Limit Exceed',
+                'Presentation Error',
+                'Output Limit Exceeded'
+            ])->count();
+        }
+
+        return $ret;
     }
 
     public function contestRank($cid, $uid)
@@ -213,6 +279,7 @@ class ContestModel extends Model
         // [ToDo] Forzen Time
         // [ToDo] Performance Opt
         // [Todo] Ajaxization
+        // [Todo] Authorization ( Public / Private )
 
         $ret=[];
 
@@ -235,42 +302,42 @@ class ContestModel extends Model
                     "pid"=>$p["pid"],
                     "color"=>$prob_stat["color"],
                     "wrong_doings"=>$prob_stat["wrong_doings"],
-                    "solved_time_parsed"=>$prob_stat["solved_time_parsed"],
-                    "first_blood"=>$prob_stat["is_first_blood"]
+                    "solved_time_parsed"=>$prob_stat["solved_time_parsed"]
                 ];
-                $totPen+=$prob_stat["wrong_doings"]*20;
-                $totPen+=$prob_stat["solved_time"];
-                $totScore+=$prob_stat["solved"];
+                if ($prob_stat["solved"]) {
+                    $totPen+=$prob_stat["wrong_doings"]*20;
+                    $totPen+=$prob_stat["solved_time"]/60;
+                    $totScore+=$prob_stat["solved"];
+                }
             }
             $ret[]=[
-                "uid"=>$s["uid"],
-                "name"=>"",
-                "nick_name"=>"",
-                "score"=>$totScore,
-                "penalty"=>$totPen,
-                "problem_detail"=>$prob_detail
+                "uid" => $s["uid"],
+                "name" => DB::table("users")->where([
+                    "id"=>$uid
+                ])->first()["name"],
+                "nick_name" => "",
+                "score" => $totScore,
+                "penalty" => $totPen,
+                "problem_detail" => $prob_detail
             ];
         }
 
-        usort($ret, ["ContestModel","cmp"]);
+        usort($ret, function ($a, $b) {
+            if ($a["score"]==$b["score"]) {
+                if ($a["penalty"]==$b["penalty"]) {
+                    return 0;
+                } elseif (($a["penalty"]>$b["penalty"])) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            } elseif ($a["score"]>$b["score"]) {
+                return -1;
+            } else {
+                return 1;
+            }
+        });
 
         return $ret;
-    }
-
-    public static function cmp($a, $b)
-    {
-        if ($a["score"]==$b["score"]) {
-            if ($a["penalty"]==$b["penalty"]) {
-                return 0;
-            } elseif (($a["penalty"]>$b["penalty"])) {
-                return 1;
-            } else {
-                return -1;
-            }
-        } elseif ($a["score"]>$b["score"]) {
-            return -1;
-        } else {
-            return 1;
-        }
     }
 }

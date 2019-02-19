@@ -22,7 +22,7 @@ class Judge extends Core
             'Presentation error'=>"Presentation Error",
             'Submission error'=>'Submission Error',
             'Compilation error'=>"Compile Error",
-            'Output Limit Exceeded'=>"Output limit exceeded",
+            'Output Limit Exceeded'=>"Output limit Exceeded",
         ];
 
         $codeforces_v=[
