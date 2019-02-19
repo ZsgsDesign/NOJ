@@ -121,18 +121,17 @@
                             </tr>
                     </thead>
                     <tbody>
+                        @foreach($contest_rank as $r)
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Q17010217 <span class="cm-subtext">(张佑杰)</span></td>
-                            <td>2</td>
-                            <td>254</td>
-                            <td class="wemd-teal-text">01:12:23</td>
-                            <td><span class="cm-subtext">(-2)</span></td>
-                            <td></td>
-                            <td class="wemd-green-text">00:12:27<br><span class="cm-subtext">(-1)</span></td>
-                            <td></td>
-                            <td></td>
+                            <th scope="row">{{$loop->iteration}}</th>
+                            <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
+                            <td>{{$r["score"]}}</td>
+                            <td>{{round($r["penalty"])}}</td>
+                            @foreach($r["problem_detail"] as $rp)
+                                <td class="{{$rp["color"]}}">@if(!empty($rp["solved_time_parsed"])){{$rp["solved_time_parsed"]}}<br>@endif @if(!empty($rp["wrong_doings"]))<span class="cm-subtext">(-{{$rp["wrong_doings"]}})</span>@endif</td>
+                            @endforeach
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

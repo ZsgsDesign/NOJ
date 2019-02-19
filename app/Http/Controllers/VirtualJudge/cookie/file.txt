@@ -1,10 +1,40 @@
-#include<stdio.h>
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <queue>
+using namespace std;
 
-int ans;
+int n;
+int p[307];
+char f[307][307];
 
-int main(){
-    while(1){
-        ans++;
+int main()
+{
+    while(~scanf("%d",&n))
+    {
+        for(int i = 0;i < n;i++)
+            scanf("%d",&p[i]);
+        for(int i = 0;i < n;i++) 
+        {
+            scanf("%s",f[i]);
+            for(int j = 0;j < n;j++)
+                if(f[i][j] == '1')
+                    f[i][j] = '1';
+        }
+        for(int k = 0;k < n;k++) 
+            for(int i = 0;i < n;i++)
+                for(int j = 0;j < n;j++)
+                    if(f[i][k]=='1' && f[k][j]=='1')
+                        f[i][j] = '1';
+                
+        for(int i = 0;i < n;i++)
+            for(int j = i+1;j < n;j++)
+                if(f[i][j]=='1' && p[j] < p[i])
+                    swap(p[i],p[j]);
+        
+        for(int i = 0;i < n-1;i++)
+            printf("%d ",p[i]);
+        printf("%d\n",p[n-1]);
     }
     return 0;
 }

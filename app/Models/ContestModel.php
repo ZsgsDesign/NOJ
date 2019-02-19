@@ -247,13 +247,13 @@ class ContestModel extends Model
                 "uid"=>$uid
             ])->where("submission_date", "<", $ac_record["submission_date"])->count();
 
-            $is_first_blood = DB::table("submission")->where([
+            $others_first = DB::table("submission")->where([
                 "cid"=>$cid,
                 "pid"=>$pid,
                 "verdict"=>"Accepted"
             ])->where("submission_date", "<", $ac_record["submission_date"])->count();
 
-            $ret["color"]=$is_first_blood?"wemd-teal-text":"wemd-green-text";
+            $ret["color"]=$others_first?"wemd-green-text":"wemd-teal-text";
         } else {
             $ret["wrong_doings"] = DB::table("submission")->where([
                 "cid"=>$cid,
@@ -278,8 +278,8 @@ class ContestModel extends Model
         // [ToDo] The participants determination
         // [ToDo] Forzen Time
         // [ToDo] Performance Opt
-        // [Todo] Ajaxization
-        // [Todo] Authorization ( Public / Private )
+        // [Todo] Ajaxization - Should have done in controller
+        // [Todo] Authorization ( Public / Private ) - Should have done in controller
 
         $ret=[];
 
