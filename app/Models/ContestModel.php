@@ -200,4 +200,71 @@ class ContestModel extends Model
             "gid"=>$basic_info["gid"]
         ])->select("custom_icon", "custom_title", "gcode")->first() : null;
     }
+
+    public function contestRank($cid, $uid)
+    {
+        // [ToDo] If the current user's in the organizer group show nick name
+        // [ToDo] The participants determination
+        // [ToDo] Forzen Time
+        // [ToDo] Performance Opt
+        // [Todo] Ajaxization
+
+        $ret=[];
+
+        $submissionUsers = DB::table("submission")->where([
+            "cid"=>$cid
+        ])->select('uid')->groupBy('uid')->get()->all();
+
+        $problemSet = DB::table("contest_problem")->join("problem", "contest_problem.pid", "=", "problem.pid")->where([
+            "cid"=>$cid
+        ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title")->get()->all();
+
+        foreach ($submissionUsers as $s) {
+            $prob_detail=[];
+            $totPen=0;
+            $totScore=0;
+            foreach ($problemSet as $p) {
+                $prob_stat=$this->contestProblemInfo($cid, $p["pid"], $uid);
+                $prob_detail[]=[
+                    "ncode"=>$p["ncode"],
+                    "pid"=>$p["pid"],
+                    "color"=>$prob_stat["color"],
+                    "wrong_doings"=>$prob_stat["wrong_doings"],
+                    "solved_time_parsed"=>$prob_stat["solved_time_parsed"]
+                ];
+                $totPen+=$prob_stat["wrong_doings"]*20;
+                $totPen+=$prob_stat["solved_time"];
+                $totScore+=$prob_stat["solved"];
+            }
+            $ret[]=[
+                "uid"=>$s["uid"],
+                "name"=>"",
+                "nick_name"=>"",
+                "score"=>$totScore,
+                "penalty"=>$totPen,
+                "problem_detail"=>$prob_detail
+            ];
+        }
+
+        usort($ret, ["ContestModel","cmp"]);
+
+        return $ret;
+    }
+
+    public static function cmp($a, $b)
+    {
+        if ($a["score"]==$b["score"]) {
+            if ($a["penalty"]==$b["penalty"]) {
+                return 0;
+            } elseif (($a["penalty"]>$b["penalty"])) {
+                return 1;
+            } else {
+                return -1;
+            }
+        } elseif ($a["score"]>$b["score"]) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
 }

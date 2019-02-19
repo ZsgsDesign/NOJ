@@ -171,12 +171,14 @@ class ContestController extends Controller
     public function rank($cid)
     {
         $contestModel=new ContestModel();
+        $problemSet = $contestModel->contestProblems($cid,Auth::user()->id);
         $customInfo = $contestModel->getCustomInfo($cid);
         return view('contest.board.rank', [
             'page_title'=>"Challenge",
             'navigation' => "Contest",
             'site_title'=>"Contest",
             'cid'=>$cid,
+            'problem_set'=>$problemSet,
             'custom_info' => $customInfo
         ]);
     }

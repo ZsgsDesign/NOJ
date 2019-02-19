@@ -55,6 +55,11 @@
         text-align: center;
         font-size:0.75rem;
         color: rgba(0, 0, 0, 0.93);
+        transition: .2s ease-out .0s;
+    }
+
+    .table tbody tr:hover{
+        background:rgba(0,0,0,0.05);
     }
     
     .table thead th.cm-problem-header{
@@ -78,6 +83,14 @@
         color:rgba(0, 0, 0, 0.42);
     }
 
+    .table td.wemd-teal-text{
+        font-weight: bold;
+    }
+
+    .table td.wemd-teal-text .cm-subtext{
+        font-weight: normal;
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
@@ -97,20 +110,14 @@
                                 <th scope="col" rowspan="2">Account</th>
                                 <th scope="col" rowspan="2">Score</th>
                                 <th scope="col" rowspan="2">Penalty</th>
-                                <th scope="col" class="cm-problem-header">A</th>
-                                <th scope="col" class="cm-problem-header">B</th>
-                                <th scope="col" class="cm-problem-header">C</th>
-                                <th scope="col" class="cm-problem-header">D</th>
-                                <th scope="col" class="cm-problem-header">E</th>
-                                <th scope="col" class="cm-problem-header">F</th>
+                                @foreach($problem_set as $p)
+                                    <th scope="col" class="cm-problem-header">{{$p["ncode"]}}</th>
+                                @endforeach
                             </tr>
                             <tr>
-                                <th scope="col" class="cm-problem-subheader">0 / 4</th>
-                                <th scope="col" class="cm-problem-subheader">1 / 1</th>
-                                <th scope="col" class="cm-problem-subheader">3 / 4</th>
-                                <th scope="col" class="cm-problem-subheader">1 / 4</th>
-                                <th scope="col" class="cm-problem-subheader">2 / 4</th>
-                                <th scope="col" class="cm-problem-subheader">0 / 0</th>
+                                @foreach($problem_set as $p)
+                                    <th scope="col" class="cm-problem-subheader">{{$p["passed_count"]}} / {{$p["submission_count"]}}</th>
+                                @endforeach
                             </tr>
                     </thead>
                     <tbody>
@@ -119,22 +126,10 @@
                             <td>Q17010217 <span class="cm-subtext">(张佑杰)</span></td>
                             <td>2</td>
                             <td>254</td>
-                            <td>01:12:23</td>
+                            <td class="wemd-teal-text">01:12:23</td>
                             <td><span class="cm-subtext">(-2)</span></td>
                             <td></td>
-                            <td>00:12:27<br><span class="cm-subtext">(-1)</span></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Admin</td>
-                            <td>1</td>
-                            <td>27</td>
-                            <td><span class="cm-subtext">(-5)</span></td>
-                            <td><span class="cm-subtext">(-2)</span></td>
-                            <td><span class="cm-subtext">(-1)</span></td>
-                            <td>00:15:02<br><span class="cm-subtext">(-2)</span></td>
+                            <td class="wemd-green-text">00:12:27<br><span class="cm-subtext">(-1)</span></td>
                             <td></td>
                             <td></td>
                         </tr>
