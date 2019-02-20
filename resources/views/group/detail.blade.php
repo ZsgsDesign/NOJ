@@ -20,6 +20,7 @@
         margin-bottom: 0;
         /* overflow: hidden; */
         height: 100%;
+        z-index: 1;
     }
 
     right-side{
@@ -316,6 +317,32 @@
         color:rgba(0,0,0,0.54);
     }
 
+    function-container{
+        display: block;
+        padding:1rem;
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+    }
+
+    function-block{
+        display: inline-block;
+        text-align: center;
+        margin: 0 1rem;
+    }
+
+    function-block i{
+        font-size: 2rem;
+        color: rgba(0,0,0,0.63);
+        line-height: 1;
+        display: inline-block;
+        margin-bottom: 0.5rem;
+    }
+
+    function-block p{
+        margin-bottom: 0;
+    }
+
 </style>
 <group-container>
     <div class="row no-gutters">
@@ -393,6 +420,22 @@
             <right-side>
                 <div class="row">
                     <div class="col-sm-12 col-md-7">
+                        <function-container>
+                            <div>
+                                <function-block>
+                                    <i class="MDI bullhorn"></i>
+                                    <p>Notice</p>
+                                </function-block>
+                                <function-block>
+                                    <i class="MDI note"></i>
+                                    <p>Post</p>
+                                </function-block>
+                                <function-block>
+                                    <i class="MDI trophy-variant"></i>
+                                    <p>Contest</p>
+                                </function-block>
+                            </div>
+                        </function-container>
                         <empty-container>
                             <i class="MDI package-variant"></i>
                             <p>Nothing in the timeline.</p>
@@ -448,6 +491,7 @@
     </div>
 </group-container>
 <script>
+
     window.addEventListener("load",function() {
 
     }, false);
