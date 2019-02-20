@@ -194,12 +194,14 @@ class ContestController extends Controller
     {
         $contestModel=new ContestModel();
         $customInfo = $contestModel->getCustomInfo($cid);
+        $clarificationList = $contestModel->getClarificationList($cid);
         return view('contest.board.clarification', [
             'page_title'=>"Clarification",
             'navigation' => "Contest",
             'site_title'=>"Contest",
             'cid'=>$cid,
-            'custom_info' => $customInfo
+            'custom_info' => $customInfo,
+            'clarification_list' => $clarificationList
         ]);
     }
 

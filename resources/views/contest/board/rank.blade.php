@@ -91,6 +91,10 @@
         font-weight: normal;
     }
 
+    th{
+        white-space: nowrap;
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <paper-card>

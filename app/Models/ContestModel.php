@@ -340,4 +340,20 @@ class ContestModel extends Model
 
         return $ret;
     }
+
+    public function getClarificationList($cid)
+    {
+        return DB::table("contest_clarification")->where([
+            "cid"=>$cid,
+            "public"=>1
+        ])->orderBy('create_time', 'desc')->get()->all();
+    }
+
+    public function getClarificationDetail($ccid)
+    {
+        return DB::table("contest_clarification")->where([
+            "ccid"=>$ccid,
+            "public"=>1
+        ])->first();
+    }
 }
