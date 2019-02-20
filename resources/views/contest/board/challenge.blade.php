@@ -142,7 +142,7 @@
         </div>
         <div class="col-sm-12 col-md-4">
             <paper-card>
-                <h5 style="text-align:center">Contest is running</h5>
+                <h5 style="text-align:center" id="contest_status">Contest is running</h5>
                 <div>
                     <div class="cm-progressbar-container d-none">
                         <div class="progress wemd-light-blue wemd-lighten-4">
@@ -171,11 +171,12 @@
 
     var countDownTimer = setInterval(function(){
         remaining_time--;
-        updateCountDown();
         if(remaining_time<=0){
             remaining_time=0;
             clearInterval(countDownTimer);
+            $("#contest_status").text("Contest End");
         }
+        updateCountDown();
     }, 1000);
 
     function updateCountDown(){
@@ -189,7 +190,7 @@
     }
 
     window.addEventListener("load",function() {
-        
+
     }, false);
 
 </script>
