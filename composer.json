@@ -1,10 +1,10 @@
 {
-    "name": "laravel/laravel",
+    "name": "ZsgsDesign/CodeMaster",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Yet another Online Judge",
     "keywords": [
-        "framework",
-        "laravel"
+        "Online Judge",
+        "Virtual Judge"
     ],
     "license": "MIT",
     "require": {
