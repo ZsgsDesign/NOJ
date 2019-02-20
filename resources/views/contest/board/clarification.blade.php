@@ -58,6 +58,7 @@
         align-items: flex-start;
         padding: 1rem;
         transition: .2s ease-out .0s;
+        cursor: pointer;
     }
 
     message-card > div:first-of-type{
