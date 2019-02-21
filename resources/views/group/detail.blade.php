@@ -1,12 +1,12 @@
-@extends('layouts.app') 
+@extends('layouts.app')
+
 @section('template')
 <style>
-    body {
+    body{
         display: flex;
         flex-direction: column;
         height: 100vh;
     }
-
     left-side {
         display: flex;
         flex-direction: column;
@@ -23,15 +23,15 @@
         z-index: 1;
     }
 
-    right-side {
+    right-side{
         display: block;
         padding: 2rem;
-        height: 100%;
-        overflow-y: scroll;
+        height:100%;
+        overflow-y:scroll;
     }
 
-    right-side> :last-child {
-        margin-bottom: 0;
+    right-side > :last-child{
+        margin-bottom:0;
     }
 
     paper-card {
@@ -52,27 +52,26 @@
         box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
     }
 
-    nav.navbar {
-        margin-bottom: 0!important;
+    nav.navbar{
+        margin-bottom:0!important;
         flex-shrink: 0;
         flex-grow: 0;
     }
 
-    footer {
+    footer{
         flex-shrink: 0;
         flex-grow: 0;
     }
 
-    group-container {
+    group-container{
         flex-shrink: 1;
         flex-grow: 1;
-        height: 0px;
-        /* so that 100% would work */
+        height: 0px; /* so that 100% would work */
         overflow: hidden;
     }
 
-    group-container>div,
-    group-container>div>div {
+    group-container > div,
+    group-container > div > div{
         height: 100%;
     }
 
@@ -80,7 +79,6 @@
         width: 8px;
         height: 8px;
     }
-
     ::-webkit-scrollbar-thumb {
         background-color: rgba(0, 0, 0, 0.2);
     }
@@ -93,64 +91,60 @@
         padding-bottom: 61.8%;
     }
 
-    group-image>shadow-div {
+    group-image > shadow-div {
         display: block;
         position: absolute;
         overflow: hidden;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
+        top:0;
+        bottom:0;
+        right:0;
+        left:0;
     }
 
-    group-image>shadow-layer {
+    group-image > shadow-layer{
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
+        top:0;
+        left:0;
+        right:0;
         display: block;
-        height: 3rem;
-        background-image: linear-gradient(to bottom, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0));
+        height:3rem;
+        background-image: linear-gradient(to bottom,rgba(0,0,0,.5),rgba(0,0,0,0));
         z-index: 1;
         pointer-events: none;
     }
 
-    group-image>shadow-div>img {
+    group-image > shadow-div > img{
         object-fit: cover;
-        width: 100%;
+        width:100%;
         height: 100%;
         transition: .2s ease-out .0s;
     }
 
-    group-image>shadow-div>img:hover {
+    group-image > shadow-div > img:hover{
         transform: scale(1.2);
     }
-
-    shadow-button.btn-group {
+    shadow-button.btn-group{
         position: absolute;
         top: .5rem;
         right: .5rem;
         z-index: 2;
         margin: 0;
     }
-
-    shadow-button .btn::after {
+    shadow-button .btn::after{
         display: none;
     }
-
-    shadow-button .btn {
-        color: #fff!important;
+    shadow-button .btn{
+        color:#fff!important;
         border-radius: 100%!important;
         padding: .5rem!important;
         line-height: 1!important;
         font-size: 1.5rem!important;
     }
-
-    shadow-button .dropdown-item>i {
+    shadow-button .dropdown-item > i {
         display: inline-block;
         transform: scale(1.5);
         padding-right: 0.5rem;
-        color: rgba(0, 0, 0, 0.42);
+        color: rgba(0,0,0,0.42);
     }
 
     shadow-button.btn-group .dropdown-menu {
@@ -161,24 +155,22 @@
         flex-wrap: nowrap!important;
     }
 
-    info-div {
-        padding: 1rem;
-        display: block;
+    info-div{
+        padding:1rem;
+        display:block;
     }
 
-    info-div small {
-        color: rgba(0, 0, 0, 0.54);
+    info-div small{
+        color: rgba(0,0,0,0.54);
     }
-
-    info-div h3 {
-        color: rgba(0, 0, 0, 0.87);
+    info-div h3{
+        color: rgba(0,0,0,0.87);
         font-size: 2rem;
         font-weight: 500;
         line-height: 1.25;
         word-wrap: break-word;
     }
-
-    info-div .btn {
+    info-div .btn{
         padding: .46875rem 1.5rem;
     }
 
@@ -203,19 +195,19 @@
         transform: scaleY(1.5);
     }
 
-    detail-info {
+    detail-info{
         display: block;
-        flex-grow: 1;
+        flex-grow:1;
         flex-shrink: 1;
         overflow-y: scroll;
     }
 
-    .bmd-list-group-col> :last-child {
+    .bmd-list-group-col > :last-child{
         margin-bottom: 0;
     }
 
-    .list-group-item>i {
-        font-size: 2rem;
+    .list-group-item > i{
+        font-size:2rem;
     }
 
     .list-group-item :first-child {
@@ -224,149 +216,145 @@
 
     .list-group-item-heading {
         margin-bottom: 0.5rem;
-        color: rgba(0, 0, 0, 0.93);
+        color: rgba(0,0,0,0.93);
     }
 
-    header-div {
+    header-div{
         display: flex;
         justify-content: space-between;
     }
 
-    header-div>* {
+    header-div > *{
         margin-bottom: 0;
     }
 
-    #member_header {
+    #member_header{
         cursor: pointer;
     }
 
-    #member_header>p {
+    #member_header > p{
         margin-bottom: 0;
     }
 
-    #member_header>p:last-of-type>i {
+    #member_header > p:last-of-type > i{
         display: inline-block;
         transition: .2s ease-out .0s;
     }
 
-    #member_header[aria-expanded^="true"]>p:last-of-type>i {
+    #member_header[aria-expanded^="true"] > p:last-of-type > i{
         transform: rotate(180deg);
     }
 
-    .cm-simu-btn {
+    .cm-simu-btn{
         cursor: pointer;
         transition: .2s ease-out .0s;
         font-weight: bold;
         text-transform: uppercase;
         font-size: 85%;
     }
-
-    .cm-simu-btn:hover {
+    .cm-simu-btn:hover{
         filter: brightness(0.75);
     }
 
-    place-holder {
+    place-holder{
         display: block;
     }
 
-    user-card {
+    user-card{
         display: flex;
         justify-content: flex-start;
         align-items: center;
         margin-bottom: 1rem;
     }
 
-    user-card user-avatar {
+    user-card user-avatar{
         display: block;
-        padding-right: 1rem;
+        padding-right:1rem;
     }
-
-    user-card user-avatar img {
+    user-card user-avatar img{
         height: 3rem;
         width: 3rem;
         border-radius: 2000px;
         object-fit: cover;
         overflow: hidden;
     }
-
-    user-card user-info {
+    user-card user-info{
         display: block;
     }
+    user-card user-info p{
+        margin-bottom:0;
+    }
 
-    user-card user-info p {
+    user-card:last-of-type{
         margin-bottom: 0;
     }
 
-    user-card:last-of-type {
-        margin-bottom: 0;
-    }
-
-    .badge-role {
-        color: #fff;
+    .badge-role{
+        color:#fff;
         vertical-align: text-bottom;
     }
 
-    .cm-user-name {
-        color: rgba(0, 0, 0, 0.93);
+    .cm-user-name{
+        color:rgba(0,0,0,0.93);
     }
 
-    .cm-nick-name {
-        color: rgba(0, 0, 0, 0.42);
+    .cm-nick-name{
+        color:rgba(0,0,0,0.42);
     }
 
-    empty-container {
-        display: block;
+    empty-container{
+        display:block;
         text-align: center;
     }
 
-    empty-container i {
-        font-size: 5rem;
-        color: rgba(0, 0, 0, 0.42);
+    empty-container i{
+        font-size:5rem;
+        color:rgba(0,0,0,0.42);
     }
 
-    empty-container p {
+    empty-container p{
         font-size: 1rem;
-        color: rgba(0, 0, 0, 0.54);
+        color:rgba(0,0,0,0.54);
     }
 
-    function-container {
+    function-container{
         display: block;
-        padding: 1rem;
+        padding:1rem;
         background: #fff;
         border: 1px solid rgba(0, 0, 0, 0.15);
         border-radius: 4px;
         margin-bottom: 2rem;
     }
 
-    function-block {
+    function-block{
         display: inline-block;
         text-align: center;
         margin: 0 1rem;
     }
 
-    function-block i {
+    function-block i{
         font-size: 2rem;
-        color: rgba(0, 0, 0, 0.63);
+        color: rgba(0,0,0,0.63);
         line-height: 1;
         display: inline-block;
         margin-bottom: 0.5rem;
     }
 
-    function-block p {
+    function-block p{
         margin-bottom: 0;
     }
 
-    .cm-avatar {
-        width: 2.5rem;
-        height: 2.5rem;
+    .cm-avatar{
+        width:2.5rem;
+        height:2.5rem;
         border-radius: 200px;
     }
 
-    timeline-container {
-        display: block;
+    timeline-container{
+        display:block;
     }
 
-    timeline-item {
+    timeline-item{
         display: block;
         padding: 1rem;
         background: #fff;
@@ -375,18 +363,19 @@
         margin-bottom: 2rem;
     }
 
-    timeline-item[data-type^="post"]>div:first-of-type {
+    timeline-item[data-type^="post"] > div:first-of-type{
         display: flex;
         justify-content: space-between;
         align-items: center;
         color: rgba(0, 0, 0, 0.62);
     }
 
-    timeline-item[data-type^="post"]>div:last-of-type h5 {
+    timeline-item[data-type^="post"] > div:last-of-type h5 {
         font-weight: bold;
         font-family: Montserrat;
         margin-bottom: 1rem;
     }
+
 </style>
 <group-container>
     <div class="row no-gutters">
@@ -415,8 +404,7 @@
                             <small>{{$basic_info['members']}} Members - @if($basic_info['public'])<span>Public</span>@else<span>Private</span>@endif Group</small>
                         </div>
                         <h3>@if($basic_info['verified'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif <span>{{$basic_info['name']}}</span></h3>
-                        <p><i class="MDI tag-multiple"></i> Tags : @foreach($basic_info['tags'] as $t){{$t['tag']}}@unless($loop->last),@endif
-                            @endforeach</p>
+                    <p><i class="MDI tag-multiple"></i> Tags : @foreach($basic_info['tags'] as $t){{$t['tag']}}@unless($loop->last),@endif @endforeach</p>
                         <button type="button" class="btn btn-raised btn-success">Join</button>
                     </info-div>
                     <separate-line class="ultra-thin"></separate-line>
@@ -488,7 +476,7 @@
                         <timeline-container>
                             <timeline-item data-type="post">
                                 <div>
-                                    <div>admin - 25 minutes ago</div>
+                                    <div>admin - 25 minutes ago <span class="wemd-green-text">&rtrif; Post</span></div>
                                     <div><img src="https://cdn.mundb.xyz/img/atsast/upload/2/15453661701.jpg" class="cm-avatar"></div>
                                 </div>
                                 <div>
@@ -538,7 +526,7 @@
                                         <img src="https://cdn.mundb.xyz/img/atsast/upload/2/15453661701.jpg">
                                     </user-avatar>
                                     <user-info>
-                                        <p><span class="badge badge-role {{$m[" role_color "]}}">{{$m["role_parsed"]}}</span>                                            <span class="cm-user-name">Admin</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
+                                        <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">Admin</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
                                         <p><small><i class="MDI google-circles"></i> None</small></p>
                                     </user-info>
                                 </user-card>
@@ -552,6 +540,7 @@
     </div>
 </group-container>
 <script>
+
     window.addEventListener("load",function() {
 
     }, false);
