@@ -305,6 +305,7 @@
     empty-container{
         display:block;
         text-align: center;
+        margin-bottom: 2rem;
     }
 
     empty-container i{
@@ -413,7 +414,7 @@
                             <i class="MDI dots-vertical"></i>
                         </button>
                         <div class="dropdown-menu">
-                            <button class="dropdown-item"><i class="MDI link-variant"></i> Home Page</button>
+                            <button class="dropdown-item"><i class="MDI github-circle"></i> GitHub</button>
                             <div class="dropdown-divider"></div>
                             <button class="dropdown-item wemd-red-text"><i class="MDI alert-circle wemd-red-text"></i> Report Abuse</button>
                         </div>
@@ -497,47 +498,48 @@
                                 </function-block>
                             </div>
                         </function-container>
-                        <timeline-container>
-                            <timeline-item data-type="notice">
-                                <div>
-                                    <div>admin - 25 minutes ago <span class="wemd-green-text">&rtrif; Notice</span></div>
-                                    <div><img src="https://cdn.mundb.xyz/img/atsast/upload/2/15453661701.jpg" class="cm-avatar"></div>
-                                </div>
-                                <div>
-                                    <h5>Brunch or breakfast?</h5>
-                                    <p>I'll be there, righta way.</p>
-                                </div>
-                            </timeline-item>
-                        </timeline-container>
-                        <empty-container class="d-none">
-                            <i class="MDI package-variant"></i>
-                            <p>Nothing in the timeline.</p>
-                        </empty-container>
+                        @unless(empty($group_notice))
+                            <timeline-container>
+                                <timeline-item data-type="notice">
+                                    <div>
+                                        <div>{{$group_notice["name"]}} - {{$group_notice["post_date_parsed"]}} <span class="wemd-green-text">&rtrif; Notice</span></div>
+                                        <div><img src="https://cdn.mundb.xyz/img/atsast/upload/2/15453661701.jpg" class="cm-avatar"></div>
+                                    </div>
+                                    <div>
+                                        <h5>{{$group_notice["title"]}}</h5>
+                                        <p>{!!$group_notice["content_parsed"]!!}</p>
+                                    </div>
+                                </timeline-item>
+                            </timeline-container>
+                        @else
+                            <empty-container>
+                                <i class="MDI package-variant"></i>
+                                <p>Nothing in the timeline.</p>
+                            </empty-container>
+                        @endunless
                         <contest-container>
-                                <table class="table">
-                                        <thead>
-                                          <tr>
-                                            <th scope="col">Title</th>
-                                            <th scope="col">Begin Time</th>
-                                            <th scope="col">Length</th>
-                                          </tr>
-                                        </thead>
-                                        <tbody>
-                                          <tr>
-                                            <td>
-                                                    <badge-div>
-                                                        @if(1)<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="top" title="This is a private contest"></i></span>@endif
-                                                        @if(1)<span><i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a verified contest"></i></span>@endif
-                                                        @if(1)<span><i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="top" title="This is a rated contest"></i></span>@endif
-                                                        @if(1)<span><i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="top" title="Anti-cheat enabled"></i></span>@endif
-                                                    </badge-div>
-                                                    <span>CodeMaster All-star Contest</span>
-                                            </td>
-                                            <td>2018-2-19 12:34</td>
-                                            <td>2 Hours</td>
-                                          </tr>
-                                        </tbody>
-                                      </table>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Begin Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <badge-div>
+                                                @if(1)<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="top" title="This is a private contest"></i></span>@endif
+                                                @if(1)<span><i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a verified contest"></i></span>@endif
+                                                @if(1)<span><i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="top" title="This is a rated contest"></i></span>@endif
+                                                @if(1)<span><i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="top" title="Anti-cheat enabled"></i></span>@endif
+                                            </badge-div>
+                                            <span>CodeMaster All-star Contest</span>
+                                        </td>
+                                        <td>2018-2-19 12:34</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </contest-container>
                     </div>
                     <div class="col-sm-12 col-md-5">

@@ -38,13 +38,15 @@ class GroupController extends Controller
         $basic_info=$groupModel->details($gcode);
         $my_profile=$groupModel->user_profile(Auth::user()->id,$basic_info["gid"]);
         $member_list=$groupModel->user_list($basic_info["gid"]);
+        $group_notice=$groupModel->groupNotice($basic_info["gid"]);
         return view('group.detail', [
             'page_title'=>"Group Detail",
             'site_title'=>"CodeMaster",
             'navigation' => "Group",
             "basic_info"=>$basic_info,
             'my_profile'=>$my_profile,
-            'member_list'=>$member_list
+            'member_list'=>$member_list,
+            'group_notice'=>$group_notice
         ]);
     }
 }

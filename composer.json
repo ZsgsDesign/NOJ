@@ -1,5 +1,5 @@
 {
-    "name": "ZsgsDesign/CodeMaster",
+    "name": "zsgsdesign/codemaster",
     "type": "project",
     "description": "Yet another Online Judge",
     "keywords": [
@@ -15,6 +15,7 @@
         "laracasts/utilities": "^3.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
+        "mews/purifier": "^2.1",
         "sunra/php-simple-html-dom-parser": "^1.5"
     },
     "require-dev": {
@@ -62,5 +63,11 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
     }
 }

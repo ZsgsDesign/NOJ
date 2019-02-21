@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -58,6 +59,18 @@ class GroupModel extends Model
             $u["role_color"]=$this->role_color[$u["role"]];
         }
         return $user_list;
+    }
+
+    public function groupNotice($gid){
+        $notice_item = DB::table("group_notice")->where(["gid"=>$gid])->first();
+        if(empty($notice_item)){
+            return [];
+        }
+        $notice_author = DB::table("users")->where(["id"=>$notice_item["uid"]])->first();
+        $notice_item["name"]=$notice_author["name"];
+        $notice_item["post_date_parsed"]=$this->formatPostTime($notice_item["post_date"]);
+        $notice_item["content_parsed"]=Markdown::convertToHtml($notice_item["content"]);
+        return $notice_item;
     }
 
     public function formatPostTime($date)
