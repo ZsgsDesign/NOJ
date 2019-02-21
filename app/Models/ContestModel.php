@@ -312,7 +312,7 @@ class ContestModel extends Model
             $totPen=0;
             $totScore=0;
             foreach ($problemSet as $p) {
-                $prob_stat=$this->contestProblemInfo($cid, $p["pid"], $uid);
+                $prob_stat=$this->contestProblemInfo($cid, $p["pid"], $s["uid"]);
                 $prob_detail[]=[
                     "ncode"=>$p["ncode"],
                     "pid"=>$p["pid"],
@@ -329,7 +329,7 @@ class ContestModel extends Model
             $ret[]=[
                 "uid" => $s["uid"],
                 "name" => DB::table("users")->where([
-                    "id"=>$uid
+                    "id"=>$s["uid"]
                 ])->first()["name"],
                 "nick_name" => "",
                 "score" => $totScore,
