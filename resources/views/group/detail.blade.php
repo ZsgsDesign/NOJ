@@ -363,17 +363,37 @@
         margin-bottom: 2rem;
     }
 
-    timeline-item[data-type^="post"] > div:first-of-type{
+    timeline-item[data-type^="notice"] {
+        border-left: 4px solid #ffc107;
+    }
+
+    timeline-item[data-type^="notice"] > div:first-of-type{
         display: flex;
         justify-content: space-between;
         align-items: center;
         color: rgba(0, 0, 0, 0.62);
     }
 
-    timeline-item[data-type^="post"] > div:last-of-type h5 {
+    timeline-item[data-type^="notice"] > div:last-of-type h5 {
         font-weight: bold;
         font-family: Montserrat;
         margin-bottom: 1rem;
+    }
+
+    contest-container{
+        display: block;
+        padding: 1rem;
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+        margin-bottom: 2rem;
+    }
+
+    badge-div{
+        display: inline-block;
+    }
+    badge-div span{
+        margin-bottom: 0;
     }
 
 </style>
@@ -459,13 +479,17 @@
                                     <i class="MDI bullhorn"></i>
                                     <p>Notice</p>
                                 </function-block>
-                                <function-block>
+                                {{--  <function-block>
                                     <i class="MDI note"></i>
                                     <p>Post</p>
-                                </function-block>
+                                </function-block>  --}}
                                 <function-block>
                                     <i class="MDI trophy-variant"></i>
                                     <p>Contest</p>
+                                </function-block>
+                                <function-block>
+                                    <i class="MDI account-plus"></i>
+                                    <p>Invite</p>
                                 </function-block>
                                 <function-block>
                                     <i class="MDI settings"></i>
@@ -474,9 +498,9 @@
                             </div>
                         </function-container>
                         <timeline-container>
-                            <timeline-item data-type="post">
+                            <timeline-item data-type="notice">
                                 <div>
-                                    <div>admin - 25 minutes ago <span class="wemd-green-text">&rtrif; Post</span></div>
+                                    <div>admin - 25 minutes ago <span class="wemd-green-text">&rtrif; Notice</span></div>
                                     <div><img src="https://cdn.mundb.xyz/img/atsast/upload/2/15453661701.jpg" class="cm-avatar"></div>
                                 </div>
                                 <div>
@@ -489,6 +513,32 @@
                             <i class="MDI package-variant"></i>
                             <p>Nothing in the timeline.</p>
                         </empty-container>
+                        <contest-container>
+                                <table class="table">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Begin Time</th>
+                                            <th scope="col">Length</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr>
+                                            <td>
+                                                    <badge-div>
+                                                        @if(1)<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="top" title="This is a private contest"></i></span>@endif
+                                                        @if(1)<span><i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a verified contest"></i></span>@endif
+                                                        @if(1)<span><i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="top" title="This is a rated contest"></i></span>@endif
+                                                        @if(1)<span><i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="top" title="Anti-cheat enabled"></i></span>@endif
+                                                    </badge-div>
+                                                    <span>CodeMaster All-star Contest</span>
+                                            </td>
+                                            <td>2018-2-19 12:34</td>
+                                            <td>2 Hours</td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                        </contest-container>
                     </div>
                     <div class="col-sm-12 col-md-5">
                         <paper-card>
