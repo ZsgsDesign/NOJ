@@ -526,18 +526,21 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($contest_list as $c)
                                     <tr>
                                         <td>
                                             <badge-div>
-                                                @if(1)<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="top" title="This is a private contest"></i></span>@endif
-                                                @if(1)<span><i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a verified contest"></i></span>@endif
-                                                @if(1)<span><i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="top" title="This is a rated contest"></i></span>@endif
-                                                @if(1)<span><i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="top" title="Anti-cheat enabled"></i></span>@endif
+                                                @unless($c["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="top" title="This contest is under review"></i></span>@endif
+                                                @unless($c["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="top" title="This is a private contest"></i></span>@endif
+                                                @if($c['verified'])<span><i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a verified contest"></i></span>@endif
+                                                @if($c['rated'])<span><i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="top" title="This is a rated contest"></i></span>@endif
+                                                @if($c['anticheated'])<span><i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="top" title="Anti-cheat enabled"></i></span>@endif
                                             </badge-div>
-                                            <span>CodeMaster All-star Contest</span>
+                                            <span><a href="/contest/{{$c["cid"]}}">{{$c["name"]}}</a></span>
                                         </td>
-                                        <td>2018-2-19 12:34</td>
+                                        <td>{{$c["begin_time"]}}</td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </contest-container>

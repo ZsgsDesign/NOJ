@@ -70,7 +70,7 @@ class ContestModel extends Model
                 "month_year"=>date_format(date_create($contest_detail["begin_time"]), 'M, Y'),
             ];
             $contest_detail["length"]=$this->calc_length($contest_detail["begin_time"], $contest_detail["end_time"]);
-            $contest_detail["description_parsed"]=Markdown::convertToHtml($contest_detail["description"]);
+            $contest_detail["description_parsed"]=clean(Markdown::convertToHtml($contest_detail["description"]));
             $contest_detail["group_info"]=DB::table("group")->where(["gid"=>$contest_detail["gid"]])->first();
             $contest_detail["problem_count"]=DB::table("contest_problem")->where(["cid"=>$cid])->count();
             return [
@@ -81,6 +81,22 @@ class ContestModel extends Model
                 ]
             ];
         }
+    }
+
+    public function listByGroup($gid){
+        $contest_list = DB::table($this->tableName)->where([
+            "gid"=>$gid
+        ])->orderBy('begin_time', 'desc')->get()->all();
+
+        foreach ($contest_list as &$c) {
+            $c["rule_parsed"]=$this->rule[$c["rule"]];
+            $c["date_parsed"]=[
+                "date"=>date_format(date_create($c["begin_time"]), 'j'),
+                "month_year"=>date_format(date_create($c["begin_time"]), 'M, Y'),
+            ];
+            $c["length"]=$this->calc_length($c["begin_time"], $c["end_time"]);
+        }
+        return $contest_list;
     }
 
     public function list()

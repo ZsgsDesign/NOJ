@@ -69,7 +69,7 @@ class GroupModel extends Model
         $notice_author = DB::table("users")->where(["id"=>$notice_item["uid"]])->first();
         $notice_item["name"]=$notice_author["name"];
         $notice_item["post_date_parsed"]=$this->formatPostTime($notice_item["post_date"]);
-        $notice_item["content_parsed"]=Markdown::convertToHtml($notice_item["content"]);
+        $notice_item["content_parsed"]=clean(Markdown::convertToHtml($notice_item["content"]));
         return $notice_item;
     }
 

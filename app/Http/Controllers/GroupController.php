@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\GroupModel;
+use App\Models\ContestModel;
 use App\Http\Controllers\Controller;
 use Auth;
 
@@ -35,10 +36,12 @@ class GroupController extends Controller
     public function detail($gcode)
     {
         $groupModel=new GroupModel();
+        $contestModel=new ContestModel();
         $basic_info=$groupModel->details($gcode);
         $my_profile=$groupModel->user_profile(Auth::user()->id,$basic_info["gid"]);
         $member_list=$groupModel->user_list($basic_info["gid"]);
         $group_notice=$groupModel->groupNotice($basic_info["gid"]);
+        $contest_list=$contestModel->listByGroup($basic_info["gid"]);
         return view('group.detail', [
             'page_title'=>"Group Detail",
             'site_title'=>"CodeMaster",
@@ -46,7 +49,8 @@ class GroupController extends Controller
             "basic_info"=>$basic_info,
             'my_profile'=>$my_profile,
             'member_list'=>$member_list,
-            'group_notice'=>$group_notice
+            'group_notice'=>$group_notice,
+            'contest_list'=>$contest_list
         ]);
     }
 }
