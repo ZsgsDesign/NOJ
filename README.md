@@ -67,11 +67,11 @@ CodeMaster's another online judge platform
     - [ ] Contest Details
         - [ ] Contest Registration
         - [ ] Contest Temp Account
-        - [ ] Leader Board
+        - [X] Leader Board
         - [X] Contest CountDown
         - [X] Contest Problem List
         - [X] Contest Problem Details
-        - [ ] Contest Announcements
+        - [X] Contest Announcements
         - [ ] Contest Admin Portal
             - [ ] Account Generate
             - [ ] Judge Status
@@ -84,7 +84,7 @@ CodeMaster's another online judge platform
 - [ ] Group System
     - [X] Group List
     - [X] Group Details
-        - [ ] Group Timeline
+        - [X] Group Timeline
         - [ ] Group Member Management
             - [ ] Invite
             - [ ] Delete
