@@ -18,7 +18,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <link rel="alternate icon" type="image/png" href="https://cdn.mundb.xyz/img/atsast/favicon.png">
+    <link rel="alternate icon" type="image/png" href="/favicon.png">
     <!-- Loading Style -->
     <style>
         loading>div {

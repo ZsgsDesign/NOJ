@@ -33,7 +33,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <link rel="alternate icon" type="image/png" href="https://cdn.mundb.xyz/img/atsast/favicon.png">
+    <link rel="alternate icon" type="image/png" href="/favicon.png">
     <!-- Loading Style -->
     <style>
         loading>div {
@@ -152,7 +152,7 @@
         <img src="">
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom:30px;position:sticky;top:0;z-index:999;">
-        
+
         @if(isset($custom_info) && !is_null($custom_info))
 
             <a class="navbar-brand" href="/group/{{$custom_info["gcode"]}}">
@@ -166,7 +166,7 @@
             </a>
 
         @endif
-        
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
