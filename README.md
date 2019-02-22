@@ -1,5 +1,8 @@
-# CodeMaster
-CodeMaster's another online judge platform
+# NOJ (CodeMaster)
+
+![NOJ](/noj.png)
+
+NOJ's another online judge platform, stands for NJUPT Online Judge. It's written in PHP, GO, Python and other supporting languages.
 
 ## Progress
 
