@@ -67,7 +67,7 @@
         padding-bottom: 0.05rem;
         border:none;
     }
-
+    
     .table thead th.cm-problem-subheader{
         font-size:0.75rem;
         padding-bottom: 0.25rem;
@@ -93,6 +93,18 @@
 
     th{
         white-space: nowrap;
+    }
+
+    .cm-ac{
+        background: rgba(76, 175, 80, 0.1);
+    }
+
+    .cm-fb{
+        background: rgba(0, 150, 136, 0.1);
+    }
+
+    .cm-me{
+        background: rgba(255, 193, 7, 0.1);
     }
 
 </style>
@@ -126,7 +138,7 @@
                     </thead>
                     <tbody>
                         @foreach($contest_rank as $r)
-                        <tr>
+                        <tr class="@if($r["uid"]==Auth::user()->id) cm-me @endif">
                             <th scope="row">{{$loop->iteration}}</th>
                             <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
                             <td>{{$r["score"]}}</td>
