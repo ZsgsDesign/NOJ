@@ -73,7 +73,7 @@ class ContestController extends Controller
     public function challenge($cid)
     {
         $contestModel=new ContestModel();
-        if (!$contestModel->isContestStarted($cid)) {
+        if (!$contestModel->judgeClearance($cid, Auth::user()->id)) {
             return Redirect::route('contest_detail', ['cid' => $cid]);
         }
         $contest_name = $contestModel->contestName($cid);
@@ -106,7 +106,7 @@ class ContestController extends Controller
         $problemModel=new ProblemModel();
         $compilerModel=new CompilerModel();
         $submissionModel=new SubmissionModel();
-        if (!$contestModel->isContestStarted($cid)) {
+        if (!$contestModel->judgeClearance($cid, Auth::user()->id)) {
             return Redirect::route('contest_detail', ['cid' => $cid]);
         }
         $contest_name = $contestModel->contestName($cid);
@@ -181,7 +181,7 @@ class ContestController extends Controller
     public function rank($cid)
     {
         $contestModel=new ContestModel();
-        if (!$contestModel->isContestStarted($cid)) {
+        if (!$contestModel->judgeClearance($cid, Auth::user()->id)) {
             return Redirect::route('contest_detail', ['cid' => $cid]);
         }
         $contest_name = $contestModel->contestName($cid);
@@ -208,7 +208,7 @@ class ContestController extends Controller
     public function clarification($cid)
     {
         $contestModel=new ContestModel();
-        if (!$contestModel->isContestStarted($cid)) {
+        if (!$contestModel->judgeClearance($cid, Auth::user()->id)) {
             return Redirect::route('contest_detail', ['cid' => $cid]);
         }
         $contest_name = $contestModel->contestName($cid);
@@ -233,7 +233,7 @@ class ContestController extends Controller
     public function print($cid)
     {
         $contestModel=new ContestModel();
-        if (!$contestModel->isContestStarted($cid)) {
+        if (!$contestModel->judgeClearance($cid, Auth::user()->id)) {
             return Redirect::route('contest_detail', ['cid' => $cid]);
         }
         $contest_name = $contestModel->contestName($cid);

@@ -374,9 +374,33 @@ class ContestModel extends Model
         ])->first();
     }
 
-    public function isContestStarted($cid)
+    public function judgeClearance($cid, $uid)
     {
-        return DB::table("contest")->where("cid", $cid)->where("begin_time", "<", date("Y-m-d H:i:s"))->count();
+        $contest_started = DB::table("contest")->where("cid", $cid)->where("begin_time", "<", date("Y-m-d H:i:s"))->count();
+        $contest_ended = DB::table("contest")->where("cid", $cid)->where("end_time", "<", date("Y-m-d H:i:s"))->count();
+        if ($contest_started) {
+            // judge if qualified
+            // return 1 if view access, can only view
+            // return 2 if participant access, can submit code
+            // return 3 if admin access, can create announcements
+            $contest_info = DB::table("contest")->where("cid", $cid)->first();
+            if ($contest_info["registration"]) {
+                // check if uid in registration, temp return 3
+                return 2;
+            } else {
+                if ($contest_info["public"]) {
+                    return 2;
+                } else {
+                    return DB::table("group_member")->where([
+                        "gid"=> $contest_info["gid"],
+                        "uid"=> $uid
+                    ])->where("role", ">", 0)->count() ? 2 : 0;
+                }
+            }
+        } else {
+            // not started or do not exist
+            return 0;
+        }
     }
 
     public function contestName($cid)
