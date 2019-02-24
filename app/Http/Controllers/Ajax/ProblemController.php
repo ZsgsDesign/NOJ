@@ -18,6 +18,8 @@ class ProblemController extends Controller
     /**
      * The Ajax Problem Solution Submit.
      *
+     * @param Request $request web request
+     *
      * @return Response
      */
     public function submitSolution(Request $request)
@@ -30,6 +32,8 @@ class ProblemController extends Controller
     /**
      * The Ajax Problem Judge.
      *
+     * @param Request $request web request
+     *
      * @return Response
      */
     public function judgeStatus(Request $request)
@@ -39,16 +43,21 @@ class ProblemController extends Controller
         $submission=new SubmissionModel();
         $status=$submission->getJudgeStatus($all_data["sid"]);
 
-        return response()->json([
-            "ret" => 200,
-            "desc" => "successful",
-            "data" => $status
-        ]);
+        return response()->json(
+            [
+                "ret" => 200,
+                "desc" => "successful",
+                "data" => $status
+            ]
+        );
     }
 
     /**
      * The Ajax Problem Manual Judge.
-     * [Notice] THIS FUNCTION IS FOR TEST ONLY, SHALL BE STRICTLY FORBIDDEN UNDER PRODUCTION ENVIRONMENT.
+     * [Notice] THIS FUNCTION IS FOR TEST ONLY
+     * SHALL BE STRICTLY FORBIDDEN UNDER PRODUCTION ENVIRONMENT.
+     *
+     * @param Request $request web request
      *
      * @return Response
      */
@@ -56,15 +65,19 @@ class ProblemController extends Controller
     {
         $vj_judge = new Judge();
 
-        return response()->json([
-            "ret" => 200,
-            "desc" => "successful",
-            "data" => $vj_judge->ret
-        ]);
+        return response()->json(
+            [
+                "ret" => 200,
+                "desc" => "successful",
+                "data" => $vj_judge->ret
+            ]
+        );
     }
 
     /**
      * Get the Submit History.
+     *
+     * @param Request $request web request
      *
      * @return Response
      */
@@ -72,25 +85,30 @@ class ProblemController extends Controller
     {
         $all_data = $request->all();
         $submission=new SubmissionModel();
-        if(isset($all_data["cid"])){
-            $history=$submission->getProblemSubmission($all_data["pid"],Auth::user()->id,$all_data["cid"]);
+        if (isset($all_data["cid"])) {
+            $history=$submission->getProblemSubmission($all_data["pid"], Auth::user()->id, $all_data["cid"]);
         } else {
-            $history=$submission->getProblemSubmission($all_data["pid"],Auth::user()->id);
+            $history=$submission->getProblemSubmission($all_data["pid"], Auth::user()->id);
         }
 
 
-        return response()->json([
-            "ret" => 200,
-            "desc" => "successful",
-            "data" => [
-                "history" => $history
+        return response()->json(
+            [
+                "ret" => 200,
+                "desc" => "successful",
+                "data" => [
+                    "history" => $history
+                ]
             ]
-        ]);
+        );
     }
 
     /**
      * Crawler Ajax Control.
-     * [Notice] THIS FUNCTION IS FOR TEST ONLY, SHALL BE STRICTLY FORBIDDEN UNDER PRODUCTION ENVIRONMENT.
+     * [Notice] THIS FUNCTION IS FOR TEST ONLY
+     * SHALL BE STRICTLY FORBIDDEN UNDER PRODUCTION ENVIRONMENT.
+     *
+     * @param Request $request web request
      *
      * @return Response
      */
@@ -98,12 +116,14 @@ class ProblemController extends Controller
     {
         $all_data = $request->all();
 
-        new Crawler($all_data["name"],$all_data["action"],$all_data["con"]);
+        new Crawler($all_data["name"], $all_data["action"], $all_data["con"]);
 
-        return response()->json([
-            "ret" => 200,
-            "desc" => "successful",
-            "data" => null
-        ]);
+        return response()->json(
+            [
+                "ret" => 200,
+                "desc" => "successful",
+                "data" => null
+            ]
+        );
     }
 }
