@@ -379,6 +379,11 @@ class ContestModel extends Model
         return DB::table("contest")->where("cid", $cid)->where("begin_time", "<", date("Y-m-d H:i:s"))->count();
     }
 
+    public function contestName($cid)
+    {
+        return DB::table("contest")->where("cid", $cid)->select("name")->first()["name"];
+    }
+
     public function arrangeContest($gid, $config, $problems)
     {
         DB::transaction(function () use ($gid, $config, $problems) {

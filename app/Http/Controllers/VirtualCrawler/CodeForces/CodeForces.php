@@ -97,10 +97,10 @@ class CodeForces extends CrawlerBase
                         $this->pro["source"]=trim(strip_tags($matches[1]));
                     }
 
-                    $this->pro["description"]=str_replace("src=\"","src=\"http://codeforces.com/",$this->pro["description"]);
-                    $this->pro["input"]=str_replace("src=\"","src=\"http://codeforces.com/",$this->pro["input"]);
-                    $this->pro["output"]=str_replace("src=\"","src=\"http://codeforces.com/",$this->pro["output"]);
-                    $this->pro["note"]=str_replace("src=\"","src=\"http://codeforces.com/",$this->pro["note"]);
+                    $this->pro["description"]=str_replace("src=\"", "src=\"http://codeforces.com/", $this->pro["description"]);
+                    $this->pro["input"]=str_replace("src=\"", "src=\"http://codeforces.com/", $this->pro["input"]);
+                    $this->pro["output"]=str_replace("src=\"", "src=\"http://codeforces.com/", $this->pro["output"]);
+                    $this->pro["note"]=str_replace("src=\"", "src=\"http://codeforces.com/", $this->pro["note"]);
                 } else {
                     if (stripos($content_type, "application/pdf")!==false) {
                         $ext="pdf";

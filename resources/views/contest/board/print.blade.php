@@ -51,7 +51,7 @@
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
-        <h5>CodeMaster All-Star Contest</h5>
+        <h5>{{$contest_name}}</h5>
         <nav-div>
             <a href="/contest/{{$cid}}/board/challenge"><nav-item>Challenge</nav-item></a>
             <a href="/contest/{{$cid}}/board/rank"><nav-item>Rank</nav-item></a>

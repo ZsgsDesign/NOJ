@@ -76,6 +76,7 @@ class ContestController extends Controller
         if (!$contestModel->isContestStarted($cid)) {
             return Redirect::route('contest_detail', ['cid' => $cid]);
         }
+        $contest_name = $contestModel->contestName($cid);
         $problemSet = $contestModel->contestProblems($cid, Auth::user()->id);
         $remainingTime = $contestModel->remainingTime($cid);
         $customInfo = $contestModel->getCustomInfo($cid);
@@ -85,8 +86,9 @@ class ContestController extends Controller
         return view('contest.board.challenge', [
             'page_title'=>"Challenge",
             'navigation' => "Contest",
-            'site_title'=>"Contest",
+            'site_title'=>$contest_name,
             'cid'=>$cid,
+            'contest_name'=>$contest_name,
             'problem_set'=> $problemSet,
             'remaining_time'=>$remainingTime,
             'custom_info' => $customInfo
@@ -107,6 +109,7 @@ class ContestController extends Controller
         if (!$contestModel->isContestStarted($cid)) {
             return Redirect::route('contest_detail', ['cid' => $cid]);
         }
+        $contest_name = $contestModel->contestName($cid);
         $pid=$contestModel->getPid($cid, $ncode);
         $pcode=$problemModel->pcode($pid);
 
@@ -158,7 +161,8 @@ class ContestController extends Controller
         return view('problem.editor', [
             'page_title'=>"Problem Detail",
             'navigation' => "Contest",
-            'site_title'=>"Contest",
+            'site_title'=>$contest_name,
+            'contest_name'=>$contest_name,
             'cid'=> $cid,
             'detail' => $prob_detail,
             'compiler_list' => $compiler_list,
@@ -180,13 +184,15 @@ class ContestController extends Controller
         if (!$contestModel->isContestStarted($cid)) {
             return Redirect::route('contest_detail', ['cid' => $cid]);
         }
+        $contest_name = $contestModel->contestName($cid);
         $problemSet = $contestModel->contestProblems($cid, Auth::user()->id);
         $customInfo = $contestModel->getCustomInfo($cid);
         $contestRank = $contestModel->contestRank($cid, Auth::user()->id);
         return view('contest.board.rank', [
             'page_title'=>"Challenge",
             'navigation' => "Contest",
-            'site_title'=>"Contest",
+            'site_title'=>$contest_name,
+            'contest_name'=>$contest_name,
             'cid'=>$cid,
             'problem_set'=>$problemSet,
             'custom_info' => $customInfo,
@@ -205,12 +211,14 @@ class ContestController extends Controller
         if (!$contestModel->isContestStarted($cid)) {
             return Redirect::route('contest_detail', ['cid' => $cid]);
         }
+        $contest_name = $contestModel->contestName($cid);
         $customInfo = $contestModel->getCustomInfo($cid);
         $clarificationList = $contestModel->getClarificationList($cid);
         return view('contest.board.clarification', [
             'page_title'=>"Clarification",
             'navigation' => "Contest",
-            'site_title'=>"Contest",
+            'site_title'=>$contest_name,
+            'contest_name'=>$contest_name,
             'cid'=>$cid,
             'custom_info' => $customInfo,
             'clarification_list' => $clarificationList
@@ -228,11 +236,13 @@ class ContestController extends Controller
         if (!$contestModel->isContestStarted($cid)) {
             return Redirect::route('contest_detail', ['cid' => $cid]);
         }
+        $contest_name = $contestModel->contestName($cid);
         $customInfo = $contestModel->getCustomInfo($cid);
         return view('contest.board.print', [
             'page_title'=>"Print",
             'navigation' => "Contest",
-            'site_title'=>"Contest",
+            'site_title'=>$contest_name,
+            'contest_name'=>$contest_name,
             'cid'=>$cid,
             'custom_info' => $customInfo
         ]);

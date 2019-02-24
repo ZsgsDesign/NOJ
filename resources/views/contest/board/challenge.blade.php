@@ -114,7 +114,7 @@
     <div class="row">
         <div class="col-sm-12 col-md-8">
             <paper-card>
-                <h5>CodeMaster All-Star Contest</h5>
+                <h5>{{$contest_name}}</h5>
                 <nav-div>
                     <a href="/contest/{{$cid}}/board/challenge"><nav-item class="active">Challenge</nav-item></a>
                     <a href="/contest/{{$cid}}/board/rank"><nav-item>Rank</nav-item></a>
