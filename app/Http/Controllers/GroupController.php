@@ -17,8 +17,8 @@ class GroupController extends Controller
     public function index()
     {
         $groupModel=new GroupModel();
-        $tending_groups=$groupModel->tending_groups();
-        $user_groups=Auth::check() ? $groupModel->user_groups(Auth::user()->id) : [];
+        $tending_groups=$groupModel->tendingGroups();
+        $user_groups=Auth::check() ? $groupModel->userGroups(Auth::user()->id) : [];
         return view('group.index', [
             'page_title' => "Group",
             'site_title' => "CodeMaster",
@@ -38,8 +38,8 @@ class GroupController extends Controller
         $groupModel=new GroupModel();
         $contestModel=new ContestModel();
         $basic_info=$groupModel->details($gcode);
-        $my_profile=$groupModel->user_profile(Auth::user()->id, $basic_info["gid"]);
-        $member_list=$groupModel->user_list($basic_info["gid"]);
+        $my_profile=$groupModel->userProfile(Auth::user()->id, $basic_info["gid"]);
+        $member_list=$groupModel->userList($basic_info["gid"]);
         $group_notice=$groupModel->groupNotice($basic_info["gid"]);
         $contest_list=$contestModel->listByGroup($basic_info["gid"]);
         return view('group.detail', [

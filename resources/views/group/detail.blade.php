@@ -579,10 +579,10 @@
                                 @foreach($member_list as $m)
                                 <user-card>
                                     <user-avatar>
-                                        <img src="https://cdn.mundb.xyz/img/atsast/upload/2/15453661701.jpg">
+                                        <img src="{{$m["avatar"]}}">
                                     </user-avatar>
                                     <user-info>
-                                        <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">Admin</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
+                                        <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
                                         <p><small><i class="MDI google-circles"></i> None</small></p>
                                     </user-info>
                                 </user-card>
