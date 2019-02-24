@@ -13,9 +13,7 @@
 
 Route::redirect('/home', '/', 301);
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', 'MainController@home')->name('home');
 
 Route::get('/account', 'MainController@account')->name('account');
 
