@@ -216,7 +216,7 @@
                     </shadow-div>
                 </div>
                 <div>
-                    <h5>CodeMaster All-Star Contest</h5>
+                    <h5>{{$detail['name']}}</h5>
                     <badge-div>
                         <span class="badge badge-pill wemd-amber sm-contest-type"><i class="MDI trophy"></i> {{$detail['rule_parsed']}}</span>
                         @if($detail['verified'])<span><i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a verified contest"></i></span>@endif
@@ -258,7 +258,7 @@
                         </ul>
                     </detail-info>
                     <div style="text-align:right;">
-                        <button type="button" class="btn btn-info">Enter</button>
+                        <a href="/contest/{{$detail['cid']}}/board"><button type="button" class="btn btn-info">Enter</button></a>
                     </div>
                 </div>
             </contest-card>

@@ -265,6 +265,7 @@
 
         }, false);
     </script>
+    @yield('additionJS')
 </body>
 
 </html>

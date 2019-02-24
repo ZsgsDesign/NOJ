@@ -7,7 +7,8 @@ use App\Models\ProblemModel;
 use App\Models\CompilerModel;
 use App\Models\SubmissionModel;
 use App\Http\Controllers\Controller;
-use Auth, Redirect;
+use Auth;
+use Redirect;
 
 class ContestController extends Controller
 {
@@ -38,12 +39,12 @@ class ContestController extends Controller
     public function detail($cid)
     {
         $contentModel=new ContestModel();
-        if(Auth::check()){
-            $contest_detail=$contentModel->detail($cid,Auth::user()->id);
+        if (Auth::check()) {
+            $contest_detail=$contentModel->detail($cid, Auth::user()->id);
         } else {
             $contest_detail=$contentModel->detail($cid);
         }
-        if($contest_detail["ret"]!=200){
+        if ($contest_detail["ret"]!=200) {
             redirect("/contest");
         }
         return view('contest.detail', [
@@ -72,7 +73,10 @@ class ContestController extends Controller
     public function challenge($cid)
     {
         $contestModel=new ContestModel();
-        $problemSet = $contestModel->contestProblems($cid,Auth::user()->id);
+        if (!$contestModel->isContestStarted($cid)) {
+            return Redirect::route('contest_detail', ['cid' => $cid]);
+        }
+        $problemSet = $contestModel->contestProblems($cid, Auth::user()->id);
         $remainingTime = $contestModel->remainingTime($cid);
         $customInfo = $contestModel->getCustomInfo($cid);
         if ($remainingTime<=0) {
@@ -94,46 +98,48 @@ class ContestController extends Controller
      *
      * @return Response
      */
-    public function editor($cid,$ncode)
+    public function editor($cid, $ncode)
     {
         $contestModel=new ContestModel();
         $problemModel=new ProblemModel();
         $compilerModel=new CompilerModel();
         $submissionModel=new SubmissionModel();
-
-        $pid=$contestModel->getPid($cid,$ncode);
+        if (!$contestModel->isContestStarted($cid)) {
+            return Redirect::route('contest_detail', ['cid' => $cid]);
+        }
+        $pid=$contestModel->getPid($cid, $ncode);
         $pcode=$problemModel->pcode($pid);
 
-        $prob_detail=$problemModel->detail($pcode,$cid);
+        $prob_detail=$problemModel->detail($pcode, $cid);
         $compiler_list=$compilerModel->list($prob_detail["OJ"]);
-        $prob_status=$submissionModel->getProblemStatus($prob_detail["pid"], Auth::user()->id,$cid);
+        $prob_status=$submissionModel->getProblemStatus($prob_detail["pid"], Auth::user()->id, $cid);
 
         $compiler_pref=$compilerModel->pref($prob_detail["pid"], Auth::user()->id, $cid);
         $pref=-1;
         $submit_code="";
 
-        if(!is_null($compiler_pref)){
+        if (!is_null($compiler_pref)) {
             $submit_code=$compiler_pref["code"];
             // match precise compiler
-            for($i=0;$i<count($compiler_list);$i++){
-                if($compiler_list[$i]["coid"]==$compiler_pref["coid"]){
+            for ($i=0; $i<count($compiler_list); $i++) {
+                if ($compiler_list[$i]["coid"]==$compiler_pref["coid"]) {
                     $pref=$i;
                     break;
                 }
             }
-            if($pref==-1){
+            if ($pref==-1) {
                 // precise compiler is dead, use  other compiler with same lang
-                for($i=0;$i<count($compiler_list);$i++){
-                    if($compiler_list[$i]["lang"]==$compiler_pref["detail"]["lang"]){
+                for ($i=0; $i<count($compiler_list); $i++) {
+                    if ($compiler_list[$i]["lang"]==$compiler_pref["detail"]["lang"]) {
                         $pref=$i;
                         break;
                     }
                 }
             }
-            if($pref==-1){
+            if ($pref==-1) {
                 // same lang compilers are all dead, use other compiler within the same group
-                for($i=0;$i<count($compiler_list);$i++){
-                    if($compiler_list[$i]["comp"]==$compiler_pref["detail"]["comp"]){
+                for ($i=0; $i<count($compiler_list); $i++) {
+                    if ($compiler_list[$i]["comp"]==$compiler_pref["detail"]["comp"]) {
                         $pref=$i;
                         break;
                     }
@@ -142,7 +148,7 @@ class ContestController extends Controller
             // the entire comp group dead
         }
 
-        if(empty($prob_status)){
+        if (empty($prob_status)) {
             $prob_status=[
                 "verdict"=>"NOT SUBMIT",
                 "color"=>""
@@ -171,9 +177,12 @@ class ContestController extends Controller
     public function rank($cid)
     {
         $contestModel=new ContestModel();
-        $problemSet = $contestModel->contestProblems($cid,Auth::user()->id);
+        if (!$contestModel->isContestStarted($cid)) {
+            return Redirect::route('contest_detail', ['cid' => $cid]);
+        }
+        $problemSet = $contestModel->contestProblems($cid, Auth::user()->id);
         $customInfo = $contestModel->getCustomInfo($cid);
-        $contestRank = $contestModel->contestRank($cid,Auth::user()->id);
+        $contestRank = $contestModel->contestRank($cid, Auth::user()->id);
         return view('contest.board.rank', [
             'page_title'=>"Challenge",
             'navigation' => "Contest",
@@ -193,6 +202,9 @@ class ContestController extends Controller
     public function clarification($cid)
     {
         $contestModel=new ContestModel();
+        if (!$contestModel->isContestStarted($cid)) {
+            return Redirect::route('contest_detail', ['cid' => $cid]);
+        }
         $customInfo = $contestModel->getCustomInfo($cid);
         $clarificationList = $contestModel->getClarificationList($cid);
         return view('contest.board.clarification', [
@@ -213,6 +225,9 @@ class ContestController extends Controller
     public function print($cid)
     {
         $contestModel=new ContestModel();
+        if (!$contestModel->isContestStarted($cid)) {
+            return Redirect::route('contest_detail', ['cid' => $cid]);
+        }
         $customInfo = $contestModel->getCustomInfo($cid);
         return view('contest.board.print', [
             'page_title'=>"Print",

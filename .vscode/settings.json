@@ -1,4 +1,5 @@
 {
     "blade.format.enable": true,
     "emmet.triggerExpansionOnTab": true,
+    "phpcs.standard": "PSR2"
 }

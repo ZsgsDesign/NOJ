@@ -118,12 +118,10 @@ class ProblemController extends Controller
 
         new Crawler($all_data["name"], $all_data["action"], $all_data["con"]);
 
-        return response()->json(
-            [
-                "ret" => 200,
-                "desc" => "successful",
-                "data" => null
-            ]
-        );
+        return response()->json([
+            "ret" => 200,
+            "desc" => "successful",
+            "data" => null
+        ]);
     }
 }

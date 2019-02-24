@@ -19,15 +19,15 @@ class Curl
         curl_setopt($datapost, CURLOPT_URL, $url);
         curl_setopt($datapost, CURLOPT_HEADER, true);//
         curl_setopt($datapost, CURLOPT_HTTPHEADER, $headers);//
-        curl_setopt($datapost, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+        curl_setopt($datapost, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36");
         curl_setopt($datapost, CURLOPT_POST, true);
 
         curl_setopt($datapost, CURLOPT_RETURNTRANSFER, $ret);
         curl_setopt($datapost, CURLOPT_FOLLOWLOCATION, true);
 
         curl_setopt($datapost, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($datapost, CURLOPT_COOKIEJAR, dirname(__FILE__)."/cookie/{$oj}_cookie.txt");
         curl_setopt($datapost, CURLOPT_COOKIEFILE, dirname(__FILE__)."/cookie/{$oj}_cookie.txt");
+        curl_setopt($datapost, CURLOPT_COOKIEJAR, dirname(__FILE__)."/cookie/{$oj}_cookie.txt");
         ob_start();
         $response=curl_exec($datapost);
         if (curl_errno($datapost)) {
@@ -46,7 +46,7 @@ class Curl
         // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+        curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36");
         curl_setopt($ch, CURLOPT_COOKIEFILE, dirname(__FILE__) ."/cookie/{$oj}_cookie.txt");
         curl_setopt($ch, CURLOPT_COOKIEJAR, dirname(__FILE__)."/cookie/{$oj}_cookie.txt");
         curl_setopt($ch, CURLOPT_URL, $site);
@@ -68,7 +68,7 @@ class Curl
         curl_setopt($datapost, CURLOPT_URL, $site);
         curl_setopt($datapost, CURLOPT_HEADER, true);
         curl_setopt($datapost, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($datapost, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+        curl_setopt($datapost, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36");
         curl_setopt($datapost, CURLOPT_POST, true);
 
         curl_setopt($datapost, CURLOPT_RETURNTRANSFER, $ret);

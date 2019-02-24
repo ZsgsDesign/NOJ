@@ -38,7 +38,7 @@ class GroupController extends Controller
         $groupModel=new GroupModel();
         $contestModel=new ContestModel();
         $basic_info=$groupModel->details($gcode);
-        $my_profile=$groupModel->user_profile(Auth::user()->id,$basic_info["gid"]);
+        $my_profile=$groupModel->user_profile(Auth::user()->id, $basic_info["gid"]);
         $member_list=$groupModel->user_list($basic_info["gid"]);
         $group_notice=$groupModel->groupNotice($basic_info["gid"]);
         $contest_list=$contestModel->listByGroup($basic_info["gid"]);

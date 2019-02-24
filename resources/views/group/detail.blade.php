@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('template')
+<link rel="stylesheet" href="https://cdn.mundb.xyz/css/jquery.datetimepicker.min.css">
 <style>
     body{
         display: flex;
@@ -484,7 +485,7 @@
                                     <i class="MDI note"></i>
                                     <p>Post</p>
                                 </function-block>  --}}
-                                <function-block>
+                                <function-block onclick="$('#contestModal').modal();">
                                     <i class="MDI trophy-variant"></i>
                                     <p>Contest</p>
                                 </function-block>
@@ -594,6 +595,55 @@
         </div>
     </div>
 </group-container>
+<style>
+    .sm-modal{
+        display: block;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
+        border-radius: 4px;
+        transition: .2s ease-out .0s;
+        color: #7a8e97;
+        background: #fff;
+        padding: 1rem;
+        position: relative;
+        /* border: 1px solid rgba(0, 0, 0, 0.15); */
+        margin-bottom: 2rem;
+        width:auto;
+    }
+    .sm-modal:hover {
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
+    }
+    .modal-title{
+        font-weight: bold;
+        font-family: roboto;
+    }
+    .sm-modal td{
+        white-space: nowrap;
+    }
+
+    .modal-dialog {
+        max-width:50vw;
+        justify-content: center;
+    }
+
+</style>
+<div id="contestModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content sm-modal">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="MDI trophy"></i> Arrange Contest</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="contestName" class="bmd-label-floating">Contest Name</label>
+                    <input type="text" class="form-control" id="contestName">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Arrange</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
 
     window.addEventListener("load",function() {
@@ -601,4 +651,8 @@
     }, false);
 
 </script>
+@endsection
+
+@section('additionJS')
+    <script src="https://cdn.mundb.xyz/js/jquery.datetimepicker.full.min.js"></script>
 @endsection

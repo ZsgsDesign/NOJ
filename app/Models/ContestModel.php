@@ -11,7 +11,7 @@ class ContestModel extends Model
     protected $tableName = 'contest';
     public $rule = ["Unknown","ACM","OI","Custom ACM","Custom OI"];
 
-    public function calc_length($a, $b)
+    public function calcLength($a, $b)
     {
         $s=strtotime($b)-strtotime($a);
         $h=intval($s/3600);
@@ -54,7 +54,7 @@ class ContestModel extends Model
         }
     }
 
-    public function detail($cid, $uid=0)
+    public function detail($cid, $uid = 0)
     {
         $contest_detail= $this->canViewContest($cid, $uid);
         if (empty($contest_detail)) {
@@ -69,7 +69,7 @@ class ContestModel extends Model
                 "date"=>date_format(date_create($contest_detail["begin_time"]), 'j'),
                 "month_year"=>date_format(date_create($contest_detail["begin_time"]), 'M, Y'),
             ];
-            $contest_detail["length"]=$this->calc_length($contest_detail["begin_time"], $contest_detail["end_time"]);
+            $contest_detail["length"]=$this->calcLength($contest_detail["begin_time"], $contest_detail["end_time"]);
             $contest_detail["description_parsed"]=clean(Markdown::convertToHtml($contest_detail["description"]));
             $contest_detail["group_info"]=DB::table("group")->where(["gid"=>$contest_detail["gid"]])->first();
             $contest_detail["problem_count"]=DB::table("contest_problem")->where(["cid"=>$cid])->count();
@@ -83,7 +83,8 @@ class ContestModel extends Model
         }
     }
 
-    public function listByGroup($gid){
+    public function listByGroup($gid)
+    {
         $contest_list = DB::table($this->tableName)->where([
             "gid"=>$gid
         ])->orderBy('begin_time', 'desc')->get()->all();
@@ -94,7 +95,7 @@ class ContestModel extends Model
                 "date"=>date_format(date_create($c["begin_time"]), 'j'),
                 "month_year"=>date_format(date_create($c["begin_time"]), 'M, Y'),
             ];
-            $c["length"]=$this->calc_length($c["begin_time"], $c["end_time"]);
+            $c["length"]=$this->calcLength($c["begin_time"], $c["end_time"]);
         }
         return $contest_list;
     }
@@ -112,7 +113,7 @@ class ContestModel extends Model
                 "date"=>date_format(date_create($c["begin_time"]), 'j'),
                 "month_year"=>date_format(date_create($c["begin_time"]), 'M, Y'),
             ];
-            $c["length"]=$this->calc_length($c["begin_time"], $c["end_time"]);
+            $c["length"]=$this->calcLength($c["begin_time"], $c["end_time"]);
         }
         return $contest_list;
     }
@@ -130,7 +131,7 @@ class ContestModel extends Model
             "date"=>date_format(date_create($featured["begin_time"]), 'j'),
             "month_year"=>date_format(date_create($featured["begin_time"]), 'M, Y'),
         ];
-        $featured["length"]=$this->calc_length($featured["begin_time"], $featured["end_time"]);
+        $featured["length"]=$this->calcLength($featured["begin_time"], $featured["end_time"]);
         return $featured;
     }
 
@@ -144,11 +145,11 @@ class ContestModel extends Model
         return $end_time-$cur_time;
     }
 
-    public function IntToChr($index, $start = 65)
+    public function intToChr($index, $start = 65)
     {
         $str = '';
         if (floor($index / 26) > 0) {
-            $str .= IntToChr(floor($index / 26)-1);
+            $str .= $this->intToChr(floor($index / 26)-1);
         }
         return $str . chr($index % 26 + $start);
     }
@@ -371,5 +372,48 @@ class ContestModel extends Model
             "ccid"=>$ccid,
             "public"=>1
         ])->first();
+    }
+
+    public function isContestStarted($cid)
+    {
+        return DB::table("contest")->where("cid", $cid)->where("begin_time", "<", date("Y-m-d H:i:s"))->count();
+    }
+
+    public function arrangeContest($gid, $config, $problems)
+    {
+        DB::transaction(function () use ($gid, $config, $problems) {
+            $cid = DB::table($this->tableName)->insertGetId([
+                "gid"=>$gid,
+                "name"=>$config["name"],
+                "verified"=>0,                          //todo
+                "rated"=>0,
+                "anticheated"=>0,
+                "featured"=>0,
+                "description"=>$config["description"],
+                "rule"=>1,                              //todo
+                "begin_time"=>$config["begin_time"],
+                "end_time"=>$config["end_time"],
+                "public"=>0,                            //todo
+                "registration"=>0,                      //todo
+                "registration_due"=>null,               //todo
+                "registant_type"=>0,                    //todo
+                "frozn_length"=>0,                      //todo
+                "status_visibility"=>3,                 //todo
+                "create_time"=>date("Y-m-d H:i:s"),
+                "audit_status"=>1                       //todo
+            ]);
+
+            foreach ($problems as $p) {
+                $pid=DB::table("problem")->where(["pcode"=>$p["code"]])->select("pid")->first()["pid"];
+                DB::table("contest_problem")->insert([
+                    "cid"=>$cid,
+                    "number"=>$p["number"],
+                    "ncode"=>$this->intToChr($p["number"]-1),
+                    "pid"=>$pid,
+                    "alias"=>"",
+                    "points"=>0
+                ]);
+            }
+        }, 5);
     }
 }
