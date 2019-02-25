@@ -26,7 +26,7 @@ class ProblemModel extends Model
             $prob_detail["samples"] = DB::table("problem_sample")->where("pid", $prob_detail["pid"])->get()->all();
             $prob_detail["tags"] = DB::table("problem_tag")->where("pid", $prob_detail["pid"])->get()->all();
             if ($cid) {
-                $forzen_time = strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+                $frozen_time = strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
                 $prob_stat = DB::table("submission")->select(
                     DB::raw("count(sid) as submission_count"),
                     DB::raw("sum(verdict='accepted') as passed_count"),
@@ -34,7 +34,7 @@ class ProblemModel extends Model
                 )->where([
                     "pid"=>$prob_detail["pid"],
                     "cid"=>$cid,
-                ])->where("submission_date", "<", $forzen_time)->first();
+                ])->where("submission_date", "<", $frozen_time)->first();
             } else {
                 $prob_stat = DB::table("submission")->select(
                     DB::raw("count(sid) as submission_count"),

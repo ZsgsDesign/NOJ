@@ -166,11 +166,16 @@ class ContestModel extends Model
         ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title")->get()->all();
 
         foreach ($problemSet as &$p) {
+            $frozen_time = strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
             $prob_stat = DB::table("submission")->select(
                 DB::raw("count(sid) as submission_count"),
                 DB::raw("sum(verdict='accepted') as passed_count"),
                 DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
-            )->where(["pid"=>$p["pid"],"cid"=>$cid])->first();
+            )->where([
+                "pid"=>$p["pid"],
+                "cid"=>$cid
+            ])->where("submission_date", "<", $frozen_time)->first();
+
             if ($prob_stat["submission_count"]==0) {
                 $p["submission_count"]=0;
                 $p["passed_count"]=0;
@@ -246,12 +251,14 @@ class ContestModel extends Model
             "color"=>"",
         ];
 
+        $frozen_time = strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+
         $ac_record = DB::table("submission")->where([
             "cid"=>$cid,
             "pid"=>$pid,
             "uid"=>$uid,
             "verdict"=>"Accepted"
-        ])->orderBy('submission_date', 'asc')->first();
+        ])->where("submission_date", "<", $frozen_time)->orderBy('submission_date', 'asc')->first();
 
         if (!empty($ac_record)) {
             $ret["solved"]=1;
@@ -287,7 +294,7 @@ class ContestModel extends Model
                 'Memory Limit Exceed',
                 'Presentation Error',
                 'Output Limit Exceeded'
-            ])->count();
+            ])->where("submission_date", "<", $frozen_time)->count();
         }
 
         return $ret;
@@ -297,7 +304,7 @@ class ContestModel extends Model
     {
         // [ToDo] If the current user's in the organizer group show nick name
         // [ToDo] The participants determination
-        // [ToDo] Forzen Time
+        // [ToDo] Frozen Time
         // [ToDo] Performance Opt
         // [Todo] Ajaxization - Should have done in controller
         // [Todo] Authorization ( Public / Private ) - Should have done in controller

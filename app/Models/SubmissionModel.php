@@ -54,7 +54,23 @@ class SubmissionModel extends Model
 
     public function getProblemStatus($pid,$uid,$cid=null)
     {
-        $ac=DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'cid'=>$cid,'verdict'=>'Accepted'])->orderBy('submission_date', 'desc')->first(); // Get the very first AC record
+        if ($cid) {
+            $frozen_time = strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+            // Get the very first AC record
+            $ac=DB::table($this->tableName)->where([
+                'pid'=>$pid,
+                'uid'=>$uid,
+                'cid'=>$cid,
+                'verdict'=>'Accepted'
+            ])->where("submission_date", "<", $frozen_time)->orderBy('submission_date', 'desc')->first();
+        } else {
+            $ac=DB::table($this->tableName)->where([
+                'pid'=>$pid,
+                'uid'=>$uid,
+                'cid'=>$cid,
+                'verdict'=>'Accepted'
+            ])->orderBy('submission_date', 'desc')->first();
+        }
         return empty($ac) ? DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'cid'=>$cid])->first() : $ac;
     }
 

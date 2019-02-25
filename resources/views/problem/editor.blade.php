@@ -425,7 +425,7 @@
                 <div class="prob-header animated pre-animated cm-performance-optimistic">
                     <button class="btn btn-outline-secondary" id="backBtn"><i class="MDI arrow-left"></i>  Back</button>
                     @if($contest_mode)
-                        <info-badge data-toggle="tooltip" data-placement="top" title="Submission / Passed"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['passed_count']}} / {{$detail['submission_count']}}</info-badge>
+                        <info-badge data-toggle="tooltip" data-placement="top" title="Passed / Submission"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['passed_count']}} / {{$detail['submission_count']}}</info-badge>
                     @else
                         <info-badge data-toggle="tooltip" data-placement="top" title="AC Rate"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['ac_rate']}}%</info-badge>
                     @endif
@@ -575,6 +575,7 @@
         $(document).ready(function () { $('body').bootstrapMaterialDesign();$('[data-toggle="tooltip"]').tooltip(); });
 
         var historyOpen=false;
+        var submission_processing=false;
         var chosen_lang="{{$compiler_list[$pref]['lcode']}}";
         var chosen_coid="{{$compiler_list[$pref]['coid']}}";
 
@@ -624,6 +625,7 @@
         });
 
         $( "#submitBtn" ).click(function() {
+            submission_processing = true;
             // console.log(editor.getValue());
             $("#verdict_text").text("Submitting...");
             $("#verdict_info").removeClass();
@@ -683,11 +685,13 @@
                         $("#verdict_info").removeClass();
                         $("#verdict_info").addClass("wemd-black-text");
                     }
+                    submission_processing = false;
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
                     $("#verdict_text").text("System Error");
                     $("#verdict_info").removeClass();
                     $("#verdict_info").addClass("wemd-black-text");
+                    submission_processing = false;
                 }
             });
         });
