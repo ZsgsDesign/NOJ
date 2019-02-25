@@ -651,7 +651,29 @@
         text-decoration: none;
     }
 
+    .cm-remove{
+        cursor: pointer;
+    }
+
+    .MDI.cm-remove:before {
+        content: "\e795";
+    }
+
+    #contestModal tbody {
+        counter-reset: pnumber;
+    }
+
+    #contestModal tbody th::before{
+        counter-increment: pnumber;
+        content: counter(pnumber);
+    }
+
+    #addProblemModal{
+        z-index:1150;
+    }
+
 </style>
+
 <div id="contestModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content sm-modal">
@@ -675,9 +697,28 @@
                         </div>
                         <div class="switch">
                             <label>
-                                <input type="checkbox" checked>
+                                <input type="checkbox" disabled>
                                 Public Contest
                             </label>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Code</th>
+                                <th scope="col">Op.</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contestProblemSet">
+                                <tr>
+                                    <th scope="row"></th>
+                                    <td>CF500A</td>
+                                    <td><i class="MDI cm-remove wemd-red-text" data-toggle="tooltip" data-placement="top" title="Delete this problem"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="text-align: center;">
+                            <button class="btn btn-info" onclick="$('#addProblemModal').modal();changeDepth();"><i class="MDI plus"></i> Add Problem</button>
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -690,12 +731,33 @@
 
             </div>
             <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary">Arrange</button>
             </div>
         </div>
     </div>
 </div>
+
+<div id="addProblemModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content sm-modal">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="MDI bookmark-plus"></i> Add Problem</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="problemCode" class="bmd-label-floating">Problem Code</label>
+                    <input type="text" class="form-control" id="problemCode">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="addProblemBtn">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 
     window.addEventListener("load",function() {
@@ -707,8 +769,62 @@
 
 @section('additionJS')
     <script src="https://cdn.mundb.xyz/js/jquery.datetimepicker.full.min.js"></script>
+    <script src="https://cdn.mundb.xyz/js/jquery-ui-sortable.min.js"></script>
     <script src="https://cdn.mundb.xyz/vscode/vs/loader.js"></script>
     <script>
+        function sortableInit(){
+            $("#contestModal tbody").sortable({
+                items: "> tr",
+                appendTo: "parent",
+                helper: "clone"
+            });
+        }
+
+        function changeDepth(){
+            var interv=0;
+            $(".modal-backdrop").each(function(){
+                $(this).css("z-index",1040+interv);
+                interv+=100;
+            });
+        }
+
+        var problemAdding=false;
+
+        $("#addProblemBtn").click(function() {
+            // Add Problem
+            if(problemAdding) return;
+            else problemAdding=true;
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/problemExists',
+                data: {
+                    pid: "CF500A"
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if (ret.ret==200) {
+
+                    } else {
+                        alert("Problem Doesn't Exist");
+                    }
+                    $('#addProblemModal').modal('toggle');
+                    problemAdding=false;
+                }, error: function(xhr, type){
+                    console.log('Ajax error while posting to problemExists!');
+                    alert("Server Connection Error");
+                    $('#addProblemModal').modal('toggle');
+                    problemAdding=false;
+                }
+            });
+        });
+
+        $(".cm-remove").click(function() {
+            $(this).parent().parent().remove();
+        });
+
         $('#contestBegin').datetimepicker({
             onShow:function( ct ){
                 this.setOptions({
