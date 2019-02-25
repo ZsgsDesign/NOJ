@@ -397,6 +397,24 @@
     badge-div span{
         margin-bottom: 0;
     }
+    
+    /*
+    .xdsoft_datetimepicker .xdsoft_next,
+    .xdsoft_datetimepicker .xdsoft_prev{
+        background-image:none;
+        font-family:"MDI" !important;
+        font-style:normal;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-indent: 0;
+    }
+
+    .xdsoft_datetimepicker .xdsoft_next::before { content: "\e668"; }
+    .xdsoft_datetimepicker .xdsoft_prev::before { content: "\e660"; }
+
+    .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_prev::before{ content: "\e671"; }
+    .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_next::before{ content: "\e656"; }
+    */
 
 </style>
 <group-container>
@@ -485,7 +503,7 @@
                                     <i class="MDI note"></i>
                                     <p>Post</p>
                                 </function-block>  --}}
-                                <function-block onclick="$('#contestModal').modal();">
+                                <function-block onclick="$('#contestModal').modal({backdrop:'static'});">
                                     <i class="MDI trophy-variant"></i>
                                     <p>Contest</p>
                                 </function-block>
@@ -625,6 +643,14 @@
         justify-content: center;
     }
 
+    #vscode_container{
+        border: 1px solid rgba(0, 0, 0, 0.15);
+    }
+
+    a.action-menu-item:hover{
+        text-decoration: none;
+    }
+
 </style>
 <div id="contestModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -633,21 +659,39 @@
                 <h5 class="modal-title"><i class="MDI trophy"></i> Arrange Contest</h5>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label for="contestName" class="bmd-label-floating">Contest Name</label>
-                    <input type="text" class="form-control" id="contestName">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="contestName" class="bmd-label-floating">Contest Name</label>
+                            <input type="text" class="form-control" id="contestName">
+                        </div>
+                        <div class="form-group">
+                            <label for="contestBegin" class="bmd-label-floating">Contest Begin Time</label>
+                            <input type="text" class="form-control" id="contestBegin">
+                        </div>
+                        <div class="form-group">
+                            <label for="contestEnd" class="bmd-label-floating">Contest End Time</label>
+                            <input type="text" class="form-control" id="contestEnd">
+                        </div>
+                        <div class="switch">
+                            <label>
+                                <input type="checkbox" checked>
+                                Public Contest
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <p>Description</p>
+                        <div id="vscode_container" style="width:100%;height:50vh;">
+                            <div id="vscode" style="width:100%;height:100%;"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="contestBegin" class="bmd-label-floating">Contest Begin Time</label>
-                    <input type="text" class="form-control" id="contestBegin">
-                </div>
-                <div class="form-group">
-                    <label for="contestEnd" class="bmd-label-floating">Contest End Time</label>
-                    <input type="text" class="form-control" id="contestEnd">
-                </div>
+
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Arrange</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Arrange</button>
             </div>
         </div>
     </div>
@@ -702,13 +746,14 @@
 
         require(["vs/editor/editor.main"], function () {
             editor = monaco.editor.create(document.getElementById('vscode'), {
-                value: "{!!$submit_code!!}",
+                value: "",
                 language: "markdown",
-                theme: "vs-dark",
+                theme: "vs-light",
                 fontSize: 16,
                 formatOnPaste: true,
                 formatOnType: true,
-                automaticLayout: true
+                automaticLayout: true,
+                lineNumbers: "off"
             });
             $("#vscode_container").css("opacity",1);
         });
