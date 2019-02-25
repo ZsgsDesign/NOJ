@@ -26,7 +26,7 @@ class SubmissionModel extends Model
     public function insert($sub)
     {
 
-        if(strlen($sub['verdict'])==0) $sub['verdict']="Judge Error";
+        if (strlen($sub['verdict'])==0) $sub['verdict']="Judge Error";
 
         $sid = DB::table($this->tableName)->insertGetId([
             'time' => $sub['time'],
