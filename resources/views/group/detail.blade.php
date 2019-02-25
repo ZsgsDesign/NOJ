@@ -637,6 +637,14 @@
                     <label for="contestName" class="bmd-label-floating">Contest Name</label>
                     <input type="text" class="form-control" id="contestName">
                 </div>
+                <div class="form-group">
+                    <label for="contestBegin" class="bmd-label-floating">Contest Begin Time</label>
+                    <input type="text" class="form-control" id="contestBegin">
+                </div>
+                <div class="form-group">
+                    <label for="contestEnd" class="bmd-label-floating">Contest End Time</label>
+                    <input type="text" class="form-control" id="contestEnd">
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Arrange</button>
@@ -655,4 +663,23 @@
 
 @section('additionJS')
     <script src="https://cdn.mundb.xyz/js/jquery.datetimepicker.full.min.js"></script>
+    <script>
+    $('#contestBegin').datetimepicker({
+        onShow:function( ct ){
+            this.setOptions({
+                minDate:'+1970/01/01',
+                maxDate:$('#contestEnd').val()?$('#contestEnd').val():false
+            })
+        }, 
+        timepicker:true
+    });
+    $('#contestEnd').datetimepicker({
+        onShow:function( ct ){
+            this.setOptions({
+                minDate: $('#contestBegin').val()?$('#contestBegin').val():false
+            })
+        },
+        timepicker:true
+    });
+</script>
 @endsection

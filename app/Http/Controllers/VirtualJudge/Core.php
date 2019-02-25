@@ -143,6 +143,7 @@ class Core extends Curl
         $this->sub['pid']=$this->post_data["pid"];
         $this->sub['coid']=$this->post_data["coid"];
         if(isset($this->post_data["contest"])) $this->sub['cid']=$this->post_data["contest"];
+        else $this->sub['cid']=null;
 
         $s_num=$this->MODEL->count_solution($this->sub['solution']);
         $space='';

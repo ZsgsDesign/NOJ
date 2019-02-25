@@ -417,6 +417,33 @@
             animation-delay: 0.2s;
         }
 
+        .cm-refreshing{
+            -webkit-transition-property: -webkit-transform;
+            -webkit-transition-duration: 1s;
+            -moz-transition-property: -moz-transform;
+            -moz-transition-duration: 1s;
+            -webkit-animation: cm-rotate 3s linear infinite;
+            -moz-animation: cm-rotate 3s linear infinite;
+            -o-animation: cm-rotate 3s linear infinite;
+            animation: cm-rotate 3s linear infinite;
+        }
+        @-webkit-keyframes cm-rotate{
+            from{-webkit-transform: rotate(0deg)}
+            to{-webkit-transform: rotate(360deg)}
+        }
+        @-moz-keyframes cm-rotate{
+            from{-moz-transform: rotate(0deg)}
+            to{-moz-transform: rotate(359deg)}
+        }
+        @-o-keyframes cm-rotate{
+            from{-o-transform: rotate(0deg)}
+            to{-o-transform: rotate(359deg)}
+        }
+        @keyframes cm-rotate{
+            from{transform: rotate(0deg)}
+            to{transform: rotate(359deg)}
+        }
+
     </style>
 
     <div class="immersive-container">
@@ -502,7 +529,7 @@
                 @if($contest_mode && $contest_ended)
                     <a href="/problem/{{$detail["pcode"]}}"><button type="button" class="btn btn-info" id="origialBtn"> <i class="MDI launch"></i> Original Problem</button></a>
                 @else
-                    <button type="button" class="btn btn-primary" id="submitBtn"> <i class="MDI send"></i> Submit Code</button>
+                    <button type="button" class="btn btn-primary" id="submitBtn"> <i class="MDI send"></i> <span>Submit Code</span></button>
                 @endif
             </div>
 
@@ -536,6 +563,10 @@
         .modal-dialog {
             max-width:50vw;
             justify-content: center;
+        }
+
+        #submitBtn > i{
+            display: inline-block;
         }
 
     </style>
@@ -593,6 +624,7 @@
         });
 
         $( "#historyBtn" ).click(function(){
+            if(historyOpen) return;
             historyOpen=true;
             $.ajax({
                 type: 'POST',
@@ -629,7 +661,12 @@
         });
 
         $( "#submitBtn" ).click(function() {
+            if(submission_processing) return;
             submission_processing = true;
+            $("#submitBtn > i").removeClass("send");
+            $("#submitBtn > i").addClass("autorenew");
+            $("#submitBtn > i").addClass("cm-refreshing");
+            $("#submitBtn > span").text("Submitting");
             // console.log(editor.getValue());
             $("#verdict_text").text("Submitting...");
             $("#verdict_info").removeClass();
@@ -690,12 +727,20 @@
                         $("#verdict_info").addClass("wemd-black-text");
                     }
                     submission_processing = false;
+                    $("#submitBtn > i").addClass("send");
+                    $("#submitBtn > i").removeClass("autorenew");
+                    $("#submitBtn > i").removeClass("cm-refreshing");
+                    $("#submitBtn > span").text("Submit Code");
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
                     $("#verdict_text").text("System Error");
                     $("#verdict_info").removeClass();
                     $("#verdict_info").addClass("wemd-black-text");
                     submission_processing = false;
+                    $("#submitBtn > i").addClass("send");
+                    $("#submitBtn > i").removeClass("autorenew");
+                    $("#submitBtn > i").removeClass("cm-refreshing");
+                    $("#submitBtn > span").text("Submit Code");
                 }
             });
         });
