@@ -56,8 +56,12 @@ class ContestModel extends Model
 
     public function detail($cid, $uid = 0)
     {
-        $contest_detail= $this->canViewContest($cid, $uid);
-        if (empty($contest_detail)) {
+        $contest_clearance = $this->judgeOutSideClearance($cid, $uid);
+        $contest_detail = DB::table($this->tableName)->where([
+            "cid"=>$cid
+        ])->first();
+
+        if ($contest_clearance==0) {
             return [
                 "ret"=>1000,
                 "desc"=>"You have no right to view this contest.",
@@ -374,8 +378,11 @@ class ContestModel extends Model
         ])->first();
     }
 
-    public function judgeClearance($cid, $uid)
+    public function judgeClearance($cid, $uid = 0)
     {
+        if ($uid==0) {
+            return 0;
+        }
         $contest_started = DB::table("contest")->where("cid", $cid)->where("begin_time", "<", date("Y-m-d H:i:s"))->count();
         $contest_ended = DB::table("contest")->where("cid", $cid)->where("end_time", "<", date("Y-m-d H:i:s"))->count();
         if ($contest_started) {
@@ -400,6 +407,23 @@ class ContestModel extends Model
         } else {
             // not started or do not exist
             return 0;
+        }
+    }
+
+    public function judgeOutsideClearance($cid, $uid = 0)
+    {
+        $contest_info = DB::table("contest")->where("cid", $cid)->first();
+        if (empty($contest_info)) return 0;
+        if ($contest_info["public"]) {
+            return 1;
+        } else {
+            if ($uid==0) {
+                return 0;
+            }
+            return DB::table("group_member")->where([
+                "gid"=> $contest_info["gid"],
+                "uid"=> $uid
+            ])->where("role", ">", 0)->count() ? 1 : 0;
         }
     }
 

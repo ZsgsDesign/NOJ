@@ -33,7 +33,7 @@ Route::get('/contest/{cid}/board/rank', 'ContestController@rank')->middleware('a
 Route::get('/contest/{cid}/board/clarification', 'ContestController@clarification')->middleware('auth')->name('contest_clarification');
 Route::get('/contest/{cid}/board/print', 'ContestController@print')->middleware('auth')->name('contest_print');
 
-Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function(){
+Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('submitSolution', 'ProblemController@submitSolution');
     Route::post('judgeStatus', 'ProblemController@judgeStatus');
     Route::post('manualJudge', 'ProblemController@manualJudge');

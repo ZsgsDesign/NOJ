@@ -45,7 +45,7 @@ class ContestController extends Controller
             $contest_detail=$contentModel->detail($cid);
         }
         if ($contest_detail["ret"]!=200) {
-            redirect("/contest");
+            return Redirect::route('contest_index');
         }
         return view('contest.detail', [
             'page_title'=>"Contest",
