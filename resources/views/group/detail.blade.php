@@ -710,11 +710,6 @@
                                 </tr>
                             </thead>
                             <tbody id="contestProblemSet">
-                                <tr>
-                                    <th scope="row"></th>
-                                    <td>CF500A</td>
-                                    <td><i class="MDI cm-remove wemd-red-text" data-toggle="tooltip" data-placement="top" title="Delete this problem"></i></td>
-                                </tr>
                             </tbody>
                         </table>
                         <div style="text-align: center;">
@@ -798,7 +793,7 @@
                 type: 'POST',
                 url: '/ajax/problemExists',
                 data: {
-                    pid: "CF500A"
+                    pcode: $("#problemCode").val()
                 },
                 dataType: 'json',
                 headers: {
@@ -806,24 +801,45 @@
                 }, success: function(ret){
                     console.log(ret);
                     if (ret.ret==200) {
-
+                        var sameFlag=false;
+                        $("#contestProblemSet td:first-of-type").each(function(){
+                            if(ret.data.pcode==$(this).text()){
+                                alert("Problem Already Exist");
+                                $('#addProblemModal').modal('toggle');
+                                problemAdding=false;
+                                $("#problemCode").val("");
+                                sameFlag=true;
+                                return;
+                            }
+                        });
+                        if(sameFlag==false){
+                            $("#contestProblemSet").append(`
+                                <tr>
+                                    <th scope="row"></th>
+                                        <td>${ret.data.pcode}</td>
+                                    <td><i class="MDI cm-remove wemd-red-text" onclick="removeProblem(this)" title="Delete this problem"></i></td>
+                                </tr>
+                                `);
+                        }
                     } else {
                         alert("Problem Doesn't Exist");
                     }
                     $('#addProblemModal').modal('toggle');
                     problemAdding=false;
+                    $("#problemCode").val("");
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to problemExists!');
                     alert("Server Connection Error");
                     $('#addProblemModal').modal('toggle');
                     problemAdding=false;
+                    $("#problemCode").val("");
                 }
             });
         });
 
-        $(".cm-remove").click(function() {
-            $(this).parent().parent().remove();
-        });
+        function removeProblem(obj) {
+            $(obj).parent().parent().remove();
+        }
 
         $('#contestBegin').datetimepicker({
             onShow:function( ct ){

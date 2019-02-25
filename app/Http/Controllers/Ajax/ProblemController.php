@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ajax;
 
 use App\Http\Requests;
+use App\Models\ProblemModel;
 use App\Models\SubmissionModel;
 use App\Http\Controllers\VirtualJudge\Submit;
 use App\Http\Controllers\VirtualJudge\Judge;
@@ -28,6 +29,34 @@ class ProblemController extends Controller
         $vj_submit = new Submit($all_data);
 
         return response()->json($vj_submit->ret);
+    }
+    /**
+     * The Ajax Problem Solution Submit.
+     *
+     * @param Request $request web request
+     *
+     * @return Response
+     */
+    public function problemExists(Request $request)
+    {
+        $all_data = $request->all();
+        $problemModel = new ProblemModel();
+        $pcode = $problemModel->existPCode($all_data["pcode"]);
+        if ($pcode) {
+            return response()->json([
+                "ret"=>"200",
+                "desc"=>"successful",
+                "data"=>[
+                    "pcode"=>$pcode
+                ]
+            ]);
+        } else {
+            return response()->json([
+                "ret"=>"1000",
+                "desc"=>"problem doesn't exist",
+                "data"=>null
+            ]);
+        }
     }
     /**
      * The Ajax Problem Judge.

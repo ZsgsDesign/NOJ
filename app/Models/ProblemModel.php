@@ -116,6 +116,12 @@ class ProblemModel extends Model
         return $prob;
     }
 
+    public function existPCode($pcode)
+    {
+        $temp = DB::table($this->tableName)->where(["pcode"=>$pcode])->select("pcode")->first();
+        return empty($temp) ? null : $temp["pcode"];
+    }
+
     public function pid($pcode)
     {
         $temp = DB::table($this->tableName)->where(["pcode"=>$pcode])->select("pid")->first();
