@@ -110,6 +110,7 @@ class ContestController extends Controller
             return Redirect::route('contest_detail', ['cid' => $cid]);
         }
         $contest_name = $contestModel->contestName($cid);
+        $contest_ended = $contestModel->isContestEnded($cid);
         $pid=$contestModel->getPid($cid, $ncode);
         $pcode=$problemModel->pcode($pid);
 
@@ -169,7 +170,8 @@ class ContestController extends Controller
             'status' => $prob_status,
             'pref' => $pref<0 ? 0 : $pref,
             'submit_code' => $submit_code,
-            'contest_mode' => true
+            'contest_mode' => true,
+            'contest_ended' => $contest_ended
         ]);
     }
 

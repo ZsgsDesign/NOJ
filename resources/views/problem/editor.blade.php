@@ -499,7 +499,11 @@
                         @endforeach
                     </div>
                     </div>
-                <button type="button" class="btn btn-primary" id="submitBtn"> <i class="MDI send"></i> Submit Code</button>
+                @if($contest_mode && $contest_ended)
+                    <a href="/problem/{{$detail["pcode"]}}"><button type="button" class="btn btn-info" id="origialBtn"> <i class="MDI launch"></i> Original Problem</button></a>
+                @else
+                    <button type="button" class="btn btn-primary" id="submitBtn"> <i class="MDI send"></i> Submit Code</button>
+                @endif
             </div>
 
         </bottom-side>

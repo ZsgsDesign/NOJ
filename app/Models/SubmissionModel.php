@@ -52,7 +52,7 @@ class SubmissionModel extends Model
         return DB::table($this->tableName)->where(['sid'=>$sid])->first();
     }
 
-    public function getProblemStatus($pid,$uid,$cid=null)
+    public function getProblemStatus($pid, $uid, $cid = null)
     {
         if ($cid) {
             $frozen_time = strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
@@ -63,6 +63,7 @@ class SubmissionModel extends Model
                 'cid'=>$cid,
                 'verdict'=>'Accepted'
             ])->where("submission_date", "<", $frozen_time)->orderBy('submission_date', 'desc')->first();
+            return empty($ac) ? DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'cid'=>$cid])->where("submission_date", "<", $frozen_time)->first() : $ac;
         } else {
             $ac=DB::table($this->tableName)->where([
                 'pid'=>$pid,
@@ -70,11 +71,11 @@ class SubmissionModel extends Model
                 'cid'=>$cid,
                 'verdict'=>'Accepted'
             ])->orderBy('submission_date', 'desc')->first();
+            return empty($ac) ? DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'cid'=>$cid])->first() : $ac;
         }
-        return empty($ac) ? DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'cid'=>$cid])->first() : $ac;
     }
 
-    public function getProblemSubmission($pid,$uid,$cid=null)
+    public function getProblemSubmission($pid, $uid, $cid = null)
     {
         return DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'cid'=>$cid])->orderBy('submission_date', 'desc')->limit(10)->get();
     }
@@ -87,7 +88,7 @@ class SubmissionModel extends Model
     public function get_wating_submission()
     {
         return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
-                                            ->select("sid","OJ as oid")
+                                            ->select("sid", "OJ as oid")
                                             ->where(['verdict'=>'Waiting'])
                                             ->get();
     }
@@ -99,7 +100,7 @@ class SubmissionModel extends Model
                                             ->count();
     }
 
-    public function update_submission($sid,$sub)
+    public function update_submission($sid, $sub)
     {
         return DB::table($this->tableName)  ->where(['sid'=>$sid])
                                             ->update([
