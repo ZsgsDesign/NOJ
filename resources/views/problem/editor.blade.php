@@ -766,14 +766,14 @@
             // a web worker through a same-domain script
 
             window.MonacoEnvironment = {
-            getWorkerUrl: function(workerId, label) {
-                return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
-                self.MonacoEnvironment = {
-                    baseUrl: 'https://cdn.mundb.xyz/vscode/'
-                };
-                importScripts('https://cdn.mundb.xyz/vscode/vs/base/worker/workerMain.js');`
-                )}`;
-            }
+                getWorkerUrl: function(workerId, label) {
+                    return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
+                    self.MonacoEnvironment = {
+                        baseUrl: 'https://cdn.mundb.xyz/vscode/'
+                    };
+                    importScripts('https://cdn.mundb.xyz/vscode/vs/base/worker/workerMain.js');`
+                    )}`;
+                }
             };
 
             require(["vs/editor/editor.main"], function () {

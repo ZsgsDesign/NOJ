@@ -663,23 +663,54 @@
 
 @section('additionJS')
     <script src="https://cdn.mundb.xyz/js/jquery.datetimepicker.full.min.js"></script>
+    <script src="https://cdn.mundb.xyz/vscode/vs/loader.js"></script>
     <script>
-    $('#contestBegin').datetimepicker({
-        onShow:function( ct ){
-            this.setOptions({
-                minDate:'+1970/01/01',
-                maxDate:$('#contestEnd').val()?$('#contestEnd').val():false
-            })
-        }, 
-        timepicker:true
-    });
-    $('#contestEnd').datetimepicker({
-        onShow:function( ct ){
-            this.setOptions({
-                minDate: $('#contestBegin').val()?$('#contestBegin').val():false
-            })
-        },
-        timepicker:true
-    });
-</script>
+        $('#contestBegin').datetimepicker({
+            onShow:function( ct ){
+                this.setOptions({
+                    minDate:'+1970/01/01',
+                    maxDate:$('#contestEnd').val()?$('#contestEnd').val():false
+                })
+            },
+            timepicker:true
+        });
+        $('#contestEnd').datetimepicker({
+            onShow:function( ct ){
+                this.setOptions({
+                    minDate: $('#contestBegin').val()?$('#contestBegin').val():false
+                })
+            },
+            timepicker:true
+        });
+        require.config({ paths: { 'vs': 'https://cdn.mundb.xyz/vscode/vs' }});
+
+        // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
+        // the default worker url location (used when creating WebWorkers). The problem here is that
+        // HTML5 does not allow cross-domain web workers, so we need to proxy the instantiation of
+        // a web worker through a same-domain script
+
+        window.MonacoEnvironment = {
+            getWorkerUrl: function(workerId, label) {
+                return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
+                self.MonacoEnvironment = {
+                    baseUrl: 'https://cdn.mundb.xyz/vscode/'
+                };
+                importScripts('https://cdn.mundb.xyz/vscode/vs/base/worker/workerMain.js');`
+                )}`;
+            }
+        };
+
+        require(["vs/editor/editor.main"], function () {
+            editor = monaco.editor.create(document.getElementById('vscode'), {
+                value: "{!!$submit_code!!}",
+                language: "markdown",
+                theme: "vs-dark",
+                fontSize: 16,
+                formatOnPaste: true,
+                formatOnType: true,
+                automaticLayout: true
+            });
+            $("#vscode_container").css("opacity",1);
+        });
+    </script>
 @endsection
