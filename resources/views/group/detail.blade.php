@@ -870,6 +870,7 @@
                                     <td><i class="MDI cm-remove wemd-red-text" onclick="removeProblem(this)" title="Delete this problem"></i></td>
                                 </tr>
                             `);
+                            sortableInit();
                         }
                     } else {
                         alert("Problem Doesn't Exist");
