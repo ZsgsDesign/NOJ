@@ -397,6 +397,33 @@
     badge-div span{
         margin-bottom: 0;
     }
+
+    .cm-refreshing{
+        -webkit-transition-property: -webkit-transform;
+        -webkit-transition-duration: 1s;
+        -moz-transition-property: -moz-transform;
+        -moz-transition-duration: 1s;
+        -webkit-animation: cm-rotate 3s linear infinite;
+        -moz-animation: cm-rotate 3s linear infinite;
+        -o-animation: cm-rotate 3s linear infinite;
+        animation: cm-rotate 3s linear infinite;
+    }
+    @-webkit-keyframes cm-rotate{
+        from{-webkit-transform: rotate(0deg)}
+        to{-webkit-transform: rotate(360deg)}
+    }
+    @-moz-keyframes cm-rotate{
+        from{-moz-transform: rotate(0deg)}
+        to{-moz-transform: rotate(359deg)}
+    }
+    @-o-keyframes cm-rotate{
+        from{-o-transform: rotate(0deg)}
+        to{-o-transform: rotate(359deg)}
+    }
+    @keyframes cm-rotate{
+        from{transform: rotate(0deg)}
+        to{transform: rotate(359deg)}
+    }
     
     /*
     .xdsoft_datetimepicker .xdsoft_next,
@@ -639,7 +666,7 @@
     }
 
     .modal-dialog {
-        max-width:50vw;
+        max-width: 85vw;
         justify-content: center;
     }
 
@@ -670,6 +697,10 @@
 
     #addProblemModal{
         z-index:1150;
+    }
+
+    #addProblemBtn > i{
+        display: inline-block;
     }
 
 </style>
@@ -713,7 +744,7 @@
                             </tbody>
                         </table>
                         <div style="text-align: center;">
-                            <button class="btn btn-info" onclick="$('#addProblemModal').modal();changeDepth();"><i class="MDI plus"></i> Add Problem</button>
+                            <button class="btn btn-info" onclick="$('#addProblemModal').modal({backdrop:'static'});changeDepth();"><i class="MDI plus"></i> Add Problem</button>
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -727,7 +758,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Arrange</button>
+                <button type="button" class="btn btn-primary" id="arrangeBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Arrange</button>
             </div>
         </div>
     </div>
@@ -747,7 +778,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="addProblemBtn">Add</button>
+                <button type="button" class="btn btn-primary" id="addProblemBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Add</button>
             </div>
         </div>
     </div>
@@ -795,12 +826,19 @@
             addProblem();
         });
 
+        $("#arrangeBtn").click(function() {
+            var contestName = $("#contestName").val();
+            var contestBegin = $("#contestBegin").val();
+            var contestEnd = $("#contestEnd").val();
+        });
+
         var problemAdding=false;
 
         function addProblem(){
             // Add Problem
             if(problemAdding) return;
             else problemAdding=true;
+            $("#addProblemBtn > i").removeClass("d-none");
             $.ajax({
                 type: 'POST',
                 url: '/ajax/problemExists',
@@ -831,7 +869,7 @@
                                         <td>${ret.data.pcode}</td>
                                     <td><i class="MDI cm-remove wemd-red-text" onclick="removeProblem(this)" title="Delete this problem"></i></td>
                                 </tr>
-                                `);
+                            `);
                         }
                     } else {
                         alert("Problem Doesn't Exist");
@@ -839,12 +877,14 @@
                     $('#addProblemModal').modal('toggle');
                     problemAdding=false;
                     $("#problemCode").val("");
+                    $("#addProblemBtn > i").addClass("d-none");
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to problemExists!');
                     alert("Server Connection Error");
                     $('#addProblemModal').modal('toggle');
                     problemAdding=false;
                     $("#problemCode").val("");
+                    $("#addProblemBtn > i").addClass("d-none");
                 }
             });
         };
