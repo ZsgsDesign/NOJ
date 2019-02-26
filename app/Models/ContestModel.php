@@ -385,7 +385,8 @@ class ContestModel extends Model
         ])->first();
     }
 
-    public function isContestEnded($cid){
+    public function isContestEnded($cid)
+    {
         return DB::table("contest")->where("cid", $cid)->where("end_time", "<", date("Y-m-d H:i:s"))->count();
     }
 
@@ -424,7 +425,9 @@ class ContestModel extends Model
     public function judgeOutsideClearance($cid, $uid = 0)
     {
         $contest_info = DB::table("contest")->where("cid", $cid)->first();
-        if (empty($contest_info)) return 0;
+        if (empty($contest_info)) {
+            return 0;
+        }
         if ($contest_info["public"]) {
             return 1;
         } else {

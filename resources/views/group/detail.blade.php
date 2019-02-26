@@ -424,7 +424,7 @@
         from{transform: rotate(0deg)}
         to{transform: rotate(359deg)}
     }
-    
+
     /*
     .xdsoft_datetimepicker .xdsoft_next,
     .xdsoft_datetimepicker .xdsoft_prev{
@@ -814,7 +814,7 @@
             });
         }
 
-        
+
         $('#problemCode').bind('keypress',function(event){
             if(event.keyCode == "13")
             {
@@ -867,7 +867,8 @@
                     name: contestName,
                     description: contestDescription,
                     begin_time: contestBegin,
-                    end_time: contestEnd
+                    end_time: contestEnd,
+                    gid: {{$basic_info["gid"]}}
                 },
                 dataType: 'json',
                 headers: {

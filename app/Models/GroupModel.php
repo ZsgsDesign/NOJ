@@ -91,6 +91,11 @@ class GroupModel extends Model
         return $notice_item;
     }
 
+    public function judgeClearance($gid, $uid)
+    {
+        return DB::table("group_member")->where(["gid"=>$gid,"uid"=>$uid])->first()["role"];
+    }
+
     public function formatPostTime($date)
     {
         $periods = ["second", "minute", "hour", "day", "week", "month", "year", "decade"];
