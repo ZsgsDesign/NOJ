@@ -826,7 +826,11 @@
             addProblem();
         });
 
+        var arranging=false;
+
         $("#arrangeBtn").click(function() {
+            if(arranging) return;
+            else arranging=true;
             var contestName = $("#contestName").val();
             var contestBegin = $("#contestBegin").val();
             var contestEnd = $("#contestEnd").val();
@@ -836,20 +840,78 @@
                 problemSet+=""+$(this).text()+",";
             });
             console.log(contestDescription);
-            if (contestName.replace(/(^s*)|(s*$)/g, "").length ==0) {
+            if (contestName.replace(/(^s*)|(s*$)/g, "").length == 0) {
+                arranging=false;
                 return alert("Contest Name Shoudn't be empty");
             }
-            if (contestBegin.replace(/(^s*)|(s*$)/g, "").length ==0) {
+            if (contestBegin.replace(/(^s*)|(s*$)/g, "").length == 0) {
+                arranging=false;
                 return alert("Contest Begin Time Shoudn't be empty");
             }
-            if (contestEnd.replace(/(^s*)|(s*$)/g, "").length ==0) {
+            if (contestEnd.replace(/(^s*)|(s*$)/g, "").length == 0) {
+                arranging=false;
                 return alert("Contest End Time Shoudn't be empty");
             }
             var beginTimeParsed=new Date(Date.parse(contestBegin)).getTime();
             var endTimeParsed=new Date(Date.parse(contestEnd)).getTime();
             if(endTimeParsed < beginTimeParsed+60000){
+                arranging=false;
                 return alert("Contest length should be at least one minute.");
             }
+            $("#arrangeBtn > i").removeClass("d-none");
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/arrangeContest',
+                data: {
+                    problems: problemSet,
+                    name: contestName,
+                    description: contestDescription,
+                    begin_time: contestBegin,
+                    end_time: contestEnd
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if (ret.ret==200) {
+                        var sameFlag=false;
+                        $("#contestProblemSet td:first-of-type").each(function(){
+                            if(ret.data.pcode==$(this).text()){
+                                alert("Problem Already Exist");
+                                $('#addProblemModal').modal('toggle');
+                                problemAdding=false;
+                                $("#problemCode").val("");
+                                sameFlag=true;
+                                return;
+                            }
+                        });
+                        if(sameFlag==false){
+                            $("#contestProblemSet").append(`
+                                <tr>
+                                    <th scope="row"></th>
+                                        <td>${ret.data.pcode}</td>
+                                    <td><i class="MDI cm-remove wemd-red-text" onclick="removeProblem(this)" title="Delete this problem"></i></td>
+                                </tr>
+                            `);
+                            sortableInit();
+                        }
+                    } else {
+                        alert("Problem Doesn't Exist");
+                    }
+                    $('#addProblemModal').modal('toggle');
+                    problemAdding=false;
+                    $("#problemCode").val("");
+                    $("#addProblemBtn > i").addClass("d-none");
+                }, error: function(xhr, type){
+                    console.log('Ajax error while posting to problemExists!');
+                    alert("Server Connection Error");
+                    $('#addProblemModal').modal('toggle');
+                    problemAdding=false;
+                    $("#problemCode").val("");
+                    $("#addProblemBtn > i").addClass("d-none");
+                }
+            });
         });
 
         var problemAdding=false;

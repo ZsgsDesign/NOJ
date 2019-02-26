@@ -40,6 +40,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('submitHistory', 'ProblemController@submitHistory');
     Route::get('crawler', 'ProblemController@crawler');
     Route::post('problemExists', 'ProblemController@problemExists');
+    Route::post('arrangeContest', 'GroupController@arrangeContest');
 });
 
 Auth::routes();
