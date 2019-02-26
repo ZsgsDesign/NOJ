@@ -830,6 +830,26 @@
             var contestName = $("#contestName").val();
             var contestBegin = $("#contestBegin").val();
             var contestEnd = $("#contestEnd").val();
+            var problemSet = "";
+            var contestDescription = editor.getValue();
+            $("#contestProblemSet td:first-of-type").each(function(){
+                problemSet+=""+$(this).text()+",";
+            });
+            console.log(contestDescription);
+            if (contestName.replace(/(^s*)|(s*$)/g, "").length ==0) {
+                return alert("Contest Name Shoudn't be empty");
+            }
+            if (contestBegin.replace(/(^s*)|(s*$)/g, "").length ==0) {
+                return alert("Contest Begin Time Shoudn't be empty");
+            }
+            if (contestEnd.replace(/(^s*)|(s*$)/g, "").length ==0) {
+                return alert("Contest End Time Shoudn't be empty");
+            }
+            var beginTimeParsed=new Date(Date.parse(contestBegin)).getTime();
+            var endTimeParsed=new Date(Date.parse(contestEnd)).getTime();
+            if(endTimeParsed < beginTimeParsed+60000){
+                return alert("Contest length should be at least one minute.");
+            }
         });
 
         var problemAdding=false;
