@@ -783,9 +783,21 @@
             });
         }
 
-        var problemAdding=false;
+        
+        $('#problemCode').bind('keypress',function(event){
+            if(event.keyCode == "13")
+            {
+                addProblem();
+            }
+        });
 
         $("#addProblemBtn").click(function() {
+            addProblem();
+        });
+
+        var problemAdding=false;
+
+        function addProblem(){
             // Add Problem
             if(problemAdding) return;
             else problemAdding=true;
@@ -835,7 +847,7 @@
                     $("#problemCode").val("");
                 }
             });
-        });
+        };
 
         function removeProblem(obj) {
             $(obj).parent().parent().remove();
