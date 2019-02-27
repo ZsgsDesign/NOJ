@@ -15,7 +15,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.geekzu.org/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
-        <link href="https://cdn.mundb.xyz/fonts/MDI-WXSS/MDI.css" rel="stylesheet" type="text/css">
+        <link href="https://static.1cf.co/fonts/MDI-WXSS/MDI.css" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
         <style>

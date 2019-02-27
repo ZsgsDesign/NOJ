@@ -67,7 +67,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'avatar' => "https://cdn.mundb.xyz/img/avatar/default.png"
+            'avatar' => "https://static.1cf.co/img/avatar/default.png"
         ]);
     }
 

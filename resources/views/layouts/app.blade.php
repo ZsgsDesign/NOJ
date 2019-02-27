@@ -141,12 +141,12 @@
     <!-- Style -->
     <link rel="stylesheet" href="https://fonts.geekzu.org/css?family=Roboto:300,300i,400,400i,500,500i,700,700i">
     <link rel="stylesheet" href="https://fonts.geekzu.org/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/bootstrap-material-design.min.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/wemd-color-scheme.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/atsast.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/animate.min.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/fonts/MDI-WXSS/MDI.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/fonts/Devicon/devicon.css">
+    <link rel="stylesheet" href="https://static.1cf.co/css/bootstrap-material-design.min.css">
+    <link rel="stylesheet" href="https://static.1cf.co/css/wemd-color-scheme.css">
+    <link rel="stylesheet" href="https://static.1cf.co/css/atsast.css">
+    <link rel="stylesheet" href="https://static.1cf.co/css/animate.min.css">
+    <link rel="stylesheet" href="https://static.1cf.co/fonts/MDI-WXSS/MDI.css">
+    <link rel="stylesheet" href="https://static.1cf.co/fonts/Devicon/devicon.css">
     <!-- Background -->
     <div class="mundb-background-container">
         <img src="">
@@ -156,13 +156,13 @@
         @if(isset($custom_info) && !is_null($custom_info))
 
             <a class="navbar-brand" href="/group/{{$custom_info["gcode"]}}">
-                <img src="@if(empty($custom_info["custom_icon"])) https://cdn.mundb.xyz/img/codemaster/njupt.png @else {{$custom_info["custom_icon"]}} @endif" height="30"> @if(empty($custom_info["custom_title"])) NJUPT Online Judge @else {{$custom_info["custom_title"]}} @endif
+                <img src="@if(empty($custom_info["custom_icon"])) https://static.1cf.co/img/codemaster/njupt.png @else {{$custom_info["custom_icon"]}} @endif" height="30"> @if(empty($custom_info["custom_title"])) NJUPT Online Judge @else {{$custom_info["custom_title"]}} @endif
             </a>
 
         @else
 
             <a class="navbar-brand" href="/">
-                <img src="https://cdn.mundb.xyz/img/codemaster/njupt.png" height="30"> NJUPT Online Judge
+                <img src="https://static.1cf.co/img/codemaster/njupt.png" height="30"> NJUPT Online Judge
             </a>
 
         @endif
@@ -248,10 +248,10 @@
     <footer class="mundb-footer bg-dark text-light d-print-none">
         Copyright &copy; CodeMaster 2018-2019, all rights reserved.
     </footer>
-    <script src="https://cdn.mundb.xyz/js/jquery-3.2.1.min.js"></script>
-    <script src="https://cdn.mundb.xyz/js/popper.min.js"></script>
-    <script src="https://cdn.mundb.xyz/js/snackbar.min.js"></script>
-    <script src="https://cdn.mundb.xyz/js/bootstrap-material-design.js"></script>
+    <script src="https://static.1cf.co/js/jquery-3.2.1.min.js"></script>
+    <script src="https://static.1cf.co/js/popper.min.js"></script>
+    <script src="https://static.1cf.co/js/snackbar.min.js"></script>
+    <script src="https://static.1cf.co/js/bootstrap-material-design.js"></script>
     <script>
         $(document).ready(function () { $('body').bootstrapMaterialDesign();$('[data-toggle="tooltip"]').tooltip(); });
         window.addEventListener("load",function() {

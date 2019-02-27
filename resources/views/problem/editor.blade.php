@@ -126,12 +126,12 @@
     <!-- Style -->
     <link rel="stylesheet" href="https://fonts.geekzu.org/css?family=Roboto:300,300i,400,400i,500,500i,700,700i">
     <link rel="stylesheet" href="https://fonts.geekzu.org/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/bootstrap-material-design.min.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/wemd-color-scheme.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/atsast.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/animate.min.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/fonts/MDI-WXSS/MDI.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/fonts/Devicon/devicon.css">
+    <link rel="stylesheet" href="https://static.1cf.co/css/bootstrap-material-design.min.css">
+    <link rel="stylesheet" href="https://static.1cf.co/css/wemd-color-scheme.css">
+    <link rel="stylesheet" href="https://static.1cf.co/css/atsast.css">
+    <link rel="stylesheet" href="https://static.1cf.co/css/animate.min.css">
+    <link rel="stylesheet" href="https://static.1cf.co/fonts/MDI-WXSS/MDI.css">
+    <link rel="stylesheet" href="https://static.1cf.co/fonts/Devicon/devicon.css">
     <style>
         paper-card {
             display: block;
@@ -601,11 +601,11 @@
 
         }, false);
     </script>
-    <script src="https://cdn.mundb.xyz/js/jquery-3.2.1.min.js"></script>
-    <script src="https://cdn.mundb.xyz/js/popper.min.js"></script>
-    <script src="https://cdn.mundb.xyz/js/snackbar.min.js"></script>
-    <script src="https://cdn.mundb.xyz/js/bootstrap-material-design.js"></script>
-    <script src="https://cdn.mundb.xyz/vscode/vs/loader.js"></script>
+    <script src="https://static.1cf.co/js/jquery-3.2.1.min.js"></script>
+    <script src="https://static.1cf.co/js/popper.min.js"></script>
+    <script src="https://static.1cf.co/js/snackbar.min.js"></script>
+    <script src="https://static.1cf.co/js/bootstrap-material-design.js"></script>
+    <script src="https://static.1cf.co/vscode/vs/loader.js"></script>
     <script>
         $(document).ready(function () { $('body').bootstrapMaterialDesign();$('[data-toggle="tooltip"]').tooltip(); });
 
@@ -758,7 +758,7 @@
 
             $(".pre-animated").addClass("fadeInLeft");
 
-            require.config({ paths: { 'vs': 'https://cdn.mundb.xyz/vscode/vs' }});
+            require.config({ paths: { 'vs': 'https://static.1cf.co/vscode/vs' }});
 
             // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
             // the default worker url location (used when creating WebWorkers). The problem here is that
@@ -769,9 +769,9 @@
                 getWorkerUrl: function(workerId, label) {
                     return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
                     self.MonacoEnvironment = {
-                        baseUrl: 'https://cdn.mundb.xyz/vscode/'
+                        baseUrl: 'https://static.1cf.co/vscode/'
                     };
-                    importScripts('https://cdn.mundb.xyz/vscode/vs/base/worker/workerMain.js');`
+                    importScripts('https://static.1cf.co/vscode/vs/base/worker/workerMain.js');`
                     )}`;
                 }
             };

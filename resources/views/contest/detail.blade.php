@@ -212,7 +212,7 @@
             <contest-card>
                 <div>
                     <shadow-div>
-                        <img src="https://cdn.mundb.xyz/img/codemaster/default.jpg">
+                        <img src="https://static.1cf.co/img/codemaster/default.jpg">
                     </shadow-div>
                 </div>
                 <div>
