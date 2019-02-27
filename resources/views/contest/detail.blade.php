@@ -258,7 +258,11 @@
                         </ul>
                     </detail-info>
                     <div style="text-align:right;">
-                        <a href="/contest/{{$detail['cid']}}/board"><button type="button" class="btn btn-info">Enter</button></a>
+                        @if(strtotime($detail['begin_time']) > time())
+                            <button type="button" class="btn btn-secondary">Not Started Yet</button>
+                        @else
+                            <a href="/contest/{{$detail['cid']}}/board"><button type="button" class="btn btn-info">Enter</button></a>
+                        @endif
                     </div>
                 </div>
             </contest-card>
@@ -276,5 +280,15 @@
 
     }, false);
 
+    @if(strtotime($detail['begin_time']) > time())
+
+    var remaining={{strtotime($detail['begin_time']) - time()}};
+    setInterval(()=>{
+        remaining--;
+        if(!remaining) location.reload();
+    },1000);
+
+    @endif
+
 </script>
-@endsection
+@endsection 

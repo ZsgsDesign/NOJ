@@ -76,4 +76,31 @@ class GroupController extends Controller
             "data"=>null
         ]);
     }
+
+    public function joinGroup(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|integer',
+        ]);
+
+        $all_data = $request->all();
+
+        $groupModel=new GroupModel();
+        $join_policy = $groupModel->joinPolicy($all_data["gid"]);
+        if (isNull($join_policy)) {
+            return response()->json([
+                "ret"=>1003,
+                "desc"=>"Group Doesn't Exist",
+                "data"=>null
+            ]);
+        }
+        $clearance = $groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        if ($join_policy==3) {
+            if ($clearance==-1) {
+                $groupModel->changeClearance(Auth::user()->id, 1);
+            } elseif ($clearance==-3) {
+                $groupModel->changeClearance(Auth::user()->id, 0);
+            }
+        }
+    }
 }

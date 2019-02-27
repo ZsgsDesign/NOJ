@@ -425,6 +425,10 @@
         to{transform: rotate(359deg)}
     }
 
+    .btn-disabled{
+        cursor: auto;
+    }
+
     /*
     .xdsoft_datetimepicker .xdsoft_next,
     .xdsoft_datetimepicker .xdsoft_prev{
@@ -471,8 +475,18 @@
                             <small>{{$basic_info['members']}} Members - @if($basic_info['public'])<span>Public</span>@else<span>Private</span>@endif Group</small>
                         </div>
                         <h3>@if($basic_info['verified'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif <span>{{$basic_info['name']}}</span></h3>
-                    <p><i class="MDI tag-multiple"></i> Tags : @foreach($basic_info['tags'] as $t){{$t['tag']}}@unless($loop->last),@endif @endforeach</p>
-                        <button type="button" class="btn btn-raised btn-success">Join</button>
+                        <p><i class="MDI tag-multiple"></i> Tags : @foreach($basic_info['tags'] as $t){{$t['tag']}}@unless($loop->last),@endif @endforeach</p>
+                        @if($basic_info['join_policy']==3)
+                            @if($group_clearance==-3)
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-success"><i class="MDI autorenew cm-refreshing d-none"></i> Join</button>
+                            @elseif($group_clearance==-1)
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-success"><i class="MDI autorenew cm-refreshing d-none"></i> Accept Invitation</button>
+                            @elseif($group_clearance==0)
+                                <button type="button" class="btn btn-raised btn-primary btn-disabled" disabled>Waiting</button>
+                            @elseif($group_clearance>0)
+                                <button type="button" class="btn btn-raised btn-primary btn-disabled" disabled>Joined</button>
+                            @endif
+                        @endif
                     </info-div>
                     <separate-line class="ultra-thin"></separate-line>
                 </div>
@@ -487,7 +501,7 @@
                         <li class="list-group-item">
                             <i class="MDI star-circle"></i>
                             <div class="bmd-list-group-col">
-                                <p class="list-group-item-heading">John Doe</p>
+                                <p class="list-group-item-heading">{{$member_list[0]["name"]}}</span> @if($member_list[0]["nick_name"])<span class="cm-nick-name">({{$member_list[0]["nick_name"]}})</span>@endif</p>
                                 <p class="list-group-item-text">Leader</p>
                             </div>
                         </li>
@@ -520,6 +534,7 @@
             <right-side>
                 <div class="row">
                     <div class="col-sm-12 col-md-7">
+                        @if($group_clearance>=2)
                         <function-container>
                             <div>
                                 <function-block>
@@ -544,6 +559,7 @@
                                 </function-block>
                             </div>
                         </function-container>
+                        @endif
                         @unless(empty($group_notice))
                             <timeline-container>
                                 <timeline-item data-type="notice">
@@ -563,6 +579,7 @@
                                 <p>Nothing in the timeline.</p>
                             </empty-container>
                         @endunless
+                        @unless(empty($contest_list))
                         <contest-container>
                             <table class="table">
                                 <thead>
@@ -590,6 +607,7 @@
                                 </tbody>
                             </table>
                         </contest-container>
+                        @endunless
                     </div>
                     <div class="col-sm-12 col-md-5">
 
@@ -604,7 +622,7 @@
                                 <li class="list-group-item">
                                     <i class="MDI account-card-details"></i>
                                     <div class="bmd-list-group-col">
-                                        <p class="list-group-item-heading">{{$my_profile['nick_name']}}</p>
+                                        <p class="list-group-item-heading">@if(isset($my_profile['nick_name'])){{$my_profile['nick_name']}}@else None @endif</p>
                                         <p class="list-group-item-text">Nick Name</p>
                                     </div>
                                 </li>
@@ -831,6 +849,39 @@
 
         $("#addProblemBtn").click(function() {
             addProblem();
+        });
+
+        var joining=true;
+
+        $("#joinGroup").click(function() {
+            if(joining) return;
+            joining=true;
+            $("#joinGroup > i").removeClass("d-none");
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/joinGroup',
+                data: {
+                    gid: {{$basic_info["gid"]}}
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if (ret.ret==200) {
+                        location.reload();
+                    } else {
+                        alert(ret.desc);
+                    }
+                    joining=false;
+                    $("#joinGroup > i").addClass("d-none");
+                }, error: function(xhr, type){
+                    console.log('Ajax error while posting to joinGroup!');
+                    alert("Server Connection Error");
+                    joining=false;
+                    $("#joinGroup > i").addClass("d-none");
+                }
+            });
         });
 
         var arranging=false;

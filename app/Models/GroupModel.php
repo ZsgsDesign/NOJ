@@ -49,6 +49,12 @@ class GroupModel extends Model
         return $basic_info;
     }
 
+    public function joinPolicy($gid)
+    {
+        $ret = DB::table($this->tableName)->where(["gid"=>$gid])->first();
+        return empty($ret)? null : $ret["join_policy"];
+    }
+
     public function userProfile($uid, $gid)
     {
         $info=DB::table("group_member")->where(["gid"=>$gid, "uid"=>$uid])->where("role", ">", 0)->first();
@@ -97,6 +103,15 @@ class GroupModel extends Model
     {
         $ret=DB::table("group_member")->where(["gid"=>$gid, "uid"=>$uid])->first();
         return empty($ret) ? -3 : $ret["role"];
+    }
+
+    public function changeClearance($uid, $clearance)
+    {
+        return DB::table("group_member")->where([
+            "uid"=>$uid
+        ])->update([
+            "clearance"=>$clearance
+        ]);
     }
 
     public function formatPostTime($date)

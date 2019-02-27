@@ -203,6 +203,7 @@
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{$greeting}}, {{ Auth::user()["name"] }}</a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <div class="dropdown-header"><img src="{{ Auth::user()->avatar }}" class="mundb-avatar" id="atsast_nav_avatar" /><div><h6>{{ Auth::user()["name"] }}<br/><small>{{ Auth::user()->email }}</small></h6></div></div>
+                                <!--
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/account/dashboard"><i class="MDI account-circle"></i> Dashboard</a>
                                 <a class="dropdown-item" href="/account/submissions"><i class="MDI airballoon"></i> Submissions</a>
@@ -214,6 +215,7 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/system/logs"><i class="MDI update"></i> Upgrade Log</a>
                                 <a class="dropdown-item" href="/system/bugs"><i class="MDI bug"></i> Report BUG</a>
+                                -->
                                 <div class="dropdown-divider"></div>
                                 <a  class="dropdown-item text-danger"
                                     href="{{ route('logout') }}"

@@ -39,6 +39,7 @@ class GroupController extends Controller
         $contestModel=new ContestModel();
         $basic_info=$groupModel->details($gcode);
         $my_profile=$groupModel->userProfile(Auth::user()->id, $basic_info["gid"]);
+        $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
         $member_list=$groupModel->userList($basic_info["gid"]);
         $group_notice=$groupModel->groupNotice($basic_info["gid"]);
         $contest_list=$contestModel->listByGroup($basic_info["gid"]);
@@ -50,7 +51,8 @@ class GroupController extends Controller
             'my_profile'=>$my_profile,
             'member_list'=>$member_list,
             'group_notice'=>$group_notice,
-            'contest_list'=>$contest_list
+            'contest_list'=>$contest_list,
+            'group_clearance'=>$clearance
         ]);
     }
 }
