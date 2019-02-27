@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template')
-<link rel="stylesheet" href="https://static.1cf.co/css/jquery.datetimepicker.min.css">
+<link rel="stylesheet" href="https://cdn.mundb.xyz/css/jquery.datetimepicker.min.css">
 <style>
     body{
         display: flex;
@@ -612,7 +612,7 @@
                     <div class="col-sm-12 col-md-5">
 
                         @unless(empty($my_profile))
-                        
+
                         <paper-card>
                             <header-div>
                                 <p><i class="MDI account-circle"></i> My Profile</p>
@@ -820,9 +820,9 @@
 @endsection
 
 @section('additionJS')
-    <script src="https://static.1cf.co/js/jquery.datetimepicker.full.min.js"></script>
-    <script src="https://static.1cf.co/js/jquery-ui-sortable.min.js"></script>
-    <script src="https://static.1cf.co/vscode/vs/loader.js"></script>
+    <script src="https://cdn.mundb.xyz/js/jquery.datetimepicker.full.min.js"></script>
+    <script src="https://cdn.mundb.xyz/js/jquery-ui-sortable.min.js"></script>
+    <script src="https://cdn.mundb.xyz/vscode/vs/loader.js"></script>
     <script>
         function sortableInit(){
             $("#contestModal tbody").sortable({
@@ -1030,7 +1030,7 @@
             },
             timepicker:true
         });
-        require.config({ paths: { 'vs': 'https://static.1cf.co/vscode/vs' }});
+        require.config({ paths: { 'vs': 'https://cdn.mundb.xyz/vscode/vs' }});
 
         // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
         // the default worker url location (used when creating WebWorkers). The problem here is that
@@ -1041,9 +1041,9 @@
             getWorkerUrl: function(workerId, label) {
                 return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
                 self.MonacoEnvironment = {
-                    baseUrl: 'https://static.1cf.co/vscode/'
+                    baseUrl: 'https://cdn.mundb.xyz/vscode/'
                 };
-                importScripts('https://static.1cf.co/vscode/vs/base/worker/workerMain.js');`
+                importScripts('https://cdn.mundb.xyz/vscode/vs/base/worker/workerMain.js');`
                 )}`;
             }
         };

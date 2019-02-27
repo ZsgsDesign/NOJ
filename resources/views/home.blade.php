@@ -85,61 +85,61 @@
             </div>
             <div class="row">
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://static.1cf.co/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://static.1cf.co/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://static.1cf.co/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://static.1cf.co/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://static.1cf.co/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://static.1cf.co/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://static.1cf.co/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://static.1cf.co/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://static.1cf.co/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://static.1cf.co/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://static.1cf.co/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://static.1cf.co/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://static.1cf.co/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://static.1cf.co/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://static.1cf.co/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://static.1cf.co/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://static.1cf.co/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://static.1cf.co/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://static.1cf.co/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
             </div>
         </div>
