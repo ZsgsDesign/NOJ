@@ -4,7 +4,7 @@ namespace App\Http\Controllers\VirtualCrawler\CodeForces;
 
 use App\Http\Controllers\VirtualCrawler\CrawlerBase;
 use App\Models\ProblemModel;
-use Sunra\PhpSimple\HtmlDomParser;
+use KubAT\PhpSimple\HtmlDomParser;
 use Auth;
 
 class CodeForces extends CrawlerBase
@@ -15,7 +15,7 @@ class CodeForces extends CrawlerBase
      *
      * @return Response
      */
-    public function __construct($action='crawl_problem', $con='all')
+    public function __construct($action = 'crawl_problem', $con = 'all')
     {
         set_time_limit(0); // Pandora's box, engage!
         if ($action=='judge_level') {
@@ -31,13 +31,13 @@ class CodeForces extends CrawlerBase
         $arr=$problemModel->getSolvedCount($this->oid);
         usort($arr, ["CrawlerBase","cmp"]);
         $m = count($arr)/10;
-        for ($i=1;$i<=count($arr);$i++) {
+        for ($i=1; $i<=count($arr); $i++) {
             $level =ceil($i/$m);
             $problemModel->updateDifficulty($arr[$i-1][0], $level);
         }
     }
 
-    public function extractCodeForces($cid, $num, $url, $default_desc="")
+    public function extractCodeForces($cid, $num, $url, $default_desc = "")
     {
         $pid=$cid.$num;
         $content=$this->get_url($url);
@@ -81,7 +81,7 @@ class CodeForces extends CrawlerBase
                     $sample_list=HtmlDomParser::str_get_html($temp_sample);
                     $sample_pairs=intval(count($sample_list->find('pre'))/2);
                     $this->pro["sample"]=[];
-                    for ($i=0;$i<$sample_pairs;$i++) {
+                    for ($i=0; $i<$sample_pairs; $i++) {
                         $sample_input=$sample_list->find('pre')[$i*2]->innertext;
                         $sample_output=$sample_list->find('pre')[$i*2+1]->innertext;
                         array_push($this->pro["sample"], [
@@ -143,8 +143,8 @@ class CodeForces extends CrawlerBase
             $now=time()-$start;
             $f = fopen(__DIR__."/codeforces_status.log", "w") or die("Unable to open file!");
             fwrite($f, "CodeForces API Success at {$now}".PHP_EOL);
-            for ($i=count($result['result']['problems'])-1;$i>=0;$i--) {
-                foreach ($this->pro as $x=>$y) {
+            for ($i=count($result['result']['problems'])-1; $i>=0; $i--) {
+                foreach ($this->pro as $x => $y) {
                     $this->pro[$x]='';
                 }
 
@@ -176,7 +176,7 @@ class CodeForces extends CrawlerBase
                     $new_pid=$this->insert_problem($this->oid);
                 }
 
-                for ($j=0;$j<count($result['result']['problems'][$i]['tags']);$j++) {
+                for ($j=0; $j<count($result['result']['problems'][$i]['tags']); $j++) {
                     $problemModel->addTags($new_pid, $result['result']['problems'][$i]['tags'][$j]);
                 }
 

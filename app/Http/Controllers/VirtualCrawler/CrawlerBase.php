@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\VirtualCrawler;
 
 use App\Models\ProblemModel;
-use Sunra\PhpSimple\HtmlDomParser;
+use KubAT\PhpSimple\HtmlDomParser;
 use Auth;
 
 class CrawlerBase

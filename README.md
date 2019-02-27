@@ -98,7 +98,7 @@ NOJ's another online judge platform, stands for NJUPT Online Judge. It's written
             - [ ] Group Announcement
             - [ ] Group Posts
             - [ ] Group Contests
-                - [ ] Group-wide Contests
+                - [X] Group-wide Contests
                 - [ ] Site-wide Contests
             - [ ] Group Own ProblemSet
                 - [ ] Add Problem
@@ -110,7 +110,7 @@ NOJ's another online judge platform, stands for NJUPT Online Judge. It's written
 
 [Markdown](https://github.com/GrahamCampbell/Laravel-Markdown)
 
-[Simple-HTML-Dom](https://github.com/sunra/php-simple-html-dom-parser)
+[Simple-HTML-Dom](https://github.com/Kub-AT/php-simple-html-dom-parser)
 
 [Judger](https://github.com/QingdaoU/Judger)
 
