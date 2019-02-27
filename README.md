@@ -4,7 +4,7 @@
 
 NOJ's another online judge platform, stands for NJUPT Online Judge. It's written in PHP, GO, Python and other function-supporting languages.
 
-# Installation
+## Installation
 
 CentOS will be recommended for hosting NOJ, but all major operating systems are theoretically supported.
 
