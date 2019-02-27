@@ -273,6 +273,13 @@ class ContestModel extends Model
                 "cid"=>$cid,
                 "pid"=>$pid,
                 "uid"=>$uid
+            ])->whereIn('verdict', [
+                'Runtime Error',
+                'Wrong Answer',
+                'Time Limit Exceed',
+                'Memory Limit Exceed',
+                'Presentation Error',
+                'Output Limit Exceeded'
             ])->where("submission_date", "<", $ac_record["submission_date"])->count();
 
             $others_first = DB::table("submission")->where([
