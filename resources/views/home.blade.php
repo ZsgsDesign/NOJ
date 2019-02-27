@@ -144,28 +144,28 @@
             </div>
         </div>
         <div class="col-sm-12 col-lg-4">
-                <p class="cm-anno">Announcement</p>
-                <div>
-                    @unless(empty($group_notice))
-                        <timeline-container>
-                            <timeline-item data-type="notice">
-                                <div>
-                                    <div>{{$group_notice["name"]}} - {{$group_notice["post_date_parsed"]}} <span class="wemd-green-text">&rtrif; Notice</span></div>
-                                    <div><img src="{{$group_notice["avatar"]}}" class="cm-avatar"></div>
-                                </div>
-                                <div>
-                                    <h5>{{$group_notice["title"]}}</h5>
-                                    <p>{!!$group_notice["content_parsed"]!!}</p>
-                                </div>
-                            </timeline-item>
-                        </timeline-container>
-                    @else
-                        <empty-container>
-                            <i class="MDI package-variant"></i>
-                            <p>Currently no announcements.</p>
-                        </empty-container>
-                    @endunless
-                </div>
+            <p class="cm-anno">Announcement</p>
+            <div>
+                @unless(empty($group_notice))
+                    <timeline-container>
+                        <timeline-item data-type="notice">
+                            <div>
+                                <div>{{$group_notice["name"]}} - {{$group_notice["post_date_parsed"]}} <span class="wemd-green-text">&rtrif; Notice</span></div>
+                                <div><img src="{{$group_notice["avatar"]}}" class="cm-avatar"></div>
+                            </div>
+                            <div>
+                                <h5>{{$group_notice["title"]}}</h5>
+                                <p>{!!$group_notice["content_parsed"]!!}</p>
+                            </div>
+                        </timeline-item>
+                    </timeline-container>
+                @else
+                    <empty-container>
+                        <i class="MDI package-variant"></i>
+                        <p>Currently no announcements.</p>
+                    </empty-container>
+                @endunless
+            </div>
         </div>
     </div>
 </div>
