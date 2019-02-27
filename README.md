@@ -2,7 +2,63 @@
 
 ![NOJ](/noj.png)
 
-NOJ's another online judge platform, stands for NJUPT Online Judge. It's written in PHP, GO, Python and other supporting languages.
+NOJ's another online judge platform, stands for NJUPT Online Judge. It's written in PHP, GO, Python and other function-supporting languages.
+
+# Installation
+
+CentOS will be recommended for hosting NOJ, but all major operating systems are theoretically supported.
+
+Till now, NOJ have been successfully deploied to the following systems:
+
+- Ubuntu 16.04.3 LTS
+- CentOS Linux release 7.6.1810 (Core)
+- Windows 10 Professional 10.0.17134 Build 17134
+
+Here is detailed step about deploying NOJ:
+
+1. You need to have a server and installed [PHP](http://php.net/downloads.php) and [Composer](https://getcomposer.org);
+
+2. Clone NOJ to your website folder;
+
+```
+cd /path-to-noj/
+git clone https://github.com/ZsgsDesign/CodeMaster ./
+```
+
+3. Change your website root to `public` folder and then, if there is a `open_basedir` restriction, remove it;
+
+4. Now run the following commands at the root folder of NOJ;
+
+```
+composer install
+```
+
+5. Almost done, you still got to modify a few folders and give them permission to write;
+
+```
+chmod -R 775 storage/
+chmod -R 775 bootstrap/
+chmod -R 775 app/Http/Controllers/VirtualCrawler/
+chmod -R 775 app/Http/Controllers/VirtualJudge/
+```
+
+6. OK, right now we still need to configure environment, a typical `.env` just like the `.env.example`, you simply need to type the following codes;
+
+```
+cp .env.example .env
+vim .env
+```
+
+7. Now, we need to configure the database, thankfully Laravel have migration already;
+
+8. Last time, we need to configure the judger;
+
+```
+crontab -e
+* * * * * php /path-to-noj/artisan schedule:run
+```
+
+9. NOJ's up-and-running, enjoy!
 
 ## Progress
 
