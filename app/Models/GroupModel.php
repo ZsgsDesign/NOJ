@@ -9,8 +9,22 @@ use Illuminate\Support\Facades\DB;
 class GroupModel extends Model
 {
     protected $tableName = 'group';
-    public $role = ["Pending","Member","Manager","Leader"];
-    public $role_color = ["wemd-red","wemd-grey","wemd-light-blue","wemd-amber"];
+    public $role = [
+        "-3"=>"None",
+        "-1"=>"Invited",
+        "0"=>"Pending",
+        "1"=>"Member",
+        "2"=>"Manager",
+        "3"=>"Leader"
+    ];
+    public $role_color = [
+        "-3"=>"wemd-black",
+        "-1"=>"wemd-deep-purple",
+        "0"=>"wemd-red",
+        "1"=>"wemd-grey",
+        "2"=>"wemd-light-blue",
+        "3"=>"wemd-amber"
+    ];
 
     public function tendingGroups()
     {
@@ -105,12 +119,23 @@ class GroupModel extends Model
         return empty($ret) ? -3 : $ret["role"];
     }
 
-    public function changeClearance($uid, $clearance)
+    public function changeClearance($uid, $gid, $clearance)
     {
         return DB::table("group_member")->where([
-            "uid"=>$uid
+            "uid"=>$uid,
+            "gid"=>$gid
         ])->update([
-            "clearance"=>$clearance
+            "role"=>$clearance
+        ]);
+    }
+
+    public function addClearance($uid, $gid, $clearance)
+    {
+        return DB::table("group_member")->insert([
+            "uid"=>$uid,
+            "gid"=>$gid,
+            "role"=>$clearance,
+            "join_time"=>date("Y-m-d H:i:s")
         ]);
     }
 

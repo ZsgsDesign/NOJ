@@ -87,7 +87,7 @@ class GroupController extends Controller
 
         $groupModel=new GroupModel();
         $join_policy = $groupModel->joinPolicy($all_data["gid"]);
-        if (isNull($join_policy)) {
+        if (is_null($join_policy)) {
             return response()->json([
                 "ret"=>1003,
                 "desc"=>"Group Doesn't Exist",
@@ -97,10 +97,15 @@ class GroupController extends Controller
         $clearance = $groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         if ($join_policy==3) {
             if ($clearance==-1) {
-                $groupModel->changeClearance(Auth::user()->id, 1);
+                $groupModel->changeClearance(Auth::user()->id, $all_data["gid"], 1);
             } elseif ($clearance==-3) {
-                $groupModel->changeClearance(Auth::user()->id, 0);
+                $groupModel->addClearance(Auth::user()->id, $all_data["gid"], 0);
             }
+            return response()->json([
+                "ret"=>200,
+                "desc"=>"Success",
+                "data"=>null
+            ]);
         }
     }
 }

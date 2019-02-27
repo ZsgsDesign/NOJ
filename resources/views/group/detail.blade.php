@@ -724,7 +724,8 @@
     }
 
     #addProblemBtn > i,
-    #arrangeBtn > i{
+    #arrangeBtn > i,
+    #joinGroup > i{
         display: inline-block;
     }
 
@@ -851,7 +852,7 @@
             addProblem();
         });
 
-        var joining=true;
+        var joining=false;
 
         $("#joinGroup").click(function() {
             if(joining) return;

@@ -41,6 +41,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::get('crawler', 'ProblemController@crawler')->middleware('auth');
     Route::post('problemExists', 'ProblemController@problemExists')->middleware('auth');
     Route::post('arrangeContest', 'GroupController@arrangeContest')->middleware('auth');
+    Route::post('joinGroup', 'GroupController@joinGroup')->middleware('auth');
 });
 
 Auth::routes();
