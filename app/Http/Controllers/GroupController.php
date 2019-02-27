@@ -46,7 +46,7 @@ class GroupController extends Controller
         return view('group.detail', [
             'page_title'=>"Group Detail",
             'site_title'=>"CodeMaster",
-            'navigation' => "Group",
+            'navigation'=>"Group",
             "basic_info"=>$basic_info,
             'my_profile'=>$my_profile,
             'member_list'=>$member_list,
