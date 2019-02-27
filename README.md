@@ -8,7 +8,7 @@ NOJ's another online judge platform, stands for NJUPT Online Judge. It's written
 
 CentOS will be recommended for hosting NOJ, but all major operating systems are theoretically supported.
 
-Till now, NOJ have been successfully deploied to the following systems:
+Till now, NOJ have been successfully deployed to the following systems:
 
 - Ubuntu 16.04.3 LTS
 - CentOS Linux release 7.6.1810 (Core)
