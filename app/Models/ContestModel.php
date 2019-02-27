@@ -464,14 +464,14 @@ class ContestModel extends Model
                 "registration"=>0,                      //todo
                 "registration_due"=>null,               //todo
                 "registant_type"=>0,                    //todo
-                "frozn_length"=>0,                      //todo
+                "froze_length"=>0,                     //todo
                 "status_visibility"=>3,                 //todo
                 "create_time"=>date("Y-m-d H:i:s"),
                 "audit_status"=>1                       //todo
             ]);
 
             foreach ($problems as $p) {
-                $pid=DB::table("problem")->where(["pcode"=>$p["code"]])->select("pid")->first()["pid"];
+                $pid=DB::table("problem")->where(["pcode"=>$p["pcode"]])->select("pid")->first()["pid"];
                 DB::table("contest_problem")->insert([
                     "cid"=>$cid,
                     "number"=>$p["number"],

@@ -34,13 +34,13 @@ Route::get('/contest/{cid}/board/clarification', 'ContestController@clarificatio
 Route::get('/contest/{cid}/board/print', 'ContestController@print')->middleware('auth')->name('contest_print');
 
 Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
-    Route::post('submitSolution', 'ProblemController@submitSolution');
-    Route::post('judgeStatus', 'ProblemController@judgeStatus');
-    Route::post('manualJudge', 'ProblemController@manualJudge');
-    Route::post('submitHistory', 'ProblemController@submitHistory');
-    Route::get('crawler', 'ProblemController@crawler');
-    Route::post('problemExists', 'ProblemController@problemExists');
-    Route::post('arrangeContest', 'GroupController@arrangeContest');
+    Route::post('submitSolution', 'ProblemController@submitSolution')->middleware('auth');
+    Route::post('judgeStatus', 'ProblemController@judgeStatus')->middleware('auth');
+    Route::post('manualJudge', 'ProblemController@manualJudge')->middleware('auth');
+    Route::post('submitHistory', 'ProblemController@submitHistory')->middleware('auth');
+    Route::get('crawler', 'ProblemController@crawler')->middleware('auth');
+    Route::post('problemExists', 'ProblemController@problemExists')->middleware('auth');
+    Route::post('arrangeContest', 'GroupController@arrangeContest')->middleware('auth');
 });
 
 Auth::routes();

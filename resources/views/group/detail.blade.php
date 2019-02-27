@@ -699,7 +699,8 @@
         z-index:1150;
     }
 
-    #addProblemBtn > i{
+    #addProblemBtn > i,
+    #arrangeBtn > i{
         display: inline-block;
     }
 
@@ -876,41 +877,18 @@
                 }, success: function(ret){
                     console.log(ret);
                     if (ret.ret==200) {
-                        var sameFlag=false;
-                        $("#contestProblemSet td:first-of-type").each(function(){
-                            if(ret.data.pcode==$(this).text()){
-                                alert("Problem Already Exist");
-                                $('#addProblemModal').modal('toggle');
-                                problemAdding=false;
-                                $("#problemCode").val("");
-                                sameFlag=true;
-                                return;
-                            }
-                        });
-                        if(sameFlag==false){
-                            $("#contestProblemSet").append(`
-                                <tr>
-                                    <th scope="row"></th>
-                                        <td>${ret.data.pcode}</td>
-                                    <td><i class="MDI cm-remove wemd-red-text" onclick="removeProblem(this)" title="Delete this problem"></i></td>
-                                </tr>
-                            `);
-                            sortableInit();
-                        }
+                        alert(ret.desc);
+                        location.reload();
                     } else {
-                        alert("Problem Doesn't Exist");
+                        alert(ret.desc);
                     }
-                    $('#addProblemModal').modal('toggle');
-                    problemAdding=false;
-                    $("#problemCode").val("");
-                    $("#addProblemBtn > i").addClass("d-none");
+                    arranging=false;
+                    $("#arrangeBtn > i").addClass("d-none");
                 }, error: function(xhr, type){
-                    console.log('Ajax error while posting to problemExists!');
+                    console.log('Ajax error while posting to arrangeContest!');
                     alert("Server Connection Error");
-                    $('#addProblemModal').modal('toggle');
-                    problemAdding=false;
-                    $("#problemCode").val("");
-                    $("#addProblemBtn > i").addClass("d-none");
+                    arranging=false;
+                    $("#arrangeBtn > i").addClass("d-none");
                 }
             });
         });

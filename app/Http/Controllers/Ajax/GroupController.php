@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ajax;
 
 use App\Http\Requests;
 use App\Models\ContestModel;
+use App\Models\GroupModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -23,13 +24,24 @@ class GroupController extends Controller
         $request->validate([
             'name' => 'required|max:255',
             'problems' => 'required|max:2550',
-            'begin_time' => 'date',
-            'end_time' => 'date',
-            'gid' => 'integer',
+            'begin_time' => 'required|date',
+            'end_time' => 'required|date|after:begin_time',
+            'gid' => 'required|integer',
+            'description' => 'string'
         ]);
-        $contestModel=new ContestModel();
-        $contestModel->clearance("arrange");
+
         $all_data = $request->all();
+
+        $contestModel=new ContestModel();
+        $groupModel=new GroupModel();
+        $clearance = $groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        if ($clearance<2) {
+            return response()->json([
+                "ret"=>1001,
+                "desc"=>"Permission Denied",
+                "data"=>null
+            ]);
+        }
         $problems = explode(",", $all_data["problems"]);
         $i=0;
         $problemSet=[];
@@ -42,6 +54,15 @@ class GroupController extends Controller
                 ];
             }
         }
+
+        if (empty($problemSet)) {
+            return response()->json([
+                "ret"=>1002,
+                "desc"=>"Missing Param",
+                "data"=>null
+            ]);
+        }
+
         $contestModel->arrangeContest($all_data["gid"], [
             "name"=>$all_data["name"],
             "description"=>$all_data["description"],
@@ -50,7 +71,9 @@ class GroupController extends Controller
         ], $problemSet);
 
         return response()->json([
-            "ret"=>200
+            "ret"=>200,
+            "desc"=>"Successful",
+            "data"=>null
         ]);
     }
 }
