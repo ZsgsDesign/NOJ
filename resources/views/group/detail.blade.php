@@ -549,7 +549,7 @@
                                 <timeline-item data-type="notice">
                                     <div>
                                         <div>{{$group_notice["name"]}} - {{$group_notice["post_date_parsed"]}} <span class="wemd-green-text">&rtrif; Notice</span></div>
-                                        <div><img src="https://cdn.mundb.xyz/img/atsast/upload/2/15453661701.jpg" class="cm-avatar"></div>
+                                        <div><img src="{{$group_notice["avatar"]}}" class="cm-avatar"></div>
                                     </div>
                                     <div>
                                         <h5>{{$group_notice["title"]}}</h5>
@@ -592,6 +592,9 @@
                         </contest-container>
                     </div>
                     <div class="col-sm-12 col-md-5">
+
+                        @unless(empty($my_profile))
+                        
                         <paper-card>
                             <header-div>
                                 <p><i class="MDI account-circle"></i> My Profile</p>
@@ -614,6 +617,9 @@
                                 </li>
                             </ul>
                         </paper-card>
+
+                        @endunless
+
                         <paper-card>
                             <header-div id="member_header" data-toggle="collapse" data-target="#collapse_member" aria-expanded="false">
                                 <p><i class="MDI account-multiple"></i> Members</p>

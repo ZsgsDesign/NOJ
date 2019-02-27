@@ -51,8 +51,10 @@ class GroupModel extends Model
 
     public function userProfile($uid, $gid)
     {
-        $info=DB::table("group_member")->where(["gid"=>$gid,"uid"=>$uid])->first();
-        $info["role_parsed"]=$this->role[$info["role"]];
+        $info=DB::table("group_member")->where(["gid"=>$gid, "uid"=>$uid])->where("role", ">", 0)->first();
+        if (!empty($info)) {
+            $info["role_parsed"]=$this->role[$info["role"]];
+        }
         return $info;
     }
 

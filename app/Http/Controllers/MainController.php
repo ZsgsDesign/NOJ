@@ -11,6 +11,7 @@
  */
 namespace App\Http\Controllers;
 
+use App\Models\GroupModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
@@ -46,10 +47,13 @@ class MainController extends Controller
      */
     public function home(Request $request)
     {
+        $groupModel=new GroupModel();
+        $group_notice=$groupModel->groupNotice(1);
         return view('home', [
                 'page_title'=>"Home",
                 'site_title'=>"CodeMaster",
-                'navigation' => "Home"
+                'navigation' => "Home",
+                'group_notice' => $group_notice
             ]);
     }
 }

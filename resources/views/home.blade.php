@@ -146,18 +146,25 @@
         <div class="col-sm-12 col-lg-4">
                 <p class="cm-anno">Announcement</p>
                 <div>
-                    <timeline-container>
-                        <timeline-item data-type="notice">
-                            <div>
-                                <div>admin - 3 days ago <span class="wemd-green-text">&rtrif; Notice</span></div>
-                                <div><img src="https://cdn.mundb.xyz/img/atsast/upload/2/15453661701.jpg" class="cm-avatar"></div>
-                            </div>
-                            <div>
-                                <h5>Have a Problem?</h5>
-                                <p>NOJ (a.k.a CodeMaster) is still under Alpha Version, of which you may encounter with a lot of bugs or weird behaviors. To report that, you can create an issue here at GitHub.</p>
-                            </div>
-                        </timeline-item>
-                    </timeline-container>
+                    @unless(empty($group_notice))
+                        <timeline-container>
+                            <timeline-item data-type="notice">
+                                <div>
+                                    <div>{{$group_notice["name"]}} - {{$group_notice["post_date_parsed"]}} <span class="wemd-green-text">&rtrif; Notice</span></div>
+                                    <div><img src="{{$group_notice["avatar"]}}" class="cm-avatar"></div>
+                                </div>
+                                <div>
+                                    <h5>{{$group_notice["title"]}}</h5>
+                                    <p>{!!$group_notice["content_parsed"]!!}</p>
+                                </div>
+                            </timeline-item>
+                        </timeline-container>
+                    @else
+                        <empty-container>
+                            <i class="MDI package-variant"></i>
+                            <p>Currently no announcements.</p>
+                        </empty-container>
+                    @endunless
                 </div>
         </div>
     </div>
