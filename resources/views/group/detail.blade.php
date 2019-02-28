@@ -820,7 +820,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="nick_name" class="bmd-label-floating">Nick Name</label>
-                    <input type="text" class="form-control" id="nick_name" value="@if(isset($my_profile['nick_name'])){{$my_profile['nick_name']}}@else None @endif">
+                    <input type="text" class="form-control" id="nick_name" value="@if(isset($my_profile['nick_name'])){{$my_profile['nick_name']}}@endif">
                 </div>
             </div>
             <div class="modal-footer">
