@@ -95,7 +95,7 @@ class GroupController extends Controller
                 "data"=>null
             ]);
         }
-        $groupModel->changeNickName($all_data["gid"], Auth::user()->id, $all_data["mick_name"]);
+        $groupModel->changeNickName($all_data["gid"], Auth::user()->id, $all_data["nick_name"]);
         return response()->json([
             "ret"=>200,
             "desc"=>"Successful",

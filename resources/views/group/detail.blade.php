@@ -616,7 +616,7 @@
                         <paper-card>
                             <header-div>
                                 <p><i class="MDI account-circle"></i> My Profile</p>
-                                <p class="wemd-green-text cm-simu-btn"><i class="MDI pencil"></i> Edit</p>
+                                <p class="wemd-green-text cm-simu-btn" onclick="$('#changeProfileModal').modal({backdrop:'static'});"><i class="MDI pencil"></i> Edit</p>
                             </header-div>
                             <ul class="list-group">
                                 <li class="list-group-item">
@@ -725,7 +725,8 @@
 
     #addProblemBtn > i,
     #arrangeBtn > i,
-    #joinGroup > i{
+    #joinGroup > i,
+    #changeProfileBtn > i{
         display: inline-block;
     }
 
@@ -810,6 +811,26 @@
     </div>
 </div>
 
+<div id="changeProfileModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content sm-modal">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="MDI account-circle"></i> Profile</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="nick_name" class="bmd-label-floating">Nick Name</label>
+                    <input type="text" class="form-control" id="nick_name">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="changeProfileBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Apply</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 
     window.addEventListener("load",function() {
@@ -881,6 +902,40 @@
                     alert("Server Connection Error");
                     joining=false;
                     $("#joinGroup > i").addClass("d-none");
+                }
+            });
+        });
+
+        var profiling=false;
+
+        $("#changeProfileBtn").click(function() {
+            if(profiling) return;
+            profiling=true;
+            $("#changeProfileBtn > i").removeClass("d-none");
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/group/changeNickName',
+                data: {
+                    gid: {{$basic_info["gid"]}},
+                    nick_name: $("#nick_name").val()
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if (ret.ret==200) {
+                        location.reload();
+                    } else {
+                        alert(ret.desc);
+                    }
+                    profiling=false;
+                    $("#changeProfileBtn > i").addClass("d-none");
+                }, error: function(xhr, type){
+                    console.log('Ajax error while posting to changeNickName!');
+                    alert("Server Connection Error");
+                    profiling=false;
+                    $("#changeProfileBtn > i").addClass("d-none");
                 }
             });
         });
