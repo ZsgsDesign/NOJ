@@ -168,6 +168,6 @@ crontab -e
 
 [Simple-HTML-Dom](https://github.com/Kub-AT/php-simple-html-dom-parser)
 
-[Judger](https://github.com/QingdaoU/Judger)
+[JudgeServer](https://github.com/MarkLux/JudgeServer)
 
 [HTML Purifier](https://github.com/mewebstudio/Purifier)
