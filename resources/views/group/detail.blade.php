@@ -515,7 +515,7 @@
                         <li class="list-group-item">
                             <i class="MDI trophy"></i>
                             <div class="bmd-list-group-col">
-                                <p class="list-group-item-heading">0 Ahead, 0 On Going, 0 Passed</p>
+                                <p class="list-group-item-heading">{{$basic_info["contest_stat"]['contest_ahead']}} Ahead, {{$basic_info["contest_stat"]['contest_going']}} On Going, {{$basic_info["contest_stat"]['contest_end']}} Passed</p>
                                 <p class="list-group-item-text">Contests</p>
                             </div>
                         </li>

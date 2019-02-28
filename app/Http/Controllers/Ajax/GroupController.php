@@ -77,6 +77,32 @@ class GroupController extends Controller
         ]);
     }
 
+    public function changeNickName(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|integer',
+            'nick_name' => 'required|max:50',
+        ]);
+
+        $all_data = $request->all();
+
+        $groupModel=new GroupModel();
+        $clearance = $groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        if ($clearance<1) {
+            return response()->json([
+                "ret"=>1001,
+                "desc"=>"Permission Denied",
+                "data"=>null
+            ]);
+        }
+        $groupModel->changeNickName($all_data["gid"], Auth::user()->id, $all_data["mick_name"]);
+        return response()->json([
+            "ret"=>200,
+            "desc"=>"Successful",
+            "data"=>null
+        ]);
+    }
+
     public function joinGroup(Request $request)
     {
         $request->validate([

@@ -54,12 +54,29 @@ class GroupModel extends Model
         return DB::table("group_tag")->where(["gid"=>$gid])->select("tag")->get()->all();
     }
 
+    public function countGroupContest($gid)
+    {
+        return [
+            "contest_ahead" => DB::table("contest")->where(["gid"=>$gid])->where("begin_time", ">", DB::raw("now()"))->count(),
+            "contest_going" => DB::table("contest")->where(["gid"=>$gid])->where("begin_time", "<=", DB::raw("now()"))->where("end_time", ">=", DB::raw("now()"))->count(),
+            "contest_end" => DB::table("contest")->where(["gid"=>$gid])->where("end_time", "<", DB::raw("now()"))->count()
+        ];
+    }
+
+    public function changeNickName($gid, $uid, $nickName)
+    {
+        return DB::table("group_member")->where(["gid"=>$gid,"uid"=>$uid])->update([
+            "nick_name"=>$nickName
+        ]);
+    }
+
     public function details($gcode)
     {
         $basic_info = DB::table($this->tableName)->where(["gcode"=>$gcode])->first();
         $basic_info["members"]=$this->countGroupMembers($basic_info["gid"]);
         $basic_info["tags"]=$this->getGroupTags($basic_info["gid"]);
         $basic_info["create_time_foramt"]=date_format(date_create($basic_info["create_time"]), 'M jS, Y');
+        $basic_info["contest_stat"]=$this->countGroupContest($basic_info["gid"]);
         return $basic_info;
     }
 
