@@ -51,7 +51,7 @@ vim .env
 
 7. Now, we need to configure the database, thankfully Laravel have migration already;
 
-8. Last time, we need to configure the judger;
+8. Lastly, we need to configure the virtual judger and online judger;
 
 ```
 crontab -e
