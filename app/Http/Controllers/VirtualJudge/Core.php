@@ -33,13 +33,18 @@ class Core extends Curl
         // }
     }
 
+    protected function noj_findServer()
+    {
+
+    }
+
     private function noj()
     {
-        if (!isset($this->post_data["pid"])||!isset($this->post_data["cid"])||!isset($this->post_data["coid"])||!isset($this->post_data["iid"])||!isset($this->post_data["solution"])) {
+        if (!isset($this->post_data["pid"])||!isset($this->post_data["coid"])||!isset($this->post_data["iid"])||!isset($this->post_data["solution"])) {
             return;
         }
-        $this->codeforce_login();
-        $this->codeforces_submit();
+        $jsid = $this->noj_findServer();
+        // $this->codeforces_submit();
     }
 
     // protected function uva_live_login($url1, $url2, $oj)
