@@ -66,13 +66,16 @@ class Core extends Curl
             "max_memory" => $probBasic["memory_limit"]*1024,
             "test_case_id" => $probBasic["pcode"]
         ];
-        Requests::post($submitURL, [
+        $ret = Requests::post($submitURL, [
             "Token" => $bestServer["token"],
             "Content-Type" => "application/json"
         ], json_encode($submit_data), [
             'timeout' => 20,
             'connect_timeout' => 20
         ]);
+        if ($ret->success) {
+            $ret = json_decode($ret->body, true);
+        }
     }
 
     private function noj()

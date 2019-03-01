@@ -26,12 +26,12 @@ class JudgerModel extends Model
         foreach ($serverList as $server) {
             $serverURL = "http://" . $server["host"] . ":" . $server["port"];
             try {
-                $pong = Requests::get($serverURL . '/ping', ['token' => $server["token"]])->all();
+                $pong = Requests::get($serverURL . '/ping', ['token' => $server["token"]]);
             } catch (Exception $exception) {
                 continue;
             }
-            if ($pong["status_code"] == 200 && !isset($pong["code"])) {
-                $pong = json_decode($pong["body"]);
+            if ($pong->status_code == 200 && !isset($pong->code)) {
+                $pong = json_decode($pong->body);
                 $load = 400 * $pong->cpu[0] + 0.6 * $pong->memory;
                 if ($load < $bestServer['load']) {
                     $bestServer = [
