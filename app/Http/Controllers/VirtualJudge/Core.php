@@ -70,11 +70,16 @@ class Core extends Curl
             "Token" => $bestServer["token"],
             "Content-Type" => "application/json"
         ], json_encode($submit_data), [
-            'timeout' => 20,
+            'timeout' => 20, //May have problems when testcases exceeded 20
             'connect_timeout' => 20
         ]);
         if ($ret->success) {
             $ret = json_decode($ret->body, true);
+            if (empty($ret["data"]["UnPassed"])) {
+                // Accepted
+            } else {
+                // Well..
+            }
         }
     }
 
