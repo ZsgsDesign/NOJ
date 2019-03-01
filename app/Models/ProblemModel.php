@@ -55,6 +55,11 @@ class ProblemModel extends Model
         return $prob_detail;
     }
 
+    public function basic($pid)
+    {
+        return DB::table($this->tableName)->where("pid", $pid)->first();
+    }
+
     public function list()
     {
         // $prob_list = DB::table($this->tableName)->select("pid","pcode","title")->get()->all(); // return a array

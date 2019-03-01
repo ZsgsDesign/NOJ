@@ -3,6 +3,7 @@ namespace App\Http\Controllers\VirtualJudge;
 
 use App\Models\SubmissionModel;
 use App\Models\JudgerModel;
+use App\Models\ProblemModel;
 use App\Http\Controllers\VirtualJudge\Curl;
 use Requests;
 
@@ -37,6 +38,7 @@ class Core extends Curl
     protected function noj_submit()
     {
         $judgerModel = new JudgerModel();
+        $problemModel = new ProblemModel();
         $bestServer = $judgerModel->server(1);
         if (is_null($bestServer)) {
             return;
@@ -50,16 +52,24 @@ class Core extends Curl
         $this->sub['solution']=$this->post_data["solution"];
         $this->sub['pid']=$this->post_data["pid"];
         $this->sub['coid']=$this->post_data["coid"];
+        $probBasic=$problemModel->basic($this->post_data["pid"]);
         if (isset($this->post_data["contest"])) {
             $this->sub['cid']=$this->post_data["contest"];
         } else {
             $this->sub['cid']=null;
         }
         $submitURL="http://" . $bestServer["host"] . ":" . $bestServer["port"] . "/judge";
+        $submit_data = [
+            "src" => $this->post_data["solution"],
+            "language" => $this->post_data["lang"],
+            "max_cpu_time" => $probBasic["time_limit"],
+            "max_memory" => $probBasic["memory_limit"]*1024,
+            "test_case_id" => $probBasic["pcode"]
+        ];
         Requests::post($submitURL, [
             "Token" => $bestServer["token"],
             "Content-Type" => "application/json"
-        ], json_encode($data), [
+        ], json_encode($submit_data), [
             'timeout' => 20,
             'connect_timeout' => 20
         ]);
