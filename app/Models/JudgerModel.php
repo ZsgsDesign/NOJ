@@ -41,6 +41,6 @@ class JudgerModel extends Model
                 }
             }
         }
-        return $bestServer;
+        return $bestServer["server"];
     }
 }

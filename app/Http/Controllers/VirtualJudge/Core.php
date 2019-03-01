@@ -38,7 +38,7 @@ class Core extends Curl
     {
         $judgerModel = new JudgerModel();
         $bestServer = $judgerModel->server(1);
-        if($bestServer["server"]==null) {
+        if (is_null($bestServer)) {
             return;
         }
         $langDict=[
@@ -50,10 +50,19 @@ class Core extends Curl
         $this->sub['solution']=$this->post_data["solution"];
         $this->sub['pid']=$this->post_data["pid"];
         $this->sub['coid']=$this->post_data["coid"];
-        if(isset($this->post_data["contest"])) $this->sub['cid']=$this->post_data["contest"];
-        else $this->sub['cid']=null;
-
-        Requests::post();
+        if (isset($this->post_data["contest"])) {
+            $this->sub['cid']=$this->post_data["contest"];
+        } else {
+            $this->sub['cid']=null;
+        }
+        $submitURL="http://" . $bestServer["host"] . ":" . $bestServer["port"] . "/judge";
+        Requests::post($submitURL, [
+            "Token" => $bestServer["token"],
+            "Content-Type" => "application/json"
+        ], json_encode($data), [
+            'timeout' => 20,
+            'connect_timeout' => 20
+        ]);
     }
 
     private function noj()
@@ -175,8 +184,11 @@ class Core extends Curl
         $this->sub['solution']=$this->post_data["solution"];
         $this->sub['pid']=$this->post_data["pid"];
         $this->sub['coid']=$this->post_data["coid"];
-        if(isset($this->post_data["contest"])) $this->sub['cid']=$this->post_data["contest"];
-        else $this->sub['cid']=null;
+        if (isset($this->post_data["contest"])) {
+            $this->sub['cid']=$this->post_data["contest"];
+        } else {
+            $this->sub['cid']=null;
+        }
 
         $s_num=$this->MODEL->count_solution($this->sub['solution']);
         $space='';

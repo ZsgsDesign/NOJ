@@ -16,7 +16,8 @@
         "laracasts/utilities": "^3.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
-        "mews/purifier": "^2.1"
+        "mews/purifier": "^2.1",
+        "rmccue/requests": "^1.7"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
