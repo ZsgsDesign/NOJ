@@ -4,6 +4,7 @@ namespace App\Http\Controllers\VirtualJudge;
 use App\Models\SubmissionModel;
 use App\Models\JudgerModel;
 use App\Http\Controllers\VirtualJudge\Curl;
+use Requests;
 
 class Core extends Curl
 {
@@ -37,6 +38,22 @@ class Core extends Curl
     {
         $judgerModel = new JudgerModel();
         $bestServer = $judgerModel->server(1);
+        if($bestServer["server"]==null) {
+            return;
+        }
+        $langDict=[
+            "c"=>"C",
+            "cpp"=>"C++",
+            "java"=>"Java"
+        ];
+        $this->sub['language']=$langDict[$this->post_data["lang"]];
+        $this->sub['solution']=$this->post_data["solution"];
+        $this->sub['pid']=$this->post_data["pid"];
+        $this->sub['coid']=$this->post_data["coid"];
+        if(isset($this->post_data["contest"])) $this->sub['cid']=$this->post_data["contest"];
+        else $this->sub['cid']=null;
+
+        Requests::post();
     }
 
     private function noj()

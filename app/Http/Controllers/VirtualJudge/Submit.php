@@ -40,7 +40,7 @@ class Submit
 
             // insert submission
 
-            if($sub["pid"]==''){
+            if ($sub["pid"]=='') {
                 return [
                     'ret'=>1003,
                     'desc'=>'param incomplete',
