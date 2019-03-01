@@ -84,62 +84,11 @@
                 <p>We've currently support those OJs:</p>
             </div>
             <div class="row">
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                <div class="col-12 col-sm-6 col-md-4 col-xl-3">
+                    <a href="/"><img src="/static/img/oj/noj@2x.png" class="cm-oj img-fluid"></a>
                 </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <a href="https://codeforces.com"><img src="https://cdn.mundb.xyz/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
+                <div class="col-12 col-sm-6 col-md-4 col-xl-3">
+                    <a href="https://codeforces.com"><img src="/static/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
             </div>
         </div>

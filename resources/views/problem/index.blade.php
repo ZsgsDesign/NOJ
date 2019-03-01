@@ -81,7 +81,7 @@
                     <span class="badge badge-info">SPOJ</span>
                     <span class="badge badge-info">UVa</span>
                     <span class="badge badge-info">UVa Live</span>
-                    <span class="badge badge-info">LuoGu</span>
+                    <span class="badge badge-info">NOJ</span>
                 </div>
                 <div>
                     <span class="badge badge-secondary">String</span>
