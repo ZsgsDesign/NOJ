@@ -33,9 +33,10 @@ class Core extends Curl
         // }
     }
 
-    protected function noj_findServer()
+    protected function noj_submit()
     {
-
+        $judgerModel = new JudgerModel();
+        $bestServer = $judgerModel->server(1);
     }
 
     private function noj()
@@ -43,8 +44,7 @@ class Core extends Curl
         if (!isset($this->post_data["pid"])||!isset($this->post_data["coid"])||!isset($this->post_data["iid"])||!isset($this->post_data["solution"])) {
             return;
         }
-        $jsid = $this->noj_findServer();
-        // $this->codeforces_submit();
+        $this->noj_submit();
     }
 
     // protected function uva_live_login($url1, $url2, $oj)
