@@ -76,7 +76,8 @@ class Core extends Curl
         if ($ret->success) {
             $ret = json_decode($ret->body, true);
             if (empty($ret["data"]["UnPassed"])) {
-                // Accepted
+                $this->sub["time"]=0;
+                $this->sub["memory"]=$ret["data"];
             } else {
                 // Well..
             }
