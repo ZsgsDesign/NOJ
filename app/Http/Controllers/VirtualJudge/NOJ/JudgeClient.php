@@ -62,14 +62,14 @@ class JudgeClient
         return $this->post($this->serverBaseUrl . '/compile_spj', $data);
     }
 
-    public static function getLanguageConfigByLanguage($language)
+    public function getLanguageConfigByLanguage($language)
     {
-        return static::getLanguageConfigByKey($language . '_lang_config');
+        return $this->getLanguageConfigByKey($language . '_lang_config');
     }
 
-    public static function getLanguageConfigByKey($key)
+    public function getLanguageConfigByKey($key)
     {
-        return isset(static::$languageConfigs[$key]) ? static::$languageConfigs[$key] : null;
+        return isset($this->$languageConfigs[$key]) ? $this->$languageConfigs[$key] : null;
     }
 
     private function needCreateCurl()
