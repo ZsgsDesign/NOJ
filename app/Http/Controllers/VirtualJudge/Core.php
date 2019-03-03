@@ -70,13 +70,12 @@ class Core extends Curl
         ];
         $NOJ = new NOJ();
         $temp=$NOJ->submit($submitURL, $submit_data);
-        var_dump($temp);
-        exit();
+        $this->sub['fuck']=$temp;
     }
 
     private function noj()
     {
-        if (!isset($this->post_data["pid"])||!isset($this->post_data["coid"])||!isset($this->post_data["iid"])||!isset($this->post_data["solution"])) {
+        if (!isset($this->post_data["pid"])||!isset($this->post_data["coid"])||!isset($this->post_data["solution"])) {
             return;
         }
         $this->noj_submit();

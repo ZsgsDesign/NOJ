@@ -39,9 +39,11 @@ class Submit
             $curl = new Core($sub, $this->post_data['oj'], $this->post_data);
 
             // insert submission
+            $this->ret['data']=$sub['fuck'];
+            return;
 
             if ($sub["pid"]=='') {
-                return [
+                $this->ret = [
                     'ret'=>1003,
                     'desc'=>'param incomplete',
                     'data'=>null
