@@ -62,7 +62,7 @@ class Languages
                     'compile_command' => '/usr/bin/javac {src_path} -d {exe_dir} -encoding UTF8'
                 ],
                 'run' => [
-                    'command' => '/usr/bin/java -cp {exe_dir} -Xss1M -XX:MaxPermSize=16M -XX:PermSize=8M -Xms16M -Xmx{max_memory}k -Djava.security.manager -Djava.security.policy==/etc/java_policy -Djava.awt.headless=true Main',
+                    'command' => '/usr/bin/java -cp {exe_dir} -Xss1M -Xms16M -Xmx{max_memory}k -Djava.security.manager -Djava.security.policy==/etc/java_policy -Djava.awt.headless=true Main',
                     'seccomp_rule' => null,
                     'env' => $default_env,
                     'memory_limit_check_only' => 1
