@@ -277,6 +277,7 @@ class ContestModel extends Model
                 'Runtime Error',
                 'Wrong Answer',
                 'Time Limit Exceed',
+                'Real Time Limit Exceed',
                 'Memory Limit Exceed',
                 'Presentation Error',
                 'Output Limit Exceeded'
@@ -298,6 +299,7 @@ class ContestModel extends Model
                 'Runtime Error',
                 'Wrong Answer',
                 'Time Limit Exceed',
+                'Real Time Limit Exceed',
                 'Memory Limit Exceed',
                 'Presentation Error',
                 'Output Limit Exceeded'
