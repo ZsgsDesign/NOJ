@@ -60,7 +60,9 @@ class Core extends Curl
         $langDict=[
             "c"=>"C",
             "cpp"=>"C++",
-            "java"=>"Java"
+            "java"=>"Java",
+            "py2"=>"Python 2",
+            "py3"=>"Python 3"
         ];
         $this->sub['language']=$langDict[$this->post_data["lang"]];
         $this->sub['solution']=$this->post_data["solution"];
