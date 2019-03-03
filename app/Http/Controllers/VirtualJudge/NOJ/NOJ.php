@@ -5,7 +5,7 @@ use App\Http\Controllers\VirtualJudge\JudgeClient;
 
 class NOJ
 {
-    public static function submit()
+    public static function submit($submitURL)
     {
         $token = 'abcdefg';
         $cSrc = "
@@ -17,7 +17,7 @@ class NOJ
                 return 0;
             }
         ";
-        $judgeClient = new JudgeClient($token, 'http://127.0.0.1:8090');
+        $judgeClient = new JudgeClient($token, $submitURL);
         return $judgeClient->judge($cSrc, 'c', 'normal', [
             'output' => true
         ]);

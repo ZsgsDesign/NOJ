@@ -5,6 +5,7 @@ use App\Models\SubmissionModel;
 use App\Models\JudgerModel;
 use App\Models\ProblemModel;
 use App\Http\Controllers\VirtualJudge\Curl;
+use App\Http\Controllers\VirtualJudge\NOJ\NOJ;
 use Requests;
 
 class Core extends Curl
@@ -58,7 +59,7 @@ class Core extends Curl
         } else {
             $this->sub['cid']=null;
         }
-        $submitURL="http://" . $bestServer["host"] . ":" . $bestServer["port"] . "/judge";
+        $submitURL="http://" . $bestServer["host"] . ":" . $bestServer["port"];
         $submit_data = [
             "src" => $this->post_data["solution"],
             "language" => $this->post_data["lang"],
@@ -66,22 +67,8 @@ class Core extends Curl
             "max_memory" => $probBasic["memory_limit"]*1024,
             "test_case_id" => $probBasic["pcode"]
         ];
-        $ret = Requests::post($submitURL, [
-            "Token" => $bestServer["token"],
-            "Content-Type" => "application/json"
-        ], json_encode($submit_data), [
-            'timeout' => 20, //May have problems when testcases exceeded 20
-            'connect_timeout' => 20
-        ]);
-        if ($ret->success) {
-            $ret = json_decode($ret->body, true);
-            if (empty($ret["data"]["UnPassed"])) {
-                $this->sub["time"]=0;
-                $this->sub["memory"]=$ret["data"];
-            } else {
-                // Well..
-            }
-        }
+        $NOJ = new NOJ();
+        $NOJ->submit($submitURL, $submit_data);
     }
 
     private function noj()
