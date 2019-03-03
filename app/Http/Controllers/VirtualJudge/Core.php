@@ -61,14 +61,17 @@ class Core extends Curl
         }
         $submitURL="http://" . $bestServer["host"] . ":" . $bestServer["port"];
         $submit_data = [
-            "src" => $this->post_data["solution"],
+            "solution" => $this->post_data["solution"],
             "language" => $this->post_data["lang"],
             "max_cpu_time" => $probBasic["time_limit"],
             "max_memory" => $probBasic["memory_limit"]*1024,
-            "test_case_id" => $probBasic["pcode"]
+            "test_case_id" => $probBasic["pcode"],
+            "token" => $bestServer["token"]
         ];
         $NOJ = new NOJ();
-        $NOJ->submit($submitURL, $submit_data);
+        $temp=$NOJ->submit($submitURL, $submit_data);
+        var_dump($temp);
+        exit();
     }
 
     private function noj()

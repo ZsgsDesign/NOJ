@@ -1,24 +1,14 @@
 <?php
 namespace App\Http\Controllers\VirtualJudge\NOJ;
 
-use App\Http\Controllers\VirtualJudge\JudgeClient;
+use App\Http\Controllers\VirtualJudge\NOJ\JudgeClient;
 
 class NOJ
 {
-    public static function submit($submitURL)
+    public static function submit($submitURL,$data)
     {
-        $token = 'abcdefg';
-        $cSrc = "
-            #include <stdio.h>
-            int main(){
-                int a, b;
-                scanf(\"%d%d\", &a, &b);
-                printf(\"%d\\n\", a+b);
-                return 0;
-            }
-        ";
-        $judgeClient = new JudgeClient($token, $submitURL);
-        return $judgeClient->judge($cSrc, 'c', 'normal', [
+        $judgeClient = new JudgeClient($data["token"], $submitURL);
+        return $judgeClient->judge($data["solution"], $data["language"], $data["test_case_id"], [
             'output' => true
         ]);
     }
