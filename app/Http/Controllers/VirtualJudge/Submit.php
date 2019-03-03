@@ -33,14 +33,13 @@ class Submit
                 'submission_date'=>time(),
                 'memory'=>'0',
                 'uid'=>Auth::user()->id,
-                'pid'=>''
+                'pid'=>'',
+                'cid'=>null
             ];
 
             $curl = new Core($sub, $this->post_data['oj'], $this->post_data);
 
             // insert submission
-            $this->ret['data']=$sub['fuck'];
-            return;
 
             if ($sub["pid"]=='') {
                 $this->ret = [

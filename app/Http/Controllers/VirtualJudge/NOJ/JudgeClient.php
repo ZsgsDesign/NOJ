@@ -33,7 +33,7 @@ class JudgeClient
      */
     public function judge($src, $language, $testCaseId, $config = [])
     {
-        $languageConfig = static::getLanguageConfigByLanguage($language);
+        $languageConfig = $this->getLanguageConfigByLanguage($language);
         if (is_null($languageConfig)) {
             throw new Exception("don't support \"$language\" language!");
         }
@@ -69,7 +69,7 @@ class JudgeClient
 
     public function getLanguageConfigByKey($key)
     {
-        return isset($this->$languageConfigs[$key]) ? $this->$languageConfigs[$key] : null;
+        return isset($this->languageConfigs[$key]) ? $this->languageConfigs[$key] : null;
     }
 
     private function needCreateCurl()

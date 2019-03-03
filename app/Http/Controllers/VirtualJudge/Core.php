@@ -70,7 +70,11 @@ class Core extends Curl
         ];
         $NOJ = new NOJ();
         $temp=$NOJ->submit($submitURL, $submit_data);
-        $this->sub['fuck']=$temp;
+        $this->sub['verdict']=is_null($temp["err"])? $verdictDict[$temp["data"][0]["cpu_time"]] : $temp["err"];
+        if($this->sub['verdict']=="Accepted"){
+            $this->sub['memory']=$temp["data"][0]["cpu_time"];
+            $this->sub['time']=$temp["data"][0]["memory"];
+        }
     }
 
     private function noj()
