@@ -19,6 +19,7 @@ class JudgerModel extends Model
     public function server($oid = 1)
     {
         $serverList = DB::table("judge_server")->where(["oid"=>$oid,"available"=>1])->get()->all();
+        return $serverList[0];
         $bestServer = [
             "load"=> 99999,
             "server" => null
@@ -35,7 +36,6 @@ class JudgerModel extends Model
             }
             if ($pong->status_code == 200 && !isset($pong->code)) {
                 $pong = json_decode($pong->body);
-                var_dump($pong);
                 $load = 4 * $pong->data->cpu + 0.6 * $pong->data->memory;
                 if ($load < $bestServer['load']) {
                     $bestServer = [
