@@ -13,6 +13,19 @@ class Core extends Curl
     private $sub;
     private $MODEL;
     public $post_data=[];
+    public $verdictDict=[
+        -2 => "Compile Error",
+        -1 => "Wrong Answer",
+        0 => "Accepted",
+        1 => "Time Limit Exceed",
+        2 => "Real Time Limit Exceed",
+        3 => "Memory Limit Exceed",
+        4 => "Runtime Error",
+        5 => "System Error",
+        6 => "Pending",
+        7 => "Judging",
+        8 => "Partially Accepted"
+    ];
 
     public function __construct(& $sub, $oj, $all_data)
     {
@@ -77,12 +90,24 @@ class Core extends Curl
             return;
         }
 
+        foreach ($temp["data"] as $record) {
+            if ($record["result"]) {
+                // well... WA or anyway
+                $this->sub['verdict']=$this->verdictDict[$record["result"]];
+                $this->sub['time']=$tempTime;
+                $this->sub['memory']=$tempMemory;
+                return;
+            }
+        }
+
         $tempMemory=$temp["data"][0]["memory"];
         $tempTime=$temp["data"][0]["cpu_time"];
         foreach ($temp["data"] as $t) {
             $tempMemory=max($tempMemory, $temp["data"][0]["memory"]);
             $tempTime=max($tempTime, $temp["data"][0]["cpu_time"]);
         }
+        $this->sub['time']=$tempTime;
+        $this->sub['memory']=$tempMemory;
     }
 
     private function noj()
