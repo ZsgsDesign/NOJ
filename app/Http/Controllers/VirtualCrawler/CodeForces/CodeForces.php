@@ -133,7 +133,7 @@ class CodeForces extends CrawlerBase
         $problemModel=new ProblemModel();
         $start=time();
         if ($cached) {
-            $response=file_get_contents(__DIR__."/problemset.problems.json");
+            $response=file_get_contents(__DIR__."/problemset.problems");
         } else {
             $ch=curl_init();
             $url="http://codeforces.com/api/problemset.problems";
