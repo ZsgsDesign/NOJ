@@ -9,22 +9,22 @@ class SubmissionModel extends Model
 {
     protected $tableName = 'submission';
     public $colorScheme=[
-        "Waiting"=>"wemd-blue-text",
-        "Judge Error"=>"wemd-black-text",
-        "System Error"=>"wemd-black-text",
-        "Compile Error"=>"wemd-orange-text",
-        "Runtime Error"=>"wemd-red-text",
-        "Wrong Answer"=>"wemd-red-text",
-        "Time Limit Exceed"=>"wemd-deep-purple-text",
-        "Real Time Limit Exceed"=>"wemd-deep-purple-text",
-        "Accepted"=>"wemd-green-text",
-        "Memory Limit Exceed"=>"wemd-deep-purple-text",
-        "Presentation Error"=>"wemd-red-text",
-        "Pending"=>"wemd-blue-text",
-        "Judging"=>"wemd-blue-text",
-        "Partially Accepted"=>"wemd-lime-text",
-        'Submission Error'=>'wemd-black-text',
-        'Output Limit Exceeded'=>'wemd-deep-purple-text'
+        "Waiting"                => "wemd-blue-text",
+        "Judge Error"            => "wemd-black-text",
+        "System Error"           => "wemd-black-text",
+        "Compile Error"          => "wemd-orange-text",
+        "Runtime Error"          => "wemd-red-text",
+        "Wrong Answer"           => "wemd-red-text",
+        "Time Limit Exceed"      => "wemd-deep-purple-text",
+        "Real Time Limit Exceed" => "wemd-deep-purple-text",
+        "Accepted"               => "wemd-green-text",
+        "Memory Limit Exceed"    => "wemd-deep-purple-text",
+        "Presentation Error"     => "wemd-red-text",
+        "Pending"                => "wemd-blue-text",
+        "Judging"                => "wemd-blue-text",
+        "Partially Accepted"     => "wemd-lime-text",
+        'Submission Error'       => 'wemd-black-text',
+        'Output Limit Exceeded'  => 'wemd-deep-purple-text'
     ];
 
     public function insert($sub)
