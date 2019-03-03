@@ -35,6 +35,7 @@ class JudgerModel extends Model
             }
             if ($pong->status_code == 200 && !isset($pong->code)) {
                 $pong = json_decode($pong->body);
+                var_dump($pong);
                 $load = 4 * $pong->data->cpu + 0.6 * $pong->data->memory;
                 if ($load < $bestServer['load']) {
                     $bestServer = [
