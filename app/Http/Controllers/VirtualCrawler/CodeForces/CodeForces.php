@@ -21,7 +21,7 @@ class CodeForces extends CrawlerBase
         if ($action=='judge_level') {
             $this->judge_level();
         } else {
-            $this->Codeforces($con);
+            $this->Codeforces($con,true);
         }
     }
 
@@ -128,16 +128,20 @@ class CodeForces extends CrawlerBase
     }
 
 
-    public function CodeForces($con)
+    public function CodeForces($con,$cached)
     {
         $problemModel=new ProblemModel();
         $start=time();
-        $ch=curl_init();
-        $url="http://codeforces.com/api/problemset.problems";
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response=curl_exec($ch);
-        curl_close($ch);
+        if ($cached) {
+            $response=file_get_contents(__DIR__."/problemset.problems.json");
+        } else {
+            $ch=curl_init();
+            $url="http://codeforces.com/api/problemset.problems";
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $response=curl_exec($ch);
+            curl_close($ch);
+        }
         $result=json_decode($response, true);
         if ($result["status"]=="OK") {
             $now=time()-$start;
