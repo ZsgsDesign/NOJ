@@ -94,8 +94,8 @@ class Core extends Curl
             if ($record["result"]) {
                 // well... WA or anyway
                 $this->sub['verdict']=$this->verdictDict[$record["result"]];
-                $this->sub['time']=$tempTime;
-                $this->sub['memory']=$tempMemory;
+                $this->sub['time']=$record["cpu_time"];
+                $this->sub['memory']=$record["memory"];
                 return;
             }
         }
