@@ -106,6 +106,7 @@ class Core extends Curl
             $tempMemory=max($tempMemory, $temp["data"][0]["memory"]);
             $tempTime=max($tempTime, $temp["data"][0]["cpu_time"]);
         }
+        $this->sub['verdict']="Accepted";
         $this->sub['time']=$tempTime;
         $this->sub['memory']=$tempMemory;
     }
