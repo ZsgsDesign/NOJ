@@ -103,8 +103,8 @@ class Core extends Curl
         $tempMemory=$temp["data"][0]["memory"];
         $tempTime=$temp["data"][0]["cpu_time"];
         foreach ($temp["data"] as $t) {
-            $tempMemory=max($tempMemory, $temp["data"][0]["memory"]);
-            $tempTime=max($tempTime, $temp["data"][0]["cpu_time"]);
+            $tempMemory=max($tempMemory, $t["memory"]);
+            $tempTime=max($tempTime, $t["cpu_time"]);
         }
         $this->sub['verdict']="Accepted";
         $this->sub['time']=$tempTime;
