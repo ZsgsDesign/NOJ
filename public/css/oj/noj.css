@@ -1,4 +1,7 @@
-/* Silence is Goden */
+/*
+ * Version: 20190304
+ * Author: John Zhang
+ */
 
 fresh-container *:not(pre) code::before, fresh-container *:not(pre) code::after {
     letter-spacing: -0.2em;
