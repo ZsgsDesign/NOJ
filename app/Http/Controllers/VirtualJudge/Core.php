@@ -10,8 +10,8 @@ use Requests;
 
 class Core extends Curl
 {
-    protected $sub;
-    protected $MODEL;
+    private $sub;
+    private $MODEL;
     public $post_data=[];
 
     public function __construct(& $sub, $oj, $all_data)
