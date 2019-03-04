@@ -32,6 +32,13 @@ class Core extends Curl
         }
     }
 
+
+
+
+
+
+
+
     // protected function uva_live_login($url1, $url2, $oj)
     // {
     //     $response=$this->grab_page($url1, $oj);
