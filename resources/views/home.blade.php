@@ -29,6 +29,8 @@
         border: 1px solid rgba(0, 0, 0, 0.15);
         border-radius: 4px;
         margin-bottom: 2rem;
+        padding: 1rem;
+        background: rgb(255, 255, 255);
     }
 
     timeline-container{
@@ -90,6 +92,10 @@
                 <div class="col-12 col-sm-6 col-md-4 col-xl-3">
                     <a href="https://codeforces.com"><img src="/static/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
                 </div>
+                <div class="col-12 col-sm-6 col-md-4 col-xl-3">
+                    <a href="http://contest-hunter.org:83"><img src="/static/img/oj/contesthunter@2x.png" class="cm-oj img-fluid"></a>
+                </div>
+
             </div>
         </div>
         <div class="col-sm-12 col-lg-4">
