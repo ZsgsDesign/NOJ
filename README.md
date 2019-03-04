@@ -95,7 +95,7 @@ crontab -e
     - [X] Problem Details
     - [ ] Problem Solution
     - [ ] Problem Discussion
-    - [ ] Problem Submit
+    - [X] Problem Submit
         - [X] Problem Immersive Mode
         - [X] Problem Editor
         - [X] Problem Submit History
@@ -107,12 +107,14 @@ crontab -e
                 - [ ] UVa
                 - [ ] UVa Live
                 - [ ] SPOJ
+                - [ ] Contest Hunter
+                - [ ] POJ
             - [X] Retrive Status
-        - [ ] Problem Online Judge
-            - [ ] Judge Server
-            - [ ] Judger
-            - [ ] Submit to OJ
-            - [ ] Retrive Status
+        - [X] Problem Online Judge
+            - [X] Judge Server
+            - [X] Judger
+            - [X] Submit to OJ
+            - [X] Retrive Status
 - [ ] Status System
     - [ ] Status List
     - [ ] Status Filter
@@ -160,6 +162,7 @@ crontab -e
                 - [ ] Site-wide Contests
             - [ ] Group Own ProblemSet
                 - [ ] Add Problem
+            - [ ] Group Settings
 
 
 ## Credit
