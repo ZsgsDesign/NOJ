@@ -5,6 +5,7 @@ use App\Http\Controllers\VirtualJudge\Curl;
 use App\Models\JudgerModel;
 use App\Models\ProblemModel;
 use App\Models\ResponseModel;
+use App\Models\SubmissionModel;
 use Illuminate\Support\Facades\Validator;
 
 class CodeForces extends Curl
