@@ -43,7 +43,7 @@ class SubmissionModel extends Model
             'pid' => $sub['pid'],
             'cid' => $sub['cid'],
             'color' => $this->colorScheme[$sub['verdict']],
-            'remote_id'=>"",
+            'remote_id'=>$sub['remote_id'],
             'compile_info'=>"",
             'coid'=>$sub['coid']
         ]);
@@ -92,7 +92,7 @@ class SubmissionModel extends Model
     public function get_wating_submission()
     {
         return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
-                                            ->select("sid", "OJ as oid")
+                                            ->select("sid", "OJ as oid", "remote_id")
                                             ->where(['verdict'=>'Waiting'])
                                             ->get();
     }

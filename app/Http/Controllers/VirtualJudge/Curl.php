@@ -60,7 +60,7 @@ class Curl
         return $response;
     }
 
-    protected function post_data($site, $data, $oj, $ret=false)
+    protected function post_data($site, $data, $oj, $ret=false, $follow=true)
     {
         $datapost = curl_init();
         $headers = array("Expect:");
@@ -72,7 +72,7 @@ class Curl
         curl_setopt($datapost, CURLOPT_POST, true);
 
         curl_setopt($datapost, CURLOPT_RETURNTRANSFER, $ret);
-        curl_setopt($datapost, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($datapost, CURLOPT_FOLLOWLOCATION, $follow);
 
         curl_setopt($datapost, CURLOPT_POSTFIELDS, $data);
         curl_setopt($datapost, CURLOPT_COOKIEFILE, dirname(__FILE__)."/cookie/{$oj}_cookie.txt");

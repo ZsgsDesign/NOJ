@@ -7,6 +7,7 @@ use App\Models\ProblemModel;
 use App\Http\Controllers\VirtualJudge\Curl;
 use App\Http\Controllers\VirtualJudge\NOJ\NOJ;
 use App\Http\Controllers\VirtualJudge\CodeForces\CodeForces;
+use App\Http\Controllers\VirtualJudge\ContestHunter\ContestHunter;
 use Requests;
 
 class Core extends Curl
@@ -27,6 +28,11 @@ class Core extends Curl
         if ($oj=='codeforces') {
             $CodeForces=new CodeForces($sub, $all_data);
             $CodeForces->submit();
+        }
+
+        if ($oj=='contesthunter') {
+            $ContestHunter=new ContestHunter($sub, $all_data);
+            $ContestHunter->submit();
         }
     }
 }

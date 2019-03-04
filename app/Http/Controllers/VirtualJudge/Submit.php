@@ -34,6 +34,8 @@ class Submit
                 'memory'=>'0',
                 'uid'=>Auth::user()->id,
                 'pid'=>'',
+                'remote_id'=>'',
+                'coid'=>null,
                 'cid'=>null
             ];
 

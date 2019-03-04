@@ -678,7 +678,7 @@
                     lang: chosen_lang,
                     pid:{{$detail["pid"]}},
                     pcode:"{{$detail["pcode"]}}",
-                    cid:{{$detail["contest_id"]}},
+                    cid:"{{$detail["contest_id"]}}",
                     iid:"{{$detail["index_id"]}}",
                     oj:"{{$detail["oj_detail"]["ocode"]}}",
                     coid: chosen_coid,

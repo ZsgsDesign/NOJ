@@ -4,6 +4,7 @@ namespace App\Http\Controllers\VirtualJudge;
 use App\Models\SubmissionModel;
 use App\Models\JudgerModel;
 use App\Http\Controllers\VirtualJudge\Core;
+use Requests, Exception;
 
 class Judge extends Core
 {
@@ -42,6 +43,17 @@ class Judge extends Core
             "accepted"=>"Accepted"
         ];
 
+        $contesthunter_v=[
+            '正确'=>"Accepted",
+            '答案错误'=>"Wrong Answer",
+            '超出时间限制'=>"Time Limit Exceed",
+            '运行时错误'=>"Runtime Error",
+            "超出内存限制"=>"Memory Limit Exceed",
+            '比较器错误'=>'Submission Error',
+            '超出输出限制'=>"Output limit Exceeded",
+            '编译错误'=>"Compile Error",
+        ];
+
         $result=$this->MODEL->get_wating_submission();
 
         $cf=$this->get_last_codeforces($this->MODEL->count_wating_submission(2));
@@ -70,6 +82,35 @@ class Judge extends Core
                     $this->MODEL->update_submission($row['sid'], $sub);
                 }
                 $i++;
+            }
+            if ($row['oid'] == 3) {
+                try {
+                    $res = Requests::get('http://contest-hunter.org:83/record/'.$row['remote_id']);
+                    preg_match('/<dt>状态<\/dt>[\s\S]*?<dd class=".*?">(.*?)<\/dd>/m', $res->body, $match);
+                    $status = $match[1];
+                    if (!array_key_exists($status, $contesthunter_v)) continue;
+                    $sub['verdict'] = $contesthunter_v[$status];
+                    $sub['remote_id'] = $row['remote_id'];
+                    if ($sub['verdict'] != "Submission Error" && $sub['verdict'] != "Compile Error") {
+                        preg_match('/占用内存[\s\S]*?(\d+).*?KiB/m', $res->body, $match);
+                        $sub['memory'] = $match[1];
+                        $maxtime = 0;
+                        preg_match_all('/<span class="pull-right muted">(\d+) ms \/ \d+ KiB<\/span>/', $res->body, $matches);
+                        foreach ($matches[1] as $time) {
+                            if ($time < $maxtime) $maxtime = $time;
+                        }
+                        $sub['time'] = $maxtime;
+                    } else {
+                        $sub['memory'] = 0;
+                        $sub['time'] = 0;
+                    }
+
+                    $ret[$row['sid']] = [
+                        "verdict"=>$sub['verdict']
+                    ];
+                    $this->MODEL->update_submission($row['sid'], $sub);
+                }
+                catch(Exception $e) {}
             }
             // if ($row['oid']=='Spoj') {
             //     if (isset($spoj_v[$sj[$j][2]])) {
