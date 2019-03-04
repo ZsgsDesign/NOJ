@@ -19,7 +19,7 @@ class JudgerModel extends Model
     public function server($oid = 1)
     {
         $serverList = DB::table("judge_server")->where(["oid"=>$oid,"available"=>1])->get()->all();
-        return $serverList[0];
+        // return $serverList[0];
         $bestServer = [
             "load"=> 99999,
             "server" => null
@@ -30,7 +30,7 @@ class JudgerModel extends Model
                 $pong = Requests::post($serverURL . '/ping', [
                     'X-Judge-Server-Token' => hash('sha256', $server["token"]),
                     'Content-Type' => 'application/json'
-                ]);
+                ], []);
             } catch (Exception $exception) {
                 continue;
             }
