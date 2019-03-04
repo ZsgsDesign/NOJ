@@ -93,7 +93,7 @@ class CodeForces extends Curl
         }
     }
 
-    private function submit()
+    public function submit()
     {
         Validator::make($this->post_data, [
             'pid' => 'required|integer',
