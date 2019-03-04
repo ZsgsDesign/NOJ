@@ -4,6 +4,8 @@
 
 NOJ's another online judge platform, stands for NJUPT Online Judge. It's written in PHP, GO, Python and other function-supporting languages.
 
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster?ref=badge_shield)
+
 ## Installation
 
 CentOS will be recommended for hosting NOJ, but all major operating systems are theoretically supported.
@@ -93,7 +95,7 @@ crontab -e
     - [X] Problem Details
     - [ ] Problem Solution
     - [ ] Problem Discussion
-    - [ ] Problem Submit
+    - [X] Problem Submit
         - [X] Problem Immersive Mode
         - [X] Problem Editor
         - [X] Problem Submit History
@@ -105,12 +107,14 @@ crontab -e
                 - [ ] UVa
                 - [ ] UVa Live
                 - [ ] SPOJ
+                - [ ] Contest Hunter
+                - [ ] POJ
             - [X] Retrive Status
-        - [ ] Problem Online Judge
-            - [ ] Judge Server
-            - [ ] Judger
-            - [ ] Submit to OJ
-            - [ ] Retrive Status
+        - [X] Problem Online Judge
+            - [X] Judge Server
+            - [X] Judger
+            - [X] Submit to OJ
+            - [X] Retrive Status
 - [ ] Status System
     - [ ] Status List
     - [ ] Status Filter
@@ -158,6 +162,7 @@ crontab -e
                 - [ ] Site-wide Contests
             - [ ] Group Own ProblemSet
                 - [ ] Add Problem
+            - [ ] Group Settings
 
 
 ## Credit
@@ -171,3 +176,7 @@ crontab -e
 [JudgeServer](https://github.com/MarkLux/JudgeServer)
 
 [HTML Purifier](https://github.com/mewebstudio/Purifier)
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster?ref=badge_large)

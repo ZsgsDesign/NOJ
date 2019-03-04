@@ -6,120 +6,36 @@ use App\Models\JudgerModel;
 use App\Models\ProblemModel;
 use App\Http\Controllers\VirtualJudge\Curl;
 use App\Http\Controllers\VirtualJudge\NOJ\NOJ;
+use App\Http\Controllers\VirtualJudge\CodeForces\CodeForces;
 use Requests;
 
 class Core extends Curl
 {
     private $sub;
-    private $MODEL;
     public $post_data=[];
-    public $verdictDict=[
-        -2 => "Compile Error",
-        -1 => "Wrong Answer",
-         0 => "Accepted",
-         1 => "Time Limit Exceed",
-         2 => "Real Time Limit Exceed",
-         3 => "Memory Limit Exceed",
-         4 => "Runtime Error",
-         5 => "System Error",
-         6 => "Pending",
-         7 => "Judging",
-         8 => "Partially Accepted"
-    ];
 
     public function __construct(& $sub, $oj, $all_data)
     {
         $this->sub=& $sub;
-        $this->MODEL=new SubmissionModel();
         $this->post_data=$all_data;
+
         if ($oj=='noj') {
-            $this->noj();
+            $NOJ=new NOJ($sub, $all_data);
+            $NOJ->submit();
         }
-        // if ($oj=='uva') {
-        //     $this->uva();
-        // }
-        // if ($oj=='uvalive') {
-        //     $this->uvalive();
-        // }
+
         if ($oj=='codeforces') {
-            $this->codeforces();
+            $CodeForces=new CodeForces($sub, $all_data);
+            $CodeForces->submit();
         }
-        // if ($oj=='spoj') {
-        //     $this->spoj();
-        // }
     }
+}
 
-    protected function noj_submit()
-    {
-        $judgerModel = new JudgerModel();
-        $problemModel = new ProblemModel();
-        $bestServer = $judgerModel->server(1);
-        if (is_null($bestServer)) {
-            return;
-        }
-        $langDict=[
-            "c"=>"C",
-            "cpp"=>"C++",
-            "java"=>"Java",
-            "py2"=>"Python 2.7",
-            "py3"=>"Python 3.5"
-        ];
-        $this->sub['language']=$langDict[$this->post_data["lang"]];
-        $this->sub['solution']=$this->post_data["solution"];
-        $this->sub['pid']=$this->post_data["pid"];
-        $this->sub['coid']=$this->post_data["coid"];
-        $probBasic=$problemModel->basic($this->post_data["pid"]);
-        if (isset($this->post_data["contest"])) {
-            $this->sub['cid']=$this->post_data["contest"];
-        } else {
-            $this->sub['cid']=null;
-        }
-        $submitURL="http://" . $bestServer["host"] . ":" . $bestServer["port"];
-        $submit_data = [
-            "solution" => $this->post_data["solution"],
-            "language" => $this->post_data["lang"],
-            "max_cpu_time" => $probBasic["time_limit"],
-            "max_memory" => $probBasic["memory_limit"]*1024,
-            "test_case_id" => $probBasic["pcode"],
-            "token" => $bestServer["token"]
-        ];
-        $NOJ = new NOJ();
-        $temp=$NOJ->submit($submitURL, $submit_data);
-        if (!is_null($temp["err"])) {
-            $this->sub['verdict']="Compile Error";
-            $this->sub['time']=0;
-            $this->sub['memory']=0;
-            return;
-        }
 
-        foreach ($temp["data"] as $record) {
-            if ($record["result"]) {
-                // well... WA or anyway
-                $this->sub['verdict']=$this->verdictDict[$record["result"]];
-                $this->sub['time']=$record["cpu_time"];
-                $this->sub['memory']=$record["memory"];
-                return;
-            }
-        }
 
-        $tempMemory=$temp["data"][0]["memory"];
-        $tempTime=$temp["data"][0]["cpu_time"];
-        foreach ($temp["data"] as $t) {
-            $tempMemory=max($tempMemory, $t["memory"]);
-            $tempTime=max($tempTime, $t["cpu_time"]);
-        }
-        $this->sub['verdict']="Accepted";
-        $this->sub['time']=$tempTime;
-        $this->sub['memory']=$tempMemory;
-    }
 
-    private function noj()
-    {
-        if (!isset($this->post_data["pid"])||!isset($this->post_data["coid"])||!isset($this->post_data["solution"])) {
-            return;
-        }
-        $this->noj_submit();
-    }
+
+
 
     // protected function uva_live_login($url1, $url2, $oj)
     // {
@@ -203,87 +119,6 @@ class Core extends Curl
     //     $this->uva_live_login('https://icpcarchive.ecs.baylor.edu', 'https://icpcarchive.ecs.baylor.edu/index.php?option=com_comprofiler&task=login', 'uvalive');
     //     $this->uva_live_submit('https://icpcarchive.ecs.baylor.edu/index.php?option=com_onlinejudge&Itemid=8&page=save_submission', 'uvalive');
     // }
-    private function codeforce_login()
-    {
-        $response=$this->grab_page('http://codeforces.com', 'codeforces');
-        if (!(strpos($response, 'Logout') !== false)) {
-            $response=$this->grab_page('http://codeforces.com/enter', 'codeforces');
-
-            $exploded = explode("name='csrf_token' value='", $response);
-            $token = explode("'/>", $exploded[2])[0];
-
-            $judger=new JudgerModel();
-            $judger_list=$judger->list(2);
-            $params = [
-                'csrf_token' => $token,
-                'action' => 'enter',
-                'ftaa' => '',
-                'bfaa' => '',
-                'handleOrEmail' => $judger_list[0]["handle"], //I wanna kill for handleOrEmail
-                'password' => $judger_list[0]["password"],
-                'remember' => true,
-            ];
-            $this->login('http://codeforces.com/enter', http_build_query($params), 'codeforces');
-        }
-    }
-    private function codeforces_submit()
-    {
-        $this->sub['language']=substr($this->post_data["lang"], 2, 50);
-        $this->sub['solution']=$this->post_data["solution"];
-        $this->sub['pid']=$this->post_data["pid"];
-        $this->sub['coid']=$this->post_data["coid"];
-        if (isset($this->post_data["contest"])) {
-            $this->sub['cid']=$this->post_data["contest"];
-        } else {
-            $this->sub['cid']=null;
-        }
-
-        $s_num=$this->MODEL->count_solution($this->sub['solution']);
-        $space='';
-        for ($i=0;$i<$s_num;$i++) {
-            $space.=' ';
-        }
-        $contestId = $this->post_data["cid"];
-        $submittedProblemIndex = $this->post_data["iid"];
-        $var=substr($this->post_data["lang"], 0, 2);
-        $programTypeId=$var;
-        if ($var[0]==0) {
-            $programTypeId=$var[1];
-        }
-        $source =($space.chr(10).$this->post_data["solution"]);
-
-
-        $response=$this->grab_page("codeforces.com/contest/{$this->post_data['cid']}/submit", "codeforces");
-
-        $exploded = explode("name='csrf_token' value='", $response);
-        $token = explode("'/>", $exploded[2])[0];
-
-        $params = [
-            'csrf_token' => $token,
-            'action' => 'submitSolutionFormSubmitted',
-            'ftaa' => '',
-            'bfaa' => '',
-            'submittedProblemIndex' => $submittedProblemIndex,
-            'programTypeId' => $programTypeId,
-            'source' => $source,
-            'tabSize' => 4,
-            'sourceFile' => '',
-        ];
-        $response=$this->post_data("codeforces.com/contest/{$this->post_data['cid']}/submit?csrf_token=".$token, http_build_query($params), "codeforces", true);
-        if (substr_count($response, 'My Submissions')!=2) {
-            // Forbidden?
-            $exploded = explode('<span class="error for__source">', $response);
-            $this->sub['verdict'] = explode("</span>", $exploded[1])[0];
-        }
-    }
-    private function codeforces()
-    {
-        if (!isset($this->post_data["pid"])||!isset($this->post_data["cid"])||!isset($this->post_data["coid"])||!isset($this->post_data["iid"])||!isset($this->post_data["solution"])) {
-            return;
-        }
-        $this->codeforce_login();
-        $this->codeforces_submit();
-    }
     // public function spoj_login()
     // {
     //     $response=$this->grab_page('http://www.spoj.com', 'spoj');
@@ -344,4 +179,4 @@ class Core extends Curl
     //     $this->spoj_login();
     //     $this->spoj_submit();
     // }
-}
+

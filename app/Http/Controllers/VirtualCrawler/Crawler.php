@@ -15,9 +15,9 @@ class Crawler
      *
      * @return Response
      */
-    public function __construct($name,$action,$con)
+    public function __construct($name,$action,$con,$cached = false)
     {
-        if($name=="CodeForces") new CodeForces($action,$con);
-        if($name=="ContestHunter") new ContestHunter($action,$con);
+        if($name=="CodeForces") new CodeForces($action,$con,$cached);
+        if($name=="ContestHunter") new ContestHunter($action,$con,$cached);
     }
 }

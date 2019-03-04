@@ -16,7 +16,7 @@ class ContestHunter extends CrawlerBase
      *
      * @return Response
      */
-    public function __construct($action = 'crawl_problem', $con = 'all')
+    public function __construct($action = 'crawl_problem', $con = 'all', $cached = false)
     {
         set_time_limit(0); // Pandora's box, engage!
         if ($action=='judge_level') {

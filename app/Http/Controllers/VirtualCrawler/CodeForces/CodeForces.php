@@ -15,13 +15,13 @@ class CodeForces extends CrawlerBase
      *
      * @return Response
      */
-    public function __construct($action = 'crawl_problem', $con = 'all')
+    public function __construct($action = 'crawl_problem', $con = 'all', $cached = false)
     {
         set_time_limit(0); // Pandora's box, engage!
         if ($action=='judge_level') {
             $this->judge_level();
         } else {
-            $this->Codeforces($con);
+            $this->Codeforces($con,$cached);
         }
     }
 
@@ -71,23 +71,25 @@ class CodeForces extends CrawlerBase
                         $this->pro["output"]=trim($matches[1]);
                     }
 
-                    $temp_sample=explode('<div class="sample-test">', $content)[1];
-                    if (!(strpos($content, '<div class="note">') !== false)) {
-                        $temp_sample=explode('<script type="text/javascript">', $temp_sample)[0];
-                    } else {
-                        $temp_sample=explode('<div class="note">', $temp_sample)[0];
-                    }
+                    if (strpos($content, '<div class="sample-test">') !== false) {
+                        $temp_sample=explode('<div class="sample-test">', $content)[1];
+                        if (!(strpos($content, '<div class="note">') !== false)) {
+                            $temp_sample=explode('<script type="text/javascript">', $temp_sample)[0];
+                        } else {
+                            $temp_sample=explode('<div class="note">', $temp_sample)[0];
+                        }
 
-                    $sample_list=HtmlDomParser::str_get_html($temp_sample);
-                    $sample_pairs=intval(count($sample_list->find('pre'))/2);
-                    $this->pro["sample"]=[];
-                    for ($i=0; $i<$sample_pairs; $i++) {
-                        $sample_input=$sample_list->find('pre')[$i*2]->innertext;
-                        $sample_output=$sample_list->find('pre')[$i*2+1]->innertext;
-                        array_push($this->pro["sample"], [
-                            "sample_input"=>$sample_input,
-                            "sample_output"=>$sample_output
-                        ]);
+                        $sample_list=HtmlDomParser::str_get_html($temp_sample);
+                        $sample_pairs=intval(count($sample_list->find('pre'))/2);
+                        $this->pro["sample"]=[];
+                        for ($i=0; $i<$sample_pairs; $i++) {
+                            $sample_input=$sample_list->find('pre')[$i*2]->innertext;
+                            $sample_output=$sample_list->find('pre')[$i*2+1]->innertext;
+                            array_push($this->pro["sample"], [
+                                "sample_input"=>$sample_input,
+                                "sample_output"=>$sample_output
+                            ]);
+                        }
                     }
 
                     if (preg_match("/Note<\\/div>(.*)<\\/div><\\/div>/sU", $content, $matches)) {
@@ -128,16 +130,24 @@ class CodeForces extends CrawlerBase
     }
 
 
-    public function CodeForces($con)
+    public function CodeForces($con,$cached)
     {
         $problemModel=new ProblemModel();
         $start=time();
-        $ch=curl_init();
-        $url="http://codeforces.com/api/problemset.problems";
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response=curl_exec($ch);
-        curl_close($ch);
+        if ($cached) {
+            $response=file_get_contents(__DIR__."/problemset.problems");
+        } else {
+            $ch=curl_init();
+            $url="http://codeforces.com/api/problemset.problems";
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $response=curl_exec($ch);
+            curl_close($ch);
+            // cache to folder
+            $fp = fopen(__DIR__."/problemset.problems", "w");
+            fwrite($fp, $response);
+            fclose($fp);
+        }
         $result=json_decode($response, true);
         if ($result["status"]=="OK") {
             $now=time()-$start;
