@@ -144,7 +144,7 @@ class ProblemController extends Controller
     {
         $all_data = $request->all();
 
-        new Crawler($all_data["name"], $all_data["action"], $all_data["con"]);
+        new Crawler($all_data["name"], $all_data["action"], $all_data["con"], $all_data["cached"]);
 
         return response()->json([
             "ret" => 200,

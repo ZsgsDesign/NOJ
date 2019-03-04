@@ -15,13 +15,13 @@ class CodeForces extends CrawlerBase
      *
      * @return Response
      */
-    public function __construct($action = 'crawl_problem', $con = 'all')
+    public function __construct($action = 'crawl_problem', $con = 'all', $cached = false)
     {
         set_time_limit(0); // Pandora's box, engage!
         if ($action=='judge_level') {
             $this->judge_level();
         } else {
-            $this->Codeforces($con,true);
+            $this->Codeforces($con,$cached);
         }
     }
 
@@ -141,6 +141,10 @@ class CodeForces extends CrawlerBase
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $response=curl_exec($ch);
             curl_close($ch);
+            // cache to folder
+            $fp = fopen(__DIR__."/problemset.problems", "w");
+            fwrite($fp, $response);
+            fclose($fp);
         }
         $result=json_decode($response, true);
         if ($result["status"]=="OK") {
