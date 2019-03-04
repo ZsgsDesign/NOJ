@@ -31,10 +31,13 @@ class JudgerModel extends Model
             } catch (Exception $exception) {
                 continue;
             }
-            var_dump($pong);
-            exit();
-            if ($pong->status_code == 200 && !isset($pong->code)) {
-                $pong = json_decode($pong->body);
+
+            if(empty($pong)){
+                continue;
+            }
+
+            if ($pong["status_code"] == 200) {
+                $pong = $pong["body"];
                 $load = 4 * $pong->data->cpu + 0.6 * $pong->data->memory;
                 if ($load < $bestServer['load']) {
                     $bestServer = [
@@ -70,13 +73,17 @@ class JudgerModel extends Model
 
         $response = curl_exec($curl);
         $err = curl_error($curl);
+        $httpCode = curl_getinfo($curl,CURLINFO_HTTP_CODE);
 
         curl_close($curl);
 
         if ($err) {
             return [];
         } else {
-            return $response;
+            return [
+                "status_code"=>$httpCode,
+                "body"=>json_decode($response)
+            ];
         }
     }
 }

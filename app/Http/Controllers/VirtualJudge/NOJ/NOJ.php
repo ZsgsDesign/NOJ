@@ -32,7 +32,7 @@ class NOJ
          8 => "Partially Accepted"
     ];
 
-    public function __construct($sub, $all_data)
+    public function __construct(& $sub, $all_data)
     {
         $this->sub=& $sub;
         $this->post_data=$all_data;
