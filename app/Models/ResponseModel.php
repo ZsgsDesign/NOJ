@@ -4,27 +4,50 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Response;
 
 class ResponseModel extends Model
 {
-    public static function err($errCode)
+    public static function success($statusCode = 200, $desc = null, $data = null)
     {
-        if(($errCode<1000)) $ERR_CODE=1000;
-        $output=array(
-             'ret' => $errCode,
-            'desc' => self::desc($errCode),
-            'data' => null
-        );
-        exit(json_encode($output));
+        if (($statusCode>=1000)) {
+            $statusCode=200;
+        }
+        $output=[
+             'ret' => $statusCode,
+            'desc' => is_null($desc) ? self::desc($statusCode) : $desc,
+            'data' => $data
+        ];
+        exit(response()->json($output));
+    }
+
+    public static function err($statusCode, $desc = null, $data = null)
+    {
+        if (($statusCode<1000)) {
+            $statusCode=1000;
+        }
+        $output=[
+             'ret' => $statusCode,
+            'desc' => is_null($desc) ? self::desc($statusCode) : $desc,
+            'data' => $data
+        ];
+        exit(response()->json($output));
     }
 
     private static function desc($errCode)
     {
-        $errDesc=array(
+        $errDesc=[
 
-            '1000' => "Unspecified Error",  /** Under normal condictions those errors shouldn't displayed to end users unless they attempt to do so
-                                             *  some submissions should be intercepted by the frontend before the request sended
-                                             */
+            '200'  => "Successful",
+            '201'  => "Partially Successful",
+
+            '403'  => "Forbidden",
+            '451'  => "Unavailable For Legal Reasons",
+
+            '1000' => "Unspecified Response",   /** Under normal condictions those errors shouldn't been displayed to end users
+                                                 *  unless they attempt to do so, some submissions should be intercepted
+                                                 *  by the frontend before the request sended
+                                                 */
             '1001' => "Internal Sever Error : SECURE_VALUE 非法",
             '1002' => "内部服务器错误：操作失败",
             '1003' => "内部服务器错误：参数不全",
@@ -67,7 +90,7 @@ class ResponseModel extends Model
             '5000' => "Organization-Related Error",
 
             '5001' => "未找到该组织",
-        );
+        ];
         return isset($errDesc[$errCode])?$errDesc[$errCode]:$errDesc['1000'];
     }
 }
