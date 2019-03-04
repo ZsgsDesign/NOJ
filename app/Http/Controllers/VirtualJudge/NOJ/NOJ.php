@@ -18,6 +18,19 @@ class NOJ
         "py2"=>"Python 2.7",
         "py3"=>"Python 3.5"
     ];
+    public $verdictDict=[
+        -2 => "Compile Error",
+        -1 => "Wrong Answer",
+         0 => "Accepted",
+         1 => "Time Limit Exceed",
+         2 => "Real Time Limit Exceed",
+         3 => "Memory Limit Exceed",
+         4 => "Runtime Error",
+         5 => "System Error",
+         6 => "Pending",
+         7 => "Judging",
+         8 => "Partially Accepted"
+    ];
 
     public function __construct($sub, $all_data)
     {
