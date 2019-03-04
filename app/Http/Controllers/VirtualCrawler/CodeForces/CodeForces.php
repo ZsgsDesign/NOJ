@@ -71,23 +71,25 @@ class CodeForces extends CrawlerBase
                         $this->pro["output"]=trim($matches[1]);
                     }
 
-                    $temp_sample=explode('<div class="sample-test">', $content)[1];
-                    if (!(strpos($content, '<div class="note">') !== false)) {
-                        $temp_sample=explode('<script type="text/javascript">', $temp_sample)[0];
-                    } else {
-                        $temp_sample=explode('<div class="note">', $temp_sample)[0];
-                    }
+                    if (strpos($content, '<div class="sample-test">') !== false) {
+                        $temp_sample=explode('<div class="sample-test">', $content)[1];
+                        if (!(strpos($content, '<div class="note">') !== false)) {
+                            $temp_sample=explode('<script type="text/javascript">', $temp_sample)[0];
+                        } else {
+                            $temp_sample=explode('<div class="note">', $temp_sample)[0];
+                        }
 
-                    $sample_list=HtmlDomParser::str_get_html($temp_sample);
-                    $sample_pairs=intval(count($sample_list->find('pre'))/2);
-                    $this->pro["sample"]=[];
-                    for ($i=0; $i<$sample_pairs; $i++) {
-                        $sample_input=$sample_list->find('pre')[$i*2]->innertext;
-                        $sample_output=$sample_list->find('pre')[$i*2+1]->innertext;
-                        array_push($this->pro["sample"], [
-                            "sample_input"=>$sample_input,
-                            "sample_output"=>$sample_output
-                        ]);
+                        $sample_list=HtmlDomParser::str_get_html($temp_sample);
+                        $sample_pairs=intval(count($sample_list->find('pre'))/2);
+                        $this->pro["sample"]=[];
+                        for ($i=0; $i<$sample_pairs; $i++) {
+                            $sample_input=$sample_list->find('pre')[$i*2]->innertext;
+                            $sample_output=$sample_list->find('pre')[$i*2+1]->innertext;
+                            array_push($this->pro["sample"], [
+                                "sample_input"=>$sample_input,
+                                "sample_output"=>$sample_output
+                            ]);
+                        }
                     }
 
                     if (preg_match("/Note<\\/div>(.*)<\\/div><\\/div>/sU", $content, $matches)) {
