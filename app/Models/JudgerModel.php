@@ -29,8 +29,9 @@ class JudgerModel extends Model
             try {
                 $pong = Requests::post($serverURL . '/ping', [
                     'X-Judge-Server-Token' => hash('sha256', $server["token"]),
-                    'Content-Type' => 'application/json'
-                ], []);
+                    'Content-Type' => 'application/json',
+                    "cache-control" => "no-cache"
+                ]);
             } catch (Exception $exception) {
                 continue;
             }
