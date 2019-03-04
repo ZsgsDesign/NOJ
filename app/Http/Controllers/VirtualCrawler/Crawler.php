@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\VirtualCrawler;
 
 use App\Http\Controllers\VirtualCrawler\CodeForces\CodeForces;
+use App\Http\Controllers\VirtualCrawler\ContestHunter\ContestHunter;
 use App\Models\ProblemModel;
 use Auth;
 
@@ -17,5 +18,6 @@ class Crawler
     public function __construct($name,$action,$con)
     {
         if($name=="CodeForces") new CodeForces($action,$con);
+        if($name=="ContestHunter") new ContestHunter($action,$con);
     }
 }
