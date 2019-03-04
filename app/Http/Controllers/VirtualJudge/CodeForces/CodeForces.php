@@ -54,7 +54,8 @@ class CodeForces extends Curl
             $this->sub['cid']=null;
         }
 
-        $s_num=$this->MODEL->count_solution($this->sub['solution']);
+        $submissionModel=new SubmissionModel();
+        $s_num=$submissionModel->count_solution($this->sub['solution']);
         $space='';
         for ($i=0;$i<$s_num;$i++) {
             $space.=' ';

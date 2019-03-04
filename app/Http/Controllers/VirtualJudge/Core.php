@@ -12,13 +12,11 @@ use Requests;
 class Core extends Curl
 {
     private $sub;
-    private $MODEL;
     public $post_data=[];
 
     public function __construct(& $sub, $oj, $all_data)
     {
         $this->sub=& $sub;
-        $this->MODEL=new SubmissionModel();
         $this->post_data=$all_data;
 
         if ($oj=='noj') {
