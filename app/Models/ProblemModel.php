@@ -63,7 +63,7 @@ class ProblemModel extends Model
     public function list()
     {
         // $prob_list = DB::table($this->tableName)->select("pid","pcode","title")->get()->all(); // return a array
-        $prob = json_decode(DB::table($this->tableName)->select("pid", "pcode", "title")->paginate(10)->toJSON(), true);
+        $prob = json_decode(DB::table($this->tableName)->select("pid", "pcode", "title")->paginate(20)->toJSON(), true);
         if (empty($prob["data"])) {
             return null;
         }
