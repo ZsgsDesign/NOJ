@@ -6,6 +6,7 @@ use App\Models\JudgerModel;
 use App\Models\ProblemModel;
 use App\Http\Controllers\VirtualJudge\Curl;
 use App\Http\Controllers\VirtualJudge\NOJ\NOJ;
+use App\Http\Controllers\VirtualJudge\CodeForces\CodeForces;
 use Requests;
 
 class Core extends Curl
@@ -19,22 +20,16 @@ class Core extends Curl
         $this->sub=& $sub;
         $this->MODEL=new SubmissionModel();
         $this->post_data=$all_data;
+
         if ($oj=='noj') {
             $NOJ=new NOJ($sub, $all_data);
             $NOJ->submit();
         }
-        // if ($oj=='uva') {
-        //     $this->uva();
-        // }
-        // if ($oj=='uvalive') {
-        //     $this->uvalive();
-        // }
+
         if ($oj=='codeforces') {
-            $this->codeforces();
+            $CodeForces=new CodeForces($sub, $all_data);
+            $CodeForces->submit();
         }
-        // if ($oj=='spoj') {
-        //     $this->spoj();
-        // }
     }
 
     // protected function uva_live_login($url1, $url2, $oj)
@@ -119,87 +114,6 @@ class Core extends Curl
     //     $this->uva_live_login('https://icpcarchive.ecs.baylor.edu', 'https://icpcarchive.ecs.baylor.edu/index.php?option=com_comprofiler&task=login', 'uvalive');
     //     $this->uva_live_submit('https://icpcarchive.ecs.baylor.edu/index.php?option=com_onlinejudge&Itemid=8&page=save_submission', 'uvalive');
     // }
-    private function codeforce_login()
-    {
-        $response=$this->grab_page('http://codeforces.com', 'codeforces');
-        if (!(strpos($response, 'Logout') !== false)) {
-            $response=$this->grab_page('http://codeforces.com/enter', 'codeforces');
-
-            $exploded = explode("name='csrf_token' value='", $response);
-            $token = explode("'/>", $exploded[2])[0];
-
-            $judger=new JudgerModel();
-            $judger_list=$judger->list(2);
-            $params = [
-                'csrf_token' => $token,
-                'action' => 'enter',
-                'ftaa' => '',
-                'bfaa' => '',
-                'handleOrEmail' => $judger_list[0]["handle"], //I wanna kill for handleOrEmail
-                'password' => $judger_list[0]["password"],
-                'remember' => true,
-            ];
-            $this->login('http://codeforces.com/enter', http_build_query($params), 'codeforces');
-        }
-    }
-    private function codeforces_submit()
-    {
-        $this->sub['language']=substr($this->post_data["lang"], 2, 50);
-        $this->sub['solution']=$this->post_data["solution"];
-        $this->sub['pid']=$this->post_data["pid"];
-        $this->sub['coid']=$this->post_data["coid"];
-        if (isset($this->post_data["contest"])) {
-            $this->sub['cid']=$this->post_data["contest"];
-        } else {
-            $this->sub['cid']=null;
-        }
-
-        $s_num=$this->MODEL->count_solution($this->sub['solution']);
-        $space='';
-        for ($i=0;$i<$s_num;$i++) {
-            $space.=' ';
-        }
-        $contestId = $this->post_data["cid"];
-        $submittedProblemIndex = $this->post_data["iid"];
-        $var=substr($this->post_data["lang"], 0, 2);
-        $programTypeId=$var;
-        if ($var[0]==0) {
-            $programTypeId=$var[1];
-        }
-        $source =($space.chr(10).$this->post_data["solution"]);
-
-
-        $response=$this->grab_page("codeforces.com/contest/{$this->post_data['cid']}/submit", "codeforces");
-
-        $exploded = explode("name='csrf_token' value='", $response);
-        $token = explode("'/>", $exploded[2])[0];
-
-        $params = [
-            'csrf_token' => $token,
-            'action' => 'submitSolutionFormSubmitted',
-            'ftaa' => '',
-            'bfaa' => '',
-            'submittedProblemIndex' => $submittedProblemIndex,
-            'programTypeId' => $programTypeId,
-            'source' => $source,
-            'tabSize' => 4,
-            'sourceFile' => '',
-        ];
-        $response=$this->post_data("codeforces.com/contest/{$this->post_data['cid']}/submit?csrf_token=".$token, http_build_query($params), "codeforces", true);
-        if (substr_count($response, 'My Submissions')!=2) {
-            // Forbidden?
-            $exploded = explode('<span class="error for__source">', $response);
-            $this->sub['verdict'] = explode("</span>", $exploded[1])[0];
-        }
-    }
-    private function codeforces()
-    {
-        if (!isset($this->post_data["pid"])||!isset($this->post_data["cid"])||!isset($this->post_data["coid"])||!isset($this->post_data["iid"])||!isset($this->post_data["solution"])) {
-            return;
-        }
-        $this->codeforce_login();
-        $this->codeforces_submit();
-    }
     // public function spoj_login()
     // {
     //     $response=$this->grab_page('http://www.spoj.com', 'spoj');
