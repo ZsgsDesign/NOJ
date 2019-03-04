@@ -18,7 +18,7 @@ class CodeForces extends Curl
         $this->post_data=$all_data;
     }
 
-    private function codeforce_login()
+    private function codeForcesLogin()
     {
         $response=$this->grab_page('http://codeforces.com', 'codeforces');
         if (!(strpos($response, 'Logout') !== false)) {
@@ -42,7 +42,7 @@ class CodeForces extends Curl
         }
     }
 
-    private function codeforces_submit()
+    private function codeForcesSubmit()
     {
         $this->sub['language']=substr($this->post_data["lang"], 2, 50);
         $this->sub['solution']=$this->post_data["solution"];
@@ -93,12 +93,17 @@ class CodeForces extends Curl
         }
     }
 
-    private function codeforces()
+    private function submit()
     {
-        if (!isset($this->post_data["pid"])||!isset($this->post_data["cid"])||!isset($this->post_data["coid"])||!isset($this->post_data["iid"])||!isset($this->post_data["solution"])) {
-            return;
-        }
-        $this->codeforce_login();
-        $this->codeforces_submit();
+        Validator::make($this->post_data, [
+            'pid' => 'required|integer',
+            'cid' => 'required|integer',
+            'coid' => 'required|integer',
+            'iid' => 'required',
+            'solution' => 'required',
+        ])->validate();
+
+        $this->codeForcesLogin();
+        $this->codeForcesSubmit();
     }
 }
