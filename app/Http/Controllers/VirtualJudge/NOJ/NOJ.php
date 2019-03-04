@@ -2,6 +2,9 @@
 namespace App\Http\Controllers\VirtualJudge\NOJ;
 
 use App\Http\Controllers\VirtualJudge\NOJ\JudgeClient;
+use App\Models\JudgerModel;
+use App\Models\ProblemModel;
+use App\Models\ResponseModel;
 
 class NOJ
 {
@@ -29,9 +32,7 @@ class NOJ
         $problemModel = new ProblemModel();
         $bestServer = $judgerModel->server(1);
         if (is_null($bestServer)) {
-            return [
-
-            ];
+            return ResponseModel::err(4001);
         }
         $this->sub['language']=$this->langDict[$this->post_data["lang"]];
         $this->sub['solution']=$this->post_data["solution"];
@@ -80,9 +81,5 @@ class NOJ
         $this->sub['verdict']="Accepted";
         $this->sub['time']=$tempTime;
         $this->sub['memory']=$tempMemory;
-        return [
-            "ret"=>,
-            "desc"=>
-        ];
     }
 }
