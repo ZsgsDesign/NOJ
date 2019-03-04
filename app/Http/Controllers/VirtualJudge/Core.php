@@ -33,7 +33,7 @@ class Core extends Curl
         $this->MODEL=new SubmissionModel();
         $this->post_data=$all_data;
         if ($oj=='noj') {
-            $NOJ=new NOJ();
+            $NOJ=new NOJ($sub, $all_data);
             $NOJ->submit();
         }
         // if ($oj=='uva') {

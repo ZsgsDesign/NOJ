@@ -7,8 +7,10 @@ use App\Models\ProblemModel;
 use App\Models\ResponseModel;
 use Illuminate\Support\Facades\Validator;
 
-class NOJ extends Core
+class NOJ
 {
+    protected $sub;
+    public $post_data=[];
     public $langDict=[
         "c"=>"C",
         "cpp"=>"C++",
@@ -16,6 +18,12 @@ class NOJ extends Core
         "py2"=>"Python 2.7",
         "py3"=>"Python 3.5"
     ];
+
+    public function __construct($sub, $all_data)
+    {
+        $this->sub=& $sub;
+        $this->post_data=$all_data;
+    }
 
     public function submitJudger($submitURL,$data)
     {
