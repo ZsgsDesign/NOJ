@@ -29,7 +29,7 @@ class Core extends Curl
             $CodeForces->submit();
         }
     }
-
+}
 
 
 
@@ -179,4 +179,4 @@ class Core extends Curl
     //     $this->spoj_login();
     //     $this->spoj_submit();
     // }
-}
+
