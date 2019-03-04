@@ -5,8 +5,9 @@ use App\Http\Controllers\VirtualJudge\NOJ\JudgeClient;
 use App\Models\JudgerModel;
 use App\Models\ProblemModel;
 use App\Models\ResponseModel;
+use Illuminate\Support\Facades\Validator;
 
-class NOJ
+class NOJ extends Core
 {
     public $langDict=[
         "c"=>"C",
@@ -28,11 +29,16 @@ class NOJ
 
     public function submit()
     {
+        Validator::make($this->post_data, [
+            'pid' => 'required|integer',
+            'coid' => 'required|integer',
+            'solution' => 'required',
+        ])->validate();
         $judgerModel = new JudgerModel();
         $problemModel = new ProblemModel();
         $bestServer = $judgerModel->server(1);
         if (is_null($bestServer)) {
-            return ResponseModel::err(4001);
+            return ResponseModel::err(6001);
         }
         $this->sub['language']=$this->langDict[$this->post_data["lang"]];
         $this->sub['solution']=$this->post_data["solution"];
@@ -53,8 +59,7 @@ class NOJ
             "test_case_id" => $probBasic["pcode"],
             "token" => $bestServer["token"]
         ];
-        $NOJ = new NOJ();
-        $temp=$NOJ->submitJudger($submitURL, $submit_data);
+        $temp=$this->submitJudger($submitURL, $submit_data);
         if (!is_null($temp["err"])) {
             $this->sub['verdict']="Compile Error";
             $this->sub['time']=0;

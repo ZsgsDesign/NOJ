@@ -10,8 +10,8 @@ use Requests;
 
 class Core extends Curl
 {
-    private $sub;
-    private $MODEL;
+    protected $sub;
+    protected $MODEL;
     public $post_data=[];
     public $verdictDict=[
         -2 => "Compile Error",
@@ -33,7 +33,8 @@ class Core extends Curl
         $this->MODEL=new SubmissionModel();
         $this->post_data=$all_data;
         if ($oj=='noj') {
-            $this->noj();
+            $NOJ=new NOJ();
+            $NOJ->submit();
         }
         // if ($oj=='uva') {
         //     $this->uva();
@@ -47,15 +48,6 @@ class Core extends Curl
         // if ($oj=='spoj') {
         //     $this->spoj();
         // }
-    }
-
-    private function noj()
-    {
-        if (!isset($this->post_data["pid"])||!isset($this->post_data["coid"])||!isset($this->post_data["solution"])) {
-            return;
-        }
-        $NOJ=new NOJ();
-        $NOJ->submit();
     }
 
     // protected function uva_live_login($url1, $url2, $oj)
