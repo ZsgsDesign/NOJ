@@ -27,14 +27,12 @@ class JudgerModel extends Model
         foreach ($serverList as $server) {
             $serverURL = "http://" . $server["host"] . ":" . $server["port"];
             try {
-                $pong = Requests::post($serverURL . '/ping', [
-                    'X-Judge-Server-Token' => hash('sha256', $server["token"]),
-                    'Content-Type' => 'application/json',
-                    "cache-control" => "no-cache"
-                ]);
+                $pong = $this->ping($serverURL . '/ping', $server["port"], hash('sha256', $server["token"]));
             } catch (Exception $exception) {
                 continue;
             }
+            var_dump($pong);
+            exit();
             if ($pong->status_code == 200 && !isset($pong->code)) {
                 $pong = json_decode($pong->body);
                 $load = 4 * $pong->data->cpu + 0.6 * $pong->data->memory;
@@ -47,5 +45,38 @@ class JudgerModel extends Model
             }
         }
         return $bestServer["server"];
+    }
+
+    public function ping($url,$port,$token)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_PORT => $port,
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "",
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json",
+                "X-Judge-Server-Token: ".$token,
+                "cache-control: no-cache"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            return [];
+        } else {
+            return $response;
+        }
     }
 }
