@@ -33,6 +33,15 @@
         padding-right:1rem;
         padding-left: 1rem;
     }
+
+    .badge-tag{
+        color: #6c757d;
+        background-color: transparent;
+        max-width: 7rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border: 1px solid #6c757d;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -85,9 +94,9 @@
                 </div>
                 <div>
                     @foreach($tags as $t)
-                    <span class="badge badge-secondary">{{$t['tag']}}</span>
+                    <span class="badge badge-tag" data-toggle="tooltip" data-placement="top" title="{{$t['tag']}}">{{$t['tag']}}</span>
                     @endforeach
-                    <span class="badge badge-secondary">...</span>
+                    <span class="badge badge-tag">...</span>
                 </div>
             </paper-card>
         </div>
