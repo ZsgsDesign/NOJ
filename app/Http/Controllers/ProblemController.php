@@ -49,7 +49,8 @@ class ProblemController extends Controller
                 'prob_list' => $prob["data"],
                 'prob_paginate' => $prob["paginate"],
                 'tags' => $tags,
-                'ojs' => $ojs
+                'ojs' => $ojs,
+                'filter' => $filter
             ]);
         }
     }

@@ -63,6 +63,11 @@
         color: #03a9f4;
         border: 1px solid #03a9f4;
     }
+
+    .badge-oj.selected {
+        color: white;
+        background-color: #03a9f4;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -115,7 +120,7 @@
                 <p>Filter</p>
                 <div class="mb-3">
                     @foreach($ojs as $o)
-                    <span class="badge badge-oj">{{$o['name']}}</span>
+                    <span class="badge badge-oj @if($filter['oj']==$o['oid']) selected @endif" data-oid="{{$o['oid']}}">{{$o['name']}}</span>
                     @endforeach
                 </div>
                 <div>
