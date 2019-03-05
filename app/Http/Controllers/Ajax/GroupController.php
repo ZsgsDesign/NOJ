@@ -37,11 +37,7 @@ class GroupController extends Controller
         $groupModel=new GroupModel();
         $clearance = $groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         if ($clearance<2) {
-            return response()->json([
-                "ret"=>1001,
-                "desc"=>"Permission Denied",
-                "data"=>null
-            ]);
+            return ResponseModel::err(2001);
         }
         $problems = explode(",", $all_data["problems"]);
         $i=0;
@@ -57,11 +53,7 @@ class GroupController extends Controller
         }
 
         if (empty($problemSet)) {
-            return response()->json([
-                "ret"=>1002,
-                "desc"=>"Missing Param",
-                "data"=>null
-            ]);
+            return ResponseModel::err(1003);
         }
 
         $contestModel->arrangeContest($all_data["gid"], [

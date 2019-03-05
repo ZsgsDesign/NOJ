@@ -40,7 +40,6 @@ class ResponseModel extends Model
 
             '200'  => "Successful",
             '201'  => "Partially Successful",
-
             '403'  => "Forbidden",
             '451'  => "Unavailable For Legal Reasons",
 
@@ -50,13 +49,13 @@ class ResponseModel extends Model
                                                  */
             '1001' => "Internal Sever Error",
             '1002' => "Service Currently Unavailable",
+            '1003' => "Missing Params",
             '1984' => "Ignorance is Strength",
 
             '2000' => "Account-Related Error",
 
             '2001' => "Permission Denied",
-
-            '2001' => "Please Login First",
+            '2002' => "Please Login First",
 
             '3000' => "Problem-Related Error",
 
