@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Ajax;
 use App\Http\Requests;
 use App\Models\ContestModel;
 use App\Models\GroupModel;
+use App\Models\ResponseModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
