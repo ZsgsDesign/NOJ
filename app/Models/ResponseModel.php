@@ -18,8 +18,7 @@ class ResponseModel extends Model
             'desc' => is_null($desc) ? self::desc($statusCode) : $desc,
             'data' => $data
         ];
-        response()->json($output);
-        exit();
+        return response()->json($output);
     }
 
     public static function err($statusCode, $desc = null, $data = null)
@@ -32,9 +31,8 @@ class ResponseModel extends Model
             'desc' => is_null($desc) ? self::desc($statusCode) : $desc,
             'data' => $data
         ];
-        response()->json($output);
-        exit();
-    }
+        return response()->json($output);
+   }
 
     private static function desc($errCode)
     {
