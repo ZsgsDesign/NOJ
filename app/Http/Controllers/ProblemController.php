@@ -20,12 +20,14 @@ class ProblemController extends Controller
     {
         $problem=new ProblemModel();
         $prob=$problem->list();
+        $tags=$problem->tags();
         return is_null($prob) ? redirect("/problem") : view('problem.index', [
             'page_title' => "Problem",
             'site_title' => "CodeMaster",
             'navigation' => "Problem",
             'prob_list' => $prob["data"],
-            'prob_paginate' => $prob["paginate"]
+            'prob_paginate' => $prob["paginate"],
+            'tags' => $tags
         ]);
     }
     /**

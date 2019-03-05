@@ -71,7 +71,7 @@ class ProblemModel extends Model
 
     public function tags()
     {
-        return DB::table("problem_tag")->groupBy('tag')->select("tag",DB::raw('count(*) as tag_count'))->orderBy('tag_count','desc')->limit(32)->get()->all();
+        return DB::table("problem_tag")->groupBy('tag')->select("tag",DB::raw('count(*) as tag_count'))->orderBy('tag_count','desc')->limit(12)->get()->all();
     }
 
     public function list()

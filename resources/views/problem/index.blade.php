@@ -84,10 +84,9 @@
                     <span class="badge badge-info">NOJ</span>
                 </div>
                 <div>
-                    <span class="badge badge-secondary">String</span>
-                    <span class="badge badge-secondary">DP</span>
-                    <span class="badge badge-secondary">Permualtion</span>
-                    <span class="badge badge-secondary">Brutal</span>
+                    @foreach($tags as $t)
+                    <span class="badge badge-secondary">{{$t['tag']}}</span>
+                    @endforeach
                     <span class="badge badge-secondary">...</span>
                 </div>
             </paper-card>
