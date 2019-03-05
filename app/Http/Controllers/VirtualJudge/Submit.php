@@ -4,6 +4,7 @@ namespace App\Http\Controllers\VirtualJudge;
 
 use App\Models\SubmissionModel;
 use App\Http\Controllers\VirtualJudge\Core;
+use Illuminate\Support\Facades\Validator;
 use Auth;
 
 class Submit
