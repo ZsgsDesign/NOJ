@@ -63,11 +63,7 @@ class GroupController extends Controller
             "end_time"=>$all_data["end_time"],
         ], $problemSet);
 
-        return response()->json([
-            "ret"=>200,
-            "desc"=>"Successful",
-            "data"=>null
-        ]);
+        return ResponseModel::success(200);
     }
 
     public function changeNickName(Request $request)
@@ -82,18 +78,10 @@ class GroupController extends Controller
         $groupModel=new GroupModel();
         $clearance = $groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         if ($clearance<1) {
-            return response()->json([
-                "ret"=>1001,
-                "desc"=>"Permission Denied",
-                "data"=>null
-            ]);
+            return ResponseModel::err(2001);
         }
         $groupModel->changeNickName($all_data["gid"], Auth::user()->id, $all_data["nick_name"]);
-        return response()->json([
-            "ret"=>200,
-            "desc"=>"Successful",
-            "data"=>null
-        ]);
+        return ResponseModel::success(200);
     }
 
     public function joinGroup(Request $request)
@@ -107,11 +95,7 @@ class GroupController extends Controller
         $groupModel=new GroupModel();
         $join_policy = $groupModel->joinPolicy($all_data["gid"]);
         if (is_null($join_policy)) {
-            return response()->json([
-                "ret"=>1003,
-                "desc"=>"Group Doesn't Exist",
-                "data"=>null
-            ]);
+            return ResponseModel::err(7001);
         }
         $clearance = $groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         if ($join_policy==3) {
@@ -120,11 +104,7 @@ class GroupController extends Controller
             } elseif ($clearance==-3) {
                 $groupModel->addClearance(Auth::user()->id, $all_data["gid"], 0);
             }
-            return response()->json([
-                "ret"=>200,
-                "desc"=>"Success",
-                "data"=>null
-            ]);
+            return ResponseModel::success(200);
         }
     }
 }

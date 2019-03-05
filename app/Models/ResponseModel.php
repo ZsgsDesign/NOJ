@@ -74,6 +74,10 @@ class ResponseModel extends Model
 
             '6001' => "Cannot Find Available Judgers",
 
+            '7000' => "Group-Related Error",
+
+            '7001' => "Group Not Found",
+
         ];
         return isset($errDesc[$errCode])?$errDesc[$errCode]:$errDesc['1000'];
     }
