@@ -113,7 +113,7 @@
         <div class="col-sm-12 col-md-8">
             @foreach($contest_list as $c)
             <a href="/contest/{{$c['cid']}}">
-                <contest-card>
+                <contest-card class="animated fadeInLeft" style="animation-delay: {{$loop->index/5}}s;">
                     <date-div>
                         <p class="sm-date">{{$c['date_parsed']['date']}}</p>
                         <small class="sm-month">{{$c['date_parsed']['month_year']}}</small>
@@ -136,7 +136,7 @@
             @endforeach
         </div>
         <div class="col-sm-12 col-md-4">
-            <div>
+            <div class="animated jackInTheBox">
                 <p class="cm-tending"><i class="MDI star wemd-amber-text"></i> Featured Contest</p>
                 <paper-card style="text-align:center;">
                     <h5 class="sm-contest-title">{{$featured['name']}}</h5>
