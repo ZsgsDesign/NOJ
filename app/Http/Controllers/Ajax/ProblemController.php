@@ -67,13 +67,7 @@ class ProblemController extends Controller
         $submission=new SubmissionModel();
         $status=$submission->getJudgeStatus($all_data["sid"]);
 
-        return response()->json(
-            [
-                "ret" => 200,
-                "desc" => "successful",
-                "data" => $status
-            ]
-        );
+        return ResponseModel::success(200, null, $status);
     }
 
     /**
@@ -89,13 +83,7 @@ class ProblemController extends Controller
     {
         $vj_judge = new Judge();
 
-        return response()->json(
-            [
-                "ret" => 200,
-                "desc" => "successful",
-                "data" => $vj_judge->ret
-            ]
-        );
+        return ResponseModel::success(200, null, $vj_judge->ret);
     }
 
     /**
@@ -115,16 +103,7 @@ class ProblemController extends Controller
             $history=$submission->getProblemSubmission($all_data["pid"], Auth::user()->id);
         }
 
-
-        return response()->json(
-            [
-                "ret" => 200,
-                "desc" => "successful",
-                "data" => [
-                    "history" => $history
-                ]
-            ]
-        );
+        return ResponseModel::success(200, null, $history);
     }
 
     /**
@@ -142,10 +121,6 @@ class ProblemController extends Controller
 
         new Crawler($all_data["name"], $all_data["action"], $all_data["con"], $all_data["cached"]);
 
-        return response()->json([
-            "ret" => 200,
-            "desc" => "successful",
-            "data" => null
-        ]);
+        return ResponseModel::success(200);
     }
 }
