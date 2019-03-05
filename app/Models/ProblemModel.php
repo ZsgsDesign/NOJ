@@ -15,7 +15,7 @@ class ProblemModel extends Model
         $prob_detail = DB::table($this->tableName)->where("pcode", $pcode)->first();
         // [Depreciated] Joint Query was depreciated here for code maintenance reasons
         if (!is_null($prob_detail)) {
-            if($prob_detail["OJ"]==1) {
+            if ($prob_detail["OJ"]==1) {
                 $prob_detail["parsed"] = [
                     "description"=>clean(Markdown::convertToHtml($prob_detail["description"])),
                     "input"=>clean(Markdown::convertToHtml($prob_detail["input"])),
@@ -71,12 +71,12 @@ class ProblemModel extends Model
 
     public function tags()
     {
-        return DB::table("problem_tag")->groupBy('tag')->select("tag",DB::raw('count(*) as tag_count'))->orderBy('tag_count','desc')->limit(12)->get()->all();
+        return DB::table("problem_tag")->groupBy('tag')->select("tag", DB::raw('count(*) as tag_count'))->orderBy('tag_count', 'desc')->limit(12)->get()->all();
     }
 
     public function ojs()
     {
-        return DB::table("oj")->orderBy('oid','asc')->limit(12)->get()->all();
+        return DB::table("oj")->orderBy('oid', 'asc')->limit(12)->get()->all();
     }
 
     public function list($filter)
@@ -87,7 +87,7 @@ class ProblemModel extends Model
             $preQuery=$preQuery->where(["OJ"=>$filter['oj']]);
         }
         if ($filter['tag']) {
-            $preQuery=$preQuery->join("problem_tag","problem.pid","=","problem_tag.pid")->where(["tag"=>$filter['tag']]);
+            $preQuery=$preQuery->join("problem_tag", "problem.pid", "=", "problem_tag.pid")->where(["tag"=>$filter['tag']]);
         }
         $prob = json_decode($preQuery->select("problem.pid as pid", "pcode", "title")->paginate(20)->toJSON(), true);
         if (empty($prob["data"])) {
@@ -121,11 +121,26 @@ class ProblemModel extends Model
         $prob["paginate"]["data"]=[];
         $prob["paginate"]["previous"] = is_null($prob["prev_page_url"]) ? "" : "?page=".($cur_page-1);
         $prob["paginate"]["next"] = is_null($prob["next_page_url"]) ? "" : "?page=".($cur_page+1);
+        if ($filter["oj"]) {
+            $prob["paginate"]["previous"].="&oj={$filter['oj']}";
+            $prob["paginate"]["next"].="&oj={$filter['oj']}";
+        }
+        if ($filter["tag"]) {
+            $prob["paginate"]["previous"].="&tag={$filter['tag']}";
+            $prob["paginate"]["next"].="&tag={$filter['tag']}";
+        }
         foreach ($temp_page_list as $p) {
+            $url="?page=$p";
+            if ($filter["oj"]) {
+                $url.="&oj={$filter['oj']}";
+            }
+            if ($filter["tag"]) {
+                $url.="&tag={$filter['tag']}";
+            }
             array_push($prob["paginate"]["data"], [
                 "page"=>$p,
                 "cur"=> $p==$cur_page ? 1 : 0,
-                "url"=>"?page=$p"
+                "url"=>$url
             ]);
         }
         foreach ($prob["data"] as &$p) {

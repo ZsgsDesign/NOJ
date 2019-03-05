@@ -37,7 +37,8 @@ class ProblemController extends Controller
                     'prob_list' => null,
                     'prob_paginate' => null,
                     'tags' => $tags,
-                    'ojs' => $ojs
+                    'ojs' => $ojs,
+                    'filter' => $filter
                 ]);
             }
         } else {
