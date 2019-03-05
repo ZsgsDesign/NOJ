@@ -54,6 +54,8 @@ class ResponseModel extends Model
 
             '2000' => "Account-Related Error",
 
+            '2001' => "Permission Denied",
+
             '2001' => "Please Login First",
 
             '3000' => "Problem-Related Error",
