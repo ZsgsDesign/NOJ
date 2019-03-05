@@ -86,11 +86,9 @@
             <paper-card class="animated bounceInRight">
                 <p>Filter</p>
                 <div class="mb-3">
-                    <span class="badge badge-info">Code Forces</span>
-                    <span class="badge badge-info">SPOJ</span>
-                    <span class="badge badge-info">UVa</span>
-                    <span class="badge badge-info">UVa Live</span>
-                    <span class="badge badge-info">NOJ</span>
+                    @foreach($ojs as $o)
+                    <span class="badge badge-info">{{$o['name']}}</span>
+                    @endforeach
                 </div>
                 <div>
                     @foreach($tags as $t)
