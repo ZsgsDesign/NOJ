@@ -20,7 +20,11 @@ class Submit
     {
         $this->post_data=$all_data;
         $this->ret['ret']=200;
-        $this->validate_solution();
+
+        Validator::make($this->post_data, [
+            'solution' => 'required|string|max:65535',
+        ])->validate();
+
         if ($this->ret['ret']==200) {
             set_time_limit(0);
 
@@ -52,35 +56,6 @@ class Submit
             $this->ret["data"]=[
                 "sid"=>$sid
             ];
-        }
-    }
-
-    /**
-     * Validate whether the solution is legal.
-     *
-     * @return Response
-     */
-    private function validate_solution()
-    {
-        if (!isset($this->post_data['solution'])) {
-            $this->ret['ret']=1003;
-            return;
-        }
-        $solution=trim($this->post_data['solution']);
-        if (strlen($solution)==0) {
-            $this->ret['ret']=1003;
-            return;
-        }
-        if (!($f = fopen(__DIR__."/cookie/file.txt", "w"))) {
-            $this->ret['ret']=1004;
-            return;
-        }
-        fwrite($f, $solution);
-        fclose($f);
-        $size=filesize(__DIR__.'/cookie/file.txt');
-        if ($size>100*1000) {
-            $this->ret['ret']=3002;
-            return;
         }
     }
 }
