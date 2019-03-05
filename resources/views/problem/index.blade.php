@@ -132,7 +132,7 @@
                 </div>
                 <div>
                     @foreach($tags as $t)
-                    <span class="badge badge-tag @if($filter['tag']==$t['tag']) @php $haveTag=true; @endphp selected @endif" data-toggle="tooltip" data-placement="left" title="{{$t['tag']}}">{{$t['tag']}}</span>
+                    <span class="badge badge-tag @if($filter['tag']==$t['tag']) @php $haveTag=true; @endphp selected @endif" onclick="applyFilter(this)" data-toggle="tooltip" data-placement="left" title="{{$t['tag']}}">{{$t['tag']}}</span>
                     @endforeach
                     @unless(isset($haveTag))
                     <span class="badge badge-tag selected" data-toggle="tooltip" data-placement="left" title="{{$filter['tag']}}">{{$filter['tag']}}</span>
@@ -151,10 +151,16 @@
 
     function applyFilter(e) {
         if($(e).data("oid")===undefined){
-            // mod tag
+            if($(e).text() == cur_tag) var tempNav="/problem?";
+            else var tempNav="/problem?tag="+$(e).text();
+            if(cur_oid===null){
+                location.href=tempNav;
+            } else {
+                location.href=tempNav+"&oj="+cur_oid;
+            }
         } else {
-            if($(e).data("oid") == cur_oid) return;
-            var tempNav="/problem?oj="+$(e).data("oid");
+            if($(e).data("oid") == cur_oid) var tempNav="/problem?";
+            else var tempNav="/problem?oj="+$(e).data("oid");
             if(cur_tag===null){
                 location.href=tempNav;
             } else {
