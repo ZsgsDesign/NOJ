@@ -69,6 +69,11 @@ class ProblemModel extends Model
         return DB::table($this->tableName)->where("pid", $pid)->first();
     }
 
+    public function tags()
+    {
+        return DB::table("problem_tag")->groupBy('tag')->select("tag",DB::raw('count(*) as tag_count'))->orderBy('tag_count','desc')->limit(32)->get()->all();
+    }
+
     public function list()
     {
         // $prob_list = DB::table($this->tableName)->select("pid","pcode","title")->get()->all(); // return a array
