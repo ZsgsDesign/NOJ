@@ -58,6 +58,11 @@
         font-size: 1rem;
         color:rgba(0,0,0,0.54);
     }
+
+    .badge-oj {
+        color: #03a9f4;
+        border: 1px solid #03a9f4;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -110,7 +115,7 @@
                 <p>Filter</p>
                 <div class="mb-3">
                     @foreach($ojs as $o)
-                    <span class="badge badge-info">{{$o['name']}}</span>
+                    <span class="badge badge-oj">{{$o['name']}}</span>
                     @endforeach
                 </div>
                 <div>
