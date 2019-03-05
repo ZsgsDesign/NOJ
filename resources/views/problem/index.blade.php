@@ -41,6 +41,12 @@
         overflow: hidden;
         text-overflow: ellipsis;
         border: 1px solid #6c757d;
+        cursor: pointer;
+    }
+
+    .badge-tag.selected {
+        color: white;
+        background-color: #6c757d;
     }
 
     empty-container{
@@ -62,6 +68,7 @@
     .badge-oj {
         color: #03a9f4;
         border: 1px solid #03a9f4;
+        cursor: pointer;
     }
 
     .badge-oj.selected {
@@ -120,13 +127,16 @@
                 <p>Filter</p>
                 <div class="mb-3">
                     @foreach($ojs as $o)
-                    <span class="badge badge-oj @if($filter['oj']==$o['oid']) selected @endif" data-oid="{{$o['oid']}}">{{$o['name']}}</span>
+                    <span class="badge badge-oj @if($filter['oj']==$o['oid']) selected @endif" onclick="applyFilter(this)" data-oid="{{$o['oid']}}">{{$o['name']}}</span>
                     @endforeach
                 </div>
                 <div>
                     @foreach($tags as $t)
-                    <span class="badge badge-tag" data-toggle="tooltip" data-placement="left" title="{{$t['tag']}}">{{$t['tag']}}</span>
+                    <span class="badge badge-tag @if($filter['tag']==$t['tag']) @php $haveTag=true; @endphp selected @endif" data-toggle="tooltip" data-placement="left" title="{{$t['tag']}}">{{$t['tag']}}</span>
                     @endforeach
+                    @unless(isset($haveTag))
+                    <span class="badge badge-tag selected" data-toggle="tooltip" data-placement="left" title="{{$filter['tag']}}">{{$filter['tag']}}</span>
+                    @endunless
                     <span class="badge badge-tag">...</span>
                 </div>
             </paper-card>
@@ -138,6 +148,31 @@
     window.addEventListener("load",function() {
 
     }, false);
+
+    function applyFilter(e) {
+        if($(e).data("oid")===undefined){
+            // mod tag
+        } else {
+            if($(e).data("oid") == cur_oid) return;
+            var tempNav="/problem?oj="+$(e).data("oid");
+            if(cur_tag===null){
+                location.href=tempNav;
+            } else {
+                location.href=tempNav+"&tag="+cur_tag;
+            }
+        }
+    }
+
+    @if($filter['oj'])
+        var cur_oid = {{ $filter['oj'] }};
+    @else
+        var cur_oid = null;
+    @endif
+    @if($filter['tag'])
+        var cur_tag = "{{ $filter['tag'] }}";
+    @else
+        var cur_tag = null;
+    @endif
 
 </script>
 @endsection
