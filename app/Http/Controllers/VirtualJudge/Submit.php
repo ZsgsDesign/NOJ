@@ -20,7 +20,6 @@ class Submit
     {
         $this->post_data=$all_data;
         $this->ret['ret']=200;
-        $this->ret['desc']="successful";
         $this->validate_solution();
         if ($this->ret['ret']==200) {
             set_time_limit(0);
@@ -44,11 +43,7 @@ class Submit
             // insert submission
 
             if ($sub["pid"]=='') {
-                $this->ret = [
-                    'ret'=>1003,
-                    'desc'=>'param incomplete',
-                    'data'=>null
-                ];
+                $this->ret["ret"] = 1003;
             }
 
             $submission = new SubmissionModel();
@@ -69,18 +64,15 @@ class Submit
     {
         if (!isset($this->post_data['solution'])) {
             $this->ret['ret']=1003;
-            $this->ret['desc']="param incomplete";
             return;
         }
         $solution=trim($this->post_data['solution']);
         if (strlen($solution)==0) {
-            $this->ret['ret']=3001;
-            $this->ret['desc']="solution must be filled";
+            $this->ret['ret']=1003;
             return;
         }
         if (!($f = fopen(__DIR__."/cookie/file.txt", "w"))) {
             $this->ret['ret']=1004;
-            $this->ret['desc']="permission denied";
             return;
         }
         fwrite($f, $solution);

@@ -43,19 +43,11 @@ class ProblemController extends Controller
         $problemModel = new ProblemModel();
         $pcode = $problemModel->existPCode($all_data["pcode"]);
         if ($pcode) {
-            return response()->json([
-                "ret"=>"200",
-                "desc"=>"successful",
-                "data"=>[
-                    "pcode"=>$pcode
-                ]
+            return ResponseModel::success(200, null, [
+                "pcode"=>$pcode
             ]);
         } else {
-            return response()->json([
-                "ret"=>"1000",
-                "desc"=>"problem doesn't exist",
-                "data"=>null
-            ]);
+            return ResponseModel::err(3001);
         }
     }
     /**

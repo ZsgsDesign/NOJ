@@ -50,6 +50,7 @@ class ResponseModel extends Model
             '1001' => "Internal Sever Error",
             '1002' => "Service Currently Unavailable",
             '1003' => "Missing Params",
+            '1004' => "Write/Read Permission Denied",
             '1984' => "Ignorance is Strength",
 
             '2000' => "Account-Related Error",
