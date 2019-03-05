@@ -15,12 +15,21 @@ class ProblemModel extends Model
         $prob_detail = DB::table($this->tableName)->where("pcode", $pcode)->first();
         // [Depreciated] Joint Query was depreciated here for code maintenance reasons
         if (!is_null($prob_detail)) {
-            $prob_detail["parsed"] = [
-                "description"=>Markdown::convertToHtml($prob_detail["description"]),
-                "input"=>Markdown::convertToHtml($prob_detail["input"]),
-                "output"=>Markdown::convertToHtml($prob_detail["output"]),
-                "note"=>Markdown::convertToHtml($prob_detail["note"])
-            ];
+            if($prob_detail["OJ"]==1) {
+                $prob_detail["parsed"] = [
+                    "description"=>clean(Markdown::convertToHtml($prob_detail["description"])),
+                    "input"=>clean(Markdown::convertToHtml($prob_detail["input"])),
+                    "output"=>clean(Markdown::convertToHtml($prob_detail["output"])),
+                    "note"=>clean(Markdown::convertToHtml($prob_detail["note"]))
+                ];
+            } else {
+                $prob_detail["parsed"] = [
+                    "description"=>$prob_detail["description"],
+                    "input"=>$prob_detail["input"],
+                    "output"=>$prob_detail["output"],
+                    "note"=>$prob_detail["note"]
+                ];
+            }
             $prob_detail["update_date"]=date_format(date_create($prob_detail["update_date"]), 'm/d/Y H:i:s');
             $prob_detail["oj_detail"] = DB::table("oj")->where("oid", $prob_detail["OJ"])->first();
             $prob_detail["samples"] = DB::table("problem_sample")->where("pid", $prob_detail["pid"])->get()->all();
