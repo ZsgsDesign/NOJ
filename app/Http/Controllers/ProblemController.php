@@ -6,6 +6,7 @@ use App\Models\ProblemModel;
 use App\Models\SubmissionModel;
 use App\Models\CompilerModel;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use JavaScript;
 use Auth;
 
@@ -16,21 +17,40 @@ class ProblemController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $all_data = $request->all();
         $problem=new ProblemModel();
-        $prob=$problem->list();
+        $filter["oj"]=isset($all_data["oj"])?$all_data["oj"]:null;
+        $filter["tag"]=isset($all_data["tag"])?$all_data["tag"]:null;
+        $prob=$problem->list($filter);
         $tags=$problem->tags();
         $ojs=$problem->ojs();
-        return is_null($prob) ? redirect("/problem") : view('problem.index', [
-            'page_title' => "Problem",
-            'site_title' => "CodeMaster",
-            'navigation' => "Problem",
-            'prob_list' => $prob["data"],
-            'prob_paginate' => $prob["paginate"],
-            'tags' => $tags,
-            'ojs' => $ojs
-        ]);
+        if (is_null($prob)) {
+            if (isset($all_data["page"]) && $all_data["page"]>1) {
+                return redirect("/problem");
+            } else {
+                return view('problem.index', [
+                    'page_title' => "Problem",
+                    'site_title' => "CodeMaster",
+                    'navigation' => "Problem",
+                    'prob_list' => null,
+                    'prob_paginate' => null,
+                    'tags' => $tags,
+                    'ojs' => $ojs
+                ]);
+            }
+        } else {
+            return view('problem.index', [
+                'page_title' => "Problem",
+                'site_title' => "CodeMaster",
+                'navigation' => "Problem",
+                'prob_list' => $prob["data"],
+                'prob_paginate' => $prob["paginate"],
+                'tags' => $tags,
+                'ojs' => $ojs
+            ]);
+        }
     }
     /**
      * Show the Problem Detail Page.

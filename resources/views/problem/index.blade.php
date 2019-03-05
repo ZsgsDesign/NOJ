@@ -42,10 +42,32 @@
         text-overflow: ellipsis;
         border: 1px solid #6c757d;
     }
+
+    empty-container{
+        display:block;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    empty-container i{
+        font-size:5rem;
+        color:rgba(0,0,0,0.42);
+    }
+
+    empty-container p{
+        font-size: 1rem;
+        color:rgba(0,0,0,0.54);
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
         <div class="col-sm-12 col-lg-9">
+            @if(is_null($prob_list))
+            <empty-container>
+                <i class="MDI package-variant"></i>
+                <p>Nothing matches your search.</p>
+            </empty-container>
+            @else
             <paper-card class="animated bounceInLeft">
                 <table class="table table-borderless">
                     <thead>
@@ -81,6 +103,7 @@
                     <li class="page-item @unless($prob_paginate['next']) disabled @endif"><a class="page-link cm-navi" href="{{$prob_paginate['next']}}">Next</a></li>
                 </ul>
             </nav>
+            @endif
         </div>
         <div class="col-sm-12 col-lg-3">
             <paper-card class="animated bounceInRight">

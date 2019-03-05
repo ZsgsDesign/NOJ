@@ -79,10 +79,17 @@ class ProblemModel extends Model
         return DB::table("oj")->orderBy('oid','asc')->limit(12)->get()->all();
     }
 
-    public function list()
+    public function list($filter)
     {
         // $prob_list = DB::table($this->tableName)->select("pid","pcode","title")->get()->all(); // return a array
-        $prob = json_decode(DB::table($this->tableName)->select("pid", "pcode", "title")->paginate(20)->toJSON(), true);
+        $preQuery=DB::table($this->tableName);
+        if ($filter['oj']) {
+            $preQuery=$preQuery->where(["OJ"=>$filter['oj']]);
+        }
+        if ($filter['tag']) {
+            $preQuery=$preQuery->join("problem_tag","problem.pid","=","problem_tag.pid")->where(["tag"=>$filter['tag']]);
+        }
+        $prob = json_decode($preQuery->select("problem.pid as pid", "pcode", "title")->paginate(20)->toJSON(), true);
         if (empty($prob["data"])) {
             return null;
         }
