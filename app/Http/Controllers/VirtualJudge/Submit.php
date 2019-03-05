@@ -80,7 +80,6 @@ class Submit
         $size=filesize(__DIR__.'/cookie/file.txt');
         if ($size>100*1000) {
             $this->ret['ret']=3002;
-            $this->ret['desc']="solution size limit exceed";
             return;
         }
     }

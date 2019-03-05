@@ -27,8 +27,11 @@ class ProblemController extends Controller
     {
         $all_data = $request->all();
         $vj_submit = new Submit($all_data);
-
-        return response()->json($vj_submit->ret);
+        $ret=$vj_submit->ret;
+        if ($ret["ret"]==200) {
+            return ResponseModel::success(200, null, $ret["data"]);
+        }
+        return ResponseModel::err($ret["ret"]);
     }
     /**
      * The Ajax Problem Solution Submit.
