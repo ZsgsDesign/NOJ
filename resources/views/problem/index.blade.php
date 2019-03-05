@@ -85,7 +85,7 @@
         <div class="col-sm-12 col-lg-3">
             <paper-card class="animated bounceInRight">
                 <p>Filter</p>
-                <div class="mb-2">
+                <div class="mb-3">
                     <span class="badge badge-info">Code Forces</span>
                     <span class="badge badge-info">SPOJ</span>
                     <span class="badge badge-info">UVa</span>
@@ -94,7 +94,7 @@
                 </div>
                 <div>
                     @foreach($tags as $t)
-                    <span class="badge badge-tag" data-toggle="tooltip" data-placement="top" title="{{$t['tag']}}">{{$t['tag']}}</span>
+                    <span class="badge badge-tag" data-toggle="tooltip" data-placement="left" title="{{$t['tag']}}">{{$t['tag']}}</span>
                     @endforeach
                     <span class="badge badge-tag">...</span>
                 </div>
