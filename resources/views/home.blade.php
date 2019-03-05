@@ -29,7 +29,7 @@
         border: 1px solid rgba(0, 0, 0, 0.15);
         border-radius: 4px;
         margin-bottom: 2rem;
-        padding: 1rem;
+        padding: 0.5rem 1rem;
         background: rgb(255, 255, 255);
     }
 
