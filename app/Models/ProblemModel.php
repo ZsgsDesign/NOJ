@@ -119,16 +119,8 @@ class ProblemModel extends Model
             sort($temp_page_list);
         }
         $prob["paginate"]["data"]=[];
-        $prob["paginate"]["previous"] = is_null($prob["prev_page_url"]) ? "" : "?page=".($cur_page-1);
-        $prob["paginate"]["next"] = is_null($prob["next_page_url"]) ? "" : "?page=".($cur_page+1);
-        if ($filter["oj"]) {
-            $prob["paginate"]["previous"].="&oj={$filter['oj']}";
-            $prob["paginate"]["next"].="&oj={$filter['oj']}";
-        }
-        if ($filter["tag"]) {
-            $prob["paginate"]["previous"].="&tag={$filter['tag']}";
-            $prob["paginate"]["next"].="&tag={$filter['tag']}";
-        }
+        $prob["paginate"]["previous"] = is_null($prob["prev_page_url"]) ? "" : "?page=".($cur_page-1).($filter["oj"]?"&oj={$filter['oj']}":"").($filter["tag"]?"&tag={$filter['tag']}":"");
+        $prob["paginate"]["next"] = is_null($prob["next_page_url"]) ? "" : "?page=".($cur_page+1).($filter["oj"]?"&oj={$filter['oj']}":"").($filter["tag"]?"&tag={$filter['tag']}":"");
         foreach ($temp_page_list as $p) {
             $url="?page=$p";
             if ($filter["oj"]) {
