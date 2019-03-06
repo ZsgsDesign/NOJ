@@ -54,9 +54,26 @@ class Judge extends Core
             '编译错误'=>"Compile Error",
         ];
 
+        $poj_v=[
+            'Accepted'=>"Accepted",
+            "Presentation Error"=>"Presentation Error",
+            'Time Limit Exceeded'=>"Time Limit Exceed",
+            "Memory Limit Exceeded"=>"Memory Limit Exceed",
+            'Wrong Answer'=>"Wrong Answer",
+            'Runtime Error'=>"Runtime Error",
+            'Output Limit Exceeded'=>"Output limit Exceeded",
+            'Compile Error'=>"Compile Error",
+        ];
+
         $result=$this->MODEL->get_wating_submission();
+        $judger=new JudgerModel();
 
         $cf=$this->get_last_codeforces($this->MODEL->count_wating_submission(2));
+        $poj=[];
+
+        $pojJudgerList=$judger->list(4);
+        $pojJudgerName=urlencode($pojJudgerList[0]["handle"]);
+        $this->appendPOJStatus($poj, $pojJudgerName);
         // $uva=$this->get_last_uva($this->MODEL->count_wating_submission('Uva'));
         // $uval=$this->get_last_uvalive($this->MODEL->count_wating_submission('UvaLive'));
         // $sj=$this->get_last_spoj($this->MODEL->count_wating_submission('Spoj'));
@@ -82,8 +99,7 @@ class Judge extends Core
                     $this->MODEL->update_submission($row['sid'], $sub);
                 }
                 $i++;
-            }
-            if ($row['oid'] == 3) {
+            } else if ($row['oid'] == 3) {
                 try {
                     $res = Requests::get('http://contest-hunter.org:83/record/'.$row['remote_id']);
                     preg_match('/<dt>状态<\/dt>[\s\S]*?<dd class=".*?">(.*?)<\/dd>/m', $res->body, $match);
@@ -111,6 +127,21 @@ class Judge extends Core
                     $this->MODEL->update_submission($row['sid'], $sub);
                 }
                 catch(Exception $e) {}
+            } else if ($row['oid'] == 4) {
+                if (!isset($poj[$row['remote_id']])) {
+                    $this->appendPOJStatus($poj, $pojJudgerName, $row['remote_id']);
+                    if (!isset($poj[$row['remote_id']])) continue;
+                }
+                $status = $poj[$row['remote_id']];
+                $sub['verdict'] = $poj_v[$status['verdict']];
+                $sub['time'] = $status['time'];
+                $sub['memory'] = $status['memory'];
+                $sub['remote_id'] = $row['remote_id'];
+
+                $ret[$row['sid']] = [
+                    "verdict"=>$sub['verdict']
+                ];
+                $this->MODEL->update_submission($row['sid'], $sub);
             }
             // if ($row['oid']=='Spoj') {
             //     if (isset($spoj_v[$sj[$j][2]])) {
@@ -340,6 +371,20 @@ class Judge extends Core
                 }
             }
             $i+=20;
+        }
+    }
+
+    private function appendPOJStatus(&$results, $judger, $first = null)
+    {
+        if ($first !== null) $first++;
+        $res = Requests::get("http://poj.org/status?user_id={$judger}&top={$first}");
+        $rows = preg_match_all('/<tr align=center><td>(\d+)<\/td><td>.*?<\/td><td>.*?<\/td><td><font color=.*?>(.*?)<\/font><\/td><td>(\d*)K?<\/td><td>(\d*)(?:MS)?<\/td>/', $res->body, $matches);
+        for ($i = 0; $i < $rows; $i++) {
+            $results[$matches[1][$i]] = [
+                'verdict'=>$matches[2][$i],
+                'memory'=>$matches[3][$i] ? $matches[3][$i] : 0,
+                'time'=>$matches[4][$i] ? $matches[4][$i] : 0,
+            ];
         }
     }
 }
