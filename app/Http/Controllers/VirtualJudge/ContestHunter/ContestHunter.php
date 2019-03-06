@@ -45,6 +45,11 @@ class ContestHunter extends Curl
         $this->sub['solution']=$this->post_data["solution"];
         $this->sub['pid']=$this->post_data["pid"];
         $this->sub['coid']=$this->post_data["coid"];
+        if (isset($this->post_data["contest"])) {
+            $this->sub['cid']=$this->post_data["contest"];
+        } else {
+            $this->sub['cid']=null;
+        }
 
         $response=$this->grab_page("http://contest-hunter.org:83/contest/{$this->post_data['cid']}/{$this->post_data['iid']}", "contesthunter");
 
