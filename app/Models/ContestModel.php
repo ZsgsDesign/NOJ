@@ -321,6 +321,10 @@ class ContestModel extends Model
         $ret=[];
 
         $contest_info = DB::table("contest")->where("cid", $cid)->first();
+        $user_in_group = !empty(DB::table("group_member")->where([
+            "uid" => $uid,
+            "gid" => $contest_info["gid"]
+        ])->where("role",">",0)->first());
 
         $submissionUsers = DB::table("submission")->where([
             "cid"=>$cid
@@ -354,10 +358,10 @@ class ContestModel extends Model
                 "name" => DB::table("users")->where([
                     "id"=>$s["uid"]
                 ])->first()["name"],
-                "nick_name" => DB::table("group_member")->where([
+                "nick_name" => $user_in_group ? DB::table("group_member")->where([
                     "uid" => $s["uid"],
                     "gid" => $contest_info["gid"]
-                ])->where("role",">",0)->first()["nick_name"],
+                ])->where("role",">",0)->first()["nick_name"] : "",
                 "score" => $totScore,
                 "penalty" => $totPen,
                 "problem_detail" => $prob_detail
