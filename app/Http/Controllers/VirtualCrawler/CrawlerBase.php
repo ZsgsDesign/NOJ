@@ -90,10 +90,10 @@ class CrawlerBase
 
     public function pcrawler_process_info($path, $baseurl, $space_deli=true, $cookie="")
     {
-        $this->pro["description"]=$this->process_and_get_image($pro["description"], $path, $baseurl, $space_deli, $cookie);
-        $this->pro["input"]=$this->process_and_get_image($pro["input"], $path, $baseurl, $space_deli, $cookie);
-        $this->pro["output"]=$this->process_and_get_image($pro["output"], $path, $baseurl, $space_deli, $cookie);
-        $this->pro["note"]=$this->process_and_get_image($pro["note"], $path, $baseurl, $space_deli, $cookie);
+        $this->pro["description"]=$this->process_and_get_image($this->pro["description"], $path, $baseurl, $space_deli, $cookie);
+        $this->pro["input"]=$this->process_and_get_image($this->pro["input"], $path, $baseurl, $space_deli, $cookie);
+        $this->pro["output"]=$this->process_and_get_image($this->pro["output"], $path, $baseurl, $space_deli, $cookie);
+        $this->pro["note"]=$this->process_and_get_image($this->pro["note"], $path, $baseurl, $space_deli, $cookie);
     }
 
     public function get_url($url)

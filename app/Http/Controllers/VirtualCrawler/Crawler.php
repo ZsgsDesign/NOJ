@@ -4,6 +4,7 @@ namespace App\Http\Controllers\VirtualCrawler;
 
 use App\Http\Controllers\VirtualCrawler\CodeForces\CodeForces;
 use App\Http\Controllers\VirtualCrawler\ContestHunter\ContestHunter;
+use App\Http\Controllers\VirtualCrawler\POJ\POJ;
 use App\Models\ProblemModel;
 use Auth;
 
@@ -19,5 +20,6 @@ class Crawler
     {
         if($name=="CodeForces") new CodeForces($action,$con,$cached);
         if($name=="ContestHunter") new ContestHunter($action,$con,$cached);
+        if($name=="POJ") new POJ($action,$con,$cached);
     }
 }

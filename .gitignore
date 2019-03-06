@@ -11,6 +11,7 @@ npm-debug.log
 yarn-error.log
 /app/Http/Controllers/VirtualJudge/cookie/codeforces_cookie.txt
 /app/Http/Controllers/VirtualJudge/cookie/contesthunter_cookie.txt
+/app/Http/Controllers/VirtualJudge/cookie/poj_cookie.txt
 /app/Http/Controllers/VirtualJudge/cookie/spoj_cookie.txt
 /app/Http/Controllers/VirtualJudge/cookie/uva_cookie.txt
 /app/Http/Controllers/VirtualJudge/cookie/file.txt
