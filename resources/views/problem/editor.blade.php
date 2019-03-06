@@ -238,6 +238,9 @@
             margin-bottom: 1rem;
         }
 
+        fresh-container img {
+            max-width: 100%;
+        }
 
         .cm-action-group {
             margin: 0;
