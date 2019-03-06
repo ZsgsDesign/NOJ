@@ -68,7 +68,11 @@ class POJ extends CrawlerBase
                 else  $cext = substr($ele->src, $pos);
             }
             $fn = $this->con.'_'.($this->imgi++).$cext;
-            file_put_contents(__dir__.'/../../../../../public/external/poj/img/'.$fn, $res->body);
+            $dir = base_path("public/external/poj/img");
+            if (!file_exists($dir)) {
+                mkdir($dir, 0755, true);
+            }
+            file_put_contents(base_path("public/external/poj/img/$fn"), $res->body);
             $ele->src = '/external/poj/img/'.$fn;
         }
         return $dom;

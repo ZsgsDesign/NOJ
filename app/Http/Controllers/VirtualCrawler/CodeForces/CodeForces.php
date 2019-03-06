@@ -113,7 +113,7 @@ class CodeForces extends CrawlerBase
                     }
                     $dir = base_path("public/external/gym");
                     if (!file_exists($dir)) {
-                        mkdir($dir, 0777, true);
+                        mkdir($dir, 0755, true);
                     }
                     file_put_contents(base_path("public/external/gym/$cid$num.$ext"), $content);
                     $this->pro["description"].="<a href=\"/external/gym/$cid$num.$ext\">[Attachment Link]</a>";
