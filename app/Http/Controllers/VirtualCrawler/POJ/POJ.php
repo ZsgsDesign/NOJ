@@ -5,8 +5,7 @@ namespace App\Http\Controllers\VirtualCrawler\POJ;
 use App\Http\Controllers\VirtualCrawler\CrawlerBase;
 use App\Models\ProblemModel;
 use KubAT\PhpSimple\HtmlDomParser;
-use Auth;
-use Requests;
+use Auth,Requests,Exception;
 
 class POJ extends CrawlerBase
 {
