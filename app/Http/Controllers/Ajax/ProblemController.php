@@ -103,7 +103,7 @@ class ProblemController extends Controller
             $history=$submission->getProblemSubmission($all_data["pid"], Auth::user()->id);
         }
 
-        return ResponseModel::success(200, null, $history);
+        return ResponseModel::success(200, null, ["history"=>$history]);
     }
 
     /**
