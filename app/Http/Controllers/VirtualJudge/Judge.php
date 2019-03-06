@@ -378,7 +378,7 @@ class Judge extends Core
     {
         if ($first !== null) $first++;
         $res = Requests::get("http://poj.org/status?user_id={$judger}&top={$first}");
-        $rows = preg_match_all('/<tr align=center><td>(\d+)<\/td><td>.*?<\/td><td>.*?<\/td><td><font color=.*?>(.*?)<\/font><\/td><td>(\d*)K?<\/td><td>(\d*)(?:MS)?<\/td>/', $res->body, $matches);
+        $rows = preg_match_all('/<tr align=center><td>(\d+)<\/td><td>.*?<\/td><td>.*?<\/td><td>.*?<font color=.*?>(.*?)<\/font>.*?<\/td><td>(\d*)K?<\/td><td>(\d*)(?:MS)?<\/td>/', $res->body, $matches);
         for ($i = 0; $i < $rows; $i++) {
             $results[$matches[1][$i]] = [
                 'verdict'=>$matches[2][$i],
