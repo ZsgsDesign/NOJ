@@ -5,6 +5,7 @@ use App\Http\Controllers\VirtualJudge\Curl;
 use App\Models\CompilerModel;
 use App\Models\JudgerModel;
 use Illuminate\Support\Facades\Validator;
+use Requests;
 
 class POJ extends Curl
 {
@@ -51,6 +52,12 @@ class POJ extends Curl
         $response=$this->post_data("http://poj.org/submit", http_build_query($params), "poj", true, false);
         if (!preg_match('/Location: .*\/status/', $response, $match)) {
             $this->sub['verdict'] = 'Submission Error';
+        } else {
+            $judger=new JudgerModel();
+            $judger_list=$judger->list(4);
+            $res = Requests::get('http://poj.org/status?problem_id='.$this->post_data['iid'].'&user_id='.urlencode($judger_list[0]["handle"]));
+            if (!preg_match('/<tr align=center><td>(\d+)<\/td>/', $res->body, $match)) $this->sub['verdict'] = 'Submission Error';
+            else $this->sub['remote_id'] = $match[1];
         }
     }
 
