@@ -15,7 +15,7 @@ class ProblemModel extends Model
         $prob_detail = DB::table($this->tableName)->where("pcode", $pcode)->first();
         // [Depreciated] Joint Query was depreciated here for code maintenance reasons
         if (!is_null($prob_detail)) {
-            if ($prob_detail["OJ"]==1) {
+            if ($prob_detail["markdown"]) {
                 $prob_detail["parsed"] = [
                     "description"=>clean(Markdown::convertToHtml($prob_detail["description"])),
                     "input"=>clean(Markdown::convertToHtml($prob_detail["input"])),
