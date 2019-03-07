@@ -31,54 +31,10 @@ class PTA extends CrawlerBase
         // TODO
     }
 
-    private static function find($pattern, $subject)
-    {
-        if (preg_match($pattern, $subject, $matches)) return $matches[1];
-        return NULL;
-    }
-
-    private function getDOM($html, $start, $end)
-    {
-        if ($start === false || $end === false) throw new Exception("Missing keywords.");
-        return $this->cacheImage(HtmlDomParser::str_get_html(substr($html, $start, $end - $start), true, true, DEFAULT_TARGET_CHARSET, false));
-    }
-
-    private function getInnertext($html, $start, $end, $tag)
-    {
-        return $this->getDOM($html, $start, $end)->find($tag, 0)->innertext();
-    }
-
-    private function cacheImage($dom)
-    {
-        foreach ($dom->find('img') as $ele) {
-            if (strpos($ele->src, '://') !== false) {
-                $url = $ele->src;
-            } else if ($ele->src[0] == '/') {
-                $url = 'http://poj.org'.$ele->src;
-            } else {
-                $url = 'http://poj.org/'.$ele->src;
-            }
-            $res = Requests::get($url, ['Referer' => 'http://poj.org']);
-            $ext = ['image/jpeg'=>'.jpg', 'image/png'=>'.png', 'image/gif'=>'.gif', 'image/bmp'=>'.bmp'];
-            if (isset($res->headers['content-type'])) $cext = $ext[$res->headers['content-type']];
-            else {
-                $pos = strpos($ele->src, '.');
-                if ($pos === false) $cext = '';
-                else  $cext = substr($ele->src, $pos);
-            }
-            $fn = $this->con.'_'.($this->imgi++).$cext;
-            $dir = base_path("public/external/poj/img");
-            if (!file_exists($dir)) {
-                mkdir($dir, 0755, true);
-            }
-            file_put_contents(base_path("public/external/poj/img/$fn"), $res->body);
-            $ele->src = '/external/poj/img/'.$fn;
-        }
-        return $dom;
-    }
-
     public function crawling($conType)
     {
+        $start=time();
+        $f = fopen(__DIR__."/pta_status.log", "w") or die("Unable to open file!");
         if ($conType == 'all') {
             // Here is the script
             //
@@ -106,11 +62,17 @@ class PTA extends CrawlerBase
                 $generalDetails=json_decode($res->body,true);
             }
 
+            $now=time()-$start;
+            fwrite($f, "General Detail API Success at {$now}".PHP_EOL);
+
             $probLists = json_decode(Requests::get(
                 "https://pintia.cn/api/problem-sets/$con/problems?type=PROGRAMMING&exam_id=0",[
                     "Content-Type"=>"application/json"
                 ]
             )->body, true)["problemSetProblems"];
+
+            $now=time()-$start;
+            fwrite($f, "    Problems List API Success at {$now}".PHP_EOL);
 
             foreach ($probLists as $prob) {
                 $probDetails = json_decode(Requests::get(
@@ -118,6 +80,10 @@ class PTA extends CrawlerBase
                         "Content-Type"=>"application/json"
                     ]
                 )->body, true)["problemSetProblem"];
+
+                $now=time()-$start;
+                fwrite($f, "    Problem Details API Success at {$now}".PHP_EOL);
+
                 $this->pro['pcode'] = 'PAT'.$prob["id"];
                 $this->pro['OJ'] = $this->oid;
                 $this->pro['contest_id'] = $con;
@@ -148,6 +114,9 @@ class PTA extends CrawlerBase
                 } else {
                     $new_pid=$this->insert_problem($this->oid);
                 }
+
+                $now=time()-$start;
+                fwrite($f, "    Problem {$this->pro['pcode']} Success at {$now}".PHP_EOL);
                 // $problemModel->addTags($new_pid, $tag);
             }
         }
