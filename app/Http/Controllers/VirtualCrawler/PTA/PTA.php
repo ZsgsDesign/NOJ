@@ -132,6 +132,8 @@ class PTA extends CrawlerBase
 
                 $this->pro['description'] = $probDetails["content"];
                 $this->pro['markdown'] = 1;
+                $this->pro['tot_score'] = $probDetails["score"];
+                $this->pro["partial"] = 1;
                 $this->pro['input'] = null;
                 $this->pro['output'] = null;
                 $this->pro['note'] = null;
