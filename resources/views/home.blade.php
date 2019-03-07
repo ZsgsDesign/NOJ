@@ -2,7 +2,7 @@
 
 @section('template')
 
-<link rel="stylesheet" href="https://fonts.geekzu.org/css?family=Raleway:300,300i,400,400i,500,500i,700,700i">
+<link rel="stylesheet" href="/static/fonts/Raleway/raleway.css">
 <style>
     paper-card {
         display: block;
