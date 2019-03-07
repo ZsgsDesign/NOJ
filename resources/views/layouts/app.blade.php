@@ -139,14 +139,14 @@
         </div>
     </loading>
     <!-- Style -->
-    <link rel="stylesheet" href="https://fonts.geekzu.org/css?family=Roboto:300,300i,400,400i,500,500i,700,700i">
-    <link rel="stylesheet" href="https://fonts.geekzu.org/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/bootstrap-material-design.min.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/wemd-color-scheme.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/atsast.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/animate.min.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/fonts/MDI-WXSS/MDI.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/fonts/Devicon/devicon.css">
+    <link rel="stylesheet" href="/static/fonts/Roboto/roboto.css">
+    <link rel="stylesheet" href="/static/fonts/Montserrat/montserrat.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-material-design.min.css">
+    <link rel="stylesheet" href="/static/css/wemd-color-scheme.css">
+    <link rel="stylesheet" href="/static/css/atsast.css">
+    <link rel="stylesheet" href="/static/css/animate.min.css">
+    <link rel="stylesheet" href="/static/fonts/MDI-WXSS/MDI.css">
+    <link rel="stylesheet" href="/static/fonts/Devicon/devicon.css">
     <!-- Background -->
     <div class="mundb-background-container">
         <img src="">
@@ -248,10 +248,10 @@
     <footer class="mundb-footer bg-dark text-light d-print-none">
         Copyright &copy; CodeMaster 2018-2019, all rights reserved.
     </footer>
-    <script src="https://cdn.mundb.xyz/js/jquery-3.2.1.min.js"></script>
-    <script src="https://cdn.mundb.xyz/js/popper.min.js"></script>
-    <script src="https://cdn.mundb.xyz/js/snackbar.min.js"></script>
-    <script src="https://cdn.mundb.xyz/js/bootstrap-material-design.js"></script>
+    <script src="/static/js/jquery-3.2.1.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/snackbar.min.js"></script>
+    <script src="/static/js/bootstrap-material-design.js"></script>
     <script>
         $(document).ready(function () { $('body').bootstrapMaterialDesign();$('[data-toggle="tooltip"]').tooltip(); });
         window.addEventListener("load",function() {
