@@ -67,6 +67,7 @@ class ResponseModel extends Model
             '4000' => "Contest-Related Error",
 
             '4001' => "Contest Not Found",
+            '4002' => "Too Much Problems",
 
             '5000' => "Status-Related Error",
 

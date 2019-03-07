@@ -40,6 +40,9 @@ class GroupController extends Controller
             return ResponseModel::err(2001);
         }
         $problems = explode(",", $all_data["problems"]);
+        if(count($problems)>26){
+            return ResponseModel::err(4002);
+        }
         $i=0;
         $problemSet=[];
         foreach ($problems as $p) {
