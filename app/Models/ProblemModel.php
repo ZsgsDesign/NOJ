@@ -216,7 +216,10 @@ class ProblemModel extends Model
             'origin'=>$data['origin'],
             'source'=>$data['source'],
             'solved_count'=>$data['solved_count'],
-            'update_date'=>date("Y-m-d H:i:s")
+            'update_date'=>date("Y-m-d H:i:s"),
+            'tot_score'=>$data['tot_score'],
+            'partial'=>$data['partial'],
+            'markdown'=>$data['markdown']
         ]);
 
         if (!empty($data["sample"])) {
