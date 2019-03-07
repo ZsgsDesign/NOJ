@@ -53,7 +53,7 @@ class PTA extends CrawlerBase
             $problemModel=new ProblemModel();
             $res = Requests::post("https://pintia.cn/api/problem-sets/$con/exams",[
                 "Content-Type"=>"application/json"
-            ],[]);
+            ],"{}");
 
             if (strpos($res->body, 'PROBLEM_SET_NOT_FOUND') !== false) {
                 header('HTTP/1.1 404 Not Found');
