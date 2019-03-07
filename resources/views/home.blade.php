@@ -101,6 +101,9 @@
                 <div class="col-12 col-sm-6 col-md-4 col-xl-3">
                     <a href="https://vijos.org/"><img src="/static/img/oj/vijos@2x.png" class="cm-oj img-fluid"></a>
                 </div>
+                <div class="col-12 col-sm-6 col-md-4 col-xl-3">
+                    <a href="https://pintia.cn/"><img src="/static/img/oj/pta@2x.png" class="cm-oj img-fluid"></a>
+                </div>
             </div>
         </div>
         <div class="col-sm-12 col-lg-4">

@@ -26,7 +26,10 @@ class CrawlerBase
         'index_id'=>'',
         'origin'=>'',
         'source'=>'',
-        'sample'=>[]
+        'sample'=>[],
+        'markdown'=>0,
+        'score'=>1,
+        'partial'=>0
     ];
 
     /**
