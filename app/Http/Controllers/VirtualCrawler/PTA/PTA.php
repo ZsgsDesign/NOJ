@@ -136,7 +136,7 @@ class PTA extends CrawlerBase
                 $this->pro['output'] = null;
                 $this->pro['note'] = null;
                 $this->pro['sample'] = [];
-                $this->pro['source'] = trim($this->getDOM($res->body, $pos1, $pos2)->find('div', 0)->find('a', 0)->innertext());
+                $this->pro['source'] = $generalDetails["problemSet"]["name"];
 
                 $problem=$problemModel->pid($this->pro['pcode']);
 
