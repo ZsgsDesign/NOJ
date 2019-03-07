@@ -156,13 +156,13 @@
         @if(isset($custom_info) && !is_null($custom_info))
 
             <a class="navbar-brand" href="/group/{{$custom_info["gcode"]}}">
-                <img src="@if(empty($custom_info["custom_icon"])) https://cdn.mundb.xyz/img/codemaster/njupt.png @else {{$custom_info["custom_icon"]}} @endif" height="30"> @if(empty($custom_info["custom_title"])) NJUPT Online Judge @else {{$custom_info["custom_title"]}} @endif
+                <img src="@if(empty($custom_info["custom_icon"])) /static/img/njupt.png @else {{$custom_info["custom_icon"]}} @endif" height="30"> @if(empty($custom_info["custom_title"])) NJUPT Online Judge @else {{$custom_info["custom_title"]}} @endif
             </a>
 
         @else
 
             <a class="navbar-brand" href="/">
-                <img src="https://cdn.mundb.xyz/img/codemaster/njupt.png" height="30"> NJUPT Online Judge
+                <img src="/static/img/njupt.png" height="30"> NJUPT Online Judge
             </a>
 
         @endif
