@@ -191,6 +191,7 @@ class ContestController extends Controller
             return Redirect::route('contest_detail', ['cid' => $cid]);
         }
         $contest_name = $contestModel->contestName($cid);
+        $contest_rule = $contestModel->contestRule($cid);
         $problemSet = $contestModel->contestProblems($cid, Auth::user()->id);
         $customInfo = $contestModel->getCustomInfo($cid);
         $contestRank = $contestModel->contestRank($cid, Auth::user()->id);
@@ -199,6 +200,7 @@ class ContestController extends Controller
             'navigation' => "Contest",
             'site_title'=>$contest_name,
             'contest_name'=>$contest_name,
+            'contest_rule'=>$contest_rule,
             'cid'=>$cid,
             'problem_set'=>$problemSet,
             'custom_info' => $customInfo,

@@ -251,7 +251,7 @@ class ContestModel extends Model
     {
         $ret=[
             "color"=>"",
-            "score"=>0,
+            "score"=>null,
             "score_parsed"=>"",
         ];
 
@@ -428,8 +428,8 @@ class ContestModel extends Model
                         "ncode"=>$p["ncode"],
                         "pid"=>$p["pid"],
                         "color"=>$prob_stat["color"],
-                        "wrong_doings"=>0,
-                        "solved_time_parsed"=>$prob_stat["score_parsed"]
+                        "score"=>$prob_stat["score"],
+                        "score_parsed"=>$prob_stat["score_parsed"]
                     ];
                     $totScore+=intval($prob_stat["score_parsed"]);
                 }
@@ -543,6 +543,11 @@ class ContestModel extends Model
     public function contestName($cid)
     {
         return DB::table("contest")->where("cid", $cid)->select("name")->first()["name"];
+    }
+
+    public function contestRule($cid)
+    {
+        return DB::table("contest")->where("cid", $cid)->select("rule")->first()["rule"];
     }
 
     public function arrangeContest($gid, $config, $problems)

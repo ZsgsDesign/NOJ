@@ -61,13 +61,13 @@
     .table tbody tr:hover{
         background:rgba(0,0,0,0.05);
     }
-    
+
     .table thead th.cm-problem-header{
         padding-top: 0.25rem;
         padding-bottom: 0.05rem;
         border:none;
     }
-    
+
     .table thead th.cm-problem-subheader{
         font-size:0.75rem;
         padding-bottom: 0.25rem;
@@ -121,6 +121,8 @@
             <div class="table-responsive">
                 <table class="table">
                     <thead>
+                            @if($contest_rule==1)
+                            {{-- ACM/ICPC Mode --}}
                             <tr>
                                 <th scope="col" rowspan="2" style="text-align: left;">Rank</th>
                                 <th scope="col" rowspan="2">Account</th>
@@ -135,19 +137,45 @@
                                     <th scope="col" class="cm-problem-subheader">{{$p["passed_count"]}} / {{$p["submission_count"]}}</th>
                                 @endforeach
                             </tr>
+                            @else
+                                {{-- OI Mode --}}
+                                <tr>
+                                    <th scope="col" style="text-align: left;">Rank</th>
+                                    <th scope="col">Account</th>
+                                    <th scope="col">Score</th>
+                                    @foreach($problem_set as $p)
+                                        <th scope="col" class="cm-problem-header">{{$p["ncode"]}}</th>
+                                    @endforeach
+                                </tr>
+                            @endif
                     </thead>
                     <tbody>
-                        @foreach($contest_rank as $r)
-                        <tr class="@if($r["uid"]==Auth::user()->id) cm-me @endif">
-                            <th scope="row">{{$loop->iteration}}</th>
-                            <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
-                            <td>{{$r["score"]}}</td>
-                            <td>{{round($r["penalty"])}}</td>
-                            @foreach($r["problem_detail"] as $rp)
-                                <td class="{{$rp["color"]}}">@if(!empty($rp["solved_time_parsed"])){{$rp["solved_time_parsed"]}}<br>@endif @if(!empty($rp["wrong_doings"]))<span class="cm-subtext">(-{{$rp["wrong_doings"]}})</span>@endif</td>
+                        @if($contest_rule==1)
+                            {{-- ACM/ICPC Mode --}}
+                            @foreach($contest_rank as $r)
+                            <tr class="@if($r["uid"]==Auth::user()->id) cm-me @endif">
+                                <th scope="row">{{$loop->iteration}}</th>
+                                <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
+                                <td>{{$r["score"]}}</td>
+                                <td>{{round($r["penalty"])}}</td>
+                                @foreach($r["problem_detail"] as $rp)
+                                    <td class="{{$rp["color"]}}">@if(!empty($rp["solved_time_parsed"])){{$rp["solved_time_parsed"]}}<br>@endif @if(!empty($rp["wrong_doings"]))<span class="cm-subtext">(-{{$rp["wrong_doings"]}})</span>@endif</td>
+                                @endforeach
+                            </tr>
                             @endforeach
-                        </tr>
-                        @endforeach
+                        @else
+                            {{-- OI Mode --}}
+                            @foreach($contest_rank as $r)
+                            <tr class="@if($r["uid"]==Auth::user()->id) cm-me @endif">
+                                <th scope="row">{{$loop->iteration}}</th>
+                                <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
+                                <td>{{round($r["score"])}}</td>
+                                @foreach($r["problem_detail"] as $rp)
+                                    <td class="{{$rp["color"]}}">@if(!is_null($rp["score"])){{$rp["score_parsed"]}}<br>@endif</td>
+                                @endforeach
+                            </tr>
+                            @endforeach
+                        @endif
                     </tbody>
                 </table>
             </div>
