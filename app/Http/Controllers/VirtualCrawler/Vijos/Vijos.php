@@ -131,19 +131,20 @@ class Vijos extends CrawlerBase
             $this->pro['memory_limit'] = 0;
         }
 
+        $title = $dom->find('.section__header', 0)->find('h1', 0)->innertext;
         $this->pro['pcode'] = 'VIJ'.$con;
         $this->pro['OJ'] = $this->oid;
         $this->pro['contest_id'] = null;
         $this->pro['index_id'] = $con;
         $this->pro['origin'] = 'https://vijos.org/p/'.$con;
-        $this->pro['title'] = $dom->find('.section__header', 0)->find('h1', 0)->innertext;
+        $this->pro['title'] = $title;
         $this->pro['input_type'] = 'standard input';
         $this->pro['output_type'] = 'standard output';
 
         $this->pro['markdown'] = 0;
         $this->pro['tot_score'] = 100;
         $this->pro["partial"] = 1;
-        $this->pro['source'] = 'Vijos'; // Force Override
+        $this->pro['source'] = "P{$con} {$title}";
 
         $info = $dom->find(".horizontal", 0);
         preg_match('/<dt>已通过<\/dt>[\s\S]*<dd>(\d+)<\/dd>/', $info->innertext, $match);
