@@ -45,7 +45,8 @@ class SubmissionModel extends Model
             'color' => $this->colorScheme[$sub['verdict']],
             'remote_id'=>$sub['remote_id'],
             'compile_info'=>"",
-            'coid'=>$sub['coid']
+            'coid'=>$sub['coid'],
+            'score'=>$sub['coid']
         ]);
 
         return $sid;

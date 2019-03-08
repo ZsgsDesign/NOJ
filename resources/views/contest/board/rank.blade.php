@@ -171,7 +171,7 @@
                                 <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
                                 <td>{{round($r["score"])}}</td>
                                 @foreach($r["problem_detail"] as $rp)
-                                    <td class="{{$rp["color"]}}">@if(!is_null($rp["score"])){{$rp["score_parsed"]}}<br>@endif</td>
+                                    <td class="{{$rp["color"]}}">@if(!is_null($rp["score"])){{round($rp["score_parsed"],1)}}<br>@endif</td>
                                 @endforeach
                             </tr>
                             @endforeach
