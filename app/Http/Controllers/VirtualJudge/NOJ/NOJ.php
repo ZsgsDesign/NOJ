@@ -100,6 +100,13 @@ class NOJ
                     }
                 }
 
+                if($this->sub["score"]==0){
+                    $this->sub['verdict']=$this->verdictDict[$temp["data"][0]];
+                    $this->sub['time']=$temp["data"][0]["cpu_time"];
+                    $this->sub['memory']=$temp["data"][0]["memory"];
+                    return;
+                }
+
                 $tempMemory=$temp["data"][0]["memory"];
                 $tempTime=$temp["data"][0]["cpu_time"];
                 foreach ($temp["data"] as $t) {
