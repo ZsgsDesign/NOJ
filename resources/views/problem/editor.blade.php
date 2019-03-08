@@ -120,7 +120,7 @@
                 <div></div>
                 <div></div>
             </div>
-            <p>Preparing CodeMaster</p>
+            <p>Preparing NOJ</p>
         </div>
     </loading>
     <!-- Style -->

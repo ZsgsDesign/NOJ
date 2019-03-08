@@ -24,7 +24,7 @@ class ContestController extends Controller
         $featured=$contentModel->featured();
         return view('contest.index', [
             'page_title'=>"Contest",
-            'site_title'=>"CodeMaster",
+            'site_title'=>"NOJ",
             'navigation' => "Contest",
             'contest_list'=>$contest_list,
             'featured'=>$featured
@@ -49,7 +49,7 @@ class ContestController extends Controller
         }
         return view('contest.detail', [
             'page_title'=>"Contest",
-            'site_title'=>"CodeMaster",
+            'site_title'=>"NOJ",
             'navigation' => "Contest",
             'detail'=>$contest_detail["data"]["contest_detail"]
         ]);

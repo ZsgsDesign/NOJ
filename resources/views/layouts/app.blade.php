@@ -135,7 +135,7 @@
                 <div></div>
                 <div></div>
             </div>
-            <p>Preparing CodeMaster</p>
+            <p>Preparing NOJ</p>
         </div>
     </loading>
     <!-- Style -->
@@ -246,7 +246,7 @@
     @yield('addition')
 
     <footer class="mundb-footer bg-dark text-light d-print-none">
-        Copyright &copy; CodeMaster 2018-2019, all rights reserved.
+        Copyright &copy; NOJ 2018-2019, all rights reserved.
     </footer>
     <script src="/static/js/jquery-3.2.1.min.js"></script>
     <script src="/static/js/popper.min.js"></script>

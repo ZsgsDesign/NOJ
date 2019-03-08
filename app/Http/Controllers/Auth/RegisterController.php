@@ -75,7 +75,7 @@ class RegisterController extends Controller
     {
         return view("auth.register", [
             'page_title'=>"Register",
-            'site_title'=>"CodeMaster",
+            'site_title'=>"NOJ",
             'navigation' => "Account"
         ]);
     }
