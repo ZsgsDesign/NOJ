@@ -88,6 +88,7 @@ class Judge extends Core
                 if (isset($codeforces_v[$cf[$i][2]])) {
 
                     $sub['verdict'] = $codeforces_v[$cf[$i][2]];
+                    $sub["score"]=$sub['verdict']=="Accepted"?1:0;
                     $sub['time'] = $cf[$i][0];
                     $sub['memory'] = $cf[$i][1];
                     $sub['remote_id'] = $cf[$i][3];
@@ -106,6 +107,7 @@ class Judge extends Core
                     $status = $match[1];
                     if (!array_key_exists($status, $contesthunter_v)) continue;
                     $sub['verdict'] = $contesthunter_v[$status];
+                    $sub["score"]=$sub['verdict']=="Accepted"?1:0;
                     $sub['remote_id'] = $row['remote_id'];
                     if ($sub['verdict'] != "Submission Error" && $sub['verdict'] != "Compile Error") {
                         preg_match('/占用内存[\s\S]*?(\d+).*?KiB/m', $res->body, $match);
@@ -134,6 +136,7 @@ class Judge extends Core
                 }
                 $status = $poj[$row['remote_id']];
                 $sub['verdict'] = $poj_v[$status['verdict']];
+                $sub["score"]=$sub['verdict']=="Accepted"?1:0;
                 $sub['time'] = $status['time'];
                 $sub['memory'] = $status['memory'];
                 $sub['remote_id'] = $row['remote_id'];

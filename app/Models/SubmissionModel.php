@@ -112,7 +112,8 @@ class SubmissionModel extends Model
                                                 'verdict' => $sub['verdict'],
                                                 'memory' => $sub['memory'],
                                                 'color' => $this->colorScheme[$sub['verdict']],
-                                                'remote_id' => $sub['remote_id']
+                                                'remote_id' => $sub['remote_id'],
+                                                'score' => $sub['score']
                                             ]);
     }
 }

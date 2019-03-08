@@ -40,7 +40,8 @@ class Submit
                 'pid'=>'',
                 'remote_id'=>'',
                 'coid'=>null,
-                'cid'=>null
+                'cid'=>null,
+                'score'=>0
             ];
 
             $curl = new Core($sub, $this->post_data['oj'], $this->post_data);

@@ -26,7 +26,7 @@
         }
 
         loading p {
-            font-weight: 100;
+            font-weight: 300;
         }
 
         loading {
@@ -609,6 +609,7 @@
     <script src="/static/js/snackbar.min.js"></script>
     <script src="/static/js/bootstrap-material-design.js"></script>
     <script src="/static/vscode/vs/loader.js"></script>
+    <script type="text/javascript" src="/static/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script>
         $(document).ready(function () { $('body').bootstrapMaterialDesign();$('[data-toggle="tooltip"]').tooltip(); });
 

@@ -66,11 +66,6 @@ class NOJ
         $this->sub['pid']=$this->post_data["pid"];
         $this->sub['coid']=$this->post_data["coid"];
         $probBasic=$problemModel->basic($this->post_data["pid"]);
-        if (isset($this->post_data["contest"])) {
-            $this->sub['cid']=$this->post_data["contest"];
-        } else {
-            $this->sub['cid']=null;
-        }
         $submitURL="http://" . $bestServer["host"] . ":" . $bestServer["port"];
         $submit_data = [
             "solution" => $this->post_data["solution"],
@@ -81,6 +76,42 @@ class NOJ
             "token" => $bestServer["token"]
         ];
         $temp=$this->submitJudger($submitURL, $submit_data);
+
+        if (isset($this->post_data["contest"])) {
+            $this->sub['cid']=$this->post_data["contest"];
+            if("ACM") {
+                if (!is_null($temp["err"])) {
+                    $this->sub['verdict']="Compile Error";
+                    $this->sub['time']=0;
+                    $this->sub['memory']=0;
+                    return;
+                }
+
+                foreach ($temp["data"] as $record) {
+                    if ($record["result"]) {
+                        // well... WA or anyway
+                        $this->sub['verdict']=$this->verdictDict[$record["result"]];
+                        $this->sub['time']=$record["cpu_time"];
+                        $this->sub['memory']=$record["memory"];
+                        return;
+                    }
+                }
+
+                $tempMemory=$temp["data"][0]["memory"];
+                $tempTime=$temp["data"][0]["cpu_time"];
+                foreach ($temp["data"] as $t) {
+                    $tempMemory=max($tempMemory, $t["memory"]);
+                    $tempTime=max($tempTime, $t["cpu_time"]);
+                }
+                $this->sub['verdict']="Accepted";
+                $this->sub['time']=$tempTime;
+                $this->sub['memory']=$tempMemory;
+                return;
+            }
+        } else {
+            $this->sub['cid']=null;
+        }
+
         if (!is_null($temp["err"])) {
             $this->sub['verdict']="Compile Error";
             $this->sub['time']=0;
@@ -88,13 +119,13 @@ class NOJ
             return;
         }
 
+        $this->sub["score"]=count($temp["data"]);
+
         foreach ($temp["data"] as $record) {
             if ($record["result"]) {
                 // well... WA or anyway
-                $this->sub['verdict']=$this->verdictDict[$record["result"]];
-                $this->sub['time']=$record["cpu_time"];
-                $this->sub['memory']=$record["memory"];
-                return;
+                $this->sub['verdict']=$this->verdictDict[8];
+                $this->sub["score"]--;
             }
         }
 
@@ -107,5 +138,6 @@ class NOJ
         $this->sub['verdict']="Accepted";
         $this->sub['time']=$tempTime;
         $this->sub['memory']=$tempMemory;
+
     }
 }
