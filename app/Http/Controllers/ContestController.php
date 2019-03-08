@@ -77,6 +77,7 @@ class ContestController extends Controller
             return Redirect::route('contest_detail', ['cid' => $cid]);
         }
         $contest_name = $contestModel->contestName($cid);
+        $contest_rule = $contestModel->contestRule($cid);
         $problemSet = $contestModel->contestProblems($cid, Auth::user()->id);
         $remainingTime = $contestModel->remainingTime($cid);
         $customInfo = $contestModel->getCustomInfo($cid);
@@ -89,6 +90,7 @@ class ContestController extends Controller
             'site_title'=>$contest_name,
             'cid'=>$cid,
             'contest_name'=>$contest_name,
+            'contest_rule'=>$contest_rule,
             'problem_set'=> $problemSet,
             'remaining_time'=>$remainingTime,
             'custom_info' => $customInfo
@@ -112,6 +114,9 @@ class ContestController extends Controller
         $contest_name = $contestModel->contestName($cid);
         $contest_ended = $contestModel->isContestEnded($cid);
         $pid=$contestModel->getPid($cid, $ncode);
+        if(empty($pid)){
+            return Redirect::route('contest_board', ['cid' => $cid]);
+        }
         $pcode=$problemModel->pcode($pid);
 
         $prob_detail=$problemModel->detail($pcode, $cid);
@@ -171,7 +176,8 @@ class ContestController extends Controller
             'pref' => $pref<0 ? 0 : $pref,
             'submit_code' => $submit_code,
             'contest_mode' => true,
-            'contest_ended' => $contest_ended
+            'contest_ended' => $contest_ended,
+            'ncode' => $ncode
         ]);
     }
 
@@ -187,6 +193,7 @@ class ContestController extends Controller
             return Redirect::route('contest_detail', ['cid' => $cid]);
         }
         $contest_name = $contestModel->contestName($cid);
+        $contest_rule = $contestModel->contestRule($cid);
         $problemSet = $contestModel->contestProblems($cid, Auth::user()->id);
         $customInfo = $contestModel->getCustomInfo($cid);
         $contestRank = $contestModel->contestRank($cid, Auth::user()->id);
@@ -195,6 +202,7 @@ class ContestController extends Controller
             'navigation' => "Contest",
             'site_title'=>$contest_name,
             'contest_name'=>$contest_name,
+            'contest_rule'=>$contest_rule,
             'cid'=>$cid,
             'problem_set'=>$problemSet,
             'custom_info' => $customInfo,

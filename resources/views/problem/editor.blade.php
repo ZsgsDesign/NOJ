@@ -465,7 +465,7 @@
                 <div class="animated pre-animated cm-performance-optimistic cm-delay">
                     <link rel="stylesheet" href="/css/oj/{{$detail["oj_detail"]["ocode"]}}.css">
                     <fresh-container>
-                        <h1>{{$detail["title"]}}</h1>
+                        <h1>@if($contest_mode) {{$ncode}}. @endif{{$detail["title"]}}</h1>
                         <h2>Description:</h2>
 
                         {!!$detail["parsed"]["description"]!!}
@@ -609,6 +609,14 @@
     <script src="/static/js/snackbar.min.js"></script>
     <script src="/static/js/bootstrap-material-design.js"></script>
     <script src="/static/vscode/vs/loader.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            processEscapes: true
+          }
+        });
+    </script>
     <script type="text/javascript" src="/static/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script>
         $(document).ready(function () { $('body').bootstrapMaterialDesign();$('[data-toggle="tooltip"]').tooltip(); });

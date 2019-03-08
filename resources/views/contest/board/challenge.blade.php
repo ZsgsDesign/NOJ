@@ -131,7 +131,11 @@
                             </div>
                             <div>
                                 <p class="mb-0"><span>{{$p["ncode"]}}.</span> {{$p["title"]}}</p>
-                                <small>{{$p["passed_count"]}} / {{$p["submission_count"]}}</small>
+                                @if($contest_rule==1)
+                                    <small>{{$p["passed_count"]}} / {{$p["submission_count"]}}</small>
+                                @else
+                                    <small>{{$p["score"]}} / {{$p["points"]}} Points</small>
+                                @endif
                             </div>
                         </challenge-item>
 

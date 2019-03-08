@@ -168,29 +168,38 @@ class ContestModel extends Model
     public function contestProblems($cid, $uid)
     {
         $submissionModel=new SubmissionModel();
+
+        $contest_rule = $this->contestRule($cid);
+
         $problemSet = DB::table("contest_problem")->join("problem", "contest_problem.pid", "=", "problem.pid")->where([
             "cid"=>$cid
         ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title")->get()->all();
 
         foreach ($problemSet as &$p) {
             $frozen_time = strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
-            $prob_stat = DB::table("submission")->select(
-                DB::raw("count(sid) as submission_count"),
-                DB::raw("sum(verdict='accepted') as passed_count"),
-                DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
-            )->where([
-                "pid"=>$p["pid"],
-                "cid"=>$cid
-            ])->where("submission_date", "<", $frozen_time)->first();
+            if ($contest_rule==1) {
+                $prob_stat = DB::table("submission")->select(
+                    DB::raw("count(sid) as submission_count"),
+                    DB::raw("sum(verdict='accepted') as passed_count"),
+                    DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
+                )->where([
+                    "pid"=>$p["pid"],
+                    "cid"=>$cid
+                ])->where("submission_date", "<", $frozen_time)->first();
 
-            if ($prob_stat["submission_count"]==0) {
-                $p["submission_count"]=0;
-                $p["passed_count"]=0;
-                $p["ac_rate"]=0;
+                if ($prob_stat["submission_count"]==0) {
+                    $p["submission_count"]=0;
+                    $p["passed_count"]=0;
+                    $p["ac_rate"]=0;
+                } else {
+                    $p["submission_count"]=$prob_stat["submission_count"];
+                    $p["passed_count"]=$prob_stat["passed_count"];
+                    $p["ac_rate"]=round($prob_stat["ac_rate"], 2);
+                }
             } else {
-                $p["submission_count"]=$prob_stat["submission_count"];
-                $p["passed_count"]=$prob_stat["passed_count"];
-                $p["ac_rate"]=round($prob_stat["ac_rate"], 2);
+                $prob_stat = $this->contestProblemInfoOI($cid,$p["pid"],$uid);
+                $p["points"] = $prob_stat["points"];
+                $p["score"] = empty($prob_stat["score_parsed"])?0:$prob_stat["score_parsed"];
             }
             $prob_status=$submissionModel->getProblemStatus($p["pid"], $uid, $cid);
             if (empty($prob_status)) {
@@ -251,8 +260,12 @@ class ContestModel extends Model
     {
         $ret=[
             "color"=>"",
-            "score"=>0,
+            "score"=>null,
             "score_parsed"=>"",
+            "points"=>DB::table("contest_problem")->where([
+                "pid"=>$pid,
+                "cid"=>$cid
+            ])->first()["points"]
         ];
 
         $frozen_time = strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
@@ -271,10 +284,7 @@ class ContestModel extends Model
             ])->first()["tot_score"];
 
             $ret["color"]=($ret["score"]==$tot_score)?"wemd-teal-text":"wemd-green-text";
-            $ret["score_parsed"]=$ret["score"]/$tot_score*(DB::table("contest_problem")->where([
-                "pid"=>$pid,
-                "cid"=>$cid
-            ])->first()["points"]);
+            $ret["score_parsed"]=$ret["score"]/$tot_score*($ret["points"]);
         }
         return $ret;
     }
@@ -428,8 +438,8 @@ class ContestModel extends Model
                         "ncode"=>$p["ncode"],
                         "pid"=>$p["pid"],
                         "color"=>$prob_stat["color"],
-                        "wrong_doings"=>0,
-                        "solved_time_parsed"=>$prob_stat["score_parsed"]
+                        "score"=>$prob_stat["score"],
+                        "score_parsed"=>$prob_stat["score_parsed"]
                     ];
                     $totScore+=intval($prob_stat["score_parsed"]);
                 }
@@ -543,6 +553,11 @@ class ContestModel extends Model
     public function contestName($cid)
     {
         return DB::table("contest")->where("cid", $cid)->select("name")->first()["name"];
+    }
+
+    public function contestRule($cid)
+    {
+        return DB::table("contest")->where("cid", $cid)->select("rule")->first()["rule"];
     }
 
     public function arrangeContest($gid, $config, $problems)
