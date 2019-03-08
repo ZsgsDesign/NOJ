@@ -328,18 +328,27 @@ class ContestModel extends Model
         $ret=[];
 
         $contest_info = DB::table("contest")->where("cid", $cid)->first();
+
         $user_in_group = !empty(DB::table("group_member")->where([
             "uid" => $uid,
             "gid" => $contest_info["gid"]
         ])->where("role",">",0)->first());
 
-        $submissionUsers = DB::table("submission")->where([
-            "cid"=>$cid
-        ])->select('uid')->groupBy('uid')->get()->all();
+        if ($contest_info["registration"]) {
+            $submissionUsers = DB::table("contest_participant")->where([
+                "cid"=>$cid,
+                "audit"=>1
+            ])->select('uid')->get()->all();
+        } else {
+            // Those who submitted are participants
+            $submissionUsers = DB::table("submission")->where([
+                "cid"=>$cid
+            ])->select('uid')->groupBy('uid')->get()->all();
+        }
 
         $problemSet = DB::table("contest_problem")->join("problem", "contest_problem.pid", "=", "problem.pid")->where([
             "cid"=>$cid
-        ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title")->get()->all();
+        ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title", "score", "tot_score")->get()->all();
 
         foreach ($submissionUsers as $s) {
             $prob_detail=[];
@@ -489,7 +498,7 @@ class ContestModel extends Model
                 "registration"=>0,                      //todo
                 "registration_due"=>null,               //todo
                 "registant_type"=>0,                    //todo
-                "froze_length"=>0,                     //todo
+                "froze_length"=>0,                      //todo
                 "status_visibility"=>3,                 //todo
                 "create_time"=>date("Y-m-d H:i:s"),
                 "audit_status"=>1                       //todo

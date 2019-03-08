@@ -81,8 +81,8 @@ class NOJ
 
         if (isset($this->post_data["contest"])) {
             $this->sub['cid']=$this->post_data["contest"];
-            if($contestModel->rule($this->sub['cid'])==1) {
-                // ACM/ICPC Mode
+            if($contestModel->rule($this->sub['cid'])==2) {
+                // OI Mode
                 if (!is_null($temp["err"])) {
                     $this->sub['verdict']="Compile Error";
                     $this->sub['time']=0;
@@ -90,13 +90,13 @@ class NOJ
                     return;
                 }
 
+                $this->sub["score"]=count($temp["data"]);
+
                 foreach ($temp["data"] as $record) {
                     if ($record["result"]) {
                         // well... WA or anyway
-                        $this->sub['verdict']=$this->verdictDict[$record["result"]];
-                        $this->sub['time']=$record["cpu_time"];
-                        $this->sub['memory']=$record["memory"];
-                        return;
+                        $this->sub['verdict']=$this->verdictDict[8];
+                        $this->sub["score"]--;
                     }
                 }
 
@@ -107,7 +107,6 @@ class NOJ
                     $tempTime=max($tempTime, $t["cpu_time"]);
                 }
                 $this->sub['verdict']="Accepted";
-                $this->sub['score']=1;
                 $this->sub['time']=$tempTime;
                 $this->sub['memory']=$tempMemory;
                 return;
@@ -115,7 +114,6 @@ class NOJ
         } else {
             $this->sub['cid']=null;
         }
-
         if (!is_null($temp["err"])) {
             $this->sub['verdict']="Compile Error";
             $this->sub['time']=0;
@@ -123,13 +121,13 @@ class NOJ
             return;
         }
 
-        $this->sub["score"]=count($temp["data"]);
-
         foreach ($temp["data"] as $record) {
             if ($record["result"]) {
                 // well... WA or anyway
-                $this->sub['verdict']=$this->verdictDict[8];
-                $this->sub["score"]--;
+                $this->sub['verdict']=$this->verdictDict[$record["result"]];
+                $this->sub['time']=$record["cpu_time"];
+                $this->sub['memory']=$record["memory"];
+                return;
             }
         }
 
@@ -140,8 +138,8 @@ class NOJ
             $tempTime=max($tempTime, $t["cpu_time"]);
         }
         $this->sub['verdict']="Accepted";
+        $this->sub['score']=1;
         $this->sub['time']=$tempTime;
         $this->sub['memory']=$tempMemory;
-
     }
 }
