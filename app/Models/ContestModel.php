@@ -104,6 +104,13 @@ class ContestModel extends Model
         return $contest_list;
     }
 
+    public function rule($cid)
+    {
+        return DB::table($this->tableName)->where([
+            "cid"=>$cid
+        ])->first()["rule"];
+    }
+
     public function list()
     {
         $contest_list = DB::table($this->tableName)->where([

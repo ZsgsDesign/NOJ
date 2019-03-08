@@ -4,6 +4,7 @@ namespace App\Http\Controllers\VirtualJudge\NOJ;
 use App\Http\Controllers\VirtualJudge\NOJ\JudgeClient;
 use App\Models\JudgerModel;
 use App\Models\ProblemModel;
+use App\Models\ContestModel;
 use App\Models\ResponseModel;
 use Illuminate\Support\Facades\Validator;
 
@@ -57,6 +58,7 @@ class NOJ
         ])->validate();
         $judgerModel = new JudgerModel();
         $problemModel = new ProblemModel();
+        $contestModel = new ContestModel();
         $bestServer = $judgerModel->server(1);
         if (is_null($bestServer)) {
             return ResponseModel::err(6001);
@@ -79,7 +81,8 @@ class NOJ
 
         if (isset($this->post_data["contest"])) {
             $this->sub['cid']=$this->post_data["contest"];
-            if("ACM") {
+            if($contestModel->rule($this->sub['cid'])==1) {
+                // ACM/ICPC Mode
                 if (!is_null($temp["err"])) {
                     $this->sub['verdict']="Compile Error";
                     $this->sub['time']=0;
