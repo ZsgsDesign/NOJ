@@ -465,7 +465,7 @@
                 <div class="animated pre-animated cm-performance-optimistic cm-delay">
                     <link rel="stylesheet" href="/css/oj/{{$detail["oj_detail"]["ocode"]}}.css">
                     <fresh-container>
-                        <h1>{{$detail["title"]}}</h1>
+                        <h1>@if($contest_mode) {{$ncode}}. @endif{{$detail["title"]}}</h1>
                         <h2>Description:</h2>
 
                         {!!$detail["parsed"]["description"]!!}
