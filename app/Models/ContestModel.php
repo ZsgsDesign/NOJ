@@ -380,7 +380,7 @@ class ContestModel extends Model
 
         $problemSet = DB::table("contest_problem")->join("problem", "contest_problem.pid", "=", "problem.pid")->where([
             "cid"=>$cid
-        ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title", "score", "tot_score")->get()->all();
+        ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title")->get()->all();
 
         if ($contest_info["rule"]==1) {
             // ACM/ICPC Mode
@@ -431,7 +431,7 @@ class ContestModel extends Model
                         "wrong_doings"=>0,
                         "solved_time_parsed"=>$prob_stat["score_parsed"]
                     ];
-                    $totScore+=$prob_stat["score_parsed"];
+                    $totScore+=intval($prob_stat["score_parsed"]);
                 }
                 $ret[]=[
                     "uid" => $s["uid"],

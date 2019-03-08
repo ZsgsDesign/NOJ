@@ -83,6 +83,9 @@ class NOJ
             $this->sub['cid']=$this->post_data["contest"];
             if($contestModel->rule($this->sub['cid'])==2) {
                 // OI Mode
+
+                $this->sub['verdict']="Accepted";
+
                 if (!is_null($temp["err"])) {
                     $this->sub['verdict']="Compile Error";
                     $this->sub['time']=0;
@@ -91,6 +94,7 @@ class NOJ
                 }
 
                 $this->sub["score"]=count($temp["data"]);
+
 
                 foreach ($temp["data"] as $record) {
                     if ($record["result"]) {
@@ -101,7 +105,7 @@ class NOJ
                 }
 
                 if($this->sub["score"]==0){
-                    $this->sub['verdict']=$this->verdictDict[$temp["data"][0]];
+                    $this->sub['verdict']=$this->verdictDict[$temp["data"][0]["result"]];
                     $this->sub['time']=$temp["data"][0]["cpu_time"];
                     $this->sub['memory']=$temp["data"][0]["memory"];
                     return;
@@ -113,7 +117,7 @@ class NOJ
                     $tempMemory=max($tempMemory, $t["memory"]);
                     $tempTime=max($tempTime, $t["cpu_time"]);
                 }
-                $this->sub['verdict']="Accepted";
+
                 $this->sub['time']=$tempTime;
                 $this->sub['memory']=$tempMemory;
                 return;
@@ -121,6 +125,7 @@ class NOJ
         } else {
             $this->sub['cid']=null;
         }
+
         if (!is_null($temp["err"])) {
             $this->sub['verdict']="Compile Error";
             $this->sub['time']=0;

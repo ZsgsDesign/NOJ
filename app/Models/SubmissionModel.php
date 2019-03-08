@@ -22,7 +22,7 @@ class SubmissionModel extends Model
         "Presentation Error"     => "wemd-red-text",
         "Pending"                => "wemd-blue-text",
         "Judging"                => "wemd-blue-text",
-        "Partially Accepted"     => "wemd-lime-text",
+        "Partially Accepted"     => "wemd-cyan-text",
         'Submission Error'       => 'wemd-black-text',
         'Output Limit Exceeded'  => 'wemd-deep-purple-text'
     ];
