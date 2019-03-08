@@ -212,7 +212,7 @@
             <contest-card>
                 <div>
                     <shadow-div>
-                        <img src="/static/img/codemaster/default.jpg">
+                        <img src="/static/img/contest/default.jpg">
                     </shadow-div>
                 </div>
                 <div>
