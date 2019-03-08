@@ -65,6 +65,19 @@ class Judge extends Core
             'Compile Error'=>"Compile Error",
         ];
 
+        $vijos_v=[
+            'Accepted'=>"Accepted",
+            'Wrong Answer'=>"Wrong Answer",
+            'Time Exceeded'=>"Time Limit Exceed",
+            "Memory Exceeded"=>"Memory Limit Exceed",
+            'Runtime Error'=>"Runtime Error",
+            'Compile Error'=>"Compile Error",
+            'System Error'=>"Submission Error",
+            'Canceled'=>"Submission Error",
+            'Unknown Error'=>"Submission Error",
+            'Ignored'=>"Submission Error",
+        ];
+
         $result=$this->MODEL->get_wating_submission();
         $judger=new JudgerModel();
 
@@ -145,6 +158,38 @@ class Judge extends Core
                     "verdict"=>$sub['verdict']
                 ];
                 $this->MODEL->update_submission($row['sid'], $sub);
+            } else if ($row['oid'] == 5) {
+                try {
+                    $res = Requests::get('https://vijos.org/records/'.$row['remote_id']);
+                    preg_match('/<span class="record-status--text \w*">\s*(.*?)\s*<\/span>/', $res->body, $match);
+                    $status = $match[1];
+                    if (!array_key_exists($status, $vijos_v)) continue;
+                    $sub['verdict'] = $vijos_v[$status];
+                    preg_match('/<dt>分数<\/dt>\s*<dd>(\d+)<\/dd>/', $res->body, $match);
+                    $sub['score'] = $match[1];
+                    $sub['remote_id'] = $row['remote_id'];
+                    if ($sub['verdict'] != "Submission Error" && $sub['verdict'] != "Compile Error") {
+                        $maxtime = 0;
+                        preg_match_all('/<td class="col--time">(?:&ge;)?(\d+)ms<\/td>/', $res->body, $matches);
+                        foreach ($matches as $match) {
+                            if ($match[1] > $maxtime) $maxtime = $match[1];
+                        }
+                        $sub['time'] = $maxtime;
+                        preg_match('/<dt>峰值内存<\/dt>\s*<dd>(?:&ge;)?([\d.]+) ([KM])iB<\/dd>/', $res->body, $match);
+                        $memory = $match[1];
+                        if ($match[2] == 'M') $memory *= 1024;
+                        $sub['memory'] = intval($memory);
+                    } else {
+                        $sub['memory'] = 0;
+                        $sub['time'] = 0;
+                    }
+
+                    $ret[$row['sid']] = [
+                        "verdict"=>$sub['verdict']
+                    ];
+                    $this->MODEL->update_submission($row['sid'], $sub);
+                }
+                catch(Exception $e) {}
             }
             // if ($row['oid']=='Spoj') {
             //     if (isset($spoj_v[$sj[$j][2]])) {
