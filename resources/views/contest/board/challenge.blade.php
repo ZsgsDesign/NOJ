@@ -134,7 +134,7 @@
                                 @if($contest_rule==1)
                                     <small>{{$p["passed_count"]}} / {{$p["submission_count"]}}</small>
                                 @else
-                                    <small>{{$p["score"]}} / {{$p["points"]}}</small>
+                                    <small>{{$p["score"]}} / {{$p["points"]}} Points</small>
                                 @endif
                             </div>
                         </challenge-item>

@@ -197,7 +197,7 @@ class ContestModel extends Model
                     $p["ac_rate"]=round($prob_stat["ac_rate"], 2);
                 }
             } else {
-                $prob_stat = $this->contestProblemInfoOI($p["pid"],$pid,$uid);
+                $prob_stat = $this->contestProblemInfoOI($cid,$p["pid"],$uid);
                 $p["points"] = $prob_stat["points"];
                 $p["score"] = empty($prob_stat["score_parsed"])?0:$prob_stat["score_parsed"];
             }
