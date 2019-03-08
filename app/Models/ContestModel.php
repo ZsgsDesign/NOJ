@@ -350,38 +350,43 @@ class ContestModel extends Model
             "cid"=>$cid
         ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title", "score", "tot_score")->get()->all();
 
-        foreach ($submissionUsers as $s) {
-            $prob_detail=[];
-            $totPen=0;
-            $totScore=0;
-            foreach ($problemSet as $p) {
-                $prob_stat=$this->contestProblemInfo($cid, $p["pid"], $s["uid"]);
-                $prob_detail[]=[
+        if ($contest_info["rule"]==1) {
+            // ACM/ICPC Mode
+            foreach ($submissionUsers as $s) {
+                $prob_detail=[];
+                $totPen=0;
+                $totScore=0;
+                foreach ($problemSet as $p) {
+                    $prob_stat=$this->contestProblemInfo($cid, $p["pid"], $s["uid"]);
+                    $prob_detail[]=[
                     "ncode"=>$p["ncode"],
                     "pid"=>$p["pid"],
                     "color"=>$prob_stat["color"],
                     "wrong_doings"=>$prob_stat["wrong_doings"],
                     "solved_time_parsed"=>$prob_stat["solved_time_parsed"]
                 ];
-                if ($prob_stat["solved"]) {
-                    $totPen+=$prob_stat["wrong_doings"]*20;
-                    $totPen+=$prob_stat["solved_time"]/60;
-                    $totScore+=$prob_stat["solved"];
+                    if ($prob_stat["solved"]) {
+                        $totPen+=$prob_stat["wrong_doings"]*20;
+                        $totPen+=$prob_stat["solved_time"]/60;
+                        $totScore+=$prob_stat["solved"];
+                    }
                 }
-            }
-            $ret[]=[
-                "uid" => $s["uid"],
-                "name" => DB::table("users")->where([
-                    "id"=>$s["uid"]
-                ])->first()["name"],
-                "nick_name" => $user_in_group ? DB::table("group_member")->where([
+                $ret[]=[
                     "uid" => $s["uid"],
-                    "gid" => $contest_info["gid"]
-                ])->where("role",">",0)->first()["nick_name"] : "",
-                "score" => $totScore,
-                "penalty" => $totPen,
-                "problem_detail" => $prob_detail
-            ];
+                    "name" => DB::table("users")->where([
+                        "id"=>$s["uid"]
+                    ])->first()["name"],
+                    "nick_name" => $user_in_group ? DB::table("group_member")->where([
+                        "uid" => $s["uid"],
+                        "gid" => $contest_info["gid"]
+                    ])->where("role", ">", 0)->first()["nick_name"] : "",
+                    "score" => $totScore,
+                    "penalty" => $totPen,
+                    "problem_detail" => $prob_detail
+                ];
+            }
+        } else if ($contest_info["rule"]==2) {
+            // OI Mode
         }
 
         usort($ret, function ($a, $b) {
