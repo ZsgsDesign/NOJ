@@ -764,6 +764,7 @@
                                 <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Code</th>
+                                <th scope="col">Score</th>
                                 <th scope="col">Op.</th>
                                 </tr>
                             </thead>
@@ -1040,7 +1041,8 @@
                             $("#contestProblemSet").append(`
                                 <tr>
                                     <th scope="row"></th>
-                                        <td>${ret.data.pcode}</td>
+                                    <td>${ret.data.pcode}</td>
+                                    <td>1</td>
                                     <td><i class="MDI cm-remove wemd-red-text" onclick="removeProblem(this)" title="Delete this problem"></i></td>
                                 </tr>
                             `);
