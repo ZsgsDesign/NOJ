@@ -107,6 +107,7 @@ class NOJ
                     $tempTime=max($tempTime, $t["cpu_time"]);
                 }
                 $this->sub['verdict']="Accepted";
+                $this->sub['score']=1;
                 $this->sub['time']=$tempTime;
                 $this->sub['memory']=$tempMemory;
                 return;
