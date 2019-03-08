@@ -247,7 +247,39 @@ class ContestModel extends Model
         return $time;
     }
 
-    public function contestProblemInfo($cid, $pid, $uid)
+    public function contestProblemInfoOI($cid, $pid, $uid)
+    {
+        $ret=[
+            "color"=>"",
+            "score"=>0,
+            "score_parsed"=>"",
+        ];
+
+        $frozen_time = strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+
+        $highest_record = DB::table("submission")->where([
+            "cid"=>$cid,
+            "pid"=>$pid,
+            "uid"=>$uid
+        ])->where("submission_date", "<", $frozen_time)->orderBy('score', 'desc')->first();
+
+        if (!empty($highest_record)) {
+            $ret["score"]=$highest_record["score"];
+
+            $tot_score=DB::table("problem")->where([
+                "pid"=>$pid
+            ])->first()["tot_score"];
+
+            $ret["color"]=($ret["score"]==$tot_score)?"wemd-teal-text":"wemd-green-text";
+            $ret["score_parsed"]=$ret["score"]/$tot_score*(DB::table("contest_problem")->where([
+                "pid"=>$pid,
+                "cid"=>$cid
+            ])->first()["points"]);
+        }
+        return $ret;
+    }
+
+    public function contestProblemInfoACM($cid, $pid, $uid)
     {
         $ret=[
             "color"=>"",
@@ -357,14 +389,14 @@ class ContestModel extends Model
                 $totPen=0;
                 $totScore=0;
                 foreach ($problemSet as $p) {
-                    $prob_stat=$this->contestProblemInfo($cid, $p["pid"], $s["uid"]);
+                    $prob_stat=$this->contestProblemInfoACM($cid, $p["pid"], $s["uid"]);
                     $prob_detail[]=[
-                    "ncode"=>$p["ncode"],
-                    "pid"=>$p["pid"],
-                    "color"=>$prob_stat["color"],
-                    "wrong_doings"=>$prob_stat["wrong_doings"],
-                    "solved_time_parsed"=>$prob_stat["solved_time_parsed"]
-                ];
+                        "ncode"=>$p["ncode"],
+                        "pid"=>$p["pid"],
+                        "color"=>$prob_stat["color"],
+                        "wrong_doings"=>$prob_stat["wrong_doings"],
+                        "solved_time_parsed"=>$prob_stat["solved_time_parsed"]
+                    ];
                     if ($prob_stat["solved"]) {
                         $totPen+=$prob_stat["wrong_doings"]*20;
                         $totPen+=$prob_stat["solved_time"]/60;
@@ -387,6 +419,34 @@ class ContestModel extends Model
             }
         } else if ($contest_info["rule"]==2) {
             // OI Mode
+            foreach ($submissionUsers as $s) {
+                $prob_detail=[];
+                $totScore=0;
+                foreach ($problemSet as $p) {
+                    $prob_stat=$this->contestProblemInfoOI($cid, $p["pid"], $s["uid"]);
+                    $prob_detail[]=[
+                        "ncode"=>$p["ncode"],
+                        "pid"=>$p["pid"],
+                        "color"=>$prob_stat["color"],
+                        "wrong_doings"=>0,
+                        "solved_time_parsed"=>$prob_stat["score_parsed"]
+                    ];
+                    $totScore+=$prob_stat["score_parsed"];
+                }
+                $ret[]=[
+                    "uid" => $s["uid"],
+                    "name" => DB::table("users")->where([
+                        "id"=>$s["uid"]
+                    ])->first()["name"],
+                    "nick_name" => $user_in_group ? DB::table("group_member")->where([
+                        "uid" => $s["uid"],
+                        "gid" => $contest_info["gid"]
+                    ])->where("role", ">", 0)->first()["nick_name"] : "",
+                    "score" => $totScore,
+                    "penalty" => 0,
+                    "problem_detail" => $prob_detail
+                ];
+            }
         }
 
         usort($ret, function ($a, $b) {
