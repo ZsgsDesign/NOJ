@@ -188,6 +188,7 @@ class Judge extends Core
                     $sub['verdict'] = $vijos_v[$status];
                     preg_match('/<dt>分数<\/dt>\s*<dd>(\d+)<\/dd>/', $res->body, $match);
                     $sub['score'] = $match[1];
+                    if ($sub['verdict'] == "Wrong Answer" && $sub['score'] != 0) $sub['verdict'] = 'Partially Accepted';
                     $sub['remote_id'] = $row['remote_id'];
                     if ($sub['verdict'] != "Submission Error" && $sub['verdict'] != "Compile Error") {
                         $maxtime = 0;
