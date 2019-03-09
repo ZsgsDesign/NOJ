@@ -97,7 +97,7 @@ class PTA extends CrawlerBase
                 $now=time()-$start;
                 fwrite($f, "    Problem Details API Success at {$now}".PHP_EOL);
 
-                $this->pro['pcode'] = 'PAT'.$prob["id"];
+                $this->pro['pcode'] = 'PTA'.$prob["id"];
                 $this->pro['OJ'] = $this->oid;
                 $this->pro['contest_id'] = $con;
                 $this->pro['index_id'] = $prob["id"];
