@@ -4,6 +4,7 @@ namespace App\Http\Controllers\VirtualCrawler\PTA;
 
 use App\Http\Controllers\VirtualCrawler\CrawlerBase;
 use App\Models\ProblemModel;
+use App\Models\CompilerModel;
 use KubAT\PhpSimple\HtmlDomParser;
 use Auth,Requests,Exception;
 
@@ -60,6 +61,18 @@ class PTA extends CrawlerBase
                 die();
             } else {
                 $generalDetails=json_decode($res->body,true);
+                $compilerModel = new CompilerModel();
+                $list = $compilerModel->list($this->oid);
+                $compilers = [];
+                foreach ($generalDetails['problemSet']['problemSetConfig']['compilers'] as $lcode) {
+                    foreach ($list as $compiler) {
+                        if ($compiler['lcode'] == $lcode) {
+                            array_push($compilers, $compiler['coid']);
+                            break;
+                        }
+                    }
+                }
+                $this->pro['special_compiler'] = join(',', $compilers);
             }
 
             $now=time()-$start;
