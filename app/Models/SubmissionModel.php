@@ -46,7 +46,7 @@ class SubmissionModel extends Model
             'remote_id'=>$sub['remote_id'],
             'compile_info'=>"",
             'coid'=>$sub['coid'],
-            'score'=>$sub['coid']
+            'score'=>$sub['score']
         ]);
 
         return $sid;
