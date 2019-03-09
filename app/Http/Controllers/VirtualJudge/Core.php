@@ -10,6 +10,7 @@ use App\Http\Controllers\VirtualJudge\CodeForces\CodeForces;
 use App\Http\Controllers\VirtualJudge\ContestHunter\ContestHunter;
 use App\Http\Controllers\VirtualJudge\POJ\POJ;
 use App\Http\Controllers\VirtualJudge\Vijos\Vijos;
+use App\Http\Controllers\VirtualJudge\PTA\PTA;
 use Requests;
 
 class Core extends Curl
@@ -45,6 +46,11 @@ class Core extends Curl
         if ($oj=='vijos') {
             $Vijos=new Vijos($sub, $all_data);
             $Vijos->submit();
+        }
+
+        if ($oj=='pta') {
+            $PTA=new PTA($sub, $all_data);
+            $PTA->submit();
         }
     }
 }
