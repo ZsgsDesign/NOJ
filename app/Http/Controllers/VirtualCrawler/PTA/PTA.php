@@ -110,7 +110,7 @@ class PTA extends CrawlerBase
                 $this->pro['output_type'] = 'standard output';
 
                 $this->pro['description'] = str_replace("](~/","](https://images.ptausercontent.com/",$probDetails["content"]);
-                $this->pro['description'] = str_replace("$$","$",$this->pro['description']);
+                $this->pro['description'] = str_replace("$$","$$$",$this->pro['description']);
                 $this->pro['markdown'] = 1;
                 $this->pro['tot_score'] = $probDetails["score"];
                 $this->pro["partial"] = 1;
