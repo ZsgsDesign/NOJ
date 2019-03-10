@@ -224,7 +224,8 @@ class ProblemModel extends Model
             'update_date'=>date("Y-m-d H:i:s"),
             'tot_score'=>$data['tot_score'],
             'partial'=>$data['partial'],
-            'markdown'=>$data['markdown']
+            'markdown'=>$data['markdown'],
+            'special_compiler'=>$data['special_compiler'],
         ]);
 
         if (!empty($data["sample"])) {
@@ -263,7 +264,8 @@ class ProblemModel extends Model
             'update_date'=>date("Y-m-d H:i:s"),
             'tot_score'=>$data['tot_score'],
             'partial'=>$data['partial'],
-            'markdown'=>$data['markdown']
+            'markdown'=>$data['markdown'],
+            'special_compiler'=>$data['special_compiler'],
         ]);
 
         $pid=$this->pid($data['pcode']);

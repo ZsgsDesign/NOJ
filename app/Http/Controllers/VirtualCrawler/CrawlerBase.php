@@ -29,7 +29,8 @@ class CrawlerBase
         'sample'=>[],
         'markdown'=>0,
         'tot_score'=>1,
-        'partial'=>0
+        'partial'=>0,
+        'special_compiler'=>null,
     ];
 
     /**

@@ -23,7 +23,7 @@ class Judge extends Core
             'Presentation error'=>"Presentation Error",
             'Submission error'=>'Submission Error',
             'Compilation error'=>"Compile Error",
-            'Output Limit Exceeded'=>"Output limit Exceeded",
+            'Output Limit Exceeded'=>"Output Limit Exceeded",
         ];
 
         $codeforces_v=[
@@ -50,7 +50,7 @@ class Judge extends Core
             '运行时错误'=>"Runtime Error",
             "超出内存限制"=>"Memory Limit Exceed",
             '比较器错误'=>'Submission Error',
-            '超出输出限制'=>"Output limit Exceeded",
+            '超出输出限制'=>"Output Limit Exceeded",
             '编译错误'=>"Compile Error",
         ];
 
@@ -61,19 +61,54 @@ class Judge extends Core
             "Memory Limit Exceeded"=>"Memory Limit Exceed",
             'Wrong Answer'=>"Wrong Answer",
             'Runtime Error'=>"Runtime Error",
-            'Output Limit Exceeded'=>"Output limit Exceeded",
+            'Output Limit Exceeded'=>"Output Limit Exceeded",
             'Compile Error'=>"Compile Error",
+        ];
+
+        $vijos_v=[
+            'Accepted'=>"Accepted",
+            'Wrong Answer'=>"Wrong Answer",
+            'Time Exceeded'=>"Time Limit Exceed",
+            "Memory Exceeded"=>"Memory Limit Exceed",
+            'Runtime Error'=>"Runtime Error",
+            'Compile Error'=>"Compile Error",
+            'System Error'=>"Submission Error",
+            'Canceled'=>"Submission Error",
+            'Unknown Error'=>"Submission Error",
+            'Ignored'=>"Submission Error",
+        ];
+
+        $pta_v=[
+            'ACCEPTED'=>"Accepted",
+            'COMPILE_ERROR'=>"Compile Error",
+            'FLOAT_POINT_EXCEPTION'=>"Runtime Error",
+            'INTERNAL_ERROR'=>"Submission Error",
+            "MEMORY_LIMIT_EXCEEDED"=>"Memory Limit Exceed",
+            'MULTIPLE_ERROR'=>"Runtime Error",
+            'NON_ZERO_EXIT_CODE'=>"Runtime Error",
+            'NO_ANSWER'=>"Compile Error",
+            'OUTPUT_LIMIT_EXCEEDED'=>"Output Limit Exceeded",
+            'OVERRIDDEN'=>"Submission Error",
+            'PARTIAL_ACCEPTED'=>"Partially Accepted",
+            "PRESENTATION_ERROR"=>"Presentation Error",
+            'RUNTIME_ERROR'=>"Runtime Error",
+            'SAMPLE_ERROR'=>"Wrong Answer",
+            'SEGMENTATION_FAULT'=>"Runtime Error",
+            'SKIPPED'=>"Submission Error",
+            'TIME_LIMIT_EXCEEDED'=>"Time Limit Exceed",
+            'WRONG_ANSWER'=>"Wrong Answer",
         ];
 
         $result=$this->MODEL->get_wating_submission();
         $judger=new JudgerModel();
+        $curl = new Curl();
 
         $cf=$this->get_last_codeforces($this->MODEL->count_wating_submission(2));
         $poj=[];
 
         $pojJudgerList=$judger->list(4);
         $pojJudgerName=urlencode($pojJudgerList[0]["handle"]);
-        $this->appendPOJStatus($poj, $pojJudgerName);
+        if ($this->MODEL->count_wating_submission(5)) $this->appendPOJStatus($poj, $pojJudgerName);
         // $uva=$this->get_last_uva($this->MODEL->count_wating_submission('Uva'));
         // $uval=$this->get_last_uvalive($this->MODEL->count_wating_submission('UvaLive'));
         // $sj=$this->get_last_spoj($this->MODEL->count_wating_submission('Spoj'));
@@ -82,7 +117,6 @@ class Judge extends Core
         $j=0;
         $k=0;
         $l=0;
-
         foreach ($result as $row) {
             if ($row['oid']==2) {
                 if (isset($codeforces_v[$cf[$i][2]])) {
@@ -145,6 +179,57 @@ class Judge extends Core
                     "verdict"=>$sub['verdict']
                 ];
                 $this->MODEL->update_submission($row['sid'], $sub);
+            } else if ($row['oid'] == 5) {
+                try {
+                    $res = Requests::get('https://vijos.org/records/'.$row['remote_id']);
+                    preg_match('/<span class="record-status--text \w*">\s*(.*?)\s*<\/span>/', $res->body, $match);
+                    $status = $match[1];
+                    if (!array_key_exists($status, $vijos_v)) continue;
+                    $sub['verdict'] = $vijos_v[$status];
+                    preg_match('/<dt>分数<\/dt>\s*<dd>(\d+)<\/dd>/', $res->body, $match);
+                    $sub['score'] = $match[1];
+                    if ($sub['verdict'] == "Wrong Answer" && $sub['score'] != 0) $sub['verdict'] = 'Partially Accepted';
+                    $sub['remote_id'] = $row['remote_id'];
+                    if ($sub['verdict'] != "Submission Error" && $sub['verdict'] != "Compile Error") {
+                        $maxtime = 0;
+                        preg_match_all('/<td class="col--time">(?:&ge;)?(\d+)ms<\/td>/', $res->body, $matches);
+                        foreach ($matches as $match) {
+                            if ($match[1] > $maxtime) $maxtime = $match[1];
+                        }
+                        $sub['time'] = $maxtime;
+                        preg_match('/<dt>峰值内存<\/dt>\s*<dd>(?:&ge;)?([\d.]+) ([KM])iB<\/dd>/', $res->body, $match);
+                        $memory = $match[1];
+                        if ($match[2] == 'M') $memory *= 1024;
+                        $sub['memory'] = intval($memory);
+                    } else {
+                        $sub['memory'] = 0;
+                        $sub['time'] = 0;
+                    }
+
+                    $ret[$row['sid']] = [
+                        "verdict"=>$sub['verdict']
+                    ];
+                    $this->MODEL->update_submission($row['sid'], $sub);
+                }
+                catch(Exception $e) {}
+            } else if ($row['oid'] == 6) {
+                try {
+                    $remoteId = explode('|', $row['remote_id']);
+                    $response = $curl->grab_page("https://pintia.cn/api/problem-sets/$remoteId[0]/submissions/".$remoteId[1], 'pta');
+                    $data = json_decode($response, true);
+                    if (!isset($pta_v[$data['submission']['status']])) continue;
+                    $sub['verdict'] = $pta_v[$data['submission']['status']];
+                    $sub['score'] = $data['submission']['score'];
+                    $sub['remote_id'] = $row['remote_id'];
+                    $sub['memory'] = $data['submission']['memory'] / 1024;
+                    $sub['time'] = $data['submission']['time'] * 1000;
+
+                    $ret[$row['sid']] = [
+                        "verdict"=>$sub['verdict']
+                    ];
+                    $this->MODEL->update_submission($row['sid'], $sub);
+                }
+                catch(Exception $e) {}
             }
             // if ($row['oid']=='Spoj') {
             //     if (isset($spoj_v[$sj[$j][2]])) {
