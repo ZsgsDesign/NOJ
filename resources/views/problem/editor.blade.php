@@ -613,14 +613,14 @@
     <script src="/static/js/snackbar.min.js"></script>
     <script src="/static/js/bootstrap-material-design.js"></script>
     <script src="/static/vscode/vs/loader.js"></script>
-    <script type="text/x-mathjax-config">
+    {{-- <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
           tex2jax: {
             inlineMath: [ ['$','$'], ["\\(","\\)"] ],
             processEscapes: true
           }
         });
-    </script>
+    </script> --}}
     <script type="text/javascript" src="/static/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script>
         $(document).ready(function () { $('body').bootstrapMaterialDesign();$('[data-toggle="tooltip"]').tooltip(); });
