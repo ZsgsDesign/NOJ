@@ -284,6 +284,7 @@ class ContestModel extends Model
             ])->first()["tot_score"];
 
             $ret["color"]=($ret["score"]==$tot_score)?"wemd-teal-text":"wemd-green-text";
+            $ret["solved"]=($ret["score"]==$tot_score)?1:0;
             $ret["score_parsed"]=$ret["score"]/$tot_score*($ret["points"]);
         }
         return $ret;
@@ -427,11 +428,27 @@ class ContestModel extends Model
                     "problem_detail" => $prob_detail
                 ];
             }
+            usort($ret, function ($a, $b) {
+                if ($a["score"]==$b["score"]) {
+                    if ($a["penalty"]==$b["penalty"]) {
+                        return 0;
+                    } elseif (($a["penalty"]>$b["penalty"])) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                } elseif ($a["score"]>$b["score"]) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            });
         } else if ($contest_info["rule"]==2) {
             // OI Mode
             foreach ($submissionUsers as $s) {
                 $prob_detail=[];
                 $totScore=0;
+                $totSolved=0;
                 foreach ($problemSet as $p) {
                     $prob_stat=$this->contestProblemInfoOI($cid, $p["pid"], $s["uid"]);
                     $prob_detail[]=[
@@ -441,6 +458,7 @@ class ContestModel extends Model
                         "score"=>$prob_stat["score"],
                         "score_parsed"=>$prob_stat["score_parsed"]
                     ];
+                    $totSolved+=$prob_stat["solved"];
                     $totScore+=intval($prob_stat["score_parsed"]);
                 }
                 $ret[]=[
@@ -452,28 +470,27 @@ class ContestModel extends Model
                         "uid" => $s["uid"],
                         "gid" => $contest_info["gid"]
                     ])->where("role", ">", 0)->first()["nick_name"] : "",
-                    "score" => $totScore,
-                    "penalty" => 0,
+                    "score" => $totSolved,
+                    "solved" => 0,
                     "problem_detail" => $prob_detail
                 ];
             }
-        }
-
-        usort($ret, function ($a, $b) {
-            if ($a["score"]==$b["score"]) {
-                if ($a["penalty"]==$b["penalty"]) {
-                    return 0;
-                } elseif (($a["penalty"]>$b["penalty"])) {
-                    return 1;
-                } else {
+            usort($ret, function ($a, $b) {
+                if ($a["score"]==$b["score"]) {
+                    if ($a["solved"]==$b["solved"]) {
+                        return 0;
+                    } elseif (($a["solved"]<$b["solved"])) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                } elseif ($a["score"]>$b["score"]) {
                     return -1;
+                } else {
+                    return 1;
                 }
-            } elseif ($a["score"]>$b["score"]) {
-                return -1;
-            } else {
-                return 1;
-            }
-        });
+            });
+        }
 
         return $ret;
     }
