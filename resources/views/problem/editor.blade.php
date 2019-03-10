@@ -491,7 +491,7 @@
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{$ncode}}</button>
                                 <div class="dropdown-menu cm-scrollable-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: top, left; top: 40px; left: 0px;">
                                     @foreach($problem_set as $p)
-                                        <a class="dropdown-item" href="/contest/{{$cid}}/board/challenge/{{$p["ncode"]}}">
+                                        <a class="dropdown-item" href="@if($p["ncode"]==$ncode) # @else /contest/{{$cid}}/board/challenge/{{$p["ncode"]}} @endif">
                                             <span><i class="MDI {{$p["prob_status"]["icon"]}} {{$p["prob_status"]["color"]}}"></i> {{$p["ncode"]}}. {{$p["title"]}}</span>
                                         </a>
                                     @endforeach
