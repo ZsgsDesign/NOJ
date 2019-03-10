@@ -79,6 +79,11 @@ class ProblemModel extends Model
         return DB::table("oj")->orderBy('oid', 'asc')->limit(12)->get()->all();
     }
 
+    public function isBlocked()
+    {
+        // return DB::table("oj")->orderBy('oid', 'asc')->limit(12)->get()->all();
+    }
+
     public function list($filter)
     {
         // $prob_list = DB::table($this->tableName)->select("pid","pcode","title")->get()->all(); // return a array
