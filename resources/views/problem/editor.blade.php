@@ -440,6 +440,12 @@
             line-height: 1;
             color: #000;
         }
+
+        #problemSwitcher a.dropdown-item > span{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
         @-webkit-keyframes cm-rotate{
             from{-webkit-transform: rotate(0deg)}
             to{-webkit-transform: rotate(360deg)}
@@ -486,7 +492,7 @@
                                 <div class="dropdown-menu cm-scrollable-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: top, left; top: 40px; left: 0px;">
                                     @foreach($problem_set as $p)
                                         <a class="dropdown-item" href="/contest/{{$cid}}/board/challenge/{{$p["ncode"]}}">
-                                                <span><i class="MDI {{$p["prob_status"]["icon"]}} {{$p["prob_status"]["color"]}}"></i> {{$p["ncode"]}}. {{$p["title"]}}</span>
+                                            <span><i class="MDI {{$p["prob_status"]["icon"]}} {{$p["prob_status"]["color"]}}"></i> {{$p["ncode"]}}. {{$p["title"]}}</span>
                                         </a>
                                     @endforeach
                                 </div>
