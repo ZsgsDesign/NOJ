@@ -121,8 +121,7 @@ class ContestController extends Controller
         $pcode=$problemModel->pcode($pid);
 
         $prob_detail=$problemModel->detail($pcode, $cid);
-        $problemModel->isBlocked($prob_detail["pid"], $cid);
-        $compiler_list=$compilerModel->list($prob_detail["OJ"]);
+        $compiler_list=$compilerModel->list($prob_detail["OJ"], $prob_detail["pid"]);
         $prob_status=$submissionModel->getProblemStatus($prob_detail["pid"], Auth::user()->id, $cid);
         $problemSet = $contestModel->contestProblems($cid, Auth::user()->id);
         $compiler_pref=$compilerModel->pref($prob_detail["pid"], Auth::user()->id, $cid);

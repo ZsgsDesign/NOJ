@@ -3,6 +3,7 @@ namespace App\Http\Controllers\VirtualJudge;
 
 use App\Models\SubmissionModel;
 use App\Models\JudgerModel;
+use App\Models\ContestModel;
 use App\Http\Controllers\VirtualJudge\Core;
 use Requests, Exception;
 
@@ -99,19 +100,20 @@ class Judge extends Core
             'WRONG_ANSWER'=>"Wrong Answer",
         ];
 
-        $result=$this->MODEL->get_wating_submission();
+        $result=$this->MODEL->get_waiting_submission();
         $judger=new JudgerModel();
+        $contestModel=new ContestModel();
         $curl = new Curl();
 
-        $cf=$this->get_last_codeforces($this->MODEL->count_wating_submission(2));
+        $cf=$this->get_last_codeforces($this->MODEL->count_waiting_submission(2));
         $poj=[];
 
         $pojJudgerList=$judger->list(4);
         $pojJudgerName=urlencode($pojJudgerList[0]["handle"]);
-        if ($this->MODEL->count_wating_submission(5)) $this->appendPOJStatus($poj, $pojJudgerName);
-        // $uva=$this->get_last_uva($this->MODEL->count_wating_submission('Uva'));
-        // $uval=$this->get_last_uvalive($this->MODEL->count_wating_submission('UvaLive'));
-        // $sj=$this->get_last_spoj($this->MODEL->count_wating_submission('Spoj'));
+        if ($this->MODEL->count_waiting_submission(5)) $this->appendPOJStatus($poj, $pojJudgerName);
+        // $uva=$this->get_last_uva($this->MODEL->count_waiting_submission('Uva'));
+        // $uval=$this->get_last_uvalive($this->MODEL->count_waiting_submission('UvaLive'));
+        // $sj=$this->get_last_spoj($this->MODEL->count_waiting_submission('Spoj'));
 
         $i=0;
         $j=0;
@@ -187,8 +189,13 @@ class Judge extends Core
                     if (!array_key_exists($status, $vijos_v)) continue;
                     $sub['verdict'] = $vijos_v[$status];
                     preg_match('/<dt>分数<\/dt>\s*<dd>(\d+)<\/dd>/', $res->body, $match);
-                    $sub['score'] = $match[1];
-                    if ($sub['verdict'] == "Wrong Answer" && $sub['score'] != 0) $sub['verdict'] = 'Partially Accepted';
+                    $isOI = $row['cid'] && $contestModel->rule($row['cid'])==2;
+                    if ($isOI) {
+                        $sub['score'] = $match[1];
+                        if ($sub['verdict'] == "Wrong Answer" && $sub['score'] != 0) $sub['verdict'] = 'Partially Accepted';
+                    } else {
+                        $sub['score'] = $match[1] == 100 ? 100 : 0;
+                    }
                     $sub['remote_id'] = $row['remote_id'];
                     if ($sub['verdict'] != "Submission Error" && $sub['verdict'] != "Compile Error") {
                         $maxtime = 0;
@@ -219,7 +226,14 @@ class Judge extends Core
                     $data = json_decode($response, true);
                     if (!isset($pta_v[$data['submission']['status']])) continue;
                     $sub['verdict'] = $pta_v[$data['submission']['status']];
+                    $isOI = $row['cid'] && $contestModel->rule($row['cid'])==2;
                     $sub['score'] = $data['submission']['score'];
+                    if (!$isOI) {
+                        if ($sub['verdict'] == "Partially Accepted") {
+                            $sub['verdict'] = 'Wrong Answer';
+                            $sub['score'] = 0;
+                        }
+                    }
                     $sub['remote_id'] = $row['remote_id'];
                     $sub['memory'] = $data['submission']['memory'] / 1024;
                     $sub['time'] = $data['submission']['time'] * 1000;
