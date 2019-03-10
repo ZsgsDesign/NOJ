@@ -470,8 +470,8 @@ class ContestModel extends Model
                         "uid" => $s["uid"],
                         "gid" => $contest_info["gid"]
                     ])->where("role", ">", 0)->first()["nick_name"] : "",
-                    "score" => $totSolved,
-                    "solved" => 0,
+                    "score" => $totScore,
+                    "solved" => $totSolved,
                     "problem_detail" => $prob_detail
                 ];
             }

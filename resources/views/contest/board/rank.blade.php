@@ -143,6 +143,7 @@
                                     <th scope="col" style="text-align: left;">Rank</th>
                                     <th scope="col">Account</th>
                                     <th scope="col">Score</th>
+                                    <th scope="col">Solved</th>
                                     @foreach($problem_set as $p)
                                         <th scope="col" class="cm-problem-header">{{$p["ncode"]}}</th>
                                     @endforeach
@@ -170,6 +171,7 @@
                                 <th scope="row">{{$loop->iteration}}</th>
                                 <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
                                 <td>{{round($r["score"])}}</td>
+                                <td>{{$r["solved"]}}</td>
                                 @foreach($r["problem_detail"] as $rp)
                                     <td class="{{$rp["color"]}}">@if(!is_null($rp["score"])){{round($rp["score_parsed"],1)}}<br>@endif</td>
                                 @endforeach
