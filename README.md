@@ -5,6 +5,9 @@
 NOJ's another online judge platform, stands for NJUPT Online Judge. It's written in PHP, GO, Python and other function-supporting languages.
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster?ref=badge_shield)
+[![Code Coverage](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/badges/build.png?b=master)](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/build-status/master)
+[![Code Intelligence Status](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
 
 ## Installation
 
