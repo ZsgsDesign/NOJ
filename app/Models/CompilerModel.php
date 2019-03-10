@@ -9,9 +9,13 @@ class CompilerModel extends Model
 {
     protected $tableName = 'compiler';
 
-    public function list($oid=1)
+    public function list($oid=1, $pid=null)
     {
-        $compiler_list = DB::table($this->tableName)->where(["oid"=>$oid,"available"=>1])->get()->all();
+        $special = null;
+        if ($pid) $special = DB::table("problem")->where(['pid'=>$pid])->select(['special_compiler'])->first();
+        $t = DB::table($this->tableName)->where(["oid"=>$oid,"available"=>1]);
+        if ($special && $special['special_compiler']) $t = $t->whereIn('coid', explode(',', $special['special_compiler']));
+        $compiler_list = $t->get()->all();
         return $compiler_list;
     }
 
