@@ -44,12 +44,14 @@ class ProblemModel extends Model
                     "pid"=>$prob_detail["pid"],
                     "cid"=>$cid,
                 ])->where("submission_date", "<", $frozen_time)->first();
+                $prob_detail["points"]=DB::table("contest_problem")->where(["cid"=>$cid])->select("points")->first()["points"];
             } else {
                 $prob_stat = DB::table("submission")->select(
                     DB::raw("count(sid) as submission_count"),
                     DB::raw("sum(verdict='accepted') as passed_count"),
                     DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
                 )->where(["pid"=>$prob_detail["pid"]])->first();
+                $prob_detail["points"]=0;
             }
             if ($prob_stat["submission_count"]==0) {
                 $prob_detail["submission_count"]=0;
@@ -77,6 +79,29 @@ class ProblemModel extends Model
     public function ojs()
     {
         return DB::table("oj")->orderBy('oid', 'asc')->limit(12)->get()->all();
+    }
+
+    public function isBlocked($pid, $cid = null)
+    {
+        $conflictContests = DB::table("contest")
+                            ->join("contest_problem","contest.cid","=","contest_problem.cid")
+                            ->where("begin_time","<",date("Y-m-d H:i:s"))
+                            ->where("end_time",">",date("Y-m-d H:i:s"))
+                            ->where(["verified"=>1,"pid"=>$pid])
+                            ->select(["contest_problem.cid as cid"])
+                            ->get()
+                            ->all();
+        if(empty($conflictContests)){
+            return false;
+        }
+        foreach($conflictContests as $c){
+            if($cid==$c["cid"]){
+                return false;
+            }
+        }
+        header("HTTP/1.1 403 Forbidden");
+        exit();
+        return true;
     }
 
     public function list($filter)

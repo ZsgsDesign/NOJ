@@ -455,8 +455,12 @@
                 <div class="prob-header animated pre-animated cm-performance-optimistic">
                     <button class="btn btn-outline-secondary" id="backBtn"><i class="MDI arrow-left"></i>  Back</button>
                     @if($contest_mode)
-                        <info-badge data-toggle="tooltip" data-placement="top" title="Passed / Submission"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['passed_count']}} / {{$detail['submission_count']}}</info-badge>
-                    @else
+                        @if($contest_rule==1)
+                            <info-badge data-toggle="tooltip" data-placement="top" title="Passed / Submission"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['passed_count']}} / {{$detail['submission_count']}}</info-badge>
+                        @else
+                            <info-badge data-toggle="tooltip" data-placement="top" title="Total Points"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail["points"]}} Points</info-badge>
+                        @endif
+                     @else
                         <info-badge data-toggle="tooltip" data-placement="top" title="AC Rate"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['ac_rate']}}%</info-badge>
                     @endif
                     <info-badge data-toggle="tooltip" data-placement="top" title="Time Limit"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
@@ -516,7 +520,7 @@
             </right-side>
         </top-side>
         <bottom-side>
-            <div style="color: #7a8e97" id="verdict_info" class="{{$status["color"]}}"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">{{$status["verdict"]}}</span></div>
+            <div style="color: #7a8e97" id="verdict_info" class="{{$status["color"]}}"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">{{$status["verdict"]}} @if($status["verdict"]=="Partially Accepted")({{round($status["score"]/$detail["tot_score"]*$detail["points"])}})@endif</span></div>
             <div>
                 <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> History</button>
                 <div class="btn-group dropup">
@@ -612,7 +616,7 @@
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
           tex2jax: {
-            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            inlineMath: [ ['$$$','$$$'], ["\\(","\\)"] ],
             processEscapes: true
           }
         });
@@ -625,6 +629,8 @@
         var submission_processing=false;
         var chosen_lang="{{$compiler_list[$pref]['lcode']}}";
         var chosen_coid="{{$compiler_list[$pref]['coid']}}";
+        var tot_points=parseInt("{{$detail["points"]}}");
+        var tot_scores=parseInt("{{$detail["tot_score"]}}");
 
         $( ".lang-selector" ).click(function() {
             // console.log($( this ).data("lang"));
@@ -653,14 +659,26 @@
                     if(ret.ret==200){
                         $("#history_container").html("");
                         ret.data.history.forEach(ele => {
-                            $("#history_container").append(`
-                                <tr>
-                                    <td>${ele.time}</td>
-                                    <td>${ele.memory}</td>
-                                    <td>${ele.language}</td>
-                                    <td class="${ele.color}"><i class="MDI checkbox-blank-circle"></i> ${ele.verdict}</td>
-                                </tr>
-                            `);
+                            if(ele.verdict=="Partially Accepted"){
+                                let real_score = Math.round(ele.score / tot_scores * tot_points);
+                                $("#history_container").append(`
+                                    <tr>
+                                        <td>${ele.time}</td>
+                                        <td>${ele.memory}</td>
+                                        <td>${ele.language}</td>
+                                        <td class="${ele.color}"><i class="MDI checkbox-blank-circle"></i> ${ele.verdict} (${real_score})</td>
+                                    </tr>
+                                `);
+                            }else{
+                                $("#history_container").append(`
+                                    <tr>
+                                        <td>${ele.time}</td>
+                                        <td>${ele.memory}</td>
+                                        <td>${ele.language}</td>
+                                        <td class="${ele.color}"><i class="MDI checkbox-blank-circle"></i> ${ele.verdict}</td>
+                                    </tr>
+                                `);
+                            }
                         });
                     }
                     $('#historyModal').modal();
@@ -720,7 +738,12 @@
                                 }, success: function(ret){
                                     console.log(ret);
                                     if(ret.ret==200){
-                                        $("#verdict_text").text(ret.data.verdict);
+                                        if(ret.data.verdict=="Partially Accepted"){
+                                            let real_score = Math.round(ret.data.score / tot_scores * tot_points);
+                                            $("#verdict_text").text(ret.data.verdict + ` (${real_score})`);
+                                        } else{
+                                            $("#verdict_text").text(ret.data.verdict);
+                                        }
                                         $("#verdict_info").removeClass();
                                         $("#verdict_info").addClass(ret.data.color);
                                         if(ret.data.verdict!="Waiting" && ret.data.verdict!="Judging"){
