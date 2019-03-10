@@ -739,7 +739,7 @@
                                     console.log(ret);
                                     if(ret.ret==200){
                                         if(ret.data.verdict=="Partially Accepted"){
-                                            let real_score = Math.round(ele.score / tot_scores * tot_points);
+                                            let real_score = Math.round(ret.data.score / tot_scores * tot_points);
                                             $("#verdict_text").text(ret.data.verdict + ` (${real_score})`);
                                         } else{
                                             $("#verdict_text").text(ret.data.verdict);

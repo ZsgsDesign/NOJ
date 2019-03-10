@@ -63,6 +63,7 @@ class ProblemController extends Controller
     {
         $problem=new ProblemModel();
         $prob_detail=$problem->detail($pcode);
+        $problem->isBlocked($prob_detail["pid"]);
         return is_null($prob_detail) ?  redirect("/problem") :
                                         view('problem.detail', [
                                             'page_title'=>$prob_detail["title"],
@@ -83,6 +84,7 @@ class ProblemController extends Controller
         $compiler=new CompilerModel();
         $submission=new SubmissionModel();
         $prob_detail=$problem->detail($pcode);
+        $problem->isBlocked($prob_detail["pid"]);
         $compiler_list=$compiler->list($prob_detail["OJ"]);
         $prob_status=$submission->getProblemStatus($prob_detail["pid"], Auth::user()->id);
 

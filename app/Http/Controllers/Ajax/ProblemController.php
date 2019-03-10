@@ -26,6 +26,8 @@ class ProblemController extends Controller
     public function submitSolution(Request $request)
     {
         $all_data = $request->all();
+        $problemModel = new ProblemModel;
+        $problemModel->isBlocked($all_data["pid"], isset($all_data["contest"])?$all_data["contest"]:null);
         $vj_submit = new Submit($all_data);
         $ret=$vj_submit->ret;
         if ($ret["ret"]==200) {
