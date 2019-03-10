@@ -66,7 +66,6 @@ class ProblemController extends Controller
         $all_data = $request->all();
         $submission=new SubmissionModel();
         $status=$submission->getJudgeStatus($all_data["sid"]);
-
         return ResponseModel::success(200, null, $status);
     }
 
