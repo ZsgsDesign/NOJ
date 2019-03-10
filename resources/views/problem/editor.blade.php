@@ -163,40 +163,40 @@
         fresh-container h5,
         fresh-container h6 {
             line-height: 1.2;
-            margin-top: 1em;
+            margin-top: 1rem;
             margin-bottom: 16px;
             color: #000;
         }
 
         fresh-container h1 {
-            font-size: 2.25em;
+            font-size: 2.25rem;
             font-weight: 600;
             padding-bottom: .3em
         }
 
         fresh-container h2 {
-            font-size: 1.75em;
+            font-size: 1.75rem;
             font-weight: 600;
             padding-bottom: .3em
         }
 
         fresh-container h3 {
-            font-size: 1.5em;
+            font-size: 1.5rem;
             font-weight: 600
         }
 
         fresh-container h4 {
-            font-size: 1.25em;
+            font-size: 1.25rem;
             font-weight: 600
         }
 
         fresh-container h5 {
-            font-size: 1em;
+            font-size: 1rem;
             font-weight: 600
         }
 
         fresh-container h6 {
-            font-size: 1em;
+            font-size: 1rem;
             font-weight: 600
         }
 
@@ -430,6 +430,16 @@
             -o-animation: cm-rotate 3s linear infinite;
             animation: cm-rotate 3s linear infinite;
         }
+        #problemSwitcher{
+            display: inline-block;
+        }
+        #problemSwitcher > button{
+            font-size: 2.25rem;
+            font-weight: 600;
+            padding-bottom: .3em;
+            line-height: 1;
+            color: #000;
+        }
         @-webkit-keyframes cm-rotate{
             from{-webkit-transform: rotate(0deg)}
             to{-webkit-transform: rotate(360deg)}
@@ -469,7 +479,19 @@
                 <div class="animated pre-animated cm-performance-optimistic cm-delay">
                     <link rel="stylesheet" href="/css/oj/{{$detail["oj_detail"]["ocode"]}}.css">
                     <fresh-container>
-                        <h1>@if($contest_mode) {{$ncode}}. @endif{{$detail["title"]}}</h1>
+                        <h1>
+                            @if($contest_mode)
+                            <div class="dropdown" id="problemSwitcher">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{$ncode}}</button>
+                                <div class="dropdown-menu cm-scrollable-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: top, left; top: 40px; left: 0px;">
+                                    @foreach($problem_set as $p)
+                                        <a class="dropdown-item" href="/contest/{{$cid}}/board/challenge/{{$p["ncode"]}}">
+                                                <span><i class="MDI {{$p["prob_status"]["icon"]}} {{$p["prob_status"]["color"]}}"></i> {{$p["ncode"]}}. {{$p["title"]}}</span>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                            @endif {{$detail["title"]}}</h1>
                         <h2>Description:</h2>
 
                         {!!$detail["parsed"]["description"]!!}

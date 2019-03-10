@@ -124,7 +124,7 @@ class ContestController extends Controller
         $problemModel->isBlocked($prob_detail["pid"], $cid);
         $compiler_list=$compilerModel->list($prob_detail["OJ"]);
         $prob_status=$submissionModel->getProblemStatus($prob_detail["pid"], Auth::user()->id, $cid);
-
+        $problemSet = $contestModel->contestProblems($cid, Auth::user()->id);
         $compiler_pref=$compilerModel->pref($prob_detail["pid"], Auth::user()->id, $cid);
         $pref=-1;
         $submit_code="";
@@ -180,7 +180,8 @@ class ContestController extends Controller
             'contest_mode' => true,
             'contest_ended' => $contest_ended,
             'ncode' => $ncode,
-            'contest_rule' => $contest_rule
+            'contest_rule' => $contest_rule,
+            'problem_set' => $problemSet
         ]);
     }
 
