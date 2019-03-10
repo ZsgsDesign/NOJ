@@ -455,8 +455,12 @@
                 <div class="prob-header animated pre-animated cm-performance-optimistic">
                     <button class="btn btn-outline-secondary" id="backBtn"><i class="MDI arrow-left"></i>  Back</button>
                     @if($contest_mode)
-                        <info-badge data-toggle="tooltip" data-placement="top" title="Passed / Submission"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['passed_count']}} / {{$detail['submission_count']}}</info-badge>
-                    @else
+                        @if($contest_rule==1)
+                            <info-badge data-toggle="tooltip" data-placement="top" title="Passed / Submission"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['passed_count']}} / {{$detail['submission_count']}}</info-badge>
+                        @else
+                            <info-badge data-toggle="tooltip" data-placement="top" title="Total Points"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail["points"]}} Points</info-badge>
+                        @endif
+                     @else
                         <info-badge data-toggle="tooltip" data-placement="top" title="AC Rate"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['ac_rate']}}%</info-badge>
                     @endif
                     <info-badge data-toggle="tooltip" data-placement="top" title="Time Limit"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>

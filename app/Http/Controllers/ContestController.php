@@ -112,6 +112,7 @@ class ContestController extends Controller
             return Redirect::route('contest_detail', ['cid' => $cid]);
         }
         $contest_name = $contestModel->contestName($cid);
+        $contest_rule = $contestModel->rule($cid);
         $contest_ended = $contestModel->isContestEnded($cid);
         $pid=$contestModel->getPid($cid, $ncode);
         if(empty($pid)){
@@ -177,7 +178,8 @@ class ContestController extends Controller
             'submit_code' => $submit_code,
             'contest_mode' => true,
             'contest_ended' => $contest_ended,
-            'ncode' => $ncode
+            'ncode' => $ncode,
+            'contest_rule' => $contest_rule
         ]);
     }
 

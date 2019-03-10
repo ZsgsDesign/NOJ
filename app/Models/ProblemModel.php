@@ -44,6 +44,7 @@ class ProblemModel extends Model
                     "pid"=>$prob_detail["pid"],
                     "cid"=>$cid,
                 ])->where("submission_date", "<", $frozen_time)->first();
+                $prob_detail["points"]=DB::table("contest_problem")->where(["cid"=>$cid])->select("points")->first()["points"];
             } else {
                 $prob_stat = DB::table("submission")->select(
                     DB::raw("count(sid) as submission_count"),
