@@ -8,22 +8,22 @@ use Illuminate\Support\Facades\DB;
 
 class ProblemModel extends Model
 {
-    protected $tableName = 'problem';
+    protected $tableName='problem';
 
-    public function detail($pcode, $cid = null)
+    public function detail($pcode, $cid=null)
     {
-        $prob_detail = DB::table($this->tableName)->where("pcode", $pcode)->first();
+        $prob_detail=DB::table($this->tableName)->where("pcode", $pcode)->first();
         // [Depreciated] Joint Query was depreciated here for code maintenance reasons
         if (!is_null($prob_detail)) {
             if ($prob_detail["markdown"]) {
-                $prob_detail["parsed"] = [
+                $prob_detail["parsed"]=[
                     "description"=>clean(Markdown::convertToHtml($prob_detail["description"])),
                     "input"=>clean(Markdown::convertToHtml($prob_detail["input"])),
                     "output"=>clean(Markdown::convertToHtml($prob_detail["output"])),
                     "note"=>clean(Markdown::convertToHtml($prob_detail["note"]))
                 ];
             } else {
-                $prob_detail["parsed"] = [
+                $prob_detail["parsed"]=[
                     "description"=>$prob_detail["description"],
                     "input"=>$prob_detail["input"],
                     "output"=>$prob_detail["output"],
@@ -31,12 +31,12 @@ class ProblemModel extends Model
                 ];
             }
             $prob_detail["update_date"]=date_format(date_create($prob_detail["update_date"]), 'm/d/Y H:i:s');
-            $prob_detail["oj_detail"] = DB::table("oj")->where("oid", $prob_detail["OJ"])->first();
-            $prob_detail["samples"] = DB::table("problem_sample")->where("pid", $prob_detail["pid"])->get()->all();
-            $prob_detail["tags"] = DB::table("problem_tag")->where("pid", $prob_detail["pid"])->get()->all();
+            $prob_detail["oj_detail"]=DB::table("oj")->where("oid", $prob_detail["OJ"])->first();
+            $prob_detail["samples"]=DB::table("problem_sample")->where("pid", $prob_detail["pid"])->get()->all();
+            $prob_detail["tags"]=DB::table("problem_tag")->where("pid", $prob_detail["pid"])->get()->all();
             if ($cid) {
-                $frozen_time = strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
-                $prob_stat = DB::table("submission")->select(
+                $frozen_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+                $prob_stat=DB::table("submission")->select(
                     DB::raw("count(sid) as submission_count"),
                     DB::raw("sum(verdict='accepted') as passed_count"),
                     DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
@@ -46,7 +46,7 @@ class ProblemModel extends Model
                 ])->where("submission_date", "<", $frozen_time)->first();
                 $prob_detail["points"]=DB::table("contest_problem")->where(["cid"=>$cid])->select("points")->first()["points"];
             } else {
-                $prob_stat = DB::table("submission")->select(
+                $prob_stat=DB::table("submission")->select(
                     DB::raw("count(sid) as submission_count"),
                     DB::raw("sum(verdict='accepted') as passed_count"),
                     DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
@@ -81,13 +81,13 @@ class ProblemModel extends Model
         return DB::table("oj")->orderBy('oid', 'asc')->limit(12)->get()->all();
     }
 
-    public function isBlocked($pid, $cid = null)
+    public function isBlocked($pid, $cid=null)
     {
-        $conflictContests = DB::table("contest")
+        $conflictContests=DB::table("contest")
                             ->join("contest_problem", "contest.cid", "=", "contest_problem.cid")
                             ->where("begin_time", "<", date("Y-m-d H:i:s"))
                             ->where("end_time", ">", date("Y-m-d H:i:s"))
-                            ->where(["verified"=>1,"pid"=>$pid])
+                            ->where(["verified"=>1, "pid"=>$pid])
                             ->select(["contest_problem.cid as cid"])
                             ->get()
                             ->all();
@@ -114,7 +114,7 @@ class ProblemModel extends Model
         if ($filter['tag']) {
             $preQuery=$preQuery->join("problem_tag", "problem.pid", "=", "problem_tag.pid")->where(["tag"=>$filter['tag']]);
         }
-        $prob = json_decode($preQuery->select("problem.pid as pid", "pcode", "title")->paginate(20)->toJSON(), true);
+        $prob=json_decode($preQuery->select("problem.pid as pid", "pcode", "title")->paginate(20)->toJSON(), true);
         if (empty($prob["data"])) {
             return null;
         }
@@ -144,8 +144,8 @@ class ProblemModel extends Model
             sort($temp_page_list);
         }
         $prob["paginate"]["data"]=[];
-        $prob["paginate"]["previous"] = is_null($prob["prev_page_url"]) ? "" : "?page=".($cur_page-1).($filter["oj"]?"&oj={$filter['oj']}":"").($filter["tag"]?"&tag={$filter['tag']}":"");
-        $prob["paginate"]["next"] = is_null($prob["next_page_url"]) ? "" : "?page=".($cur_page+1).($filter["oj"]?"&oj={$filter['oj']}":"").($filter["tag"]?"&tag={$filter['tag']}":"");
+        $prob["paginate"]["previous"]=is_null($prob["prev_page_url"]) ? "" : "?page=".($cur_page-1).($filter["oj"] ? "&oj={$filter['oj']}" : "").($filter["tag"] ? "&tag={$filter['tag']}" : "");
+        $prob["paginate"]["next"]=is_null($prob["next_page_url"]) ? "" : "?page=".($cur_page+1).($filter["oj"] ? "&oj={$filter['oj']}" : "").($filter["tag"] ? "&tag={$filter['tag']}" : "");
         foreach ($temp_page_list as $p) {
             $url="?page=$p";
             if ($filter["oj"]) {
@@ -161,7 +161,7 @@ class ProblemModel extends Model
             ]);
         }
         foreach ($prob["data"] as &$p) {
-            $prob_stat = DB::table("submission")->select(
+            $prob_stat=DB::table("submission")->select(
                 DB::raw("count(sid) as submission_count"),
                 DB::raw("sum(verdict='accepted') as passed_count"),
                 DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
@@ -181,19 +181,19 @@ class ProblemModel extends Model
 
     public function existPCode($pcode)
     {
-        $temp = DB::table($this->tableName)->where(["pcode"=>$pcode])->select("pcode")->first();
+        $temp=DB::table($this->tableName)->where(["pcode"=>$pcode])->select("pcode")->first();
         return empty($temp) ? null : $temp["pcode"];
     }
 
     public function pid($pcode)
     {
-        $temp = DB::table($this->tableName)->where(["pcode"=>$pcode])->select("pid")->first();
+        $temp=DB::table($this->tableName)->where(["pcode"=>$pcode])->select("pid")->first();
         return empty($temp) ? 0 : $temp["pid"];
     }
 
     public function pcode($pid)
     {
-        $temp = DB::table($this->tableName)->where(["pid"=>$pid])->select("pcode")->first();
+        $temp=DB::table($this->tableName)->where(["pid"=>$pid])->select("pcode")->first();
         return empty($temp) ? 0 : $temp["pcode"];
     }
 
@@ -205,7 +205,7 @@ class ProblemModel extends Model
 
     public function addTags($pid, $tag)
     {
-        DB::table("problem_tag")->insert(["pid"=>$pid,"tag"=>$tag]);
+        DB::table("problem_tag")->insert(["pid"=>$pid, "tag"=>$tag]);
         return true;
     }
 
@@ -222,7 +222,7 @@ class ProblemModel extends Model
 
     public function insertProblem($data)
     {
-        $pid = DB::table($this->tableName)->insertGetId([
+        $pid=DB::table($this->tableName)->insertGetId([
             'difficulty'=>-1,
             'file'=>$data['file'],
             'title'=>$data['title'],
