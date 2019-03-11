@@ -91,6 +91,7 @@ class ProblemModel extends Model
                             ->select(["contest_problem.cid as cid"])
                             ->get()
                             ->all();
+                            var_dump($conflictContests);exit();
         if (empty($conflictContests)) {
             return false;
         }
