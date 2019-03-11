@@ -87,6 +87,13 @@ class ContestModel extends Model
         }
     }
 
+    public function gid($cid)
+    {
+        return DB::table($this->tableName)->where([
+            "cid"=>$cid
+        ])->first()["gid"];
+    }
+
     public function listByGroup($gid)
     {
         $contest_list = DB::table($this->tableName)->where([

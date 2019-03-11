@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Ajax;
 use App\Models\ContestModel;
 use App\Models\GroupModel;
 use App\Models\ResponseModel;
+use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -66,6 +67,28 @@ class GroupController extends Controller
         ], $problemSet);
 
         return ResponseModel::success(200);
+    }
+
+    public function generateContestAccount(Request $request)
+    {
+        $request->validate([
+            'cid' => 'required|integer',
+            'ccode' => 'required|min:3|max:10',
+            'num' => 'required|integer'
+        ]);
+
+        $all_data = $request->all();
+
+        $groupModel=new GroupModel();
+        $contestModel=new ContestModel();
+        $gid = $contestModel->gid($all_data["cid"]);
+        $clearance = $groupModel->judgeClearance($gid, Auth::user()->id);
+        if ($clearance<3) {
+            return ResponseModel::err(2001);
+        }
+        $accountModel=new AccountModel();
+        $ret = $accountModel->generateContestAccount($all_data["cid"],$all_data["ccode"],$all_data["num"]);
+        return ResponseModel::success(200,null,$ret);
     }
 
     public function changeNickName(Request $request)
