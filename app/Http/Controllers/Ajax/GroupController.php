@@ -31,15 +31,15 @@ class GroupController extends Controller
             'description' => 'string'
         ]);
 
-        $all_data = $request->all();
+        $all_data=$request->all();
 
         $contestModel=new ContestModel();
         $groupModel=new GroupModel();
-        $clearance = $groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         if ($clearance<2) {
             return ResponseModel::err(2001);
         }
-        $problems = explode(",", $all_data["problems"]);
+        $problems=explode(",", $all_data["problems"]);
         if (count($problems)>26) {
             return ResponseModel::err(4002);
         }
@@ -77,17 +77,17 @@ class GroupController extends Controller
             'num' => 'required|integer'
         ]);
 
-        $all_data = $request->all();
+        $all_data=$request->all();
 
         $groupModel=new GroupModel();
         $contestModel=new ContestModel();
-        $gid = $contestModel->gid($all_data["cid"]);
-        $clearance = $groupModel->judgeClearance($gid, Auth::user()->id);
+        $gid=$contestModel->gid($all_data["cid"]);
+        $clearance=$groupModel->judgeClearance($gid, Auth::user()->id);
         if ($clearance<3) {
             return ResponseModel::err(2001);
         }
         $accountModel=new AccountModel();
-        $ret = $accountModel->generateContestAccount($all_data["cid"], $all_data["ccode"], $all_data["num"]);
+        $ret=$accountModel->generateContestAccount($all_data["cid"], $all_data["ccode"], $all_data["num"]);
         return ResponseModel::success(200, null, $ret);
     }
 
@@ -98,10 +98,10 @@ class GroupController extends Controller
             'nick_name' => 'max:50',
         ]);
 
-        $all_data = $request->all();
+        $all_data=$request->all();
 
         $groupModel=new GroupModel();
-        $clearance = $groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         if ($clearance<1) {
             return ResponseModel::err(2001);
         }
@@ -115,14 +115,14 @@ class GroupController extends Controller
             'gid' => 'required|integer',
         ]);
 
-        $all_data = $request->all();
+        $all_data=$request->all();
 
         $groupModel=new GroupModel();
-        $join_policy = $groupModel->joinPolicy($all_data["gid"]);
+        $join_policy=$groupModel->joinPolicy($all_data["gid"]);
         if (is_null($join_policy)) {
             return ResponseModel::err(7001);
         }
-        $clearance = $groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         if ($join_policy==3) {
             if ($clearance==-1) {
                 $groupModel->changeClearance(Auth::user()->id, $all_data["gid"], 1);

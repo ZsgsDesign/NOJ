@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class SubmissionModel extends Model
 {
-    protected $tableName = 'submission';
+    protected $tableName='submission';
     public $colorScheme=[
         "Waiting"                => "wemd-blue-text",
         "Judge Error"            => "wemd-black-text",
@@ -33,7 +33,7 @@ class SubmissionModel extends Model
             $sub['verdict']="Judge Error";
         }
 
-        $sid = DB::table($this->tableName)->insertGetId([
+        $sid=DB::table($this->tableName)->insertGetId([
             'time' => $sub['time'],
             'verdict' => $sub['verdict'],
             'solution' => $sub['solution'],
@@ -59,10 +59,10 @@ class SubmissionModel extends Model
         return $status;
     }
 
-    public function getProblemStatus($pid, $uid, $cid = null)
+    public function getProblemStatus($pid, $uid, $cid=null)
     {
         if ($cid) {
-            $frozen_time = strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+            $frozen_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
             // Get the very first AC record
             $ac=DB::table($this->tableName)->where([
                 'pid'=>$pid,
@@ -77,7 +77,7 @@ class SubmissionModel extends Model
                     'cid'=>$cid,
                     'verdict'=>'Partially Accepted'
                 ])->where("submission_date", "<", $frozen_time)->orderBy('submission_date', 'desc')->first();
-                return empty($pac) ? DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'cid'=>$cid])->where("submission_date", "<", $frozen_time)->first() : $pac;
+                return empty($pac) ? DB::table($this->tableName)->where(['pid'=>$pid, 'uid'=>$uid, 'cid'=>$cid])->where("submission_date", "<", $frozen_time)->first() : $pac;
             } else {
                 return $ac;
             }
@@ -88,13 +88,13 @@ class SubmissionModel extends Model
                 'cid'=>$cid,
                 'verdict'=>'Accepted'
             ])->orderBy('submission_date', 'desc')->first();
-            return empty($ac) ? DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'cid'=>$cid])->first() : $ac;
+            return empty($ac) ? DB::table($this->tableName)->where(['pid'=>$pid, 'uid'=>$uid, 'cid'=>$cid])->first() : $ac;
         }
     }
 
-    public function getProblemSubmission($pid, $uid, $cid = null)
+    public function getProblemSubmission($pid, $uid, $cid=null)
     {
-        $statusList=DB::table($this->tableName)->where(['pid'=>$pid,'uid'=>$uid,'cid'=>$cid])->orderBy('submission_date', 'desc')->limit(10)->get()->all();
+        $statusList=DB::table($this->tableName)->where(['pid'=>$pid, 'uid'=>$uid, 'cid'=>$cid])->orderBy('submission_date', 'desc')->limit(10)->get()->all();
         return $statusList;
     }
 
@@ -114,7 +114,7 @@ class SubmissionModel extends Model
     public function count_waiting_submission($oid)
     {
         return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
-                                            ->where(['verdict'=>'Waiting','OJ'=>$oid])
+                                            ->where(['verdict'=>'Waiting', 'OJ'=>$oid])
                                             ->count();
     }
 

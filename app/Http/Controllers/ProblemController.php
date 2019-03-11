@@ -19,10 +19,10 @@ class ProblemController extends Controller
      */
     public function index(Request $request)
     {
-        $all_data = $request->all();
+        $all_data=$request->all();
         $problem=new ProblemModel();
-        $filter["oj"]=isset($all_data["oj"])?$all_data["oj"]:null;
-        $filter["tag"]=isset($all_data["tag"])?$all_data["tag"]:null;
+        $filter["oj"]=isset($all_data["oj"]) ? $all_data["oj"] : null;
+        $filter["tag"]=isset($all_data["tag"]) ? $all_data["tag"] : null;
         $prob=$problem->list($filter);
         $tags=$problem->tags();
         $ojs=$problem->ojs();
@@ -64,8 +64,7 @@ class ProblemController extends Controller
         $problem=new ProblemModel();
         $prob_detail=$problem->detail($pcode);
         $problem->isBlocked($prob_detail["pid"]);
-        return is_null($prob_detail) ?  redirect("/problem") :
-                                        view('problem.detail', [
+        return is_null($prob_detail) ?  redirect("/problem") : view('problem.detail', [
                                             'page_title'=>$prob_detail["title"],
                                             'site_title'=>"NOJ",
                                             'navigation' => "Problem",
@@ -94,7 +93,7 @@ class ProblemController extends Controller
         if (!is_null($compiler_pref)) {
             $submit_code=$compiler_pref["code"];
             // match precise compiler
-            for ($i=0;$i<count($compiler_list);$i++) {
+            for ($i=0; $i<count($compiler_list); $i++) {
                 if ($compiler_list[$i]["coid"]==$compiler_pref["coid"]) {
                     $pref=$i;
                     break;
@@ -102,7 +101,7 @@ class ProblemController extends Controller
             }
             if ($pref==-1) {
                 // precise compiler is dead, use  other compiler with same lang
-                for ($i=0;$i<count($compiler_list);$i++) {
+                for ($i=0; $i<count($compiler_list); $i++) {
                     if ($compiler_list[$i]["lang"]==$compiler_pref["detail"]["lang"]) {
                         $pref=$i;
                         break;
@@ -111,7 +110,7 @@ class ProblemController extends Controller
             }
             if ($pref==-1) {
                 // same lang compilers are all dead, use other compiler within the same group
-                for ($i=0;$i<count($compiler_list);$i++) {
+                for ($i=0; $i<count($compiler_list); $i++) {
                     if ($compiler_list[$i]["comp"]==$compiler_pref["detail"]["comp"]) {
                         $pref=$i;
                         break;
@@ -128,8 +127,7 @@ class ProblemController extends Controller
             ];
         }
 
-        return is_null($prob_detail) ?  redirect("/problem") :
-                                        view('problem.editor', [
+        return is_null($prob_detail) ?  redirect("/problem") : view('problem.editor', [
                                             'page_title'=>$prob_detail["title"],
                                             'site_title'=>"NOJ",
                                             'navigation' => "Problem",

@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use Closure,Auth,Redirect;
+use Closure, Auth, Redirect;
 
 class ContestAccount
 {
@@ -15,13 +15,13 @@ class ContestAccount
      */
     public function handle($request, Closure $next)
     {
-        if(!Auth::check()){
+        if (!Auth::check()) {
             return $next($request);
         }
         elseif (is_null(Auth::user()->contest_account)) {
             return $next($request);
         }
-        elseif($request->cid == Auth::user()->contest_account) {
+        elseif ($request->cid==Auth::user()->contest_account) {
             return $next($request);
         }
         else {

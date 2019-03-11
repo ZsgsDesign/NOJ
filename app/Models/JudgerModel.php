@@ -4,43 +4,43 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Requests,Exception;
+use Requests, Exception;
 
 class JudgerModel extends Model
 {
-    protected $tableName = 'judger';
+    protected $tableName='judger';
 
-    public function list($oid = 2)
+    public function list($oid=2)
     {
-        $judger_list = DB::table($this->tableName)->where(["oid"=>$oid,"available"=>1])->get();
+        $judger_list=DB::table($this->tableName)->where(["oid"=>$oid, "available"=>1])->get();
         return $judger_list;
     }
 
-    public function server($oid = 1)
+    public function server($oid=1)
     {
-        $serverList = DB::table("judge_server")->where(["oid"=>$oid,"available"=>1])->get()->all();
+        $serverList=DB::table("judge_server")->where(["oid"=>$oid, "available"=>1])->get()->all();
         // return $serverList[0];
-        $bestServer = [
+        $bestServer=[
             "load"=> 99999,
             "server" => null
         ];
         foreach ($serverList as $server) {
-            $serverURL = "http://" . $server["host"] . ":" . $server["port"];
+            $serverURL="http://".$server["host"].":".$server["port"];
             try {
-                $pong = $this->ping($serverURL . '/ping', $server["port"], hash('sha256', $server["token"]));
+                $pong=$this->ping($serverURL.'/ping', $server["port"], hash('sha256', $server["token"]));
             } catch (Exception $exception) {
                 continue;
             }
 
-            if(empty($pong)){
+            if (empty($pong)) {
                 continue;
             }
 
-            if ($pong["status_code"] == 200) {
-                $pong = $pong["body"];
-                $load = 4 * $pong->data->cpu + 0.6 * $pong->data->memory;
-                if ($load < $bestServer['load']) {
-                    $bestServer = [
+            if ($pong["status_code"]==200) {
+                $pong=$pong["body"];
+                $load=4 * $pong->data->cpu+0.6 * $pong->data->memory;
+                if ($load<$bestServer['load']) {
+                    $bestServer=[
                         'server' => $server,
                         'load' => $load
                     ];
@@ -50,9 +50,9 @@ class JudgerModel extends Model
         return $bestServer["server"];
     }
 
-    public function ping($url,$port,$token)
+    public function ping($url, $port, $token)
     {
-        $curl = curl_init();
+        $curl=curl_init();
 
         curl_setopt_array($curl, array(
             CURLOPT_PORT => $port,
@@ -71,9 +71,9 @@ class JudgerModel extends Model
             ),
         ));
 
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-        $httpCode = curl_getinfo($curl,CURLINFO_HTTP_CODE);
+        $response=curl_exec($curl);
+        $err=curl_error($curl);
+        $httpCode=curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         curl_close($curl);
 

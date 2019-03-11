@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 class GroupModel extends Model
 {
-    protected $tableName = 'group';
-    public $role = [
+    protected $tableName='group';
+    public $role=[
         "-3"=>"None",
         "-1"=>"Invited",
         "0"=>"Pending",
@@ -17,7 +17,7 @@ class GroupModel extends Model
         "2"=>"Manager",
         "3"=>"Leader"
     ];
-    public $role_color = [
+    public $role_color=[
         "-3"=>"wemd-black",
         "-1"=>"wemd-deep-purple",
         "0"=>"wemd-red",
@@ -28,7 +28,7 @@ class GroupModel extends Model
 
     public function tendingGroups()
     {
-        $tending_groups = DB::table($this->tableName)->where(["public"=>1])->orderBy('create_time', 'desc')->select("gid", "gcode", "img", "name", "verified")->limit(12)->get()->all(); //Fake Tending
+        $tending_groups=DB::table($this->tableName)->where(["public"=>1])->orderBy('create_time', 'desc')->select("gid", "gcode", "img", "name", "verified")->limit(12)->get()->all(); //Fake Tending
         foreach ($tending_groups as &$t) {
             $t["members"]=$this->countGroupMembers($t["gid"]);
         }
@@ -37,7 +37,7 @@ class GroupModel extends Model
 
     public function userGroups($uid)
     {
-        $user_groups = DB::table("group_member")->join("group", "group_member.gid", "=", "group.gid")->where(["uid"=>$uid])->select("group.gid as gid", "gcode", "img", "name", "verified")->limit(12)->get()->all();
+        $user_groups=DB::table("group_member")->join("group", "group_member.gid", "=", "group.gid")->where(["uid"=>$uid])->select("group.gid as gid", "gcode", "img", "name", "verified")->limit(12)->get()->all();
         foreach ($user_groups as &$m) {
             $m["members"]=$this->countGroupMembers($m["gid"]);
         }
@@ -65,14 +65,14 @@ class GroupModel extends Model
 
     public function changeNickName($gid, $uid, $nickName)
     {
-        return DB::table("group_member")->where(["gid"=>$gid,"uid"=>$uid])->update([
+        return DB::table("group_member")->where(["gid"=>$gid, "uid"=>$uid])->update([
             "nick_name"=>$nickName
         ]);
     }
 
     public function details($gcode)
     {
-        $basic_info = DB::table($this->tableName)->where(["gcode"=>$gcode])->first();
+        $basic_info=DB::table($this->tableName)->where(["gcode"=>$gcode])->first();
         $basic_info["members"]=$this->countGroupMembers($basic_info["gid"]);
         $basic_info["tags"]=$this->getGroupTags($basic_info["gid"]);
         $basic_info["create_time_foramt"]=date_format(date_create($basic_info["create_time"]), 'M jS, Y');
@@ -82,8 +82,8 @@ class GroupModel extends Model
 
     public function joinPolicy($gid)
     {
-        $ret = DB::table($this->tableName)->where(["gid"=>$gid])->first();
-        return empty($ret)? null : $ret["join_policy"];
+        $ret=DB::table($this->tableName)->where(["gid"=>$gid])->first();
+        return empty($ret) ? null : $ret["join_policy"];
     }
 
     public function userProfile($uid, $gid)
@@ -97,7 +97,7 @@ class GroupModel extends Model
 
     public function userList($gid)
     {
-        $user_list = DB::table("group_member")->join(
+        $user_list=DB::table("group_member")->join(
             "users",
             "users.id",
             "=",
@@ -118,11 +118,11 @@ class GroupModel extends Model
 
     public function groupNotice($gid)
     {
-        $notice_item = DB::table("group_notice")->where(["gid"=>$gid])->first();
+        $notice_item=DB::table("group_notice")->where(["gid"=>$gid])->first();
         if (empty($notice_item)) {
             return [];
         }
-        $notice_author = DB::table("users")->where(["id"=>$notice_item["uid"]])->first();
+        $notice_author=DB::table("users")->where(["id"=>$notice_item["uid"]])->first();
         $notice_item["name"]=$notice_author["name"];
         $notice_item["avatar"]=$notice_author["avatar"];
         $notice_item["post_date_parsed"]=$this->formatPostTime($notice_item["post_date"]);
@@ -158,32 +158,32 @@ class GroupModel extends Model
 
     public function formatPostTime($date)
     {
-        $periods = ["second", "minute", "hour", "day", "week", "month", "year", "decade"];
-        $lengths = ["60","60","24","7","4.35","12","10"];
+        $periods=["second", "minute", "hour", "day", "week", "month", "year", "decade"];
+        $lengths=["60", "60", "24", "7", "4.35", "12", "10"];
 
-        $now = time();
-        $unix_date = strtotime($date);
+        $now=time();
+        $unix_date=strtotime($date);
 
         if (empty($unix_date)) {
             return "Bad date";
         }
 
-        if ($now > $unix_date) {
-            $difference = $now - $unix_date;
-            $tense = "ago";
+        if ($now>$unix_date) {
+            $difference=$now-$unix_date;
+            $tense="ago";
         } else {
-            $difference = $unix_date - $now;
-            $tense = "from now";
+            $difference=$unix_date-$now;
+            $tense="from now";
         }
 
-        for ($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
-            $difference /= $lengths[$j];
+        for ($j=0; $difference>=$lengths[$j] && $j<count($lengths)-1; $j++) {
+            $difference/=$lengths[$j];
         }
 
-        $difference = round($difference);
+        $difference=round($difference);
 
-        if ($difference != 1) {
-            $periods[$j].= "s";
+        if ($difference!=1) {
+            $periods[$j].="s";
         }
 
         return "$difference $periods[$j] {$tense}";

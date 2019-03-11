@@ -44,16 +44,16 @@ class Submit
                 'score'=>0
             ];
 
-            $curl = new Core($sub, $this->post_data['oj'], $this->post_data);
+            $curl=new Core($sub, $this->post_data['oj'], $this->post_data);
 
             // insert submission
 
             if ($sub["pid"]=='') {
-                $this->ret["ret"] = 1003;
+                $this->ret["ret"]=1003;
             }
 
-            $submission = new SubmissionModel();
-            $sid = $submission->insert($sub);
+            $submission=new SubmissionModel();
+            $sid=$submission->insert($sub);
 
             $this->ret["data"]=[
                 "sid"=>$sid

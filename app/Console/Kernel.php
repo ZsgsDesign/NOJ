@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands = [
+    protected $commands=[
         //
     ];
 
@@ -25,9 +25,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function () {
+        $schedule->call(function() {
 
-            for ($i=1;$i<=12;$i++){
+            for ($i=1; $i<=12; $i++) {
                 new Judge();
                 sleep(5);
             }

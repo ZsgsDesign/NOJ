@@ -28,9 +28,9 @@ class PTA extends Curl
 
     private function submitSolution()
     {
-        $compilerModel = new CompilerModel();
-        $lang = $compilerModel->detail($this->post_data["coid"]);
-        $pid = $this->post_data['iid'];
+        $compilerModel=new CompilerModel();
+        $lang=$compilerModel->detail($this->post_data["coid"]);
+        $pid=$this->post_data['iid'];
         $this->sub['language']=$lang['display_name'];
         $this->sub['solution']=$this->post_data["solution"];
         $this->sub['pid']=$this->post_data["pid"];
@@ -41,16 +41,16 @@ class PTA extends Curl
             $this->sub['cid']=null;
         }
 
-        $response = $this->post_data("https://pintia.cn/api/problem-sets/{$this->post_data['cid']}/exams", null, 'pta', true, false, false, true);
+        $response=$this->post_data("https://pintia.cn/api/problem-sets/{$this->post_data['cid']}/exams", null, 'pta', true, false, false, true);
 
-        if (strpos($response, 'PROBLEM_SET_NOT_FOUND') !== false) {
+        if (strpos($response, 'PROBLEM_SET_NOT_FOUND')!==false) {
             header('HTTP/1.1 404 Not Found');
             die();
         }
         $generalDetails=json_decode($response, true);
-        $examId = $generalDetails['exam']['id'];
+        $examId=$generalDetails['exam']['id'];
 
-        $params = [
+        $params=[
             'details' => [
                 [
                     'problemSetProblemId' => $this->post_data['iid'],
@@ -64,11 +64,11 @@ class PTA extends Curl
         ];
 
         $response=$this->post_data("https://pintia.cn/api/problem-sets/$examId/submissions?exam_id=".$examId, $params, 'pta', true, false, false, true);
-        $ret = json_decode($response, true);
+        $ret=json_decode($response, true);
         if (isset($ret['submissionId'])) {
-            $this->sub['remote_id'] = $examId.'|'.$ret['submissionId'];
+            $this->sub['remote_id']=$examId.'|'.$ret['submissionId'];
         } else {
-            $this->sub['verdict'] = 'Submission Error';
+            $this->sub['verdict']='Submission Error';
         }
     }
 

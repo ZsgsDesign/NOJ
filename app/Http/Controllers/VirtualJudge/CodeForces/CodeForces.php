@@ -22,15 +22,15 @@ class CodeForces extends Curl
     private function codeForcesLogin()
     {
         $response=$this->grab_page('http://codeforces.com', 'codeforces');
-        if (!(strpos($response, 'Logout') !== false)) {
+        if (!(strpos($response, 'Logout')!==false)) {
             $response=$this->grab_page('http://codeforces.com/enter', 'codeforces');
 
-            $exploded = explode("name='csrf_token' value='", $response);
-            $token = explode("'/>", $exploded[2])[0];
+            $exploded=explode("name='csrf_token' value='", $response);
+            $token=explode("'/>", $exploded[2])[0];
 
             $judger=new JudgerModel();
             $judger_list=$judger->list(2);
-            $params = [
+            $params=[
                 'csrf_token' => $token,
                 'action' => 'enter',
                 'ftaa' => '',
@@ -58,25 +58,25 @@ class CodeForces extends Curl
         $submissionModel=new SubmissionModel();
         $s_num=$submissionModel->count_solution($this->sub['solution']);
         $space='';
-        for ($i=0;$i<$s_num;$i++) {
+        for ($i=0; $i<$s_num; $i++) {
             $space.=' ';
         }
-        $contestId = $this->post_data["cid"];
-        $submittedProblemIndex = $this->post_data["iid"];
+        $contestId=$this->post_data["cid"];
+        $submittedProblemIndex=$this->post_data["iid"];
         $var=substr($this->post_data["lang"], 0, 2);
         $programTypeId=$var;
         if ($var[0]==0) {
             $programTypeId=$var[1];
         }
-        $source =($space.chr(10).$this->post_data["solution"]);
+        $source=($space.chr(10).$this->post_data["solution"]);
 
 
         $response=$this->grab_page("codeforces.com/contest/{$this->post_data['cid']}/submit", "codeforces");
 
-        $exploded = explode("name='csrf_token' value='", $response);
-        $token = explode("'/>", $exploded[2])[0];
+        $exploded=explode("name='csrf_token' value='", $response);
+        $token=explode("'/>", $exploded[2])[0];
 
-        $params = [
+        $params=[
             'csrf_token' => $token,
             'action' => 'submitSolutionFormSubmitted',
             'ftaa' => '',
@@ -90,8 +90,8 @@ class CodeForces extends Curl
         $response=$this->post_data("codeforces.com/contest/{$this->post_data['cid']}/submit?csrf_token=".$token, http_build_query($params), "codeforces", true);
         if (substr_count($response, 'My Submissions')!=2) {
             // Forbidden?
-            $exploded = explode('<span class="error for__source">', $response);
-            $this->sub['verdict'] = explode("</span>", $exploded[1])[0];
+            $exploded=explode('<span class="error for__source">', $response);
+            $this->sub['verdict']=explode("</span>", $exploded[1])[0];
         }
     }
 
