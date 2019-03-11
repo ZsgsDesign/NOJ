@@ -85,7 +85,7 @@ class ProblemModel extends Model
     {
         $conflictContests=DB::table("contest")
                             ->join("contest_problem", "contest.cid", "=", "contest_problem.cid")
-                            ->where("begin_time", "<", date("Y-m-d H:i:s"))
+                            // ->where("begin_time", "<", date("Y-m-d H:i:s"))
                             ->where("end_time", ">", date("Y-m-d H:i:s"))
                             ->where(["verified"=>1, "pid"=>$pid])
                             ->select(["contest_problem.cid as cid"])
