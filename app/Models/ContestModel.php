@@ -94,6 +94,15 @@ class ContestModel extends Model
         ])->first()["gid"];
     }
 
+    public function grantAccess($uid, $cid, $audit = 0)
+    {
+        return DB::table('contest_participant')->insert([
+            "cid"=>$cid,
+            "uid"=>$uid,
+            "audit"=>$audit
+        ]);
+    }
+
     public function listByGroup($gid)
     {
         $contest_list = DB::table($this->tableName)->where([

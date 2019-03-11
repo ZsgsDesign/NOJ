@@ -23,6 +23,7 @@ class AccountModel extends Model
     {
         $ret=[];
         $starting=DB::table("users")->where(["contest_account"=>$cid])->count();
+        $contestModel=new ContestModel();
         for($i=1; $i<=$num; $i++) {
             $pass=$this->generatePassword();
             $name=strtoupper($ccode).str_pad($starting+$i,3,"0",STR_PAD_LEFT);
@@ -34,6 +35,7 @@ class AccountModel extends Model
                 'avatar' => "/static/img/avatar/default.png",
                 'contest_account' => $cid
             ]);
+            $contestModel->grantAccess($uid,$cid,1);
             $ret[]=[
                 "uid"=>$uid,
                 "name"=>$name,
