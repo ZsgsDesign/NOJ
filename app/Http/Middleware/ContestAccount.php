@@ -17,14 +17,11 @@ class ContestAccount
     {
         if (!Auth::check()) {
             return $next($request);
-        }
-        elseif (is_null(Auth::user()->contest_account)) {
+        } elseif (is_null(Auth::user()->contest_account)) {
             return $next($request);
-        }
-        elseif ($request->cid==Auth::user()->contest_account) {
+        } elseif ($request->cid==Auth::user()->contest_account) {
             return $next($request);
-        }
-        else {
+        } else {
             return Redirect::route('contest_detail', ['cid' => Auth::user()->contest_account]);
         }
 

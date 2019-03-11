@@ -33,7 +33,9 @@ class ContestHunter extends CrawlerBase
 
     private static function find($pattern, $subject)
     {
-        if (preg_match($pattern, $subject, $matches)) return $matches[1];
+        if (preg_match($pattern, $subject, $matches)) {
+            return $matches[1];
+        }
         return NULL;
     }
 
@@ -50,12 +52,10 @@ class ContestHunter extends CrawlerBase
         $f=fopen(__DIR__."/contesthunter_status.log", "w") or die("Unable to open file!");
         try {
             $res=Requests::get("http://contest-hunter.org:83/contest?type=1");
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             try { // It seems that first query often fails
                 $res=Requests::get("http://contest-hunter.org:83/contest?type=1");
-            }
-            catch (Exception $e2) {
+            } catch (Exception $e2) {
                 fwrite($f, "Loaded contest list failed.".PHP_EOL);
                 fclose($f);
                 die("Loaded contest list failed.");
@@ -70,7 +70,9 @@ class ContestHunter extends CrawlerBase
             $cname=urldecode($rcname);
             $cid=substr($rcname, 0, 4);
             $tag=NULL;
-            if (preg_match('/「(.*?)」/u', $cname, $match)) $tag=$match[1];
+            if (preg_match('/「(.*?)」/u', $cname, $match)) {
+                $tag=$match[1];
+            }
             try {
                 $now=time()-$start;
                 fwrite($f, "Start loading problem list of {$cid} at {$now}".PHP_EOL);
@@ -87,9 +89,13 @@ class ContestHunter extends CrawlerBase
 
                         $tests=ContestHunter::find('/<dt>测试点数<\/dt>\s*<dd>\s*(\d+)\s*<\/dd>/u', $res->body);
                         $totalTimeLimit=ContestHunter::find('/<dt>总时限<\/dt>\s*<dd>\s*([\d.]+) s\s*<\/dd>/u', $res->body);
-                        if ($tests) $timeLimit=$totalTimeLimit * 1000 / $tests;
+                        if ($tests) {
+                            $timeLimit=$totalTimeLimit * 1000 / $tests;
+                        }
                         $memoryLimit=ContestHunter::find('/<dt>总内存<\/dt>\s*<dd>\s*(\d+) MiB\s*<\/dd>/u', $res->body);
-                        if ($memoryLimit) $memoryLimit*=1024;
+                        if ($memoryLimit) {
+                            $memoryLimit*=1024;
+                        }
                         $passes=ContestHunter::find('/<dt>通过率<\/dt>\s*<dd>\s*([\d,]+)\/[\d,]+\s*<\/dd>/u', $res->body);
                         $speTimeLimits=[
                             "0103" => 2000,
@@ -190,10 +196,17 @@ class ContestHunter extends CrawlerBase
                             $this->pro['sample']=$samples;
                             $pos1=$pos2+6;
                             $pos2=strpos($res->body, $sourcePattern, $pos1);
-                            if ($pos2===FALSE) $pos2=strpos($res->body, "</article>", $pos1);
+                            if ($pos2===FALSE) {
+                                $pos2=strpos($res->body, "</article>", $pos1);
+                            }
                             $note=trim(substr($res->body, $pos1, $pos2-$pos1));
-                            while (substr($note, 0, 2)=='</') $note=trim(preg_replace('/<\/\w+>/', '', $note, 1));
-                            if ($note=="<p>&nbsp;</p>") $note=''; // cnmch
+                            while (substr($note, 0, 2)=='</') {
+                                $note=trim(preg_replace('/<\/\w+>/', '', $note, 1));
+                            }
+                            if ($note=="<p>&nbsp;</p>") {
+                                $note='';
+                            }
+                            // cnmch
                             $this->pro['note']=$note;
                         }
 
@@ -210,14 +223,12 @@ class ContestHunter extends CrawlerBase
 
                         $now=time()-$start;
                         fwrite($f, "Finished loading problem {$pid} at {$now}".PHP_EOL);
-                    }
-                    catch (Exception $e) {
+                    } catch (Exception $e) {
                         fwrite($f, "Failed loading problem {$pid}".PHP_EOL);
                     }
                 }
                 fwrite($f, "Finished loading problem list of {$cid} at {$now}".PHP_EOL);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 fwrite($f, "Failed loading problem list of {$cid}".PHP_EOL);
             }
         }
