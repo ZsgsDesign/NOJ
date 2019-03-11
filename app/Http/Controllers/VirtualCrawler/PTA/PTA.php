@@ -137,7 +137,7 @@ class PTA extends CrawlerBase
                 $now=time()-$start;
                 fwrite($f, "    Problem {$this->pro['pcode']} Success at {$now}".PHP_EOL);
 
-                sleep(1); // PTA Restrictions
+                usleep(500000); // PTA Restrictions 0.5s
 
                 // $problemModel->addTags($new_pid, $tag);
             }
