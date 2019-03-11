@@ -39,7 +39,7 @@ class ContestController extends Controller
     public function detail($cid)
     {
         $contestModel=new ContestModel();
-        $clearance = $contestModel->judgeClearance($cid, Auth::user()->id);
+        $clearance =Auth::check()?$contestModel->judgeClearance($cid, Auth::user()->id):0;
         if (Auth::check()) {
             $contest_detail=$contestModel->detail($cid, Auth::user()->id);
         } else {
