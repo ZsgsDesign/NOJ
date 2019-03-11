@@ -173,9 +173,11 @@
     </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+                @if(!Auth::check() || is_null(Auth::user()->contest_account))
                 <li class="nav-item />">
                     <a class="nav-link @if ($navigation === "Home") active @endif" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
+                @endif
                 @if(!Auth::check() || is_null(Auth::user()->contest_account))
                     <li class="nav-item />">
                         <a class="nav-link @if ($navigation === "Problem") active @endif" href="/problem">Problem</a>
