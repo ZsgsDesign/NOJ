@@ -122,7 +122,7 @@
                                 </div>
                             </div>
                             <div class="card-footer text-right">
-                                <a href="{{ route('password.request') }}"><button type="button" class="btn btn-secondary">Forget your password?</button></a>
+                                {{-- <a href="{{ route('password.request') }}"><button type="button" class="btn btn-secondary">Forget your password?</button></a> --}}
                                 <button type="submit" class="btn btn-danger">Login</button>
                             </div>
                         </form>
