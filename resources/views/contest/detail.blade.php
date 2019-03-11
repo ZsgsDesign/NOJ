@@ -259,9 +259,23 @@
                     </detail-info>
                     <div style="text-align:right;">
                         @if(strtotime($detail['begin_time']) > time())
-                            <button type="button" class="btn btn-secondary">Not Started Yet</button>
+                            @if($detail["registration"])
+                                {{--
+                                    Means need register
+                                    if alerady registered show registered
+                                    else if passed registration time or registration do not open to you show no access
+                                    else show apply
+                                --}}
+                                <button type="button" class="btn btn-primary">Apply</button>
+                            @else
+                                <button type="button" class="btn btn-secondary">Not Started Yet</button>
+                            @endif
                         @else
-                            <a href="/contest/{{$detail['cid']}}/board"><button type="button" class="btn btn-info">Enter</button></a>
+                            @if($clearance)
+                                <a href="/contest/{{$detail['cid']}}/board"><button type="button" class="btn btn-info">Enter</button></a>
+                            @else
+                                <button type="button" class="btn btn-secondary">No Access</button>
+                            @endif
                         @endif
                     </div>
                 </div>

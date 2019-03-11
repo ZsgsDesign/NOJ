@@ -39,6 +39,7 @@ class ContestController extends Controller
     public function detail($cid)
     {
         $contentModel=new ContestModel();
+        $clearance = $contestModel->judgeClearance($cid, Auth::user()->id);
         if (Auth::check()) {
             $contest_detail=$contentModel->detail($cid, Auth::user()->id);
         } else {
@@ -51,7 +52,8 @@ class ContestController extends Controller
             'page_title'=>"Contest",
             'site_title'=>"NOJ",
             'navigation' => "Contest",
-            'detail'=>$contest_detail["data"]["contest_detail"]
+            'detail'=>$contest_detail["data"]["contest_detail"],
+            'clearance' => $clearance
         ]);
     }
 
@@ -81,6 +83,7 @@ class ContestController extends Controller
         $problemSet = $contestModel->contestProblems($cid, Auth::user()->id);
         $remainingTime = $contestModel->remainingTime($cid);
         $customInfo = $contestModel->getCustomInfo($cid);
+        $clarificationList = $contestModel->getLatestClarification($cid);
         if ($remainingTime<=0) {
             $remainingTime=0;
         }
@@ -93,7 +96,8 @@ class ContestController extends Controller
             'contest_rule'=>$contest_rule,
             'problem_set'=> $problemSet,
             'remaining_time'=>$remainingTime,
-            'custom_info' => $customInfo
+            'custom_info' => $customInfo,
+            'clarification_list' => $clarificationList
         ]);
     }
 

@@ -503,6 +503,15 @@ class ContestModel extends Model
         ])->orderBy('create_time', 'desc')->get()->all();
     }
 
+    public function getlatestClarification($cid)
+    {
+        return DB::table("contest_clarification")->where([
+            "cid"=>$cid,
+            "type"=>0,
+            "public"=>1
+        ])->orderBy('create_time', 'desc')->first();
+    }
+
     public function getClarificationDetail($ccid)
     {
         return DB::table("contest_clarification")->where([
@@ -531,7 +540,17 @@ class ContestModel extends Model
             $contest_info = DB::table("contest")->where("cid", $cid)->first();
             if ($contest_info["registration"]) {
                 // check if uid in registration, temp return 3
-                return 2;
+                $isParticipant = DB::table("contest_participant")->where([
+                    "cid" => $cid,
+                    "uid" => $uid,
+                    "audit" => 1
+                ])->count();
+                if($isParticipant) {
+                    return 2;
+                }
+                else {
+                    return 0;
+                }
             } else {
                 if ($contest_info["public"]) {
                     return 2;
