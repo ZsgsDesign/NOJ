@@ -278,6 +278,7 @@ class ContestModel extends Model
             "color"=>"",
             "score"=>null,
             "score_parsed"=>"",
+            "solved"=>0,
             "points"=>DB::table("contest_problem")->where([
                 "pid"=>$pid,
                 "cid"=>$cid
