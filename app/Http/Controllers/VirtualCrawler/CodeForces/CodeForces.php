@@ -21,7 +21,7 @@ class CodeForces extends CrawlerBase
         if ($action=='judge_level') {
             $this->judge_level();
         } else {
-            $this->Codeforces($con,$cached);
+            $this->Codeforces($con, $cached);
         }
     }
 
@@ -130,7 +130,7 @@ class CodeForces extends CrawlerBase
     }
 
 
-    public function CodeForces($con,$cached)
+    public function CodeForces($con, $cached)
     {
         $problemModel=new ProblemModel();
         $start=time();

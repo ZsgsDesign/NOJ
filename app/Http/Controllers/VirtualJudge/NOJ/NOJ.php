@@ -39,7 +39,7 @@ class NOJ
         $this->post_data=$all_data;
     }
 
-    public function submitJudger($submitURL,$data)
+    public function submitJudger($submitURL, $data)
     {
         $judgeClient = new JudgeClient($data["token"], $submitURL);
         return $judgeClient->judge($data["solution"], $data["language"], $data["test_case_id"], [
@@ -81,7 +81,7 @@ class NOJ
 
         if (isset($this->post_data["contest"])) {
             $this->sub['cid']=$this->post_data["contest"];
-            if($contestModel->rule($this->sub['cid'])==2) {
+            if ($contestModel->rule($this->sub['cid'])==2) {
                 // OI Mode
 
                 $this->sub['verdict']="Accepted";
@@ -104,7 +104,7 @@ class NOJ
                     }
                 }
 
-                if($this->sub["score"]==0){
+                if ($this->sub["score"]==0) {
                     $this->sub['verdict']=$this->verdictDict[$temp["data"][0]["result"]];
                     $this->sub['time']=$temp["data"][0]["cpu_time"];
                     $this->sub['memory']=$temp["data"][0]["memory"];

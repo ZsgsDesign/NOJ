@@ -119,7 +119,7 @@ class ContestController extends Controller
         $contest_rule = $contestModel->rule($cid);
         $contest_ended = $contestModel->isContestEnded($cid);
         $pid=$contestModel->getPid($cid, $ncode);
-        if(empty($pid)){
+        if (empty($pid)) {
             return Redirect::route('contest_board', ['cid' => $cid]);
         }
         $pcode=$problemModel->pcode($pid);

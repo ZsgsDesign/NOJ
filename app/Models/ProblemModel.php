@@ -84,18 +84,18 @@ class ProblemModel extends Model
     public function isBlocked($pid, $cid = null)
     {
         $conflictContests = DB::table("contest")
-                            ->join("contest_problem","contest.cid","=","contest_problem.cid")
-                            ->where("begin_time","<",date("Y-m-d H:i:s"))
-                            ->where("end_time",">",date("Y-m-d H:i:s"))
+                            ->join("contest_problem", "contest.cid", "=", "contest_problem.cid")
+                            ->where("begin_time", "<", date("Y-m-d H:i:s"))
+                            ->where("end_time", ">", date("Y-m-d H:i:s"))
                             ->where(["verified"=>1,"pid"=>$pid])
                             ->select(["contest_problem.cid as cid"])
                             ->get()
                             ->all();
-        if(empty($conflictContests)){
+        if (empty($conflictContests)) {
             return false;
         }
-        foreach($conflictContests as $c){
-            if($cid==$c["cid"]){
+        foreach ($conflictContests as $c) {
+            if ($cid==$c["cid"]) {
                 return false;
             }
         }

@@ -23,7 +23,6 @@ class ContestHunter extends Curl
     {
         $response=$this->grab_page('http://contest-hunter.org:83', 'contesthunter');
         if (strpos($response, '登录') !== false) {
-
             preg_match('/<input name="CSRFToken" type="hidden" value="([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})"\/>/', $response, $match);
             $token = $match[1];
 

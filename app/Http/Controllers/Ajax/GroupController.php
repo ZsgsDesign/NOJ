@@ -40,7 +40,7 @@ class GroupController extends Controller
             return ResponseModel::err(2001);
         }
         $problems = explode(",", $all_data["problems"]);
-        if(count($problems)>26){
+        if (count($problems)>26) {
             return ResponseModel::err(4002);
         }
         $i=0;
@@ -87,8 +87,8 @@ class GroupController extends Controller
             return ResponseModel::err(2001);
         }
         $accountModel=new AccountModel();
-        $ret = $accountModel->generateContestAccount($all_data["cid"],$all_data["ccode"],$all_data["num"]);
-        return ResponseModel::success(200,null,$ret);
+        $ret = $accountModel->generateContestAccount($all_data["cid"], $all_data["ccode"], $all_data["num"]);
+        return ResponseModel::success(200, null, $ret);
     }
 
     public function changeNickName(Request $request)

@@ -32,7 +32,7 @@ class ResponseModel extends Model
             'data' => $data
         ];
         return response()->json($output);
-   }
+    }
 
     private static function desc($errCode)
     {

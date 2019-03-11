@@ -5,12 +5,15 @@ namespace App\Http\Controllers\VirtualCrawler\POJ;
 use App\Http\Controllers\VirtualCrawler\CrawlerBase;
 use App\Models\ProblemModel;
 use KubAT\PhpSimple\HtmlDomParser;
-use Auth,Requests,Exception;
+use Auth;
+use Requests;
+use Exception;
 
 class POJ extends CrawlerBase
 {
     public $oid=4;
-    private $con, $imgi;
+    private $con;
+    private $imgi;
     /**
      * Initial
      *
@@ -33,13 +36,17 @@ class POJ extends CrawlerBase
 
     private static function find($pattern, $subject)
     {
-        if (preg_match($pattern, $subject, $matches)) return $matches[1];
-        return NULL;
+        if (preg_match($pattern, $subject, $matches)) {
+            return $matches[1];
+        }
+        return null;
     }
 
     private function getDOM($html, $start, $end)
     {
-        if ($start === false || $end === false) throw new Exception("Missing keywords.");
+        if ($start === false || $end === false) {
+            throw new Exception("Missing keywords.");
+        }
         return $this->cacheImage(HtmlDomParser::str_get_html(substr($html, $start, $end - $start), true, true, DEFAULT_TARGET_CHARSET, false));
     }
 
@@ -53,18 +60,22 @@ class POJ extends CrawlerBase
         foreach ($dom->find('img') as $ele) {
             if (strpos($ele->src, '://') !== false) {
                 $url = $ele->src;
-            } else if ($ele->src[0] == '/') {
+            } elseif ($ele->src[0] == '/') {
                 $url = 'http://poj.org'.$ele->src;
             } else {
                 $url = 'http://poj.org/'.$ele->src;
             }
             $res = Requests::get($url, ['Referer' => 'http://poj.org']);
             $ext = ['image/jpeg'=>'.jpg', 'image/png'=>'.png', 'image/gif'=>'.gif', 'image/bmp'=>'.bmp'];
-            if (isset($res->headers['content-type'])) $cext = $ext[$res->headers['content-type']];
-            else {
+            if (isset($res->headers['content-type'])) {
+                $cext = $ext[$res->headers['content-type']];
+            } else {
                 $pos = strpos($ele->src, '.');
-                if ($pos === false) $cext = '';
-                else  $cext = substr($ele->src, $pos);
+                if ($pos === false) {
+                    $cext = '';
+                } else {
+                    $cext = substr($ele->src, $pos);
+                }
             }
             $fn = $this->con.'_'.($this->imgi++).$cext;
             $dir = base_path("public/external/poj/img");

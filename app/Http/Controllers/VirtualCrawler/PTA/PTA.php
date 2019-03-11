@@ -6,12 +6,15 @@ use App\Http\Controllers\VirtualCrawler\CrawlerBase;
 use App\Models\ProblemModel;
 use App\Models\CompilerModel;
 use KubAT\PhpSimple\HtmlDomParser;
-use Auth,Requests,Exception;
+use Auth;
+use Requests;
+use Exception;
 
 class PTA extends CrawlerBase
 {
     public $oid=6;
-    private $con, $imgi;
+    private $con;
+    private $imgi;
     /**
      * Initial
      *
@@ -52,15 +55,15 @@ class PTA extends CrawlerBase
             $this->con = $con;
             $this->imgi = 1;
             $problemModel=new ProblemModel();
-            $res = Requests::post("https://pintia.cn/api/problem-sets/$con/exams",[
+            $res = Requests::post("https://pintia.cn/api/problem-sets/$con/exams", [
                 "Content-Type"=>"application/json"
-            ],"{}");
+            ], "{}");
 
             if (strpos($res->body, 'PROBLEM_SET_NOT_FOUND') !== false) {
                 header('HTTP/1.1 404 Not Found');
                 die();
             } else {
-                $generalDetails=json_decode($res->body,true);
+                $generalDetails=json_decode($res->body, true);
                 $compilerModel = new CompilerModel();
                 $list = $compilerModel->list($this->oid);
                 $compilers = [];
@@ -79,7 +82,8 @@ class PTA extends CrawlerBase
             fwrite($f, "General Detail API Success at {$now}".PHP_EOL);
 
             $probLists = json_decode(Requests::get(
-                "https://pintia.cn/api/problem-sets/$con/problems?type=PROGRAMMING&exam_id=0",[
+                "https://pintia.cn/api/problem-sets/$con/problems?type=PROGRAMMING&exam_id=0",
+                [
                     "Content-Type"=>"application/json"
                 ]
             )->body, true)["problemSetProblems"];
@@ -89,7 +93,8 @@ class PTA extends CrawlerBase
 
             foreach ($probLists as $prob) {
                 $probDetails = json_decode(Requests::get(
-                    "https://pintia.cn/api/problem-sets/$con/problems/{$prob["id"]}?exam_id=0",[
+                    "https://pintia.cn/api/problem-sets/$con/problems/{$prob["id"]}?exam_id=0",
+                    [
                         "Content-Type"=>"application/json"
                     ]
                 )->body, true)["problemSetProblem"];
@@ -109,8 +114,8 @@ class PTA extends CrawlerBase
                 $this->pro['input_type'] = 'standard input';
                 $this->pro['output_type'] = 'standard output';
 
-                $this->pro['description'] = str_replace("](~/","](https://images.ptausercontent.com/",$probDetails["content"]);
-                $this->pro['description'] = str_replace("$$","$$$",$this->pro['description']);
+                $this->pro['description'] = str_replace("](~/", "](https://images.ptausercontent.com/", $probDetails["content"]);
+                $this->pro['description'] = str_replace("$$", "$$$", $this->pro['description']);
                 $this->pro['markdown'] = 1;
                 $this->pro['tot_score'] = $probDetails["score"];
                 $this->pro["partial"] = 1;

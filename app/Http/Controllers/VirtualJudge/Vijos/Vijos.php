@@ -22,7 +22,6 @@ class Vijos extends Curl
     {
         $response=$this->grab_page('https://vijos.org', 'vijos');
         if (strpos($response, '登出') === false) {
-
             $judger=new JudgerModel();
             $judger_list=$judger->list(5);
             $params = [

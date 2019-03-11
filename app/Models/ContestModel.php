@@ -213,7 +213,7 @@ class ContestModel extends Model
                     $p["ac_rate"]=round($prob_stat["ac_rate"], 2);
                 }
             } else {
-                $prob_stat = $this->contestProblemInfoOI($cid,$p["pid"],$uid);
+                $prob_stat = $this->contestProblemInfoOI($cid, $p["pid"], $uid);
                 $p["points"] = $prob_stat["points"];
                 $p["score"] = empty($prob_stat["score_parsed"])?0:$prob_stat["score_parsed"];
             }
@@ -392,7 +392,7 @@ class ContestModel extends Model
         $user_in_group = !empty(DB::table("group_member")->where([
             "uid" => $uid,
             "gid" => $contest_info["gid"]
-        ])->where("role",">",0)->first());
+        ])->where("role", ">", 0)->first());
 
         if ($contest_info["registration"]) {
             $submissionUsers = DB::table("contest_participant")->where([
@@ -460,7 +460,7 @@ class ContestModel extends Model
                     return 1;
                 }
             });
-        } else if ($contest_info["rule"]==2) {
+        } elseif ($contest_info["rule"]==2) {
             // OI Mode
             foreach ($submissionUsers as $s) {
                 $prob_detail=[];
@@ -562,10 +562,9 @@ class ContestModel extends Model
                     "uid" => $uid,
                     "audit" => 1
                 ])->count();
-                if($isParticipant) {
+                if ($isParticipant) {
                     return 2;
-                }
-                else {
+                } else {
                     return 0;
                 }
             } else {

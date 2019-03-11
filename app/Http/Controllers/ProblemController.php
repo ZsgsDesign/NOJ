@@ -91,28 +91,28 @@ class ProblemController extends Controller
         $pref=-1;
         $submit_code="";
 
-        if(!is_null($compiler_pref)){
+        if (!is_null($compiler_pref)) {
             $submit_code=$compiler_pref["code"];
             // match precise compiler
-            for($i=0;$i<count($compiler_list);$i++){
-                if($compiler_list[$i]["coid"]==$compiler_pref["coid"]){
+            for ($i=0;$i<count($compiler_list);$i++) {
+                if ($compiler_list[$i]["coid"]==$compiler_pref["coid"]) {
                     $pref=$i;
                     break;
                 }
             }
-            if($pref==-1){
+            if ($pref==-1) {
                 // precise compiler is dead, use  other compiler with same lang
-                for($i=0;$i<count($compiler_list);$i++){
-                    if($compiler_list[$i]["lang"]==$compiler_pref["detail"]["lang"]){
+                for ($i=0;$i<count($compiler_list);$i++) {
+                    if ($compiler_list[$i]["lang"]==$compiler_pref["detail"]["lang"]) {
                         $pref=$i;
                         break;
                     }
                 }
             }
-            if($pref==-1){
+            if ($pref==-1) {
                 // same lang compilers are all dead, use other compiler within the same group
-                for($i=0;$i<count($compiler_list);$i++){
-                    if($compiler_list[$i]["comp"]==$compiler_pref["detail"]["comp"]){
+                for ($i=0;$i<count($compiler_list);$i++) {
+                    if ($compiler_list[$i]["comp"]==$compiler_pref["detail"]["comp"]) {
                         $pref=$i;
                         break;
                     }
@@ -121,7 +121,7 @@ class ProblemController extends Controller
             // the entire comp group dead
         }
 
-        if(empty($prob_status)){
+        if (empty($prob_status)) {
             $prob_status=[
                 "verdict"=>"NOT SUBMIT",
                 "color"=>""

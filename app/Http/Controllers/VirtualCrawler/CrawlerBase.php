@@ -40,7 +40,6 @@ class CrawlerBase
      */
     public function __construct()
     {
-
     }
 
     public static function cmp($a, $b)
@@ -88,7 +87,6 @@ class CrawlerBase
             fwrite($fp, $content);
             fclose($fp);
             return $result;
-
         }, $ori);
     }
 

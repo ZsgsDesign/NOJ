@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Hash;
 
 class AccountModel extends Model
 {
-
-    public function generatePassword($length=8) {
+    public function generatePassword($length=8)
+    {
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
         $password = '';
@@ -19,14 +19,14 @@ class AccountModel extends Model
         return $password;
     }
 
-    public function generateContestAccount($cid,$ccode,$num)
+    public function generateContestAccount($cid, $ccode, $num)
     {
         $ret=[];
         $starting=DB::table("users")->where(["contest_account"=>$cid])->count();
         $contestModel=new ContestModel();
-        for($i=1; $i<=$num; $i++) {
+        for ($i=1; $i<=$num; $i++) {
             $pass=$this->generatePassword();
-            $name=strtoupper($ccode).str_pad($starting+$i,3,"0",STR_PAD_LEFT);
+            $name=strtoupper($ccode).str_pad($starting+$i, 3, "0", STR_PAD_LEFT);
             $uid=$this->add([
                 'name' => $name,
                 'email' => "$name@icpc.njupt.edu.cn",
@@ -35,7 +35,7 @@ class AccountModel extends Model
                 'avatar' => "/static/img/avatar/default.png",
                 'contest_account' => $cid
             ]);
-            $contestModel->grantAccess($uid,$cid,1);
+            $contestModel->grantAccess($uid, $cid, 1);
             $ret[]=[
                 "uid"=>$uid,
                 "name"=>$name,

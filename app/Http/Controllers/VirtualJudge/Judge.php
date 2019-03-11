@@ -5,7 +5,8 @@ use App\Models\SubmissionModel;
 use App\Models\JudgerModel;
 use App\Models\ContestModel;
 use App\Http\Controllers\VirtualJudge\Core;
-use Requests, Exception;
+use Requests;
+use Exception;
 
 class Judge extends Core
 {
@@ -110,7 +111,9 @@ class Judge extends Core
 
         $pojJudgerList=$judger->list(4);
         $pojJudgerName=urlencode($pojJudgerList[0]["handle"]);
-        if ($this->MODEL->count_waiting_submission(5)) $this->appendPOJStatus($poj, $pojJudgerName);
+        if ($this->MODEL->count_waiting_submission(5)) {
+            $this->appendPOJStatus($poj, $pojJudgerName);
+        }
         // $uva=$this->get_last_uva($this->MODEL->count_waiting_submission('Uva'));
         // $uval=$this->get_last_uvalive($this->MODEL->count_waiting_submission('UvaLive'));
         // $sj=$this->get_last_spoj($this->MODEL->count_waiting_submission('Spoj'));
@@ -122,7 +125,6 @@ class Judge extends Core
         foreach ($result as $row) {
             if ($row['oid']==2) {
                 if (isset($codeforces_v[$cf[$i][2]])) {
-
                     $sub['verdict'] = $codeforces_v[$cf[$i][2]];
                     $sub["score"]=$sub['verdict']=="Accepted"?1:0;
                     $sub['time'] = $cf[$i][0];
@@ -136,12 +138,14 @@ class Judge extends Core
                     $this->MODEL->update_submission($row['sid'], $sub);
                 }
                 $i++;
-            } else if ($row['oid'] == 3) {
+            } elseif ($row['oid'] == 3) {
                 try {
                     $res = Requests::get('http://contest-hunter.org:83/record/'.$row['remote_id']);
                     preg_match('/<dt>状态<\/dt>[\s\S]*?<dd class=".*?">(.*?)<\/dd>/m', $res->body, $match);
                     $status = $match[1];
-                    if (!array_key_exists($status, $contesthunter_v)) continue;
+                    if (!array_key_exists($status, $contesthunter_v)) {
+                        continue;
+                    }
                     $sub['verdict'] = $contesthunter_v[$status];
                     $sub["score"]=$sub['verdict']=="Accepted"?1:0;
                     $sub['remote_id'] = $row['remote_id'];
@@ -151,7 +155,9 @@ class Judge extends Core
                         $maxtime = 0;
                         preg_match_all('/<span class="pull-right muted">(\d+) ms \/ \d+ KiB<\/span>/', $res->body, $matches);
                         foreach ($matches[1] as $time) {
-                            if ($time < $maxtime) $maxtime = $time;
+                            if ($time < $maxtime) {
+                                $maxtime = $time;
+                            }
                         }
                         $sub['time'] = $maxtime;
                     } else {
@@ -163,12 +169,14 @@ class Judge extends Core
                         "verdict"=>$sub['verdict']
                     ];
                     $this->MODEL->update_submission($row['sid'], $sub);
+                } catch (Exception $e) {
                 }
-                catch(Exception $e) {}
-            } else if ($row['oid'] == 4) {
+            } elseif ($row['oid'] == 4) {
                 if (!isset($poj[$row['remote_id']])) {
                     $this->appendPOJStatus($poj, $pojJudgerName, $row['remote_id']);
-                    if (!isset($poj[$row['remote_id']])) continue;
+                    if (!isset($poj[$row['remote_id']])) {
+                        continue;
+                    }
                 }
                 $status = $poj[$row['remote_id']];
                 $sub['verdict'] = $poj_v[$status['verdict']];
@@ -181,18 +189,22 @@ class Judge extends Core
                     "verdict"=>$sub['verdict']
                 ];
                 $this->MODEL->update_submission($row['sid'], $sub);
-            } else if ($row['oid'] == 5) {
+            } elseif ($row['oid'] == 5) {
                 try {
                     $res = Requests::get('https://vijos.org/records/'.$row['remote_id']);
                     preg_match('/<span class="record-status--text \w*">\s*(.*?)\s*<\/span>/', $res->body, $match);
                     $status = $match[1];
-                    if (!array_key_exists($status, $vijos_v)) continue;
+                    if (!array_key_exists($status, $vijos_v)) {
+                        continue;
+                    }
                     $sub['verdict'] = $vijos_v[$status];
                     preg_match('/<dt>分数<\/dt>\s*<dd>(\d+)<\/dd>/', $res->body, $match);
                     $isOI = $row['cid'] && $contestModel->rule($row['cid'])==2;
                     if ($isOI) {
                         $sub['score'] = $match[1];
-                        if ($sub['verdict'] == "Wrong Answer" && $sub['score'] != 0) $sub['verdict'] = 'Partially Accepted';
+                        if ($sub['verdict'] == "Wrong Answer" && $sub['score'] != 0) {
+                            $sub['verdict'] = 'Partially Accepted';
+                        }
                     } else {
                         $sub['score'] = $match[1] == 100 ? 100 : 0;
                     }
@@ -201,12 +213,16 @@ class Judge extends Core
                         $maxtime = 0;
                         preg_match_all('/<td class="col--time">(?:&ge;)?(\d+)ms<\/td>/', $res->body, $matches);
                         foreach ($matches as $match) {
-                            if ($match[1] > $maxtime) $maxtime = $match[1];
+                            if ($match[1] > $maxtime) {
+                                $maxtime = $match[1];
+                            }
                         }
                         $sub['time'] = $maxtime;
                         preg_match('/<dt>峰值内存<\/dt>\s*<dd>(?:&ge;)?([\d.]+) ([KM])iB<\/dd>/', $res->body, $match);
                         $memory = $match[1];
-                        if ($match[2] == 'M') $memory *= 1024;
+                        if ($match[2] == 'M') {
+                            $memory *= 1024;
+                        }
                         $sub['memory'] = intval($memory);
                     } else {
                         $sub['memory'] = 0;
@@ -217,14 +233,16 @@ class Judge extends Core
                         "verdict"=>$sub['verdict']
                     ];
                     $this->MODEL->update_submission($row['sid'], $sub);
+                } catch (Exception $e) {
                 }
-                catch(Exception $e) {}
-            } else if ($row['oid'] == 6) {
+            } elseif ($row['oid'] == 6) {
                 try {
                     $remoteId = explode('|', $row['remote_id']);
                     $response = $curl->grab_page("https://pintia.cn/api/problem-sets/$remoteId[0]/submissions/".$remoteId[1], 'pta');
                     $data = json_decode($response, true);
-                    if (!isset($pta_v[$data['submission']['status']])) continue;
+                    if (!isset($pta_v[$data['submission']['status']])) {
+                        continue;
+                    }
                     $sub['verdict'] = $pta_v[$data['submission']['status']];
                     $isOI = $row['cid'] && $contestModel->rule($row['cid'])==2;
                     $sub['score'] = $data['submission']['score'];
@@ -242,8 +260,8 @@ class Judge extends Core
                         "verdict"=>$sub['verdict']
                     ];
                     $this->MODEL->update_submission($row['sid'], $sub);
+                } catch (Exception $e) {
                 }
-                catch(Exception $e) {}
             }
             // if ($row['oid']=='Spoj') {
             //     if (isset($spoj_v[$sj[$j][2]])) {
@@ -478,7 +496,9 @@ class Judge extends Core
 
     private function appendPOJStatus(&$results, $judger, $first = null)
     {
-        if ($first !== null) $first++;
+        if ($first !== null) {
+            $first++;
+        }
         $res = Requests::get("http://poj.org/status?user_id={$judger}&top={$first}");
         $rows = preg_match_all('/<tr align=center><td>(\d+)<\/td><td>.*?<\/td><td>.*?<\/td><td>.*?<font color=.*?>(.*?)<\/font>.*?<\/td><td>(\d*)K?<\/td><td>(\d*)(?:MS)?<\/td>/', $res->body, $matches);
         for ($i = 0; $i < $rows; $i++) {

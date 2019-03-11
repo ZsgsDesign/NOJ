@@ -47,7 +47,7 @@ class PTA extends Curl
             header('HTTP/1.1 404 Not Found');
             die();
         }
-        $generalDetails=json_decode($response,true);
+        $generalDetails=json_decode($response, true);
         $examId = $generalDetails['exam']['id'];
 
         $params = [
