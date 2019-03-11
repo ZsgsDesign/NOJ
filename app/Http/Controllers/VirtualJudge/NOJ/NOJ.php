@@ -87,9 +87,16 @@ class NOJ
                 $this->sub['verdict']="Accepted";
 
                 if (!is_null($temp["err"])) {
-                    $this->sub['verdict']="Compile Error";
-                    $this->sub['time']=0;
-                    $this->sub['memory']=0;
+                    if (strpos($temp["data"], 'Compiler runtime error, info: ') !== false) {
+                        $tempRes=json_decode(explode('Compiler runtime error, info: ',$temp["data"])[1],true);
+                        $this->sub['verdict']=$this->verdictDict[$tempRes["result"]];
+                        $this->sub['time']=$tempRes["cpu_time"];
+                        $this->sub['memory']=$tempRes["memory"];
+                    }else{
+                        $this->sub['verdict']="Compile Error";
+                        $this->sub['time']=0;
+                        $this->sub['memory']=0;
+                    }
                     return;
                 }
 
@@ -127,9 +134,16 @@ class NOJ
         }
 
         if (!is_null($temp["err"])) {
-            $this->sub['verdict']="Compile Error";
-            $this->sub['time']=0;
-            $this->sub['memory']=0;
+            if (strpos($temp["data"], 'Compiler runtime error, info: ') !== false) {
+                $tempRes=json_decode(explode('Compiler runtime error, info: ',$temp["data"])[1],true);
+                $this->sub['verdict']=$this->verdictDict[$tempRes["result"]];
+                $this->sub['time']=$tempRes["cpu_time"];
+                $this->sub['memory']=$tempRes["memory"];
+            }else{
+                $this->sub['verdict']="Compile Error";
+                $this->sub['time']=0;
+                $this->sub['memory']=0;
+            }
             return;
         }
 
