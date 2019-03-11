@@ -19,9 +19,9 @@ class ContestController extends Controller
      */
     public function index()
     {
-        $contentModel=new ContestModel();
-        $contest_list=$contentModel->list();
-        $featured=$contentModel->featured();
+        $contestModel=new ContestModel();
+        $contest_list=$contestModel->list();
+        $featured=$contestModel->featured();
         return view('contest.index', [
             'page_title'=>"Contest",
             'site_title'=>"NOJ",
@@ -38,12 +38,12 @@ class ContestController extends Controller
      */
     public function detail($cid)
     {
-        $contentModel=new ContestModel();
+        $contestModel=new ContestModel();
         $clearance = $contestModel->judgeClearance($cid, Auth::user()->id);
         if (Auth::check()) {
-            $contest_detail=$contentModel->detail($cid, Auth::user()->id);
+            $contest_detail=$contestModel->detail($cid, Auth::user()->id);
         } else {
-            $contest_detail=$contentModel->detail($cid);
+            $contest_detail=$contestModel->detail($cid);
         }
         if ($contest_detail["ret"]!=200) {
             return Redirect::route('contest_index');
