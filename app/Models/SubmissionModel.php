@@ -77,7 +77,7 @@ class SubmissionModel extends Model
                     'cid'=>$cid,
                     'verdict'=>'Partially Accepted'
                 ])->where("submission_date", "<", $frozen_time)->orderBy('submission_date', 'desc')->first();
-                return empty($pac) ? DB::table($this->tableName)->where(['pid'=>$pid, 'uid'=>$uid, 'cid'=>$cid])->where("submission_date", "<", $frozen_time)->first() : $pac;
+                return empty($pac) ? DB::table($this->tableName)->where(['pid'=>$pid, 'uid'=>$uid, 'cid'=>$cid])->where("submission_date", "<", $frozen_time)->orderBy('submission_date', 'desc')->first() : $pac;
             } else {
                 return $ac;
             }
@@ -88,7 +88,7 @@ class SubmissionModel extends Model
                 'cid'=>$cid,
                 'verdict'=>'Accepted'
             ])->orderBy('submission_date', 'desc')->first();
-            return empty($ac) ? DB::table($this->tableName)->where(['pid'=>$pid, 'uid'=>$uid, 'cid'=>$cid])->first() : $ac;
+            return empty($ac) ? DB::table($this->tableName)->where(['pid'=>$pid, 'uid'=>$uid, 'cid'=>$cid])->orderBy('submission_date', 'desc')->first() : $ac;
         }
     }
 
