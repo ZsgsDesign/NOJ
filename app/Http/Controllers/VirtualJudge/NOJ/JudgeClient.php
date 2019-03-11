@@ -5,21 +5,21 @@ use App\Http\Controllers\VirtualJudge\NOJ\Languages;
 
 class JudgeClient
 {
-    private $ch = null;
-    private $serverBaseUrl = '';
+    private $ch=null;
+    private $serverBaseUrl='';
     private $token;
-    private $languageConfigs = [];
+    private $languageConfigs=[];
 
     public function __construct($token, $serverBaseUrl)
     {
-        $this->serverBaseUrl = rtrim($serverBaseUrl, '/');
-        $this->token = hash('sha256', $token);
-        $this->languageConfigs = Languages::get();
+        $this->serverBaseUrl=rtrim($serverBaseUrl, '/');
+        $this->token=hash('sha256', $token);
+        $this->languageConfigs=Languages::get();
     }
 
     public function ping()
     {
-        return $this->post($this->serverBaseUrl . '/ping');
+        return $this->post($this->serverBaseUrl.'/ping');
     }
 
     /**
@@ -31,13 +31,13 @@ class JudgeClient
      * @return array
      * @throws Exception
      */
-    public function judge($src, $language, $testCaseId, $config = [])
+    public function judge($src, $language, $testCaseId, $config=[])
     {
-        $languageConfig = $this->getLanguageConfigByLanguage($language);
+        $languageConfig=$this->getLanguageConfigByLanguage($language);
         if (is_null($languageConfig)) {
             throw new Exception("don't support \"$language\" language!");
         }
-        $default = [
+        $default=[
             'language_config' => $languageConfig,
             'src' => $src,
             'test_case_id' => $testCaseId,
@@ -49,22 +49,22 @@ class JudgeClient
             'spj_src' => null,
             'output' => false
         ];
-        return $this->post($this->serverBaseUrl . '/judge', array_merge($default, $config));
+        return $this->post($this->serverBaseUrl.'/judge', array_merge($default, $config));
     }
 
     public function compileSpj($src, $spjVersion, $spjCompileConfig)
     {
-        $data = [
+        $data=[
             'src' => $src,
             'spj_version' => $spjVersion,
             'spj_compile_config' => $spjCompileConfig,
         ];
-        return $this->post($this->serverBaseUrl . '/compile_spj', $data);
+        return $this->post($this->serverBaseUrl.'/compile_spj', $data);
     }
 
     public function getLanguageConfigByLanguage($language)
     {
-        return $this->getLanguageConfigByKey($language . '_lang_config');
+        return $this->getLanguageConfigByKey($language.'_lang_config');
     }
 
     public function getLanguageConfigByKey($key)
@@ -84,14 +84,14 @@ class JudgeClient
     private function getCurl()
     {
         if ($this->needCreateCurl()) {
-            $this->ch = curl_init();
-            $defaults = [
+            $this->ch=curl_init();
+            $defaults=[
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_HEADER => false,
                 // set HTTP request header
                 CURLOPT_HTTPHEADER => [
                     'Content-type: application/json',
-                    'X-Judge-Server-Token: ' . $this->token
+                    'X-Judge-Server-Token: '.$this->token
                 ],
             ];
             curl_setopt_array($this->ch, $defaults);
@@ -105,7 +105,7 @@ class JudgeClient
      * @param array $data 请求参数
      * @return array
      */
-    private function get($url, $data = [])
+    private function get($url, $data=[])
     {
         return $this->request('GET', $url, $data);
     }
@@ -116,7 +116,7 @@ class JudgeClient
      * @param array $data 请求参数
      * @return array
      */
-    private function post($url, $data = [])
+    private function post($url, $data=[])
     {
         return $this->request('POST', $url, $data);
     }
@@ -128,16 +128,16 @@ class JudgeClient
      * @param array $data 请求参数
      * @return array
      */
-    private function request($method, $url, $data = [])
+    private function request($method, $url, $data=[])
     {
-        $ch = $this->getCurl();
-        $method = strtoupper($method);
+        $ch=$this->getCurl();
+        $method=strtoupper($method);
         if (in_array($method, ['GET', 'HEAD', 'DELETE', 'POST', 'PUT', 'PATCH'])) {
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
         }
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POSTFIELDS, empty($data) ? '{}' : json_encode($data));
-        if (!$result = curl_exec($this->ch)) {
+        if (!$result=curl_exec($this->ch)) {
             trigger_error(curl_error($this->ch));
         }
         return json_decode($result, true);
@@ -151,7 +151,7 @@ class JudgeClient
         if (is_resource($this->ch)) {
             curl_close($this->ch);
         }
-        $this->ch = null;
+        $this->ch=null;
     }
 
     public function __destruct()

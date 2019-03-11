@@ -41,7 +41,7 @@ class NOJ
 
     public function submitJudger($submitURL, $data)
     {
-        $judgeClient = new JudgeClient($data["token"], $submitURL);
+        $judgeClient=new JudgeClient($data["token"], $submitURL);
         return $judgeClient->judge($data["solution"], $data["language"], $data["test_case_id"], [
             'output' => true,
             'max_cpu_time'=>$data['max_cpu_time'],
@@ -56,10 +56,10 @@ class NOJ
             'coid' => 'required|integer',
             'solution' => 'required',
         ])->validate();
-        $judgerModel = new JudgerModel();
-        $problemModel = new ProblemModel();
-        $contestModel = new ContestModel();
-        $bestServer = $judgerModel->server(1);
+        $judgerModel=new JudgerModel();
+        $problemModel=new ProblemModel();
+        $contestModel=new ContestModel();
+        $bestServer=$judgerModel->server(1);
         if (is_null($bestServer)) {
             return ResponseModel::err(6001);
         }
@@ -68,12 +68,12 @@ class NOJ
         $this->sub['pid']=$this->post_data["pid"];
         $this->sub['coid']=$this->post_data["coid"];
         $probBasic=$problemModel->basic($this->post_data["pid"]);
-        $submitURL="http://" . $bestServer["host"] . ":" . $bestServer["port"];
-        $submit_data = [
+        $submitURL="http://".$bestServer["host"].":".$bestServer["port"];
+        $submit_data=[
             "solution" => $this->post_data["solution"],
             "language" => $this->post_data["lang"],
             "max_cpu_time" => $probBasic["time_limit"],
-            "max_memory" => $probBasic["memory_limit"]*1024,
+            "max_memory" => $probBasic["memory_limit"] * 1024,
             "test_case_id" => $probBasic["pcode"],
             "token" => $bestServer["token"]
         ];

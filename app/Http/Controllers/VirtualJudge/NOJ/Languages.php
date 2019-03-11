@@ -5,7 +5,7 @@ class Languages
 {
     public static function get()
     {
-        $default_env = ["LANG=en_US.UTF-8", "LANGUAGE=en_US:en", "LC_ALL=en_US.UTF-8"];
+        $default_env=["LANG=en_US.UTF-8", "LANGUAGE=en_US:en", "LC_ALL=en_US.UTF-8"];
         return [
             'c_lang_config' => [
                 'compile' => [

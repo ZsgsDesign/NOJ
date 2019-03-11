@@ -35,9 +35,9 @@ class Vijos extends Curl
 
     private function submitSolution()
     {
-        $compilerModel = new CompilerModel();
-        $lang = $compilerModel->detail($this->post_data["coid"]);
-        $pid = $this->post_data['iid'];
+        $compilerModel=new CompilerModel();
+        $lang=$compilerModel->detail($this->post_data["coid"]);
+        $pid=$this->post_data['iid'];
         $this->sub['language']=$lang['display_name'];
         $this->sub['solution']=$this->post_data["solution"];
         $this->sub['pid']=$this->post_data["pid"];
@@ -51,16 +51,16 @@ class Vijos extends Curl
         $response=$this->grab_page("https://vijos.org/p/{$pid}/submit", 'vijos');
         preg_match('/"csrf_token":"([0-9a-f]{64})"/', $response, $match);
 
-        $params = [
+        $params=[
             'lang' => $lang['lcode'],
             'code' => $this->post_data["solution"],
             'csrf_token' => $match[1],
         ];
         $response=$this->post_data("https://vijos.org/p/{$pid}/submit", http_build_query($params), "vijos", true, false);
         if (preg_match('/\nLocation: \/records\/(.+)/i', $response, $match)) {
-            $this->sub['remote_id'] = $match[1];
+            $this->sub['remote_id']=$match[1];
         } else {
-            $this->sub['verdict'] = 'Submission Error';
+            $this->sub['verdict']='Submission Error';
         }
     }
 
