@@ -128,7 +128,7 @@
                         <p class="sm-contest-info">
                             <span class="badge badge-pill wemd-amber sm-contest-type"><i class="MDI trophy"></i> {{$c['rule_parsed']}}</span>
                             <span class="sm-contest-time"><i class="MDI clock"></i> {{$c['length']}}</span>
-                            <span class="sm-contest-scale"><i class="MDI account-multiple"></i> 3</span>
+                            {{-- <span class="sm-contest-scale"><i class="MDI account-multiple"></i> 3</span> --}}
                         </p>
                     </info-div>
                 </contest-card>
