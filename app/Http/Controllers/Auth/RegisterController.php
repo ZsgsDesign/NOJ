@@ -67,7 +67,8 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'avatar' => "/static/img/avatar/default.png"
+            'avatar' => "/static/img/avatar/default.png",
+            'contest_account' => null
         ]);
     }
 

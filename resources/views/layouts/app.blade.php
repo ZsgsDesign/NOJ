@@ -176,24 +176,32 @@
                 <li class="nav-item />">
                     <a class="nav-link @if ($navigation === "Home") active @endif" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item />">
-                    <a class="nav-link @if ($navigation === "Problem") active @endif" href="/problem">Problem</a>
-                </li>
-                <li class="nav-item />">
-                    <a class="nav-link @if ($navigation === "Status") active @endif" href="/status">Status</a>
-                </li>
+                @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    <li class="nav-item />">
+                        <a class="nav-link @if ($navigation === "Problem") active @endif" href="/problem">Problem</a>
+                    </li>
+                @endif
+                @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    {{-- <li class="nav-item />">
+                        <a class="nav-link @if ($navigation === "Status") active @endif" href="/status">Status</a>
+                    </li> --}}
+                @endif
                 <li class="nav-item />">
                     <a class="nav-link @if ($navigation === "Contest") active @endif" href="/contest">Contest</a>
                 </li>
+                @if(!Auth::check() || is_null(Auth::user()->contest_account))
                 <li class="nav-item />">
                     <a class="nav-link @if ($navigation === "Group") active @endif" href="/group">Group</a>
                 </li>
+                @endif
             </ul>
 
             <ul class="navbar-nav mundb-nav-right">
+                @if(!Auth::check() || is_null(Auth::user()->contest_account))
                 <form action="/search" method="get" class="form-inline my-2 my-lg-0 mundb-inline">
                     <span class="bmd-form-group"><input class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" placeholder="OnmiSearch" aria-label="search"></span>
                 </form>
+                @endif
 
                 <li class="nav-item mundb-no-shrink />">
                     @guest
