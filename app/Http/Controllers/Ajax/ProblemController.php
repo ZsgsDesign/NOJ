@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Ajax;
 
-use App\Http\Requests;
 use App\Models\ProblemModel;
 use App\Models\SubmissionModel;
 use App\Models\ResponseModel;

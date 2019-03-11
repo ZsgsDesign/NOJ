@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Ajax;
 
-use App\Http\Requests;
 use App\Models\ContestModel;
 use App\Models\GroupModel;
 use App\Models\ResponseModel;
@@ -18,7 +17,7 @@ class GroupController extends Controller
      *
      * @param Request $request web request
      *
-     * @return Response
+     * @return JsonResponse
      */
     public function arrangeContest(Request $request)
     {
