@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cb60ed3e03e664c5ef4cb5c4bf94ab72",
+    "content-hash": "9bcf2a3b44c30e36ad6e581602b79f71",
     "packages": [
         {
             "name": "composer/installers",
@@ -1867,6 +1867,20 @@
             "type": "npm-asset",
             "license": [
                 "MIT"
+            ]
+        },
+        {
+            "name": "npm-asset/mathjax",
+            "version": "2.7.5",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/mathjax/-/mathjax-2.7.5.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "npm-asset",
+            "license": [
+                "Apache-2.0"
             ]
         },
         {
