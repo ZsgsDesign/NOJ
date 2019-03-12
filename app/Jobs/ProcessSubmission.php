@@ -33,19 +33,13 @@ class ProcessSubmission implements ShouldQueue
      */
     public function handle()
     {
-        $submissionModel->insert([
+        $submissionModel = new SubmissionModel();
+        $submissionModel->update_submission($this->all_data["sid"],[
             'time'=>'0',
-            'verdict'=>'Submitted',
-            'solution'=>$all_data["solution"],
-            'language'=>'',
-            'submission_date'=>time(),
+            'verdict'=>'System Error',
             'memory'=>'0',
-            'uid'=>Auth::user()->id,
-            'pid'=>$all_data["pid"],
-            'remote_id'=>'',
-            'coid'=>$all_data["coid"],
-            'cid'=>isset($all_data["contest"]) ? $all_data["contest"] : 0,
-            'jid'=>null,
+            'color'=>"wemd-black-color",
+            'remote_id'=>'19260817',
             'score'=>0
         ]);
     }
