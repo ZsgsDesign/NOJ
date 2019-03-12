@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f65496c9ae3526d6084a89ec2352c066",
+    "content-hash": "cb60ed3e03e664c5ef4cb5c4bf94ab72",
     "packages": [
         {
             "name": "composer/installers",
@@ -1854,6 +1854,20 @@
                 "php"
             ],
             "time": "2019-02-16T20:54:15+00:00"
+        },
+        {
+            "name": "npm-asset/jquery",
+            "version": "3.3.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/jquery/-/jquery-3.3.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
         },
         {
             "name": "oomphinc/composer-installers-extender",

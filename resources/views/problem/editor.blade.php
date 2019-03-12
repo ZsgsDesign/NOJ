@@ -636,7 +636,7 @@
 
         }, false);
     </script>
-    <script src="/static/js/jquery-3.2.1.min.js"></script>
+    <script src="/static/library/jquery/dist/jquery.min.js"></script>
     <script src="/static/js/popper.min.js"></script>
     <script src="/static/js/snackbar.min.js"></script>
     <script src="/static/js/bootstrap-material-design.js"></script>
