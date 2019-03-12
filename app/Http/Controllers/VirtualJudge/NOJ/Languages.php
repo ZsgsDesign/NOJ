@@ -5,7 +5,7 @@ class Languages
 {
     public static function get()
     {
-        $default_env = ["LANG=en_US.UTF-8", "LANGUAGE=en_US:en", "LC_ALL=en_US.UTF-8"];
+        $default_env=["LANG=en_US.UTF-8", "LANGUAGE=en_US:en", "LC_ALL=en_US.UTF-8"];
         return [
             'c_lang_config' => [
                 'compile' => [
@@ -13,7 +13,7 @@ class Languages
                     'exe_name' => 'main',
                     'max_cpu_time' => 3000,
                     'max_real_time' => 5000,
-                    'max_memory' => 128 * 1024 * 1024,
+                    'max_memory' => 1024 * 1024 * 1024,
                     'compile_command' => '/usr/bin/gcc -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c99 -static {src_path} -lm -o {exe_path}',
                 ],
                 'run' => [
@@ -43,7 +43,7 @@ class Languages
                     'exe_name' => 'main',
                     'max_cpu_time' => 3000,
                     'max_real_time' => 5000,
-                    'max_memory' => 128 * 1024 * 1024,
+                    'max_memory' => 1024 * 1024 * 1024,
                     'compile_command' => '/usr/bin/g++ -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c++11 {src_path} -lm -o {exe_path}',
                 ],
                 'run' => [
@@ -74,7 +74,7 @@ class Languages
                     'exe_name' => 'solution.pyc',
                     'max_cpu_time' => 3000,
                     'max_real_time' => 5000,
-                    'max_memory' => 128 * 1024 * 1024,
+                    'max_memory' => 1024 * 1024 * 1024,
                     'compile_command' => '/usr/bin/python -m py_compile {src_path}',
                 ],
                 'run' => [
@@ -89,7 +89,7 @@ class Languages
                     'exe_name' => '__pycache__/solution.cpython-35.pyc',
                     'max_cpu_time' => 3000,
                     'max_real_time' => 5000,
-                    'max_memory' => 128 * 1024 * 1024,
+                    'max_memory' => 1024 * 1024 * 1024,
                     'compile_command' => '/usr/bin/python3 -m py_compile {src_path}',
                 ],
                 'run' => [

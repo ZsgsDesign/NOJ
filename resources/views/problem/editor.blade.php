@@ -26,7 +26,7 @@
         }
 
         loading p {
-            font-weight: 100;
+            font-weight: 300;
         }
 
         loading {
@@ -120,18 +120,18 @@
                 <div></div>
                 <div></div>
             </div>
-            <p>Preparing CodeMaster</p>
+            <p>Preparing NOJ</p>
         </div>
     </loading>
     <!-- Style -->
-    <link rel="stylesheet" href="https://fonts.geekzu.org/css?family=Roboto:300,300i,400,400i,500,500i,700,700i">
-    <link rel="stylesheet" href="https://fonts.geekzu.org/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/bootstrap-material-design.min.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/wemd-color-scheme.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/atsast.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/animate.min.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/fonts/MDI-WXSS/MDI.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/fonts/Devicon/devicon.css">
+    <link rel="stylesheet" href="/static/fonts/Roboto/roboto.css">
+    <link rel="stylesheet" href="/static/fonts/Montserrat/montserrat.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-material-design.min.css">
+    <link rel="stylesheet" href="/static/css/wemd-color-scheme.css">
+    <link rel="stylesheet" href="/static/css/atsast.css">
+    <link rel="stylesheet" href="/static/css/animate.min.css">
+    <link rel="stylesheet" href="/static/fonts/MDI-WXSS/MDI.css">
+    <link rel="stylesheet" href="/static/fonts/Devicon/devicon.css">
     <style>
         paper-card {
             display: block;
@@ -163,40 +163,40 @@
         fresh-container h5,
         fresh-container h6 {
             line-height: 1.2;
-            margin-top: 1em;
+            margin-top: 1rem;
             margin-bottom: 16px;
             color: #000;
         }
 
         fresh-container h1 {
-            font-size: 2.25em;
+            font-size: 2.25rem;
             font-weight: 600;
             padding-bottom: .3em
         }
 
         fresh-container h2 {
-            font-size: 1.75em;
+            font-size: 1.75rem;
             font-weight: 600;
             padding-bottom: .3em
         }
 
         fresh-container h3 {
-            font-size: 1.5em;
+            font-size: 1.5rem;
             font-weight: 600
         }
 
         fresh-container h4 {
-            font-size: 1.25em;
+            font-size: 1.25rem;
             font-weight: 600
         }
 
         fresh-container h5 {
-            font-size: 1em;
+            font-size: 1rem;
             font-weight: 600
         }
 
         fresh-container h6 {
-            font-size: 1em;
+            font-size: 1rem;
             font-weight: 600
         }
 
@@ -430,6 +430,22 @@
             -o-animation: cm-rotate 3s linear infinite;
             animation: cm-rotate 3s linear infinite;
         }
+        #problemSwitcher{
+            display: inline-block;
+        }
+        #problemSwitcher > button{
+            font-size: 2.25rem;
+            font-weight: 600;
+            padding-bottom: .3em;
+            line-height: 1;
+            color: #000;
+        }
+
+        #problemSwitcher a.dropdown-item > span{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
         @-webkit-keyframes cm-rotate{
             from{-webkit-transform: rotate(0deg)}
             to{-webkit-transform: rotate(360deg)}
@@ -455,8 +471,12 @@
                 <div class="prob-header animated pre-animated cm-performance-optimistic">
                     <button class="btn btn-outline-secondary" id="backBtn"><i class="MDI arrow-left"></i>  Back</button>
                     @if($contest_mode)
-                        <info-badge data-toggle="tooltip" data-placement="top" title="Passed / Submission"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['passed_count']}} / {{$detail['submission_count']}}</info-badge>
-                    @else
+                        @if($contest_rule==1)
+                            <info-badge data-toggle="tooltip" data-placement="top" title="Passed / Submission"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['passed_count']}} / {{$detail['submission_count']}}</info-badge>
+                        @else
+                            <info-badge data-toggle="tooltip" data-placement="top" title="Total Points"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail["points"]}} Points</info-badge>
+                        @endif
+                     @else
                         <info-badge data-toggle="tooltip" data-placement="top" title="AC Rate"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['ac_rate']}}%</info-badge>
                     @endif
                     <info-badge data-toggle="tooltip" data-placement="top" title="Time Limit"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
@@ -465,7 +485,19 @@
                 <div class="animated pre-animated cm-performance-optimistic cm-delay">
                     <link rel="stylesheet" href="/css/oj/{{$detail["oj_detail"]["ocode"]}}.css">
                     <fresh-container>
-                        <h1>{{$detail["title"]}}</h1>
+                        <h1>
+                            @if($contest_mode)
+                            <div class="dropdown" id="problemSwitcher">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{$ncode}}</button>
+                                <div class="dropdown-menu cm-scrollable-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: top, left; top: 40px; left: 0px;">
+                                    @foreach($problem_set as $p)
+                                        <a class="dropdown-item" href="@if($p["ncode"]==$ncode) # @else /contest/{{$cid}}/board/challenge/{{$p["ncode"]}} @endif">
+                                            <span><i class="MDI {{$p["prob_status"]["icon"]}} {{$p["prob_status"]["color"]}}"></i> {{$p["ncode"]}}. {{$p["title"]}}</span>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                            @endif {{$detail["title"]}}</h1>
                         <h2>Description:</h2>
 
                         {!!$detail["parsed"]["description"]!!}
@@ -516,7 +548,7 @@
             </right-side>
         </top-side>
         <bottom-side>
-            <div style="color: #7a8e97" id="verdict_info" class="{{$status["color"]}}"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">{{$status["verdict"]}}</span></div>
+            <div style="color: #7a8e97" id="verdict_info" class="{{$status["color"]}}"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">{{$status["verdict"]}} @if($status["verdict"]=="Partially Accepted")({{round($status["score"]/$detail["tot_score"]*$detail["points"])}})@endif</span></div>
             <div>
                 <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> History</button>
                 <div class="btn-group dropup">
@@ -604,11 +636,20 @@
 
         }, false);
     </script>
-    <script src="https://cdn.mundb.xyz/js/jquery-3.2.1.min.js"></script>
-    <script src="https://cdn.mundb.xyz/js/popper.min.js"></script>
-    <script src="https://cdn.mundb.xyz/js/snackbar.min.js"></script>
-    <script src="https://cdn.mundb.xyz/js/bootstrap-material-design.js"></script>
-    <script src="https://cdn.mundb.xyz/vscode/vs/loader.js"></script>
+    <script src="/static/library/jquery/dist/jquery.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/snackbar.min.js"></script>
+    <script src="/static/js/bootstrap-material-design.js"></script>
+    <script src="/static/vscode/vs/loader.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {
+            inlineMath: [ ['$$$','$$$'], ["\\(","\\)"] ],
+            processEscapes: true
+          }
+        });
+    </script>
+    <script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script>
         $(document).ready(function () { $('body').bootstrapMaterialDesign();$('[data-toggle="tooltip"]').tooltip(); });
 
@@ -616,6 +657,8 @@
         var submission_processing=false;
         var chosen_lang="{{$compiler_list[$pref]['lcode']}}";
         var chosen_coid="{{$compiler_list[$pref]['coid']}}";
+        var tot_points=parseInt("{{$detail["points"]}}");
+        var tot_scores=parseInt("{{$detail["tot_score"]}}");
 
         $( ".lang-selector" ).click(function() {
             // console.log($( this ).data("lang"));
@@ -644,14 +687,26 @@
                     if(ret.ret==200){
                         $("#history_container").html("");
                         ret.data.history.forEach(ele => {
-                            $("#history_container").append(`
-                                <tr>
-                                    <td>${ele.time}</td>
-                                    <td>${ele.memory}</td>
-                                    <td>${ele.language}</td>
-                                    <td class="${ele.color}"><i class="MDI checkbox-blank-circle"></i> ${ele.verdict}</td>
-                                </tr>
-                            `);
+                            if(ele.verdict=="Partially Accepted"){
+                                let real_score = Math.round(ele.score / tot_scores * tot_points);
+                                $("#history_container").append(`
+                                    <tr>
+                                        <td>${ele.time}</td>
+                                        <td>${ele.memory}</td>
+                                        <td>${ele.language}</td>
+                                        <td class="${ele.color}"><i class="MDI checkbox-blank-circle"></i> ${ele.verdict} (${real_score})</td>
+                                    </tr>
+                                `);
+                            }else{
+                                $("#history_container").append(`
+                                    <tr>
+                                        <td>${ele.time}</td>
+                                        <td>${ele.memory}</td>
+                                        <td>${ele.language}</td>
+                                        <td class="${ele.color}"><i class="MDI checkbox-blank-circle"></i> ${ele.verdict}</td>
+                                    </tr>
+                                `);
+                            }
                         });
                     }
                     $('#historyModal').modal();
@@ -711,7 +766,12 @@
                                 }, success: function(ret){
                                     console.log(ret);
                                     if(ret.ret==200){
-                                        $("#verdict_text").text(ret.data.verdict);
+                                        if(ret.data.verdict=="Partially Accepted"){
+                                            let real_score = Math.round(ret.data.score / tot_scores * tot_points);
+                                            $("#verdict_text").text(ret.data.verdict + ` (${real_score})`);
+                                        } else{
+                                            $("#verdict_text").text(ret.data.verdict);
+                                        }
                                         $("#verdict_info").removeClass();
                                         $("#verdict_info").addClass(ret.data.color);
                                         if(ret.data.verdict!="Waiting" && ret.data.verdict!="Judging"){
@@ -761,7 +821,7 @@
 
             $(".pre-animated").addClass("fadeInLeft");
 
-            require.config({ paths: { 'vs': 'https://cdn.mundb.xyz/vscode/vs' }});
+            require.config({ paths: { 'vs': '/static/vscode/vs' }});
 
             // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
             // the default worker url location (used when creating WebWorkers). The problem here is that
@@ -772,9 +832,9 @@
                 getWorkerUrl: function(workerId, label) {
                     return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
                     self.MonacoEnvironment = {
-                        baseUrl: 'https://cdn.mundb.xyz/vscode/'
+                        baseUrl: '/static/vscode/'
                     };
-                    importScripts('https://cdn.mundb.xyz/vscode/vs/base/worker/workerMain.js');`
+                    importScripts('/static/vscode/vs/base/worker/workerMain.js');`
                     )}`;
                 }
             };

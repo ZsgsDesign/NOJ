@@ -88,10 +88,10 @@
     <div class="row justify-content-sm-center">
         <div class="col-sm-12 col-md-8 col-lg-6">
             <div class="text-center" style="margin-top:10vh;margin-bottom:20px;">
-                <h1 style="padding:20px;display:inline-block;">CodeMaster</h1>
-                <p>CodeMaster's yet another Virtual Judge</p>
+                <h1 style="padding:20px;display:inline-block;">NOJ</h1>
+                <p>NOJ's yet another Virtual Judge</p>
                 <div class="alert alert-primary text-left" role="alert">
-                    CodeMaster is still under alpha version, you can create new issues <a href="https://github.com/ZsgsDesign/CodeMaster/issues">here</a>.
+                    NOJ is still under alpha version, you can create new issues <a href="https://github.com/ZsgsDesign/NOJ/issues">here</a>.
                 </div>
             </div>
             <div class="card">

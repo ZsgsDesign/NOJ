@@ -131,7 +131,11 @@
                             </div>
                             <div>
                                 <p class="mb-0"><span>{{$p["ncode"]}}.</span> {{$p["title"]}}</p>
-                                <small>{{$p["passed_count"]}} / {{$p["submission_count"]}}</small>
+                                @if($contest_rule==1)
+                                    <small>{{$p["passed_count"]}} / {{$p["submission_count"]}}</small>
+                                @else
+                                    <small>{{$p["score"]}} / {{$p["points"]}} Points</small>
+                                @endif
                             </div>
                         </challenge-item>
 
@@ -152,15 +156,17 @@
                     <p class="cm-countdown" id="countdown">00:00:00</p>
                 </div>
             </paper-card>
-            <paper-card>
-                <h5>Announcements</h5>
-                <div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                </div>
-                <div style="text-align:right;">
-                    <button class="btn btn-primary">See More</button>
-                </div>
-            </paper-card>
+            @unless(empty($clarification_list))
+                <paper-card>
+                    <h5>{{$clarification_list["title"]}}</h5>
+                    <div>
+                        <p>{{$clarification_list["content"]}}</p>
+                    </div>
+                    <div style="text-align:right;">
+                        <a href="/contest/{{$cid}}/board/clarification"><button class="btn btn-primary">See More</button></a>
+                    </div>
+                </paper-card>
+            @endunless
         </div>
     </div>
 </div>

@@ -19,10 +19,10 @@ class ProblemController extends Controller
      */
     public function index(Request $request)
     {
-        $all_data = $request->all();
+        $all_data=$request->all();
         $problem=new ProblemModel();
-        $filter["oj"]=isset($all_data["oj"])?$all_data["oj"]:null;
-        $filter["tag"]=isset($all_data["tag"])?$all_data["tag"]:null;
+        $filter["oj"]=isset($all_data["oj"]) ? $all_data["oj"] : null;
+        $filter["tag"]=isset($all_data["tag"]) ? $all_data["tag"] : null;
         $prob=$problem->list($filter);
         $tags=$problem->tags();
         $ojs=$problem->ojs();
@@ -32,7 +32,7 @@ class ProblemController extends Controller
             } else {
                 return view('problem.index', [
                     'page_title' => "Problem",
-                    'site_title' => "CodeMaster",
+                    'site_title' => "NOJ",
                     'navigation' => "Problem",
                     'prob_list' => null,
                     'prob_paginate' => null,
@@ -44,7 +44,7 @@ class ProblemController extends Controller
         } else {
             return view('problem.index', [
                 'page_title' => "Problem",
-                'site_title' => "CodeMaster",
+                'site_title' => "NOJ",
                 'navigation' => "Problem",
                 'prob_list' => $prob["data"],
                 'prob_paginate' => $prob["paginate"],
@@ -63,10 +63,10 @@ class ProblemController extends Controller
     {
         $problem=new ProblemModel();
         $prob_detail=$problem->detail($pcode);
-        return is_null($prob_detail) ?  redirect("/problem") :
-                                        view('problem.detail', [
+        $problem->isBlocked($prob_detail["pid"]);
+        return is_null($prob_detail) ?  redirect("/problem") : view('problem.detail', [
                                             'page_title'=>$prob_detail["title"],
-                                            'site_title'=>"CodeMaster",
+                                            'site_title'=>"NOJ",
                                             'navigation' => "Problem",
                                             'detail' => $prob_detail
                                         ]);
@@ -83,35 +83,35 @@ class ProblemController extends Controller
         $compiler=new CompilerModel();
         $submission=new SubmissionModel();
         $prob_detail=$problem->detail($pcode);
-        $compiler_list=$compiler->list($prob_detail["OJ"]);
+        $compiler_list=$compiler->list($prob_detail["OJ"], $prob_detail["pid"]);
         $prob_status=$submission->getProblemStatus($prob_detail["pid"], Auth::user()->id);
 
         $compiler_pref=$compiler->pref($prob_detail["pid"], Auth::user()->id);
         $pref=-1;
         $submit_code="";
 
-        if(!is_null($compiler_pref)){
+        if (!is_null($compiler_pref)) {
             $submit_code=$compiler_pref["code"];
             // match precise compiler
-            for($i=0;$i<count($compiler_list);$i++){
-                if($compiler_list[$i]["coid"]==$compiler_pref["coid"]){
+            for ($i=0; $i<count($compiler_list); $i++) {
+                if ($compiler_list[$i]["coid"]==$compiler_pref["coid"]) {
                     $pref=$i;
                     break;
                 }
             }
-            if($pref==-1){
+            if ($pref==-1) {
                 // precise compiler is dead, use  other compiler with same lang
-                for($i=0;$i<count($compiler_list);$i++){
-                    if($compiler_list[$i]["lang"]==$compiler_pref["detail"]["lang"]){
+                for ($i=0; $i<count($compiler_list); $i++) {
+                    if ($compiler_list[$i]["lang"]==$compiler_pref["detail"]["lang"]) {
                         $pref=$i;
                         break;
                     }
                 }
             }
-            if($pref==-1){
+            if ($pref==-1) {
                 // same lang compilers are all dead, use other compiler within the same group
-                for($i=0;$i<count($compiler_list);$i++){
-                    if($compiler_list[$i]["comp"]==$compiler_pref["detail"]["comp"]){
+                for ($i=0; $i<count($compiler_list); $i++) {
+                    if ($compiler_list[$i]["comp"]==$compiler_pref["detail"]["comp"]) {
                         $pref=$i;
                         break;
                     }
@@ -120,17 +120,16 @@ class ProblemController extends Controller
             // the entire comp group dead
         }
 
-        if(empty($prob_status)){
+        if (empty($prob_status)) {
             $prob_status=[
                 "verdict"=>"NOT SUBMIT",
                 "color"=>""
             ];
         }
 
-        return is_null($prob_detail) ?  redirect("/problem") :
-                                        view('problem.editor', [
+        return is_null($prob_detail) ?  redirect("/problem") : view('problem.editor', [
                                             'page_title'=>$prob_detail["title"],
-                                            'site_title'=>"CodeMaster",
+                                            'site_title'=>"NOJ",
                                             'navigation' => "Problem",
                                             'detail' => $prob_detail,
                                             'compiler_list' => $compiler_list,

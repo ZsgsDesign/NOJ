@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template')
-<link rel="stylesheet" href="https://cdn.mundb.xyz/css/jquery.datetimepicker.min.css">
+<link rel="stylesheet" href="/static/css/jquery.datetimepicker.min.css">
 <style>
     body{
         display: flex;
@@ -764,6 +764,7 @@
                                 <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Code</th>
+                                <th scope="col">Score</th>
                                 <th scope="col">Op.</th>
                                 </tr>
                             </thead>
@@ -841,9 +842,9 @@
 @endsection
 
 @section('additionJS')
-    <script src="https://cdn.mundb.xyz/js/jquery.datetimepicker.full.min.js"></script>
-    <script src="https://cdn.mundb.xyz/js/jquery-ui-sortable.min.js"></script>
-    <script src="https://cdn.mundb.xyz/vscode/vs/loader.js"></script>
+    <script src="/static/js/jquery.datetimepicker.full.min.js"></script>
+    <script src="/static/js/jquery-ui-sortable.min.js"></script>
+    <script src="/static/vscode/vs/loader.js"></script>
     <script>
         function sortableInit(){
             $("#contestModal tbody").sortable({
@@ -1040,7 +1041,8 @@
                             $("#contestProblemSet").append(`
                                 <tr>
                                     <th scope="row"></th>
-                                        <td>${ret.data.pcode}</td>
+                                    <td>${ret.data.pcode}</td>
+                                    <td>1</td>
                                     <td><i class="MDI cm-remove wemd-red-text" onclick="removeProblem(this)" title="Delete this problem"></i></td>
                                 </tr>
                             `);
@@ -1085,7 +1087,7 @@
             },
             timepicker:true
         });
-        require.config({ paths: { 'vs': 'https://cdn.mundb.xyz/vscode/vs' }});
+        require.config({ paths: { 'vs': '/static/vscode/vs' }});
 
         // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
         // the default worker url location (used when creating WebWorkers). The problem here is that
@@ -1096,9 +1098,9 @@
             getWorkerUrl: function(workerId, label) {
                 return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
                 self.MonacoEnvironment = {
-                    baseUrl: 'https://cdn.mundb.xyz/vscode/'
+                    baseUrl: '/static/vscode/'
                 };
-                importScripts('https://cdn.mundb.xyz/vscode/vs/base/worker/workerMain.js');`
+                importScripts('/static/vscode/vs/base/worker/workerMain.js');`
                 )}`;
             }
         };

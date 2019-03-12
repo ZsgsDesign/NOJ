@@ -41,7 +41,7 @@
         }
 
         loading p {
-            font-weight: 100;
+            font-weight: 300;
         }
 
         loading {
@@ -135,18 +135,18 @@
                 <div></div>
                 <div></div>
             </div>
-            <p>Preparing CodeMaster</p>
+            <p>Preparing NOJ</p>
         </div>
     </loading>
     <!-- Style -->
-    <link rel="stylesheet" href="https://fonts.geekzu.org/css?family=Roboto:300,300i,400,400i,500,500i,700,700i">
-    <link rel="stylesheet" href="https://fonts.geekzu.org/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/bootstrap-material-design.min.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/wemd-color-scheme.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/atsast.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/css/animate.min.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/fonts/MDI-WXSS/MDI.css">
-    <link rel="stylesheet" href="https://cdn.mundb.xyz/fonts/Devicon/devicon.css">
+    <link rel="stylesheet" href="/static/fonts/Roboto/roboto.css">
+    <link rel="stylesheet" href="/static/fonts/Montserrat/montserrat.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-material-design.min.css">
+    <link rel="stylesheet" href="/static/css/wemd-color-scheme.css">
+    <link rel="stylesheet" href="/static/css/atsast.css">
+    <link rel="stylesheet" href="/static/css/animate.min.css">
+    <link rel="stylesheet" href="/static/fonts/MDI-WXSS/MDI.css">
+    <link rel="stylesheet" href="/static/fonts/Devicon/devicon.css">
     <!-- Background -->
     <div class="mundb-background-container">
         <img src="">
@@ -156,13 +156,13 @@
         @if(isset($custom_info) && !is_null($custom_info))
 
             <a class="navbar-brand" href="/group/{{$custom_info["gcode"]}}">
-                <img src="@if(empty($custom_info["custom_icon"])) https://cdn.mundb.xyz/img/codemaster/njupt.png @else {{$custom_info["custom_icon"]}} @endif" height="30"> @if(empty($custom_info["custom_title"])) NJUPT Online Judge @else {{$custom_info["custom_title"]}} @endif
+                <img src="@if(empty($custom_info["custom_icon"])) /static/img/njupt.png @else {{$custom_info["custom_icon"]}} @endif" height="30"> @if(empty($custom_info["custom_title"])) NJUPT Online Judge @else {{$custom_info["custom_title"]}} @endif
             </a>
 
         @else
 
             <a class="navbar-brand" href="/">
-                <img src="https://cdn.mundb.xyz/img/codemaster/njupt.png" height="30"> NJUPT Online Judge
+                <img src="/static/img/njupt.png" height="30"> NJUPT Online Judge
             </a>
 
         @endif
@@ -173,27 +173,37 @@
     </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+                @if(!Auth::check() || is_null(Auth::user()->contest_account))
                 <li class="nav-item />">
                     <a class="nav-link @if ($navigation === "Home") active @endif" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item />">
-                    <a class="nav-link @if ($navigation === "Problem") active @endif" href="/problem">Problem</a>
-                </li>
-                <li class="nav-item />">
-                    <a class="nav-link @if ($navigation === "Status") active @endif" href="/status">Status</a>
-                </li>
+                @endif
+                @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    <li class="nav-item />">
+                        <a class="nav-link @if ($navigation === "Problem") active @endif" href="/problem">Problem</a>
+                    </li>
+                @endif
+                @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    {{-- <li class="nav-item />">
+                        <a class="nav-link @if ($navigation === "Status") active @endif" href="/status">Status</a>
+                    </li> --}}
+                @endif
                 <li class="nav-item />">
                     <a class="nav-link @if ($navigation === "Contest") active @endif" href="/contest">Contest</a>
                 </li>
+                @if(!Auth::check() || is_null(Auth::user()->contest_account))
                 <li class="nav-item />">
                     <a class="nav-link @if ($navigation === "Group") active @endif" href="/group">Group</a>
                 </li>
+                @endif
             </ul>
 
             <ul class="navbar-nav mundb-nav-right">
+                @if(!Auth::check() || is_null(Auth::user()->contest_account))
                 <form action="/search" method="get" class="form-inline my-2 my-lg-0 mundb-inline">
                     <span class="bmd-form-group"><input class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" placeholder="OnmiSearch" aria-label="search"></span>
                 </form>
+                @endif
 
                 <li class="nav-item mundb-no-shrink />">
                     @guest
@@ -246,12 +256,12 @@
     @yield('addition')
 
     <footer class="mundb-footer bg-dark text-light d-print-none">
-        Copyright &copy; CodeMaster 2018-2019, all rights reserved.
+        Copyright &copy; NOJ 2018-2019, all rights reserved.
     </footer>
-    <script src="https://cdn.mundb.xyz/js/jquery-3.2.1.min.js"></script>
-    <script src="https://cdn.mundb.xyz/js/popper.min.js"></script>
-    <script src="https://cdn.mundb.xyz/js/snackbar.min.js"></script>
-    <script src="https://cdn.mundb.xyz/js/bootstrap-material-design.js"></script>
+    <script src="/static/library/jquery/dist/jquery.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/snackbar.min.js"></script>
+    <script src="/static/js/bootstrap-material-design.js"></script>
     <script>
         $(document).ready(function () { $('body').bootstrapMaterialDesign();$('[data-toggle="tooltip"]').tooltip(); });
         window.addEventListener("load",function() {

@@ -23,7 +23,6 @@ class ContestHunter extends Curl
     {
         $response=$this->grab_page('http://contest-hunter.org:83', 'contesthunter');
         if (strpos($response, '登录') !== false) {
-
             preg_match('/<input name="CSRFToken" type="hidden" value="([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})"\/>/', $response, $match);
             $token = $match[1];
 
@@ -41,7 +40,7 @@ class ContestHunter extends Curl
 
     private function contestHunterSubmit()
     {
-        $this->sub['language']=$this->post_data["lang"] == "CPP" ? "C++" : $this->post_data["lang"];
+        $this->sub['language']=$this->post_data["lang"]=="CPP" ? "C++" : $this->post_data["lang"];
         $this->sub['solution']=$this->post_data["solution"];
         $this->sub['pid']=$this->post_data["pid"];
         $this->sub['coid']=$this->post_data["coid"];
@@ -54,18 +53,18 @@ class ContestHunter extends Curl
         $response=$this->grab_page("http://contest-hunter.org:83/contest/{$this->post_data['cid']}/{$this->post_data['iid']}", "contesthunter");
 
         preg_match('/<input name="CSRFToken" type="hidden" value="([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})"\/>/', $response, $match);
-        $token = $match[1];
+        $token=$match[1];
 
-        $params = [
+        $params=[
             'CSRFToken' => $token,
             'language' => $this->post_data["lang"],
             'code' => base64_encode(mb_convert_encoding($this->post_data["solution"], 'utf-16', 'utf-8')),
         ];
         $response=$this->post_data("http://contest-hunter.org:83/contest/{$this->post_data['cid']}/{$this->post_data['iid']}?submit", http_build_query($params), "contesthunter", true, false);
         if (preg_match('/\nLocation: \/record\/(\d+)/i', $response, $match)) {
-            $this->sub['remote_id'] = $match[1];
+            $this->sub['remote_id']=$match[1];
         } else {
-            $this->sub['verdict'] = 'Submission Error';
+            $this->sub['verdict']='Submission Error';
         }
     }
 

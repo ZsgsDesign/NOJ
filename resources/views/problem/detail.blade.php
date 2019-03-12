@@ -33,40 +33,40 @@
     fresh-container h5,
     fresh-container h6 {
         line-height: 1.2;
-        margin-top: 1em;
+        margin-top: 1rem;
         margin-bottom: 16px;
         color: #000;
     }
 
     fresh-container h1 {
-        font-size: 2.25em;
+        font-size: 2.25rem;
         font-weight: 600;
         padding-bottom: .3em
     }
 
     fresh-container h2 {
-        font-size: 1.75em;
+        font-size: 1.75rem;
         font-weight: 600;
         padding-bottom: .3em
     }
 
     fresh-container h3 {
-        font-size: 1.5em;
+        font-size: 1.5rem;
         font-weight: 600
     }
 
     fresh-container h4 {
-        font-size: 1.25em;
+        font-size: 1.25rem;
         font-weight: 600
     }
 
     fresh-container h5 {
-        font-size: 1em;
+        font-size: 1rem;
         font-weight: 600
     }
 
     fresh-container h6 {
-        font-size: 1em;
+        font-size: 1rem;
         font-weight: 600
     }
 
@@ -296,4 +296,13 @@
     },false)
 
 </script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+        inlineMath: [ ['$$$','$$$'], ["\\(","\\)"] ],
+        processEscapes: true
+        }
+    });
+</script>
+<script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 @endsection

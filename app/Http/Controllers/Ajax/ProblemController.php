@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Ajax;
 
-use App\Http\Requests;
 use App\Models\ProblemModel;
 use App\Models\SubmissionModel;
 use App\Models\ResponseModel;
@@ -25,8 +24,10 @@ class ProblemController extends Controller
      */
     public function submitSolution(Request $request)
     {
-        $all_data = $request->all();
-        $vj_submit = new Submit($all_data);
+        $all_data=$request->all();
+        $problemModel=new ProblemModel;
+        $problemModel->isBlocked($all_data["pid"], isset($all_data["contest"]) ? $all_data["contest"] : null);
+        $vj_submit=new Submit($all_data);
         $ret=$vj_submit->ret;
         if ($ret["ret"]==200) {
             return ResponseModel::success(200, null, $ret["data"]);
@@ -42,9 +43,9 @@ class ProblemController extends Controller
      */
     public function problemExists(Request $request)
     {
-        $all_data = $request->all();
-        $problemModel = new ProblemModel();
-        $pcode = $problemModel->existPCode($all_data["pcode"]);
+        $all_data=$request->all();
+        $problemModel=new ProblemModel();
+        $pcode=$problemModel->existPCode($all_data["pcode"]);
         if ($pcode) {
             return ResponseModel::success(200, null, [
                 "pcode"=>$pcode
@@ -63,10 +64,9 @@ class ProblemController extends Controller
     public function judgeStatus(Request $request)
     {
         // [ToDo] can only query personal judge info.
-        $all_data = $request->all();
+        $all_data=$request->all();
         $submission=new SubmissionModel();
         $status=$submission->getJudgeStatus($all_data["sid"]);
-
         return ResponseModel::success(200, null, $status);
     }
 
@@ -81,7 +81,7 @@ class ProblemController extends Controller
      */
     public function manualJudge(Request $request)
     {
-        $vj_judge = new Judge();
+        $vj_judge=new Judge();
 
         return ResponseModel::success(200, null, $vj_judge->ret);
     }
@@ -95,7 +95,7 @@ class ProblemController extends Controller
      */
     public function submitHistory(Request $request)
     {
-        $all_data = $request->all();
+        $all_data=$request->all();
         $submission=new SubmissionModel();
         if (isset($all_data["cid"])) {
             $history=$submission->getProblemSubmission($all_data["pid"], Auth::user()->id, $all_data["cid"]);
@@ -117,7 +117,7 @@ class ProblemController extends Controller
      */
     public function crawler(Request $request)
     {
-        $all_data = $request->all();
+        $all_data=$request->all();
 
         new Crawler($all_data["name"], $all_data["action"], $all_data["con"], $all_data["cached"]);
 

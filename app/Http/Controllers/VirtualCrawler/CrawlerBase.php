@@ -9,7 +9,7 @@ use Auth;
 class CrawlerBase
 {
     public $pro=[
-        'file'=> 0 ,
+        'file'=> 0,
         'pcode'=>'',
         'solved_count'=>'',
         'time_limit'=>'',
@@ -29,7 +29,8 @@ class CrawlerBase
         'sample'=>[],
         'markdown'=>0,
         'tot_score'=>1,
-        'partial'=>0
+        'partial'=>0,
+        'special_compiler'=>null,
     ];
 
     /**
@@ -39,12 +40,11 @@ class CrawlerBase
      */
     public function __construct()
     {
-
     }
 
     public static function cmp($a, $b)
     {
-        return ($a[1]>$b[1])?-1:1;
+        return ($a[1]>$b[1]) ?-1 : 1;
     }
 
     public function process_and_get_image($ori, $path, $baseurl, $space_deli, $cookie)
@@ -60,10 +60,10 @@ class CrawlerBase
             $reg="/< *im[a]?g[^>]*src *= *[\"\\']?([^\"\\'>]*)[^>]*>/si";
         }
 
-        return preg_replace_callback($reg, function ($matches) use ($para) {
+        return preg_replace_callback($reg, function($matches) use ($para) {
             global $config;
             $url=trim($matches[1]);
-            if (stripos($url, "http://")===false&&stripos($url, "https://")===false) {
+            if (stripos($url, "http://")===false && stripos($url, "https://")===false) {
                 if ($para["trans"]) {
                     $url=str_replace(" ", "%20", $url);
                 }
@@ -72,7 +72,7 @@ class CrawlerBase
             $name=basename($url);
             $name="images/".strtr($name, ":", "_");
             $result=str_replace(trim($matches[1]), "online_Judges/spoj/images/".strtr(basename($url), ":", "_"), $matches[0]);
-            $ch = curl_init();
+            $ch=curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
@@ -81,13 +81,12 @@ class CrawlerBase
             }
             curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $content = curl_exec($ch);
+            $content=curl_exec($ch);
             curl_close($ch);
-            $fp = fopen($name, "wb");
+            $fp=fopen($name, "wb");
             fwrite($fp, $content);
             fclose($fp);
             return $result;
-
         }, $ori);
     }
 
@@ -101,13 +100,13 @@ class CrawlerBase
 
     public function get_url($url)
     {
-        $ch = curl_init();
+        $ch=curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        $content = curl_exec($ch);
+        $content=curl_exec($ch);
         curl_close($ch);
         return $content;
     }

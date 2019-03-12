@@ -21,7 +21,7 @@ class GroupController extends Controller
         $user_groups=Auth::check() ? $groupModel->userGroups(Auth::user()->id) : [];
         return view('group.index', [
             'page_title' => "Group",
-            'site_title' => "CodeMaster",
+            'site_title' => "NOJ",
             'navigation' => "Group",
             'tending' => $tending_groups,
             'mine' => $user_groups
@@ -45,7 +45,7 @@ class GroupController extends Controller
         $contest_list=$contestModel->listByGroup($basic_info["gid"]);
         return view('group.detail', [
             'page_title'=>"Group Detail",
-            'site_title'=>"CodeMaster",
+            'site_title'=>"NOJ",
             'navigation'=>"Group",
             "basic_info"=>$basic_info,
             'my_profile'=>$my_profile,

@@ -8,7 +8,7 @@ use Illuminate\Http\Response;
 
 class ResponseModel extends Model
 {
-    public static function success($statusCode = 200, $desc = null, $data = null)
+    public static function success($statusCode=200, $desc=null, $data=null)
     {
         if (($statusCode>=1000)) {
             $statusCode=200;
@@ -21,7 +21,7 @@ class ResponseModel extends Model
         return response()->json($output);
     }
 
-    public static function err($statusCode, $desc = null, $data = null)
+    public static function err($statusCode, $desc=null, $data=null)
     {
         if (($statusCode<1000)) {
             $statusCode=1000;
@@ -32,7 +32,7 @@ class ResponseModel extends Model
             'data' => $data
         ];
         return response()->json($output);
-   }
+    }
 
     private static function desc($errCode)
     {
@@ -43,7 +43,7 @@ class ResponseModel extends Model
             '403'  => "Forbidden",
             '451'  => "Unavailable For Legal Reasons",
 
-            '1000' => "Unspecified Response",   /** Under normal condictions those errors shouldn't been displayed to end users
+            '1000' => "Unspecified Response", /** Under normal condictions those errors shouldn't been displayed to end users
                                                  *  unless they attempt to do so, some submissions should be intercepted
                                                  *  by the frontend before the request sended
                                                  */
@@ -62,7 +62,7 @@ class ResponseModel extends Model
 
             '3001' => "Problem Not Found",
             '3002' => "Submission Size Limit Exceed",
-            '3005' => "Copper",  // Reserved for Copper in memory of OASIS and those who contributed a lot
+            '3005' => "Copper", // Reserved for Copper in memory of OASIS and those who contributed a lot
 
             '4000' => "Contest-Related Error",
 
@@ -82,6 +82,6 @@ class ResponseModel extends Model
             '7001' => "Group Not Found",
 
         ];
-        return isset($errDesc[$errCode])?$errDesc[$errCode]:$errDesc['1000'];
+        return isset($errDesc[$errCode]) ? $errDesc[$errCode] : $errDesc['1000'];
     }
 }

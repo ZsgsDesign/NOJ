@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo='/';
 
     /**
      * Create a new controller instance.
@@ -67,7 +67,8 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'avatar' => "https://cdn.mundb.xyz/img/avatar/default.png"
+            'avatar' => "/static/img/avatar/default.png",
+            'contest_account' => null
         ]);
     }
 
@@ -75,7 +76,7 @@ class RegisterController extends Controller
     {
         return view("auth.register", [
             'page_title'=>"Register",
-            'site_title'=>"CodeMaster",
+            'site_title'=>"NOJ",
             'navigation' => "Account"
         ]);
     }
