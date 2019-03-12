@@ -34,6 +34,6 @@ class ProcessSubmission implements ShouldQueue
      */
     public function handle()
     {
-
+        new Submit($this->all_data);
     }
 }
