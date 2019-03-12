@@ -64,7 +64,7 @@ vim .env
 crontab -e
 * * * * * php /path-to-noj/artisan schedule:run
 
-php artisan queue:work
+php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
 ```
 
 1. NOJ's up-and-running, enjoy!
