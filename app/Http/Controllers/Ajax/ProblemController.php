@@ -29,9 +29,15 @@ class ProblemController extends Controller
         $submissionModel=new SubmissionModel();
 
         $all_data=$request->all();
-        Validator::make($all_data, [
+
+        $validator = Validator::make($all_data, [
             'solution' => 'required|string|max:65535',
-        ])->validate();
+        ]);
+
+        if ($validator->fails()) {
+            return ResponseModel::err(3002);
+        }
+
         $problemModel->isBlocked($all_data["pid"], isset($all_data["contest"]) ? $all_data["contest"] : null);
 
         ProcessSubmission::dispatch($all_data)->onQueue($problemModel->ocode($all_data["pid"]));
