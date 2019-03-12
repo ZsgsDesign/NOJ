@@ -23,22 +23,24 @@ Here is detailed step about deploying NOJ:
 
 1. You need to have a server and installed [PHP](http://php.net/downloads.php) and [Composer](https://getcomposer.org);
 
-2. Clone NOJ to your website folder;
+1. Clone NOJ to your website folder;
 
 ```
 cd /path-to-noj/
 git clone https://github.com/ZsgsDesign/CodeMaster ./
 ```
 
-3. Change your website root to `public` folder and then, if there is a `open_basedir` restriction, remove it;
+1. Change your website root to `public` folder and then, if there is a `open_basedir` restriction, remove it;
 
-4. Now run the following commands at the root folder of NOJ;
+1. Now run the following commands at the root folder of NOJ;
 
 ```
 composer install
 ```
 
-5. Almost done, you still got to modify a few folders and give them permission to write;
+> Notice: you may find this step(or others) fails with message like "func() has been disabled for security reasons", it means you need to remove restrictions on those functions, basically Laravel and Composer require proc_open and proc_get_status to work properly.
+
+1. Almost done, you still got to modify a few folders and give them permission to write;
 
 ```
 chmod -R 775 storage/
