@@ -20,6 +20,7 @@ class SubmissionModel extends Model
         "Accepted"               => "wemd-green-text",
         "Memory Limit Exceed"    => "wemd-deep-purple-text",
         "Presentation Error"     => "wemd-red-text",
+        "Submitted"              => "wemd-blue-text",
         "Pending"                => "wemd-blue-text",
         "Judging"                => "wemd-blue-text",
         "Partially Accepted"     => "wemd-cyan-text",

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\VirtualCrawler\Crawler;
 use App\Jobs\ProcessSubmission;
+use Illuminate\Support\Facades\Validator;
 use Auth;
 
 class ProblemController extends Controller
@@ -42,7 +43,7 @@ class ProblemController extends Controller
 
         $sid = $submissionModel->insert([
             'time'=>'0',
-            'verdict'=>'Submitted',
+            'verdict'=>'Pending',
             'solution'=>$all_data["solution"],
             'language'=>'',
             'submission_date'=>time(),
@@ -51,7 +52,7 @@ class ProblemController extends Controller
             'pid'=>$all_data["pid"],
             'remote_id'=>'',
             'coid'=>$all_data["coid"],
-            'cid'=>isset($all_data["contest"]) ? $all_data["contest"] : 0,
+            'cid'=>isset($all_data["contest"]) ? $all_data["contest"] : null,
             'jid'=>null,
             'score'=>0
         ]);
