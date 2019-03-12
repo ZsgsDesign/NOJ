@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Models\SubmissionModel;
+use App\Http\Controllers\VirtualJudge\Submit;
 
 class ProcessSubmission implements ShouldQueue
 {
@@ -33,14 +34,6 @@ class ProcessSubmission implements ShouldQueue
      */
     public function handle()
     {
-        $submissionModel = new SubmissionModel();
-        $submissionModel->update_submission($this->all_data["sid"],[
-            'time'=>'0',
-            'verdict'=>'System Error',
-            'memory'=>'0',
-            'color'=>"wemd-black-color",
-            'remote_id'=>'19260817',
-            'score'=>0
-        ]);
+
     }
 }
