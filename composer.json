@@ -16,7 +16,6 @@
         "laracasts/utilities": "^3.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
-        "mathjax/mathjax": "^2.7",
         "mews/purifier": "^2.1",
         "npm-asset/jquery": "^3.3",
         "npm-asset/mathjax": "^2.7",

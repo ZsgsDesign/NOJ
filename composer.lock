@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9bcf2a3b44c30e36ad6e581602b79f71",
+    "content-hash": "60bf9b13962a0db0f1fbca1fb22a1762",
     "packages": [
         {
             "name": "composer/installers",
@@ -1508,42 +1508,6 @@
                 "storage"
             ],
             "time": "2019-02-01T08:50:36+00:00"
-        },
-        {
-            "name": "mathjax/mathjax",
-            "version": "2.7.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mathjax/MathJax.git",
-                "reference": "419b0a6eee7eefc0f85e47f7d4f8227ec28b8e57"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mathjax/MathJax/zipball/419b0a6eee7eefc0f85e47f7d4f8227ec28b8e57",
-                "reference": "419b0a6eee7eefc0f85e47f7d4f8227ec28b8e57",
-                "shasum": ""
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "MathJax Consortium",
-                    "homepage": "https://github.com/mathjax"
-                }
-            ],
-            "description": "MathJax is an open-source JavaScript display engine for LaTeX, MathML, and AsciiMath notation that works in all modern browsers.",
-            "homepage": "http://www.mathjax.org/",
-            "keywords": [
-                "AsciiMath",
-                "JS",
-                "MathML",
-                "latex",
-                "math"
-            ],
-            "time": "2018-07-19T15:25:43+00:00"
         },
         {
             "name": "mews/purifier",
