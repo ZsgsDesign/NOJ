@@ -58,7 +58,7 @@ class ProblemController extends Controller
         ]);
 
         $all_data["sid"]=$sid;
-        ProcessSubmission::dispatch(new ProcessSubmission($all_data))->onQueue($problemModel->ocode($all_data["pid"]));
+        dispatch(new ProcessSubmission($all_data))->onQueue($problemModel->ocode($all_data["pid"]));
 
         return ResponseModel::success(200, null, [
             "sid"=>$sid
