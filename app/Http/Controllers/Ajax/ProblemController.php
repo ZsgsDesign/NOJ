@@ -25,16 +25,42 @@ class ProblemController extends Controller
      */
     public function submitSolution(Request $request)
     {
+        $problemModel=new ProblemModel();
+        $submissionModel=new SubmissionModel();
+
         $all_data=$request->all();
-        $problemModel=new ProblemModel;
+        Validator::make($all_data, [
+            'solution' => 'required|string|max:65535',
+        ])->validate();
         $problemModel->isBlocked($all_data["pid"], isset($all_data["contest"]) ? $all_data["contest"] : null);
+
         ProcessSubmission::dispatch($all_data)->onQueue($problemModel->ocode($all_data["pid"]));
+
+        $sid = $submissionModel->insert([
+            'time'=>'0',
+            'verdict'=>'Submitted',
+            'solution'=>$all_data["solution"],
+            'language'=>'',
+            'submission_date'=>time(),
+            'memory'=>'0',
+            'uid'=>Auth::user()->id,
+            'pid'=>$all_data["pid"],
+            'remote_id'=>'',
+            'coid'=>$all_data["coid"],
+            'cid'=>isset($all_data["contest"]) ? $all_data["contest"] : 0,
+            'score'=>0
+        ]);
+
+        return ResponseModel::success(200, null, [
+            "sid"=>$sid
+        ]);
+
         // $vj_submit=new Submit($all_data);
-        $ret=$vj_submit->ret;
-        if ($ret["ret"]==200) {
-            return ResponseModel::success(200, null, $ret["data"]);
-        }
-        return ResponseModel::err($ret["ret"]);
+        // $ret=$vj_submit->ret;
+        // if ($ret["ret"]==200) {
+        //     return ResponseModel::success(200, null, $ret["data"]);
+        // }
+        // return ResponseModel::err($ret["ret"]);
     }
     /**
      * The Ajax Problem Solution Submit.

@@ -22,9 +22,9 @@ class Submit
         $this->post_data=$all_data;
         $this->ret['ret']=200;
 
-        Validator::make($this->post_data, [
-            'solution' => 'required|string|max:65535',
-        ])->validate();
+        // Validator::make($this->post_data, [
+        //     'solution' => 'required|string|max:65535',
+        // ])->validate();
 
         if ($this->ret['ret']==200) {
             set_time_limit(0);
