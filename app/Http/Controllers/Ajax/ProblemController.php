@@ -40,8 +40,6 @@ class ProblemController extends Controller
 
         $problemModel->isBlocked($all_data["pid"], isset($all_data["contest"]) ? $all_data["contest"] : null);
 
-        ProcessSubmission::dispatch($all_data)->onQueue($problemModel->ocode($all_data["pid"]));
-
         $sid = $submissionModel->insert([
             'time'=>'0',
             'verdict'=>'Submitted',
@@ -57,6 +55,9 @@ class ProblemController extends Controller
             'jid'=>null,
             'score'=>0
         ]);
+
+        $all_data["sid"]=$sid;
+        ProcessSubmission::dispatch($all_data)->onQueue($problemModel->ocode($all_data["pid"]));
 
         return ResponseModel::success(200, null, [
             "sid"=>$sid
