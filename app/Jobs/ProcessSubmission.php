@@ -33,6 +33,7 @@ class ProcessSubmission implements ShouldQueue
      */
     public function handle()
     {
+        sleep(10);
         $submissionModel = new SubmissionModel();
         $submissionModel->update_submission($this->all_data["sid"],[
             'time'=>'0',

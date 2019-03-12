@@ -750,7 +750,7 @@
                     console.log(ret);
                     if(ret.ret==200){
                         // submitted
-                        $("#verdict_text").text("Waiting");
+                        $("#verdict_text").text("Pending");
                         $("#verdict_info").removeClass();
                         $("#verdict_info").addClass("wemd-blue-text");
                         var tempInterval=setInterval(()=>{
@@ -774,7 +774,7 @@
                                         }
                                         $("#verdict_info").removeClass();
                                         $("#verdict_info").addClass(ret.data.color);
-                                        if(ret.data.verdict!="Waiting" && ret.data.verdict!="Judging"){
+                                        if(ret.data.verdict!="Pending" && ret.data.verdict!="Waiting" && ret.data.verdict!="Judging"){
                                             clearInterval(tempInterval);
                                         }
                                     }
