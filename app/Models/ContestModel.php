@@ -445,7 +445,7 @@ class ContestModel extends Model
                     "problem_detail" => $prob_detail
                 ];
             }
-            usort($ret, function($a, $b) {
+            usort($ret, function ($a, $b) {
                 if ($a["score"]==$b["score"]) {
                     if ($a["penalty"]==$b["penalty"]) {
                         return 0;
@@ -492,7 +492,7 @@ class ContestModel extends Model
                     "problem_detail" => $prob_detail
                 ];
             }
-            usort($ret, function($a, $b) {
+            usort($ret, function ($a, $b) {
                 if ($a["score"]==$b["score"]) {
                     if ($a["solved"]==$b["solved"]) {
                         return 0;
@@ -557,12 +557,11 @@ class ContestModel extends Model
             return 0;
         }
 
-        if($contest_info["public"]){
+        if ($contest_info["public"]) {
             //public
             if ($contest_ended) {
                 return 1;
-            }
-            else {
+            } else {
                 if ($contest_info["registration"]) {
                     // check if uid in registration, temp return 3
                     $isParticipant=DB::table("contest_participant")->where([
@@ -585,10 +584,9 @@ class ContestModel extends Model
                 "gid"=> $contest_info["gid"],
                 "uid"=> $uid
             ])->where("role", ">", 0)->count();
-            if(!$isMember) {
+            if (!$isMember) {
                 return 0;
-            }
-            else {
+            } else {
                 if ($contest_info["registration"]) {
                     // check if uid in registration, temp return 3
                     $isParticipant=DB::table("contest_participant")->where([
@@ -639,7 +637,7 @@ class ContestModel extends Model
 
     public function arrangeContest($gid, $config, $problems)
     {
-        DB::transaction(function() use ($gid, $config, $problems) {
+        DB::transaction(function () use ($gid, $config, $problems) {
             $cid=DB::table($this->tableName)->insertGetId([
                 "gid"=>$gid,
                 "name"=>$config["name"],
