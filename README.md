@@ -49,23 +49,25 @@ chmod -R 775 app/Http/Controllers/VirtualCrawler/
 chmod -R 775 app/Http/Controllers/VirtualJudge/
 ```
 
-6. OK, right now we still need to configure environment, a typical `.env` just like the `.env.example`, you simply need to type the following codes;
+1. OK, right now we still need to configure environment, a typical `.env` just like the `.env.example`, you simply need to type the following codes;
 
 ```
 cp .env.example .env
 vim .env
 ```
 
-7. Now, we need to configure the database, thankfully Laravel have migration already;
+1. Now, we need to configure the database, thankfully Laravel have migration already;
 
-8. Lastly, we need to configure the virtual judger and online judger;
+1. Lastly, we need to configure the virtual judger and online judger;
 
 ```
 crontab -e
 * * * * * php /path-to-noj/artisan schedule:run
+
+php artisan queue:work
 ```
 
-9. NOJ's up-and-running, enjoy!
+1. NOJ's up-and-running, enjoy!
 
 ## Progress
 
