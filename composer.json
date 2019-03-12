@@ -36,6 +36,16 @@
     "extra": {
         "laravel": {
             "dont-discover": []
+        },
+        "installer-types": [
+            "bower-asset",
+            "npm-asset"
+        ],
+        "installer-paths": {
+            "public/static/{$name}": [
+                "type:bower-asset",
+                "type:npm-asset"
+            ]
         }
     },
     "autoload": {
@@ -66,10 +76,11 @@
             "@php artisan key:generate --ansi"
         ]
     },
-    "repositories": {
-        "packagist": {
-            "type": "composer",
-            "url": "https://packagist.phpcomposer.com"
-        }
-    }
+    "repositories": [{
+        "type": "composer",
+        "url": "https://packagist.phpcomposer.com"
+    },{
+        "type": "composer",
+        "url": "https://asset-packagist.org"
+    }]
 }
