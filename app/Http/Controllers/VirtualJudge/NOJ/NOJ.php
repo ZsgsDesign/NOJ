@@ -51,22 +51,24 @@ class NOJ
 
     public function submit()
     {
-        Validator::make($this->post_data, [
+        $validator = Validator::make($this->post_data, [
             'pid' => 'required|integer',
             'coid' => 'required|integer',
             'solution' => 'required',
-        ])->validate();
+        ]);
+        if ($validator->fails()) {
+            $this->sub['verdict']="System Error";
+            return;
+        }
         $judgerModel=new JudgerModel();
         $problemModel=new ProblemModel();
         $contestModel=new ContestModel();
         $bestServer=$judgerModel->server(1);
         if (is_null($bestServer)) {
-            return ResponseModel::err(6001);
+            $this->sub['verdict']="System Error";
+            return;
         }
         $this->sub['language']=$this->langDict[$this->post_data["lang"]];
-        $this->sub['solution']=$this->post_data["solution"];
-        $this->sub['pid']=$this->post_data["pid"];
-        $this->sub['coid']=$this->post_data["coid"];
         $probBasic=$problemModel->basic($this->post_data["pid"]);
         $submitURL="http://".$bestServer["host"].":".$bestServer["port"];
         $submit_data=[

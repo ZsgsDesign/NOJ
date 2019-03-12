@@ -785,7 +785,7 @@
                         },5000);
                     }else{
                         console.log(ret.desc);
-                        $("#verdict_text").text("System Error");
+                        $("#verdict_text").text(ret.desc);
                         $("#verdict_info").removeClass();
                         $("#verdict_info").addClass("wemd-black-text");
                     }

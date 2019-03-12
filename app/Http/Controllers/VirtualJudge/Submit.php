@@ -26,15 +26,8 @@ class Submit
         $sub=[
             'time'=>'0',
             'verdict'=>'Waiting',
-            'solution'=>'',
-            'language'=>'',
-            'submission_date'=>time(),
             'memory'=>'0',
-            'uid'=>Auth::user()->id,
-            'pid'=>'',
             'remote_id'=>'',
-            'coid'=>null,
-            'cid'=>null,
             'score'=>0
         ];
 
