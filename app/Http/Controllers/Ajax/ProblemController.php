@@ -55,13 +55,6 @@ class ProblemController extends Controller
         return ResponseModel::success(200, null, [
             "sid"=>$sid
         ]);
-
-        // $vj_submit=new Submit($all_data);
-        // $ret=$vj_submit->ret;
-        // if ($ret["ret"]==200) {
-        //     return ResponseModel::success(200, null, $ret["data"]);
-        // }
-        // return ResponseModel::err($ret["ret"]);
     }
     /**
      * The Ajax Problem Solution Submit.
