@@ -196,6 +196,12 @@ class ProblemModel extends Model
         return empty($temp) ? 0 : $temp["pcode"];
     }
 
+    public function ocode($pid)
+    {
+        $temp=DB::table($this->tableName)->where(["pid"=>$pid])->select("OJ as oid")->first();
+        return empty($temp) ? null : DB::table("oj")->where(["oid"=>$temp["oid"]])->select("ocode")->first()["ocode"];
+    }
+
     public function clearTags($pid)
     {
         DB::table("problem_tag")->where(["pid"=>$pid])->delete();

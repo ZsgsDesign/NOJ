@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\VirtualCrawler\Crawler;
+use App\Jobs\ProcessSubmission;
 use Auth;
 
 class ProblemController extends Controller
@@ -27,7 +28,8 @@ class ProblemController extends Controller
         $all_data=$request->all();
         $problemModel=new ProblemModel;
         $problemModel->isBlocked($all_data["pid"], isset($all_data["contest"]) ? $all_data["contest"] : null);
-        $vj_submit=new Submit($all_data);
+        ProcessSubmission::dispatch($all_data)->onQueue($problemModel->ocode($all_data["pid"]));
+        // $vj_submit=new Submit($all_data);
         $ret=$vj_submit->ret;
         if ($ret["ret"]==200) {
             return ResponseModel::success(200, null, $ret["data"]);
