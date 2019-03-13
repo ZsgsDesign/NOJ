@@ -31,7 +31,7 @@ class PTA extends Curl
         $pid=$this->post_data['iid'];
         sleep(1);
         $response=$this->post_data("https://pintia.cn/api/problem-sets/{$this->post_data['cid']}/exams", null, 'pta', true, false, false, true);
-
+        file_put_contents("/home/wwwroot/default/lalala.log",$response);
         if (strpos($response, 'PROBLEM_SET_NOT_FOUND')!==false) {
             header('HTTP/1.1 404 Not Found');
             die();
