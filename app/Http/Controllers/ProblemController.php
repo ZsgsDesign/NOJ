@@ -64,7 +64,7 @@ class ProblemController extends Controller
         $problem=new ProblemModel();
         $prob_detail=$problem->detail($pcode);
         if($problem->isBlocked($prob_detail["pid"])){
-            return response('Hello World', 403);
+            return abort('403');
         }
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.detail', [
                                             'page_title'=>$prob_detail["title"],
