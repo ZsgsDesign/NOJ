@@ -315,6 +315,16 @@ class ContestModel extends Model
         return $ret;
     }
 
+    public function isFrozen($cid)
+    {
+        $frozen = DB::table("contest")->where(["cid"=>$cid])->select("froze_length",DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first();
+        if(empty($frozen["froze_length"])){
+            return false;
+        } else {
+            return time() > $frozen["frozen_time"];
+        }
+    }
+
     public function contestProblemInfoACM($cid, $pid, $uid)
     {
         $ret=[
