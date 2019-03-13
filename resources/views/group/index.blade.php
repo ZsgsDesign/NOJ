@@ -124,7 +124,7 @@
                             </shadow-div>
                         </div>
                         <div>
-                            <p class="cm-group-name">@if($m['verified'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif {{$t['name']}}</p>
+                            <p class="cm-group-name">@if($m['verified'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif {{$m['name']}}</p>
                             <small class="cm-group-info">{{$m['members']}} Members</small>
                             <div class="cm-group-action">
 
