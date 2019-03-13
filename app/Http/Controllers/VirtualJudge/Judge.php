@@ -35,7 +35,9 @@ class Judge extends Core
             "TIME_LIMIT_EXCEEDED"=>"Time Limit Exceed",
             "OK"=>"Accepted",
             "MEMORY_LIMIT_EXCEEDED"=>"Memory Limit Exceed",
-            "PRESENTATION_ERROR"=>"Presentation Error"];
+            "PRESENTATION_ERROR"=>"Presentation Error",
+            "IDLENESS_LIMIT_EXCEEDED"=>"Idleness Limit Exceed"
+        ];
 
         $spoj_v=[
             "compilation error"=>"Compile Error",

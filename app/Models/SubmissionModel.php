@@ -25,7 +25,8 @@ class SubmissionModel extends Model
         "Judging"                => "wemd-blue-text",
         "Partially Accepted"     => "wemd-cyan-text",
         'Submission Error'       => 'wemd-black-text',
-        'Output Limit Exceeded'  => 'wemd-deep-purple-text'
+        'Output Limit Exceeded'  => 'wemd-deep-purple-text',
+        "Idleness Limit Exceed"  => 'wemd-deep-purple-text'
     ];
 
     public function insert($sub)
