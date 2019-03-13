@@ -64,6 +64,9 @@ class PTA extends Curl
 
     public function submit()
     {
+        $this->sub['verdict']="System Error";
+        return;
+
         $validator = Validator::make($this->post_data, [
             'pid' => 'required|integer',
             'cid' => 'required|integer',
