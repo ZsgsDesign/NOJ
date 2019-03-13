@@ -63,6 +63,7 @@ class ProblemController extends Controller
 
         $all_data["sid"]=$sid;
         $all_data["oj"]=$problemModel->ocode($all_data["pid"]);
+        $all_data["lang"]=$lang['lcode'];
         dispatch(new ProcessSubmission($all_data))->onQueue($all_data["oj"]);
 
         return ResponseModel::success(200, null, [

@@ -66,7 +66,7 @@ class NOJ
         $submit_data=[
             "solution" => $this->post_data["solution"],
             "language" => $this->post_data["lang"],
-            "max_cpu_time" => $probBasic["time_limit"],
+            "max_cpu_time" => $probBasic["time_limit"] * ($this->post_data["lang"]=="java"?3:1),
             "max_memory" => $probBasic["memory_limit"] * 1024,
             "test_case_id" => $probBasic["pcode"],
             "token" => $bestServer["token"]
