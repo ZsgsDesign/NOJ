@@ -129,7 +129,7 @@
                         <tr class="@if($r["uid"]==Auth::user()->id && $basic_info["status_visibility"]>1) cm-me @endif">
                             <th scope="row">{{$r["sid"]}}</th>
                             <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
-                            <td>{{round($r["ncode"])}}</td>
+                            <td>{{$r["ncode"]}}</td>
                             <td class="{{$r["color"]}}">{{$r["verdict"]}}</td>
                             <td>{{$r["time"]}}ms</td>
                             <td>{{$r["memory"]}}k</td>
