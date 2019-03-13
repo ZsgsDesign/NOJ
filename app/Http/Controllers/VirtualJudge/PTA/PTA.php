@@ -29,7 +29,7 @@ class PTA extends Curl
     private function submitSolution()
     {
         $pid=$this->post_data['iid'];
-
+        sleep(1);
         $response=$this->post_data("https://pintia.cn/api/problem-sets/{$this->post_data['cid']}/exams", null, 'pta', true, false, false, true);
 
         if (strpos($response, 'PROBLEM_SET_NOT_FOUND')!==false) {
