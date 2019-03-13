@@ -37,7 +37,7 @@ class POJ extends Curl
     {
         $params=[
             'problem_id' => $this->post_data['iid'],
-            'language' => $lang['lcode'],
+            'language' => $this->post_data['lcode'],
             'source' => base64_encode($this->post_data["solution"]),
             'encoded' => 1, // Optional, but sometimes base64 seems smaller than url encode
         ];

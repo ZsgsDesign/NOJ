@@ -40,7 +40,7 @@ class Vijos extends Curl
         preg_match('/"csrf_token":"([0-9a-f]{64})"/', $response, $match);
 
         $params=[
-            'lang' => $lang['lcode'],
+            'lang' => $this->post_data['lcode'],
             'code' => $this->post_data["solution"],
             'csrf_token' => $match[1],
         ];

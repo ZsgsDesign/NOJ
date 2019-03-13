@@ -44,7 +44,7 @@ class PTA extends Curl
                 [
                     'problemSetProblemId' => $this->post_data['iid'],
                     'programmingSubmissionDetail' => [
-                        'compiler' => $lang['lcode'],
+                        'compiler' => $this->post_data['lcode'],
                         'program' => $this->post_data["solution"]
                     ]
                 ]
