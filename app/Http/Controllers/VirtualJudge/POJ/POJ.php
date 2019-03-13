@@ -38,14 +38,6 @@ class POJ extends Curl
         $compilerModel=new CompilerModel();
         $lang=$compilerModel->detail($this->post_data["coid"]);
         $this->sub['language']=$lang['display_name'];
-        $this->sub['solution']=$this->post_data["solution"];
-        $this->sub['pid']=$this->post_data["pid"];
-        $this->sub['coid']=$this->post_data["coid"];
-        if (isset($this->post_data["contest"])) {
-            $this->sub['cid']=$this->post_data["contest"];
-        } else {
-            $this->sub['cid']=null;
-        }
 
         $params=[
             'problem_id' => $this->post_data['iid'],
@@ -53,7 +45,9 @@ class POJ extends Curl
             'source' => base64_encode($this->post_data["solution"]),
             'encoded' => 1, // Optional, but sometimes base64 seems smaller than url encode
         ];
+
         $response=$this->post_data("http://poj.org/submit", http_build_query($params), "poj", true, false);
+
         if (!preg_match('/Location: .*\/status/', $response, $match)) {
             $this->sub['verdict']='Submission Error';
         } else {
@@ -70,12 +64,17 @@ class POJ extends Curl
 
     public function submit()
     {
-        Validator::make($this->post_data, [
+        $validator = Validator::make($this->post_data, [
             'pid' => 'required|integer',
             'coid' => 'required|integer',
             'iid' => 'required|integer',
             'solution' => 'required',
-        ])->validate();
+        ]);
+
+        if ($validator->fails()) {
+            $this->sub['verdict']="System Error";
+            return;
+        }
 
         $this->pojLogin();
         $this->pojSubmit();

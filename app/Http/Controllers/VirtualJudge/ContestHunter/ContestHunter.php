@@ -41,14 +41,6 @@ class ContestHunter extends Curl
     private function contestHunterSubmit()
     {
         $this->sub['language']=$this->post_data["lang"]=="CPP" ? "C++" : $this->post_data["lang"];
-        $this->sub['solution']=$this->post_data["solution"];
-        $this->sub['pid']=$this->post_data["pid"];
-        $this->sub['coid']=$this->post_data["coid"];
-        if (isset($this->post_data["contest"])) {
-            $this->sub['cid']=$this->post_data["contest"];
-        } else {
-            $this->sub['cid']=null;
-        }
 
         $response=$this->grab_page("http://contest-hunter.org:83/contest/{$this->post_data['cid']}/{$this->post_data['iid']}", "contesthunter");
 
@@ -70,13 +62,18 @@ class ContestHunter extends Curl
 
     public function submit()
     {
-        Validator::make($this->post_data, [
+        $validator = Validator::make($this->post_data, [
             'pid' => 'required|integer',
             'cid' => 'required',
             'coid' => 'required|integer',
             'iid' => 'required',
             'solution' => 'required',
-        ])->validate();
+        ]);
+
+        if ($validator->fails()) {
+            $this->sub['verdict']="System Error";
+            return;
+        }
 
         $this->contestHunterLogin();
         $this->contestHunterSubmit();

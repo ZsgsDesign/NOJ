@@ -32,14 +32,6 @@ class PTA extends Curl
         $lang=$compilerModel->detail($this->post_data["coid"]);
         $pid=$this->post_data['iid'];
         $this->sub['language']=$lang['display_name'];
-        $this->sub['solution']=$this->post_data["solution"];
-        $this->sub['pid']=$this->post_data["pid"];
-        $this->sub['coid']=$this->post_data["coid"];
-        if (isset($this->post_data["contest"])) {
-            $this->sub['cid']=$this->post_data["contest"];
-        } else {
-            $this->sub['cid']=null;
-        }
 
         $response=$this->post_data("https://pintia.cn/api/problem-sets/{$this->post_data['cid']}/exams", null, 'pta', true, false, false, true);
 
@@ -74,13 +66,18 @@ class PTA extends Curl
 
     public function submit()
     {
-        Validator::make($this->post_data, [
+        $validator = Validator::make($this->post_data, [
             'pid' => 'required|integer',
             'cid' => 'required|integer',
             'coid' => 'required|integer',
             'iid' => 'required|integer',
             'solution' => 'required',
-        ])->validate();
+        ]);
+
+        if ($validator->fails()) {
+            $this->sub['verdict']="System Error";
+            return;
+        }
 
         $this->ojLogin();
         $this->submitSolution();
