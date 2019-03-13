@@ -85,6 +85,9 @@ class ProblemController extends Controller
         $compiler=new CompilerModel();
         $submission=new SubmissionModel();
         $prob_detail=$problem->detail($pcode);
+        if($problem->isBlocked($prob_detail["pid"])){
+            return abort('403');
+        }
         $compiler_list=$compiler->list($prob_detail["OJ"], $prob_detail["pid"]);
         $prob_status=$submission->getProblemStatus($prob_detail["pid"], Auth::user()->id);
 
