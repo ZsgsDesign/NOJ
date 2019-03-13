@@ -46,17 +46,9 @@ class CodeForces extends Curl
     private function codeForcesSubmit()
     {
         $this->sub['language']=substr($this->post_data["lang"], 2, 50);
-        $this->sub['solution']=$this->post_data["solution"];
-        $this->sub['pid']=$this->post_data["pid"];
-        $this->sub['coid']=$this->post_data["coid"];
-        if (isset($this->post_data["contest"])) {
-            $this->sub['cid']=$this->post_data["contest"];
-        } else {
-            $this->sub['cid']=null;
-        }
 
         $submissionModel=new SubmissionModel();
-        $s_num=$submissionModel->count_solution($this->sub['solution']);
+        $s_num=$submissionModel->count_solution($this->post_data["solution"]);
         $space='';
         for ($i=0; $i<$s_num; $i++) {
             $space.=' ';
@@ -91,19 +83,25 @@ class CodeForces extends Curl
         if (substr_count($response, 'My Submissions')!=2) {
             // Forbidden?
             $exploded=explode('<span class="error for__source">', $response);
-            $this->sub['verdict']=explode("</span>", $exploded[1])[0];
+            $this->sub['compile_info']=explode("</span>", $exploded[1])[0];
+            $this->sub['verdict']="System Error";
         }
     }
 
     public function submit()
     {
-        Validator::make($this->post_data, [
+        $validator = Validator::make($this->post_data, [
             'pid' => 'required|integer',
             'cid' => 'required|integer',
             'coid' => 'required|integer',
             'iid' => 'required',
             'solution' => 'required',
-        ])->validate();
+        ]);
+
+        if ($validator->fails()) {
+            $this->sub['verdict']="System Error";
+            return;
+        }
 
         $this->codeForcesLogin();
         $this->codeForcesSubmit();

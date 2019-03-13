@@ -121,27 +121,7 @@ class SubmissionModel extends Model
 
     public function update_submission($sid, $sub)
     {
-
-        return DB::table($this->tableName)  ->where(['sid'=>$sid])
-                                            ->update(
-                                                array_merge(
-                                                    DB::table($this->tableName)->where(['sid'=>$sid])->first(),[
-                                                        'time' => $sub['time'],
-                                                        'verdict' => $sub['verdict'],
-                                                        'solution' => $sub['solution'],
-                                                        'language' => $sub['language'],
-                                                        'submission_date' => $sub['submission_date'],
-                                                        'memory' => $sub['memory'],
-                                                        'uid' => $sub['uid'],
-                                                        'pid' => $sub['pid'],
-                                                        'cid' => $sub['cid'],
-                                                        'color' => $this->colorScheme[$sub['verdict']],
-                                                        'remote_id'=>$sub['remote_id'],
-                                                        'compile_info'=>"",
-                                                        'coid'=>$sub['coid'],
-                                                        'score'=>$sub['score']
-                                                    ]
-                                                )
-                                            );
+        if(isset($sub['verdict'])) $sub["color"]=$this->colorScheme[$sub['verdict']];
+        return DB::table($this->tableName)->where(['sid'=>$sid])->update($sub);
     }
 }
