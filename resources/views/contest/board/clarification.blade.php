@@ -166,6 +166,7 @@
         <nav-div>
             <a href="/contest/{{$cid}}/board/challenge"><nav-item>Challenge</nav-item></a>
             <a href="/contest/{{$cid}}/board/rank"><nav-item>Rank</nav-item></a>
+            <a href="/contest/{{$cid}}/board/submission"><nav-item class="active">Submission</nav-item></a>
             <a href="/contest/{{$cid}}/board/clarification"><nav-item class="active">Clarification</nav-item></a>
             <a href="/contest/{{$cid}}/board/print"><nav-item>Print</nav-item></a>
         </nav-div>
