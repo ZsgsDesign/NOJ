@@ -196,8 +196,10 @@ class ContestModel extends Model
             "cid"=>$cid
         ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title")->get()->all();
 
+        $frozen_time=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
+        $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+
         foreach ($problemSet as &$p) {
-            $frozen_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
             if ($contest_rule==1) {
                 $prob_stat=DB::table("submission")->select(
                     DB::raw("count(sid) as submission_count"),
@@ -290,7 +292,8 @@ class ContestModel extends Model
             ])->first()["points"]
         ];
 
-        $frozen_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+        $frozen_time=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
+        $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
 
         $highest_record=DB::table("submission")->where([
             "cid"=>$cid,
@@ -323,7 +326,8 @@ class ContestModel extends Model
             "color"=>"",
         ];
 
-        $frozen_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+        $frozen_time=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
+        $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
 
         $ac_record=DB::table("submission")->where([
             "cid"=>$cid,

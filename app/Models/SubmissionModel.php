@@ -64,22 +64,22 @@ class SubmissionModel extends Model
     public function getProblemStatus($pid, $uid, $cid=null)
     {
         if ($cid) {
-            $frozen_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+            $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
             // Get the very first AC record
             $ac=DB::table($this->tableName)->where([
                 'pid'=>$pid,
                 'uid'=>$uid,
                 'cid'=>$cid,
                 'verdict'=>'Accepted'
-            ])->where("submission_date", "<", $frozen_time)->orderBy('submission_date', 'desc')->first();
+            ])->where("submission_date", "<", $end_time)->orderBy('submission_date', 'desc')->first();
             if (empty($ac)) {
                 $pac=DB::table($this->tableName)->where([
                     'pid'=>$pid,
                     'uid'=>$uid,
                     'cid'=>$cid,
                     'verdict'=>'Partially Accepted'
-                ])->where("submission_date", "<", $frozen_time)->orderBy('submission_date', 'desc')->first();
-                return empty($pac) ? DB::table($this->tableName)->where(['pid'=>$pid, 'uid'=>$uid, 'cid'=>$cid])->where("submission_date", "<", $frozen_time)->orderBy('submission_date', 'desc')->first() : $pac;
+                ])->where("submission_date", "<", $end_time)->orderBy('submission_date', 'desc')->first();
+                return empty($pac) ? DB::table($this->tableName)->where(['pid'=>$pid, 'uid'=>$uid, 'cid'=>$cid])->where("submission_date", "<", $end_time)->orderBy('submission_date', 'desc')->first() : $pac;
             } else {
                 return $ac;
             }
