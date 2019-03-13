@@ -107,7 +107,7 @@ class POJ extends CrawlerBase
         $this->pro['contest_id']=null;
         $this->pro['index_id']=$con;
         $this->pro['origin']="http://poj.org/problem?id={$con}&lang=zh-CN&change=true";
-        $this->pro['title']=POJ::find('/<div class="ptt" lang=".*?">(.*?)<\/div>/', $res->body);
+        $this->pro['title']=POJ::find('/<div class="ptt" lang=".*?">([\s\S]*?)<\/div>/', $res->body);
         $this->pro['time_limit']=POJ::find('/Time Limit:.*?(\d+)MS/', $res->body);
         $this->pro['memory_limit']=POJ::find('/Memory Limit:.*?(\d+)K/', $res->body);
         $this->pro['solved_count']=POJ::find('/Accepted:.*?(\d+)/', $res->body);
