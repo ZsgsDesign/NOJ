@@ -204,6 +204,8 @@ class ContestController extends Controller
         $problemSet=$contestModel->contestProblems($cid, Auth::user()->id);
         $customInfo=$contestModel->getCustomInfo($cid);
         $contestRank=$contestModel->contestRank($cid, Auth::user()->id);
+        $rankFrozen=$contestModel->isFrozen($cid);
+        $frozenTime=$contestModel->frozenTime($cid);
         return view('contest.board.rank', [
             'page_title'=>"Challenge",
             'navigation' => "Contest",
@@ -213,7 +215,9 @@ class ContestController extends Controller
             'cid'=>$cid,
             'problem_set'=>$problemSet,
             'custom_info' => $customInfo,
-            'contest_rank' => $contestRank
+            'contest_rank' => $contestRank,
+            'rank_frozen' => $rankFrozen,
+            'frozen_time' => $frozenTime
         ]);
     }
 
