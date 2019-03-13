@@ -85,7 +85,7 @@ class NOJ
                         $tempRes=json_decode(explode('Compiler runtime error, info: ',$temp["data"])[1],true);
                         $this->sub['verdict']=$this->verdictDict[$tempRes["result"]];
                         $this->sub['time']=$tempRes["cpu_time"];
-                        $this->sub['memory']=$tempRes["memory"];
+                        $this->sub['memory']=round($tempRes["memory"] / 1024);
                     }else{
                         $this->sub['verdict']="Compile Error";
                         $this->sub['time']=0;
@@ -108,7 +108,7 @@ class NOJ
                 if ($this->sub["score"]==0) {
                     $this->sub['verdict']=$this->verdictDict[$temp["data"][0]["result"]];
                     $this->sub['time']=$temp["data"][0]["cpu_time"];
-                    $this->sub['memory']=$temp["data"][0]["memory"];
+                    $this->sub['memory']=round($temp["data"][0]["memory"] / 1024);
                     return;
                 }
 
@@ -120,7 +120,7 @@ class NOJ
                 }
 
                 $this->sub['time']=$tempTime;
-                $this->sub['memory']=$tempMemory;
+                $this->sub['memory']=round($tempMemory / 1024);
                 return;
             }
         } else {
