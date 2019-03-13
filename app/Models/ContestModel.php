@@ -54,12 +54,17 @@ class ContestModel extends Model
         }
     }
 
+    public function basic($cid)
+    {
+        return DB::table($this->tableName)->where([
+            "cid"=>$cid
+        ])->first();
+    }
+
     public function detail($cid, $uid=0)
     {
         $contest_clearance=$this->judgeOutSideClearance($cid, $uid);
-        $contest_detail=DB::table($this->tableName)->where([
-            "cid"=>$cid
-        ])->first();
+        $contest_detail=$this->basic($cid);
 
         if ($contest_clearance==0) {
             return [
@@ -542,6 +547,76 @@ class ContestModel extends Model
         return DB::table("contest")->where("cid", $cid)->where("end_time", "<", date("Y-m-d H:i:s"))->count();
     }
 
+    public function formatSubmitTime($date)
+    {
+        $periods=["second", "minute", "hour", "day", "week", "month", "year", "decade"];
+        $lengths=["60", "60", "24", "7", "4.35", "12", "10"];
+
+        $now=time();
+        $unix_date=strtotime($date);
+
+        if (empty($unix_date)) {
+            return "Bad date";
+        }
+
+        if ($now>$unix_date) {
+            $difference=$now-$unix_date;
+            $tense="ago";
+        } else {
+            $difference=$unix_date-$now;
+            $tense="from now";
+        }
+
+        for ($j=0; $difference>=$lengths[$j] && $j<count($lengths)-1; $j++) {
+            $difference/=$lengths[$j];
+        }
+
+        $difference=round($difference);
+
+        if ($difference!=1) {
+            $periods[$j].="s";
+        }
+
+        return "$difference $periods[$j] {$tense}";
+    }
+
+
+    public function getContestRecord($cid)
+    {
+        $basicInfo = $this->basic($cid);
+        $problemSet_temp = DB::table("contest_problem")->join("problem", "contest_problem.pid", "=", "problem.pid")->where([
+            "cid"=>$cid
+        ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title", "points", "tot_score")->get()->all();
+        $problemSet=[];
+        foreach ($problemSet_temp as $p) {
+            $problemSet[(string)$p["pid"]]=["ncode"=>$p["ncode"],"points"=>$p["points"],"tot_score"=>$p["tot_score"]];
+        }
+        if($basicInfo["status_visibility"]==2){
+            // View all
+            $records = DB::table("submission")->where([
+                'cid'=>$cid
+            ])->join("users","users.id","=","submission.uid")->select("sid","uid","pid","name","color","verdict","time","memory","language","score","submission_date")->orderBy('submission_date', 'desc')->get()->all();
+        } elseif ($basicInfo["status_visibility"]==1) {
+            $records = DB::table("submission")->where([
+                'cid'=>$cid,
+                'uid'=>Auth::user()->id
+            ])->join("users","users.id","=","submission.uid")->select("sid","uid","pid","name","color","verdict","time","memory","language","score","submission_date")->orderBy('submission_date', 'desc')->get()->all();
+        } else {
+            return [];
+        }
+        foreach($records as &$r){
+            $r["submission_date_parsed"]=$this->formatSubmitTime(date('Y-m-d H:i:s', $r["submission_date"]));
+            $r["submission_date"]=date('Y-m-d H:i:s', $r["submission_date"]);
+            $r["nick_name"]="";
+            $r["ncode"]=$problemSet[(string)$r["pid"]]["ncode"];
+            if($r["verdict"]=="Partially Accepted") {
+                $score_parsed = round($r["score"] / $problemSet[(string)$r["pid"]]["tot_score"] * $problemSet[(string)$r["pid"]]["points"], 1);
+                $r["verdict"].=" ($score_parsed)";
+            }
+        }
+        return $records;
+    }
+
     public function judgeClearance($cid, $uid=0)
     {
         if ($uid==0) {
@@ -654,7 +729,7 @@ class ContestModel extends Model
                 "registration_due"=>null, //todo
                 "registant_type"=>0, //todo
                 "froze_length"=>0, //todo
-                "status_visibility"=>3, //todo
+                "status_visibility"=>2, //todo
                 "create_time"=>date("Y-m-d H:i:s"),
                 "audit_status"=>1                       //todo
             ]);

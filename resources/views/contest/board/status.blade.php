@@ -94,15 +94,6 @@
     th{
         white-space: nowrap;
     }
-
-    .cm-ac{
-        background: rgba(76, 175, 80, 0.1);
-    }
-
-    .cm-fb{
-        background: rgba(0, 150, 136, 0.1);
-    }
-
     .cm-me{
         background: rgba(255, 193, 7, 0.1);
     }
@@ -123,25 +114,27 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col" style="text-align: left;">Rank</th>
+                            <th scope="col" style="text-align: left;">SID</th>
                             <th scope="col">Account</th>
-                            <th scope="col">Score</th>
-                            <th scope="col">Solved</th>
-                            @foreach($problem_set as $p)
-                                <th scope="col" class="cm-problem-header">{{$p["ncode"]}}</th>
-                            @endforeach
+                            <th scope="col">Problem</th>
+                            <th scope="col">Result</th>
+                            <th scope="col">Time</th>
+                            <th scope="col">Memory</th>
+                            <th scope="col">Languages</th>
+                            <th scope="col">Submit Time</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($contest_rank as $r)
-                        <tr class="@if($r["uid"]==Auth::user()->id) cm-me @endif">
-                            <th scope="row">{{$loop->iteration}}</th>
+                        @foreach($submission_record as $r)
+                        <tr class="@if($r["uid"]==Auth::user()->id && $basic_info["status_visibility"]>1) cm-me @endif">
+                            <th scope="row">{{$r["sid"]}}</th>
                             <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
-                            <td>{{round($r["score"])}}</td>
-                            <td>{{$r["solved"]}}</td>
-                            @foreach($r["problem_detail"] as $rp)
-                                <td class="{{$rp["color"]}}">@if(!is_null($rp["score"])){{round($rp["score_parsed"],1)}}<br>@endif</td>
-                            @endforeach
+                            <td>{{round($r["ncode"])}}</td>
+                            <td class="{{$r["color"]}}">{{$r["verdict"]}}</td>
+                            <td>{{$r["time"]}}ms</td>
+                            <td>{{$r["memory"]}}k</td>
+                            <td>{{$r["language"]}}</td>
+                            <td data-toggle="tooltip" data-placement="top" title="{{$r["submission_date"]}}">{{$r["submission_date_parsed"]}}</td>
                         </tr>
                         @endforeach
                     </tbody>

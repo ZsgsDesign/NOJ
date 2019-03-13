@@ -218,6 +218,33 @@ class ContestController extends Controller
     }
 
     /**
+     * Show the Contest Status Page.
+     *
+     * @return Response
+     */
+    public function status($cid)
+    {
+        $contestModel=new ContestModel();
+        if (!$contestModel->judgeClearance($cid, Auth::user()->id)) {
+            return Redirect::route('contest_detail', ['cid' => $cid]);
+        }
+        $contest_name=$contestModel->contestName($cid);
+        $customInfo=$contestModel->getCustomInfo($cid);
+        $basicInfo=$contestModel->basic($cid);
+        $submissionRecord=$contestModel->getContestRecord($cid);
+        return view('contest.board.status', [
+            'page_title'=>"Status",
+            'navigation' => "Contest",
+            'site_title'=>$contest_name,
+            'contest_name'=>$contest_name,
+            'basic_info'=>$basicInfo,
+            'cid'=>$cid,
+            'custom_info' => $customInfo,
+            'submission_record' => $submissionRecord
+        ]);
+    }
+
+    /**
      * Show the Contest Clarification Page.
      *
      * @return Response
