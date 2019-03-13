@@ -30,6 +30,7 @@ class PTA extends Curl
     {
         $pid=$this->post_data['iid'];
 
+        sleep(1);
         $response=$this->grab_page("https://pintia.cn/api/problem-sets/{$this->post_data['cid']}/exams", 'pta');
 
         if (strpos($response, 'PROBLEM_SET_NOT_FOUND')!==false) {
@@ -44,7 +45,7 @@ class PTA extends Curl
                 [
                     'problemSetProblemId' => $this->post_data['iid'],
                     'programmingSubmissionDetail' => [
-                        'compiler' => $this->post_data['lcode'],
+                        'compiler' => $this->post_data['lang'],
                         'program' => $this->post_data["solution"]
                     ]
                 ]
