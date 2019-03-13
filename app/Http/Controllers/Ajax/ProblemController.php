@@ -116,6 +116,10 @@ class ProblemController extends Controller
      */
     public function manualJudge(Request $request)
     {
+        if(Auth::user()->id!=1){
+            return ResponseModel::err(2001);
+        }
+
         $vj_judge=new Judge();
 
         return ResponseModel::success(200, null, $vj_judge->ret);
@@ -152,6 +156,10 @@ class ProblemController extends Controller
      */
     public function crawler(Request $request)
     {
+        if(Auth::user()->id!=1){
+            return ResponseModel::err(2001);
+        }
+
         $all_data=$request->all();
 
         new Crawler($all_data["name"], $all_data["action"], $all_data["con"], $all_data["cached"]);
