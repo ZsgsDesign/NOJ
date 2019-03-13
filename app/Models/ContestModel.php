@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class ContestModel extends Model
 {
     protected $tableName='contest';
-    public $rule=["Unknown", "ACM", "OI", "Custom ACM", "Custom OI"];
+    public $rule=["Unknown", "ICPC", "OI", "Custom ICPC", "Custom OI"];
 
     public function calcLength($a, $b)
     {
