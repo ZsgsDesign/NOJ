@@ -40,8 +40,6 @@ class ContestHunter extends Curl
 
     private function contestHunterSubmit()
     {
-        $this->sub['language']=$this->post_data["lang"]=="CPP" ? "C++" : $this->post_data["lang"];
-
         $response=$this->grab_page("http://contest-hunter.org:83/contest/{$this->post_data['cid']}/{$this->post_data['iid']}", "contesthunter");
 
         preg_match('/<input name="CSRFToken" type="hidden" value="([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})"\/>/', $response, $match);

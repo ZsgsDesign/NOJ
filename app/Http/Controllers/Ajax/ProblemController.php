@@ -28,6 +28,7 @@ class ProblemController extends Controller
     {
         $problemModel=new ProblemModel();
         $submissionModel=new SubmissionModel();
+        $compilerModel=new CompilerModel();
 
         $all_data=$request->all();
 
@@ -41,11 +42,13 @@ class ProblemController extends Controller
 
         $problemModel->isBlocked($all_data["pid"], isset($all_data["contest"]) ? $all_data["contest"] : null);
 
+        $lang=$compilerModel->detail($all_data["coid"]);
+
         $sid = $submissionModel->insert([
             'time'=>'0',
             'verdict'=>'Pending',
             'solution'=>$all_data["solution"],
-            'language'=>'',
+            'language'=>$lang['display_name'],
             'submission_date'=>time(),
             'memory'=>'0',
             'uid'=>Auth::user()->id,

@@ -28,10 +28,7 @@ class PTA extends Curl
 
     private function submitSolution()
     {
-        $compilerModel=new CompilerModel();
-        $lang=$compilerModel->detail($this->post_data["coid"]);
         $pid=$this->post_data['iid'];
-        $this->sub['language']=$lang['display_name'];
 
         $response=$this->post_data("https://pintia.cn/api/problem-sets/{$this->post_data['cid']}/exams", null, 'pta', true, false, false, true);
 

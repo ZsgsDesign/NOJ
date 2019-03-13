@@ -45,7 +45,7 @@ class CodeForces extends Curl
 
     private function codeForcesSubmit()
     {
-        $this->sub['language']=substr($this->post_data["lang"], 2, 50);
+        // $this->sub['language']=substr($this->post_data["lang"], 2, 50);
 
         $submissionModel=new SubmissionModel();
         $s_num=$submissionModel->count_solution($this->post_data["solution"]);

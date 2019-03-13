@@ -12,13 +12,6 @@ class NOJ
 {
     protected $sub;
     public $post_data=[];
-    public $langDict=[
-        "c"=>"C",
-        "cpp"=>"C++",
-        "java"=>"Java",
-        "py2"=>"Python 2.7",
-        "py3"=>"Python 3.5"
-    ];
     public $verdictDict=[
         -2 => "Compile Error",
         -1 => "Wrong Answer",
@@ -68,7 +61,6 @@ class NOJ
             $this->sub['verdict']="System Error";
             return;
         }
-        $this->sub['language']=$this->langDict[$this->post_data["lang"]];
         $probBasic=$problemModel->basic($this->post_data["pid"]);
         $submitURL="http://".$bestServer["host"].":".$bestServer["port"];
         $submit_data=[

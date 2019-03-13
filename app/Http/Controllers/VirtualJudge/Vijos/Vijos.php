@@ -35,11 +35,7 @@ class Vijos extends Curl
 
     private function submitSolution()
     {
-        $compilerModel=new CompilerModel();
-        $lang=$compilerModel->detail($this->post_data["coid"]);
         $pid=$this->post_data['iid'];
-        $this->sub['language']=$lang['display_name'];
-
         $response=$this->grab_page("https://vijos.org/p/{$pid}/submit", 'vijos');
         preg_match('/"csrf_token":"([0-9a-f]{64})"/', $response, $match);
 

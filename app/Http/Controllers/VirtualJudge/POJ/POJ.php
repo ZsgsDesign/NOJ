@@ -35,10 +35,6 @@ class POJ extends Curl
 
     private function pojSubmit()
     {
-        $compilerModel=new CompilerModel();
-        $lang=$compilerModel->detail($this->post_data["coid"]);
-        $this->sub['language']=$lang['display_name'];
-
         $params=[
             'problem_id' => $this->post_data['iid'],
             'language' => $lang['lcode'],
