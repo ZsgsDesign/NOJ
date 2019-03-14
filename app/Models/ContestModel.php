@@ -546,6 +546,20 @@ class ContestModel extends Model
             "cid"=>$cid,
             "type"=>0,
             "public"=>1
+        ])->whereBetween(
+            'create_time', [
+                DB::raw("date_add(now(), interval - 1 minute)"),
+                DB::raw("date_add(now(), interval + 1 minute)")
+            ]
+        )->first();
+    }
+
+    public function fetchClarification($cid)
+    {
+        return DB::table("contest_clarification")->where([
+            "cid"=>$cid,
+            "type"=>0,
+            "public"=>1
         ])->orderBy('create_time', 'desc')->first();
     }
 
