@@ -446,6 +446,45 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
+
+        .cm-pre-wrapper{
+            position:relative;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .cm-pre-wrapper pre{
+            padding-top: 2.22rem;
+        }
+        .cm-pre-wrapper .cm-copy-snippet {
+            border-radius: 0;
+            min-width:55px;
+            background: none repeat scroll 0 0 transparent;
+            border: 1px solid #d6d6d6;
+            color: rgba(0, 0, 0, 0.92);
+            font-family: montserrat,sans-serif;
+            font-size: 0.75rem;
+            font-weight: normal;
+            line-height: 1.42rem;
+            margin: 0;
+            padding: 0px 5px;
+            text-align: center;
+            text-decoration: none;
+            text-indent: 0;
+            position:absolute;
+            /* background:#ccc; */
+            top:0;
+            left:0;
+            transition: .2s ease-out .0s;
+            cursor: pointer;
+        }
+        .cm-pre-wrapper .cm-copy-snippet:hover {
+            background: #d6d6d6;
+        }
+        .cm-pre-wrapper .cm-copy-snippet:disabled{
+            color: rgba(0, 0, 0, 0.53);
+        }
+
         @-webkit-keyframes cm-rotate{
             from{-webkit-transform: rotate(0deg)}
             to{-webkit-transform: rotate(360deg)}
@@ -522,11 +561,11 @@
 
                             <h2>Sample Input:</h2>
 
-                            <pre>{!!$ps['sample_input']!!}</pre>
+                            <div class="cm-pre-wrapper"><pre id="input{{$loop->index}}">{!!$ps['sample_input']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#input{{$loop->index}}">Copy</button></div>
 
                             <h2>Sample Output:</h2>
 
-                            <pre>{!!$ps['sample_output']!!}</pre>
+                            <div class="cm-pre-wrapper"><pre id="output{{$loop->index}}">{!!$ps['sample_output']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#output{{$loop->index}}">Copy</button></div>
 
                         @endforeach
 
@@ -635,6 +674,25 @@
         window.addEventListener("load",function() {
 
         }, false);
+    </script>
+    <script src="/static/library/clipboard/dist/clipboard.min.js"></script>
+    <script>
+        var clipboard = new ClipboardJS('.cm-copy-snippet');
+
+        clipboard.on('success', function(e) {
+            $(e.trigger).text("Copied");
+            e.clearSelection();
+            setTimeout(()=>{
+                $(e.trigger).text("Copy");
+            }, 2000);
+        });
+
+        clipboard.on('error', function(e) {
+            $(e.trigger).text("Failed");
+            setTimeout(()=>{
+                $(e.trigger).text("Copy");
+            }, 2000);
+        });
     </script>
     <script src="/static/library/jquery/dist/jquery.min.js"></script>
     <script src="/static/js/popper.min.js"></script>
