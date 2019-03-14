@@ -255,7 +255,7 @@
 
     @yield('addition')
 
-    <footer class="mundb-footer bg-dark text-light d-print-none" id="footercopyright">
+    <footer class="mundb-footer bg-dark text-light d-print-none">
         Copyright &copy; NOJ 2018-{{date('Y')}}, all rights reserved.
     </footer>
     <script src="/static/library/jquery/dist/jquery.min.js"></script>
