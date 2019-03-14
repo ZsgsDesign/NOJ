@@ -71,9 +71,10 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
 
 ## Progress
 
-- [ ] Basic Home Page
+- [X] Basic Home Page
 - [ ] General
     - [X] Cron Support
+    - [X] Queue Support
     - [ ] Notification Support
         - [ ] Browser
         - [ ] Mail
