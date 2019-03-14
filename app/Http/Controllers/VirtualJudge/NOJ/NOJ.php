@@ -44,7 +44,7 @@ class NOJ
 
     public function submit()
     {
-        $validator = Validator::make($this->post_data, [
+        $validator=Validator::make($this->post_data, [
             'pid' => 'required|integer',
             'coid' => 'required|integer',
             'solution' => 'required',
@@ -66,7 +66,7 @@ class NOJ
         $submit_data=[
             "solution" => $this->post_data["solution"],
             "language" => $this->post_data["lang"],
-            "max_cpu_time" => $probBasic["time_limit"] * ($this->post_data["lang"]=="java"?3:1),
+            "max_cpu_time" => $probBasic["time_limit"] * ($this->post_data["lang"]=="java" ? 3 : 1),
             "max_memory" => $probBasic["memory_limit"] * 1024,
             "test_case_id" => $probBasic["pcode"],
             "token" => $bestServer["token"]
@@ -81,12 +81,12 @@ class NOJ
                 $this->sub['verdict']="Accepted";
 
                 if (!is_null($temp["err"])) {
-                    if (strpos($temp["data"], 'Compiler runtime error, info: ') !== false) {
-                        $tempRes=json_decode(explode('Compiler runtime error, info: ',$temp["data"])[1],true);
+                    if (strpos($temp["data"], 'Compiler runtime error, info: ')!==false) {
+                        $tempRes=json_decode(explode('Compiler runtime error, info: ', $temp["data"])[1], true);
                         $this->sub['verdict']=$this->verdictDict[$tempRes["result"]];
                         $this->sub['time']=$tempRes["cpu_time"];
                         $this->sub['memory']=round($tempRes["memory"] / 1024);
-                    }else{
+                    } else {
                         $this->sub['verdict']="Compile Error";
                         $this->sub['time']=0;
                         $this->sub['memory']=0;
@@ -128,12 +128,12 @@ class NOJ
         }
 
         if (!is_null($temp["err"])) {
-            if (strpos($temp["data"], 'Compiler runtime error, info: ') !== false) {
-                $tempRes=json_decode(explode('Compiler runtime error, info: ',$temp["data"])[1],true);
+            if (strpos($temp["data"], 'Compiler runtime error, info: ')!==false) {
+                $tempRes=json_decode(explode('Compiler runtime error, info: ', $temp["data"])[1], true);
                 $this->sub['verdict']=$this->verdictDict[$tempRes["result"]];
                 $this->sub['time']=$tempRes["cpu_time"];
                 $this->sub['memory']=$tempRes["memory"];
-            }else{
+            } else {
                 $this->sub['verdict']="Compile Error";
                 $this->sub['time']=0;
                 $this->sub['memory']=0;

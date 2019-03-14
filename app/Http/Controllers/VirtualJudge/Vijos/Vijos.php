@@ -21,10 +21,10 @@ class Vijos extends Curl
     private function ojLogin()
     {
         $response=$this->grab_page('https://vijos.org', 'vijos');
-        if (strpos($response, '登出') === false) {
+        if (strpos($response, '登出')===false) {
             $judger=new JudgerModel();
             $judger_list=$judger->list(5);
-            $params = [
+            $params=[
                 'uname' => $judger_list[0]["handle"],
                 'password' => $judger_list[0]["password"],
                 'rememberme' => 'on',
@@ -54,7 +54,7 @@ class Vijos extends Curl
 
     public function submit()
     {
-        $validator = Validator::make($this->post_data, [
+        $validator=Validator::make($this->post_data, [
             'pid' => 'required|integer',
             'coid' => 'required|integer',
             'iid' => 'required|integer',

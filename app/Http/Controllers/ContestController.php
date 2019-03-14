@@ -125,7 +125,7 @@ class ContestController extends Controller
         $pcode=$problemModel->pcode($pid);
 
         $prob_detail=$problemModel->detail($pcode, $cid);
-        if($problemModel->isBlocked($prob_detail["pid"], $cid)){
+        if ($problemModel->isBlocked($prob_detail["pid"], $cid)) {
             return abort('403');
         }
         $compiler_list=$compilerModel->list($prob_detail["OJ"], $prob_detail["pid"]);
