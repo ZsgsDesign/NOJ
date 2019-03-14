@@ -23,12 +23,17 @@ class CompilerModel extends Model
         return $compiler_list;
     }
 
-    public function pref($pid, $uid, $cid=null)
+    public function pref($compiler_list, $pid, $uid, $cid=null)
     {
+        $countCompilerList=count($compiler_list);
+        $pref=-1;
         $last_submission=DB::table("submission")->where(["pid"=>$pid, "uid"=>$uid, "cid"=>$cid])->orderBy('submission_date', 'desc')->first();
         if (empty($last_submission)) {
             // get user pref for compilers
-            return null;
+            return [
+                "pref"=>$pref,
+                "code"=>""
+            ];
         } else {
             $ret["code"]=$last_submission["solution"];
             $ret['code']=str_replace('\\', '\\\\', $ret['code']);
@@ -39,6 +44,33 @@ class CompilerModel extends Model
             $ret['code']=str_replace(">", "\>", $ret['code']);
             $ret["coid"]=$last_submission["coid"];
             $ret["detail"]=$this->detail($last_submission["coid"]);
+            // match precise compiler
+            for ($i=0; $i<$countCompilerList; $i++) {
+                if ($compiler_list[$i]["coid"]==$compiler_pref["coid"]) {
+                    $pref=$i;
+                    break;
+                }
+            }
+            if ($pref==-1) {
+                // precise compiler is dead, use  other compiler with same lang
+                for ($i=0; $i<$countCompilerList; $i++) {
+                    if ($compiler_list[$i]["lang"]==$compiler_pref["detail"]["lang"]) {
+                        $pref=$i;
+                        break;
+                    }
+                }
+            }
+            if ($pref==-1) {
+                // same lang compilers are all dead, use other compiler within the same group
+                for ($i=0; $i<$countCompilerList; $i++) {
+                    if ($compiler_list[$i]["comp"]==$compiler_pref["detail"]["comp"]) {
+                        $pref=$i;
+                        break;
+                    }
+                }
+            }
+            // the entire comp group dead
+            $ret["pref"]=$pref;
             return $ret;
         }
     }

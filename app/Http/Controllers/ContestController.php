@@ -131,40 +131,9 @@ class ContestController extends Controller
         $compiler_list=$compilerModel->list($prob_detail["OJ"], $prob_detail["pid"]);
         $prob_status=$submissionModel->getProblemStatus($prob_detail["pid"], Auth::user()->id, $cid);
         $problemSet=$contestModel->contestProblems($cid, Auth::user()->id);
-        $compiler_pref=$compilerModel->pref($prob_detail["pid"], Auth::user()->id, $cid);
-        $pref=-1;
-        $submit_code="";
-        $countCompilerList=count($compiler_list);
-
-        if (!is_null($compiler_pref)) {
-            $submit_code=$compiler_pref["code"];
-            // match precise compiler
-            for ($i=0; $i<$countCompilerList; $i++) {
-                if ($compiler_list[$i]["coid"]==$compiler_pref["coid"]) {
-                    $pref=$i;
-                    break;
-                }
-            }
-            if ($pref==-1) {
-                // precise compiler is dead, use  other compiler with same lang
-                for ($i=0; $i<$countCompilerList; $i++) {
-                    if ($compiler_list[$i]["lang"]==$compiler_pref["detail"]["lang"]) {
-                        $pref=$i;
-                        break;
-                    }
-                }
-            }
-            if ($pref==-1) {
-                // same lang compilers are all dead, use other compiler within the same group
-                for ($i=0; $i<$countCompilerList; $i++) {
-                    if ($compiler_list[$i]["comp"]==$compiler_pref["detail"]["comp"]) {
-                        $pref=$i;
-                        break;
-                    }
-                }
-            }
-            // the entire comp group dead
-        }
+        $compiler_pref=$compilerModel->pref($compiler_list, $prob_detail["pid"], Auth::user()->id, $cid);
+        $pref=$compiler_pref["pref"];
+        $submit_code=$compiler_pref["code"];
 
         if (empty($prob_status)) {
             $prob_status=[
