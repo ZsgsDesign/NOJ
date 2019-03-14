@@ -700,8 +700,8 @@
                             }else{
                                 $("#history_container").append(`
                                     <tr>
-                                        <td>${ele.time}</td>
-                                        <td>${ele.memory}</td>
+                                        <td>${ele.time}ms</td>
+                                        <td>${ele.memory}k</td>
                                         <td>${ele.language}</td>
                                         <td class="${ele.color}"><i class="MDI checkbox-blank-circle"></i> ${ele.verdict}</td>
                                     </tr>
