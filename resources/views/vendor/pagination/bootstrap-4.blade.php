@@ -18,7 +18,7 @@
         padding-left: 0;
     }
     </style>
-    <ul class="pagination justify-content-end" role="navigation">
+    <ul class="pagination justify-content-center" role="navigation">
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
             <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
