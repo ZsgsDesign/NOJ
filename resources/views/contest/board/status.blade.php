@@ -113,9 +113,11 @@
             <a href="/contest/{{$cid}}/board/clarification"><nav-item>Clarification</nav-item></a>
             <a href="/contest/{{$cid}}/board/print"><nav-item>Print</nav-item></a>
         </nav-div>
+        @if($rank_frozen)
         <div class="alert alert-info cm-notification" role="alert">
             <i class="MDI information-outline"></i> The statusboard is now frozen as we enter the last {{$frozen_time}} of the competition. You can still see your attempts as they occur.
         </div>
+        @endif
         <div>
             <div class="table-responsive">
                 <table class="table">
