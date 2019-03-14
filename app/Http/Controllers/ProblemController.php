@@ -63,7 +63,7 @@ class ProblemController extends Controller
     {
         $problem=new ProblemModel();
         $prob_detail=$problem->detail($pcode);
-        if($problem->isBlocked($prob_detail["pid"])){
+        if ($problem->isBlocked($prob_detail["pid"])) {
             return abort('403');
         }
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.detail', [
@@ -85,7 +85,7 @@ class ProblemController extends Controller
         $compiler=new CompilerModel();
         $submission=new SubmissionModel();
         $prob_detail=$problem->detail($pcode);
-        if($problem->isBlocked($prob_detail["pid"])){
+        if ($problem->isBlocked($prob_detail["pid"])) {
             return abort('403');
         }
         $compiler_list=$compiler->list($prob_detail["OJ"], $prob_detail["pid"]);

@@ -60,7 +60,7 @@ class POJ extends Curl
 
     public function submit()
     {
-        $validator = Validator::make($this->post_data, [
+        $validator=Validator::make($this->post_data, [
             'pid' => 'required|integer',
             'coid' => 'required|integer',
             'iid' => 'required|integer',

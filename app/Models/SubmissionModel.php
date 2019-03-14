@@ -122,7 +122,7 @@ class SubmissionModel extends Model
 
     public function update_submission($sid, $sub)
     {
-        if(isset($sub['verdict'])) $sub["color"]=$this->colorScheme[$sub['verdict']];
+        if (isset($sub['verdict'])) $sub["color"]=$this->colorScheme[$sub['verdict']];
         return DB::table($this->tableName)->where(['sid'=>$sid])->update($sub);
     }
 }

@@ -33,7 +33,7 @@ class ProblemController extends Controller
 
         $all_data=$request->all();
 
-        $validator = Validator::make($all_data, [
+        $validator=Validator::make($all_data, [
             'solution' => 'required|string|max:65535',
         ]);
 
@@ -41,13 +41,13 @@ class ProblemController extends Controller
             return ResponseModel::err(3002);
         }
 
-        if($problemModel->isBlocked($all_data["pid"], isset($all_data["contest"]) ? $all_data["contest"] : null)){
+        if ($problemModel->isBlocked($all_data["pid"], isset($all_data["contest"]) ? $all_data["contest"] : null)) {
             return header("HTTP/1.1 403 Forbidden");
         }
 
         $lang=$compilerModel->detail($all_data["coid"]);
 
-        $sid = $submissionModel->insert([
+        $sid=$submissionModel->insert([
             'time'=>'0',
             'verdict'=>'Pending',
             'solution'=>$all_data["solution"],
@@ -119,7 +119,7 @@ class ProblemController extends Controller
      */
     public function manualJudge(Request $request)
     {
-        if(Auth::user()->id!=1){
+        if (Auth::user()->id!=1) {
             return ResponseModel::err(2001);
         }
 
@@ -159,7 +159,7 @@ class ProblemController extends Controller
      */
     public function crawler(Request $request)
     {
-        if(Auth::user()->id!=1){
+        if (Auth::user()->id!=1) {
             return ResponseModel::err(2001);
         }
 

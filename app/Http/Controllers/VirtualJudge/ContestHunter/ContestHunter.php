@@ -22,13 +22,13 @@ class ContestHunter extends Curl
     private function contestHunterLogin()
     {
         $response=$this->grab_page('http://contest-hunter.org:83', 'contesthunter');
-        if (strpos($response, '登录') !== false) {
+        if (strpos($response, '登录')!==false) {
             preg_match('/<input name="CSRFToken" type="hidden" value="([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})"\/>/', $response, $match);
-            $token = $match[1];
+            $token=$match[1];
 
             $judger=new JudgerModel();
             $judger_list=$judger->list(3);
-            $params = [
+            $params=[
                 'CSRFToken' => $token,
                 'username' => $judger_list[0]["handle"],
                 'password' => $judger_list[0]["password"],
@@ -60,7 +60,7 @@ class ContestHunter extends Curl
 
     public function submit()
     {
-        $validator = Validator::make($this->post_data, [
+        $validator=Validator::make($this->post_data, [
             'pid' => 'required|integer',
             'cid' => 'required',
             'coid' => 'required|integer',
