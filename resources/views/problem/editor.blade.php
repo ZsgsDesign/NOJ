@@ -821,7 +821,7 @@
 
             $(".pre-animated").addClass("fadeInLeft");
 
-            require.config({ paths: { 'vs': '/static/vscode/vs' }});
+            require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/vscode/vs' }});
 
             // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
             // the default worker url location (used when creating WebWorkers). The problem here is that
@@ -832,9 +832,9 @@
                 getWorkerUrl: function(workerId, label) {
                     return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
                     self.MonacoEnvironment = {
-                        baseUrl: '/static/vscode/'
+                        baseUrl: '{{env('APP_URL')}}/static/vscode/'
                     };
-                    importScripts('/static/vscode/vs/base/worker/workerMain.js');`
+                    importScripts('{{env('APP_URL')}}/static/vscode/vs/base/worker/workerMain.js');`
                     )}`;
                 }
             };

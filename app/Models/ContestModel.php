@@ -5,6 +5,7 @@ namespace App\Models;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Auth;
 
 class ContestModel extends Model
 {
@@ -632,16 +633,77 @@ class ContestModel extends Model
         foreach ($problemSet_temp as $p) {
             $problemSet[(string)$p["pid"]]=["ncode"=>$p["ncode"],"points"=>$p["points"],"tot_score"=>$p["tot_score"]];
         }
-        if($basicInfo["status_visibility"]==2){
+
+        $frozen_time=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
+        $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+
+        if ($basicInfo["status_visibility"]==2) {
             // View all
             $records = DB::table("submission")->where([
                 'cid'=>$cid
-            ])->join("users","users.id","=","submission.uid")->select("sid","uid","pid","name","color","verdict","time","memory","language","score","submission_date")->orderBy('submission_date', 'desc')->get()->all();
+            ])->where(
+                "submission_date",
+                "<",
+                $end_time
+            )->join(
+                "users",
+                "users.id",
+                "=",
+                "submission.uid"
+            )->where(function ($query) use ($frozen_time) {
+                $query->where(
+                    "submission_date",
+                    "<",
+                    $frozen_time
+                )->orWhere(
+                    'uid',
+                    Auth::user()->id
+                );
+            })->select(
+                "sid",
+                "uid",
+                "pid",
+                "name",
+                "color",
+                "verdict",
+                "time",
+                "memory",
+                "language",
+                "score",
+                "submission_date"
+            )->orderBy(
+                'submission_date',
+                'desc'
+            )->get()->all();
         } elseif ($basicInfo["status_visibility"]==1) {
             $records = DB::table("submission")->where([
                 'cid'=>$cid,
                 'uid'=>Auth::user()->id
-            ])->join("users","users.id","=","submission.uid")->select("sid","uid","pid","name","color","verdict","time","memory","language","score","submission_date")->orderBy('submission_date', 'desc')->get()->all();
+            ])->where(
+                "submission_date",
+                "<",
+                $end_time
+            )->join(
+                "users",
+                "users.id",
+                "=",
+                "submission.uid"
+            )->select(
+                "sid",
+                "uid",
+                "pid",
+                "name",
+                "color",
+                "verdict",
+                "time",
+                "memory",
+                "language",
+                "score",
+                "submission_date"
+            )->orderBy(
+                'submission_date',
+                'desc'
+            )->get()->all();
         } else {
             return [];
         }
