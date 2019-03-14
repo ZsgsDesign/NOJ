@@ -90,7 +90,7 @@ class CodeForces extends Curl
 
     public function submit()
     {
-        $validator = Validator::make($this->post_data, [
+        $validator=Validator::make($this->post_data, [
             'pid' => 'required|integer',
             'cid' => 'required|integer',
             'coid' => 'required|integer',
