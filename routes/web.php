@@ -50,6 +50,10 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
         Route::post('changeNickName', 'GroupController@changeNickName')->middleware('auth');
         Route::get('generateContestAccount', 'GroupController@generateContestAccount')->middleware('auth');
     });
+
+    Route::group(['prefix' => 'contest'], function () {
+        Route::post('fetchClarification', 'ContestController@fetchClarification')->middleware('auth');
+    });
 });
 
 Auth::routes();

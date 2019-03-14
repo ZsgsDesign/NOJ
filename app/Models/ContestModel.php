@@ -548,8 +548,8 @@ class ContestModel extends Model
             "public"=>1
         ])->whereBetween(
             'create_time', [
-                DB::raw("date_add(now(), interval - 1 minute)"),
-                DB::raw("date_add(now(), interval + 1 minute)")
+                DB::raw("date_add(now(), interval - 29 second)"),
+                DB::raw("date_add(now(), interval + 29 second)")
             ]
         )->first();
     }
