@@ -255,7 +255,9 @@
 
     @yield('addition')
 
-    <footer class="mundb-footer bg-dark text-light d-print-none" id="footercopyright"></footer>
+    <footer class="mundb-footer bg-dark text-light d-print-none" id="footercopyright">
+        Copyright &copy; NOJ 2018-{{date('Y')}}, all rights reserved.
+    </footer>
     <script src="/static/library/jquery/dist/jquery.min.js"></script>
     <script src="/static/js/popper.min.js"></script>
     <script src="/static/js/snackbar.min.js"></script>
@@ -274,9 +276,6 @@
             console.info("\nNOJ - Nanjing University of Posts and Telecommunications Online Judge\n\nNOJ Development Team Leader: John Zhang\nOrganization: NJUPT ICPC Team\nDevelopers: John Zhang, David Diao\nVersion: Alpha\nInsider Alias: CodeMaster\n\n");
 
         }, false);
-    </script>
-    <script type="text/javascript"> 
-        document.getElementById('footercopyright').innerHTML = "Copyright &copy; NOJ 2018-" + new Date().getFullYear() + ", all rights reserved.";
     </script>
     @yield('additionJS')
 </body>
