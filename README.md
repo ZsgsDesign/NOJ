@@ -98,7 +98,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
 - [ ] Problem System
     - [X] Problem List
     - [X] Problem Tag
-    - [ ] Problem Filter
+    - [X] Problem Filter
     - [X] Problem Details
     - [ ] Problem Solution
     - [ ] Problem Discussion
@@ -114,8 +114,10 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
                 - [ ] UVa
                 - [ ] UVa Live
                 - [ ] SPOJ
-                - [ ] Contest Hunter
-                - [ ] POJ
+                - [X] Contest Hunter
+                - [X] POJ
+                - [X] Vijos
+                - [X] PTA
             - [X] Retrive Status
         - [X] Problem Online Judge
             - [X] Judge Server
@@ -136,7 +138,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
     - [ ] Contest Filter
     - [ ] Contest Details
         - [ ] Contest Registration
-        - [ ] Contest Temp Account
+        - [X] Contest Temp Account
         - [X] Leader Board
         - [X] Contest CountDown
         - [X] Contest Problem List
@@ -146,9 +148,9 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
             - [ ] Account Generate
             - [ ] Judge Status
             - [ ] Issue Announcements
-        - [ ] In-Contest Problem Switch
-        - [ ] Problem Temp Block
-    - [ ] Contest Ranking System
+        - [X] In-Contest Problem Switch
+        - [X] Problem Temp Block
+    - [X] Contest Ranking System
     - [ ] Contest Clone
     - [ ] Contest Replay
 - [ ] Group System
