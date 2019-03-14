@@ -98,6 +98,10 @@
         background: rgba(255, 193, 7, 0.1);
     }
 
+    .alert.cm-notification{
+        margin:1rem
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
@@ -109,6 +113,9 @@
             <a href="/contest/{{$cid}}/board/clarification"><nav-item>Clarification</nav-item></a>
             <a href="/contest/{{$cid}}/board/print"><nav-item>Print</nav-item></a>
         </nav-div>
+        <div class="alert alert-info cm-notification" role="alert">
+            <i class="MDI information-outline"></i> The statusboard is now frozen as we enter the last {{$frozen_time}} of the competition. You can still see your attempts as they occur.
+        </div>
         <div>
             <div class="table-responsive">
                 <table class="table">
