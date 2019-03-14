@@ -288,11 +288,7 @@
     }, false);
 
     document.getElementById("submitBtn").addEventListener("click",function(){
-        @guest
-        location.href="/login";
-        @else
         location.href="/problem/{{$detail["pcode"]}}/editor";
-        @endguest
     },false)
 
 </script>
