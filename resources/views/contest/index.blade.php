@@ -42,6 +42,8 @@
         display: block;
         color: #ABABAB;
         padding-right:1rem;
+        flex-shrink: 0;
+        flex-grow: 0;
     }
 
     contest-card > date-div > .sm-date{
@@ -59,6 +61,11 @@
         line-height: 1;
         margin-bottom: 0;
         font-size: 0.75rem;
+    }
+
+    contest-card > info-div{
+        flex-shrink: 1;
+        flex-grow: 1;
     }
 
     contest-card > info-div .sm-contest-title{
