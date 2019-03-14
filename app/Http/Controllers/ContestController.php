@@ -134,11 +134,12 @@ class ContestController extends Controller
         $compiler_pref=$compilerModel->pref($prob_detail["pid"], Auth::user()->id, $cid);
         $pref=-1;
         $submit_code="";
+        $countCompilerList=count($compiler_list);
 
         if (!is_null($compiler_pref)) {
             $submit_code=$compiler_pref["code"];
             // match precise compiler
-            for ($i=0; $i<count($compiler_list); $i++) {
+            for ($i=0; $i<$countCompilerList; $i++) {
                 if ($compiler_list[$i]["coid"]==$compiler_pref["coid"]) {
                     $pref=$i;
                     break;
@@ -146,7 +147,7 @@ class ContestController extends Controller
             }
             if ($pref==-1) {
                 // precise compiler is dead, use  other compiler with same lang
-                for ($i=0; $i<count($compiler_list); $i++) {
+                for ($i=0; $i<$countCompilerList; $i++) {
                     if ($compiler_list[$i]["lang"]==$compiler_pref["detail"]["lang"]) {
                         $pref=$i;
                         break;
@@ -155,7 +156,7 @@ class ContestController extends Controller
             }
             if ($pref==-1) {
                 // same lang compilers are all dead, use other compiler within the same group
-                for ($i=0; $i<count($compiler_list); $i++) {
+                for ($i=0; $i<$countCompilerList; $i++) {
                     if ($compiler_list[$i]["comp"]==$compiler_pref["detail"]["comp"]) {
                         $pref=$i;
                         break;
