@@ -134,7 +134,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($submission_record as $r)
+                        @foreach($submission_record["records"] as $r)
                         <tr class="@if($r["uid"]==Auth::user()->id && $basic_info["status_visibility"]>1) cm-me @endif">
                             <th scope="row">{{$r["sid"]}}</th>
                             <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
@@ -148,6 +148,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{$submission_record["paginator"]->links()}}
             </div>
         </div>
     </paper-card>

@@ -208,7 +208,7 @@ class ContestController extends Controller
         $contest_name=$contestModel->contestName($cid);
         $customInfo=$contestModel->getCustomInfo($cid);
         $basicInfo=$contestModel->basic($cid);
-        $submissionRecord=$contestModel->getContestRecord($cid);
+        $submissionRecordSet=$contestModel->getContestRecord($cid);
         $rankFrozen=$contestModel->isFrozen($cid);
         $frozenTime=$contestModel->frozenTime($cid);
         return view('contest.board.status', [
@@ -219,7 +219,7 @@ class ContestController extends Controller
             'basic_info'=>$basicInfo,
             'cid'=>$cid,
             'custom_info' => $customInfo,
-            'submission_record' => $submissionRecord,
+            'submission_record' => $submissionRecordSet,
             'rank_frozen' => $rankFrozen,
             'frozen_time' => $frozenTime
         ]);

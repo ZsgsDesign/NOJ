@@ -639,7 +639,7 @@ class ContestModel extends Model
 
         if ($basicInfo["status_visibility"]==2) {
             // View all
-            $records=DB::table("submission")->where([
+            $paginator=DB::table("submission")->where([
                 'cid'=>$cid
             ])->where(
                 "submission_date",
@@ -674,9 +674,9 @@ class ContestModel extends Model
             )->orderBy(
                 'submission_date',
                 'desc'
-            )->paginate(20)->all();
+            )->paginate(20);
         } elseif ($basicInfo["status_visibility"]==1) {
-            $records=DB::table("submission")->where([
+            $paginator=DB::table("submission")->where([
                 'cid'=>$cid,
                 'uid'=>Auth::user()->id
             ])->where(
@@ -703,10 +703,15 @@ class ContestModel extends Model
             )->orderBy(
                 'submission_date',
                 'desc'
-            )->paginate(20)->all();
+            )->paginate(20);
         } else {
-            return [];
+            return [
+                "paginator"=>null,
+                "records"=>[]
+            ];
         }
+
+        $records= $paginator->all();
         foreach ($records as &$r) {
             $r["submission_date_parsed"]=$this->formatSubmitTime(date('Y-m-d H:i:s', $r["submission_date"]));
             $r["submission_date"]=date('Y-m-d H:i:s', $r["submission_date"]);
@@ -717,7 +722,10 @@ class ContestModel extends Model
                 $r["verdict"].=" ($score_parsed)";
             }
         }
-        return $records;
+        return [
+            "paginator"=>$paginator,
+            "records"=>$records
+        ];
     }
 
     public function judgeClearance($cid, $uid=0)
