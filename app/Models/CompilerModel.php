@@ -46,7 +46,7 @@ class CompilerModel extends Model
             $ret["detail"]=$this->detail($last_submission["coid"]);
             // match precise compiler
             for ($i=0; $i<$countCompilerList; $i++) {
-                if ($compiler_list[$i]["coid"]==$compiler_pref["coid"]) {
+                if ($compiler_list[$i]["coid"]==$ret["coid"]) {
                     $pref=$i;
                     break;
                 }
@@ -54,7 +54,7 @@ class CompilerModel extends Model
             if ($pref==-1) {
                 // precise compiler is dead, use  other compiler with same lang
                 for ($i=0; $i<$countCompilerList; $i++) {
-                    if ($compiler_list[$i]["lang"]==$compiler_pref["detail"]["lang"]) {
+                    if ($compiler_list[$i]["lang"]==$ret["detail"]["lang"]) {
                         $pref=$i;
                         break;
                     }
@@ -63,7 +63,7 @@ class CompilerModel extends Model
             if ($pref==-1) {
                 // same lang compilers are all dead, use other compiler within the same group
                 for ($i=0; $i<$countCompilerList; $i++) {
-                    if ($compiler_list[$i]["comp"]==$compiler_pref["detail"]["comp"]) {
+                    if ($compiler_list[$i]["comp"]==$ret["detail"]["comp"]) {
                         $pref=$i;
                         break;
                     }
