@@ -674,7 +674,7 @@ class ContestModel extends Model
             )->orderBy(
                 'submission_date',
                 'desc'
-            )->get()->all();
+            )->paginate(20)->all();
         } elseif ($basicInfo["status_visibility"]==1) {
             $records=DB::table("submission")->where([
                 'cid'=>$cid,
@@ -703,7 +703,7 @@ class ContestModel extends Model
             )->orderBy(
                 'submission_date',
                 'desc'
-            )->get()->all();
+            )->paginate(20)->all();
         } else {
             return [];
         }
