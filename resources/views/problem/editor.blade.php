@@ -851,6 +851,7 @@
                     $("#submitBtn > span").text("Submit Code");
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
+                    if(xhr.status==429) alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
                     $("#verdict_text").text("System Error");
                     $("#verdict_info").removeClass();
                     $("#verdict_info").addClass("wemd-black-text");

@@ -37,7 +37,7 @@ Route::group(['prefix' => 'contest'], function () {
 });
 
 Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
-    Route::post('submitSolution', 'ProblemController@submitSolution')->middleware('auth');
+    Route::post('submitSolution', 'ProblemController@submitSolution')->middleware('auth', 'throttle:1,0.17');
     Route::post('judgeStatus', 'ProblemController@judgeStatus')->middleware('auth');
     Route::post('manualJudge', 'ProblemController@manualJudge')->middleware('auth');
     Route::post('submitHistory', 'ProblemController@submitHistory')->middleware('auth');
