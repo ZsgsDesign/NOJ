@@ -30,10 +30,11 @@
         });
     }
 
-    function alert(content, title = "Notice", icon = "information-outline"){
+    function alert(content, title = "Notice", icon = "information-outline", backdrop = "static"){
         var id = new Date().getTime();
+        if(backdrop !== "static") backdrop = backdrop?"true":"false";
         $('body').append(`
-            <div class="modal fade" id="notice${id}" tabindex="-1" role="dialog">
+            <div class="modal fade" id="notice${id}" data-backdrop="${backdrop}" tabindex="-1" role="dialog">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-alert" role="document">
                     <div class="modal-content sm-modal">
                         <div class="modal-header">
