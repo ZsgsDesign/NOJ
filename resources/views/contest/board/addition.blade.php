@@ -35,6 +35,10 @@
             width: 40vw;
         }
 
+        .modal-dialog-alert .modal-content{
+            min-width: 30vw;
+        }
+
         .modal-dialog-alert .modal-body{
             word-break: break-word;
         }
