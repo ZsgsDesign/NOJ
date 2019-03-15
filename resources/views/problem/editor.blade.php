@@ -670,6 +670,9 @@
             </div>
         </div>
     </div>
+
+    @yield("addition")
+
     <script>
         window.addEventListener("load",function() {
 

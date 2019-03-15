@@ -142,7 +142,7 @@ class ContestController extends Controller
             ];
         }
 
-        return view('problem.editor', [
+        return view('contest.board.editor', [
             'page_title'=>"Problem Detail",
             'navigation' => "Contest",
             'site_title'=>$contest_name,
