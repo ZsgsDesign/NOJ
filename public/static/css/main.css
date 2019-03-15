@@ -211,3 +211,24 @@ nav .dropdown-item .MDI{
 .modal-dialog-alert .modal-body{
     word-break: break-word;
 }
+
+/* Version Badge */
+
+version-badge {
+    display:inline-block;
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 0.9rem;
+    color: #fff;
+}
+
+version-badge > inline-div:first-of-type{
+    display:inline-block;
+    padding:0 0.5rem;
+    background: #555555;
+}
+
+version-badge > inline-div:last-of-type{
+    display:inline-block;
+    padding:0 0.5rem;
+    background: #97ca00;
+}

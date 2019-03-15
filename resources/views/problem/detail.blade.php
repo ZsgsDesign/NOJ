@@ -192,7 +192,7 @@
         color:rgba(0, 0, 0, 0.42);
         display: inline-block;
         margin-right: 1rem;
-        font-family:'Courier New', Courier, monospace;
+        font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
     }
 </style>
 
