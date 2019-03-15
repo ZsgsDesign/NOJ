@@ -156,7 +156,7 @@
         @if(isset($custom_info) && !is_null($custom_info))
 
             <a class="navbar-brand" href="#">
-                <img src="@if(empty($custom_info["custom_icon"])) /static/img/njupt.png @else {{$custom_info["custom_icon"]}} @endif" height="30"> @if(empty($custom_info["custom_title"])) NJUPT Online Judge @else {{$custom_info["custom_title"]}} @endif
+                <img src="{{$custom_info["custom_icon"]}}" height="30"> {{$custom_info["custom_title"]}}
             </a>
 
         @else
