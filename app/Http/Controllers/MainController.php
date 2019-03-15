@@ -12,6 +12,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\GroupModel;
+use App\Models\ProblemModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
@@ -49,11 +50,14 @@ class MainController extends Controller
     {
         $groupModel=new GroupModel();
         $group_notice=$groupModel->groupNotice(1);
+        $problem=new ProblemModel();
+        $ojs=$problem->ojs();
         return view('home', [
                 'page_title'=>"Home",
                 'site_title'=>"NOJ",
                 'navigation' => "Home",
-                'group_notice' => $group_notice
+                'group_notice' => $group_notice,
+                'ojs' => $ojs
             ]);
     }
 }
