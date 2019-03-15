@@ -261,10 +261,8 @@ class ContestModel extends Model
     {
         $basic_info=DB::table($this->tableName)->where([
             "cid"=>$cid
-        ])->select("verified", "gid")->first();
-        return $basic_info["verified"] ? DB::table("group")->where([
-            "gid"=>$basic_info["gid"]
-        ])->select("custom_icon", "custom_title", "gcode")->first() : null;
+        ])->select("verified", "custom_icon", "custom_title")->first();
+        return $basic_info["verified"] ? $basic_info : null;
     }
 
 
