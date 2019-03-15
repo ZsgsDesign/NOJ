@@ -87,7 +87,7 @@ nav.navbar{
 @media (max-width: 991px){
     .mundb-nav-right{
         width:100%;
-    }  
+    }
     .mundb-nav-right > form > input {
         width:100%!important;
     }
@@ -165,3 +165,6 @@ nav .dropdown-item .MDI{
     padding-right:0.5rem;
 }
 
+.cm-wb {
+    word-break: break-word;
+}
