@@ -1,4 +1,6 @@
-@extends('contest.board.app')
+@extends('layouts.app')
+
+@include('contest.board.addition')
 
 @section('template')
 <style>
