@@ -851,10 +851,21 @@
                     $("#submitBtn > span").text("Submit Code");
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
-                    if(xhr.status==429) alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
-                    $("#verdict_text").text("System Error");
-                    $("#verdict_info").removeClass();
-                    $("#verdict_info").addClass("wemd-black-text");
+
+                    switch(xhr.status) {
+                        case 429:
+                            alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                            $("#verdict_text").text("Submit Frequency Exceed");
+                            $("#verdict_info").removeClass();
+                            $("#verdict_info").addClass("wemd-black-text");
+                            break;
+
+                        default:
+                            $("#verdict_text").text("System Error");
+                            $("#verdict_info").removeClass();
+                            $("#verdict_info").addClass("wemd-black-text");
+                    }
+
                     submission_processing = false;
                     $("#submitBtn > i").addClass("send");
                     $("#submitBtn > i").removeClass("autorenew");
