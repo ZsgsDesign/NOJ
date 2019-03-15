@@ -58,6 +58,10 @@ vim .env
 
 1. Now, we need to configure the database, thankfully Laravel have migration already;
 
+```
+php artisan migrate
+```
+
 1. Lastly, we need to configure the virtual judger and online judger;
 
 ```
