@@ -540,7 +540,7 @@ class ContestModel extends Model
         ])->orderBy('create_time', 'desc')->get()->all();
     }
 
-    public function getlatestClarification($cid)
+    public function fetchClarification($cid)
     {
         return DB::table("contest_clarification")->where([
             "cid"=>$cid,
@@ -548,13 +548,13 @@ class ContestModel extends Model
             "public"=>1
         ])->whereBetween(
             'create_time', [
-                DB::raw("date_add(now(), interval - 29 second)"),
-                DB::raw("date_add(now(), interval + 29 second)")
+                date("Y-m-d H:i:s",time()-29),
+                date("Y-m-d H:i:s",time()+29)
             ]
         )->first();
     }
 
-    public function fetchClarification($cid)
+    public function getlatestClarification($cid)
     {
         return DB::table("contest_clarification")->where([
             "cid"=>$cid,

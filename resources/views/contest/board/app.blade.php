@@ -18,12 +18,12 @@
                     console.log(ret);
                     if(ret.ret==200){
                         if(ret.data){
-                            alert(ret.data);
+                            alert(ret.data.content);
                         }
                     }
                 }
             });
         }, 60000);
-        </script>
+    </script>
 
 @endsection
