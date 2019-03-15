@@ -128,7 +128,7 @@
     <link rel="stylesheet" href="/static/fonts/Montserrat/montserrat.css">
     <link rel="stylesheet" href="/static/css/bootstrap-material-design.min.css">
     <link rel="stylesheet" href="/static/css/wemd-color-scheme.css">
-    <link rel="stylesheet" href="/static/css/atsast.css">
+    <link rel="stylesheet" href="/static/css/main.css">
     <link rel="stylesheet" href="/static/css/animate.min.css">
     <link rel="stylesheet" href="/static/fonts/MDI-WXSS/MDI.css">
     <link rel="stylesheet" href="/static/fonts/Devicon/devicon.css">
@@ -673,11 +673,6 @@
 
     @yield("addition")
 
-    <script>
-        window.addEventListener("load",function() {
-
-        }, false);
-    </script>
     <script src="/static/library/clipboard/dist/clipboard.min.js"></script>
     <script>
         var clipboard = new ClipboardJS('.cm-copy-snippet');
@@ -711,9 +706,8 @@
         });
     </script>
     <script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    @include('layouts.primaryJS')
     <script>
-        $(document).ready(function () { $('body').bootstrapMaterialDesign();$('[data-toggle="tooltip"]').tooltip(); });
-
         var historyOpen=false;
         var submission_processing=false;
         var chosen_lang="{{$compiler_list[$pref]['lcode']}}";
@@ -878,7 +872,6 @@
         },false);
 
         window.addEventListener("load",function() {
-            $('loading').css({"opacity":"0","pointer-events":"none"});
 
             $(".pre-animated").addClass("fadeInLeft");
 

@@ -772,7 +772,7 @@
                             </tbody>
                         </table>
                         <div style="text-align: center;">
-                            <button class="btn btn-info" onclick="$('#addProblemModal').modal({backdrop:'static'});changeDepth();"><i class="MDI plus"></i> Add Problem</button>
+                            <button class="btn btn-info" onclick="$('#addProblemModal').modal({backdrop:'static'});"><i class="MDI plus"></i> Add Problem</button>
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -853,15 +853,6 @@
                 helper: "clone"
             });
         }
-
-        function changeDepth(){
-            var interv=0;
-            $(".modal-backdrop").each(function(){
-                $(this).css("z-index",1040+interv);
-                interv+=100;
-            });
-        }
-
 
         $('#problemCode').bind('keypress',function(event){
             if(event.keyCode == "13")
