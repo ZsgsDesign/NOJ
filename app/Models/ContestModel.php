@@ -548,8 +548,8 @@ class ContestModel extends Model
             "public"=>1
         ])->whereBetween(
             'create_time', [
-                date("Y-m-d H:i:s",time()-29),
-                date("Y-m-d H:i:s",time()+29)
+                date("Y-m-d H:i:s",time()-59),
+                date("Y-m-d H:i:s")
             ]
         )->first();
     }
