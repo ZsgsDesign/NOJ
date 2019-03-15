@@ -82,6 +82,8 @@
         <div class="col-sm-12 col-lg-8">
             <div class="cm-title-section">
                 <h1>Welcome to NOJ!</h1>
+                {{version()}}
+
                 <p class="mb-5">NOJ is an Online Judge, and yet have features of Virtual Judges as well as an perspective to hold contests over several OJs without knowing the tests and outcomes dataset to enable multiple possibilities like ICPC team routine training and internal contest holding and so on.</p>
                 <p>We've currently support those OJs:</p>
             </div>
