@@ -212,7 +212,7 @@
             <contest-card>
                 <div>
                     <shadow-div>
-                        <img src="/static/img/contest/default.jpg">
+                        <img src="{{$detail['img']}}">
                     </shadow-div>
                 </div>
                 <div>
