@@ -53,6 +53,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
 
     Route::group(['prefix' => 'contest'], function () {
         Route::post('fetchClarification', 'ContestController@fetchClarification')->middleware('auth');
+        Route::post('requestClarification', 'ContestController@requestClarification')->middleware('auth', 'throttle:1,0.34');
     });
 });
 

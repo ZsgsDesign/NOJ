@@ -55,4 +55,8 @@
         });
         $(`#notice${id}`).modal('toggle');
     }
+
+    function empty(test){
+        return test.match(/^\s*$/);
+    }
 </script>

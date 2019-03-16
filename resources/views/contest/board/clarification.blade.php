@@ -171,9 +171,10 @@
             <a href="/contest/{{$cid}}/board/status"><nav-item>Status</nav-item></a>
             <a href="/contest/{{$cid}}/board/clarification"><nav-item class="active">Clarification</nav-item></a>
             <a href="/contest/{{$cid}}/board/print"><nav-item>Print</nav-item></a>
+            @if($clearance>2)<a href="/contest/{{$cid}}/board/admin"><nav-item>Admin</nav-item></a>@endif
         </nav-div>
         <div>
-            <div class="row no-gutters" style="height:50rem;">
+            <div class="row no-gutters" style="height:40rem;">
                 <div class="col-4 cm-msg-list">
                     @foreach($clarification_list as $c)
                     <message-card id="m{{$c["ccid"]}}" class="wemd-lighten-5" data-msg-id="{{$c["ccid"]}}">
@@ -195,15 +196,51 @@
                                 <h1 class="mb-0"> {{$c["title"]}}</h1>
                                 <p class="@if($c["type"]) wemd-amber-text @else wemd-pink-text @endif"><i class="MDI checkbox-blank-circle"></i> @if($c["type"]) Clarification @else Announcement @endif</p>
                                 <p>{{$c["content"]}}</p>
+                                @unless(is_null($c["reply"]) || trim($c["reply"])=="")
+                                    <reply-quote class="blockquote">
+                                        <p class="mb-0">{{$c["reply"]}}</p>
+                                    </reply-quote>
+                                @endunless
                             </fresh-container>
                         </msg-container>
                         @endforeach
                     </div>
                 </div>
             </div>
+            @unless($contest_ended || $clearance<2)
+                <div class="pt-3" style="text-align: center;">
+                    <button class="btn btn-outline-warning btn-rounded" data-toggle="modal" data-target="#clarificationModel" data-backdrop="static"><i class="MDI comment-question-outline"></i> Request Clarification</button>
+                </div>
+            @endunless
         </div>
     </paper-card>
 </div>
+<div id="clarificationModel" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-alert" role="document">
+        <div class="modal-content sm-modal">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="MDI comment-question-outline"></i> Request Clarification</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="clarification_title" class="bmd-label-floating">Title</label>
+                    <input type="text" class="form-control" id="clarification_title">
+                </div>
+                <div class="form-group">
+                    <label for="clarification_content" class="bmd-label-floating">Content</label>
+                    <textarea class="form-control" id="clarification_content" style="resize: none;height: 25rem;"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="clarificationBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Request</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('additionJS')
 <script>
 
     function selectMsg(id){
@@ -221,6 +258,53 @@
         })
         selectMsg($("message-card").data("msg-id"));
     }, false);
+
+    var sendingClarification = false;
+
+    $("#clarificationBtn").click(function() {
+        if(sendingClarification) return;
+        sendingClarification=true;
+        $("#clarificationBtn > i").removeClass("d-none");
+        $.ajax({
+            type: 'POST',
+            url: '/ajax/contest/requestClarification',
+            data: {
+                cid: {{$cid}},
+                title: $("#clarification_title").val(),
+                content: $("#clarification_content").val(),
+            },
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }, success: function(ret){
+                console.log(ret);
+                if (ret.ret==200) {
+                    alert("Successfully Requested.");
+                    location.reload();
+                } else {
+                    alert(ret.desc);
+                }
+                sendingClarification=false;
+                $("#clarificationBtn > i").addClass("d-none");
+            }, error: function(xhr, type){
+                console.log(xhr);
+                switch(xhr.status) {
+                    case 422:
+                        alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                        break;
+                    case 429:
+                        alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                        break;
+
+                    default:
+                        alert("Server Connection Error");
+                }
+                console.log('Ajax error while posting to requestClarification!');
+                sendingClarification=false;
+                $("#clarificationBtn > i").addClass("d-none");
+            }
+        });
+    });
 
 </script>
 @endsection
