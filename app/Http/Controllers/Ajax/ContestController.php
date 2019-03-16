@@ -35,7 +35,7 @@ class ContestController extends Controller
         $request->validate([
             'cid' => 'required|integer',
             'title' => 'required|string|max:250',
-            'content' => 'required|srtring|max:65536',
+            'content' => 'required|string|max:65536',
         ]);
 
         $all_data=$request->all();
@@ -46,7 +46,7 @@ class ContestController extends Controller
             return ResponseModel::err(2001);
         } else {
             return ResponseModel::success(200, null, [
-                "ccid" => $contestModel->requestClarification($all_data["cid"], $all_data["title"], $all_data["content"])
+                "ccid" => $contestModel->requestClarification($all_data["cid"], $all_data["title"], $all_data["content"], Auth::user()->id)
             ]);
         }
     }

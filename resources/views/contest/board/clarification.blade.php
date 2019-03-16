@@ -195,6 +195,11 @@
                                 <h1 class="mb-0"> {{$c["title"]}}</h1>
                                 <p class="@if($c["type"]) wemd-amber-text @else wemd-pink-text @endif"><i class="MDI checkbox-blank-circle"></i> @if($c["type"]) Clarification @else Announcement @endif</p>
                                 <p>{{$c["content"]}}</p>
+                                @unless(is_null($c["reply"]))
+                                    <reply-quote class="blockquote">
+                                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                                    </reply-quote>
+                                @endunless
                             </fresh-container>
                         </msg-container>
                         @endforeach
@@ -221,8 +226,8 @@
                     <input type="text" class="form-control" id="clarification_title">
                 </div>
                 <div class="form-group">
-                    <label for="clarification_contest" class="bmd-label-floating">Content</label>
-                    <textarea class="form-control" id="clarification_contest" style="resize: none;height: 25rem;"></textarea>
+                    <label for="clarification_content" class="bmd-label-floating">Content</label>
+                    <textarea class="form-control" id="clarification_content" style="resize: none;height: 25rem;"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
@@ -253,7 +258,7 @@
         selectMsg($("message-card").data("msg-id"));
     }, false);
 
-    sendingClarification = false;
+    var sendingClarification = false;
 
     $("#clarificationBtn").click(function() {
         if(sendingClarification) return;
@@ -264,8 +269,8 @@
             url: '/ajax/contest/requestClarification',
             data: {
                 cid: {{$cid}},
-                title: $("#clarification_title").text(),
-                content: $("#clarification_content").text(),
+                title: $("#clarification_title").val(),
+                content: $("#clarification_content").val(),
             },
             dataType: 'json',
             headers: {
@@ -273,6 +278,7 @@
             }, success: function(ret){
                 console.log(ret);
                 if (ret.ret==200) {
+                    alert("Successfully Requested.");
                     location.reload();
                 } else {
                     alert(ret.desc);
@@ -281,8 +287,18 @@
                 $("#clarificationBtn > i").addClass("d-none");
             }, error: function(xhr, type){
                 console.log(xhr);
+                switch(xhr.status) {
+                    case 422:
+                        alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                        break;
+                    case 429:
+                        alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                        break;
+
+                    default:
+                        alert("Server Connection Error");
+                }
                 console.log('Ajax error while posting to requestClarification!');
-                alert("Server Connection Error");
                 sendingClarification=false;
                 $("#clarificationBtn > i").addClass("d-none");
             }

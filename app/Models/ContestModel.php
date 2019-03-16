@@ -569,12 +569,16 @@ class ContestModel extends Model
         ])->first();
     }
 
-    public function requestClarification($cid, $title, $content)
+    public function requestClarification($cid, $title, $content, $uid)
     {
         return DB::table("contest_clarification")->insertGetId([
             "cid"=>$cid,
+            "type"=>1,
             "title"=>$title,
-            "content"=>$content
+            "content"=>$content,
+            "public"=>"0",
+            "uid"=>$uid,
+            "create_time"=>date("Y-m-d H:i:s")
         ]);
     }
 
