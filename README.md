@@ -27,7 +27,7 @@ Here is detailed step about deploying NOJ:
 
 ```
 cd /path-to-noj/
-git clone https://github.com/ZsgsDesign/CodeMaster ./
+git clone https://github.com/ZsgsDesign/NOJ ./
 ```
 
 1. Change your website root to `public` folder and then, if there is a `open_basedir` restriction, remove it;
