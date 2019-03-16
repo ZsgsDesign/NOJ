@@ -171,6 +171,7 @@
             <a href="/contest/{{$cid}}/board/status"><nav-item>Status</nav-item></a>
             <a href="/contest/{{$cid}}/board/clarification"><nav-item class="active">Clarification</nav-item></a>
             <a href="/contest/{{$cid}}/board/print"><nav-item>Print</nav-item></a>
+            @if($clearance>2)<a href="/contest/{{$cid}}/board/admin"><nav-item>Admin</nav-item></a>@endif
         </nav-div>
         <div>
             <div class="row no-gutters" style="height:40rem;">
