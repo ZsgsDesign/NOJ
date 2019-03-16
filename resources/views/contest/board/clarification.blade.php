@@ -195,9 +195,9 @@
                                 <h1 class="mb-0"> {{$c["title"]}}</h1>
                                 <p class="@if($c["type"]) wemd-amber-text @else wemd-pink-text @endif"><i class="MDI checkbox-blank-circle"></i> @if($c["type"]) Clarification @else Announcement @endif</p>
                                 <p>{{$c["content"]}}</p>
-                                @unless(is_null($c["reply"]))
+                                @unless(is_null($c["reply"]) || trim($c["reply"])=="")
                                     <reply-quote class="blockquote">
-                                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                                        <p class="mb-0">{{$c["reply"]}}</p>
                                     </reply-quote>
                                 @endunless
                             </fresh-container>

@@ -279,6 +279,7 @@ version-badge > inline-div:last-of-type{
 /* Reply-Quote */
 
 fresh-container reply-quote{
+    border-left: .25em solid #dfe2e5;
     display:block;
     margin: 20px 0!important;
     background-color: #f5f8fc;
