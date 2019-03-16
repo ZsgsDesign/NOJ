@@ -203,14 +203,14 @@
             </div>
             @unless($contest_ended || $clearance<2)
                 <div class="pt-3" style="text-align: center;">
-                    <button class="btn btn-outline-warning btn-rounded"><i class="MDI comment-question-outline"></i> Request Clarification</button>
+                    <button class="btn btn-outline-warning btn-rounded" data-toggle="modal" data-target="#clarificationModel" data-backdrop="static"><i class="MDI comment-question-outline"></i> Request Clarification</button>
                 </div>
             @endunless
         </div>
     </paper-card>
 </div>
 <div id="clarificationModel" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-alert" role="document">
         <div class="modal-content sm-modal">
             <div class="modal-header">
                 <h5 class="modal-title"><i class="MDI comment-question-outline"></i> Request Clarification</h5>
@@ -220,10 +220,14 @@
                     <label for="clarification_title" class="bmd-label-floating">Title</label>
                     <input type="text" class="form-control" id="clarification_title">
                 </div>
+                <div class="form-group">
+                    <label for="clarification_contest" class="bmd-label-floating">Content</label>
+                    <textarea class="form-control" id="clarification_contest" style="resize: none;height: 25rem;"></textarea>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="changeProfileBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Request</button>
+                <button type="button" class="btn btn-primary" id="clarificationBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Request</button>
             </div>
         </div>
     </div>
@@ -246,6 +250,41 @@
         })
         selectMsg($("message-card").data("msg-id"));
     }, false);
+
+    sendingClarification = false;
+
+    $("#clarificationBtn").click(function() {
+            if(sendingClarification) return;
+            sendingClarification=true;
+            $("#clarificationBtn > i").removeClass("d-none");
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/contest/requestClarification',
+                data: {
+                    cid: {{$cid}},
+                    title: $("#clarification_title").text(),
+                    content: $("#clarification_content").text(),
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if (ret.ret==200) {
+                        location.reload();
+                    } else {
+                        alert(ret.desc);
+                    }
+                    sendingClarification=false;
+                    $("#clarificationBtn > i").addClass("d-none");
+                }, error: function(xhr, type){
+                    console.log('Ajax error while posting to requestClarification!');
+                    alert("Server Connection Error");
+                    sendingClarification=false;
+                    $("#clarificationBtn > i").addClass("d-none");
+                }
+            });
+        });
 
 </script>
 @endsection
