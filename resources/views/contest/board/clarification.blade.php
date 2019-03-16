@@ -201,12 +201,34 @@
                     </div>
                 </div>
             </div>
-            <div class="pt-3" style="text-align: center;">
-                <button class="btn btn-outline-warning btn-rounded">Request Clarification</button>
-            </div>
+            @unless($contest_ended || $clearance<2)
+                <div class="pt-3" style="text-align: center;">
+                    <button class="btn btn-outline-warning btn-rounded"><i class="MDI comment-question-outline"></i> Request Clarification</button>
+                </div>
+            @endunless
         </div>
     </paper-card>
 </div>
+<div id="clarificationModel" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content sm-modal">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="MDI comment-question-outline"></i> Request Clarification</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="clarification_title" class="bmd-label-floating">Title</label>
+                    <input type="text" class="form-control" id="clarification_title">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="changeProfileBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Request</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 
     function selectMsg(id){

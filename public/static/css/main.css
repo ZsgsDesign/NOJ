@@ -241,3 +241,37 @@ version-badge > inline-div:last-of-type{
     padding:0 0.5rem;
     background: #97ca00;
 }
+
+/* Refresing Icon */
+
+.cm-refreshing{
+    display: inline-block;
+    -webkit-transition-property: -webkit-transform;
+    -webkit-transition-duration: 1s;
+    -moz-transition-property: -moz-transform;
+    -moz-transition-duration: 1s;
+    -webkit-animation: cm-rotate 3s linear infinite;
+    -moz-animation: cm-rotate 3s linear infinite;
+    -o-animation: cm-rotate 3s linear infinite;
+    animation: cm-rotate 3s linear infinite;
+}
+@-webkit-keyframes cm-rotate{
+    from{-webkit-transform: rotate(0deg)}
+    to{-webkit-transform: rotate(360deg)}
+}
+@-moz-keyframes cm-rotate{
+    from{-moz-transform: rotate(0deg)}
+    to{-moz-transform: rotate(359deg)}
+}
+@-o-keyframes cm-rotate{
+    from{-o-transform: rotate(0deg)}
+    to{-o-transform: rotate(359deg)}
+}
+@keyframes cm-rotate{
+    from{transform: rotate(0deg)}
+    to{transform: rotate(359deg)}
+}
+
+.btn-disabled{
+    cursor: auto;
+}
