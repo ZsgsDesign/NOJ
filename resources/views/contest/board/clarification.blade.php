@@ -280,6 +280,7 @@
                 sendingClarification=false;
                 $("#clarificationBtn > i").addClass("d-none");
             }, error: function(xhr, type){
+                console.log(xhr);
                 console.log('Ajax error while posting to requestClarification!');
                 alert("Server Connection Error");
                 sendingClarification=false;

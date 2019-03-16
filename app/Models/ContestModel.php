@@ -569,6 +569,15 @@ class ContestModel extends Model
         ])->first();
     }
 
+    public function requestClarification($cid, $title, $content)
+    {
+        return DB::table("contest_clarification")->insertGetId([
+            "cid"=>$cid,
+            "title"=>$title,
+            "content"=>$content
+        ]);
+    }
+
     public function isContestEnded($cid)
     {
         return DB::table("contest")->where("cid", $cid)->where("end_time", "<", date("Y-m-d H:i:s"))->count();
