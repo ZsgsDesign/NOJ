@@ -232,7 +232,9 @@
         </div>
     </div>
 </div>
+@endsection
 
+@section('additionJS')
 <script>
 
     function selectMsg(id){
@@ -254,37 +256,37 @@
     sendingClarification = false;
 
     $("#clarificationBtn").click(function() {
-            if(sendingClarification) return;
-            sendingClarification=true;
-            $("#clarificationBtn > i").removeClass("d-none");
-            $.ajax({
-                type: 'POST',
-                url: '/ajax/contest/requestClarification',
-                data: {
-                    cid: {{$cid}},
-                    title: $("#clarification_title").text(),
-                    content: $("#clarification_content").text(),
-                },
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }, success: function(ret){
-                    console.log(ret);
-                    if (ret.ret==200) {
-                        location.reload();
-                    } else {
-                        alert(ret.desc);
-                    }
-                    sendingClarification=false;
-                    $("#clarificationBtn > i").addClass("d-none");
-                }, error: function(xhr, type){
-                    console.log('Ajax error while posting to requestClarification!');
-                    alert("Server Connection Error");
-                    sendingClarification=false;
-                    $("#clarificationBtn > i").addClass("d-none");
+        if(sendingClarification) return;
+        sendingClarification=true;
+        $("#clarificationBtn > i").removeClass("d-none");
+        $.ajax({
+            type: 'POST',
+            url: '/ajax/contest/requestClarification',
+            data: {
+                cid: {{$cid}},
+                title: $("#clarification_title").text(),
+                content: $("#clarification_content").text(),
+            },
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }, success: function(ret){
+                console.log(ret);
+                if (ret.ret==200) {
+                    location.reload();
+                } else {
+                    alert(ret.desc);
                 }
-            });
+                sendingClarification=false;
+                $("#clarificationBtn > i").addClass("d-none");
+            }, error: function(xhr, type){
+                console.log('Ajax error while posting to requestClarification!');
+                alert("Server Connection Error");
+                sendingClarification=false;
+                $("#clarificationBtn > i").addClass("d-none");
+            }
         });
+    });
 
 </script>
 @endsection
