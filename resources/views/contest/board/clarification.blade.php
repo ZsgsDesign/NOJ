@@ -173,7 +173,7 @@
             <a href="/contest/{{$cid}}/board/print"><nav-item>Print</nav-item></a>
         </nav-div>
         <div>
-            <div class="row no-gutters" style="height:50rem;">
+            <div class="row no-gutters" style="height:40rem;">
                 <div class="col-4 cm-msg-list">
                     @foreach($clarification_list as $c)
                     <message-card id="m{{$c["ccid"]}}" class="wemd-lighten-5" data-msg-id="{{$c["ccid"]}}">
@@ -200,6 +200,9 @@
                         @endforeach
                     </div>
                 </div>
+            </div>
+            <div class="pt-3" style="text-align: center;">
+                <button class="btn btn-outline-warning btn-rounded">Request Clarification</button>
             </div>
         </div>
     </paper-card>

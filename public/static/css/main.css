@@ -1,3 +1,4 @@
+/* MUNDb Styles */
 .mundb-footer{
     padding:1rem 2.5rem;
     width:100%;
@@ -125,6 +126,8 @@ nav.navbar{
     background: rgba(255,255,255,0.2);
 }
 
+/* ATSAST Styles */
+
 a.attsast-course{
     text-decoration: none;
     color:#212529;
@@ -158,6 +161,8 @@ hr.atsast-line{
     margin-bottom:0.75rem;
 }
 
+/* General Styles */
+
 nav .dropdown-item .MDI{
     display:inline-block;
     transform:scale(1.5);
@@ -167,6 +172,10 @@ nav .dropdown-item .MDI{
 
 .cm-wb {
     word-break: break-word;
+}
+
+.btn-rounded{
+    border-radius:200rem;
 }
 
 /* Model */
