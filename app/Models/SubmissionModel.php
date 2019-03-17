@@ -105,6 +105,27 @@ class SubmissionModel extends Model
         return DB::table($this->tableName)->where(['solution'=>$s])->count();
     }
 
+    public function getEarliestSubmission($oid)
+    {
+        return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
+                                            ->select("sid", "OJ as oid", "remote_id", "cid")
+                                            ->where(['verdict'=>'Waiting','OJ'=>$oid])
+                                            ->orderBy("sid","asc")
+                                            ->first();
+    }
+
+    public function countEarliestWaitingSubmission($oid)
+    {
+        $early_sid=$this->getEarliestSubmission($oid);
+        if($early_sid==null) return 0;
+        $early_sid=$early_sid["sid"];
+        return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
+                                            ->where(['OJ'=>$oid])
+                                            ->where("sid",">=",$early_sid)
+                                            ->count();
+    }
+
+
     public function getWaitingSubmission()
     {
         return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
