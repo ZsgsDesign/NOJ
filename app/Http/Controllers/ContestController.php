@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContestModel;
+use App\Models\GroupModel;
 use App\Models\ProblemModel;
 use App\Models\CompilerModel;
 use App\Models\SubmissionModel;
@@ -39,11 +40,16 @@ class ContestController extends Controller
     public function detail($cid)
     {
         $contestModel=new ContestModel();
+        $groupModel=new GroupModel();
         $clearance=Auth::check() ? $contestModel->judgeClearance($cid, Auth::user()->id) : 0;
         if (Auth::check()) {
             $contest_detail=$contestModel->detail($cid, Auth::user()->id);
+            $registration=$contestModel->registration($cid, Auth::user()->id);
+            $inGroup=$groupModel->isMember($contest_detail["data"]["contest_detail"]["gid"], Auth::user()->id);
         } else {
             $contest_detail=$contestModel->detail($cid);
+            $registration=[];
+            $inGroup=false;
         }
         if ($contest_detail["ret"]!=200) {
             return Redirect::route('contest_index');
@@ -53,7 +59,9 @@ class ContestController extends Controller
             'site_title'=>"NOJ",
             'navigation' => "Contest",
             'detail'=>$contest_detail["data"]["contest_detail"],
-            'clearance' => $clearance
+            'clearance' => $clearance,
+            'registration' => $registration,
+            'inGroup' => $inGroup
         ]);
     }
 

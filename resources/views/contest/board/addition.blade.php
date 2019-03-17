@@ -16,12 +16,15 @@
                     console.log(ret);
                     if(ret.ret==200){
                         if(ret.data){
-                            alert(ret.data.content, ret.data.title, "bullhorn");
+                            if(localStorage.ccid!=ret.data.ccid) {
+                                alert(ret.data.content, ret.data.title, "bullhorn");
+                                localStorage.ccid=ret.data.ccid;
+                            }
                         }
                     }
                 }
             });
-        }, 60000);
+        }, 15000);
     </script>
 
 @endsection
