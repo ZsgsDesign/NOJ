@@ -138,19 +138,20 @@ class Judge extends Core
                     $this->MODEL->updateSubmission($row['sid'], ['verdict'=>"Submission Error"]);
 
                 } else {
+                    if (isset($codeforces_v[$cf[2]])) {
+                        $sub=[];
+                        $sub['verdict']=$codeforces_v[$cf[2]];
+                        $sub["score"]=$sub['verdict']=="Accepted" ? 1 : 0;
+                        $sub['time']=$cf[0];
+                        $sub['memory']=$cf[1];
+                        $sub['remote_id']=$cf[3];
 
-                    $sub=[];
-                    $sub['verdict']=$codeforces_v[$cf[2]];
-                    $sub["score"]=$sub['verdict']=="Accepted" ? 1 : 0;
-                    $sub['time']=$cf[0];
-                    $sub['memory']=$cf[1];
-                    $sub['remote_id']=$cf[3];
+                        $ret[$row['sid']]=[
+                            "verdict"=>$sub['verdict']
+                        ];
 
-                    $ret[$row['sid']]=[
-                        "verdict"=>$sub['verdict']
-                    ];
-
-                    $this->MODEL->updateSubmission($row['sid'], $sub);
+                        $this->MODEL->updateSubmission($row['sid'], $sub);
+                    }
                 }
 
 
