@@ -89,6 +89,9 @@ class CodeForces extends Curl
                 $this->sub['compile_info']=explode("</span>", $exploded[1])[0];
                 $this->sub['verdict']="Submission Error";
             }
+        } else {
+            preg_match('/submissionId="(\d+)"/', $response, $match);
+            $this->sub['remote_id']=$match[1];
         }
     }
 
