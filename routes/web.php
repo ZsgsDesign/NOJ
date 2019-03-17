@@ -21,6 +21,8 @@ Route::get('/problem', 'ProblemController@index')->middleware('contest_account')
 Route::get('/problem/{pcode}', 'ProblemController@detail')->middleware('contest_account')->name('problem_detail');
 Route::get('/problem/{pcode}/editor', 'ProblemController@editor')->middleware('auth')->name('problem_editor');
 
+Route::get('/status', 'StatusController@index')->middleware('contest_account')->name('status_index');
+
 Route::get('/group', 'GroupController@index')->middleware('contest_account')->name('group_index');
 Route::get('/group/{gcode}', 'GroupController@detail')->middleware('auth', 'contest_account')->name('group_detail');
 

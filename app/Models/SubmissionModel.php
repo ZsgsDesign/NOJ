@@ -126,6 +126,39 @@ class SubmissionModel extends Model
         return DB::table($this->tableName)->where(['sid'=>$sid])->update($sub);
     }
 
+    public function formatSubmitTime($date)
+    {
+        $periods=["second", "minute", "hour", "day", "week", "month", "year", "decade"];
+        $lengths=["60", "60", "24", "7", "4.35", "12", "10"];
+
+        $now=time();
+        $unix_date=strtotime($date);
+
+        if (empty($unix_date)) {
+            return "Bad date";
+        }
+
+        if ($now>$unix_date) {
+            $difference=$now-$unix_date;
+            $tense="ago";
+        } else {
+            $difference=$unix_date-$now;
+            $tense="from now";
+        }
+
+        for ($j=0; $difference>=$lengths[$j] && $j<count($lengths)-1; $j++) {
+            $difference/=$lengths[$j];
+        }
+
+        $difference=round($difference);
+
+        if ($difference!=1) {
+            $periods[$j].="s";
+        }
+
+        return "$difference $periods[$j] {$tense}";
+    }
+
     public function getRecord()
     {
         $paginator=DB::table("submission")->where([
@@ -158,7 +191,6 @@ class SubmissionModel extends Model
             $r["submission_date_parsed"]=$this->formatSubmitTime(date('Y-m-d H:i:s', $r["submission_date"]));
             $r["submission_date"]=date('Y-m-d H:i:s', $r["submission_date"]);
             $r["nick_name"]="";
-            $r["ncode"]=$problemSet[(string) $r["pid"]]["ncode"];
         }
         return [
             "paginator"=>$paginator,
