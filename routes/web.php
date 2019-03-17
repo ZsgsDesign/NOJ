@@ -21,6 +21,8 @@ Route::get('/problem', 'ProblemController@index')->middleware('contest_account')
 Route::get('/problem/{pcode}', 'ProblemController@detail')->middleware('contest_account')->name('problem_detail');
 Route::get('/problem/{pcode}/editor', 'ProblemController@editor')->middleware('auth')->name('problem_editor');
 
+Route::get('/status', 'StatusController@index')->middleware('contest_account')->name('status_index');
+
 Route::get('/group', 'GroupController@index')->middleware('contest_account')->name('group_index');
 Route::get('/group/{gcode}', 'GroupController@detail')->middleware('auth', 'contest_account')->name('group_detail');
 
@@ -37,7 +39,7 @@ Route::group(['prefix' => 'contest'], function () {
 });
 
 Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
-    Route::post('submitSolution', 'ProblemController@submitSolution')->middleware('auth');
+    Route::post('submitSolution', 'ProblemController@submitSolution')->middleware('auth', 'throttle:1,0.17');
     Route::post('judgeStatus', 'ProblemController@judgeStatus')->middleware('auth');
     Route::post('manualJudge', 'ProblemController@manualJudge')->middleware('auth');
     Route::post('submitHistory', 'ProblemController@submitHistory')->middleware('auth');
@@ -53,6 +55,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
 
     Route::group(['prefix' => 'contest'], function () {
         Route::post('fetchClarification', 'ContestController@fetchClarification')->middleware('auth');
+        Route::post('requestClarification', 'ContestController@requestClarification')->middleware('auth', 'throttle:1,0.34');
     });
 });
 

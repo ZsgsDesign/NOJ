@@ -48,7 +48,7 @@ class CodeForces extends Curl
         // $this->sub['language']=substr($this->post_data["lang"], 2, 50);
 
         $submissionModel=new SubmissionModel();
-        $s_num=$submissionModel->count_solution($this->post_data["solution"]);
+        $s_num=$submissionModel->countSolution($this->post_data["solution"]);
         $space='';
         for ($i=0; $i<$s_num; $i++) {
             $space.=' ';
@@ -83,8 +83,15 @@ class CodeForces extends Curl
         if (substr_count($response, 'My Submissions')!=2) {
             // Forbidden?
             $exploded=explode('<span class="error for__source">', $response);
-            $this->sub['compile_info']=explode("</span>", $exploded[1])[0];
-            $this->sub['verdict']="System Error";
+            if(!isset($exploded[1])){
+                $this->sub['verdict']="Submission Error";
+            }else{
+                $this->sub['compile_info']=explode("</span>", $exploded[1])[0];
+                $this->sub['verdict']="Submission Error";
+            }
+        } else {
+            preg_match('/submissionId="(\d+)"/', $response, $match);
+            $this->sub['remote_id']=$match[1];
         }
     }
 
@@ -99,7 +106,7 @@ class CodeForces extends Curl
         ]);
 
         if ($validator->fails()) {
-            $this->sub['verdict']="System Error";
+            $this->sub['verdict']="Submission Error";
             return;
         }
 

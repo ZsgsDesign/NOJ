@@ -27,7 +27,7 @@ Here is detailed step about deploying NOJ:
 
 ```
 cd /path-to-noj/
-git clone https://github.com/ZsgsDesign/CodeMaster ./
+git clone https://github.com/ZsgsDesign/NOJ ./
 ```
 
 1. Change your website root to `public` folder and then, if there is a `open_basedir` restriction, remove it;
@@ -57,6 +57,10 @@ vim .env
 ```
 
 1. Now, we need to configure the database, thankfully Laravel have migration already;
+
+```
+php artisan migrate
+```
 
 1. Lastly, we need to configure the virtual judger and online judger;
 
@@ -126,7 +130,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
             - [X] Submit to OJ
             - [X] Retrive Status
 - [ ] Status System
-    - [ ] Status List
+    - [X] Status List
     - [ ] Status Filter
     - [ ] Status Details
         - [ ] Syntax Highlight

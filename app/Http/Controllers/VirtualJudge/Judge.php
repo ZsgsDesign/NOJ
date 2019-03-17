@@ -103,22 +103,22 @@ class Judge extends Core
             'WRONG_ANSWER'=>"Wrong Answer",
         ];
 
-        $result=$this->MODEL->get_waiting_submission();
+        $result=$this->MODEL->getWaitingSubmission();
         $judger=new JudgerModel();
         $contestModel=new ContestModel();
         $curl=new Curl();
 
-        $cf=$this->get_last_codeforces($this->MODEL->count_waiting_submission(2));
+        $cf=$this->get_last_codeforces($this->MODEL->countWaitingSubmission(2));
         $poj=[];
 
         $pojJudgerList=$judger->list(4);
         $pojJudgerName=urlencode($pojJudgerList[0]["handle"]);
-        if ($this->MODEL->count_waiting_submission(5)) {
+        if ($this->MODEL->countWaitingSubmission(5)) {
             $this->appendPOJStatus($poj, $pojJudgerName);
         }
-        // $uva=$this->get_last_uva($this->MODEL->count_waiting_submission('Uva'));
-        // $uval=$this->get_last_uvalive($this->MODEL->count_waiting_submission('UvaLive'));
-        // $sj=$this->get_last_spoj($this->MODEL->count_waiting_submission('Spoj'));
+        // $uva=$this->get_last_uva($this->MODEL->countWaitingSubmission('Uva'));
+        // $uval=$this->get_last_uvalive($this->MODEL->countWaitingSubmission('UvaLive'));
+        // $sj=$this->get_last_spoj($this->MODEL->countWaitingSubmission('Spoj'));
 
         $i=0;
         $j=0;
@@ -137,7 +137,7 @@ class Judge extends Core
                         "verdict"=>$sub['verdict']
                     ];
 
-                    $this->MODEL->update_submission($row['sid'], $sub);
+                    $this->MODEL->updateSubmission($row['sid'], $sub);
                 }
                 $i++;
             } elseif ($row['oid']==3) {
@@ -170,7 +170,7 @@ class Judge extends Core
                     $ret[$row['sid']]=[
                         "verdict"=>$sub['verdict']
                     ];
-                    $this->MODEL->update_submission($row['sid'], $sub);
+                    $this->MODEL->updateSubmission($row['sid'], $sub);
                 } catch (Exception $e) {
                 }
             } elseif ($row['oid']==4) {
@@ -190,7 +190,7 @@ class Judge extends Core
                 $ret[$row['sid']]=[
                     "verdict"=>$sub['verdict']
                 ];
-                $this->MODEL->update_submission($row['sid'], $sub);
+                $this->MODEL->updateSubmission($row['sid'], $sub);
             } elseif ($row['oid']==5) {
                 try {
                     $res=Requests::get('https://vijos.org/records/'.$row['remote_id']);
@@ -234,7 +234,7 @@ class Judge extends Core
                     $ret[$row['sid']]=[
                         "verdict"=>$sub['verdict']
                     ];
-                    $this->MODEL->update_submission($row['sid'], $sub);
+                    $this->MODEL->updateSubmission($row['sid'], $sub);
                 } catch (Exception $e) {
                 }
             } elseif ($row['oid']==6) {
@@ -261,7 +261,7 @@ class Judge extends Core
                     $ret[$row['sid']]=[
                         "verdict"=>$sub['verdict']
                     ];
-                    $this->MODEL->update_submission($row['sid'], $sub);
+                    $this->MODEL->updateSubmission($row['sid'], $sub);
                 } catch (Exception $e) {
                 }
             }
@@ -272,7 +272,7 @@ class Judge extends Core
             //         $sub['memory']=$sj[$j][1];
             //         $v=$sub['verdict'];
             //         $ret[$row['sid']]="<div style='color:{$color[$v]};'>"  .$sub['Verdict']. "</div>";
-            //         $this->MODEL->update_submission($row['sid'], $sub);
+            //         $this->MODEL->updateSubmission($row['sid'], $sub);
             //     }
             //     $j++;
             // }
@@ -283,7 +283,7 @@ class Judge extends Core
             //         $sub['memory']=$uva[$k][1];
             //         $v=$sub['verdict'];
             //         $ret[$row['sid']]="<div style='color:{$color[$v]};'>"  .$sub['Verdict']. "</div>";
-            //         $this->MODEL->update_submission($row['sid'], $sub);
+            //         $this->MODEL->updateSubmission($row['sid'], $sub);
             //     }
             //     $k++;
             // }
@@ -294,7 +294,7 @@ class Judge extends Core
             //         $sub['memory']=$uval[$l][1];
             //         $v=$sub['verdict'];
             //         $ret[$row['sid']]="<div style='color:{$color[$v]};'>"  .$sub['Verdict']. "</div>";
-            //         $this->MODEL->update_submission($row['sid'], $sub);
+            //         $this->MODEL->updateSubmission($row['sid'], $sub);
             //     }
             //     $l++;
             // }

@@ -128,7 +128,7 @@
     <link rel="stylesheet" href="/static/fonts/Montserrat/montserrat.css">
     <link rel="stylesheet" href="/static/css/bootstrap-material-design.min.css">
     <link rel="stylesheet" href="/static/css/wemd-color-scheme.css">
-    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/main.css?version={{version()}}">
     <link rel="stylesheet" href="/static/css/animate.min.css">
     <link rel="stylesheet" href="/static/fonts/MDI-WXSS/MDI.css">
     <link rel="stylesheet" href="/static/fonts/Devicon/devicon.css">
@@ -776,6 +776,11 @@
         $( "#submitBtn" ).click(function() {
             if(submission_processing) return;
             submission_processing = true;
+            if(empty(editor.getValue())){
+                alert("Please fill in the solution");
+                submission_processing = false;
+                return;
+            }
             $("#submitBtn > i").removeClass("send");
             $("#submitBtn > i").addClass("autorenew");
             $("#submitBtn > i").addClass("cm-refreshing");
@@ -851,9 +856,21 @@
                     $("#submitBtn > span").text("Submit Code");
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
-                    $("#verdict_text").text("System Error");
-                    $("#verdict_info").removeClass();
-                    $("#verdict_info").addClass("wemd-black-text");
+
+                    switch(xhr.status) {
+                        case 429:
+                            alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                            $("#verdict_text").text("Submit Frequency Exceed");
+                            $("#verdict_info").removeClass();
+                            $("#verdict_info").addClass("wemd-black-text");
+                            break;
+
+                        default:
+                            $("#verdict_text").text("System Error");
+                            $("#verdict_info").removeClass();
+                            $("#verdict_info").addClass("wemd-black-text");
+                    }
+
                     submission_processing = false;
                     $("#submitBtn > i").addClass("send");
                     $("#submitBtn > i").removeClass("autorenew");

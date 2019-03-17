@@ -535,6 +535,9 @@ class ContestModel extends Model
         return DB::table("contest_clarification")->where([
             "cid"=>$cid,
             "public"=>1
+        ])->orWhere([
+            "cid" => $cid,
+            'uid' => Auth::user()->id
         ])->orderBy('create_time', 'desc')->get()->all();
     }
 
@@ -567,6 +570,19 @@ class ContestModel extends Model
             "ccid"=>$ccid,
             "public"=>1
         ])->first();
+    }
+
+    public function requestClarification($cid, $title, $content, $uid)
+    {
+        return DB::table("contest_clarification")->insertGetId([
+            "cid"=>$cid,
+            "type"=>1,
+            "title"=>$title,
+            "content"=>$content,
+            "public"=>"0",
+            "uid"=>$uid,
+            "create_time"=>date("Y-m-d H:i:s")
+        ]);
     }
 
     public function isContestEnded($cid)

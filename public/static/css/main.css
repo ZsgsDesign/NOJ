@@ -1,3 +1,4 @@
+/* MUNDb Styles */
 .mundb-footer{
     padding:1rem 2.5rem;
     width:100%;
@@ -125,6 +126,8 @@ nav.navbar{
     background: rgba(255,255,255,0.2);
 }
 
+/* ATSAST Styles */
+
 a.attsast-course{
     text-decoration: none;
     color:#212529;
@@ -158,6 +161,8 @@ hr.atsast-line{
     margin-bottom:0.75rem;
 }
 
+/* General Styles */
+
 nav .dropdown-item .MDI{
     display:inline-block;
     transform:scale(1.5);
@@ -167,6 +172,10 @@ nav .dropdown-item .MDI{
 
 .cm-wb {
     word-break: break-word;
+}
+
+.btn-rounded{
+    border-radius:200rem;
 }
 
 /* Model */
@@ -231,4 +240,57 @@ version-badge > inline-div:last-of-type{
     display:inline-block;
     padding:0 0.5rem;
     background: #97ca00;
+}
+
+/* Refresing Icon */
+
+.cm-refreshing{
+    display: inline-block;
+    -webkit-transition-property: -webkit-transform;
+    -webkit-transition-duration: 1s;
+    -moz-transition-property: -moz-transform;
+    -moz-transition-duration: 1s;
+    -webkit-animation: cm-rotate 3s linear infinite;
+    -moz-animation: cm-rotate 3s linear infinite;
+    -o-animation: cm-rotate 3s linear infinite;
+    animation: cm-rotate 3s linear infinite;
+}
+@-webkit-keyframes cm-rotate{
+    from{-webkit-transform: rotate(0deg)}
+    to{-webkit-transform: rotate(360deg)}
+}
+@-moz-keyframes cm-rotate{
+    from{-moz-transform: rotate(0deg)}
+    to{-moz-transform: rotate(359deg)}
+}
+@-o-keyframes cm-rotate{
+    from{-o-transform: rotate(0deg)}
+    to{-o-transform: rotate(359deg)}
+}
+@keyframes cm-rotate{
+    from{transform: rotate(0deg)}
+    to{transform: rotate(359deg)}
+}
+
+.btn-disabled{
+    cursor: auto;
+}
+
+/* Reply-Quote */
+
+fresh-container reply-quote{
+    border-left: .25em solid #dfe2e5;
+    display:block;
+    margin: 20px 0!important;
+    background-color: #f5f8fc;
+    padding: 1rem;
+    color: #8796a8;
+}
+
+fresh-container reply-quote p {
+    color: #8796a8;
+}
+
+fresh-container reply-quote p:last-child {
+    margin-bottom: 0;
 }

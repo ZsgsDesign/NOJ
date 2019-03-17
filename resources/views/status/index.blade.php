@@ -1,7 +1,5 @@
 @extends('layouts.app')
 
-@include('contest.board.addition')
-
 @section('template')
 <style>
     paper-card {
@@ -107,20 +105,6 @@
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
-        <h5>{{$contest_name}}</h5>
-        <nav-div>
-            <a href="/contest/{{$cid}}/board/challenge"><nav-item>Challenge</nav-item></a>
-            <a href="/contest/{{$cid}}/board/rank"><nav-item>Rank</nav-item></a>
-            <a href="/contest/{{$cid}}/board/status"><nav-item class="active">Status</nav-item></a>
-            <a href="/contest/{{$cid}}/board/clarification"><nav-item>Clarification</nav-item></a>
-            <a href="/contest/{{$cid}}/board/print"><nav-item>Print</nav-item></a>
-            @if($clearance>2)<a href="/contest/{{$cid}}/board/admin"><nav-item>Admin</nav-item></a>@endif
-        </nav-div>
-        @if($rank_frozen)
-        <div class="alert alert-info cm-notification" role="alert">
-            <i class="MDI information-outline"></i> The statusboard is now frozen as we enter the last {{$frozen_time}} of the competition. You can still see your attempts as they occur.
-        </div>
-        @endif
         <div>
             <div class="table-responsive">
                 <table class="table">
@@ -128,7 +112,6 @@
                         <tr>
                             <th scope="col" style="text-align: left;">SID</th>
                             <th scope="col">Account</th>
-                            <th scope="col">Problem</th>
                             <th scope="col">Result</th>
                             <th scope="col">Time</th>
                             <th scope="col">Memory</th>
@@ -137,11 +120,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($submission_record["records"] as $r)
-                        <tr class="@if($r["uid"]==Auth::user()->id && $basic_info["status_visibility"]>1) cm-me @endif">
+                        @foreach($records["records"] as $r)
+                        <tr class="@if(Auth::check() && $r["uid"]==Auth::user()->id) cm-me @endif">
                             <th scope="row">{{$r["sid"]}}</th>
                             <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
-                            <td>{{$r["ncode"]}}</td>
                             <td class="{{$r["color"]}}">{{$r["verdict"]}}</td>
                             <td>{{$r["time"]}}ms</td>
                             <td>{{$r["memory"]}}k</td>
@@ -151,7 +133,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{$submission_record["paginator"]->links()}}
+                {{$records["paginator"]->links()}}
             </div>
         </div>
     </paper-card>

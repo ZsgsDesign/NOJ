@@ -100,12 +100,12 @@ class SubmissionModel extends Model
         return $statusList;
     }
 
-    public function count_solution($s)
+    public function countSolution($s)
     {
         return DB::table($this->tableName)->where(['solution'=>$s])->count();
     }
 
-    public function get_waiting_submission()
+    public function getWaitingSubmission()
     {
         return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
                                             ->select("sid", "OJ as oid", "remote_id", "cid")
@@ -113,16 +113,88 @@ class SubmissionModel extends Model
                                             ->get();
     }
 
-    public function count_waiting_submission($oid)
+    public function countWaitingSubmission($oid)
     {
         return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
                                             ->where(['verdict'=>'Waiting', 'OJ'=>$oid])
                                             ->count();
     }
 
-    public function update_submission($sid, $sub)
+    public function updateSubmission($sid, $sub)
     {
         if (isset($sub['verdict'])) $sub["color"]=$this->colorScheme[$sub['verdict']];
         return DB::table($this->tableName)->where(['sid'=>$sid])->update($sub);
+    }
+
+    public function formatSubmitTime($date)
+    {
+        $periods=["second", "minute", "hour", "day", "week", "month", "year", "decade"];
+        $lengths=["60", "60", "24", "7", "4.35", "12", "10"];
+
+        $now=time();
+        $unix_date=strtotime($date);
+
+        if (empty($unix_date)) {
+            return "Bad date";
+        }
+
+        if ($now>$unix_date) {
+            $difference=$now-$unix_date;
+            $tense="ago";
+        } else {
+            $difference=$unix_date-$now;
+            $tense="from now";
+        }
+
+        for ($j=0; $difference>=$lengths[$j] && $j<count($lengths)-1; $j++) {
+            $difference/=$lengths[$j];
+        }
+
+        $difference=round($difference);
+
+        if ($difference!=1) {
+            $periods[$j].="s";
+        }
+
+        return "$difference $periods[$j] {$tense}";
+    }
+
+    public function getRecord()
+    {
+        $paginator=DB::table("submission")->where([
+            'cid'=>null
+        ])->join(
+            "users",
+            "users.id",
+            "=",
+            "submission.uid"
+        )->select(
+            "sid",
+            "uid",
+            "pid",
+            "name",
+            "color",
+            "verdict",
+            "time",
+            "memory",
+            "language",
+            "score",
+            "submission_date"
+        )->orderBy(
+            'submission_date',
+            'desc'
+        )->paginate(50);
+
+
+        $records= $paginator->all();
+        foreach ($records as &$r) {
+            $r["submission_date_parsed"]=$this->formatSubmitTime(date('Y-m-d H:i:s', $r["submission_date"]));
+            $r["submission_date"]=date('Y-m-d H:i:s', $r["submission_date"]);
+            $r["nick_name"]="";
+        }
+        return [
+            "paginator"=>$paginator,
+            "records"=>$records
+        ];
     }
 }

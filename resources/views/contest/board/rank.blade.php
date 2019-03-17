@@ -123,6 +123,7 @@
             <a href="/contest/{{$cid}}/board/status"><nav-item>Status</nav-item></a>
             <a href="/contest/{{$cid}}/board/clarification"><nav-item>Clarification</nav-item></a>
             <a href="/contest/{{$cid}}/board/print"><nav-item>Print</nav-item></a>
+            @if($clearance>2)<a href="/contest/{{$cid}}/board/admin"><nav-item>Admin</nav-item></a>@endif
         </nav-div>
         @if($rank_frozen)
         <div class="alert alert-info cm-notification" role="alert">
