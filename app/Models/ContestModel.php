@@ -535,6 +535,9 @@ class ContestModel extends Model
         return DB::table("contest_clarification")->where([
             "cid"=>$cid,
             "public"=>1
+        ])->orWhere([
+            "cid" => $cid,
+            'uid' => Auth::user()->id
         ])->orderBy('create_time', 'desc')->get()->all();
     }
 
