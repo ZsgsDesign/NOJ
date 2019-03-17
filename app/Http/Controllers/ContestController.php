@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContestModel;
+use App\Models\GroupModel;
 use App\Models\ProblemModel;
 use App\Models\CompilerModel;
 use App\Models\SubmissionModel;
