@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function() {
 
             for ($i=1; $i<=12; $i++) {
-                // new Judge();
+                new Judge();
                 sleep(5);
             }
 
