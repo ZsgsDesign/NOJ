@@ -133,9 +133,11 @@ class Judge extends Core
                         break;
                     }
                 }
-                if(empty($cf)){
+                if (empty($cf)) {
+
                     $this->MODEL->updateSubmission($row['sid'], ['verdict'=>"Submission Error"]);
-                }else{
+
+                } else {
 
                     $sub=[];
                     $sub['verdict']=$codeforces_v[$cf[2]];
