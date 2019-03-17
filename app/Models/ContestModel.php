@@ -756,6 +756,24 @@ class ContestModel extends Model
         ];
     }
 
+    public function registration($cid, $uid=0)
+    {
+        if ($uid==0) {
+            return [];
+        }
+
+        if ($contest_info["registration"]) {
+            // check if uid in registration, temp return 3
+            return $isParticipant=DB::table("contest_participant")->where([
+                "cid" => $cid,
+                "uid" => $uid,
+                "audit" => 1
+            ])->first();
+        } else {
+            return [];
+        }
+    }
+
     public function judgeClearance($cid, $uid=0)
     {
         if ($uid==0) {

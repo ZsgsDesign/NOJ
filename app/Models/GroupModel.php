@@ -156,6 +156,14 @@ class GroupModel extends Model
         ]);
     }
 
+    public function isMember($gid, $uid)
+    {
+        return DB::table("group_member")->where([
+            "gid"=> $gid,
+            "uid"=> $uid
+        ])->where("role", ">", 0)->count();
+    }
+
     public function formatPostTime($date)
     {
         $periods=["second", "minute", "hour", "day", "week", "month", "year", "decade"];
