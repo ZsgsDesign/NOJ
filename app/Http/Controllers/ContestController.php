@@ -45,7 +45,7 @@ class ContestController extends Controller
         if (Auth::check()) {
             $contest_detail=$contestModel->detail($cid, Auth::user()->id);
             $registration=$contestModel->registration($cid, Auth::user()->id);
-            $inGroup=$groupModel->isMember($contest_detail["gid"], Auth::user()->id);
+            $inGroup=$groupModel->isMember($contest_detail["data"]["contest_detail"]["gid"], Auth::user()->id);
         } else {
             $contest_detail=$contestModel->detail($cid);
             $registration=[];

@@ -270,10 +270,10 @@
                                         else show apply
                                     --}}
                                     @if($registration)
-                                        <button type="button" class="btn btn-primary">Registered</button>
+                                        <button type="button" class="btn btn-info">Registered</button>
                                     @else
                                         @if( strtotime($detail['registration_due']) < time() || $detail["registant_type"]==0 || ($detail["registant_type"]==1 && !$inGroup) )
-                                            <button type="button" class="btn btn-primary">No Access</button>
+                                            <button type="button" class="btn btn-secondary">No Access</button>
                                         @else
                                             <button type="button" class="btn btn-primary">Apply</button>
                                         @endif
