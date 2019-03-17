@@ -108,6 +108,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{$prob_paginate->links()}}
             </paper-card>
             <nav class="animated fadeInUp">
                 <ul class="pagination justify-content-end">
