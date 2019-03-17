@@ -130,7 +130,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
             - [X] Submit to OJ
             - [X] Retrive Status
 - [ ] Status System
-    - [ ] Status List
+    - [X] Status List
     - [ ] Status Filter
     - [ ] Status Details
         - [ ] Syntax Highlight
