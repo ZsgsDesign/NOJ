@@ -108,7 +108,7 @@ class Judge extends Core
         $contestModel=new ContestModel();
         $curl=new Curl();
 
-        $cfList=$this->get_last_codeforces($this->MODEL->countEarliestWaitingSubmission(2)+1);
+        $cfList=$this->get_last_codeforces($this->MODEL->countEarliestWaitingSubmission(2)+100);
         $poj=[];
 
         $pojJudgerList=$judger->list(4);
