@@ -83,7 +83,7 @@ class CodeForces extends Curl
         if (substr_count($response, 'My Submissions')!=2) {
             // Forbidden?
             $exploded=explode('<span class="error for__source">', $response);
-            if(is_null($exploded)){
+            if(is_null($exploded[1])){
                 $this->sub['verdict']="Submission Error";
             }else{
                 $this->sub['compile_info']=explode("</span>", $exploded[1])[0];
