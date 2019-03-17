@@ -108,7 +108,7 @@ class Judge extends Core
         $contestModel=new ContestModel();
         $curl=new Curl();
 
-        $cf=$this->get_last_codeforces($this->MODEL->countWaitingSubmission(2));
+        $cfList=$this->get_last_codeforces($this->MODEL->countEarliestWaitingSubmission(2)+1);
         $poj=[];
 
         $pojJudgerList=$judger->list(4);
@@ -126,12 +126,23 @@ class Judge extends Core
         $l=0;
         foreach ($result as $row) {
             if ($row['oid']==2) {
-                if (isset($codeforces_v[$cf[$i][2]])) {
-                    $sub['verdict']=$codeforces_v[$cf[$i][2]];
+                $cf=[];
+                foreach($cfList as $c){
+                    if($c[3]==$row["remote_id"]) {
+                        $cf=$c;
+                        break;
+                    }
+                }
+                if(empty($cf)){
+                    $this->MODEL->updateSubmission($row['sid'], ['verdict'=>"Submission Error"]);
+                }else{
+
+                    $sub=[];
+                    $sub['verdict']=$codeforces_v[$cf[2]];
                     $sub["score"]=$sub['verdict']=="Accepted" ? 1 : 0;
-                    $sub['time']=$cf[$i][0];
-                    $sub['memory']=$cf[$i][1];
-                    $sub['remote_id']=$cf[$i][3];
+                    $sub['time']=$cf[0];
+                    $sub['memory']=$cf[1];
+                    $sub['remote_id']=$cf[3];
 
                     $ret[$row['sid']]=[
                         "verdict"=>$sub['verdict']
@@ -139,9 +150,26 @@ class Judge extends Core
 
                     $this->MODEL->updateSubmission($row['sid'], $sub);
                 }
-                $i++;
+
+
+                // if (isset($codeforces_v[$cf[$i][2]])) {
+                //     $sub['verdict']=$codeforces_v[$cf[$i][2]];
+                //     $sub["score"]=$sub['verdict']=="Accepted" ? 1 : 0;
+                //     $sub['time']=$cf[$i][0];
+                //     $sub['memory']=$cf[$i][1];
+                //     $sub['remote_id']=$cf[$i][3];
+
+                //     $ret[$row['sid']]=[
+                //         "verdict"=>$sub['verdict']
+                //     ];
+
+                //     $this->MODEL->updateSubmission($row['sid'], $sub);
+                // }
+                // $i++;
+
             } elseif ($row['oid']==3) {
                 try {
+                    $sub=[];
                     $res=Requests::get('http://contest-hunter.org:83/record/'.$row['remote_id']);
                     preg_match('/<dt>状态<\/dt>[\s\S]*?<dd class=".*?">(.*?)<\/dd>/m', $res->body, $match);
                     $status=$match[1];
@@ -174,6 +202,7 @@ class Judge extends Core
                 } catch (Exception $e) {
                 }
             } elseif ($row['oid']==4) {
+                $sub=[];
                 if (!isset($poj[$row['remote_id']])) {
                     $this->appendPOJStatus($poj, $pojJudgerName, $row['remote_id']);
                     if (!isset($poj[$row['remote_id']])) {
@@ -193,6 +222,7 @@ class Judge extends Core
                 $this->MODEL->updateSubmission($row['sid'], $sub);
             } elseif ($row['oid']==5) {
                 try {
+                    $sub=[];
                     $res=Requests::get('https://vijos.org/records/'.$row['remote_id']);
                     preg_match('/<span class="record-status--text \w*">\s*(.*?)\s*<\/span>/', $res->body, $match);
                     $status=$match[1];
@@ -239,6 +269,7 @@ class Judge extends Core
                 }
             } elseif ($row['oid']==6) {
                 try {
+                    $sub=[];
                     $remoteId=explode('|', $row['remote_id']);
                     $response=$curl->grab_page("https://pintia.cn/api/problem-sets/$remoteId[0]/submissions/".$remoteId[1], 'pta');
                     $data=json_decode($response, true);
