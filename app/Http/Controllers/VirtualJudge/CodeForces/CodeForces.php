@@ -48,7 +48,7 @@ class CodeForces extends Curl
         // $this->sub['language']=substr($this->post_data["lang"], 2, 50);
 
         $submissionModel=new SubmissionModel();
-        $s_num=$submissionModel->count_solution($this->post_data["solution"]);
+        $s_num=$submissionModel->countSolution($this->post_data["solution"]);
         $space='';
         for ($i=0; $i<$s_num; $i++) {
             $space.=' ';

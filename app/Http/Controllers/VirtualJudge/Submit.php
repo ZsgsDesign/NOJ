@@ -36,6 +36,6 @@ class Submit
         // insert submission
 
         $submission=new SubmissionModel();
-        $submission->update_submission($this->post_data["sid"], $sub);
+        $submission->updateSubmission($this->post_data["sid"], $sub);
     }
 }
