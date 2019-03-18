@@ -114,9 +114,51 @@ class ProblemModel extends Model
             $preQuery=$preQuery->join("problem_tag", "problem.pid", "=", "problem_tag.pid")->where(["tag"=>$filter['tag']]);
         }
         $paginator=$preQuery->select("problem.pid as pid", "pcode", "title")->paginate(20);
-        $prob=json_decode($paginator->all()->toJSON(), true);
+        $prob=$paginator->all();
         if (empty($prob["data"])) {
             return null;
+        }
+        $cur_page=$paginator->currentPage();
+        $tot_page=$paginator->lastPage();
+        $temp_page_list=[];
+        if ($tot_page<=5) {
+            for ($i=1; $i<=$tot_page; $i++) {
+                array_push($temp_page_list, $i);
+            }
+        } else {
+            for ($i=$cur_page-2; $i<=$cur_page+2; $i++) {
+                array_push($temp_page_list, $i);
+            }
+            if ($temp_page_list[0]<1) {
+                $temp_page_list[0]=$temp_page_list[4]+1;
+            }
+            if ($temp_page_list[1]<1) {
+                $temp_page_list[1]=$temp_page_list[4]+2;
+            }
+            if ($temp_page_list[3]>$tot_page) {
+                $temp_page_list[3]=$temp_page_list[0]-1;
+            }
+            if ($temp_page_list[4]>$tot_page) {
+                $temp_page_list[4]=$temp_page_list[0]-2;
+            }
+            sort($temp_page_list);
+        }
+        $prob["paginate"]["data"]=[];
+        $prob["paginate"]["previous"]=is_null($prob["prev_page_url"]) ? "" : "?page=".($cur_page-1).($filter["oj"] ? "&oj={$filter['oj']}" : "").($filter["tag"] ? "&tag={$filter['tag']}" : "");
+        $prob["paginate"]["next"]=is_null($prob["next_page_url"]) ? "" : "?page=".($cur_page+1).($filter["oj"] ? "&oj={$filter['oj']}" : "").($filter["tag"] ? "&tag={$filter['tag']}" : "");
+        foreach ($temp_page_list as $p) {
+            $url="?page=$p";
+            if ($filter["oj"]) {
+                $url.="&oj={$filter['oj']}";
+            }
+            if ($filter["tag"]) {
+                $url.="&tag={$filter['tag']}";
+            }
+            array_push($prob["paginate"]["data"], [
+                "page"=>$p,
+                "cur"=> $p==$cur_page ? 1 : 0,
+                "url"=>$url
+            ]);
         }
         foreach ($prob["data"] as &$p) {
             $prob_stat=DB::table("submission")->select(
