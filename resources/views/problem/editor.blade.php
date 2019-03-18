@@ -537,9 +537,14 @@
                                 </div>
                             </div>
                             @endif {{$detail["title"]}}</h1>
+
+                        @unless(trim($detail["parsed"]["description"])=="")
+
                         <h2>Description:</h2>
 
                         {!!$detail["parsed"]["description"]!!}
+
+                        @endunless
 
                         @unless(trim($detail["parsed"]["input"])=="")
 
