@@ -763,7 +763,7 @@ class ContestModel extends Model
         }
 
 
-        return $isParticipant=DB::table("contest_participant")->where([
+        return DB::table("contest_participant")->where([
             "cid" => $cid,
             "uid" => $uid,
             "audit" => 1
