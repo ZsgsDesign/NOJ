@@ -207,9 +207,14 @@
                         <info-badge data-toggle="tooltip" data-placement="top" title="Time Limit"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
                         <info-badge data-toggle="tooltip" data-placement="top" title="Memory Limit"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
                     </info-div>
+
+                    @unless(trim($detail["parsed"]["description"])=="")
+
                     <h2>Description:</h2>
 
                     {!!$detail["parsed"]["description"]!!}
+
+                    @endunless
 
                     @unless(trim($detail["parsed"]["input"])=="")
 
