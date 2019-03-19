@@ -134,9 +134,10 @@ class NOJ
                 $this->sub['time']=$tempRes["cpu_time"];
                 $this->sub['memory']=round($tempRes["memory"] / 1024);
             } else {
-                $this->sub['verdict']="Compile Error";
+                $this->sub['verdict']=$this->verdictDict["-2"];
                 $this->sub['time']=0;
                 $this->sub['memory']=0;
+                $this->sub['compile_info']=$temp["data"];
             }
             return;
         }
