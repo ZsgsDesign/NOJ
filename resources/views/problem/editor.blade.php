@@ -485,6 +485,10 @@
             color: rgba(0, 0, 0, 0.53);
         }
 
+        a#verdict_info:hover{
+            text-decoration: none;
+        }
+
         @-webkit-keyframes cm-rotate{
             from{-webkit-transform: rotate(0deg)}
             to{-webkit-transform: rotate(360deg)}
@@ -592,7 +596,7 @@
             </right-side>
         </top-side>
         <bottom-side>
-            <div style="color: #7a8e97" id="verdict_info" class="{{$status["color"]}}"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">{{$status["verdict"]}} @if($status["verdict"]=="Partially Accepted")({{round($status["score"]/$detail["tot_score"]*$detail["points"])}})@endif</span></div>
+            <a tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="top" @if($status["verdict"]=="Compile Error") title="Compile Info" data-content="{{$status["compile_info"]}}"@endif style="color: #7a8e97" id="verdict_info" class="{{$status["color"]}}"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">{{$status["verdict"]}} @if($status["verdict"]=="Partially Accepted")({{round($status["score"]/$detail["tot_score"]*$detail["points"])}})@endif</span></a>
             <div>
                 <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> History</button>
                 <div class="btn-group dropup">
@@ -815,6 +819,7 @@
                     console.log(ret);
                     if(ret.ret==200){
                         // submitted
+                        $("#verdict_info").popover('dispose');
                         $("#verdict_text").text("Pending");
                         $("#verdict_info").removeClass();
                         $("#verdict_info").addClass("wemd-blue-text");
@@ -831,6 +836,11 @@
                                 }, success: function(ret){
                                     console.log(ret);
                                     if(ret.ret==200){
+                                        if(ret.data.verdict=="Compile Error"){
+                                            $("#verdict_info").attr('title',"Compile Info");
+                                            $("#verdict_info").data('content',ret.data.compile_info);
+                                            $("#verdict_info").popover();
+                                        }
                                         if(ret.data.verdict=="Partially Accepted"){
                                             let real_score = Math.round(ret.data.score / tot_scores * tot_points);
                                             $("#verdict_text").text(ret.data.verdict + ` (${real_score})`);
@@ -896,6 +906,8 @@
         window.addEventListener("load",function() {
 
             $(".pre-animated").addClass("fadeInLeft");
+
+            $("#verdict_info").popover();
 
             require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/vscode/vs' }});
 

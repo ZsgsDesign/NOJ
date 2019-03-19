@@ -28,7 +28,8 @@ class Submit
             'verdict'=>'Waiting',
             'memory'=>'0',
             'remote_id'=>'',
-            'score'=>0
+            'score'=>0,
+            'compile_info'=>'',
         ];
 
         $curl=new Core($sub, $this->post_data['oj'], $this->post_data);
