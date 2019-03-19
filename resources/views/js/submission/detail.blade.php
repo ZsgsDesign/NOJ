@@ -10,6 +10,9 @@
 .modal-dialog-submission .modal-body{
     word-break: break-word;
 }
+.modal-dialog-submission .table tbody tr:hover{
+    background:transparent;
+}
 </style>
 <div class="modal fade" id="notice${id}" data-backdrop="static" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-dialog-submission" role="document">
@@ -32,10 +35,13 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>1</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
+                            <td class="wemd-green-text">Accepted</td>
+                            <td>123ms</td>
+                            <td>456kb</td>
+                            <td>1245</td>
+                            <td>GNU G++11 5.1.0</td>
+                            <td>2018-12-06 18:45:12</td>
+                            <td>46677971</td>
                         </tr>
                     </tbody>
                 </table>
