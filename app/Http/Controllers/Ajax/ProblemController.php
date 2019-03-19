@@ -101,10 +101,9 @@ class ProblemController extends Controller
      */
     public function judgeStatus(Request $request)
     {
-        // [ToDo] can only query personal judge info.
         $all_data=$request->all();
         $submission=new SubmissionModel();
-        $status=$submission->getJudgeStatus($all_data["sid"]);
+        $status=$submission->getJudgeStatus($all_data["sid"], Auth::user()->id);
         return ResponseModel::success(200, null, $status);
     }
 

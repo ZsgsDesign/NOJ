@@ -204,4 +204,5 @@
     }, false);
 
 </script>
+@include('js.submission.detail')
 @endsection

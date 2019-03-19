@@ -55,9 +55,9 @@ class SubmissionModel extends Model
         return $sid;
     }
 
-    public function getJudgeStatus($sid)
+    public function getJudgeStatus($sid, $uid)
     {
-        $status=DB::table($this->tableName)->where(['sid'=>$sid])->first();
+        $status=DB::table($this->tableName)->where(['sid'=>$sid,'uid'=>$uid])->first();
         return $status;
     }
 

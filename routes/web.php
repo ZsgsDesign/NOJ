@@ -57,6 +57,10 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
         Route::post('fetchClarification', 'ContestController@fetchClarification')->middleware('auth');
         Route::post('requestClarification', 'ContestController@requestClarification')->middleware('auth', 'throttle:1,0.34');
     });
+
+    Route::group(['prefix' => 'submission'], function () {
+        Route::post('detail', 'SubmissionController@detail')->middleware('auth');
+    });
 });
 
 Auth::routes();
