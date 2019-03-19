@@ -118,8 +118,8 @@ class ProblemModel extends Model
         if (empty($prob["data"])) {
             return null;
         }
-        $cur_page=$paginator->currentPage();
-        $tot_page=$paginator->lastPage();
+        $cur_page=$prob->currentPage();
+        $tot_page=$prob->lastPage();
         $temp_page_list=[];
         if ($tot_page<=5) {
             for ($i=1; $i<=$tot_page; $i++) {
@@ -144,8 +144,8 @@ class ProblemModel extends Model
             sort($temp_page_list);
         }
         $prob["paginate"]["data"]=[];
-        $prob["paginate"]["previous"]=is_null($prob["prev_page_url"]) ? "" : "?page=".($cur_page-1).($filter["oj"] ? "&oj={$filter['oj']}" : "").($filter["tag"] ? "&tag={$filter['tag']}" : "");
-        $prob["paginate"]["next"]=is_null($prob["next_page_url"]) ? "" : "?page=".($cur_page+1).($filter["oj"] ? "&oj={$filter['oj']}" : "").($filter["tag"] ? "&tag={$filter['tag']}" : "");
+        $prob["paginate"]["previous"]=is_null($prob->previousPageUrl()) ? "" : "?page=".($cur_page-1).($filter["oj"] ? "&oj={$filter['oj']}" : "").($filter["tag"] ? "&tag={$filter['tag']}" : "");
+        $prob["paginate"]["next"]=is_null($prob->nextPageUrl()) ? "" : "?page=".($cur_page+1).($filter["oj"] ? "&oj={$filter['oj']}" : "").($filter["tag"] ? "&tag={$filter['tag']}" : "");
         foreach ($temp_page_list as $p) {
             $url="?page=$p";
             if ($filter["oj"]) {
@@ -176,10 +176,7 @@ class ProblemModel extends Model
                 $p["ac_rate"]=round($prob_stat["ac_rate"], 2);
             }
         }
-        return [
-            "paginator"=>$paginator,
-            "prob"=>$prob
-        ];
+        return $prob;
     }
 
     public function existPCode($pcode)
