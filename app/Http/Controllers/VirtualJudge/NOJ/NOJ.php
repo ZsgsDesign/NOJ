@@ -142,6 +142,8 @@ class NOJ
             return;
         }
 
+        var_dump($temp["data"]);exit();
+
         foreach ($temp["data"] as $record) {
             if ($record["result"]) {
                 // well... WA or anyway
