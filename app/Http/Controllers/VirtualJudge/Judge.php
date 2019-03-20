@@ -141,6 +141,15 @@ class Judge extends Core
                     if (isset($codeforces_v[$cf[2]])) {
                         $sub=[];
                         $sub['verdict']=$codeforces_v[$cf[2]];
+                        if ($sub['verdict'] == 'Compile Error') {
+                            if (!isset($cfCSRF)) {
+                                $res = $curl->grab_page('http://codeforces.com', 'codeforces');
+                                preg_match('/<meta name="X-Csrf-Token" content="([0-9a-z]*)"/', $res, $match);
+                                $cfCSRF = $match[1];
+                            }
+                            $res = $curl->post_data('http://codeforces.com/data/judgeProtocol', ['submissionId'=>$row['remote_id'], 'csrf_token'=>$cfCSRF], 'codeforces', true, false, false);
+                            $sub['compile_info'] = json_decode($res);
+                        }
                         $sub["score"]=$sub['verdict']=="Accepted" ? 1 : 0;
                         $sub['time']=$cf[0];
                         $sub['memory']=$cf[1];
@@ -196,6 +205,10 @@ class Judge extends Core
                     } else {
                         $sub['memory']=0;
                         $sub['time']=0;
+                        if ($sub['verdict'] == 'Compile Error') {
+                            preg_match('/<h2>结果 <small>各个测试点的详细结果<\/small><\/h2>\s*<pre>([\s\S]*?)<\/pre>/', $res->body, $match);
+                            $sub['compile_info'] = html_entity_decode($match[1], ENT_QUOTES);
+                        }
                     }
 
                     $ret[$row['sid']]=[
