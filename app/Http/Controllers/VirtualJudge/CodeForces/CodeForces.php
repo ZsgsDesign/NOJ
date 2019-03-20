@@ -83,7 +83,13 @@ class CodeForces extends Curl
         ];
         $response=$this->post_data("codeforces.com/contest/{$this->post_data['cid']}/submit?csrf_token=".$token, http_build_query($params), "codeforces", true, true, true, false, [], $this->selectedJudger["handle"]);
         $this->sub["jid"]=$this->selectedJudger["jid"];
-        if (substr_count($response, 'My Submissions')!=2) {
+        if (strpos($response, 'alert("Source code hasn\'t submitted because of warning, please read it.");') !== false) {
+            $this->sub['verdict']='Compile Error';
+            preg_match('/<div class="roundbox " style="font-size:1.2rem;margin:0.5em 0;padding:0.5em;text-align:left;background-color:#eca;">[\s\S]*?<div class="roundbox-rb">&nbsp;<\/div>([\s\S]*?)<div/', $response, $match);
+            $warning = str_replace('Press button to submit the solution.', '', $match[1]);
+            $this->sub['compile_info']=trim($warning);
+        } elseif (substr_count($response, 'My Submissions')!=2) {
+            file_put_contents(base_path('storage/logs/'.time().'.html'),$response);
             // Forbidden?
             $exploded=explode('<span class="error for__source">', $response);
             if(!isset($exploded[1])){

@@ -839,7 +839,7 @@
                                     if(ret.ret==200){
                                         if(ret.data.verdict=="Compile Error"){
                                             $("#verdict_info").attr('title',"Compile Info");
-                                            $("#verdict_info").data('content',ret.data.compile_info);
+                                            $("#verdict_info").attr('data-content',ret.data.compile_info);
                                             $("#verdict_info").popover();
                                         }
                                         if(ret.data.verdict=="Partially Accepted"){
