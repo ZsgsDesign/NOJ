@@ -273,8 +273,7 @@ class Judge extends Core
             } elseif ($row['oid']==6) {
                 try {
                     $sub=[];
-                    $remoteId=explode('|', $row['remote_id']);
-                    $response=$curl->grab_page("https://pintia.cn/api/problem-sets/$remoteId[0]/submissions/".$remoteId[1], 'pta');
+                    $response=$curl->grab_page("https://pintia.cn/api/submissions/".$row['remote_id'], 'pta', ['Accept: application/json;charset=UTF-8']);
                     $data=json_decode($response, true);
                     if (!isset($pta_v[$data['submission']['status']])) {
                         continue;

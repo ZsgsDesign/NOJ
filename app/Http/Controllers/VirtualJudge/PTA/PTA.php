@@ -31,7 +31,7 @@ class PTA extends Curl
         $pid=$this->post_data['iid'];
 
         sleep(1);
-        $response=$this->grab_page("https://pintia.cn/api/problem-sets/{$this->post_data['cid']}/exams", 'pta');
+        $response=$this->grab_page("https://pintia.cn/api/problem-sets/{$this->post_data['cid']}/exams", 'pta', ['Accept: application/json;charset=UTF-8']);
 
         if (strpos($response, 'PROBLEM_SET_NOT_FOUND')!==false) {
             header('HTTP/1.1 404 Not Found');
@@ -53,10 +53,10 @@ class PTA extends Curl
             'problemType' => 'PROGRAMMING'
         ];
 
-        $response=$this->post_data("https://pintia.cn/api/problem-sets/$examId/submissions?exam_id=".$examId, $params, 'pta', true, false, false, true);
+        $response=$this->post_data("https://pintia.cn/api/exams/$examId/submissions", $params, 'pta', true, false, false, true, ['Accept: application/json;charset=UTF-8']);
         $ret=json_decode($response, true);
         if (isset($ret['submissionId'])) {
-            $this->sub['remote_id']=$examId.'|'.$ret['submissionId'];
+            $this->sub['remote_id']=$ret['submissionId'];
         } else {
             $this->sub['verdict']='Submission Error';
         }
@@ -64,9 +64,6 @@ class PTA extends Curl
 
     public function submit()
     {
-        $this->sub['verdict']="System Error";
-        return;
-
         $validator=Validator::make($this->post_data, [
             'pid' => 'required|integer',
             'cid' => 'required|integer',
