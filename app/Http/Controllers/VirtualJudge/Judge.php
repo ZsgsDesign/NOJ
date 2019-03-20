@@ -279,6 +279,9 @@ class Judge extends Core
                         continue;
                     }
                     $sub['verdict']=$pta_v[$data['submission']['status']];
+                    if ($data['submission']['status'] == 'COMPILE_ERROR') {
+                        $sub['compile_info'] = $data['submission']['judgeResponseContents'][0]['programmingJudgeResponseContent']['compilationResult']['log'];
+                    }
                     $isOI=$row['cid'] && $contestModel->rule($row['cid'])==2;
                     $sub['score']=$data['submission']['score'];
                     if (!$isOI) {
