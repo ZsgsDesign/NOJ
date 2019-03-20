@@ -142,6 +142,14 @@ class NOJ
             return;
         }
 
+        $this->sub["score"]=count($temp["data"]);
+        foreach ($temp["data"] as $record) {
+            if ($record["result"]) {
+                // well... WA or anyway
+                $this->sub["score"]--;
+            }
+        }
+
         foreach ($temp["data"] as $record) {
             if ($record["result"]) {
                 // well... WA or anyway
