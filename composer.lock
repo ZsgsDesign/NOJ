@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1795ad2a7f01e81347780c087821ee5f",
+    "content-hash": "3ed4fb694e4b7413b78ad13d9e9daed4",
     "packages": [
         {
             "name": "composer/installers",
@@ -1870,11 +1870,11 @@
             ]
         },
         {
-            "name": "npm-asset/highlight.js",
-            "version": "9.15.6",
+            "name": "npm-asset/highlightjs",
+            "version": "9.12.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/highlight.js/-/highlight.js-9.15.6.tgz",
+                "url": "https://registry.npmjs.org/highlightjs/-/highlightjs-9.12.0.tgz",
                 "reference": null,
                 "shasum": null
             },

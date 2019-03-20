@@ -59,7 +59,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     });
 
     Route::group(['prefix' => 'submission'], function () {
-        Route::post('detail', 'SubmissionController@detail')->middleware('auth');
+        Route::post('detail', 'SubmissionController@detail');
     });
 });
 

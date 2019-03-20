@@ -1,3 +1,4 @@
+@include("js.common.hljs")
 <style>
 .modal-dialog-submission {
     width: 60vw;
@@ -14,53 +15,6 @@
     background:transparent;
 }
 </style>
-<div class="modal fade" id="notice${id}" data-backdrop="static" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-submission" role="document">
-        <div class="modal-content sm-modal">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="MDI script"></i> Submission Detail</h5>
-            </div>
-            <div class="modal-body">
-                <table class="table table-reflow">
-                    <thead>
-                        <tr>
-                            <th scope="col">Status</th>
-                            <th scope="col">Time</th>
-                            <th scope="col">Memory</th>
-                            <th scope="col">Length</th>
-                            <th scope="col">Lang</th>
-                            <th scope="col">Submitted</th>
-                            <th scope="col">RemoteRunId</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="wemd-green-text">Accepted</td>
-                            <td>123ms</td>
-                            <td>456kb</td>
-                            <td>1245</td>
-                            <td>GNU G++11 5.1.0</td>
-                            <td>2018-12-06 18:45:12</td>
-                            <td>46677971</td>
-                        </tr>
-                    </tbody>
-                </table>
-<pre>
-#include<bits/stdc++.h>
-
-using namespace std;
-
-int main(){
-    return 0;
-}
-</pre>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-            </div>
-        </div>
-    </div>
-</div>
 <script>
     var fetchingSubmission=false;
     function fetchSubmissionDetail(sid){
@@ -107,8 +61,7 @@ int main(){
                                             </tr>
                                         </tbody>
                                     </table>
-<pre>
-${ret.data.solution}
+<pre class="${ret.data.lang}" style="padding:1rem;border-radius:4px;margin-bottom:0;margin-top:1rem;">
 </pre>
                                 </div>
                                 <div class="modal-footer">
@@ -122,6 +75,12 @@ ${ret.data.solution}
                         changeDepth();
                     });
                     $(`#submission${id}`).modal('toggle');
+                    if(ret.data.solution!==null) {
+                        $(`#submission${id} pre`).text(ret.data.solution);
+                        hljs.highlightBlock(document.querySelector(`#submission${id} pre`));
+                    }else{
+                        $(`#submission${id} pre`).remove();
+                    }
                 } else {
                     alert(ret.desc);
                 }

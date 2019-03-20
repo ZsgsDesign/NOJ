@@ -18,7 +18,7 @@
         "laravel/tinker": "^1.0",
         "mews/purifier": "^2.1",
         "npm-asset/clipboard": "^2.0",
-        "npm-asset/highlight.js": "^9.15",
+        "npm-asset/highlightjs": "^9.12",
         "npm-asset/jquery": "^3.3",
         "npm-asset/mathjax": "^2.7",
         "oomphinc/composer-installers-extender": "^1.1",
@@ -37,7 +37,8 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "secure-http": false
     },
     "extra": {
         "laravel": {

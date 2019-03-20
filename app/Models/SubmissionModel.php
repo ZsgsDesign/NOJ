@@ -57,7 +57,12 @@ class SubmissionModel extends Model
 
     public function getJudgeStatus($sid, $uid)
     {
-        $status=DB::table($this->tableName)->where(['sid'=>$sid,'uid'=>$uid])->first();
+        $status=DB::table($this->tableName)->where(['sid'=>$sid])->first();
+        if($uid!=$status["uid"]){
+            $status["solution"]=null;
+        }
+        $compilerModel=new CompilerModel();
+        $status["lang"]=$compilerModel->detail($status["coid"])["lang"];
         return $status;
     }
 
