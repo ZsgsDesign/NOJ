@@ -196,6 +196,10 @@ class Judge extends Core
                     } else {
                         $sub['memory']=0;
                         $sub['time']=0;
+                        if ($sub['verdict'] == 'Compile Error') {
+                            preg_match('/<h2>结果 <small>各个测试点的详细结果<\/small><\/h2>\s*<pre>([\s\S]*?)<\/pre>/', $res->body, $match);
+                            $sub['compile_info'] = html_entity_decode($match[1], ENT_QUOTES);
+                        }
                     }
 
                     $ret[$row['sid']]=[
