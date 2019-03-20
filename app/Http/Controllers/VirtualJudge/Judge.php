@@ -214,6 +214,14 @@ class Judge extends Core
                 }
                 $status=$poj[$row['remote_id']];
                 $sub['verdict']=$poj_v[$status['verdict']];
+                if ($sub['verdict'] == 'Compile Error') {
+                    try {
+                        $res = Requests::get('http://poj.org/showcompileinfo?solution_id='.$row['remote_id']);
+                        preg_match('/<pre>([\s\S]*)<\/pre>/', $res->body, $match);
+                        $sub['compile_info'] = html_entity_decode($match[1], ENT_QUOTES);
+                    }
+                    catch(Exception $e) {}
+                }
                 $sub["score"]=$sub['verdict']=="Accepted" ? 1 : 0;
                 $sub['time']=$status['time'];
                 $sub['memory']=$status['memory'];
