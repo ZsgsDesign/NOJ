@@ -476,7 +476,7 @@ class Judge extends Core
         }
 
         $ch=curl_init();
-        $url="http://codeforces.com/api/user.status?handle=codemaster4&from=1&count={$num}";
+        $url="http://codeforces.com/api/user.status?handle=codemaster5&from=1&count={$num}";
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response=curl_exec($ch);
