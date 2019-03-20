@@ -65,7 +65,8 @@
 </pre>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-info" onclick="downloadCode(${sid})">Download Code</button>
                                 </div>
                             </div>
                         </div>
@@ -88,6 +89,35 @@
             }, error: function(xhr, type) {
                 console.log('Ajax error while posting to submitHistory!');
                 fetchingSubmission=false;
+            }
+        });
+    }
+
+    var downloadingCode=false;
+
+    function downloadCode(sid){
+        if(downloadingCode) return;
+        downloadingCode=true;
+        $.ajax({
+            type: 'POST',
+            url: '/ajax/downloadCode',
+            data: {
+                sid: sid,
+            },
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }, success: function(ret) {
+                console.log(ret);
+                if(ret.ret==200){
+                    // lalala
+                } else {
+                    alert(ret.desc);
+                }
+                downloadingCode=false;
+            }, error: function(xhr, type) {
+                console.log('Ajax error while posting to downloadCode!');
+                downloadingCode=false;
             }
         });
     }

@@ -66,7 +66,7 @@ class SubmissionModel extends Model
         return $status;
     }
 
-    public function downloadCode($cid, $uid)
+    public function downloadCode($sid, $uid)
     {
         $status=DB::table($this->tableName)->where(['sid'=>$sid,'uid'=>$uid])->first();
         if($status){
