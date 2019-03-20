@@ -530,6 +530,38 @@ class ContestModel extends Model
         return $ret;
     }
 
+    public function getRejudgeQueue($cid)
+    {
+        $problemModel=new ProblemModel();
+        $submissionModel=new SubmissionModel();
+        $compilerModel=new CompilerModel();
+
+        $tempQueue=DB::table("submission")->where([
+            "cid"=>$cid
+        ])->whereIn('verdict', [
+            'Runtime Error',
+            'Wrong Answer',
+            'Time Limit Exceed',
+            'Real Time Limit Exceed',
+            'Memory Limit Exceed',
+            'Presentation Error',
+            'Output Limit Exceeded'
+        ])->get()->all();
+
+        foreach($tempQueue as &$t){
+            $lang=$compilerModel->detail($t["coid"]);
+            $probBasic=$problemModel->basic($t["pid"]);
+            $t["oj"]=$problemModel->ocode($t["pid"]);
+            $t["lang"]=$lang['lcode'];
+            $t["cid"]=$probBasic["contest_id"];
+            $t["iid"]=$probBasic["index_id"];
+            $t["pcode"]=$probBasic["pcode"];
+            $t["contest"]=$cid;
+        }
+
+        return $tempQueue;
+    }
+
     public function getClarificationList($cid)
     {
         return DB::table("contest_clarification")->where([

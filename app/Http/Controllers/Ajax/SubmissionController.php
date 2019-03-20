@@ -29,7 +29,7 @@ class SubmissionController extends Controller
     {
         $all_data=$request->all();
         $submission=new SubmissionModel();
-        $status=$submission->getJudgeStatus($all_data["sid"], Auth::check()?Auth::user()->id:null);
+        $status=$submission->getJudgeStatus($all_data["sid"], Auth::check() ? Auth::user()->id : null);
         return ResponseModel::success(200, null, $status);
     }
 }

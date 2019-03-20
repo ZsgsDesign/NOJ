@@ -9,6 +9,7 @@ use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Jobs\ProcessSubmission;
 use Auth;
 
 class ContestController extends Controller
@@ -49,5 +50,26 @@ class ContestController extends Controller
                 "ccid" => $contestModel->requestClarification($all_data["cid"], $all_data["title"], $all_data["content"], Auth::user()->id)
             ]);
         }
+    }
+
+    public function rejudge(Request $request)
+    {
+        $request->validate([
+            'cid' => 'required|integer'
+        ]);
+
+        $all_data=$request->all();
+        if(Auth::user()->id!=1){
+            return ResponseModel::err(2001);
+        }
+
+        $contestModel=new ContestModel();
+        $rejudgeQueue=$contestModel->getRejudgeQueue($all_data["cid"]);
+
+        foreach($rejudgeQueue as $r){
+            dispatch(new ProcessSubmission($r))->onQueue($r["oj"]);
+        }
+
+        return ResponseModel::success(200);
     }
 }
