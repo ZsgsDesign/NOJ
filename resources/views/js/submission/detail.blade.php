@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-info" onclick="downloadCode(${sid})">Download Code</button>
+                                    <button type="button" class="btn btn-info" onclick="downloadCode(${sid},'${id}')">Download Code</button>
                                 </div>
                             </div>
                         </div>
@@ -95,30 +95,22 @@
 
     var downloadingCode=false;
 
-    function downloadCode(sid){
+    function downloadCode(sid, timestamp){
         if(downloadingCode) return;
         downloadingCode=true;
-        $.ajax({
-            type: 'POST',
-            url: '/ajax/downloadCode',
-            data: {
-                sid: sid,
-            },
-            dataType: 'json',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }, success: function(ret) {
-                console.log(ret);
-                if(ret.ret==200){
-                    // lalala
-                } else {
-                    alert(ret.desc);
-                }
-                downloadingCode=false;
-            }, error: function(xhr, type) {
-                console.log('Ajax error while posting to downloadCode!');
-                downloadingCode=false;
-            }
-        });
+        var form=$("<form>");
+        form.attr("style","display:none");
+        form.attr("target","");
+        form.attr("method","get");
+        form.attr("action",`/ajax/downloadCode?sid=${sid}`);
+        var input1=$("<input>");
+        input1.attr("type","hidden");
+        input1.attr("name","sid");
+        input1.attr("value",sid);
+        $("body").append(form);
+        form.append(input1);
+        form.submit();
+        $(form).remove();
+        downloadingCode=false;
     }
 </script>
