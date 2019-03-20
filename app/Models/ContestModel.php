@@ -546,7 +546,7 @@ class ContestModel extends Model
             'Memory Limit Exceed',
             'Presentation Error',
             'Output Limit Exceeded'
-        ])->get()->all();
+        ])->limit(50)->get()->all();
 
         foreach($tempQueue as &$t){
             $lang=$compilerModel->detail($t["coid"]);
