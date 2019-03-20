@@ -135,7 +135,7 @@ class Judge extends Core
                 }
                 if (empty($cf)) {
 
-                    $this->MODEL->updateSubmission($row['sid'], ['verdict'=>"Submission Error"]);
+                    // $this->MODEL->updateSubmission($row['sid'], ['verdict'=>"Submission Error"]);
 
                 } else {
                     if (isset($codeforces_v[$cf[2]])) {
