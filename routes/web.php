@@ -47,6 +47,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('problemExists', 'ProblemController@problemExists')->middleware('auth');
     Route::post('arrangeContest', 'GroupController@arrangeContest')->middleware('auth');
     Route::post('joinGroup', 'GroupController@joinGroup')->middleware('auth');
+    Route::post('downloadCode', 'ProblemController@downloadCode')->middleware('auth');
 
     Route::group(['prefix' => 'group'], function () {
         Route::post('changeNickName', 'GroupController@changeNickName')->middleware('auth');

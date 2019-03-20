@@ -66,6 +66,18 @@ class SubmissionModel extends Model
         return $status;
     }
 
+    public function downloadCode($cid, $uid)
+    {
+        $status=DB::table($this->tableName)->where(['sid'=>$sid,'uid'=>$uid])->first();
+        if($status){
+            return [];
+        }
+        return [
+            "content"=>$status["solution"],
+            "name"=>$status["submission_date"].".code"
+        ];
+    }
+
     public function getProblemStatus($pid, $uid, $cid=null)
     {
         if ($cid) {

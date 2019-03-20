@@ -93,6 +93,26 @@ class ProblemController extends Controller
         }
     }
     /**
+     * The Ajax Problem Solution Submit.
+     *
+     * @param Request $request web request
+     *
+     * @return Response
+     */
+    public function downloadCode(Request $request)
+    {
+        $all_data=$request->all();
+        $submissionModel=new SubmissionModel();
+        $sid=$all_data["sid"];
+        $downloadFile=$submissionModel->downloadCode($sid, Auth::user()->id);
+        if(empty($downloadFile)) {
+            return ResponseModel::err(2001);
+        }
+        return response()->streamDownload(function () {
+            echo $downloadFile["content"];
+        }, $downloadFile["name"]);
+    }
+    /**
      * The Ajax Problem Judge.
      *
      * @param Request $request web request
