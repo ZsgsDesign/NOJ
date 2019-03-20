@@ -143,11 +143,15 @@ class Judge extends Core
                         $sub['verdict']=$codeforces_v[$cf[2]];
                         if ($sub['verdict'] == 'Compile Error') {
                             if (!isset($cfCSRF)) {
-                                $res = $curl->grab_page('http://codeforces.com', 'codeforces');
-                                preg_match('/<meta name="X-Csrf-Token" content="([0-9a-z]*)"/', $res, $match);
-                                $cfCSRF = $match[1];
+                                $cfCSRF=[];
                             }
-                            $res = $curl->post_data('http://codeforces.com/data/judgeProtocol', ['submissionId'=>$row['remote_id'], 'csrf_token'=>$cfCSRF], 'codeforces', true, false, false);
+                            $handle = $judger->detail($row['jid'])['handle'];
+                            if (!isset($cfCSRF[$handle])) {
+                                $res = $curl->grab_page('http://codeforces.com', 'codeforces', [], $handle);
+                                preg_match('/<meta name="X-Csrf-Token" content="([0-9a-z]*)"/', $res, $match);
+                                $cfCSRF[$handle] = $match[1];
+                            }
+                            $res = $curl->post_data('http://codeforces.com/data/judgeProtocol', ['submissionId'=>$row['remote_id'], 'csrf_token'=>$cfCSRF[$handle]], 'codeforces', true, false, false, false, [], $handle);
                             $sub['compile_info'] = json_decode($res);
                         }
                         $sub["score"]=$sub['verdict']=="Accepted" ? 1 : 0;
