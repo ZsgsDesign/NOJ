@@ -476,7 +476,7 @@ class Judge extends Core
 
         $judger=new JudgerModel();
         $judger_list=$judger->list(2);
-        $judgerName = array_rand($judger_list)['handle'];
+        $judgerName = $judger_list[array_rand($judger_list)]['handle'];
 
         $ch=curl_init();
         $url="http://codeforces.com/api/user.status?handle={$judgerName}&from=1&count={$num}";
