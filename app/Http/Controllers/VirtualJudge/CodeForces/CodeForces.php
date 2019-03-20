@@ -12,34 +12,36 @@ class CodeForces extends Curl
 {
     protected $sub;
     public $post_data=[];
+    protected $selectedJudger;
 
     public function __construct(& $sub, $all_data)
     {
         $this->sub=& $sub;
         $this->post_data=$all_data;
+        $judger=new JudgerModel();
+        $judger_list=$judger->list(2);
+        $this->selectedJudger=array_rand($judger_list);
     }
 
     private function codeForcesLogin()
     {
-        $response=$this->grab_page('http://codeforces.com', 'codeforces');
+        $response=$this->grab_page('http://codeforces.com', 'codeforces', [], $this->selectedJudger["handle"]);
         if (!(strpos($response, 'Logout')!==false)) {
-            $response=$this->grab_page('http://codeforces.com/enter', 'codeforces');
+            $response=$this->grab_page('http://codeforces.com/enter', 'codeforces', [], $this->selectedJudger["handle"]);
 
             $exploded=explode("name='csrf_token' value='", $response);
             $token=explode("'/>", $exploded[2])[0];
 
-            $judger=new JudgerModel();
-            $judger_list=$judger->list(2);
             $params=[
                 'csrf_token' => $token,
                 'action' => 'enter',
                 'ftaa' => '',
                 'bfaa' => '',
-                'handleOrEmail' => $judger_list[0]["handle"], //I wanna kill for handleOrEmail
-                'password' => $judger_list[0]["password"],
+                'handleOrEmail' => $this->selectedJudger["handle"], //I wanna kill for handleOrEmail
+                'password' => $this->selectedJudger["password"],
                 'remember' => true,
             ];
-            $this->login('http://codeforces.com/enter', http_build_query($params), 'codeforces');
+            $this->login('http://codeforces.com/enter', http_build_query($params), 'codeforces', false, $this->selectedJudger["handle"]);
         }
     }
 
@@ -63,7 +65,7 @@ class CodeForces extends Curl
         $source=($space.chr(10).$this->post_data["solution"]);
 
 
-        $response=$this->grab_page("codeforces.com/contest/{$this->post_data['cid']}/submit", "codeforces");
+        $response=$this->grab_page("codeforces.com/contest/{$this->post_data['cid']}/submit", "codeforces", [], $this->selectedJudger["handle"]);
 
         $exploded=explode("name='csrf_token' value='", $response);
         $token=explode("'/>", $exploded[2])[0];
@@ -79,7 +81,8 @@ class CodeForces extends Curl
             'tabSize' => 4,
             'sourceFile' => '',
         ];
-        $response=$this->post_data("codeforces.com/contest/{$this->post_data['cid']}/submit?csrf_token=".$token, http_build_query($params), "codeforces", true);
+        $response=$this->post_data("codeforces.com/contest/{$this->post_data['cid']}/submit?csrf_token=".$token, http_build_query($params), "codeforces", true, true, true, false, [], $this->selectedJudger["handle"]);
+        $this->sub["jid"]=$this->selectedJudger["jid"];
         if (substr_count($response, 'My Submissions')!=2) {
             // Forbidden?
             $exploded=explode('<span class="error for__source">', $response);
