@@ -55,9 +55,10 @@ class PTA extends CrawlerBase
             $this->con=$con;
             $this->imgi=1;
             $problemModel=new ProblemModel();
-            $res=Requests::post("https://pintia.cn/api/problem-sets/$con/exams", [
+            $res=Requests::get("https://pintia.cn/api/problem-sets/$con/exams", [
+                "Accept"=>"application/json;charset=UTF-8",
                 "Content-Type"=>"application/json"
-            ], "{}");
+            ]);
 
             if (strpos($res->body, 'PROBLEM_SET_NOT_FOUND')!==false) {
                 header('HTTP/1.1 404 Not Found');
@@ -84,6 +85,7 @@ class PTA extends CrawlerBase
             $probLists=json_decode(Requests::get(
                 "https://pintia.cn/api/problem-sets/$con/problems?type=PROGRAMMING&exam_id=0",
                 [
+                    "Accept"=>"application/json;charset=UTF-8",
                     "Content-Type"=>"application/json"
                 ]
             )->body, true)["problemSetProblems"];
@@ -93,8 +95,9 @@ class PTA extends CrawlerBase
 
             foreach ($probLists as $prob) {
                 $probDetails=json_decode(Requests::get(
-                    "https://pintia.cn/api/problem-sets/$con/problems/{$prob["id"]}?exam_id=0",
+                    "https://pintia.cn/api/problem-sets/$con/problems/{$prob["id"]}",
                     [
+                        "Accept"=>"application/json;charset=UTF-8",
                         "Content-Type"=>"application/json"
                     ]
                 )->body, true)["problemSetProblem"];

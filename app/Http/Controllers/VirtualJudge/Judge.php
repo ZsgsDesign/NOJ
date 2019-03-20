@@ -214,6 +214,14 @@ class Judge extends Core
                 }
                 $status=$poj[$row['remote_id']];
                 $sub['verdict']=$poj_v[$status['verdict']];
+                if ($sub['verdict'] == 'Compile Error') {
+                    try {
+                        $res = Requests::get('http://poj.org/showcompileinfo?solution_id='.$row['remote_id']);
+                        preg_match('/<pre>([\s\S]*)<\/pre>/', $res->body, $match);
+                        $sub['compile_info'] = html_entity_decode($match[1], ENT_QUOTES);
+                    }
+                    catch(Exception $e) {}
+                }
                 $sub["score"]=$sub['verdict']=="Accepted" ? 1 : 0;
                 $sub['time']=$status['time'];
                 $sub['memory']=$status['memory'];
@@ -231,6 +239,10 @@ class Judge extends Core
                     $status=$match[1];
                     if (!array_key_exists($status, $vijos_v)) {
                         continue;
+                    }
+                    if ($match[1] == 'Compile Error') {
+                        preg_match('/<pre class="compiler-text">([\s\S]*?)<\/pre>/', $res->body, $match);
+                        $sub['compile_info'] = html_entity_decode($match[1], ENT_QUOTES);
                     }
                     $sub['verdict']=$vijos_v[$status];
                     preg_match('/<dt>分数<\/dt>\s*<dd>(\d+)<\/dd>/', $res->body, $match);
@@ -273,13 +285,15 @@ class Judge extends Core
             } elseif ($row['oid']==6) {
                 try {
                     $sub=[];
-                    $remoteId=explode('|', $row['remote_id']);
-                    $response=$curl->grab_page("https://pintia.cn/api/problem-sets/$remoteId[0]/submissions/".$remoteId[1], 'pta');
+                    $response=$curl->grab_page("https://pintia.cn/api/submissions/".$row['remote_id'], 'pta', ['Accept: application/json;charset=UTF-8']);
                     $data=json_decode($response, true);
                     if (!isset($pta_v[$data['submission']['status']])) {
                         continue;
                     }
                     $sub['verdict']=$pta_v[$data['submission']['status']];
+                    if ($data['submission']['status'] == 'COMPILE_ERROR') {
+                        $sub['compile_info'] = $data['submission']['judgeResponseContents'][0]['programmingJudgeResponseContent']['compilationResult']['log'];
+                    }
                     $isOI=$row['cid'] && $contestModel->rule($row['cid'])==2;
                     $sub['score']=$data['submission']['score'];
                     if (!$isOI) {
