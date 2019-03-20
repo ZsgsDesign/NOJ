@@ -133,8 +133,8 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
     - [X] Status List
     - [ ] Status Filter
     - [ ] Status Details
-        - [ ] Syntax Highlight
-        - [ ] Verdict
+        - [X] Syntax Highlight
+        - [X] Verdict
         - [ ] Code Download
         - [ ] Code Share
 - [ ] Contest System
