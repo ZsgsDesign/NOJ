@@ -108,13 +108,7 @@ int main(){
                                         </tbody>
                                     </table>
 <pre>
-#include<bits/stdc++.h>
-
-using namespace std;
-
-int main(){
-    return 0;
-}
+${ret.data.solution}
 </pre>
                                 </div>
                                 <div class="modal-footer">
