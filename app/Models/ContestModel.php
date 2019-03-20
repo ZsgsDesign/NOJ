@@ -539,14 +539,14 @@ class ContestModel extends Model
         $tempQueue=DB::table("submission")->where([
             "cid"=>$cid
         ])->whereIn('verdict', [
-            // 'Runtime Error',
-            // 'Wrong Answer',
-            // 'Time Limit Exceed',
-            // 'Real Time Limit Exceed',
-            // 'Memory Limit Exceed',
-            // 'Presentation Error',
-            // 'Output Limit Exceeded'
-            'Submission Error'
+            'Runtime Error',
+            'Wrong Answer',
+            'Time Limit Exceed',
+            'Real Time Limit Exceed',
+            'Memory Limit Exceed',
+            'Presentation Error',
+            'Output Limit Exceeded'
+            // 'Submission Error'
         ])->get()->all();
 
         foreach($tempQueue as &$t){
