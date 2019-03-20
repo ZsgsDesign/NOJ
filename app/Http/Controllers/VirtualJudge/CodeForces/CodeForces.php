@@ -84,6 +84,7 @@ class CodeForces extends Curl
         $response=$this->post_data("codeforces.com/contest/{$this->post_data['cid']}/submit?csrf_token=".$token, http_build_query($params), "codeforces", true, true, true, false, [], $this->selectedJudger["handle"]);
         $this->sub["jid"]=$this->selectedJudger["jid"];
         if (substr_count($response, 'My Submissions')!=2) {
+            file_put_contents(base_path('storage/logs/'.time().'.html'),$response);
             // Forbidden?
             $exploded=explode('<span class="error for__source">', $response);
             if(!isset($exploded[1])){
