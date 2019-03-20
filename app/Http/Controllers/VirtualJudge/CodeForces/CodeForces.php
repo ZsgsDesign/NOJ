@@ -89,6 +89,7 @@ class CodeForces extends Curl
             $warning = str_replace('Press button to submit the solution.', '', $match[1]);
             $this->sub['compile_info']=trim($warning);
         } elseif (substr_count($response, 'My Submissions')!=2) {
+            file_put_contents(base_path('storage/logs/'.time().'.html'),$response);
             // Forbidden?
             $exploded=explode('<span class="error for__source">', $response);
             if(!isset($exploded[1])){
