@@ -34,7 +34,7 @@
                 if(ret.ret==200){
                     var id = new Date().getTime();
                     $('body').append(`
-                    <div class="modal fade" id="submission${id}" data-backdrop="static" tabindex="-1" role="dialog">
+                    <div class="modal fade" id="submission${id}" tabindex="-1" role="dialog">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-submission" role="document">
                             <div class="modal-content sm-modal">
                                 <div class="modal-header">
