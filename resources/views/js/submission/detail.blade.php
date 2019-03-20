@@ -66,7 +66,8 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-info" onclick="downloadCode(${sid},'${id}')">Download Code</button>
+                                    <button type="button" class="btn btn-info d-none" onclick="downloadCode(${sid},'${id}')">Download Code</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
                                 </div>
                             </div>
                         </div>
@@ -78,6 +79,8 @@
                     $(`#submission${id}`).modal('toggle');
                     if(ret.data.solution!==null) {
                         $(`#submission${id} pre`).text(ret.data.solution);
+                        $(`#submission${id} .modal-footer button:nth-of-type(2)`).removeClass("d-none");
+                        $(`#submission${id} .modal-footer button:nth-of-type(3)`).addClass("d-none");
                         hljs.highlightBlock(document.querySelector(`#submission${id} pre`));
                     }else{
                         $(`#submission${id} pre`).remove();
