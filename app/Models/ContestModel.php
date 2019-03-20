@@ -135,11 +135,12 @@ class ContestModel extends Model
 
     public function list()
     {
-        $contest_list=DB::table($this->tableName)->where([
+        $paginator=DB::table($this->tableName)->where([
             "public"=>1,
             "audit_status"=>1
-        ])->orderBy('begin_time', 'desc')->get()->all();
+        ])->orderBy('begin_time', 'desc')->paginate(10);
 
+        $contest_list = $paginator->all();
         foreach ($contest_list as &$c) {
             $c["rule_parsed"]=$this->rule[$c["rule"]];
             $c["date_parsed"]=[
@@ -148,7 +149,10 @@ class ContestModel extends Model
             ];
             $c["length"]=$this->calcLength($c["begin_time"], $c["end_time"]);
         }
-        return $contest_list;
+        return [
+            'contents' => $contest_list,
+            'paginator' => $paginator
+        ];
     }
 
     public function featured()
@@ -159,13 +163,17 @@ class ContestModel extends Model
             "featured"=>1
         ])->orderBy('begin_time', 'desc')->first();
 
-        $featured["rule_parsed"]=$this->rule[$featured["rule"]];
-        $featured["date_parsed"]=[
-            "date"=>date_format(date_create($featured["begin_time"]), 'j'),
-            "month_year"=>date_format(date_create($featured["begin_time"]), 'M, Y'),
-        ];
-        $featured["length"]=$this->calcLength($featured["begin_time"], $featured["end_time"]);
-        return $featured;
+        if(!empty($featured)){
+            $featured["rule_parsed"]=$this->rule[$featured["rule"]];
+            $featured["date_parsed"]=[
+                "date"=>date_format(date_create($featured["begin_time"]), 'j'),
+                "month_year"=>date_format(date_create($featured["begin_time"]), 'M, Y'),
+            ];
+            $featured["length"]=$this->calcLength($featured["begin_time"], $featured["end_time"]);
+            return $featured;
+        }else{
+            return null;
+        }
     }
 
     public function remainingTime($cid)
@@ -546,7 +554,7 @@ class ContestModel extends Model
             'Memory Limit Exceed',
             'Presentation Error',
             'Output Limit Exceeded'
-        ])->get()->all();
+        ])->limit(50)->get()->all();
 
         foreach($tempQueue as &$t){
             $lang=$compilerModel->detail($t["coid"]);
