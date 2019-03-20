@@ -163,7 +163,6 @@ class Judge extends Core
                     }
                 }
 
-
                 // if (isset($codeforces_v[$cf[$i][2]])) {
                 //     $sub['verdict']=$codeforces_v[$cf[$i][2]];
                 //     $sub["score"]=$sub['verdict']=="Accepted" ? 1 : 0;
