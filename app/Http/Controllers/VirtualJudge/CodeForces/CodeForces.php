@@ -20,7 +20,7 @@ class CodeForces extends Curl
         $this->post_data=$all_data;
         $judger=new JudgerModel();
         $judger_list=$judger->list(2);
-        $this->selectedJudger=array_rand($judger_list);
+        $this->selectedJudger=$judger_list[array_rand($judger_list)];
     }
 
     private function codeForcesLogin()
