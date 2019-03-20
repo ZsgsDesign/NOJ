@@ -108,7 +108,7 @@ class ProblemController extends Controller
         if(empty($downloadFile)) {
             return ResponseModel::err(2001);
         }
-        return response()->streamDownload(function () {
+        return response()->streamDownload(function () use ($downloadFile) {
             echo $downloadFile["content"];
         }, $downloadFile["name"]);
     }

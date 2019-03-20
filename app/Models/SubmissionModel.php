@@ -69,7 +69,7 @@ class SubmissionModel extends Model
     public function downloadCode($sid, $uid)
     {
         $status=DB::table($this->tableName)->where(['sid'=>$sid,'uid'=>$uid])->first();
-        if($status){
+        if(empty($status)){
             return [];
         }
         return [
