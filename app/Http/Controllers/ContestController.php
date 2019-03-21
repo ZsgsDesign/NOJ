@@ -21,13 +21,14 @@ class ContestController extends Controller
     public function index()
     {
         $contestModel=new ContestModel();
-        $contest_list=$contestModel->list();
+        $return_list=$contestModel->list();
         $featured=$contestModel->featured();
         return view('contest.index', [
             'page_title'=>"Contest",
             'site_title'=>"NOJ",
             'navigation' => "Contest",
-            'contest_list'=>$contest_list,
+            'contest_list'=>$return_list['contents'],
+            'paginator' => $return_list['paginator'],
             'featured'=>$featured
         ]);
     }

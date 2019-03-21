@@ -23,10 +23,10 @@ class ProblemController extends Controller
         $problem=new ProblemModel();
         $filter["oj"]=isset($all_data["oj"]) ? $all_data["oj"] : null;
         $filter["tag"]=isset($all_data["tag"]) ? $all_data["tag"] : null;
-        $prob=$problem->list($filter);
+        $list_return=$problem->list($filter);
         $tags=$problem->tags();
         $ojs=$problem->ojs();
-        if (is_null($prob)) {
+        if (is_null($list_return)) {
             if (isset($all_data["page"]) && $all_data["page"]>1) {
                 return redirect("/problem");
             } else {
@@ -46,8 +46,8 @@ class ProblemController extends Controller
                 'page_title' => "Problem",
                 'site_title' => "NOJ",
                 'navigation' => "Problem",
-                'prob_list' => $prob["data"],
-                'prob_paginate' => $prob["paginate"],
+                'prob_list' => $list_return['problems'],
+                'paginator' => $list_return['paginator'],
                 'tags' => $tags,
                 'ojs' => $ojs,
                 'filter' => $filter
