@@ -16,6 +16,12 @@ class JudgerModel extends Model
         return $judger_list;
     }
 
+    public function detail($jid)
+    {
+        $judger_list=DB::table($this->tableName)->where(["jid"=>$jid])->get()->first();
+        return $judger_list;
+    }
+
     public function server($oid=1)
     {
         $serverList=DB::table("judge_server")->where(["oid"=>$oid, "available"=>1])->get()->all();
