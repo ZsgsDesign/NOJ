@@ -23,14 +23,13 @@ use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Contracts\Broadcasting\Factory as BroadcastFactory;
 
-if (! function_exists('version')) {
+if (!function_exists('version')) {
     function version()
     {
-        $version = new Version(
+        $version=new Version(
             '0.0.0',
             base_path()
         );
         return $version->getVersion();
     }
 }
-
