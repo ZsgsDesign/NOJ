@@ -44,7 +44,7 @@ class ProblemModel extends Model
                     "pid"=>$prob_detail["pid"],
                     "cid"=>$cid,
                 ])->where("submission_date", "<", $frozen_time)->first();
-                $prob_detail["points"]=DB::table("contest_problem")->where(["cid"=>$cid,"pid"=>$prob_detail["pid"]])->select("points")->first()["points"];
+                $prob_detail["points"]=DB::table("contest_problem")->where(["cid"=>$cid, "pid"=>$prob_detail["pid"]])->select("points")->first()["points"];
             } else {
                 $prob_stat=DB::table("submission")->select(
                     DB::raw("count(sid) as submission_count"),
@@ -113,8 +113,8 @@ class ProblemModel extends Model
         if ($filter['tag']) {
             $preQuery=$preQuery->join("problem_tag", "problem.pid", "=", "problem_tag.pid")->where(["tag"=>$filter['tag']]);
         }
-        $paginator = $preQuery->select("problem.pid as pid", "pcode", "title")->paginate(20);
-        $prob_list = $paginator->all();
+        $paginator=$preQuery->select("problem.pid as pid", "pcode", "title")->paginate(20);
+        $prob_list=$paginator->all();
 
         if (empty($prob_list)) {
             return null;

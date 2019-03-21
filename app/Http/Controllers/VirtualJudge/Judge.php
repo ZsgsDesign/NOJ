@@ -140,18 +140,18 @@ class Judge extends Core
                     if (isset($codeforces_v[$cf[2]])) {
                         $sub=[];
                         $sub['verdict']=$codeforces_v[$cf[2]];
-                        if ($sub['verdict'] == 'Compile Error') {
+                        if ($sub['verdict']=='Compile Error') {
                             if (!isset($cfCSRF)) {
                                 $cfCSRF=[];
                             }
-                            $handle = $judger->detail($row['jid'])['handle'];
+                            $handle=$judger->detail($row['jid'])['handle'];
                             if (!isset($cfCSRF[$handle])) {
-                                $res = $curl->grab_page('http://codeforces.com', 'codeforces', [], $handle);
+                                $res=$curl->grab_page('http://codeforces.com', 'codeforces', [], $handle);
                                 preg_match('/<meta name="X-Csrf-Token" content="([0-9a-z]*)"/', $res, $match);
-                                $cfCSRF[$handle] = $match[1];
+                                $cfCSRF[$handle]=$match[1];
                             }
-                            $res = $curl->post_data('http://codeforces.com/data/judgeProtocol', ['submissionId'=>$row['remote_id'], 'csrf_token'=>$cfCSRF[$handle]], 'codeforces', true, false, false, false, [], $handle);
-                            $sub['compile_info'] = json_decode($res);
+                            $res=$curl->post_data('http://codeforces.com/data/judgeProtocol', ['submissionId'=>$row['remote_id'], 'csrf_token'=>$cfCSRF[$handle]], 'codeforces', true, false, false, false, [], $handle);
+                            $sub['compile_info']=json_decode($res);
                         }
                         $sub["score"]=$sub['verdict']=="Accepted" ? 1 : 0;
                         $sub['time']=$cf[0];
@@ -206,9 +206,9 @@ class Judge extends Core
                     } else {
                         $sub['memory']=0;
                         $sub['time']=0;
-                        if ($sub['verdict'] == 'Compile Error') {
+                        if ($sub['verdict']=='Compile Error') {
                             preg_match('/<h2>结果 <small>各个测试点的详细结果<\/small><\/h2>\s*<pre>([\s\S]*?)<\/pre>/', $res->body, $match);
-                            $sub['compile_info'] = html_entity_decode($match[1], ENT_QUOTES);
+                            $sub['compile_info']=html_entity_decode($match[1], ENT_QUOTES);
                         }
                     }
 
@@ -253,9 +253,9 @@ class Judge extends Core
                     if (!array_key_exists($status, $vijos_v)) {
                         continue;
                     }
-                    if ($match[1] == 'Compile Error') {
+                    if ($match[1]=='Compile Error') {
                         preg_match('/<pre class="compiler-text">([\s\S]*?)<\/pre>/', $res->body, $match);
-                        $sub['compile_info'] = html_entity_decode($match[1], ENT_QUOTES);
+                        $sub['compile_info']=html_entity_decode($match[1], ENT_QUOTES);
                     }
                     $sub['verdict']=$vijos_v[$status];
                     preg_match('/<dt>分数<\/dt>\s*<dd>(\d+)<\/dd>/', $res->body, $match);
@@ -304,8 +304,8 @@ class Judge extends Core
                         continue;
                     }
                     $sub['verdict']=$pta_v[$data['submission']['status']];
-                    if ($data['submission']['status'] == 'COMPILE_ERROR') {
-                        $sub['compile_info'] = $data['submission']['judgeResponseContents'][0]['programmingJudgeResponseContent']['compilationResult']['log'];
+                    if ($data['submission']['status']=='COMPILE_ERROR') {
+                        $sub['compile_info']=$data['submission']['judgeResponseContents'][0]['programmingJudgeResponseContent']['compilationResult']['log'];
                     }
                     $isOI=$row['cid'] && $contestModel->rule($row['cid'])==2;
                     $sub['score']=$data['submission']['score'];
@@ -477,7 +477,7 @@ class Judge extends Core
 
         $judger=new JudgerModel();
         $judger_list=$judger->list(2);
-        $judgerName = $judger_list[array_rand($judger_list)]['handle'];
+        $judgerName=$judger_list[array_rand($judger_list)]['handle'];
 
         $ch=curl_init();
         $url="http://codeforces.com/api/user.status?handle={$judgerName}&from=1&count={$num}";

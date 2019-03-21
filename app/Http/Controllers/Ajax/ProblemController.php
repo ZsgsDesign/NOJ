@@ -105,10 +105,10 @@ class ProblemController extends Controller
         $submissionModel=new SubmissionModel();
         $sid=$all_data["sid"];
         $downloadFile=$submissionModel->downloadCode($sid, Auth::user()->id);
-        if(empty($downloadFile)) {
+        if (empty($downloadFile)) {
             return ResponseModel::err(2001);
         }
-        return response()->streamDownload(function () use ($downloadFile) {
+        return response()->streamDownload(function() use ($downloadFile) {
             echo $downloadFile["content"];
         }, $downloadFile["name"]);
     }
