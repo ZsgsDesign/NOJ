@@ -109,17 +109,9 @@
                     </tbody>
                 </table>
             </paper-card>
-            <nav class="animated fadeInUp">
-                <ul class="pagination justify-content-end">
-                    <li class="page-item @unless($prob_paginate['previous']) disabled @endif"><a class="page-link cm-navi" href="{{$prob_paginate['previous']}}" tabindex="-1">Previous</a></li>
 
-                    @foreach($prob_paginate['data'] as $pg)
-                        <li class="page-item @if($pg['cur']) disabled @endif"><a class="page-link" href="{{$pg['url']}}">{{$pg['page']}}</a></li>
-                    @endforeach
+            {{$paginator->links()}}
 
-                    <li class="page-item @unless($prob_paginate['next']) disabled @endif"><a class="page-link cm-navi" href="{{$prob_paginate['next']}}">Next</a></li>
-                </ul>
-            </nav>
             @endif
         </div>
         <div class="col-sm-12 col-lg-3">
