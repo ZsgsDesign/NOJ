@@ -218,12 +218,16 @@
                                 <a class="dropdown-item" href="/account/dashboard"><i class="MDI account-circle"></i> Dashboard</a>
                                 <a class="dropdown-item" href="/account/submissions"><i class="MDI airballoon"></i> Submissions</a>
                                 <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> Advanced Settings</a>
+                                -->
                                 @if ("admin"===false)
+                                <!--
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/admin"><i class="MDI view-dashboard"></i> Admin Tools</a>
+                                -->
                                 @endif
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/system/logs"><i class="MDI update"></i> Upgrade Log</a>
+                                <a class="dropdown-item" href="/system/info"><i class="MDI information-outline"></i> System Info</a>
+                                <!--
                                 <a class="dropdown-item" href="/system/bugs"><i class="MDI bug"></i> Report BUG</a>
                                 -->
                                 <div class="dropdown-divider"></div>

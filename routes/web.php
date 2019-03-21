@@ -38,6 +38,20 @@ Route::group(['prefix' => 'contest'], function () {
     Route::get('/{cid}/board/print', 'ContestController@print')->middleware('auth', 'contest_account')->name('contest_print');
 });
 
+Route::group(['prefix' => 'system'], function () {
+    Route::redirect('/', '/system/info', 301);
+    Route::get('/info', 'SystemController@info')->name('system_info');
+});
+
+Route::group(['prefix' => 'tool', 'namespace' => 'Tool'], function () {
+    Route::redirect('/', '/', 301);
+    Route::group(['prefix' => 'pastebin'], function () {
+        Route::get('/', 'PastebinController@index')->middleware('auth')->name('tool_pastebin_index');
+        Route::get('/create', 'PastebinController@create')->middleware('auth')->name('tool_pastebin_create');
+        Route::get('/{tpid}', 'PastebinController@view')->name('tool_pastebin_view');
+    });
+});
+
 Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('submitSolution', 'ProblemController@submitSolution')->middleware('auth', 'throttle:1,0.17');
     Route::post('judgeStatus', 'ProblemController@judgeStatus')->middleware('auth');
