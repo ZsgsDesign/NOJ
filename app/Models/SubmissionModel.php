@@ -265,7 +265,7 @@ class SubmissionModel extends Model
             "aliases" => ["Apex", "apex"],
             "mimetypes" => ["text/x-apex-source", "text/x-apex"]
         ]];
-        foreach($tempLangConfig as $t){
+        foreach ($tempLangConfig as $t) {
             $this->langConfig[$t["id"]]=$t;
         }
     }
@@ -299,7 +299,7 @@ class SubmissionModel extends Model
     public function getJudgeStatus($sid, $uid)
     {
         $status=DB::table($this->tableName)->where(['sid'=>$sid])->first();
-        if($uid!=$status["uid"]){
+        if ($uid!=$status["uid"]) {
             $status["solution"]=null;
         }
         $compilerModel=new CompilerModel();
@@ -310,7 +310,7 @@ class SubmissionModel extends Model
     public function downloadCode($sid, $uid)
     {
         $status=DB::table($this->tableName)->where(['sid'=>$sid,'uid'=>$uid])->first();
-        if(empty($status)){
+        if (empty($status)) {
             return [];
         }
         $lang=DB::table("compiler")->where(['coid'=>$status["coid"]])->first()["lang"];
@@ -370,18 +370,20 @@ class SubmissionModel extends Model
         return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
                                             ->select("sid", "OJ as oid", "remote_id", "cid")
                                             ->where(['verdict'=>'Waiting','OJ'=>$oid])
-                                            ->orderBy("sid","asc")
+                                            ->orderBy("sid", "asc")
                                             ->first();
     }
 
     public function countEarliestWaitingSubmission($oid)
     {
         $early_sid=$this->getEarliestSubmission($oid);
-        if($early_sid==null) return 0;
+        if ($early_sid==null) {
+            return 0;
+        }
         $early_sid=$early_sid["sid"];
         return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
                                             ->where(['OJ'=>$oid])
-                                            ->where("sid",">=",$early_sid)
+                                            ->where("sid", ">=", $early_sid)
                                             ->count();
     }
 
@@ -403,7 +405,9 @@ class SubmissionModel extends Model
 
     public function updateSubmission($sid, $sub)
     {
-        if (isset($sub['verdict'])) $sub["color"]=$this->colorScheme[$sub['verdict']];
+        if (isset($sub['verdict'])) {
+            $sub["color"]=$this->colorScheme[$sub['verdict']];
+        }
         return DB::table($this->tableName)->where(['sid'=>$sid])->update($sub);
     }
 
