@@ -163,7 +163,7 @@ class ContestModel extends Model
             "featured"=>1
         ])->orderBy('begin_time', 'desc')->first();
 
-        if(!empty($featured)){
+        if (!empty($featured)) {
             $featured["rule_parsed"]=$this->rule[$featured["rule"]];
             $featured["date_parsed"]=[
                 "date"=>date_format(date_create($featured["begin_time"]), 'j'),
@@ -171,7 +171,7 @@ class ContestModel extends Model
             ];
             $featured["length"]=$this->calcLength($featured["begin_time"], $featured["end_time"]);
             return $featured;
-        }else{
+        } else {
             return null;
         }
     }
@@ -471,7 +471,7 @@ class ContestModel extends Model
                     "problem_detail" => $prob_detail
                 ];
             }
-            usort($ret, function($a, $b) {
+            usort($ret, function ($a, $b) {
                 if ($a["score"]==$b["score"]) {
                     if ($a["penalty"]==$b["penalty"]) {
                         return 0;
@@ -518,7 +518,7 @@ class ContestModel extends Model
                     "problem_detail" => $prob_detail
                 ];
             }
-            usort($ret, function($a, $b) {
+            usort($ret, function ($a, $b) {
                 if ($a["score"]==$b["score"]) {
                     if ($a["solved"]==$b["solved"]) {
                         return 0;
@@ -556,7 +556,7 @@ class ContestModel extends Model
             'Output Limit Exceeded'
         ])->get()->all();
 
-        foreach($tempQueue as &$t){
+        foreach ($tempQueue as &$t) {
             $lang=$compilerModel->detail($t["coid"]);
             $probBasic=$problemModel->basic($t["pid"]);
             $t["oj"]=$problemModel->ocode($t["pid"]);
@@ -588,8 +588,9 @@ class ContestModel extends Model
             "type"=>0,
             "public"=>1
         ])->whereBetween(
-            'create_time', [
-                date("Y-m-d H:i:s",time()-59),
+            'create_time',
+            [
+                date("Y-m-d H:i:s", time()-59),
                 date("Y-m-d H:i:s")
             ]
         )->first();
@@ -718,7 +719,7 @@ class ContestModel extends Model
                 "users.id",
                 "=",
                 "submission.uid"
-            )->where(function($query) use ($frozen_time) {
+            )->where(function ($query) use ($frozen_time) {
                 $query->where(
                     "submission_date",
                     "<",
@@ -808,7 +809,6 @@ class ContestModel extends Model
             "uid" => $uid,
             "audit" => 1
         ])->first();
-
     }
 
     public function judgeClearance($cid, $uid=0)
@@ -906,7 +906,7 @@ class ContestModel extends Model
 
     public function arrangeContest($gid, $config, $problems)
     {
-        DB::transaction(function() use ($gid, $config, $problems) {
+        DB::transaction(function () use ($gid, $config, $problems) {
             $cid=DB::table($this->tableName)->insertGetId([
                 "gid"=>$gid,
                 "name"=>$config["name"],
