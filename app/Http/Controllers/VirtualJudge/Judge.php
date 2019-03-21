@@ -127,8 +127,8 @@ class Judge extends Core
         foreach ($result as $row) {
             if ($row['oid']==2) {
                 $cf=[];
-                foreach($cfList as $c){
-                    if($c[3]==$row["remote_id"]) {
+                foreach ($cfList as $c) {
+                    if ($c[3]==$row["remote_id"]) {
                         $cf=$c;
                         break;
                     }
@@ -136,7 +136,6 @@ class Judge extends Core
                 if (empty($cf)) {
 
                     // $this->MODEL->updateSubmission($row['sid'], ['verdict'=>"Submission Error"]);
-
                 } else {
                     if (isset($codeforces_v[$cf[2]])) {
                         $sub=[];
@@ -181,7 +180,6 @@ class Judge extends Core
                 //     $this->MODEL->updateSubmission($row['sid'], $sub);
                 // }
                 // $i++;
-
             } elseif ($row['oid']==3) {
                 try {
                     $sub=[];
@@ -230,13 +228,12 @@ class Judge extends Core
                 }
                 $status=$poj[$row['remote_id']];
                 $sub['verdict']=$poj_v[$status['verdict']];
-                if ($sub['verdict'] == 'Compile Error') {
+                if ($sub['verdict']=='Compile Error') {
                     try {
-                        $res = Requests::get('http://poj.org/showcompileinfo?solution_id='.$row['remote_id']);
+                        $res=Requests::get('http://poj.org/showcompileinfo?solution_id='.$row['remote_id']);
                         preg_match('/<pre>([\s\S]*)<\/pre>/', $res->body, $match);
-                        $sub['compile_info'] = html_entity_decode($match[1], ENT_QUOTES);
-                    }
-                    catch(Exception $e) {}
+                        $sub['compile_info']=html_entity_decode($match[1], ENT_QUOTES);
+                    } catch (Exception $e) {}
                 }
                 $sub["score"]=$sub['verdict']=="Accepted" ? 1 : 0;
                 $sub['time']=$status['time'];
