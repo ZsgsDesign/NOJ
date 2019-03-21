@@ -73,7 +73,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
 
 1. NOJ's up-and-running, enjoy!
 
-## Progress
+## Supported Feature
 
 - [X] Basic Home Page
 - [ ] General
