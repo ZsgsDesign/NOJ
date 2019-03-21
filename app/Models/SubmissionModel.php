@@ -309,12 +309,12 @@ class SubmissionModel extends Model
 
     public function downloadCode($sid, $uid)
     {
-        $status=DB::table($this->tableName)->where(['sid'=>$sid,'uid'=>$uid])->first();
+        $status=DB::table($this->tableName)->where(['sid'=>$sid, 'uid'=>$uid])->first();
         if (empty($status)) {
             return [];
         }
         $lang=DB::table("compiler")->where(['coid'=>$status["coid"]])->first()["lang"];
-        $curLang=isset($this->langConfig[$lang])?$this->langConfig[$lang]:$this->langConfig["plaintext"];
+        $curLang=isset($this->langConfig[$lang]) ? $this->langConfig[$lang] : $this->langConfig["plaintext"];
         return [
             "content"=>$status["solution"],
             "name"=>$status["submission_date"].$curLang["extensions"][0],
@@ -369,7 +369,7 @@ class SubmissionModel extends Model
     {
         return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
                                             ->select("sid", "OJ as oid", "remote_id", "cid")
-                                            ->where(['verdict'=>'Waiting','OJ'=>$oid])
+                                            ->where(['verdict'=>'Waiting', 'OJ'=>$oid])
                                             ->orderBy("sid", "asc")
                                             ->first();
     }
@@ -471,7 +471,7 @@ class SubmissionModel extends Model
         )->paginate(50);
 
 
-        $records= $paginator->all();
+        $records=$paginator->all();
         foreach ($records as &$r) {
             $r["submission_date_parsed"]=$this->formatSubmitTime(date('Y-m-d H:i:s', $r["submission_date"]));
             $r["submission_date"]=date('Y-m-d H:i:s', $r["submission_date"]);

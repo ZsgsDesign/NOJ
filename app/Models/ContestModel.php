@@ -140,7 +140,7 @@ class ContestModel extends Model
             "audit_status"=>1
         ])->orderBy('begin_time', 'desc')->paginate(10);
 
-        $contest_list = $paginator->all();
+        $contest_list=$paginator->all();
         foreach ($contest_list as &$c) {
             $c["rule_parsed"]=$this->rule[$c["rule"]];
             $c["date_parsed"]=[
@@ -163,7 +163,7 @@ class ContestModel extends Model
             "featured"=>1
         ])->orderBy('begin_time', 'desc')->first();
 
-        if(!empty($featured)){
+        if (!empty($featured)) {
             $featured["rule_parsed"]=$this->rule[$featured["rule"]];
             $featured["date_parsed"]=[
                 "date"=>date_format(date_create($featured["begin_time"]), 'j'),
@@ -171,7 +171,7 @@ class ContestModel extends Model
             ];
             $featured["length"]=$this->calcLength($featured["begin_time"], $featured["end_time"]);
             return $featured;
-        }else{
+        } else {
             return null;
         }
     }
@@ -270,7 +270,7 @@ class ContestModel extends Model
         $basic_info=DB::table($this->tableName)->where([
             "cid"=>$cid
         ])->select("verified", "custom_icon", "custom_title")->first();
-        return $basic_info["verified"] ? ((is_null($basic_info["custom_icon"])&&is_null($basic_info["custom_title"]))?null:$basic_info) : null;
+        return $basic_info["verified"] ? ((is_null($basic_info["custom_icon"]) && is_null($basic_info["custom_title"])) ?null:$basic_info) : null;
     }
 
 
@@ -556,7 +556,7 @@ class ContestModel extends Model
             'Output Limit Exceeded'
         ])->get()->all();
 
-        foreach($tempQueue as &$t){
+        foreach ($tempQueue as &$t) {
             $lang=$compilerModel->detail($t["coid"]);
             $probBasic=$problemModel->basic($t["pid"]);
             $t["oj"]=$problemModel->ocode($t["pid"]);
@@ -589,7 +589,7 @@ class ContestModel extends Model
             "public"=>1
         ])->whereBetween(
             'create_time', [
-                date("Y-m-d H:i:s",time()-59),
+                date("Y-m-d H:i:s", time()-59),
                 date("Y-m-d H:i:s")
             ]
         )->first();
@@ -779,7 +779,7 @@ class ContestModel extends Model
             ];
         }
 
-        $records= $paginator->all();
+        $records=$paginator->all();
         foreach ($records as &$r) {
             $r["submission_date_parsed"]=$this->formatSubmitTime(date('Y-m-d H:i:s', $r["submission_date"]));
             $r["submission_date"]=date('Y-m-d H:i:s', $r["submission_date"]);
