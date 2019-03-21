@@ -59,14 +59,14 @@ class ContestController extends Controller
         ]);
 
         $all_data=$request->all();
-        if(Auth::user()->id!=1){
+        if (Auth::user()->id!=1) {
             return ResponseModel::err(2001);
         }
 
         $contestModel=new ContestModel();
         $rejudgeQueue=$contestModel->getRejudgeQueue($all_data["cid"]);
 
-        foreach($rejudgeQueue as $r){
+        foreach ($rejudgeQueue as $r) {
             dispatch(new ProcessSubmission($r))->onQueue($r["oj"]);
         }
 

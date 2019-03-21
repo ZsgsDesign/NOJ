@@ -140,7 +140,7 @@ class ContestModel extends Model
             "audit_status"=>1
         ])->orderBy('begin_time', 'desc')->paginate(10);
 
-        $contest_list = $paginator->all();
+        $contest_list=$paginator->all();
         foreach ($contest_list as &$c) {
             $c["rule_parsed"]=$this->rule[$c["rule"]];
             $c["date_parsed"]=[
@@ -270,7 +270,7 @@ class ContestModel extends Model
         $basic_info=DB::table($this->tableName)->where([
             "cid"=>$cid
         ])->select("verified", "custom_icon", "custom_title")->first();
-        return $basic_info["verified"] ? ((is_null($basic_info["custom_icon"])&&is_null($basic_info["custom_title"]))?null:$basic_info) : null;
+        return $basic_info["verified"] ? ((is_null($basic_info["custom_icon"]) && is_null($basic_info["custom_title"])) ?null:$basic_info) : null;
     }
 
 
@@ -588,8 +588,7 @@ class ContestModel extends Model
             "type"=>0,
             "public"=>1
         ])->whereBetween(
-            'create_time',
-            [
+            'create_time', [
                 date("Y-m-d H:i:s", time()-59),
                 date("Y-m-d H:i:s")
             ]
@@ -780,7 +779,7 @@ class ContestModel extends Model
             ];
         }
 
-        $records= $paginator->all();
+        $records=$paginator->all();
         foreach ($records as &$r) {
             $r["submission_date_parsed"]=$this->formatSubmitTime(date('Y-m-d H:i:s', $r["submission_date"]));
             $r["submission_date"]=date('Y-m-d H:i:s', $r["submission_date"]);
