@@ -471,7 +471,7 @@ class ContestModel extends Model
                     "problem_detail" => $prob_detail
                 ];
             }
-            usort($ret, function($a, $b) {
+            usort($ret, function ($a, $b) {
                 if ($a["score"]==$b["score"]) {
                     if ($a["penalty"]==$b["penalty"]) {
                         return 0;
@@ -518,7 +518,7 @@ class ContestModel extends Model
                     "problem_detail" => $prob_detail
                 ];
             }
-            usort($ret, function($a, $b) {
+            usort($ret, function ($a, $b) {
                 if ($a["score"]==$b["score"]) {
                     if ($a["solved"]==$b["solved"]) {
                         return 0;
@@ -718,7 +718,7 @@ class ContestModel extends Model
                 "users.id",
                 "=",
                 "submission.uid"
-            )->where(function($query) use ($frozen_time) {
+            )->where(function ($query) use ($frozen_time) {
                 $query->where(
                     "submission_date",
                     "<",
@@ -808,7 +808,6 @@ class ContestModel extends Model
             "uid" => $uid,
             "audit" => 1
         ])->first();
-
     }
 
     public function judgeClearance($cid, $uid=0)
@@ -906,7 +905,7 @@ class ContestModel extends Model
 
     public function arrangeContest($gid, $config, $problems)
     {
-        DB::transaction(function() use ($gid, $config, $problems) {
+        DB::transaction(function () use ($gid, $config, $problems) {
             $cid=DB::table($this->tableName)->insertGetId([
                 "gid"=>$gid,
                 "name"=>$config["name"],
