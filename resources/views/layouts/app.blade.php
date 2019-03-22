@@ -259,8 +259,43 @@
 
     @yield('addition')
 
-    <footer class="mundb-footer bg-dark text-light d-print-none" style="flex-shrink: 0;flex-grow: 0;">
-        Copyright &copy; NOJ 2018-{{date('Y')}}, all rights reserved.
+    <footer class="d-print-none bg-dark center-on-small-only" style="flex-shrink: 0;flex-grow: 0">
+        <div class="mundb-footer text-light">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <h5 class="cm-footer-title mb-4 mt-3 font-bold">NOJ</h5>
+                        <p>NOJ is an online judge developed by ICPC Team of Nanjing Universify of Posts and Telecommunications.</p>
+                    </div>
+
+                    <hr class="clearfix w-100 d-md-none">
+
+                    <div class="col-md-2 mx-auto">
+                        <h5 class="title mb-4 mt-3 font-bold">Services</h5>
+                        <p class="mb-1"><a href="/status">Judging Queue</a></p>
+                        <p class="mb-1"><a href="/system/info">System Info</a></p>
+                        <p class="mb-1"><a href="#">Rank</a></p>
+                    </div>
+
+                    <hr class="clearfix w-100 d-md-none">
+
+                    <div class="col-md-2 mx-auto">
+                        <h5 class="title mb-4 mt-3 font-bold">Developments</h5>
+                        <p class="mb-1"><a href="https://github.com/ZsgsDesign/NOJ">Open Source</a></p>
+                        <p class="mb-1"><a href="#">API</a></p>
+                    </div>
+
+                    <hr class="clearfix w-100 d-md-none">
+
+                    <div class="col-md-2 mx-auto">
+                        <h5 class="title mb-4 mt-3 font-bold ">Support</h5>
+                        <p class="mb-0"><i class="MDI email"></i> acm@njupt.edu.cn</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mundb-footer mundb-copyright">&copy; 2018-{{date('Y')}}, NOJ.</div>
     </footer>
     <script src="/static/library/jquery/dist/jquery.min.js"></script>
     <script src="/static/js/popper.min.js"></script>
