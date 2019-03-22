@@ -110,7 +110,7 @@
                 </table>
             </paper-card>
 
-            {{$paginator->links()}}
+            {{$paginator->appends($filter)->links()}}
 
             @endif
         </div>

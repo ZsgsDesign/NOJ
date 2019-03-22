@@ -50,7 +50,8 @@ class GroupController extends Controller
                 $i++;
                 $problemSet[]=[
                     "number"=>$i,
-                    "pcode"=>$p
+                    "pcode"=>$p,
+                    "points"=>100
                 ];
             }
         }

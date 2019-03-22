@@ -768,7 +768,7 @@
                                         <td>${ele.time}ms</td>
                                         <td>${ele.memory}k</td>
                                         <td>${ele.language}</td>
-                                        <td class="${ele.color}"><i class="MDI checkbox-blank-circle"></i> ${ele.verdict}</td>
+                                        <td class="${ele.color}" style="cursor:pointer" onclick="fetchSubmissionDetail(${ele.sid})"><i class="MDI checkbox-blank-circle"></i> ${ele.verdict}</td>
                                     </tr>
                                 `);
                             }
