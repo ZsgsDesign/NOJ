@@ -15,15 +15,15 @@ class NOJ
     public $verdictDict=[
         -2 => "Compile Error",
         -1 => "Wrong Answer",
-         0 => "Accepted",
-         1 => "Time Limit Exceed",
-         2 => "Real Time Limit Exceed",
-         3 => "Memory Limit Exceed",
-         4 => "Runtime Error",
-         5 => "System Error",
-         6 => "Pending",
-         7 => "Judging",
-         8 => "Partially Accepted"
+        0 => "Accepted",
+        1 => "Time Limit Exceed",
+        2 => "Real Time Limit Exceed",
+        3 => "Memory Limit Exceed",
+        4 => "Runtime Error",
+        5 => "System Error",
+        6 => "Pending",
+        7 => "Judging",
+        8 => "Partially Accepted"
     ];
 
     public function __construct(& $sub, $all_data)
@@ -36,7 +36,7 @@ class NOJ
     {
         $judgeClient=new JudgeClient($data["token"], $submitURL);
         return $judgeClient->judge($data["solution"], $data["language"], $data["test_case_id"], [
-            'output' => true,
+            'output' => false,
             'max_cpu_time'=>$data['max_cpu_time'],
             'max_memory'=>$data['max_memory']
         ]);
@@ -132,13 +132,22 @@ class NOJ
                 $tempRes=json_decode(explode('Compiler runtime error, info: ', $temp["data"])[1], true);
                 $this->sub['verdict']=$this->verdictDict[$tempRes["result"]];
                 $this->sub['time']=$tempRes["cpu_time"];
-                $this->sub['memory']=$tempRes["memory"];
+                $this->sub['memory']=round($tempRes["memory"] / 1024);
             } else {
-                $this->sub['verdict']="Compile Error";
+                $this->sub['verdict']=$this->verdictDict["-2"];
                 $this->sub['time']=0;
                 $this->sub['memory']=0;
+                $this->sub['compile_info']=$temp["data"];
             }
             return;
+        }
+
+        $this->sub["score"]=count($temp["data"]);
+        foreach ($temp["data"] as $record) {
+            if ($record["result"]) {
+                // well... WA or anyway
+                $this->sub["score"]--;
+            }
         }
 
         foreach ($temp["data"] as $record) {
@@ -146,7 +155,7 @@ class NOJ
                 // well... WA or anyway
                 $this->sub['verdict']=$this->verdictDict[$record["result"]];
                 $this->sub['time']=$record["cpu_time"];
-                $this->sub['memory']=$record["memory"];
+                $this->sub['memory']=round($record["memory"] / 1024);
                 return;
             }
         }
@@ -160,6 +169,6 @@ class NOJ
         $this->sub['verdict']="Accepted";
         $this->sub['score']=1;
         $this->sub['time']=$tempTime;
-        $this->sub['memory']=$tempMemory;
+        $this->sub['memory']=round($tempMemory / 1024);
     }
 }

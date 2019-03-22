@@ -38,9 +38,9 @@ class ProcessSubmission implements ShouldQueue
         new Submit($this->all_data);
     }
 
-    public function failed(Exception $exception)
+    public function failed()
     {
         $submissionModel = new SubmissionModel();
-        $submissionModel->update_submission($this->all_data["sid"], ["verdict"=>"System Error"]);
+        $submissionModel->updateSubmission($this->all_data["sid"], ["verdict"=>"Submission Error"]);
     }
 }

@@ -17,10 +17,13 @@
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
         "mews/purifier": "^2.1",
+        "npm-asset/clipboard": "^2.0",
+        "npm-asset/highlightjs": "^9.12",
         "npm-asset/jquery": "^3.3",
         "npm-asset/mathjax": "^2.7",
         "oomphinc/composer-installers-extender": "^1.1",
-        "rmccue/requests": "^1.7"
+        "rmccue/requests": "^1.7",
+        "sebastian/version": "^2.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
@@ -34,7 +37,8 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "secure-http": false
     },
     "extra": {
         "laravel": {
@@ -58,6 +62,9 @@
         "classmap": [
             "database/seeds",
             "database/factories"
+        ],
+        "files": [
+            "app/Helpers/functions.php"
         ]
     },
     "autoload-dev": {

@@ -8,6 +8,9 @@
         flex-direction: column;
         height: 100vh;
     }
+    footer{
+        display: none;
+    }
     left-side {
         display: flex;
         flex-direction: column;
@@ -398,37 +401,6 @@
         margin-bottom: 0;
     }
 
-    .cm-refreshing{
-        -webkit-transition-property: -webkit-transform;
-        -webkit-transition-duration: 1s;
-        -moz-transition-property: -moz-transform;
-        -moz-transition-duration: 1s;
-        -webkit-animation: cm-rotate 3s linear infinite;
-        -moz-animation: cm-rotate 3s linear infinite;
-        -o-animation: cm-rotate 3s linear infinite;
-        animation: cm-rotate 3s linear infinite;
-    }
-    @-webkit-keyframes cm-rotate{
-        from{-webkit-transform: rotate(0deg)}
-        to{-webkit-transform: rotate(360deg)}
-    }
-    @-moz-keyframes cm-rotate{
-        from{-moz-transform: rotate(0deg)}
-        to{-moz-transform: rotate(359deg)}
-    }
-    @-o-keyframes cm-rotate{
-        from{-o-transform: rotate(0deg)}
-        to{-o-transform: rotate(359deg)}
-    }
-    @keyframes cm-rotate{
-        from{transform: rotate(0deg)}
-        to{transform: rotate(359deg)}
-    }
-
-    .btn-disabled{
-        cursor: auto;
-    }
-
     /*
     .xdsoft_datetimepicker .xdsoft_next,
     .xdsoft_datetimepicker .xdsoft_prev{
@@ -772,7 +744,7 @@
                             </tbody>
                         </table>
                         <div style="text-align: center;">
-                            <button class="btn btn-info" onclick="$('#addProblemModal').modal({backdrop:'static'});changeDepth();"><i class="MDI plus"></i> Add Problem</button>
+                            <button class="btn btn-info" onclick="$('#addProblemModal').modal({backdrop:'static'});"><i class="MDI plus"></i> Add Problem</button>
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -853,15 +825,6 @@
                 helper: "clone"
             });
         }
-
-        function changeDepth(){
-            var interv=0;
-            $(".modal-backdrop").each(function(){
-                $(this).css("z-index",1040+interv);
-                interv+=100;
-            });
-        }
-
 
         $('#problemCode').bind('keypress',function(event){
             if(event.keyCode == "13")

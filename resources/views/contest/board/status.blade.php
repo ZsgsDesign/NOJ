@@ -1,4 +1,6 @@
-@extends('contest.board.app')
+@extends('layouts.app')
+
+@include('contest.board.addition')
 
 @section('template')
 <style>
@@ -112,6 +114,7 @@
             <a href="/contest/{{$cid}}/board/status"><nav-item class="active">Status</nav-item></a>
             <a href="/contest/{{$cid}}/board/clarification"><nav-item>Clarification</nav-item></a>
             <a href="/contest/{{$cid}}/board/print"><nav-item>Print</nav-item></a>
+            @if($clearance>2)<a href="/contest/{{$cid}}/board/admin"><nav-item>Admin</nav-item></a>@endif
         </nav-div>
         @if($rank_frozen)
         <div class="alert alert-info cm-notification" role="alert">
@@ -134,8 +137,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($submission_record as $r)
-                        <tr class="@if($r["uid"]==Auth::user()->id && $basic_info["status_visibility"]>1) cm-me @endif">
+                        @foreach($submission_record["records"] as $r)
+                        <tr class="@if($r["uid"]==Auth::user()->id && $basic_info["status_visibility"]>1) cm-me @endif" style="cursor:pointer" onclick="fetchSubmissionDetail({{$r['sid']}})">
                             <th scope="row">{{$r["sid"]}}</th>
                             <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
                             <td>{{$r["ncode"]}}</td>
@@ -148,6 +151,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{$submission_record["paginator"]->links()}}
             </div>
         </div>
     </paper-card>
@@ -159,4 +163,5 @@
     }, false);
 
 </script>
+@include('js.submission.detail')
 @endsection

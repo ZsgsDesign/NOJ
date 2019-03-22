@@ -12,34 +12,36 @@ class CodeForces extends Curl
 {
     protected $sub;
     public $post_data=[];
+    protected $selectedJudger;
 
     public function __construct(& $sub, $all_data)
     {
         $this->sub=& $sub;
         $this->post_data=$all_data;
+        $judger=new JudgerModel();
+        $judger_list=$judger->list(2);
+        $this->selectedJudger=$judger_list[array_rand($judger_list)];
     }
 
     private function codeForcesLogin()
     {
-        $response=$this->grab_page('http://codeforces.com', 'codeforces');
+        $response=$this->grab_page('http://codeforces.com', 'codeforces', [], $this->selectedJudger["handle"]);
         if (!(strpos($response, 'Logout')!==false)) {
-            $response=$this->grab_page('http://codeforces.com/enter', 'codeforces');
+            $response=$this->grab_page('http://codeforces.com/enter', 'codeforces', [], $this->selectedJudger["handle"]);
 
             $exploded=explode("name='csrf_token' value='", $response);
             $token=explode("'/>", $exploded[2])[0];
 
-            $judger=new JudgerModel();
-            $judger_list=$judger->list(2);
             $params=[
                 'csrf_token' => $token,
                 'action' => 'enter',
                 'ftaa' => '',
                 'bfaa' => '',
-                'handleOrEmail' => $judger_list[0]["handle"], //I wanna kill for handleOrEmail
-                'password' => $judger_list[0]["password"],
+                'handleOrEmail' => $this->selectedJudger["handle"], //I wanna kill for handleOrEmail
+                'password' => $this->selectedJudger["password"],
                 'remember' => true,
             ];
-            $this->login('http://codeforces.com/enter', http_build_query($params), 'codeforces');
+            $this->login('http://codeforces.com/enter', http_build_query($params), 'codeforces', false, $this->selectedJudger["handle"]);
         }
     }
 
@@ -48,7 +50,7 @@ class CodeForces extends Curl
         // $this->sub['language']=substr($this->post_data["lang"], 2, 50);
 
         $submissionModel=new SubmissionModel();
-        $s_num=$submissionModel->count_solution($this->post_data["solution"]);
+        $s_num=$submissionModel->countSolution($this->post_data["solution"]);
         $space='';
         for ($i=0; $i<$s_num; $i++) {
             $space.=' ';
@@ -63,7 +65,7 @@ class CodeForces extends Curl
         $source=($space.chr(10).$this->post_data["solution"]);
 
 
-        $response=$this->grab_page("codeforces.com/contest/{$this->post_data['cid']}/submit", "codeforces");
+        $response=$this->grab_page("codeforces.com/contest/{$this->post_data['cid']}/submit", "codeforces", [], $this->selectedJudger["handle"]);
 
         $exploded=explode("name='csrf_token' value='", $response);
         $token=explode("'/>", $exploded[2])[0];
@@ -79,12 +81,26 @@ class CodeForces extends Curl
             'tabSize' => 4,
             'sourceFile' => '',
         ];
-        $response=$this->post_data("codeforces.com/contest/{$this->post_data['cid']}/submit?csrf_token=".$token, http_build_query($params), "codeforces", true);
-        if (substr_count($response, 'My Submissions')!=2) {
+        $response=$this->post_data("codeforces.com/contest/{$this->post_data['cid']}/submit?csrf_token=".$token, http_build_query($params), "codeforces", true, true, true, false, [], $this->selectedJudger["handle"]);
+        $this->sub["jid"]=$this->selectedJudger["jid"];
+        if (strpos($response, 'alert("Source code hasn\'t submitted because of warning, please read it.");')!==false) {
+            $this->sub['verdict']='Compile Error';
+            preg_match('/<div class="roundbox " style="font-size:1.2rem;margin:0.5em 0;padding:0.5em;text-align:left;background-color:#eca;">[\s\S]*?<div class="roundbox-rb">&nbsp;<\/div>([\s\S]*?)<div/', $response, $match);
+            $warning=str_replace('Press button to submit the solution.', '', $match[1]);
+            $this->sub['compile_info']=trim($warning);
+        } elseif (substr_count($response, 'My Submissions')!=2) {
+            file_put_contents(base_path('storage/logs/'.time().'.html'), $response);
             // Forbidden?
             $exploded=explode('<span class="error for__source">', $response);
-            $this->sub['compile_info']=explode("</span>", $exploded[1])[0];
-            $this->sub['verdict']="System Error";
+            if (!isset($exploded[1])) {
+                $this->sub['verdict']="Submission Error";
+            } else {
+                $this->sub['compile_info']=explode("</span>", $exploded[1])[0];
+                $this->sub['verdict']="Submission Error";
+            }
+        } else {
+            preg_match('/submissionId="(\d+)"/', $response, $match);
+            $this->sub['remote_id']=$match[1];
         }
     }
 
@@ -99,7 +115,7 @@ class CodeForces extends Curl
         ]);
 
         if ($validator->fails()) {
-            $this->sub['verdict']="System Error";
+            $this->sub['verdict']="Submission Error";
             return;
         }
 

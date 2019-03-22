@@ -82,28 +82,20 @@
         <div class="col-sm-12 col-lg-8">
             <div class="cm-title-section">
                 <h1>Welcome to NOJ!</h1>
+                <version-badge class="mb-5">
+                    <inline-div>Version</inline-div><inline-div>{{version()}}</inline-div>
+                </version-badge>
+
+
                 <p class="mb-5">NOJ is an Online Judge, and yet have features of Virtual Judges as well as an perspective to hold contests over several OJs without knowing the tests and outcomes dataset to enable multiple possibilities like ICPC team routine training and internal contest holding and so on.</p>
                 <p>We've currently support those OJs:</p>
             </div>
             <div class="row">
+                @foreach ($ojs as $oj)
                 <div class="col-12 col-sm-6 col-md-4 col-xl-3">
-                    <a href="/"><img src="/static/img/oj/noj@2x.png" class="cm-oj img-fluid"></a>
+                    <a href="{{$oj['home_page']}}"><img src="{{$oj['logo']}}" class="cm-oj img-fluid"></a>
                 </div>
-                <div class="col-12 col-sm-6 col-md-4 col-xl-3">
-                    <a href="https://codeforces.com"><img src="/static/img/oj/codeforces@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-xl-3">
-                    <a href="http://contest-hunter.org:83"><img src="/static/img/oj/contesthunter@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-xl-3">
-                    <a href="http://poj.org"><img src="/static/img/oj/poj@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-xl-3">
-                    <a href="https://vijos.org/"><img src="/static/img/oj/vijos@2x.png" class="cm-oj img-fluid"></a>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-xl-3">
-                    <a href="https://pintia.cn/"><img src="/static/img/oj/pta@2x.png" class="cm-oj img-fluid"></a>
-                </div>
+                @endforeach
             </div>
         </div>
         <div class="col-sm-12 col-lg-4">

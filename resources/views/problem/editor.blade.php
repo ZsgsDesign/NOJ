@@ -128,7 +128,7 @@
     <link rel="stylesheet" href="/static/fonts/Montserrat/montserrat.css">
     <link rel="stylesheet" href="/static/css/bootstrap-material-design.min.css">
     <link rel="stylesheet" href="/static/css/wemd-color-scheme.css">
-    <link rel="stylesheet" href="/static/css/atsast.css">
+    <link rel="stylesheet" href="/static/css/main.css?version={{version()}}">
     <link rel="stylesheet" href="/static/css/animate.min.css">
     <link rel="stylesheet" href="/static/fonts/MDI-WXSS/MDI.css">
     <link rel="stylesheet" href="/static/fonts/Devicon/devicon.css">
@@ -446,6 +446,49 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
+
+        .cm-pre-wrapper{
+            position:relative;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .cm-pre-wrapper pre{
+            padding-top: 2.22rem;
+        }
+        .cm-pre-wrapper .cm-copy-snippet {
+            border-radius: 0;
+            min-width:55px;
+            background: none repeat scroll 0 0 transparent;
+            border: 1px solid #d6d6d6;
+            color: rgba(0, 0, 0, 0.92);
+            font-family: montserrat,sans-serif;
+            font-size: 0.75rem;
+            font-weight: normal;
+            line-height: 1.42rem;
+            margin: 0;
+            padding: 0px 5px;
+            text-align: center;
+            text-decoration: none;
+            text-indent: 0;
+            position:absolute;
+            /* background:#ccc; */
+            top:0;
+            left:0;
+            transition: .2s ease-out .0s;
+            cursor: pointer;
+        }
+        .cm-pre-wrapper .cm-copy-snippet:hover {
+            background: #d6d6d6;
+        }
+        .cm-pre-wrapper .cm-copy-snippet:disabled{
+            color: rgba(0, 0, 0, 0.53);
+        }
+
+        a#verdict_info:hover{
+            text-decoration: none;
+        }
+
         @-webkit-keyframes cm-rotate{
             from{-webkit-transform: rotate(0deg)}
             to{-webkit-transform: rotate(360deg)}
@@ -498,9 +541,14 @@
                                 </div>
                             </div>
                             @endif {{$detail["title"]}}</h1>
+
+                        @unless(trim($detail["parsed"]["description"])=="")
+
                         <h2>Description:</h2>
 
                         {!!$detail["parsed"]["description"]!!}
+
+                        @endunless
 
                         @unless(trim($detail["parsed"]["input"])=="")
 
@@ -522,11 +570,11 @@
 
                             <h2>Sample Input:</h2>
 
-                            <pre>{!!$ps['sample_input']!!}</pre>
+                            <div class="cm-pre-wrapper"><pre id="input{{$loop->index}}">{!!$ps['sample_input']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#input{{$loop->index}}">Copy</button></div>
 
                             <h2>Sample Output:</h2>
 
-                            <pre>{!!$ps['sample_output']!!}</pre>
+                            <div class="cm-pre-wrapper"><pre id="output{{$loop->index}}">{!!$ps['sample_output']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#output{{$loop->index}}">Copy</button></div>
 
                         @endforeach
 
@@ -548,7 +596,7 @@
             </right-side>
         </top-side>
         <bottom-side>
-            <div style="color: #7a8e97" id="verdict_info" class="{{$status["color"]}}"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">{{$status["verdict"]}} @if($status["verdict"]=="Partially Accepted")({{round($status["score"]/$detail["tot_score"]*$detail["points"])}})@endif</span></div>
+            <a tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="top" @if($status["verdict"]=="Compile Error") title="Compile Info" data-content="{{$status["compile_info"]}}"@endif style="color: #7a8e97" id="verdict_info" class="{{$status["color"]}}"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">{{$status["verdict"]}} @if($status["verdict"]=="Partially Accepted")({{round($status["score"]/$detail["tot_score"]*$detail["points"])}})@endif</span></a>
             <div>
                 <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> History</button>
                 <div class="btn-group dropup">
@@ -631,10 +679,27 @@
             </div>
         </div>
     </div>
-    <script>
-        window.addEventListener("load",function() {
 
-        }, false);
+    @yield("addition")
+
+    <script src="/static/library/clipboard/dist/clipboard.min.js"></script>
+    <script>
+        var clipboard = new ClipboardJS('.cm-copy-snippet');
+
+        clipboard.on('success', function(e) {
+            $(e.trigger).text("Copied");
+            e.clearSelection();
+            setTimeout(()=>{
+                $(e.trigger).text("Copy");
+            }, 2000);
+        });
+
+        clipboard.on('error', function(e) {
+            $(e.trigger).text("Failed");
+            setTimeout(()=>{
+                $(e.trigger).text("Copy");
+            }, 2000);
+        });
     </script>
     <script src="/static/library/jquery/dist/jquery.min.js"></script>
     <script src="/static/js/popper.min.js"></script>
@@ -650,9 +715,9 @@
         });
     </script>
     <script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    @include('layouts.primaryJS')
+    @include('js.submission.detail')
     <script>
-        $(document).ready(function () { $('body').bootstrapMaterialDesign();$('[data-toggle="tooltip"]').tooltip(); });
-
         var historyOpen=false;
         var submission_processing=false;
         var chosen_lang="{{$compiler_list[$pref]['lcode']}}";
@@ -700,10 +765,10 @@
                             }else{
                                 $("#history_container").append(`
                                     <tr>
-                                        <td>${ele.time}</td>
-                                        <td>${ele.memory}</td>
+                                        <td>${ele.time}ms</td>
+                                        <td>${ele.memory}k</td>
                                         <td>${ele.language}</td>
-                                        <td class="${ele.color}"><i class="MDI checkbox-blank-circle"></i> ${ele.verdict}</td>
+                                        <td class="${ele.color}" style="cursor:pointer" onclick="fetchSubmissionDetail(${ele.sid})"><i class="MDI checkbox-blank-circle"></i> ${ele.verdict}</td>
                                     </tr>
                                 `);
                             }
@@ -721,6 +786,11 @@
         $( "#submitBtn" ).click(function() {
             if(submission_processing) return;
             submission_processing = true;
+            if(empty(editor.getValue())){
+                alert("Please fill in the solution");
+                submission_processing = false;
+                return;
+            }
             $("#submitBtn > i").removeClass("send");
             $("#submitBtn > i").addClass("autorenew");
             $("#submitBtn > i").addClass("cm-refreshing");
@@ -750,6 +820,7 @@
                     console.log(ret);
                     if(ret.ret==200){
                         // submitted
+                        $("#verdict_info").popover('dispose');
                         $("#verdict_text").text("Pending");
                         $("#verdict_info").removeClass();
                         $("#verdict_info").addClass("wemd-blue-text");
@@ -766,6 +837,11 @@
                                 }, success: function(ret){
                                     console.log(ret);
                                     if(ret.ret==200){
+                                        if(ret.data.verdict=="Compile Error"){
+                                            $("#verdict_info").attr('title',"Compile Info");
+                                            $("#verdict_info").attr('data-content',ret.data.compile_info);
+                                            $("#verdict_info").popover();
+                                        }
                                         if(ret.data.verdict=="Partially Accepted"){
                                             let real_score = Math.round(ret.data.score / tot_scores * tot_points);
                                             $("#verdict_text").text(ret.data.verdict + ` (${real_score})`);
@@ -796,9 +872,21 @@
                     $("#submitBtn > span").text("Submit Code");
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
-                    $("#verdict_text").text("System Error");
-                    $("#verdict_info").removeClass();
-                    $("#verdict_info").addClass("wemd-black-text");
+
+                    switch(xhr.status) {
+                        case 429:
+                            alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                            $("#verdict_text").text("Submit Frequency Exceed");
+                            $("#verdict_info").removeClass();
+                            $("#verdict_info").addClass("wemd-black-text");
+                            break;
+
+                        default:
+                            $("#verdict_text").text("System Error");
+                            $("#verdict_info").removeClass();
+                            $("#verdict_info").addClass("wemd-black-text");
+                    }
+
                     submission_processing = false;
                     $("#submitBtn > i").addClass("send");
                     $("#submitBtn > i").removeClass("autorenew");
@@ -817,9 +905,10 @@
         },false);
 
         window.addEventListener("load",function() {
-            $('loading').css({"opacity":"0","pointer-events":"none"});
 
             $(".pre-animated").addClass("fadeInLeft");
+
+            $("#verdict_info").popover();
 
             require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/vscode/vs' }});
 

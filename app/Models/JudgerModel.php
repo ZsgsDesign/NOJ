@@ -12,7 +12,13 @@ class JudgerModel extends Model
 
     public function list($oid=2)
     {
-        $judger_list=DB::table($this->tableName)->where(["oid"=>$oid, "available"=>1])->get();
+        $judger_list=DB::table($this->tableName)->where(["oid"=>$oid, "available"=>1])->get()->all();
+        return $judger_list;
+    }
+
+    public function detail($jid)
+    {
+        $judger_list=DB::table($this->tableName)->where(["jid"=>$jid])->get()->first();
         return $judger_list;
     }
 

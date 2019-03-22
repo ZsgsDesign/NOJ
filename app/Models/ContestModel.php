@@ -135,11 +135,12 @@ class ContestModel extends Model
 
     public function list()
     {
-        $contest_list=DB::table($this->tableName)->where([
+        $paginator=DB::table($this->tableName)->where([
             "public"=>1,
             "audit_status"=>1
-        ])->orderBy('begin_time', 'desc')->get()->all();
+        ])->orderBy('begin_time', 'desc')->paginate(10);
 
+        $contest_list=$paginator->all();
         foreach ($contest_list as &$c) {
             $c["rule_parsed"]=$this->rule[$c["rule"]];
             $c["date_parsed"]=[
@@ -148,7 +149,10 @@ class ContestModel extends Model
             ];
             $c["length"]=$this->calcLength($c["begin_time"], $c["end_time"]);
         }
-        return $contest_list;
+        return [
+            'contents' => $contest_list,
+            'paginator' => $paginator
+        ];
     }
 
     public function featured()
@@ -159,13 +163,17 @@ class ContestModel extends Model
             "featured"=>1
         ])->orderBy('begin_time', 'desc')->first();
 
-        $featured["rule_parsed"]=$this->rule[$featured["rule"]];
-        $featured["date_parsed"]=[
-            "date"=>date_format(date_create($featured["begin_time"]), 'j'),
-            "month_year"=>date_format(date_create($featured["begin_time"]), 'M, Y'),
-        ];
-        $featured["length"]=$this->calcLength($featured["begin_time"], $featured["end_time"]);
-        return $featured;
+        if (!empty($featured)) {
+            $featured["rule_parsed"]=$this->rule[$featured["rule"]];
+            $featured["date_parsed"]=[
+                "date"=>date_format(date_create($featured["begin_time"]), 'j'),
+                "month_year"=>date_format(date_create($featured["begin_time"]), 'M, Y'),
+            ];
+            $featured["length"]=$this->calcLength($featured["begin_time"], $featured["end_time"]);
+            return $featured;
+        } else {
+            return null;
+        }
     }
 
     public function remainingTime($cid)
@@ -261,10 +269,8 @@ class ContestModel extends Model
     {
         $basic_info=DB::table($this->tableName)->where([
             "cid"=>$cid
-        ])->select("verified", "gid")->first();
-        return $basic_info["verified"] ? DB::table("group")->where([
-            "gid"=>$basic_info["gid"]
-        ])->select("custom_icon", "custom_title", "gcode")->first() : null;
+        ])->select("verified", "custom_icon", "custom_title")->first();
+        return $basic_info["verified"] ? ((is_null($basic_info["custom_icon"]) && is_null($basic_info["custom_title"])) ?null:$basic_info) : null;
     }
 
 
@@ -465,7 +471,7 @@ class ContestModel extends Model
                     "problem_detail" => $prob_detail
                 ];
             }
-            usort($ret, function($a, $b) {
+            usort($ret, function ($a, $b) {
                 if ($a["score"]==$b["score"]) {
                     if ($a["penalty"]==$b["penalty"]) {
                         return 0;
@@ -512,7 +518,7 @@ class ContestModel extends Model
                     "problem_detail" => $prob_detail
                 ];
             }
-            usort($ret, function($a, $b) {
+            usort($ret, function ($a, $b) {
                 if ($a["score"]==$b["score"]) {
                     if ($a["solved"]==$b["solved"]) {
                         return 0;
@@ -532,12 +538,61 @@ class ContestModel extends Model
         return $ret;
     }
 
+    public function getRejudgeQueue($cid)
+    {
+        $problemModel=new ProblemModel();
+        $submissionModel=new SubmissionModel();
+        $compilerModel=new CompilerModel();
+
+        $tempQueue=DB::table("submission")->where([
+            "cid"=>$cid
+        ])->whereIn('verdict', [
+            'Runtime Error',
+            'Wrong Answer',
+            'Time Limit Exceed',
+            'Real Time Limit Exceed',
+            'Memory Limit Exceed',
+            'Presentation Error',
+            'Output Limit Exceeded'
+        ])->get()->all();
+
+        foreach ($tempQueue as &$t) {
+            $lang=$compilerModel->detail($t["coid"]);
+            $probBasic=$problemModel->basic($t["pid"]);
+            $t["oj"]=$problemModel->ocode($t["pid"]);
+            $t["lang"]=$lang['lcode'];
+            $t["cid"]=$probBasic["contest_id"];
+            $t["iid"]=$probBasic["index_id"];
+            $t["pcode"]=$probBasic["pcode"];
+            $t["contest"]=$cid;
+        }
+
+        return $tempQueue;
+    }
+
     public function getClarificationList($cid)
     {
         return DB::table("contest_clarification")->where([
             "cid"=>$cid,
             "public"=>1
+        ])->orWhere([
+            "cid" => $cid,
+            'uid' => Auth::user()->id
         ])->orderBy('create_time', 'desc')->get()->all();
+    }
+
+    public function fetchClarification($cid)
+    {
+        return DB::table("contest_clarification")->where([
+            "cid"=>$cid,
+            "type"=>0,
+            "public"=>1
+        ])->whereBetween(
+            'create_time', [
+                date("Y-m-d H:i:s", time()-59),
+                date("Y-m-d H:i:s")
+            ]
+        )->first();
     }
 
     public function getlatestClarification($cid)
@@ -555,6 +610,19 @@ class ContestModel extends Model
             "ccid"=>$ccid,
             "public"=>1
         ])->first();
+    }
+
+    public function requestClarification($cid, $title, $content, $uid)
+    {
+        return DB::table("contest_clarification")->insertGetId([
+            "cid"=>$cid,
+            "type"=>1,
+            "title"=>$title,
+            "content"=>$content,
+            "public"=>"0",
+            "uid"=>$uid,
+            "create_time"=>date("Y-m-d H:i:s")
+        ]);
     }
 
     public function isContestEnded($cid)
@@ -639,7 +707,7 @@ class ContestModel extends Model
 
         if ($basicInfo["status_visibility"]==2) {
             // View all
-            $records=DB::table("submission")->where([
+            $paginator=DB::table("submission")->where([
                 'cid'=>$cid
             ])->where(
                 "submission_date",
@@ -650,7 +718,7 @@ class ContestModel extends Model
                 "users.id",
                 "=",
                 "submission.uid"
-            )->where(function($query) use ($frozen_time) {
+            )->where(function ($query) use ($frozen_time) {
                 $query->where(
                     "submission_date",
                     "<",
@@ -674,9 +742,9 @@ class ContestModel extends Model
             )->orderBy(
                 'submission_date',
                 'desc'
-            )->get()->all();
+            )->paginate(50);
         } elseif ($basicInfo["status_visibility"]==1) {
-            $records=DB::table("submission")->where([
+            $paginator=DB::table("submission")->where([
                 'cid'=>$cid,
                 'uid'=>Auth::user()->id
             ])->where(
@@ -703,10 +771,15 @@ class ContestModel extends Model
             )->orderBy(
                 'submission_date',
                 'desc'
-            )->get()->all();
+            )->paginate(50);
         } else {
-            return [];
+            return [
+                "paginator"=>null,
+                "records"=>[]
+            ];
         }
+
+        $records=$paginator->all();
         foreach ($records as &$r) {
             $r["submission_date_parsed"]=$this->formatSubmitTime(date('Y-m-d H:i:s', $r["submission_date"]));
             $r["submission_date"]=date('Y-m-d H:i:s', $r["submission_date"]);
@@ -717,7 +790,24 @@ class ContestModel extends Model
                 $r["verdict"].=" ($score_parsed)";
             }
         }
-        return $records;
+        return [
+            "paginator"=>$paginator,
+            "records"=>$records
+        ];
+    }
+
+    public function registration($cid, $uid=0)
+    {
+        if ($uid==0) {
+            return [];
+        }
+
+
+        return DB::table("contest_participant")->where([
+            "cid" => $cid,
+            "uid" => $uid,
+            "audit" => 1
+        ])->first();
     }
 
     public function judgeClearance($cid, $uid=0)
@@ -815,7 +905,7 @@ class ContestModel extends Model
 
     public function arrangeContest($gid, $config, $problems)
     {
-        DB::transaction(function() use ($gid, $config, $problems) {
+        DB::transaction(function () use ($gid, $config, $problems) {
             $cid=DB::table($this->tableName)->insertGetId([
                 "gid"=>$gid,
                 "name"=>$config["name"],
@@ -845,7 +935,7 @@ class ContestModel extends Model
                     "ncode"=>$this->intToChr($p["number"]-1),
                     "pid"=>$pid,
                     "alias"=>"",
-                    "points"=>0
+                    "points"=>$p["points"]
                 ]);
             }
         }, 5);

@@ -192,7 +192,7 @@
         color:rgba(0, 0, 0, 0.42);
         display: inline-block;
         margin-right: 1rem;
-        font-family:'Courier New', Courier, monospace;
+        font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
     }
 </style>
 
@@ -207,9 +207,14 @@
                         <info-badge data-toggle="tooltip" data-placement="top" title="Time Limit"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
                         <info-badge data-toggle="tooltip" data-placement="top" title="Memory Limit"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
                     </info-div>
+
+                    @unless(trim($detail["parsed"]["description"])=="")
+
                     <h2>Description:</h2>
 
                     {!!$detail["parsed"]["description"]!!}
+
+                    @endunless
 
                     @unless(trim($detail["parsed"]["input"])=="")
 
@@ -288,11 +293,7 @@
     }, false);
 
     document.getElementById("submitBtn").addEventListener("click",function(){
-        @guest
-        location.href="/login";
-        @else
         location.href="/problem/{{$detail["pcode"]}}/editor";
-        @endguest
     },false)
 
 </script>

@@ -1,4 +1,6 @@
-@extends('contest.board.app')
+@extends('layouts.app')
+
+@include('contest.board.addition')
 
 @section('template')
 <style>
@@ -58,6 +60,7 @@
             <a href="/contest/{{$cid}}/board/status"><nav-item>Status</nav-item></a>
             <a href="/contest/{{$cid}}/board/clarification"><nav-item>Clarification</nav-item></a>
             <a href="/contest/{{$cid}}/board/print"><nav-item class="active">Print</nav-item></a>
+            @if($clearance>2)<a href="/contest/{{$cid}}/board/admin"><nav-item>Admin</nav-item></a>@endif
         </nav-div>
         <div class="p-3">
             <p style="text-align: center;">Not Supported</p>

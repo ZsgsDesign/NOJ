@@ -42,6 +42,8 @@
         display: block;
         color: #ABABAB;
         padding-right:1rem;
+        flex-shrink: 0;
+        flex-grow: 0;
     }
 
     contest-card > date-div > .sm-date{
@@ -59,6 +61,11 @@
         line-height: 1;
         margin-bottom: 0;
         font-size: 0.75rem;
+    }
+
+    contest-card > info-div{
+        flex-shrink: 1;
+        flex-grow: 1;
     }
 
     contest-card > info-div .sm-contest-title{
@@ -111,44 +118,57 @@
 <div class="container mundb-standard-container">
     <div class="row">
         <div class="col-sm-12 col-md-8">
-            @foreach($contest_list as $c)
-            <a href="/contest/{{$c['cid']}}">
-                <contest-card class="animated fadeInLeft" style="animation-delay: {{$loop->index/5}}s;">
-                    <date-div>
-                        <p class="sm-date">{{$c['date_parsed']['date']}}</p>
-                        <small class="sm-month">{{$c['date_parsed']['month_year']}}</small>
-                    </date-div>
-                    <info-div>
-                        <h5 class="sm-contest-title">
-                            @if($c['verified'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="left" title="This is a verified contest"></i>@endif
-                            @if($c['rated'])<i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="left" title="This is a rated contest"></i>@endif
-                            @if($c['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="left" title="Anti-cheat enabled"></i>@endif
-                            {{$c['name']}}
-                        </h5>
-                        <p class="sm-contest-info">
-                            <span class="badge badge-pill wemd-amber sm-contest-type"><i class="MDI trophy"></i> {{$c['rule_parsed']}}</span>
-                            <span class="sm-contest-time"><i class="MDI clock"></i> {{$c['length']}}</span>
-                            {{-- <span class="sm-contest-scale"><i class="MDI account-multiple"></i> 3</span> --}}
-                        </p>
-                    </info-div>
-                </contest-card>
-            </a>
-            @endforeach
+            @if(!empty($contest_list))
+                @foreach($contest_list as $c)
+                <a href="/contest/{{$c['cid']}}">
+                    <contest-card class="animated fadeInLeft" style="animation-delay: {{$loop->index/5}}s;">
+                        <date-div>
+                            <p class="sm-date">{{$c['date_parsed']['date']}}</p>
+                            <small class="sm-month">{{$c['date_parsed']['month_year']}}</small>
+                        </date-div>
+                        <info-div>
+                            <h5 class="sm-contest-title">
+                                @if($c['verified'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="left" title="This is a verified contest"></i>@endif
+                                @if($c['rated'])<i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="left" title="This is a rated contest"></i>@endif
+                                @if($c['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="left" title="Anti-cheat enabled"></i>@endif
+                                {{$c['name']}}
+                            </h5>
+                            <p class="sm-contest-info">
+                                <span class="badge badge-pill wemd-amber sm-contest-type"><i class="MDI trophy"></i> {{$c['rule_parsed']}}</span>
+                                <span class="sm-contest-time"><i class="MDI clock"></i> {{$c['length']}}</span>
+                                {{-- <span class="sm-contest-scale"><i class="MDI account-multiple"></i> 3</span> --}}
+                            </p>
+                        </info-div>
+                    </contest-card>
+                </a>
+                @endforeach
+
+                {{$paginator->links()}}
+            @else
+                <empty-container>
+                    <i class="MDI package-variant"></i>
+                    <p>Nothing here.</p>
+                </empty-container>
+            @endif
         </div>
         <div class="col-sm-12 col-md-4">
             <div class="animated jackInTheBox">
                 <p class="cm-tending"><i class="MDI star wemd-amber-text"></i> Featured Contest</p>
-                <paper-card style="text-align:center;">
-                    <h5 class="sm-contest-title">{{$featured['name']}}</h5>
-                    <p>{{$featured['date_parsed']['date']}}, {{$featured['date_parsed']['month_year']}} - {{$featured['length']}}</p>
-                    <h5>
-                        @if($featured['verified'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="left" title="This is a verified contest"></i>@endif
-                        @if($featured['rated'])<i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="left" title="This is a rated contest"></i>@endif
-                        @if($featured['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="left" title="Anti-cheat enabled"></i>@endif
-                        <span class="wemd-amber-text"><i class="MDI trophy"></i> {{$featured['rule_parsed']}}</span>
-                    </h5>
-                    <a href="/contest/{{$featured['cid']}}"><button type="button" class="btn btn-outline-primary mt-4">Know More</button></a>
-                </paper-card>
+                    <paper-card style="text-align:center;">
+                        @if(!is_null($featured))
+                            <h5 class="sm-contest-title">{{$featured['name']}}</h5>
+                            <p>{{$featured['date_parsed']['date']}}, {{$featured['date_parsed']['month_year']}} - {{$featured['length']}}</p>
+                            <h5>
+                                @if($featured['verified'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="left" title="This is a verified contest"></i>@endif
+                                @if($featured['rated'])<i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="left" title="This is a rated contest"></i>@endif
+                                @if($featured['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="left" title="Anti-cheat enabled"></i>@endif
+                                <span class="wemd-amber-text"><i class="MDI trophy"></i> {{$featured['rule_parsed']}}</span>
+                            </h5>
+                            <a href="/contest/{{$featured['cid']}}"><button type="button" class="btn btn-outline-primary mt-4">Know More</button></a>
+                        @else
+                            <h5 class="sm-contest-title">No feature</h5>
+                        @endif
+                    </paper-card>
             </div>
         </div>
     </div>

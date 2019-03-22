@@ -28,7 +28,8 @@ class Submit
             'verdict'=>'Waiting',
             'memory'=>'0',
             'remote_id'=>'',
-            'score'=>0
+            'score'=>0,
+            'compile_info'=>'',
         ];
 
         $curl=new Core($sub, $this->post_data['oj'], $this->post_data);
@@ -36,6 +37,6 @@ class Submit
         // insert submission
 
         $submission=new SubmissionModel();
-        $submission->update_submission($this->post_data["sid"], $sub);
+        $submission->updateSubmission($this->post_data["sid"], $sub);
     }
 }

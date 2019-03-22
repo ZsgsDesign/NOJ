@@ -125,7 +125,7 @@
     </style>
 </head>
 
-<body>
+<body style="display: flex;flex-direction: column;min-height: 100vh;">
     <!-- Loading -->
     <loading>
         <div>
@@ -143,7 +143,7 @@
     <link rel="stylesheet" href="/static/fonts/Montserrat/montserrat.css">
     <link rel="stylesheet" href="/static/css/bootstrap-material-design.min.css">
     <link rel="stylesheet" href="/static/css/wemd-color-scheme.css">
-    <link rel="stylesheet" href="/static/css/atsast.css">
+    <link rel="stylesheet" href="/static/css/main.css?version={{version()}}">
     <link rel="stylesheet" href="/static/css/animate.min.css">
     <link rel="stylesheet" href="/static/fonts/MDI-WXSS/MDI.css">
     <link rel="stylesheet" href="/static/fonts/Devicon/devicon.css">
@@ -151,12 +151,12 @@
     <div class="mundb-background-container">
         <img src="">
     </div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom:30px;position:sticky;top:0;z-index:999;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom:30px;position:sticky;top:0;z-index:999;flex-shrink: 0;flex-grow: 0;">
 
         @if(isset($custom_info) && !is_null($custom_info))
 
-            <a class="navbar-brand" href="/group/{{$custom_info["gcode"]}}">
-                <img src="@if(empty($custom_info["custom_icon"])) /static/img/njupt.png @else {{$custom_info["custom_icon"]}} @endif" height="30"> @if(empty($custom_info["custom_title"])) NJUPT Online Judge @else {{$custom_info["custom_title"]}} @endif
+            <a class="navbar-brand" href="#">
+                <img src="{{$custom_info["custom_icon"]}}" height="30"> {{$custom_info["custom_title"]}}
             </a>
 
         @else
@@ -184,9 +184,9 @@
                     </li>
                 @endif
                 @if(!Auth::check() || is_null(Auth::user()->contest_account))
-                    {{-- <li class="nav-item />">
+                    <li class="nav-item />">
                         <a class="nav-link @if ($navigation === "Status") active @endif" href="/status">Status</a>
-                    </li> --}}
+                    </li>
                 @endif
                 <li class="nav-item />">
                     <a class="nav-link @if ($navigation === "Contest") active @endif" href="/contest">Contest</a>
@@ -218,12 +218,16 @@
                                 <a class="dropdown-item" href="/account/dashboard"><i class="MDI account-circle"></i> Dashboard</a>
                                 <a class="dropdown-item" href="/account/submissions"><i class="MDI airballoon"></i> Submissions</a>
                                 <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> Advanced Settings</a>
+                                -->
                                 @if ("admin"===false)
+                                <!--
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/admin"><i class="MDI view-dashboard"></i> Admin Tools</a>
+                                -->
                                 @endif
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/system/logs"><i class="MDI update"></i> Upgrade Log</a>
+                                <a class="dropdown-item" href="/system/info"><i class="MDI information-outline"></i> System Info</a>
+                                <!--
                                 <a class="dropdown-item" href="/system/bugs"><i class="MDI bug"></i> Report BUG</a>
                                 -->
                                 <div class="dropdown-divider"></div>
@@ -255,28 +259,49 @@
 
     @yield('addition')
 
-    <footer class="mundb-footer bg-dark text-light d-print-none">
-        Copyright &copy; NOJ 2018-{{date('Y')}}, all rights reserved.
+    <footer class="d-print-none bg-dark center-on-small-only" style="flex-shrink: 0;flex-grow: 0">
+        <div class="mundb-footer text-light">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <h5 class="cm-footer-title mb-4 mt-3 font-bold">NOJ</h5>
+                        <p>NOJ is an online judge developed by ICPC Team of Nanjing Universify of Posts and Telecommunications.</p>
+                    </div>
+
+                    <hr class="clearfix w-100 d-md-none">
+
+                    <div class="col-md-2 mx-auto">
+                        <h5 class="title mb-4 mt-3 font-bold">Services</h5>
+                        <p class="mb-1"><a href="/status">Judging Queue</a></p>
+                        <p class="mb-1"><a href="/system/info">System Info</a></p>
+                        <p class="mb-1"><a href="#">PasteBin</a></p>
+                    </div>
+
+                    <hr class="clearfix w-100 d-md-none">
+
+                    <div class="col-md-2 mx-auto">
+                        <h5 class="title mb-4 mt-3 font-bold">Developments</h5>
+                        <p class="mb-1"><a href="https://github.com/ZsgsDesign/NOJ">Open Source</a></p>
+                        <p class="mb-1"><a href="#">API</a></p>
+                    </div>
+
+                    <hr class="clearfix w-100 d-md-none">
+
+                    <div class="col-md-2 mx-auto">
+                        <h5 class="title mb-4 mt-3 font-bold ">Support</h5>
+                        <p class="mb-0"><i class="MDI email"></i> acm@njupt.edu.cn</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mundb-footer mundb-copyright">&copy; 2018-{{date('Y')}}, NOJ. <a href="https://github.com/ZsgsDesign/NOJ" target="_blank"><i class="MDI github-circle"></i></a></div>
     </footer>
     <script src="/static/library/jquery/dist/jquery.min.js"></script>
     <script src="/static/js/popper.min.js"></script>
     <script src="/static/js/snackbar.min.js"></script>
     <script src="/static/js/bootstrap-material-design.js"></script>
-    <script>
-        $(document).ready(function () { $('body').bootstrapMaterialDesign();$('[data-toggle="tooltip"]').tooltip(); });
-        window.addEventListener("load",function() {
-
-            $('loading').css({"opacity":"0","pointer-events":"none"});
-
-            // Console Text
-
-            var consoleSVG = "data:image/svg+xml,<svg version='1.1' id='Ebene_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='600px' height='100px' viewBox='0 0 600 100'> <style type='text/css'> <![CDATA[ text %7B filter: url(%23filter); fill: black; font-family: 'Share Tech Mono', consolas, sans-serif; font-size: 100px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; %7D ]]> </style> <defs> <filter id='filter'> <feFlood flood-color='white' result='black' /> <feFlood flood-color='red' result='flood1' /> <feFlood flood-color='limegreen' result='flood2' /> <feOffset in='SourceGraphic' dx='3' dy='0' result='off1a'/> <feOffset in='SourceGraphic' dx='2' dy='0' result='off1b'/> <feOffset in='SourceGraphic' dx='-3' dy='0' result='off2a'/> <feOffset in='SourceGraphic' dx='-2' dy='0' result='off2b'/> <feComposite in='flood1' in2='off1a' operator='in' result='comp1' /> <feComposite in='flood2' in2='off2a' operator='in' result='comp2' /> <feMerge x='0' width='100%25' result='merge1'> <feMergeNode in = 'black' /> <feMergeNode in = 'comp1' /> <feMergeNode in = 'off1b' /> <animate attributeName='y' id = 'y' dur ='4s' values = '104px; 104px; 30px; 105px; 30px; 2px; 2px; 50px; 40px; 105px; 105px; 20px; 6%C3%9Fpx; 40px; 104px; 40px; 70px; 10px; 30px; 104px; 102px' keyTimes = '0; 0.362; 0.368; 0.421; 0.440; 0.477; 0.518; 0.564; 0.593; 0.613; 0.644; 0.693; 0.721; 0.736; 0.772; 0.818; 0.844; 0.894; 0.925; 0.939; 1' repeatCount = 'indefinite' /> <animate attributeName='height' id = 'h' dur ='4s' values = '10px; 0px; 10px; 30px; 50px; 0px; 10px; 0px; 0px; 0px; 10px; 50px; 40px; 0px; 0px; 0px; 40px; 30px; 10px; 0px; 50px' keyTimes = '0; 0.362; 0.368; 0.421; 0.440; 0.477; 0.518; 0.564; 0.593; 0.613; 0.644; 0.693; 0.721; 0.736; 0.772; 0.818; 0.844; 0.894; 0.925; 0.939; 1' repeatCount = 'indefinite' /> </feMerge> <feMerge x='0' width='100%25' y='60px' height='65px' result='merge2'> <feMergeNode in = 'black' /> <feMergeNode in = 'comp2' /> <feMergeNode in = 'off2b' /> <animate attributeName='y' id = 'y' dur ='4s' values = '103px; 104px; 69px; 53px; 42px; 104px; 78px; 89px; 96px; 100px; 67px; 50px; 96px; 66px; 88px; 42px; 13px; 100px; 100px; 104px;' keyTimes = '0; 0.055; 0.100; 0.125; 0.159; 0.182; 0.202; 0.236; 0.268; 0.326; 0.357; 0.400; 0.408; 0.461; 0.493; 0.513; 0.548; 0.577; 0.613; 1' repeatCount = 'indefinite' /> <animate attributeName='height' id = 'h' dur = '4s' values = '0px; 0px; 0px; 16px; 16px; 12px; 12px; 0px; 0px; 5px; 10px; 22px; 33px; 11px; 0px; 0px; 10px' keyTimes = '0; 0.055; 0.100; 0.125; 0.159; 0.182; 0.202; 0.236; 0.268; 0.326; 0.357; 0.400; 0.408; 0.461; 0.493; 0.513; 1' repeatCount = 'indefinite' /> </feMerge> <feMerge> <feMergeNode in='SourceGraphic' /> <feMergeNode in='merge1' /> <feMergeNode in='merge2' /> </feMerge> </filter> </defs> <g> <text x='0' y='100'>NOJ</text> </g> </svg>";
-            var consoleCSS = "background: url(\"" + consoleSVG + "\") left top no-repeat; font-size: 100px;line-height:140px;";
-            console.log('%c   ', consoleCSS);
-            console.info("\nNOJ - Nanjing University of Posts and Telecommunications Online Judge\n\nNOJ Development Team Leader: John Zhang\nOrganization: NJUPT ICPC Team\nDevelopers: John Zhang, David Diao\nVersion: Alpha\nInsider Alias: CodeMaster\n\n");
-
-        }, false);
-    </script>
+    @include('layouts.primaryJS')
     @yield('additionJS')
 </body>
 

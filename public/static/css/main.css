@@ -1,6 +1,19 @@
+/* MUNDb Styles */
 .mundb-footer{
     padding:1rem 2.5rem;
     width:100%;
+}
+.mundb-footer a{
+    color:#fff;
+}
+.mundb-footer a:hover{
+    text-decoration: none;
+}
+.mundb-copyright{
+    color: rgba(255,255,255,.6);
+    background-color: rgba(0,0,0,.2);
+    text-align: center;
+    font-size: .9rem;
 }
 nav.navbar{
     box-shadow: 0 0 4px 0 rgba(0,0,0,.14), 0 3px 4px 0 rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2);
@@ -47,7 +60,8 @@ nav.navbar{
 }
 
 .mundb-standard-container{
-    min-height: calc(100vh - 30px - 7.2rem);
+    flex-shrink: 0;
+    flex-grow: 1;
 }
 
 .mundb-background-container{
@@ -87,7 +101,7 @@ nav.navbar{
 @media (max-width: 991px){
     .mundb-nav-right{
         width:100%;
-    }  
+    }
     .mundb-nav-right > form > input {
         width:100%!important;
     }
@@ -125,6 +139,8 @@ nav.navbar{
     background: rgba(255,255,255,0.2);
 }
 
+/* ATSAST Styles */
+
 a.attsast-course{
     text-decoration: none;
     color:#212529;
@@ -158,6 +174,8 @@ hr.atsast-line{
     margin-bottom:0.75rem;
 }
 
+/* General Styles */
+
 nav .dropdown-item .MDI{
     display:inline-block;
     transform:scale(1.5);
@@ -165,3 +183,139 @@ nav .dropdown-item .MDI{
     padding-right:0.5rem;
 }
 
+.cm-wb {
+    word-break: break-word;
+}
+
+.btn-rounded{
+    border-radius:200rem;
+}
+
+/* Model */
+
+.sm-modal{
+    display: block;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
+    border-radius: 4px;
+    transition: .2s ease-out .0s;
+    color: #7a8e97;
+    background: #fff;
+    padding: 1rem;
+    position: relative;
+    /* border: 1px solid rgba(0, 0, 0, 0.15); */
+    margin-bottom: 2rem;
+    width:auto;
+}
+.sm-modal:hover {
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
+}
+.modal-title{
+    font-weight: bold;
+    font-family: roboto;
+}
+.sm-modal td{
+    white-space: nowrap;
+}
+
+.modal-dialog {
+    max-width: 85vw;
+    justify-content: center;
+}
+
+.modal-dialog-alert {
+    width: 40vw;
+}
+
+.modal-dialog-alert .modal-content{
+    min-width: 30vw;
+}
+
+.modal-dialog-alert .modal-body{
+    word-break: break-word;
+}
+
+/* Version Badge */
+
+version-badge {
+    display:inline-block;
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 0.9rem;
+    color: #fff;
+}
+
+version-badge > inline-div:first-of-type{
+    display:inline-block;
+    padding:0 0.5rem;
+    background: #555555;
+}
+
+version-badge > inline-div:last-of-type{
+    display:inline-block;
+    padding:0 0.5rem;
+    background: #97ca00;
+}
+
+/* Refresing Icon */
+
+.cm-refreshing{
+    display: inline-block;
+    -webkit-transition-property: -webkit-transform;
+    -webkit-transition-duration: 1s;
+    -moz-transition-property: -moz-transform;
+    -moz-transition-duration: 1s;
+    -webkit-animation: cm-rotate 3s linear infinite;
+    -moz-animation: cm-rotate 3s linear infinite;
+    -o-animation: cm-rotate 3s linear infinite;
+    animation: cm-rotate 3s linear infinite;
+}
+@-webkit-keyframes cm-rotate{
+    from{-webkit-transform: rotate(0deg)}
+    to{-webkit-transform: rotate(360deg)}
+}
+@-moz-keyframes cm-rotate{
+    from{-moz-transform: rotate(0deg)}
+    to{-moz-transform: rotate(359deg)}
+}
+@-o-keyframes cm-rotate{
+    from{-o-transform: rotate(0deg)}
+    to{-o-transform: rotate(359deg)}
+}
+@keyframes cm-rotate{
+    from{transform: rotate(0deg)}
+    to{transform: rotate(359deg)}
+}
+
+.btn-disabled{
+    cursor: auto;
+}
+
+/* Reply-Quote */
+
+fresh-container reply-quote{
+    border-left: .25em solid #dfe2e5;
+    display:block;
+    margin: 20px 0!important;
+    background-color: #f5f8fc;
+    padding: 1rem;
+    color: #8796a8;
+}
+
+fresh-container reply-quote p {
+    color: #8796a8;
+}
+
+fresh-container reply-quote p:last-child {
+    margin-bottom: 0;
+}
+
+/* General */
+
+.bg-dark{
+    background-color: #3E4551!important;
+}
+
+@media only screen and (max-width: 992px){
+    .center-on-small-only {
+        text-align: center;
+    }
+}
