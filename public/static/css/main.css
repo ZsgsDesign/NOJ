@@ -48,7 +48,8 @@ nav.navbar{
 }
 
 .mundb-standard-container{
-    min-height: calc(100vh - 30px - 7.2rem);
+    flex-shrink: 0;
+    flex-grow: 1;
 }
 
 .mundb-background-container{

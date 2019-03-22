@@ -125,7 +125,7 @@
     </style>
 </head>
 
-<body>
+<body style="display: flex;flex-direction: column;min-height: 100vh;">
     <!-- Loading -->
     <loading>
         <div>
@@ -151,7 +151,7 @@
     <div class="mundb-background-container">
         <img src="">
     </div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom:30px;position:sticky;top:0;z-index:999;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom:30px;position:sticky;top:0;z-index:999;flex-shrink: 0;flex-grow: 0;">
 
         @if(isset($custom_info) && !is_null($custom_info))
 
@@ -259,7 +259,7 @@
 
     @yield('addition')
 
-    <footer class="mundb-footer bg-dark text-light d-print-none">
+    <footer class="mundb-footer bg-dark text-light d-print-none" style="flex-shrink: 0;flex-grow: 0;">
         Copyright &copy; NOJ 2018-{{date('Y')}}, all rights reserved.
     </footer>
     <script src="/static/library/jquery/dist/jquery.min.js"></script>

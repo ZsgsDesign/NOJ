@@ -935,7 +935,7 @@ class ContestModel extends Model
                     "ncode"=>$this->intToChr($p["number"]-1),
                     "pid"=>$pid,
                     "alias"=>"",
-                    "points"=>0
+                    "points"=>$p["points"]
                 ]);
             }
         }, 5);

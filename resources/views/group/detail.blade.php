@@ -8,6 +8,9 @@
         flex-direction: column;
         height: 100vh;
     }
+    footer{
+        display: none;
+    }
     left-side {
         display: flex;
         flex-direction: column;
