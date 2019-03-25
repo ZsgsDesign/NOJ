@@ -165,6 +165,11 @@ class ProblemModel extends Model
         return empty($temp) ? null : DB::table("oj")->where(["oid"=>$temp["oid"]])->select("ocode")->first()["ocode"];
     }
 
+    public function oid($pid)
+    {
+        return DB::table($this->tableName)->where(["pid"=>$pid])->select("OJ as oid")->first()["oid"];
+    }
+
     public function clearTags($pid)
     {
         DB::table("problem_tag")->where(["pid"=>$pid])->delete();
