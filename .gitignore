@@ -17,3 +17,4 @@ yarn-error.log
 /public/external
 /app/Http/Controllers/VirtualCrawler/CodeForces/problemset.problems
 /public/static/library
+/.vscode/ipch
