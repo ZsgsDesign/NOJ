@@ -58,12 +58,13 @@ class POJ extends CrawlerBase
     private function cacheImage($dom)
     {
         foreach ($dom->find('img') as $ele) {
-            if (strpos($ele->src, '://')!==false) {
-                $url=$ele->src;
-            } elseif ($ele->src[0]=='/') {
-                $url='http://poj.org'.$ele->src;
+            $src = str_replace('\\', '/', $ele->src);
+            if (strpos($src, '://')!==false) {
+                $url=$src;
+            } elseif ($src[0]=='/') {
+                $url='http://poj.org'.$src;
             } else {
-                $url='http://poj.org/'.$ele->src;
+                $url='http://poj.org/'.$src;
             }
             $res=Requests::get($url, ['Referer' => 'http://poj.org']);
             $ext=['image/jpeg'=>'.jpg', 'image/png'=>'.png', 'image/gif'=>'.gif', 'image/bmp'=>'.bmp'];
