@@ -23,8 +23,8 @@ class UserController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Index')
-            ->description('description')
+            ->header('Users')
+            ->description('all users')
             ->body($this->grid());
     }
 
@@ -38,8 +38,8 @@ class UserController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header('Detail')
-            ->description('description')
+            ->header('User Detail')
+            ->description('the detail of users')
             ->body($this->detail($id));
     }
 
@@ -53,8 +53,8 @@ class UserController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
-            ->description('description')
+            ->header('Edit User')
+            ->description('edit the detail of users')
             ->body($this->form()->edit($id));
     }
 
@@ -67,8 +67,8 @@ class UserController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create')
-            ->description('description')
+            ->header('Create New User')
+            ->description('create a new user')
             ->body($this->form());
     }
 
@@ -80,9 +80,16 @@ class UserController extends Controller
     protected function grid()
     {
         $grid = new Grid(new UserModel);
-
-
-
+        $grid->id('ID')->sortable();
+        $grid->name()->editable();
+        $grid->email();
+        $grid->created_at();
+        $grid->updated_at();
+        $grid->filter(function (Grid\Filter $filter) {
+            $filter->disableIdFilter();
+            $filter->like('name');
+            $filter->like('email')->email();
+        });
         return $grid;
     }
 
@@ -95,9 +102,6 @@ class UserController extends Controller
     protected function detail($id)
     {
         $show = new Show(UserModel::findOrFail($id));
-
-
-
         return $show;
     }
 
@@ -109,9 +113,18 @@ class UserController extends Controller
     protected function form()
     {
         $form = new Form(new UserModel);
-
-
-
+        $form->model()->makeVisible('password');
+        $form->tab('Basic', function (Form $form) {
+            $form->display('id');
+            $form->text('name')->rules('required');
+            $form->email('email')->rules('required');
+            $form->display('created_at');
+            $form->display('updated_at');
+        })->tab('Password', function (Form $form) {
+            $form->password('password')->rules('confirmed');
+            $form->password('password_confirmation');
+        });
+        $form->ignore(['password_confirmation']);
         return $form;
     }
 }
