@@ -15,6 +15,7 @@
         "illuminate/support": "^5.7",
         "kub-at/php-simple-html-dom-parser": "^1.7",
         "laracasts/utilities": "^3.0",
+        "laravel-admin-ext/helpers": "^1.1",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
         "mews/purifier": "^2.1",
