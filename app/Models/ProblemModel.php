@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProblemModel extends Model
 {
+    protected $table='problem';
     protected $tableName='problem';
 
     public function detail($pcode, $cid=null)
