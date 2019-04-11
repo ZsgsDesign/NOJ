@@ -10,6 +10,7 @@ class ProblemModel extends Model
 {
     protected $table='problem';
     protected $primaryKey = 'pid';
+    const UPDATED_AT = "update_date";
 
     public function detail($pcode, $cid=null)
     {
