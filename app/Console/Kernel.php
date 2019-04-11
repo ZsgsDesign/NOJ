@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
                 sleep(5);
             }
 
-        })->everyMinute();
+        })->everyMinute()->description("Sync Judger");
     }
 
     /**
