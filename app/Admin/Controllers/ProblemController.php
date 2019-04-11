@@ -124,8 +124,8 @@ class ProblemController extends Controller
         $form = new Form(new ProblemModel);
         $form->model()->makeVisible('password');
         $form->tab('Basic', function (Form $form) {
-            $form->display('pid');
-            $form->text('pcode')->rules('required');
+            // $form->display('pid');
+            // $form->text('pcode')->rules('required');
             $form->text('title')->rules('required');
             $form->text('time_limit')->rules('required');
             $form->text('memory_limit')->rules('required');

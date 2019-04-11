@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\DB;
 class ProblemModel extends Model
 {
     protected $table='problem';
-    protected $tableName='problem';
+    protected $primaryKey = 'pid';
 
     public function detail($pcode, $cid=null)
     {
-        $prob_detail=DB::table($this->tableName)->where("pcode", $pcode)->first();
+        $prob_detail=DB::table($this->table)->where("pcode", $pcode)->first();
         // [Depreciated] Joint Query was depreciated here for code maintenance reasons
         if (!is_null($prob_detail)) {
             if ($prob_detail["markdown"]) {
@@ -69,7 +69,7 @@ class ProblemModel extends Model
 
     public function basic($pid)
     {
-        return DB::table($this->tableName)->where("pid", $pid)->first();
+        return DB::table($this->table)->where("pid", $pid)->first();
     }
 
     public function tags()
@@ -106,8 +106,8 @@ class ProblemModel extends Model
 
     public function list($filter)
     {
-        // $prob_list = DB::table($this->tableName)->select("pid","pcode","title")->get()->all(); // return a array
-        $preQuery=DB::table($this->tableName);
+        // $prob_list = DB::table($this->table)->select("pid","pcode","title")->get()->all(); // return a array
+        $preQuery=DB::table($this->table);
         if ($filter['oj']) {
             $preQuery=$preQuery->where(["OJ"=>$filter['oj']]);
         }
@@ -144,31 +144,31 @@ class ProblemModel extends Model
 
     public function existPCode($pcode)
     {
-        $temp=DB::table($this->tableName)->where(["pcode"=>$pcode])->select("pcode")->first();
+        $temp=DB::table($this->table)->where(["pcode"=>$pcode])->select("pcode")->first();
         return empty($temp) ? null : $temp["pcode"];
     }
 
     public function pid($pcode)
     {
-        $temp=DB::table($this->tableName)->where(["pcode"=>$pcode])->select("pid")->first();
+        $temp=DB::table($this->table)->where(["pcode"=>$pcode])->select("pid")->first();
         return empty($temp) ? 0 : $temp["pid"];
     }
 
     public function pcode($pid)
     {
-        $temp=DB::table($this->tableName)->where(["pid"=>$pid])->select("pcode")->first();
+        $temp=DB::table($this->table)->where(["pid"=>$pid])->select("pcode")->first();
         return empty($temp) ? 0 : $temp["pcode"];
     }
 
     public function ocode($pid)
     {
-        $temp=DB::table($this->tableName)->where(["pid"=>$pid])->select("OJ as oid")->first();
+        $temp=DB::table($this->table)->where(["pid"=>$pid])->select("OJ as oid")->first();
         return empty($temp) ? null : DB::table("oj")->where(["oid"=>$temp["oid"]])->select("ocode")->first()["ocode"];
     }
 
     public function oid($pid)
     {
-        return DB::table($this->tableName)->where(["pid"=>$pid])->select("OJ as oid")->first()["oid"];
+        return DB::table($this->table)->where(["pid"=>$pid])->select("OJ as oid")->first()["oid"];
     }
 
     public function clearTags($pid)
@@ -185,7 +185,7 @@ class ProblemModel extends Model
 
     public function getSolvedCount($oid)
     {
-        return DB::table($this->tableName)->select("pid", "solved_count")->where(["OJ"=>$oid])->get()->all();
+        return DB::table($this->table)->select("pid", "solved_count")->where(["OJ"=>$oid])->get()->all();
     }
 
     public function updateDifficulty($pid, $diff_level)
@@ -196,7 +196,7 @@ class ProblemModel extends Model
 
     public function insertProblem($data)
     {
-        $pid=DB::table($this->tableName)->insertGetId([
+        $pid=DB::table($this->table)->insertGetId([
             'difficulty'=>-1,
             'file'=>$data['file'],
             'title'=>$data['title'],
@@ -237,7 +237,7 @@ class ProblemModel extends Model
 
     public function updateProblem($data)
     {
-        DB::table($this->tableName)->where(["pcode"=>$data['pcode']])->update([
+        DB::table($this->table)->where(["pcode"=>$data['pcode']])->update([
             'difficulty'=>-1,
             'file'=>$data['file'],
             'title'=>$data['title'],
