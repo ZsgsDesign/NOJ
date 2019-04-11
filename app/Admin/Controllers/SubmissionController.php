@@ -92,16 +92,6 @@ class SubmissionController extends Controller
         $grid->jid("JID");
         $grid->coid("COID");
         $grid->score("Raw Score");
-        // $grid->memory_limit("Memory/kb")->editable();
-        // $grid->OJ();
-        // $grid->update_date();
-        // $grid->tot_score("Score");
-        // $grid->partial("Partial")->display(function ($partial) {
-        //     return $partial ? 'Yes' : 'No';
-        // });
-        // $grid->markdown("Markdown")->display(function ($markdown) {
-        //     return $markdown ? 'Yes' : 'No';
-        // });
         $grid->filter(function (Grid\Filter $filter) {
             $filter->like('verdict');
         });
