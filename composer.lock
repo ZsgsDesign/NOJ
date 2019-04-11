@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d370ababc62da7864e919385b8a09f6",
+    "content-hash": "b1c4f4ed950768999a4dbb449d633dc7",
     "packages": [
         {
             "name": "composer/installers",
@@ -1173,58 +1173,6 @@
             ],
             "description": "Highlight PHP code in terminal",
             "time": "2018-09-29T18:48:56+00:00"
-        },
-        {
-            "name": "jxlwqq/material-ui",
-            "version": "1.0.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel-admin-extensions/material-ui.git",
-                "reference": "9c4918361b2ddef21941cb5c6907ff15298e89cd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel-admin-extensions/material-ui/zipball/9c4918361b2ddef21941cb5c6907ff15298e89cd",
-                "reference": "9c4918361b2ddef21941cb5c6907ff15298e89cd",
-                "shasum": ""
-            },
-            "require": {
-                "encore/laravel-admin": ">=1.6.1",
-                "php": ">=7.0.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~6.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Jxlwqq\\MaterialUI\\MaterialUIServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Jxlwqq\\MaterialUI\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "jxlwqq",
-                    "email": "jxlwqq@gmail.com"
-                }
-            ],
-            "description": "material ui for laravel-admin",
-            "homepage": "https://github.com/jxlwqq/material-ui",
-            "keywords": [
-                "extension",
-                "laravel-admin"
-            ],
-            "time": "2018-12-24T08:46:00+00:00"
         },
         {
             "name": "kub-at/php-simple-html-dom-parser",
