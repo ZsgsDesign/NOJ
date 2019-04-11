@@ -89,10 +89,10 @@ class ProblemController extends Controller
         $grid->update_date();
         $grid->tot_score("Score");
         $grid->partial("Partial")->display(function ($partial) {
-            return $partial ? '是' : '否';
+            return $partial ? 'Yes' : 'No';
         });
         $grid->markdown("Markdown")->display(function ($markdown) {
-            return $markdown ? '是' : '否';
+            return $markdown ? 'Yes' : 'No';
         });
         $grid->filter(function (Grid\Filter $filter) {
             $filter->disableIdFilter();
@@ -132,8 +132,14 @@ class ProblemController extends Controller
             $form->display('OJ');
             $form->display('update_date');
             $form->text('tot_score')->rules('required');
-            $form->text('partial')->rules('required');
-            $form->text('markdown')->rules('required');
+            $form->select('partial', 'Partial Score')->options([
+                0  => "No",
+                1 => "Yes"
+            ])->rules('required');
+            $form->select('markdown', 'Markdown Support')->options([
+                0  => "No",
+                1 => "Yes"
+            ])->rules('required');
         });
         return $form;
     }
