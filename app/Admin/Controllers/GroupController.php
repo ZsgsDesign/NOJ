@@ -82,7 +82,9 @@ class GroupController extends Controller
         $grid = new Grid(new GroupModel);
         $grid->column('gid',"ID")->sortable();
         $grid->column("gcode","Group Code");
-        $grid->img("Focus Image")->image();
+        $grid->img("Focus Image")->display(function($url) {
+            return '<img src="'.$url.'" style="max-width:200px;max-height:200px" class="img img-thumbnail">';
+        });
         $grid->name("Name")->editable();
         $grid->public("Publicity")->display(function ($public) {
             return $public?"Public":"Private";
