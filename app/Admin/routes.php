@@ -14,5 +14,6 @@ Route::group([
     $router->resource('users', UserController::class);
     $router->resource('problems', ProblemController::class);
     $router->resource('submissions', SubmissionController::class);
+    $router->resource('contests', ContestController::class);
 
 });
