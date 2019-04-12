@@ -83,7 +83,7 @@ class GroupController extends Controller
         $grid->column('gid',"ID")->sortable();
         $grid->column("gcode","Group Code");
         $grid->img("Focus Image")->image();
-        $grid->name("Name");
+        $grid->name("Name")->editable();
         $grid->public("Publicity")->display(function ($public) {
             return $public?"Public":"Private";
         });

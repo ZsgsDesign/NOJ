@@ -82,7 +82,7 @@ class ContestController extends Controller
         $grid = new Grid(new ContestModel);
         $grid->column('cid',"ID")->sortable();
         $grid->column("gid","Group");
-        $grid->name("Name");
+        $grid->name("Name")->editable();
         $grid->verified("Verified")->display(function ($verified) {
             return $verified?"Yes":"No";
         });
