@@ -81,7 +81,7 @@ class ContestController extends Controller
     {
         $grid = new Grid(new ContestModel);
         $grid->column('cid',"ID")->sortable();
-        $grid->gid("Group");
+        $grid->column("gid","Group");
         $grid->name("Name");
         $grid->verified("Verified")->display(function ($verified) {
             return $verified?"Yes":"No";
@@ -95,13 +95,13 @@ class ContestController extends Controller
         $grid->featured("Featured")->display(function ($featured) {
             return $featured?"Yes":"No";
         });
-        $grid->rule("Rule");
+        $grid->column("rule","Rule");
         $grid->begin_time("Begins");
         $grid->end_time("Ends");
         $grid->public("Public")->display(function ($public) {
             return $public?"Yes":"No";
         });
-        $grid->registration("Registration")->display(function ($registration) {
+        $grid->column("registration","Registration")->display(function ($registration) {
             return $registration?"Required":"Free";
         });
         $grid->registration_due("Registration Due");
@@ -134,19 +134,9 @@ class ContestController extends Controller
         $form = new Form(new ContestModel);
         $form->model()->makeVisible('password');
         $form->tab('Basic', function (Form $form) {
-            $form->display('sid');
-            $form->text('time')->rules('required');
-            $form->text('memory')->rules('required');
-            $form->text('verdict')->rules('required');
-            $form->text('color')->rules('required');
-            $form->text('language')->rules('required');
-            $form->display('submission_date');
-            $form->number('uid')->rules('required');
-            $form->number('cid');
-            $form->number('pid')->rules('required');
-            $form->number('jid')->rules('required');
-            $form->number('coid')->rules('required');
-            $form->number('score')->rules('required');
+            $form->display('cid');
+            // $form->number('gid')->rules('required');
+            $form->text('name')->rules('required');
         });
         return $form;
     }
