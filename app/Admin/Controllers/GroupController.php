@@ -91,8 +91,8 @@ class GroupController extends Controller
             return $verified?"Public":"Private";
         });
         $grid->join_policy("Join Policy");
-        $grid->custom_icon("Custom Icon")->image();
-        $grid->custom_title("Custom Title");
+        // $grid->custom_icon("Custom Icon")->image();
+        // $grid->custom_title("Custom Title");
         $grid->filter(function (Grid\Filter $filter) {
             $filter->like('gcode');
             $filter->like('name');
