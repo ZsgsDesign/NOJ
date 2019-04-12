@@ -10,7 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class SubmissionController extends Controller
+class GroupController extends Controller
 {
     use HasResourceActions;
 
@@ -80,24 +80,22 @@ class SubmissionController extends Controller
     protected function grid()
     {
         $grid = new Grid(new GroupModel);
-        $grid->column('sid',"ID")->sortable();
-        $grid->time("Time");
-        $grid->memory("Memory");
-        $grid->verdict("Verdict")->display(function ($verdict) {
-            return '<i class="fa fa-circle '.$this->color.'"></i> '.$verdict;
+        $grid->column('gid',"ID")->sortable();
+        $grid->column("gcode","Group Code");
+        $grid->img("Focus Image")->image();
+        $grid->name("Name");
+        $grid->public("Publicity")->display(function ($public) {
+            return $public?"Public":"Private";
         });
-        $grid->language("Language");
-        $grid->submission_date("Submission Date")->display(function ($submission_date) {
-            return date("Y-m-d H:i:s",$submission_date);
-        });;
-        $grid->uid("UID");
-        $grid->cid("CID");
-        $grid->pid("PID");
-        $grid->jid("JID");
-        $grid->coid("COID");
-        $grid->score("Raw Score");
+        $grid->verified("Verified")->display(function ($verified) {
+            return $verified?"Public":"Private";
+        });
+        $grid->join_policy("Join Policy");
+        $grid->custom_icon("Custom Icon")->image();
+        $grid->custom_title("Custom Title");
         $grid->filter(function (Grid\Filter $filter) {
-            $filter->like('verdict');
+            $filter->like('gcode');
+            $filter->like('name');
         });
         return $grid;
     }
