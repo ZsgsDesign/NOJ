@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\DB;
 class GroupModel extends Model
 {
     protected $tableName='group';
+    protected $table='group';
+    protected $primaryKey = 'gid';
+    const DELETED_AT=null;
+    const UPDATED_AT=null;
+    const CREATED_AT=null;
+
     public $role=[
         "-3"=>"None",
         "-1"=>"Invited",
