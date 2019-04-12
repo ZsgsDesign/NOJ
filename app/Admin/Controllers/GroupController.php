@@ -88,7 +88,7 @@ class GroupController extends Controller
             return $public?"Public":"Private";
         });
         $grid->verified("Verified")->display(function ($verified) {
-            return $verified?"Public":"Private";
+            return $verified?"Yes":"No";
         });
         $grid->join_policy("Join Policy");
         // $grid->custom_icon("Custom Icon")->image();
@@ -122,19 +122,8 @@ class GroupController extends Controller
         $form = new Form(new GroupModel);
         $form->model()->makeVisible('password');
         $form->tab('Basic', function (Form $form) {
-            $form->display('sid');
-            $form->text('time')->rules('required');
-            $form->text('memory')->rules('required');
-            $form->text('verdict')->rules('required');
-            $form->text('color')->rules('required');
-            $form->text('language')->rules('required');
-            $form->display('submission_date');
-            $form->number('uid')->rules('required');
-            $form->number('cid');
-            $form->number('pid')->rules('required');
-            $form->number('jid')->rules('required');
-            $form->number('coid')->rules('required');
-            $form->number('score')->rules('required');
+            $form->display('gid');
+            $form->text('name')->rules('required');
         });
         return $form;
     }
