@@ -29,6 +29,7 @@
         "npm-asset/jquery": "^3.3",
         "npm-asset/mathjax": "^2.7",
         "oomphinc/composer-installers-extender": "^1.1",
+        "orangehill/iseed": "^2.6",
         "rmccue/requests": "^1.7",
         "sebastian/version": "^2.0"
     },
