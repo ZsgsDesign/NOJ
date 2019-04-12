@@ -79,7 +79,7 @@ class ContestController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new SubmissionModel);
+        $grid = new Grid(new ContestModel);
         $grid->column('cid',"ID")->sortable();
         $grid->gid("Group");
         $grid->name("Name");
@@ -120,7 +120,7 @@ class ContestController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(SubmissionModel::findOrFail($id));
+        $show = new Show(ContestModel::findOrFail($id));
         return $show;
     }
 
@@ -131,7 +131,7 @@ class ContestController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new SubmissionModel);
+        $form = new Form(new ContestModel);
         $form->model()->makeVisible('password');
         $form->tab('Basic', function (Form $form) {
             $form->display('sid');
