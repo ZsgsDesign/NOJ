@@ -83,9 +83,13 @@ class SubmissionController extends Controller
         $grid->column('sid',"ID")->sortable();
         $grid->time("Time");
         $grid->memory("Memory");
-        $grid->verdict("Verdict");
+        $grid->verdict("Verdict")->display(function ($verdict) {
+            return '<i class="fa fa-circle '.$this->color.'"></i> '.$verdict;
+        });
         $grid->language("Language");
-        $grid->submission_date("Submission Date");
+        $grid->submission_date("Submission Date")->display(function ($submission_date) {
+            return date("Y-m-d H:i:s",$submission_date);
+        });;
         $grid->uid("UID");
         $grid->cid("CID");
         $grid->pid("PID");
@@ -120,22 +124,19 @@ class SubmissionController extends Controller
         $form = new Form(new SubmissionModel);
         $form->model()->makeVisible('password');
         $form->tab('Basic', function (Form $form) {
-            // $form->display('pid');
-            // $form->text('pcode')->rules('required');
-            $form->text('title')->rules('required');
-            $form->text('time_limit')->rules('required');
-            $form->text('memory_limit')->rules('required');
-            $form->display('OJ');
-            $form->display('update_date');
-            $form->text('tot_score')->rules('required');
-            $form->select('partial', 'Partial Score')->options([
-                0  => "No",
-                1 => "Yes"
-            ])->rules('required');
-            $form->select('markdown', 'Markdown Support')->options([
-                0  => "No",
-                1 => "Yes"
-            ])->rules('required');
+            $form->display('sid');
+            $form->text('time')->rules('required');
+            $form->text('memory')->rules('required');
+            $form->text('verdict')->rules('required');
+            $form->text('color')->rules('required');
+            $form->text('language')->rules('required');
+            $form->display('submission_date');
+            $form->number('uid')->rules('required');
+            $form->number('cid');
+            $form->number('pid')->rules('required');
+            $form->number('jid')->rules('required');
+            $form->number('coid')->rules('required');
+            $form->number('score')->rules('required');
         });
         return $form;
     }

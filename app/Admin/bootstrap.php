@@ -18,4 +18,5 @@
  *
  */
 
+Admin::css('/static/css/wemd-color-scheme.css');
 Encore\Admin\Form::forget(['map', 'editor']);
