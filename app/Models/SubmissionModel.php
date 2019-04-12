@@ -13,6 +13,7 @@ class SubmissionModel extends Model
     const DELETED_AT=null;
     const UPDATED_AT=null;
     const CREATED_AT=null;
+
     public $colorScheme=[
         "Waiting"                => "wemd-blue-text",
         "Judge Error"            => "wemd-black-text",
