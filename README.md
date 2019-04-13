@@ -83,9 +83,9 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
     - [X] Cron Support
     - [X] Queue Support
     - [ ] Notification Support
-        - [ ] Browser
+        - [X] Browser
         - [ ] Mail
-    - [ ] System Version
+    - [X] System Version
     - [ ] System Bug Report
 - [ ] User System
     - [X] User Login
@@ -180,6 +180,8 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
             - [ ] Group Own ProblemSet
                 - [ ] Add Problem
             - [ ] Group Settings
+- [ ] Admin Panel
+    - [X] User Management
 
 
 ## Credit
