@@ -124,10 +124,10 @@
         </div>
     </div>
 </div>
+@include('js.commom.notification')
 <script>
     window.addEventListener("load",function() {
-
+        notify("Welcome",'Hi, welcome back to the Fully new NOJ',"/static/img/njupt.png",'welcome');
     }, false);
-
 </script>
 @endsection
