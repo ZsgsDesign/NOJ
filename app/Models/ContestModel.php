@@ -10,6 +10,12 @@ use Auth;
 class ContestModel extends Model
 {
     protected $tableName='contest';
+    protected $table='contest';
+    protected $primaryKey = 'cid';
+    const DELETED_AT=null;
+    const UPDATED_AT=null;
+    const CREATED_AT=null;
+
     public $rule=["Unknown", "ICPC", "OI", "Custom ICPC", "Custom OI"];
 
     public function calcLength($a, $b)

@@ -310,6 +310,10 @@ fresh-container reply-quote p:last-child {
 
 /* General */
 
+body{
+    tab-size: 4;
+}
+
 .bg-dark{
     background-color: #3E4551!important;
 }

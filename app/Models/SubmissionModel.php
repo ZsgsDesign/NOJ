@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\DB;
 class SubmissionModel extends Model
 {
     protected $tableName='submission';
+    protected $table='submission';
+    protected $primaryKey = 'sid';
+    const DELETED_AT=null;
+    const UPDATED_AT=null;
+    const CREATED_AT=null;
+
     public $colorScheme=[
         "Waiting"                => "wemd-blue-text",
         "Judge Error"            => "wemd-black-text",

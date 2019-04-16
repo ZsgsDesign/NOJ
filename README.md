@@ -9,6 +9,8 @@ NOJ's another online judge platform, stands for NJUPT Online Judge. It's written
 [![Code Coverage](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/badges/build.png?b=master)](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/build-status/master)
 [![Code Intelligence Status](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
+![Stars](https://img.shields.io/github/stars/zsgsdesign/noj.svg)
+![Forks](https://img.shields.io/github/forks/zsgsdesign/noj.svg)
 
 ## Installation
 
@@ -81,9 +83,9 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
     - [X] Cron Support
     - [X] Queue Support
     - [ ] Notification Support
-        - [ ] Browser
+        - [X] Browser
         - [ ] Mail
-    - [ ] System Version
+    - [X] System Version
     - [ ] System Bug Report
 - [ ] User System
     - [X] User Login
@@ -178,6 +180,8 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
             - [ ] Group Own ProblemSet
                 - [ ] Add Problem
             - [ ] Group Settings
+- [ ] Admin Panel
+    - [X] User Management
 
 
 ## Credit
