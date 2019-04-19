@@ -33,6 +33,8 @@ class CrawlerBase
         'special_compiler'=>null,
     ];
 
+    public $data = null;
+
     /**
      * Initial
      *

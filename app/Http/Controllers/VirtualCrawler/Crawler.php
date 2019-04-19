@@ -7,11 +7,13 @@ use App\Http\Controllers\VirtualCrawler\ContestHunter\ContestHunter;
 use App\Http\Controllers\VirtualCrawler\POJ\POJ;
 use App\Http\Controllers\VirtualCrawler\PTA\PTA;
 use App\Http\Controllers\VirtualCrawler\Vijos\Vijos;
+use App\Http\Controllers\VirtualCrawler\UVa\UVa;
 use App\Models\ProblemModel;
 use Auth;
 
 class Crawler
 {
+    public $data = null;
 
     /**
      * Initial
@@ -21,19 +23,23 @@ class Crawler
     public function __construct($name, $action, $con, $cached=false)
     {
         if ($name=="CodeForces") {
-            new CodeForces($action, $con, $cached);
+            $crawler = new CodeForces($action, $con, $cached);
         }
         if ($name=="ContestHunter") {
-            new ContestHunter($action, $con, $cached);
+            $crawler = new ContestHunter($action, $con, $cached);
         }
         if ($name=="POJ") {
-            new POJ($action, $con, $cached);
+            $crawler = new POJ($action, $con, $cached);
         }
         if ($name=="PTA") {
-            new PTA($action, $con, $cached);
+            $crawler = new PTA($action, $con, $cached);
         }
         if ($name=="Vijos") {
-            new Vijos($action, $con, $cached);
+            $crawler = new Vijos($action, $con, $cached);
         }
+        if ($name=="UVa") {
+            $crawler = new UVa($action, $con, $cached);
+        }
+        if (isset($crawler)) $this->data = $crawler->data;
     }
 }
