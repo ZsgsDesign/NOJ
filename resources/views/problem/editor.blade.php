@@ -853,7 +853,6 @@
                                         $("#verdict_info").addClass(ret.data.color);
                                         if(ret.data.verdict!="Pending" && ret.data.verdict!="Waiting" && ret.data.verdict!="Judging") {
                                             clearInterval(tempInterval);
-                                        } else {
                                             notify(ret.data.verdict, 'Your submission to problem {{$detail["title"]}} has been proceed.',(ret.data.verdict=="Partially Accepted"||ret.data.verdict=="Accepted")?"/static/img/notify/check.png":"/static/img/notify/cancel.png",'{{$detail["pid"]}}');
                                         }
                                     }
