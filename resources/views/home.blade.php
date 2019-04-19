@@ -127,7 +127,7 @@
 @include("js.common.notification")
 <script>
     window.addEventListener("load",function() {
-        notify("Welcome",'Hi, welcome back to the Fully new NOJ',"/static/img/njupt.png",'welcome');
+        notify("Welcome",'Hi, welcome back to the Fully new NOJ',"/static/img/notify/njupt.png",'welcome');
     }, false);
 </script>
 @endsection
