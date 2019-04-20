@@ -17,7 +17,14 @@ class ProblemModel extends Model
         $prob_detail=DB::table($this->table)->where("pcode", $pcode)->first();
         // [Depreciated] Joint Query was depreciated here for code maintenance reasons
         if (!is_null($prob_detail)) {
-            if ($prob_detail["markdown"]) {
+            if($prob_detail["force_raw"]) {
+                $prob_detail["parsed"]=[
+                    "description"=>$prob_detail["description"],
+                    "input"=>$prob_detail["input"],
+                    "output"=>$prob_detail["output"],
+                    "note"=>$prob_detail["note"]
+                ];
+            } elseif ($prob_detail["markdown"]) {
                 $prob_detail["parsed"]=[
                     "description"=>clean(Markdown::convertToHtml($prob_detail["description"])),
                     "input"=>clean(Markdown::convertToHtml($prob_detail["input"])),
