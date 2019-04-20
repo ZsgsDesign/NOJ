@@ -10,7 +10,7 @@ class AccountModel extends Model
 {
     public function generatePassword($length=8)
     {
-        $chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ123456789';
+        $chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789';
 
         $password='';
         for ($i=0; $i<$length; $i++) {
