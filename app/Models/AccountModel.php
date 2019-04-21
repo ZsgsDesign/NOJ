@@ -10,7 +10,7 @@ class AccountModel extends Model
 {
     public function generatePassword($length=8)
     {
-        $chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ123456789';
+        $chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789';
 
         $password='';
         for ($i=0; $i<$length; $i++) {
@@ -59,5 +59,22 @@ class AccountModel extends Model
             'created_at'=>date("Y-m-d H:i:s"),
             'updated_at'=>date("Y-m-d H:i:s")
         ]);
+    }
+
+    public function detail($uid)
+    {
+        $ret=DB::table("users")->where(["id"=>$uid])->first();
+        $ret["submissionCount"]=DB::table("submission")->where([
+            "uid"=>$uid,
+        ])->whereNotIn('verdict', [
+            'System Error',
+            'Submission Error'
+        ])->count();
+        $ret["solved"]=DB::table("submission")->where([
+            "uid"=>$uid,
+            "verdict"=>"Accepted"
+        ])->join("problem","problem.pid","=","submission.pid")->select('pcode')->distinct()->get()->all();
+        $ret["solvedCount"]=count($ret["solved"]);
+        return $ret;
     }
 }

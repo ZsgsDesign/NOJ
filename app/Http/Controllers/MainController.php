@@ -29,17 +29,6 @@ use Auth;
 class MainController extends Controller
 {
     /**
-     * Show the Account Login and Register Page.
-     *
-     * @param Request $request your web request
-     *
-     * @return Response
-     */
-    public function account(Request $request)
-    {
-        return Auth::check() ? redirect("/account/dashboard") : redirect("/login");
-    }
-    /**
      * Show the Home Page.
      *
      * @param Request $request your web request

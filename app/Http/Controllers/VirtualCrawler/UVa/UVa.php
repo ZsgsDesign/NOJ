@@ -23,14 +23,7 @@ class UVa extends CrawlerBase
         if ($action=='judge_level') {
             $this->judge_level();
         } else {
-            if ($con == 'all') {
-                $this->crawler(1, true);
-                $this->crawler(2, true);
-            } else if ($con[0] == 'c') {
-                $this->crawler(substr($con, 1), true);
-            } else {
-                $this->crawler($con, false);
-            }
+            $this->crawler($con);
         }
     }
 
@@ -40,54 +33,53 @@ class UVa extends CrawlerBase
     }
 
 
-    public function crawler($con, $isCategory, $solves = -1)
+    public function crawler($con)
     {
         $problemModel=new ProblemModel();
-        if ($isCategory) {
-            $res=Requests::get("https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=$con");
-            $count = preg_match_all('/<td><a href="index\.php\?option=com_onlinejudge&amp;Itemid=8&amp;category=(\d+)(?:&amp;page=show_problem&amp;problem=(\d+)"[\S\s]*?<td align="right">[\S\s]*?<td align="right">(\d+)[\S\s]*?>([\d.]+)%<\/div>)?/i', $res->body, $matches);
-            for ($i = 0; $i < $count; ++$i) {
-                if ($matches[2][$i]) {
-                    $this->crawler($matches[2][$i], false, intval($matches[3][$i] * $matches[4][$i] / 100 + .5)); // solve count here is not accurate
+        if ($con == 'all') {
+            $res=Requests::get("https://uhunt.onlinejudge.org/api/p");
+            $result = json_decode($res->body, true);
+            $info = [];
+            for ($i = 0; $i < count($result); ++$i) {
+                $info[$result[$i][1]] = [$result[$i][0], $result[$i][2], $result[$i][3], $result[$i][19]];
+            }
+            ksort($info);
+            foreach($info as $key=>$value) {
+                $this->pro['pcode']='UVA'.$key;
+                $this->pro['OJ']=$this->oid;
+                $this->pro['contest_id']=null;
+                $this->pro['index_id']=$value[0];
+                $this->pro['origin']="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=".$value[0];
+                $this->pro['title']=$value[1];
+                $this->pro['time_limit']=$value[3];
+                $this->pro['memory_limit']=131072; // Given in elder codes
+                $this->pro['solved_count']=$value[2];
+                $this->pro['input_type']='standard input';
+                $this->pro['output_type']='standard output';
+                $this->pro['description']="<a href=\"/external/gym/UVa{$key}.pdf\">[Attachment Link]</a>";
+                $this->pro['input']='';
+                $this->pro['output']='';
+                $this->pro['note']='';
+                $this->pro['sample']=[];
+                $this->pro['source']='Here';
+                $this->pro['file']=1;
+
+                $problem=$problemModel->pid($this->pro['pcode']);
+
+                if ($problem) {
+                    $problemModel->clearTags($problem);
+                    $new_pid=$this->update_problem($this->oid);
                 } else {
-                    $this->crawler($matches[1][$i], true);
+                    $new_pid=$this->insert_problem($this->oid);
                 }
+
+                // $problemModel->addTags($new_pid, $tag); // not present
             }
+            $this->data = array_keys($info);
         } else {
-            $res=Requests::get("https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=$con");
-            preg_match('/<h3>(\d+) - (.*?)<\/h3>\s*Time limit: ([\d.]+) seconds/', $res->body, $match);
-            $this->pro['pcode']='UVA'.$match[1];
-            $this->pro['OJ']=$this->oid;
-            $this->pro['contest_id']=null;
-            $this->pro['index_id']=$con;
-            $this->pro['origin']="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=$con";
-            $this->pro['title']=$match[2];
-            $this->pro['time_limit']=intval($match[3] * 1000);
-            $this->pro['memory_limit']=0;
-            $this->pro['solved_count']=$solves; // Won't crawler specially for efficiency purpose
-            $this->pro['input_type']='standard input';
-            $this->pro['output_type']='standard output';
-            $this->pro['description']="<a href=\"/external/gym/UVa$match[1].pdf\">[Attachment Link]</a>";
-            $this->pro['input']='';
-            $this->pro['output']='';
-            $this->pro['note']='';
-            $this->pro['sample']=[];
-            $this->pro['source']='Here';
-            $this->pro['file']=1;
-            $pf = substr($match[1], 0, strlen($match[1]) - 2);
-            $res=Requests::get("https://uva.onlinejudge.org/external/$pf/p$match[1].pdf");
-            file_put_contents(base_path("public/external/gym/UVa$match[1].pdf"), $res->body);
-
-            $problem=$problemModel->pid($this->pro['pcode']);
-
-            if ($problem) {
-                $problemModel->clearTags($problem);
-                $new_pid=$this->update_problem($this->oid);
-            } else {
-                $new_pid=$this->insert_problem($this->oid);
-            }
-
-            // $problemModel->addTags($new_pid, $tag); // not present
+            $pf = substr($con, 0, strlen($con) - 2);
+            $res=Requests::get("https://uva.onlinejudge.org/external/$pf/p$con.pdf");
+            file_put_contents(base_path("public/external/gym/UVa$con.pdf"), $res->body);
         }
     }
 }

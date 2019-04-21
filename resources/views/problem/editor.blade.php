@@ -717,6 +717,7 @@
     <script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     @include('layouts.primaryJS')
     @include('js.submission.detail')
+    @include("js.common.notification")
     <script>
         var historyOpen=false;
         var submission_processing=false;
@@ -850,8 +851,9 @@
                                         }
                                         $("#verdict_info").removeClass();
                                         $("#verdict_info").addClass(ret.data.color);
-                                        if(ret.data.verdict!="Pending" && ret.data.verdict!="Waiting" && ret.data.verdict!="Judging"){
+                                        if(ret.data.verdict!="Pending" && ret.data.verdict!="Waiting" && ret.data.verdict!="Judging") {
                                             clearInterval(tempInterval);
+                                            notify(ret.data.verdict, 'Your submission to problem {{$detail["title"]}} has been proceed.',(ret.data.verdict=="Partially Accepted"||ret.data.verdict=="Accepted")?"/static/img/notify/checked.png":"/static/img/notify/cancel.png",'{{$detail["pid"]}}');
                                         }
                                     }
                                 }, error: function(xhr, type){

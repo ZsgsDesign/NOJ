@@ -15,7 +15,10 @@ Route::redirect('/home', '/', 301);
 
 Route::get('/', 'MainController@home')->middleware('contest_account')->name('home');
 
-Route::get('/account', 'MainController@account')->name('account');
+Route::group(['prefix' => 'account'], function () {
+    Route::get('/', 'AccountController@index')->name('account_index');
+    Route::get('/dashboard', 'AccountController@dashboard')->middleware('auth')->name('account_dashboard');
+});
 
 Route::get('/problem', 'ProblemController@index')->middleware('contest_account')->name('problem_index');
 Route::get('/problem/{pcode}', 'ProblemController@detail')->middleware('contest_account')->name('problem_detail');

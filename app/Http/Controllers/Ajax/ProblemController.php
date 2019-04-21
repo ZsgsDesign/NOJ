@@ -184,8 +184,8 @@ class ProblemController extends Controller
 
         $all_data=$request->all();
 
-        new Crawler($all_data["name"], $all_data["action"], $all_data["con"], $all_data["cached"]);
+        $crawler = new Crawler($all_data["name"], $all_data["action"], $all_data["con"], $all_data["cached"]);
 
-        return ResponseModel::success(200);
+        return ResponseModel::success(200, null, $crawler->data);
     }
 }
