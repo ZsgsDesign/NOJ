@@ -3,26 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 
 class AccountController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
+     * Show the account index.
      *
      * @return \Illuminate\View\View
      */
     public function index()
     {
-        return view('home');
+        return Auth::check() ? redirect("/account/dashboard") : redirect("/login");
+    }
+
+    /**
+     * Show the account dashboard.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function dashboard()
+    {
+        return view("account.dashboard");
     }
 }
