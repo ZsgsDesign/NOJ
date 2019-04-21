@@ -17,7 +17,7 @@ Route::get('/', 'MainController@home')->middleware('contest_account')->name('hom
 
 Route::group(['prefix' => 'account'], function () {
     Route::get('/', 'AccountController@index')->name('account_index');
-    Route::get('/dashboard', 'AccountController@dashboard')->name('account_dashboard');
+    Route::get('/dashboard', 'AccountController@dashboard')->middleware('auth')->name('account_dashboard');
 });
 
 Route::get('/problem', 'ProblemController@index')->middleware('contest_account')->name('problem_index');
