@@ -80,6 +80,10 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::group(['prefix' => 'submission'], function () {
         Route::post('detail', 'SubmissionController@detail');
     });
+
+    Route::group(['prefix' => 'account'], function () {
+        Route::post('update_avatar', 'AccountController@updateAvatar')->middleware('auth')->name('account_update_avatar');
+    });
 });
 
 Auth::routes();
