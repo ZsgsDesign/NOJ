@@ -25,6 +25,7 @@
         position: relative;
         text-align: center;
         height: 5rem;
+        user-select: none;
     }
 
     user-card > avatar-section > img{
@@ -71,6 +72,7 @@
         width: 100%;
         height: 25rem;
         object-fit: cover;
+        user-select: none;
     }
 
     .cm-empty{
@@ -120,6 +122,7 @@
         color: #495060;
         background-color: transparent;
         border-color: #dddee1;
+        margin: 0.25rem;
     }
 
     prob-badge:hover{
@@ -172,8 +175,8 @@
             </div>
             @else
             <div>
-                @foreach ($info["solved"] as $pcode)
-                    <a href="/problem/{{$pcode}}"><prob-badge>{{$pcode}}</prob-badge></a>
+                @foreach ($info["solved"] as $prob)
+                    <a href="/problem/{{$prob["pcode"]}}"><prob-badge>{{$prob["pcode"]}}</prob-badge></a>
                 @endforeach
             </div>
             @endif

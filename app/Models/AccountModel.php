@@ -64,9 +64,17 @@ class AccountModel extends Model
     public function detail($uid)
     {
         $ret=DB::table("users")->where(["id"=>$uid])->first();
-        $ret["solvedCount"]=1;
-        $ret["submissionCount"]=1;
-        $ret["solved"]=["NOJ1001"];
+        $ret["submissionCount"]=DB::table("submission")->where([
+            "uid"=>$uid,
+        ])->whereNotIn('verdict', [
+            'System Error',
+            'Submission Error'
+        ])->count();
+        $ret["solved"]=DB::table("submission")->where([
+            "uid"=>$uid,
+            "verdict"=>"Accepted"
+        ])->join("problem","problem.pid","=","submission.pid")->select('pcode')->distinct()->get()->all();
+        $ret["solvedCount"]=count($ret["solved"]);
         return $ret;
     }
 }
