@@ -99,6 +99,35 @@
         border: 1px solid rgba(0, 0, 0, 0.15);
     }
 
+    prob-badge{
+        display: inline-block;
+        margin-bottom: 0;
+        font-weight: 400;
+        text-align: center;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        background-image: none;
+        border: 1px solid transparent;
+        white-space: nowrap;
+        line-height: 1.5;
+        user-select: none;
+        padding: 6px 15px;
+        font-size: 12px;
+        border-radius: 4px;
+        transition: color .2s linear,background-color .2s linear,border .2s linear,box-shadow .2s linear;
+        color: #495060;
+        background-color: transparent;
+        border-color: #dddee1;
+    }
+
+    prob-badge:hover{
+        color: #57a3f3;
+        background-color: transparent;
+        border-color: #57a3f3;
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <user-card>
@@ -116,13 +145,13 @@
             <div class="row">
                 <div class="col-lg-4 col-12">
                     <statistic-block>
-                        <h1>0</h1>
+                        <h1>{{$info["solvedCount"]}}</h1>
                         <p>Solved</p>
                     </statistic-block>
                 </div>
                 <div class="col-lg-4 col-12">
                     <statistic-block>
-                        <h1>0</h1>
+                        <h1>{{$info["submissionCount"]}}</h1>
                         <p>Submissions</p>
                     </statistic-block>
                 </div>
@@ -142,6 +171,11 @@
                 <info-badge>Nothing Here</info-badge>
             </div>
             @else
+            <div>
+                @foreach ($info["solved"] as $pcode)
+                    <a href="/problem/{{$pcode}}"><prob-badge>{{$pcode}}</prob-badge></a>
+                @endforeach
+            </div>
             @endif
         </solved-section>
         <social-section>

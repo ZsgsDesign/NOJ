@@ -63,6 +63,10 @@ class AccountModel extends Model
 
     public function detail($uid)
     {
-        return DB::table("users")->where(["id"=>$uid])->first();
+        $ret=DB::table("users")->where(["id"=>$uid])->first();
+        $ret["solvedCount"]=1;
+        $ret["submissionCount"]=1;
+        $ret["solved"]=["NOJ1001"];
+        return $ret;
     }
 }
