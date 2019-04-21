@@ -53,6 +53,7 @@
 
     user-card statistic-block{
         display: block;
+        font-family: 'Montserrat';
     }
 
     user-card social-section{
