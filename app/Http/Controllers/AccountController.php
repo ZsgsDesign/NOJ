@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\AccountModel;
 use Auth;
 
 class AccountController extends Controller
@@ -24,6 +25,13 @@ class AccountController extends Controller
      */
     public function dashboard()
     {
-        return view("account.dashboard");
+        $accountModel=new AccountModel();
+        $info=$accountModel->detail(Auth::user()->id);
+        return view("account.dashboard", [
+            'page_title'=>"DashBoard",
+            'site_title'=>"NOJ",
+            'navigation'=>"DashBoard",
+            'info'=>$info
+        ]);
     }
 }

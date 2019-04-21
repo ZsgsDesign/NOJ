@@ -60,4 +60,9 @@ class AccountModel extends Model
             'updated_at'=>date("Y-m-d H:i:s")
         ]);
     }
+
+    public function detail($uid)
+    {
+        return DB::table("users")->where(["id"=>$uid])->first();
+    }
 }
