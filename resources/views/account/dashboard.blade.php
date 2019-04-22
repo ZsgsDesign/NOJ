@@ -161,7 +161,7 @@
                 </div>
                 <div class="col-lg-4 col-12">
                     <statistic-block>
-                        <h1>N/A</h1>
+                        <h1>{{$info["rank"]}}</h1>
                         <p>Rank</p>
                     </statistic-block>
                 </div>

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Cache;
 
 class AccountModel extends Model
 {
@@ -75,6 +76,24 @@ class AccountModel extends Model
             "verdict"=>"Accepted"
         ])->join("problem","problem.pid","=","submission.pid")->select('pcode')->distinct()->get()->all();
         $ret["solvedCount"]=count($ret["solved"]);
+        $ret["rank"]=Cache::tags(['rank'])->get($ret["uid"],"N/A");
         return $ret;
+    }
+
+    public function rankList()
+    {
+        Cache::tags(['rank'])->flush();
+        $rankList=DB::select("SELECT * FROM (SELECT uid,count(DISTINCT pcode) as solvedCount from submission inner join problem on problem.pid=submission.pid and verdict=\"Accepted\" group by uid) as temp ORDER BY solvedCount desc")->all();
+        $rankIter=1;
+        $rankValue=1;
+        $rankSolved=-1;
+        foreach($rankList as $rankItem){
+            if($rankSolved!=$rankItem["solvedCount"]){
+                $rankValue=$rankIter;
+                $rankSolved=$rankItem["solvedCount"];
+            }
+            Cache::tags(['rank'])->put($rankItem["uid"], $rankValue);
+            $rankIter++;
+        }
     }
 }
