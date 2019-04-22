@@ -199,14 +199,11 @@
             <i class="MDI web"></i>
         </social-section>
     </user-card>
-    <div class="modal fade" id="update-avatar-modal" tabindex="-1" role="dialog" aria-labelledby="update-avatar" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
+    <div class="modal fade" id="update-avatar-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-alert" role="document">
+            <div class="modal-content sm-modal">
                 <div class="modal-header">
                     <h5 class="modal-title">Update your avatar</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid text-center">
@@ -214,7 +211,7 @@
                             <img id="avatar-preview" src="{{$info["avatar"]}}" alt="avatar">
                         </avatar-section>
                         <br />
-                        <input type="file" style="display:none" id="avatar-file" accept=".jpg,.png">
+                        <input type="file" style="display:none" id="avatar-file" accept=".jpg,.png,.jpeg,.gif">
                         <label for="avatar-file" id="choose-avatar" class="btn btn-primary" role="button"><i class="MDI upload"></i> select local file</label>
                     </div>
                     <div id="avatar-error-tip" style="opacity:0" class="text-center">
@@ -222,7 +219,6 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button id="avatar-submit" type="button" class="btn btn-danger">Update</button>
                 </div>
             </div>
@@ -248,7 +244,7 @@
 
         $('#avatar-submit').on('click',function(){
             var file = $('#avatar-file').get(0).files[0];
-            if(!file){
+            if(file == undefined){
                 $('#tip-text').text('PLEASE CHOOSE A LOCAL FILE');
                 $('#tip-text').addClass('text-danger');
                 $('#tip-text').removeClass('text-success');
@@ -286,7 +282,7 @@
                         $('#tip-text').removeClass('text-danger');
                         $('#tip-text').addClass('text-success');
                         $('#avatar-error-tip').animate({opacity:'1'},200);
-                        var newURL = result.data.url;
+                        var newURL = result.data;
                         $('#avatar').attr('src',newURL);
                         $('#atsast_nav_avatar').attr('src',newURL);
                         setTimeout(function(){
