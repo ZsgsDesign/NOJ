@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ajax;
 
 use App\Http\Controllers\Controller;
+use App\Models\ResponseModel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
@@ -24,14 +25,10 @@ class AccountController extends Controller
         if($isValid){
             $extension = $request->file('avatar')->extension();
         }else{
-            $output=[
-                'ret' => '400',
-                'desc' => 'Invalid file',
-                'data' => null
-            ];
-            return response()->json($output);
+            return ResponseModel::err(403,'INVALID FILE');
         }
-        $allow_extension = ['jpg','png','jpeg'];
+
+        $allow_extension = ['jpg','png','jpeg','gif'];
         if($isValid && in_array($extension,$allow_extension)){
             $path = $request->file('avatar')->store('/static/img/avatar','NOJPublic');
 
@@ -44,21 +41,9 @@ class AccountController extends Controller
             $user->avatar = '/'.$path;
             $user->save();
 
-            $output=[
-                'ret' => '200',
-                'desc' => 'success',
-                'data' => [
-                    'url' => '/'.$path
-                ]
-            ];
-            return response()->json($output);
+            return ResponseModel::success(200, null, '/'.$path);
         }else{
-            $output=[
-                'ret' => '400',
-                'desc' => 'Invalid file',
-                'data' => null
-            ];
-            return response()->json($output);
+            return ResponseModel::err(403,'INVALID FILE');
         }
 
     }
