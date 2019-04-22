@@ -294,7 +294,7 @@
                             $('#avatar-error-tip').css({opacity:'0'});
                         },1000);
                     }else{
-                        $('#tip-text').text(ret.desc);
+                        $('#tip-text').text(result.desc);
                         $('#tip-text').addClass('text-danger');
                         $('#tip-text').removeClass('text-success');
                         $('#avatar-error-tip').animate({opacity:'1'},200);
