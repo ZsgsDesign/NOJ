@@ -97,9 +97,6 @@
     },
     "repositories": [{
         "type": "composer",
-        "url": "https://packagist.phpcomposer.com"
-    },{
-        "type": "composer",
         "url": "https://asset-packagist.org"
     }]
 }
