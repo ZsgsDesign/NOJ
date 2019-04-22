@@ -92,7 +92,7 @@ class AccountModel extends Model
                 $rankValue=$rankIter;
                 $rankSolved=$rankItem["solvedCount"];
             }
-            Cache::tags(['rank'])->put($rankItem["uid"], $rankValue);
+            Cache::tags(['rank'])->put($rankItem["uid"], $rankValue, 86400);
             $rankIter++;
         }
     }
