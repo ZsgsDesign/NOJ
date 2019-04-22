@@ -51,6 +51,7 @@ class ResponseModel extends Model
             '1002' => "Service Currently Unavailable",
             '1003' => "Missing Params",
             '1004' => "Write/Read Permission Denied",
+            '1004' => "Invalid File",
             '1984' => "Ignorance is Strength",
 
             '2000' => "Account-Related Error",
