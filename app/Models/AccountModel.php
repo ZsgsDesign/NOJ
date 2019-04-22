@@ -76,7 +76,7 @@ class AccountModel extends Model
             "verdict"=>"Accepted"
         ])->join("problem","problem.pid","=","submission.pid")->select('pcode')->distinct()->get()->all();
         $ret["solvedCount"]=count($ret["solved"]);
-        $ret["rank"]=Cache::tags(['rank'])->get($ret["uid"],"N/A");
+        $ret["rank"]=Cache::tags(['rank'])->get($ret["id"],"N/A");
         return $ret;
     }
 
