@@ -244,7 +244,6 @@
 
         $('#avatar-submit').on('click',function(){
             var file = $('#avatar-file').get(0).files[0];
-            console.log(file);
             if(file == undefined){
                 $('#tip-text').text('PLEASE CHOOSE A LOCAL FILE');
                 $('#tip-text').addClass('text-danger');
