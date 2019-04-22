@@ -93,7 +93,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
     - [ ] User Password Retrive
     - [ ] User Email Verify
     - [ ] DashBoard
-        - [ ] Statistics
+        - [X] Statistics
         - [ ] Activities
         - [ ] Profile
     - [ ] Settings
