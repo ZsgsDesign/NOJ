@@ -83,7 +83,7 @@ class AccountModel extends Model
     public function rankList()
     {
         Cache::tags(['rank'])->flush();
-        $rankList=DB::select("SELECT * FROM (SELECT uid,count(DISTINCT pcode) as solvedCount from submission inner join problem on problem.pid=submission.pid and verdict=\"Accepted\" group by uid) as temp ORDER BY solvedCount desc")->all();
+        $rankList=DB::select("SELECT * FROM (SELECT uid,count(DISTINCT pcode) as solvedCount from submission inner join problem on problem.pid=submission.pid and verdict=\"Accepted\" group by uid) as temp ORDER BY solvedCount desc");
         $rankIter=1;
         $rankValue=1;
         $rankSolved=-1;
