@@ -5,7 +5,7 @@ namespace App\Models;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Auth;
+use Auth,Cache;
 
 class ContestModel extends Model
 {
@@ -408,23 +408,12 @@ class ContestModel extends Model
         return $ret;
     }
 
-    public function contestRank($cid, $uid)
+    public function contestRankCache($cid)
     {
-        // [ToDo] If the current user's in the organizer group show nick name
-        // [ToDo] The participants determination
-        // [ToDo] Frozen Time
-        // [ToDo] Performance Opt
-        // [Todo] Ajaxization - Should have done in controller
-        // [Todo] Authorization ( Public / Private ) - Should have done in controller
-
+        // if(Cache::tags(['contest','rank'])->get($cid)!=null) return Cache::tags(['contest','rank'])->get($cid);
         $ret=[];
 
         $contest_info=DB::table("contest")->where("cid", $cid)->first();
-
-        $user_in_group=!empty(DB::table("group_member")->where([
-            "uid" => $uid,
-            "gid" => $contest_info["gid"]
-        ])->where("role", ">", 0)->first());
 
         if ($contest_info["registration"]) {
             $submissionUsers=DB::table("contest_participant")->where([
@@ -468,10 +457,10 @@ class ContestModel extends Model
                     "name" => DB::table("users")->where([
                         "id"=>$s["uid"]
                     ])->first()["name"],
-                    "nick_name" => $user_in_group ? DB::table("group_member")->where([
+                    "nick_name" => DB::table("group_member")->where([
                         "uid" => $s["uid"],
                         "gid" => $contest_info["gid"]
-                    ])->where("role", ">", 0)->first()["nick_name"] : "",
+                    ])->where("role", ">", 0)->first()["nick_name"],
                     "score" => $totScore,
                     "penalty" => $totPen,
                     "problem_detail" => $prob_detail
@@ -515,10 +504,10 @@ class ContestModel extends Model
                     "name" => DB::table("users")->where([
                         "id"=>$s["uid"]
                     ])->first()["name"],
-                    "nick_name" => $user_in_group ? DB::table("group_member")->where([
+                    "nick_name" => DB::table("group_member")->where([
                         "uid" => $s["uid"],
                         "gid" => $contest_info["gid"]
-                    ])->where("role", ">", 0)->first()["nick_name"] : "",
+                    ])->where("role", ">", 0)->first()["nick_name"],
                     "score" => $totScore,
                     "solved" => $totSolved,
                     "problem_detail" => $prob_detail
@@ -539,6 +528,39 @@ class ContestModel extends Model
                     return 1;
                 }
             });
+        }
+
+        Cache::tags(['contest','rank'])->put($cid, $ret, 60);
+
+        return $ret;
+    }
+
+    public function contestRank($cid, $uid)
+    {
+        // [ToDo] If the current user's in the organizer group show nick name
+        // [ToDo] The participants determination
+        // [ToDo] Frozen Time
+        // [ToDo] Performance Opt
+        // [Todo] Ajaxization - Should have done in controller
+        // [Todo] Authorization ( Public / Private ) - Should have done in controller
+
+        $ret=[];
+
+        $contest_info=DB::table("contest")->where("cid", $cid)->first();
+
+        $user_in_group=!empty(DB::table("group_member")->where([
+            "uid" => $uid,
+            "gid" => $contest_info["gid"]
+        ])->where("role", ">", 0)->first());
+
+        $contestRankRaw=Cache::tags(['contest','rank'])->get($cid);
+
+        if($contestRankRaw==null) $contestRankRaw=$this->contestRankCache($cid);
+
+        $ret=$contestRankRaw;
+
+        foreach($ret as $r){
+            if(!$user_in_group) $r["nick_name"]='';
         }
 
         return $ret;
