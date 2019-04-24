@@ -489,7 +489,7 @@
             text-decoration: none;
         }
 
-        a #verdict_text{
+        .cm-popover-decoration#verdict_text{
             border-bottom: dashed 1px currentColor;
             position: relative;
             top: -1px;
@@ -829,6 +829,7 @@
                         // submitted
                         $("#verdict_info").popover('dispose');
                         $("#verdict_text").text("Pending");
+                        $("#verdict_info").removeClass("cm-popover-decoration");
                         $("#verdict_info").removeClass();
                         $("#verdict_info").addClass("wemd-blue-text");
                         var tempInterval=setInterval(()=>{
@@ -847,6 +848,7 @@
                                         if(ret.data.verdict=="Compile Error"){
                                             $("#verdict_info").attr('title',"Compile Info");
                                             $("#verdict_info").attr('data-content',ret.data.compile_info);
+                                            $("#verdict_info").addClass("cm-popover-decoration");
                                             $("#verdict_info").popover();
                                         }
                                         if(ret.data.verdict=="Partially Accepted"){
