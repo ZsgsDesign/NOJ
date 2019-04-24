@@ -489,6 +489,12 @@
             text-decoration: none;
         }
 
+        a#verdict{
+            border-bottom: dashed 1px currentColor;
+            position: relative;
+            top: -1px;
+        }
+
         @-webkit-keyframes cm-rotate{
             from{-webkit-transform: rotate(0deg)}
             to{-webkit-transform: rotate(360deg)}
