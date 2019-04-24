@@ -29,7 +29,8 @@
             <div class="form-group bmd-form-group is-filled">
                 <label for="pb_lang" class="bmd-label-floating">Syntax</label>
                 <select class="form-control" id="pb_lang" name="pb_lang" required="">
-                <option value="plaintext">Plain Text</option><option value="json">JSON</option><option value="bat">Batch</option><option value="coffeescript">CoffeeScript</option><option value="c">C</option><option value="cpp">C++</option><option value="csharp">C#</option><option value="csp">CSP</option><option value="css">CSS</option><option value="dockerfile">Dockerfile</option><option value="fsharp">F#</option><option value="go">Go</option><option value="handlebars">Handlebars</option><option value="html">HTML</option><option value="ini">Ini</option><option value="java">Java</option><option value="javascript">JavaScript</option><option value="less">Less</option><option value="lua">Lua</option><option value="markdown">Markdown</option><option value="msdax">DAX</option><option value="mysql">MySQL</option><option value="objective-c">Objective-C</option><option value="pgsql">PostgreSQL</option><option value="php">PHP</option><option value="postiats">ATS</option><option value="powerquery">PQ</option><option value="powershell">PowerShell</option><option value="pug">Pug</option><option value="python">Python</option><option value="r">R</option><option value="razor">Razor</option><option value="redis">redis</option><option value="redshift">Redshift</option><option value="ruby">Ruby</option><option value="rust">Rust</option><option value="sb">Small Basic</option><option value="scss">Sass</option><option value="sol">sol</option><option value="sql">SQL</option><option value="st">StructuredText</option><option value="swift">Swift</option><option value="typescript">TypeScript</option><option value="vb">Visual Basic</option><option value="xml">XML</option><option value="yaml">YAML</option><option value="scheme">scheme</option><option value="clojure">clojure</option><option value="shell">Shell</option><option value="perl">Perl</option><option value="azcli">Azure CLI</option><option value="apex">Apex</option></select>
+
+                </select>
             </div>
         </div>
         <div class="col-lg-4 col-12">
@@ -65,6 +66,7 @@
 @section('additionJS')
     <script src="/static/vscode/vs/loader.js"></script>
     <script>
+        var aval_lang=[];
         require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/vscode/vs' }});
 
         // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
@@ -86,7 +88,7 @@
         require(["vs/editor/editor.main"], function () {
             editor = monaco.editor.create(document.getElementById('vscode'), {
                 value: "",
-                language: "markdown",
+                language: "plaintext",
                 theme: "vs-light",
                 fontSize: 16,
                 formatOnPaste: true,
@@ -94,6 +96,17 @@
                 automaticLayout: true,
             });
             $("#vscode_container").css("opacity",1);
+            var all_lang=monaco.languages.getLanguages();
+            all_lang.forEach(function (lang_conf) {
+                aval_lang.push(lang_conf.id);
+                $("#pb_lang").append("<option value='"+lang_conf.id+"'>"+lang_conf.aliases[0]+"</option>");
+                console.log(lang_conf.id);
+            });
+            $('#pb_lang').change(function(){
+                var targ_lang=$(this).children('option:selected').val();
+                monaco.editor.setModelLanguage(editor.getModel(), targ_lang);
+            });
+            // monaco.editor.setModelLanguage(editor.getModel(), "plaintext");
         });
     </script>
 @endsection
