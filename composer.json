@@ -22,7 +22,7 @@
         "laravel-admin-ext/media-manager": "^1.0",
         "laravel-admin-ext/redis-manager": "^1.0",
         "laravel-admin-ext/scheduling": "^1.0",
-        "laravel/framework": "5.7.*",
+        "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
         "mews/purifier": "^2.1",
         "npm-asset/clipboard": "^2.0",

@@ -21,6 +21,11 @@
     input.form-control {
         height: calc(2.4375rem + 2px);
     }
+    .cm-scrollable-menu{
+            height: auto;
+            max-height: 61.8vh;
+            overflow-x: hidden;
+        }
 </style>
 <div class="container mundb-standard-container">
     <h1>Instantly share code, notes, and snippets.</h1>
@@ -34,16 +39,27 @@
             </div>
         </div>
         <div class="col-lg-4 col-12">
-                <div class="form-group bmd-form-group is-filled">
-                    <label for="pb_time" class="bmd-label-floating">Expiration</label>
-                    <select class="form-control" id="pb_time" name="pb_time" required="">
-                        <option value="0">None</option>
-                        <option value="1">A Day</option>
-                        <option value="7">A Week</option>
-                        <option value="30">A Month</option>
-                    </select>
+            {{-- <div class="form-group bmd-form-group is-filled">
+                <label for="pb_time" class="bmd-label-floating">Expiration</label>
+                <select class="form-control" id="pb_time" name="pb_time" required="">
+                    <option value="0">None</option>
+                    <option value="1">A Day</option>
+                    <option value="7">A Week</option>
+                    <option value="30">A Month</option>
+                </select>
+            </div> --}}
+            <div class="btn-group dropup">
+                <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_lang_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Expiration
+                </button>
+                <div class="dropdown-menu cm-scrollable-menu">
+                    <button class="dropdown-item">None</button>
+                    <button class="dropdown-item">A Day</button>
+                    <button class="dropdown-item">A Week</button>
+                    <button class="dropdown-item">A Month</button>
                 </div>
             </div>
+        </div>
         <div class="col-lg-4 col-12">
             <div class="form-group bmd-form-group is-filled">
                 <label for="pb_author" class="bmd-label-floating">Author</label>

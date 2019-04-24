@@ -614,7 +614,7 @@
                             <button class="dropdown-item lang-selector" data-coid="{{$c['coid']}}" data-comp="{{$c['comp']}}" data-lang="{{$c['lang']}}" data-lcode="{{$c['lcode']}}"><i class="{{$c['icon']}} colored"></i> {{$c['display_name']}}</button>
                         @endforeach
                     </div>
-                    </div>
+                </div>
                 @if($contest_mode && $contest_ended)
                     <a href="/problem/{{$detail["pcode"]}}"><button type="button" class="btn btn-info" id="origialBtn"> <i class="MDI launch"></i> Original Problem</button></a>
                 @else
