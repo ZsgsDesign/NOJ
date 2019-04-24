@@ -21,11 +21,29 @@
     input.form-control {
         height: calc(2.4375rem + 2px);
     }
+
+    .cm-fake-select{
+        height: calc(2.4375rem + 2px);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .cm-scrollable-menu::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    .cm-scrollable-menu::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
     .cm-scrollable-menu{
-            height: auto;
-            max-height: 61.8vh;
-            overflow-x: hidden;
-        }
+        height: auto;
+        max-height: 40vh;
+        overflow-x: hidden;
+        width: 100%;
+        max-width:16rem;
+    }
 </style>
 <div class="container mundb-standard-container">
     <h1>Instantly share code, notes, and snippets.</h1>
@@ -33,9 +51,10 @@
         <div class="col-lg-4 col-12">
             <div class="form-group bmd-form-group is-filled">
                 <label for="pb_lang" class="bmd-label-floating">Syntax</label>
-                <select class="form-control" id="pb_lang" name="pb_lang" required="">
-
-                </select>
+                <div class="form-control cm-fake-select dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="pb_lang" name="pb_lang" required="">Plain Text</div>
+                <div class="dropdown-menu cm-scrollable-menu" id="pb_lang_option">
+                    {{-- <button class="dropdown-item" data-value="-1">None</button> --}}
+                </div>
             </div>
         </div>
         <div class="col-lg-4 col-12">
@@ -48,15 +67,14 @@
                     <option value="30">A Month</option>
                 </select>
             </div> --}}
-            <div class="btn-group dropup">
-                <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_lang_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Expiration
-                </button>
-                <div class="dropdown-menu cm-scrollable-menu">
-                    <button class="dropdown-item">None</button>
-                    <button class="dropdown-item">A Day</button>
-                    <button class="dropdown-item">A Week</button>
-                    <button class="dropdown-item">A Month</button>
+            <div class="form-group bmd-form-group is-filled">
+                <label for="pb_time" class="bmd-label-floating">Expiration</label>
+                <div class="form-control cm-fake-select dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="pb_time" name="pb_time" required="">None</div>
+                <div class="dropdown-menu cm-scrollable-menu"  id="pb_time_option">
+                    <button class="dropdown-item" data-value="-1">None</button>
+                    <button class="dropdown-item" data-value="1">A Day</button>
+                    <button class="dropdown-item" data-value="7">A Week</button>
+                    <button class="dropdown-item" data-value="30">A Month</button>
                 </div>
             </div>
         </div>
@@ -115,12 +133,16 @@
             var all_lang=monaco.languages.getLanguages();
             all_lang.forEach(function (lang_conf) {
                 aval_lang.push(lang_conf.id);
-                $("#pb_lang").append("<option value='"+lang_conf.id+"'>"+lang_conf.aliases[0]+"</option>");
+                $("#pb_lang_option").append("<button class='dropdown-item' data-value='"+lang_conf.id+"'>"+lang_conf.aliases[0]+"</button>");
                 console.log(lang_conf.id);
             });
-            $('#pb_lang').change(function(){
-                var targ_lang=$(this).children('option:selected').val();
+            $('#pb_lang_option button').click(function(){
+                var targ_lang=$(this).attr("data-value");
+                $("#pb_lang").text($(this).text());
                 monaco.editor.setModelLanguage(editor.getModel(), targ_lang);
+            });
+            $('#pb_time_option button').click(function(){
+                $("#pb_time").text($(this).text());
             });
             // monaco.editor.setModelLanguage(editor.getModel(), "plaintext");
         });
