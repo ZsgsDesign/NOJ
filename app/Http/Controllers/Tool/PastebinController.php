@@ -27,7 +27,7 @@ class PastebinController extends Controller
      *
      * @return Response
      */
-    public function view()
+    public function create()
     {
         return view('tool.pastebin.create', [
             'page_title' => "Create",
