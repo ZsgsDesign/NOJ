@@ -489,7 +489,7 @@
             text-decoration: none;
         }
 
-        a#verdict{
+        a #verdict_text{
             border-bottom: dashed 1px currentColor;
             position: relative;
             top: -1px;
