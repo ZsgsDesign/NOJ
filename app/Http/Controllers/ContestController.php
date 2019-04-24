@@ -21,7 +21,7 @@ class ContestController extends Controller
     public function index()
     {
         $contestModel=new ContestModel();
-        $return_list=$contestModel->list();
+        $return_list=$contestModel->list(Auth::check()?Auth::user()->id:0);
         $featured=$contestModel->featured();
         return view('contest.index', [
             'page_title'=>"Contest",

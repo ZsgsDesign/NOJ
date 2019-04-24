@@ -139,13 +139,16 @@ class ContestModel extends Model
         ])->first()["rule"];
     }
 
-    public function list()
+    public function list($uid)
     {
-        $paginator=DB::table($this->tableName)->where([
-            "public"=>1,
-            "audit_status"=>1
-        ])->orderBy('begin_time', 'desc')->paginate(10);
-
+        if($uid){
+            $paginator=DB::select('SELECT contest.* FROM group_member inner join contest on group_member.gid=contest.gid left join contest_participant on contest.cid=contest_participant.cid where (public=1 and audit=1) or (group_member.uid=:uid and group_member.role>0 and (contest_participant.uid=:uid or ISNULL(contest_participant.uid)) and (registration=0 or (registration=1 and not ISNULL(contest_participant.uid)))) group by cid',["uid"=>$uid])->paginate(10);
+        }else{
+            $paginator=DB::table($this->tableName)->where([
+                "public"=>1,
+                "audit_status"=>1
+            ])->orderBy('begin_time', 'desc')->paginate(10);
+        }
         $contest_list=$paginator->all();
         foreach ($contest_list as &$c) {
             $c["rule_parsed"]=$this->rule[$c["rule"]];
