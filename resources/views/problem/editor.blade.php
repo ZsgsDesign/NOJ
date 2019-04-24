@@ -829,7 +829,7 @@
                         // submitted
                         $("#verdict_info").popover('dispose');
                         $("#verdict_text").text("Pending");
-                        $("#verdict_info").removeClass("cm-popover-decoration");
+                        $("#verdict_text").removeClass("cm-popover-decoration");
                         $("#verdict_info").removeClass();
                         $("#verdict_info").addClass("wemd-blue-text");
                         var tempInterval=setInterval(()=>{
@@ -848,7 +848,7 @@
                                         if(ret.data.verdict=="Compile Error"){
                                             $("#verdict_info").attr('title',"Compile Info");
                                             $("#verdict_info").attr('data-content',ret.data.compile_info);
-                                            $("#verdict_info").addClass("cm-popover-decoration");
+                                            $("#verdict_text").addClass("cm-popover-decoration");
                                             $("#verdict_info").popover();
                                         }
                                         if(ret.data.verdict=="Partially Accepted"){
@@ -917,7 +917,7 @@
         window.addEventListener("load",function() {
 
             $(".pre-animated").addClass("fadeInLeft");
-
+            @if($status["verdict"]=="Compile Error")$("#verdict_text").addClass("cm-popover-decoration");@endif
             $("#verdict_info").popover();
 
             require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/vscode/vs' }});
