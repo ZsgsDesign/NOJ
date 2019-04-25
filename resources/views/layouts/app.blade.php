@@ -34,6 +34,8 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="alternate icon" type="image/png" href="/favicon.png">
+    <!-- Third-Party Declarations -->
+    <meta name="google-site-verification" content="{{ env("GOOGLE_SITE_VERIFICATION") }}" />
     <!-- Loading Style -->
     <style>
         loading>div {
