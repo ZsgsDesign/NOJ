@@ -111,6 +111,7 @@
                     <thead>
                         <tr>
                             <th scope="col" style="text-align: left;">SID</th>
+                            <th scope="col">Problem</th>
                             <th scope="col">Account</th>
                             <th scope="col">Result</th>
                             <th scope="col">Time</th>
@@ -123,6 +124,7 @@
                         @foreach($records["records"] as $r)
                         <tr class="@if(Auth::check() && $r["uid"]==Auth::user()->id) cm-me @endif" style="cursor:pointer" onclick="fetchSubmissionDetail({{$r['sid']}})">
                             <th scope="row">{{$r["sid"]}}</th>
+                            <td>{{$r["pcode"]}}</td>
                             <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
                             <td class="{{$r["color"]}}">{{$r["verdict"]}}</td>
                             <td>{{$r["time"]}}ms</td>

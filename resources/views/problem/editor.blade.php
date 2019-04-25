@@ -489,6 +489,12 @@
             text-decoration: none;
         }
 
+        .cm-popover-decoration#verdict_text{
+            border-bottom: dashed 1px currentColor;
+            position: relative;
+            top: -1px;
+        }
+
         @-webkit-keyframes cm-rotate{
             from{-webkit-transform: rotate(0deg)}
             to{-webkit-transform: rotate(360deg)}
@@ -608,7 +614,7 @@
                             <button class="dropdown-item lang-selector" data-coid="{{$c['coid']}}" data-comp="{{$c['comp']}}" data-lang="{{$c['lang']}}" data-lcode="{{$c['lcode']}}"><i class="{{$c['icon']}} colored"></i> {{$c['display_name']}}</button>
                         @endforeach
                     </div>
-                    </div>
+                </div>
                 @if($contest_mode && $contest_ended)
                     <a href="/problem/{{$detail["pcode"]}}"><button type="button" class="btn btn-info" id="origialBtn"> <i class="MDI launch"></i> Original Problem</button></a>
                 @else
@@ -823,6 +829,7 @@
                         // submitted
                         $("#verdict_info").popover('dispose');
                         $("#verdict_text").text("Pending");
+                        $("#verdict_text").removeClass("cm-popover-decoration");
                         $("#verdict_info").removeClass();
                         $("#verdict_info").addClass("wemd-blue-text");
                         var tempInterval=setInterval(()=>{
@@ -841,6 +848,7 @@
                                         if(ret.data.verdict=="Compile Error"){
                                             $("#verdict_info").attr('title',"Compile Info");
                                             $("#verdict_info").attr('data-content',ret.data.compile_info);
+                                            $("#verdict_text").addClass("cm-popover-decoration");
                                             $("#verdict_info").popover();
                                         }
                                         if(ret.data.verdict=="Partially Accepted"){
@@ -909,7 +917,7 @@
         window.addEventListener("load",function() {
 
             $(".pre-animated").addClass("fadeInLeft");
-
+            @if($status["verdict"]=="Compile Error")$("#verdict_text").addClass("cm-popover-decoration");@endif
             $("#verdict_info").popover();
 
             require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/vscode/vs' }});

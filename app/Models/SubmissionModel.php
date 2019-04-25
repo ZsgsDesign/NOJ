@@ -459,10 +459,16 @@ class SubmissionModel extends Model
             "users.id",
             "=",
             "submission.uid"
+        )->join(
+            "problem",
+            "problem.pid",
+            "=",
+            "submission.pid"
         )->select(
             "sid",
             "uid",
-            "pid",
+            "problem.pid as pid",
+            "pcode",
             "name",
             "color",
             "verdict",

@@ -21,4 +21,18 @@ class PastebinController extends Controller
             'navigation' => "PasteBin"
         ]);
     }
+
+    /**
+     * Show the Pastebin Create Page.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        return view('tool.pastebin.create', [
+            'page_title' => "Create",
+            'site_title' => "PasteBin",
+            'navigation' => "PasteBin"
+        ]);
+    }
 }

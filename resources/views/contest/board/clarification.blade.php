@@ -52,6 +52,16 @@
 
     .cm-msg-list{
         border-right: 2px solid rgba(0, 0, 0, 0.15);
+        overflow-y: auto;
+        height: 100%;
+    }
+
+    .cm-msg-list::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    .cm-msg-list::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
     }
 
     message-card{

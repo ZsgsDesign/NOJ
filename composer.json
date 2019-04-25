@@ -20,8 +20,9 @@
         "laravel-admin-ext/helpers": "^1.1",
         "laravel-admin-ext/log-viewer": "^1.0",
         "laravel-admin-ext/media-manager": "^1.0",
+        "laravel-admin-ext/redis-manager": "^1.0",
         "laravel-admin-ext/scheduling": "^1.0",
-        "laravel/framework": "5.7.*",
+        "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
         "mews/purifier": "^2.1",
         "npm-asset/clipboard": "^2.0",
@@ -30,6 +31,7 @@
         "npm-asset/mathjax": "^2.7",
         "oomphinc/composer-installers-extender": "^1.1",
         "orangehill/iseed": "^2.6",
+        "predis/predis": "^1.1",
         "rmccue/requests": "^1.7",
         "sebastian/version": "^2.0"
     },
@@ -95,9 +97,6 @@
         ]
     },
     "repositories": [{
-        "type": "composer",
-        "url": "https://packagist.phpcomposer.com"
-    },{
         "type": "composer",
         "url": "https://asset-packagist.org"
     }]
