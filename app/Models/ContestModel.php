@@ -172,7 +172,7 @@ class ContestModel extends Model
                     }
                 )
                 ->orderBy('contest.begin_time', 'desc')
-                ->paginate(10);
+                ->paginate(10, ['contest.cid']);
 
            /*  $paginator=DB::table($this->tableName)->where([
                 "public"=>1,
