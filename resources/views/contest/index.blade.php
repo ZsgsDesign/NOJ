@@ -36,6 +36,8 @@
 
     contest-card:hover {
         box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
+        margin-left: 0.5rem;
+        margin-right: -0.5rem;
     }
 
     contest-card > date-div{
