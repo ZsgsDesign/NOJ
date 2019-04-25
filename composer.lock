@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b0dc09258163559e6cbc8fd87cf7270a",
+    "content-hash": "2ef03e657c0296d21d619ded92b57b5b",
     "packages": [
         {
             "name": "composer/installers",
@@ -2185,6 +2185,18 @@
             "type": "npm-asset",
             "license": [
                 "Apache-2.0"
+            ]
+        },
+        {
+            "name": "npm-asset/monaco-editor",
+            "version": "0.16.2",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.16.2.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
             ]
         },
         {
