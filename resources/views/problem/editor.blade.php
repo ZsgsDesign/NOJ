@@ -711,7 +711,7 @@
     <script src="/static/js/popper.min.js"></script>
     <script src="/static/js/snackbar.min.js"></script>
     <script src="/static/js/bootstrap-material-design.js"></script>
-    <script src="/static/vscode/vs/loader.js"></script>
+    <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
           tex2jax: {
@@ -920,7 +920,7 @@
             @if($status["verdict"]=="Compile Error")$("#verdict_text").addClass("cm-popover-decoration");@endif
             $("#verdict_info").popover();
 
-            require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/vscode/vs' }});
+            require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});
 
             // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
             // the default worker url location (used when creating WebWorkers). The problem here is that
@@ -931,9 +931,9 @@
                 getWorkerUrl: function(workerId, label) {
                     return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
                     self.MonacoEnvironment = {
-                        baseUrl: '{{env('APP_URL')}}/static/vscode/'
+                        baseUrl: '{{env('APP_URL')}}/static/library/monaco-editor/min/'
                     };
-                    importScripts('{{env('APP_URL')}}/static/vscode/vs/base/worker/workerMain.js');`
+                    importScripts('{{env('APP_URL')}}/static/library/monaco-editor/min/vs/base/worker/workerMain.js');`
                     )}`;
                 }
             };
