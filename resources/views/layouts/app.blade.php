@@ -229,9 +229,7 @@
                                 @endif
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/system/info"><i class="MDI information-outline"></i> System Info</a>
-                                <!--
-                                <a class="dropdown-item" href="/system/bugs"><i class="MDI bug"></i> Report BUG</a>
-                                -->
+                                <a class="dropdown-item" href="https://github.com/ZsgsDesign/NOJ/issues"><i class="MDI bug"></i> Report BUG</a>
                                 <div class="dropdown-divider"></div>
                                 <a  class="dropdown-item text-danger"
                                     href="{{ route('logout') }}"
