@@ -161,8 +161,8 @@
                             <h5 class="sm-contest-title">{{$featured['name']}}</h5>
                             <p>{{$featured['date_parsed']['date']}}, {{$featured['date_parsed']['month_year']}} - {{$featured['length']}}</p>
                             <h5>
-                                @unless($c["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="left" title="This contest is under review"></i></span>@endif
-                                @unless($c["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="left" title="This is a private contest"></i></span>@endif
+                                @unless($featured["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="left" title="This contest is under review"></i></span>@endif
+                                @unless($featured["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="left" title="This is a private contest"></i></span>@endif
                                 @if($featured['verified'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="left" title="This is a verified contest"></i>@endif
                                 @if($featured['rated'])<i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="left" title="This is a rated contest"></i>@endif
                                 @if($featured['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="left" title="Anti-cheat enabled"></i>@endif
