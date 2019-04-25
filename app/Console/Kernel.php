@@ -37,6 +37,8 @@ class Kernel extends ConsoleKernel
             $accountModel=new AccountModel();
             $accountModel->rankList();
         })->daily()->description("Update Rank");
+
+        $schedule->command('backup:run')->daily()->description("BackUp Site");
     }
 
     /**
