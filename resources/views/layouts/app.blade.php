@@ -36,6 +36,7 @@
     <link rel="alternate icon" type="image/png" href="/favicon.png">
     <!-- Third-Party Declarations -->
     <meta name="google-site-verification" content="{{ env("GOOGLE_SITE_VERIFICATION") }}" />
+    <meta name="baidu-site-verification" content="{{ env("BAIDU_SITE_VERIFICATION") }}" />
     <!-- Loading Style -->
     <style>
         loading>div {
