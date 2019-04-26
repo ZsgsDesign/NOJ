@@ -12,7 +12,8 @@ class SiteMapModel extends Model
     public function __construct()
     {
         $sitemap = App::make("sitemap");
-        $sitemap->add(URL::to(), date("Y-m-d H:i:s"), '1.0', 'daily');
+
+        $sitemap->add(URL::to(""), date("Y-m-d H:i:s"), '1.0', 'daily');
         $sitemap->add(URL::to("problem"), date("Y-m-d H:i:s"), '1.0', 'daily');
         $sitemap->add(URL::to("status"), date("Y-m-d H:i:s"), '1.0', 'daily');
         $sitemap->add(URL::to("contest"), date("Y-m-d H:i:s"), '1.0', 'daily');

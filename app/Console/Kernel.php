@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Http\Controllers\VirtualJudge\Judge;
 use App\Models\AccountModel;
+use App\Models\SiteMapModel;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
@@ -37,6 +38,10 @@ class Kernel extends ConsoleKernel
             $accountModel=new AccountModel();
             $accountModel->rankList();
         })->daily()->description("Update Rank");
+
+        $schedule->call(function(){
+            $siteMapModel=new SiteMapModel();
+        })->daily()->description("Update SiteMap");
 
         $schedule->command('backup:run')->daily()->description("BackUp Site");
     }
