@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ef03e657c0296d21d619ded92b57b5b",
+    "content-hash": "53a861a5525002c09257c2058183e624",
     "packages": [
         {
             "name": "composer/installers",
@@ -907,6 +907,53 @@
                 "markdown"
             ],
             "time": "2019-02-17T19:48:19+00:00"
+        },
+        {
+            "name": "grubersjoe/bing-daily-photo",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/grubersjoe/bing-daily-photo.git",
+                "reference": "aef701d5a8f1e441d590526f94eb891ef9f61056"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/grubersjoe/bing-daily-photo/zipball/aef701d5a8f1e441d590526f94eb891ef9f61056",
+                "reference": "aef701d5a8f1e441d590526f94eb891ef9f61056",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "ext-json": "*",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2",
+                "phpunit/phpunit": "^8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "grubersjoe\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Gruber",
+                    "homepage": "https://grubersjoe.de"
+                }
+            ],
+            "description": "A class to fetch Bing's image of the day with meta data",
+            "keywords": [
+                "bing",
+                "daily",
+                "photo"
+            ],
+            "time": "2019-03-06T14:39:30+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
