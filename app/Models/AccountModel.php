@@ -85,7 +85,7 @@ class AccountModel extends Model
             Storage::disk('NOJPublic')->put("static/img/bing/".date("Y-m-d").".jpg",file_get_contents($bing->getImage()['url']),86400);
             Cache::tags(['bing','pic'])->put(date("Y-m-d"),"/static/img/bing/".date("Y-m-d").".jpg");
         }
-        $info["image"]=Cache::tags(['bing','pic'])->get(date("Y-m-d"));
+        $ret["image"]=Cache::tags(['bing','pic'])->get(date("Y-m-d"));
         return $ret;
     }
 
