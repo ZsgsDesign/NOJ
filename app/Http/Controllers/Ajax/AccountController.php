@@ -25,7 +25,7 @@ class AccountController extends Controller
         if($isValid){
             $extension = $request->file('avatar')->extension();
         }else{
-            return ResponseModel::err(1004);
+            return ResponseModel::err(1005);
         }
 
         $allow_extension = ['jpg','png','jpeg','gif','bmp'];
@@ -43,7 +43,7 @@ class AccountController extends Controller
 
             return ResponseModel::success(200, null, '/'.$path);
         }else{
-            return ResponseModel::err(1004);
+            return ResponseModel::err(1005);
         }
 
     }

@@ -66,6 +66,8 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('joinGroup', 'GroupController@joinGroup')->middleware('auth');
     Route::get('downloadCode', 'ProblemController@downloadCode')->middleware('auth');
 
+    Route::post('search', 'SearchController')->name('search');
+
     Route::group(['prefix' => 'group'], function () {
         Route::post('changeNickName', 'GroupController@changeNickName')->middleware('auth');
         Route::get('generateContestAccount', 'GroupController@generateContestAccount')->middleware('auth');

@@ -243,6 +243,14 @@
         });
 
         $('#avatar-submit').on('click',function(){
+            if($(this).is('.updating')){
+                $('#tip-text').text('SLOW DOWN');
+                $('#tip-text').addClass('text-danger');
+                $('#tip-text').removeClass('text-success');
+                $('#avatar-error-tip').animate({opacity:'1'},200);
+                return ;
+            }
+
             var file = $('#avatar-file').get(0).files[0];
             if(file == undefined){
                 $('#tip-text').text('PLEASE CHOOSE A LOCAL FILE');
@@ -264,6 +272,7 @@
                 $('#avatar-error-tip').css({opacity:'0'});
             }
 
+            $(this).addClass('updating');
             var avatar_data = new FormData();
             avatar_data.append('avatar',file);
 
@@ -288,12 +297,16 @@
                         setTimeout(function(){
                             $('#update-avatar-modal').modal('hide');
                             $('#avatar-error-tip').css({opacity:'0'});
+                            $('#avatar-submit').removeClass('updating');
                         },1000);
                     }else{
                         $('#tip-text').text(result.desc);
                         $('#tip-text').addClass('text-danger');
                         $('#tip-text').removeClass('text-success');
                         $('#avatar-error-tip').animate({opacity:'1'},200);
+                        setTimeout(function(){
+                            $('#avatar-submit').removeClass('updating');
+                        },1000);
                     }
                 }
             });
