@@ -2,6 +2,44 @@
 
 @section('template')
 <style>
+    post-card {
+        display: block;
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 10px;
+        border-radius: 4px;
+        transition: .2s ease-out .0s;
+        color: #7a8e97;
+        background: #fff;
+        /* padding: 1rem; */
+        position: relative;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        margin-bottom: 2rem;
+    }
+
+    post-card:hover {
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
+    }
+
+    post-card > post-footer{
+        display: block;
+        padding: 2rem 4rem;
+        background-color: #f7f7f7;
+        line-height: 1.5;
+    }
+
+    post-card > post-body{
+        display: block;
+        padding: 4rem;
+    }
+
+    post-card > post-body > a{
+        margin-top: 1rem;
+        display: inline-block;
+    }
+
+    post-card > post-body > h1{
+        color: #333;
+    }
+
     user-card {
         display: block;
         box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
@@ -145,60 +183,74 @@
 
 </style>
 <div class="container mundb-standard-container">
-    <user-card>
-        <img class="cm-dashboard-focus" src="{{$info["image"]}}">
-        <avatar-section>
-            <img id="avatar" src="{{$info["avatar"]}}" alt="avatar">
-        </avatar-section>
-        <basic-section>
-            <h3>{{$info["name"]}}</h3>
-            {{-- <p style="margin-bottom: .5rem;"><small class="wemd-light-blue-text">站点管理员</small></p> --}}
-            {{-- <p>{{$info["email"]}}</p> --}}
-        </basic-section>
-        <hr class="atsast-line">
-        <statistic-section>
-            <div class="row">
-                <div class="col-lg-4 col-12">
-                    <statistic-block>
-                        <h1>{{$info["solvedCount"]}}</h1>
-                        <p>Solved</p>
-                    </statistic-block>
-                </div>
-                <div class="col-lg-4 col-12">
-                    <statistic-block>
-                        <h1>{{$info["submissionCount"]}}</h1>
-                        <p>Submissions</p>
-                    </statistic-block>
-                </div>
-                <div class="col-lg-4 col-12">
-                    <statistic-block>
-                        <h1>{{$info["rank"]}}</h1>
-                        <p>Rank</p>
-                    </statistic-block>
-                </div>
-            </div>
-        </statistic-section>
-        <hr class="atsast-line">
-        <solved-section>
-            <p class="text-center">List of solved problems</p>
-            @if(empty($info["solved"]))
-            <div class="cm-empty">
-                <info-badge>Nothing Here</info-badge>
-            </div>
-            @else
-            <div>
-                @foreach ($info["solved"] as $prob)
-                    <a href="/problem/{{$prob["pcode"]}}"><prob-badge>{{$prob["pcode"]}}</prob-badge></a>
-                @endforeach
-            </div>
-            @endif
-        </solved-section>
-        <social-section>
-            <i class="MDI github-circle"></i>
-            <i class="MDI email"></i>
-            <i class="MDI web"></i>
-        </social-section>
-    </user-card>
+    <div class="row">
+        <div class="col-sm-12 col-md-4">
+            <user-card>
+                <img class="cm-dashboard-focus" src="{{$info["image"]}}">
+                <avatar-section>
+                    <img id="avatar" src="{{$info["avatar"]}}" alt="avatar">
+                </avatar-section>
+                <basic-section>
+                    <h3>{{$info["name"]}}</h3>
+                    {{-- <p style="margin-bottom: .5rem;"><small class="wemd-light-blue-text">站点管理员</small></p> --}}
+                    {{-- <p>{{$info["email"]}}</p> --}}
+                </basic-section>
+                <hr class="atsast-line">
+                <statistic-section>
+                    <div class="row">
+                        <div class="col-lg-4 col-12">
+                            <statistic-block>
+                                <h1>{{$info["solvedCount"]}}</h1>
+                                <p>Solved</p>
+                            </statistic-block>
+                        </div>
+                        <div class="col-lg-4 col-12">
+                            <statistic-block>
+                                <h1>{{$info["submissionCount"]}}</h1>
+                                <p>Submissions</p>
+                            </statistic-block>
+                        </div>
+                        <div class="col-lg-4 col-12">
+                            <statistic-block>
+                                <h1>{{$info["rank"]}}</h1>
+                                <p>Rank</p>
+                            </statistic-block>
+                        </div>
+                    </div>
+                </statistic-section>
+                <hr class="atsast-line">
+                <solved-section>
+                    <p class="text-center">List of solved problems</p>
+                    @if(empty($info["solved"]))
+                    <div class="cm-empty">
+                        <info-badge>Nothing Here</info-badge>
+                    </div>
+                    @else
+                    <div>
+                        @foreach ($info["solved"] as $prob)
+                            <a href="/problem/{{$prob["pcode"]}}"><prob-badge>{{$prob["pcode"]}}</prob-badge></a>
+                        @endforeach
+                    </div>
+                    @endif
+                </solved-section>
+                <social-section>
+                    <i class="MDI github-circle"></i>
+                    <i class="MDI email"></i>
+                    <i class="MDI web"></i>
+                </social-section>
+            </user-card>
+        </div>
+        <div class="col-sm-12 col-md-8">
+            <post-card>
+                <post-body>
+                    <h1>Introducing NOJ Feed</h1>
+                    <p>Meet the fully new design of NOJ Feed.</p>
+                    {{-- <a href="/">// Continue Reading</a> --}}
+                </post-body>
+                <post-footer>123</post-footer>
+            </post-card>
+        </div>
+    </div>
     <div class="modal fade" id="update-avatar-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-dialog-alert" role="document">
             <div class="modal-content sm-modal">
