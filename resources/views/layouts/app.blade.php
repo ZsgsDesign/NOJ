@@ -34,6 +34,9 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="alternate icon" type="image/png" href="/favicon.png">
+    <!-- Third-Party Declarations -->
+    <meta name="google-site-verification" content="{{ env("GOOGLE_SITE_VERIFICATION") }}" />
+    <meta name="baidu-site-verification" content="{{ env("BAIDU_SITE_VERIFICATION") }}" />
     <!-- Loading Style -->
     <style>
         loading>div {
@@ -227,9 +230,7 @@
                                 @endif
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/system/info"><i class="MDI information-outline"></i> System Info</a>
-                                <!--
-                                <a class="dropdown-item" href="/system/bugs"><i class="MDI bug"></i> Report BUG</a>
-                                -->
+                                <a class="dropdown-item" href="https://github.com/ZsgsDesign/NOJ/issues"><i class="MDI bug"></i> Report BUG</a>
                                 <div class="dropdown-divider"></div>
                                 <a  class="dropdown-item text-danger"
                                     href="{{ route('logout') }}"
