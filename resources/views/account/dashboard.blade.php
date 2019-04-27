@@ -146,7 +146,7 @@
 </style>
 <div class="container mundb-standard-container">
     <user-card>
-        <img class="cm-dashboard-focus" src="https://cn.bing.com//th?id=OHR.HidingEggs_ZH-CN2732414254_1920x1080.jpg&amp;rf=LaDigue_1920x1080.jpg&amp;pid=hp">
+        <img class="cm-dashboard-focus" src="{{$info["image"]}}">
         <avatar-section>
             <img id="avatar" src="{{$info["avatar"]}}" alt="avatar">
         </avatar-section>

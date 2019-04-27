@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b0dc09258163559e6cbc8fd87cf7270a",
+    "content-hash": "a8ef71b0bd525274fb9ecb53ca8dfdf1",
     "packages": [
         {
             "name": "composer/installers",
@@ -909,6 +909,53 @@
             "time": "2019-02-17T19:48:19+00:00"
         },
         {
+            "name": "grubersjoe/bing-daily-photo",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/grubersjoe/bing-daily-photo.git",
+                "reference": "aef701d5a8f1e441d590526f94eb891ef9f61056"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/grubersjoe/bing-daily-photo/zipball/aef701d5a8f1e441d590526f94eb891ef9f61056",
+                "reference": "aef701d5a8f1e441d590526f94eb891ef9f61056",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "ext-json": "*",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2",
+                "phpunit/phpunit": "^8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "grubersjoe\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Gruber",
+                    "homepage": "https://grubersjoe.de"
+                }
+            ],
+            "description": "A class to fetch Bing's image of the day with meta data",
+            "keywords": [
+                "bing",
+                "daily",
+                "photo"
+            ],
+            "time": "2019-03-06T14:39:30+00:00"
+        },
+        {
             "name": "jakub-onderka/php-console-color",
             "version": "v0.2",
             "source": {
@@ -1691,6 +1738,68 @@
             "time": "2018-10-12T19:39:35+00:00"
         },
         {
+            "name": "laravelium/sitemap",
+            "version": "v3.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.com/Laravelium/Sitemap.git",
+                "reference": "260c4a6473c542f77250d4cd8cb822f3453f2b49"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.com/api/v4/projects/Laravelium%2FSitemap/repository/archive.zip?sha=260c4a6473c542f77250d4cd8cb822f3453f2b49",
+                "reference": "260c4a6473c542f77250d4cd8cb822f3453f2b49",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "~5.8",
+                "php": ">=7.1.3"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench-core": "3.8.*",
+                "phpunit/phpunit": "^7.5 || ^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Laravelium\\Sitemap\\SitemapServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Laravelium\\Sitemap": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roumen Damianoff",
+                    "email": "roumen@damianoff.com",
+                    "homepage": "https://damianoff.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravelium Sitemap package for Laravel.",
+            "homepage": "https://laravelium.com",
+            "keywords": [
+                "Sitemap",
+                "generator",
+                "google-news",
+                "html",
+                "laravel",
+                "laravelium",
+                "php",
+                "xml"
+            ],
+            "time": "2019-02-27T11:50:28+00:00"
+        },
+        {
             "name": "league/commonmark",
             "version": "0.18.5",
             "source": {
@@ -2185,6 +2294,18 @@
             "type": "npm-asset",
             "license": [
                 "Apache-2.0"
+            ]
+        },
+        {
+            "name": "npm-asset/monaco-editor",
+            "version": "0.16.2",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.16.2.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
             ]
         },
         {
