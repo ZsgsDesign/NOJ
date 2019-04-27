@@ -15,6 +15,18 @@
             changeDepth();
         });
 
+        $('#search-box').on('submit',function(e){
+            e.preventDefault();
+            var search_key = $('#search-key').val().toUpperCase();
+            if(search_key.match(/^[A-Z]+\d+[A-Z]+$/) || search_key.match(/^[A-Z]+\d+$/)){
+                var domain = document.location.host;
+                var protocol = document.location.protocol;
+                var problem_url = protocol + '//' + domain + '/problem/' + search_key;
+                window.location = problem_url;
+            }else{
+                alert('Invalid Problem Code','Error','alert-circle-outline','close');
+            }
+        });
     }, false);
 
     function changeDepth(){
