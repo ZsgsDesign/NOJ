@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Tool;
 
-use App\Models\SubmissionModel;
+use App\Models\Tool\PastebinModel;
 use App\Http\Controllers\Controller;
 use Auth;
 

@@ -80,8 +80,8 @@
         </div>
         <div class="col-lg-4 col-12">
             <div class="form-group bmd-form-group is-filled">
-                <label for="pb_author" class="bmd-label-floating">Author</label>
-                <input type="text" class="form-control pb-input" name="pb_author" id="pb_author" value="">
+                <label for="pb_title" class="bmd-label-floating">Title</label>
+                <input type="text" class="form-control pb-input" name="pb_title" id="pb_title" value="Untitled">
             </div>
         </div>
     </div>
