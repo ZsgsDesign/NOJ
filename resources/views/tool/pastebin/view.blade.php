@@ -94,10 +94,10 @@
 </style>
 <div class="container mundb-standard-container">
     <user-section>
-        <img src="https://acm.njupt.edu.cn/static/img/avatar/noj.png" class="cm-avatar-square">
-        <p>John Doe</p>
+        <img src="{{$detail["userInfo"]["avatar"]}}" class="cm-avatar-square">
+        <p>{{$detail["userInfo"]["name"]}}</p>
     </user-section>
-    <small style="color:rgba(0,0,0,0.42);">Created at 14:15:23 2019/04/28, Expired at 14:15:23 2019/05/28</small>
+    <small style="color:rgba(0,0,0,0.42);">Created at {{$detail["create_date"]}}@if($detail["expire"]), Expired at {{$detail["expire"]}}@endif</small>
     <code-paper>
         <code-header>{{$detail["title"]}}</code-header>
         <pre data-lang="php" id="pb_content">{{$detail["content"]}}</pre>

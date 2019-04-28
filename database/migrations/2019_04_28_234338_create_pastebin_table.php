@@ -20,7 +20,8 @@ class CreatePastebinTable extends Migration {
 			$table->integer('uid')->nullable()->index('pastebin_uid');
 			$table->dateTime('expire')->nullable();
 			$table->text('content', 16777215)->nullable();
-			$table->string('code', 10)->nullable()->unique('code');
+            $table->string('code', 10)->nullable()->unique('code');
+            $table->dateTime('create_date')->nullable();
 		});
 	}
 

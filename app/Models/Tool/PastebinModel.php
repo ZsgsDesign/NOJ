@@ -22,7 +22,10 @@ class PastebinModel extends Model
 
     public function detail($code)
     {
-        return DB::table($this->tableName)->where(["code"=>$code])->first();
+        $basic=DB::table($this->tableName)->where(["code"=>$code])->first();
+        if(empty($basic)) return [];
+        $basic["userInfo"]=DB::table("users")->where(["id"=>$basic["uid"]])->first();
+        return $basic;
     }
 
     public function generate($all_data)
@@ -49,11 +52,11 @@ class PastebinModel extends Model
             DB::table($this->tableName)->insert([
                 'lang' => $lang,
                 'expire' => $expire_time,
-                'create_date' => date("Y-m-d H:i:s"),
                 'uid' => $uid,
                 'title' => $title,
                 'content' => $content,
-                'code' => $code
+                'code' => $code,
+                'create_date' => date("Y-m-d H:i:s"),
             ]);
             return $code;
         }else{

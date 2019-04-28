@@ -65,7 +65,7 @@ Route::group(['namespace' => 'Tool'], function () {
             });
         });
     });
-    Route::get('/pb/{$code}', 'PastebinController@view')->name('tool_pastebin_view_shortlink');
+    Route::get('/pb/{code}', 'PastebinController@view')->name('tool_pastebin_view_shortlink');
 });
 
 Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
