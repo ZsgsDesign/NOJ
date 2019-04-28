@@ -36,11 +36,11 @@ class PastebinModel extends Model
         if($expire==0){
             $expire_time=null;
         }elseif($expire==1){
-            $expire_time=date('Y-m-d', strtotime('+1 days'));
+            $expire_time=date("Y-m-d H:i:s", strtotime('+1 days'));
         }elseif($expire==7){
-            $expire_time=date('Y-m-d', strtotime('+7 days'));
+            $expire_time=date("Y-m-d H:i:s", strtotime('+7 days'));
         }elseif($expire==30){
-            $expire_time=date('Y-m-d', strtotime('+30 days'));
+            $expire_time=date("Y-m-d H:i:s", strtotime('+30 days'));
         }
 
         $code=$this->generatePbCode(6);
@@ -49,6 +49,7 @@ class PastebinModel extends Model
             DB::table($this->tableName)->insert([
                 'lang' => $lang,
                 'expire' => $expire_time,
+                'create_date' => date("Y-m-d H:i:s"),
                 'uid' => $uid,
                 'title' => $title,
                 'content' => $content,

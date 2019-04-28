@@ -57,7 +57,7 @@ Route::group(['namespace' => 'Tool'], function () {
         Route::group(['prefix' => 'pastebin'], function () {
             Route::get('/', 'PastebinController@index')->middleware('auth')->name('tool_pastebin_index');
             Route::get('/create', 'PastebinController@create')->middleware('auth')->name('tool_pastebin_create');
-            Route::get('/view/{pbid}', 'PastebinController@view')->name('tool_pastebin_view');
+            Route::get('/view/{$code}', 'PastebinController@view')->name('tool_pastebin_view');
         });
         Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
             Route::group(['prefix' => 'pastebin'], function () {
@@ -65,7 +65,7 @@ Route::group(['namespace' => 'Tool'], function () {
             });
         });
     });
-    Route::get('/pb/{pbid}', 'PastebinController@view')->name('tool_pastebin_view_shortlink');
+    Route::get('/pb/{$code}', 'PastebinController@view')->name('tool_pastebin_view_shortlink');
 });
 
 Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {

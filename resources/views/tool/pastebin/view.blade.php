@@ -99,9 +99,8 @@
     </user-section>
     <small style="color:rgba(0,0,0,0.42);">Created at 14:15:23 2019/04/28, Expired at 14:15:23 2019/05/28</small>
     <code-paper>
-        <code-header>My Awesome Code</code-header>
-        <pre data-lang="php" id="pb_content">&lt;?php
-    echo $a;</pre>
+        <code-header>{{$detail["title"]}}</code-header>
+        <pre data-lang="php" id="pb_content">{{$detail["content"]}}</pre>
     </code-paper>
 </div>
 @endsection
