@@ -13,6 +13,7 @@
         position: relative;
         border: 1px solid rgba(0, 0, 0, 0.15);
         margin-bottom: 2rem;
+        overflow: hidden;
     }
 
     post-card:hover {
@@ -24,6 +25,20 @@
         padding: 2rem 4rem;
         background-color: #f7f7f7;
         line-height: 1.5;
+    }
+
+    post-card > post-footer > info-section{
+        display: inline-block;
+        padding-left:1rem;
+        padding-right:1rem;
+    }
+
+    post-card > post-footer > info-section:first-of-type{
+        padding-left: 0;
+    }
+
+    post-card > post-footer > info-section:last-of-type{
+        padding-right: 0;
     }
 
     post-card > post-body{
@@ -38,6 +53,10 @@
 
     post-card > post-body > h1{
         color: #333;
+    }
+
+    post-card > post-body > p{
+        margin:0;
     }
 
     user-card {
@@ -247,7 +266,11 @@
                     <p>Meet the fully new design of NOJ Feed.</p>
                     {{-- <a href="/">// Continue Reading</a> --}}
                 </post-body>
-                <post-footer>123</post-footer>
+                <post-footer>
+                    <info-section><i class="MDI calendar"></i> 29 Apr,2019</info-section>
+                    <info-section><i class="MDI tag-multiple"></i> Solution, Posts</info-section>
+                    <info-section><i class="MDI thumb-up"></i> 35 users</info-section>
+                </post-footer>
             </post-card>
         </div>
     </div>
