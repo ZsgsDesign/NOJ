@@ -188,7 +188,7 @@
                             alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
                             break;
                         default:
-                            alert("Oops","Something went wrong!");
+                            alert("Something went wrong!","Oops");
                     }
 
                     generate_processing = false;

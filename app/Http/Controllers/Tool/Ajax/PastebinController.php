@@ -16,7 +16,7 @@ class PastebinController extends Controller
      *
      * @return Response
      */
-    public function generate()
+    public function generate(Request $request)
     {
         $aval_lang=["plaintext","json","bat","coffeescript","c","cpp","csharp","csp","css","dockerfile","fsharp","go","handlebars","html","ini","java","javascript","less","lua","markdown","msdax","mysql","objective-c","pgsql","php","postiats","powerquery","powershell","pug","python","r","razor","redis","redshift","ruby","rust","sb","scss","sol","sql","st","swift","typescript","vb","xml","yaml","scheme","clojure","shell","perl","azcli","apex"];
 
