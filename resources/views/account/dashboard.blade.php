@@ -59,6 +59,22 @@
         margin:0;
     }
 
+    empty-container{
+        display:block;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    empty-container i{
+        font-size:5rem;
+        color:rgba(0,0,0,0.42);
+    }
+
+    empty-container p{
+        font-size: 1rem;
+        color:rgba(0,0,0,0.54);
+    }
+
     user-card {
         display: block;
         box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
@@ -260,18 +276,22 @@
             </user-card>
         </div>
         <div class="col-sm-12 col-md-8">
-            <post-card>
+            <empty-container>
+                <i class="MDI package-variant"></i>
+                <p>NOJ Feed is empty, trying adding some :-)</p>
+            </empty-container>
+            {{-- <post-card>
                 <post-body>
                     <h1>Introducing NOJ Feed</h1>
                     <p>Meet the fully new design of NOJ Feed.</p>
-                    {{-- <a href="/">// Continue Reading</a> --}}
+                    <!--<a href="/">// Continue Reading</a>-->
                 </post-body>
                 <post-footer>
                     <info-section><i class="MDI calendar"></i> 29 Apr,2019</info-section>
                     <info-section><i class="MDI tag-multiple"></i> Solution, Posts</info-section>
                     <info-section><i class="MDI thumb-up"></i> 35 users</info-section>
                 </post-footer>
-            </post-card>
+            </post-card> --}}
         </div>
     </div>
     <div class="modal fade" id="update-avatar-modal" tabindex="-1" role="dialog">
