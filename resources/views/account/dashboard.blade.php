@@ -278,7 +278,7 @@
         <div class="col-sm-12 col-md-8">
             <empty-container>
                 <i class="MDI package-variant"></i>
-                <p>NOJ Feed is empty, trying adding some :-)</p>
+                <p>NOJ Feed is empty, try adding some :-)</p>
             </empty-container>
             {{-- <post-card>
                 <post-body>
