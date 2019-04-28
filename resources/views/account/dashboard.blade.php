@@ -113,7 +113,7 @@
         right: 0;
         position: absolute;
         margin: 0 auto;
-        cursor: pointer;
+        @unless($userView)cursor: pointer;@endunless
     }
 
     #avatar-preview{
@@ -323,6 +323,7 @@
 <script>
 
     window.addEventListener("load",function() {
+        @unless($userView)
         $('#avatar').on('click',function(){
             $('#update-avatar-modal').modal();
         });
@@ -392,6 +393,7 @@
                     }
                 }
             });
+            @endunless
         });
     }, false);
 

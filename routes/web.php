@@ -20,6 +20,11 @@ Route::group(['prefix' => 'account'], function () {
     Route::get('/dashboard', 'AccountController@dashboard')->middleware('auth')->name('account_dashboard');
 });
 
+Route::group(['prefix' => 'user'], function () {
+    Route::redirect('/', '/', 301);
+    Route::get('/{uid}', 'UserController@view')->name('user_view');
+});
+
 Route::get('/problem', 'ProblemController@index')->middleware('contest_account')->name('problem_index');
 Route::get('/problem/{pcode}', 'ProblemController@detail')->middleware('contest_account')->name('problem_detail');
 Route::get('/problem/{pcode}/editor', 'ProblemController@editor')->middleware('auth')->name('problem_editor');

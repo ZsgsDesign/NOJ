@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\AccountModel;
 use Auth;
 
-class AccountController extends Controller
+class UserController extends Controller
 {
     /**
      * Show the account index.
@@ -15,7 +15,7 @@ class AccountController extends Controller
      */
     public function index()
     {
-        return Auth::check() ? redirect("/account/dashboard") : redirect("/login");
+        return redirect("/");
     }
 
     /**
@@ -23,16 +23,16 @@ class AccountController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function dashboard()
+    public function view($uid)
     {
         $accountModel=new AccountModel();
-        $info=$accountModel->detail(Auth::user()->id);
+        $info=$accountModel->detail($uid);
         return view("account.dashboard", [
             'page_title'=>"DashBoard",
             'site_title'=>"NOJ",
             'navigation'=>"DashBoard",
             'info'=>$info,
-            'userView'=>false
+            'userView'=>true
         ]);
     }
 }
