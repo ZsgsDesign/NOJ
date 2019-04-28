@@ -27,7 +27,7 @@ class PastebinModel extends Model
 
     public function generate($all_data)
     {
-        $lang=$all_data["lang"];
+        $lang=$all_data["syntax"];
         $expire=intval($all_data["expiration"]);
         $content=$all_data["content"];
         $title=$all_data["title"];
