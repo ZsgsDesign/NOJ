@@ -60,7 +60,9 @@ Route::group(['namespace' => 'Tool'], function () {
             Route::get('/view/{pbid}', 'PastebinController@view')->name('tool_pastebin_view');
         });
         Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
-            Route::post('generate', 'PastebinController@generate')->middleware('auth')->name('tool_ajax_pastebin_generate');
+            Route::group(['prefix' => 'pastebin'], function () {
+                Route::post('generate', 'PastebinController@generate')->middleware('auth')->name('tool_ajax_pastebin_generate');
+            });
         });
     });
     Route::get('/pb/{pbid}', 'PastebinController@view')->name('tool_pastebin_view_shortlink');
