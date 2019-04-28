@@ -66,7 +66,8 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-info d-none" onclick="downloadCode(${sid},'${id}')"><i class="MDI download"></i> Download Code</button>
+                                    <button type="button" class="btn btn-warning d-none" onclick="prepareShare(${sid})"><i class="MDI share"></i> Share</button>
+                                    <button type="button" class="btn btn-info d-none" onclick="downloadCode(${sid},'${id}')"><i class="MDI download"></i> Download</button>
                                     <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
                                 </div>
                             </div>
@@ -80,7 +81,8 @@
                     if(ret.data.solution!==null) {
                         $(`#submission${id} pre`).text(ret.data.solution);
                         $(`#submission${id} .modal-footer button:nth-of-type(2)`).removeClass("d-none");
-                        $(`#submission${id} .modal-footer button:nth-of-type(3)`).addClass("d-none");
+                        $(`#submission${id} .modal-footer button:nth-of-type(3)`).removeClass("d-none");
+                        $(`#submission${id} .modal-footer button:nth-of-type(4)`).addClass("d-none");
                         hljs.highlightBlock(document.querySelector(`#submission${id} pre`));
                     }else{
                         $(`#submission${id} pre`).remove();
