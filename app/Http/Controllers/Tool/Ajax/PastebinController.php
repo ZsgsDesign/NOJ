@@ -42,5 +42,13 @@ class PastebinController extends Controller
 
         $ret=$pastebinModel->generate($all_data);
 
+        if($ret>0){
+            return ResponseModel::success(200, null, [
+                "pbid" => $ret
+            ]);
+        }else{
+            return ResponseModel::err(1001);
+        }
+
     }
 }
