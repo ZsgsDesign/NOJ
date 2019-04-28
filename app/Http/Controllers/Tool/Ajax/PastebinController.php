@@ -36,37 +36,11 @@ class PastebinController extends Controller
         ]);
 
         $all_data=$request->all();
+        $all_data["uid"]=Auth::user()->id;
 
-        $lang=$all_data["lang"];
-        $expire=intval($all_data["expiration"]);
-        $content=$all_data["content"];
-        $title=$all_data["title"];
+        $pastebinModel=new PastebinModel();
 
-        if($expire==0){
-            $expire_time=null;
-        }elseif($expire==1){
-            $expire_time=date('Y-m-d', strtotime('+1 days'));
-        }elseif($expire==7){
-            $expire_time=date('Y-m-d', strtotime('+7 days'));
-        }elseif($expire==30){
-            $expire_time=date('Y-m-d', strtotime('+30 days'));
-        }
-
-        $code=generateRandStr(6);
-        $ret=$pastebin->find(["code"=>$code]);
-        if(empty($ret)){
-            $pbid=$pastebin->create([
-                "lang"=>$lang,
-                "expire"=>$expire_time,
-                "uid"=>$detail["uid"],
-                "display_author"=>$display_author,
-                "content"=>$content,
-                "code"=>$code
-            ]);
-            SUCCESS::Catcher("创建成功",["code"=>$code]);
-        }else{
-            ERR::Catcher(1000);
-        }
+        $ret=$pastebinModel->generate($all_data);
 
     }
 }
