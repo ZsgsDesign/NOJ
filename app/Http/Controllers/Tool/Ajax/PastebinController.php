@@ -6,8 +6,9 @@ use App\Models\Tool\PastebinModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 use App\Models\ResponseModel;
-use Auth,Rule;
+use Auth;
 
 class PastebinController extends Controller
 {
