@@ -18,7 +18,7 @@
     a.action-menu-item:hover{
         text-decoration: none;
     }
-    input.form-control {
+    input.form-control.pb-input {
         height: calc(2.4375rem + 2px);
     }
 
@@ -81,7 +81,7 @@
         <div class="col-lg-4 col-12">
             <div class="form-group bmd-form-group is-filled">
                 <label for="pb_author" class="bmd-label-floating">Author</label>
-                <input type="text" class="form-control" name="pb_author" id="pb_author" value="">
+                <input type="text" class="form-control pb-input" name="pb_author" id="pb_author" value="">
             </div>
         </div>
     </div>

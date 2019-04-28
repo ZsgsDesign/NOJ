@@ -18,9 +18,6 @@
     a.action-menu-item:hover{
         text-decoration: none;
     }
-    input.form-control {
-        height: calc(2.4375rem + 2px);
-    }
 
     .cm-fake-select{
         height: calc(2.4375rem + 2px);
