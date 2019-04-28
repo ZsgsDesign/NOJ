@@ -71,7 +71,7 @@
                 <label for="pb_time" class="bmd-label-floating">Expiration</label>
                 <div class="form-control cm-fake-select dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="pb_time" name="pb_time" required="">None</div>
                 <div class="dropdown-menu cm-scrollable-menu"  id="pb_time_option">
-                    <button class="dropdown-item" data-value="-1">None</button>
+                    <button class="dropdown-item" data-value="0">None</button>
                     <button class="dropdown-item" data-value="1">A Day</button>
                     <button class="dropdown-item" data-value="7">A Week</button>
                     <button class="dropdown-item" data-value="30">A Month</button>
@@ -102,6 +102,7 @@
     <script>
         var aval_lang=[];
         var generate_processing=false;
+        var targ_lang="plaintext",targ_expire=0,editor;
 
         require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});
 
@@ -139,11 +140,12 @@
                 console.log(lang_conf.id);
             });
             $('#pb_lang_option button').click(function(){
-                var targ_lang=$(this).attr("data-value");
+                targ_lang=$(this).attr("data-value");
                 $("#pb_lang").text($(this).text());
                 monaco.editor.setModelLanguage(editor.getModel(), targ_lang);
             });
             $('#pb_time_option button').click(function(){
+                targ_expire=$(this).attr("data-value");
                 $("#pb_time").text($(this).text());
             });
             // monaco.editor.setModelLanguage(editor.getModel(), "plaintext");
@@ -156,9 +158,10 @@
                 type: 'POST',
                 url: '/tool/ajax/pastebin/generate',
                 data: {
-                    syntax: chosen_lang,
-                    expiration:{{$detail["pid"]}},
-                    title:"{{$detail["pcode"]}}",
+                    syntax: targ_lang,
+                    expiration:targ_expire,
+                    title:$("#pb_title").val(),
+                    content: editor.getValue()
                 },
                 dataType: 'json',
                 headers: {
