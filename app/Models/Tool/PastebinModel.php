@@ -46,7 +46,7 @@ class PastebinModel extends Model
         $code=$this->generatePbCode(6);
         $ret=$this->detail($code);
         if(empty($ret)){
-            return DB::table($this->tableName)->insertGetId([
+            DB::table($this->tableName)->insert([
                 'lang' => $lang,
                 'expire' => $expire_time,
                 'uid' => $uid,
@@ -54,8 +54,9 @@ class PastebinModel extends Model
                 'content' => $content,
                 'code' => $code
             ]);
+            return $code;
         }else{
-            return -1;
+            return null;
         }
     }
 }

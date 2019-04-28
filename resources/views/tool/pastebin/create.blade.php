@@ -169,9 +169,9 @@
                 }, success: function(ret){
                     console.log(ret);
                     if(ret.ret==200){
-                        ;
+                        location.href="/pb/"+ret.data.code;
                     }else{
-                        console.log(ret.desc);
+                        alert(ret.desc,"Oops!");
                     }
                     generate_processing = false;
                 }, error: function(xhr, type){
@@ -188,7 +188,7 @@
                             alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
                             break;
                         default:
-                            alert("Something went wrong!","Oops");
+                            alert("Something went wrong","Oops!");
                     }
 
                     generate_processing = false;
