@@ -92,7 +92,7 @@
     </div>
     <div style="text-align: right;margin-bottom:2rem;">
         <button type="button" class="btn btn-secondary">Cancel</button>
-        <button type="button" class="btn btn-raised btn-primary">Create</button>
+        <button type="button" class="btn btn-raised btn-primary" onclick="generate()">Create</button>
     </div>
 </div>
 @endsection
