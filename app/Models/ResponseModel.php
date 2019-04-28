@@ -51,35 +51,29 @@ class ResponseModel extends Model
             '1002' => "Service Currently Unavailable",
             '1003' => "Missing Params",
             '1004' => "Write/Read Permission Denied",
-            '1004' => "Invalid File",
+            '1005' => "Invalid File",
             '1984' => "Ignorance is Strength",
 
             '2000' => "Account-Related Error",
-
             '2001' => "Permission Denied",
             '2002' => "Please Login First",
 
             '3000' => "Problem-Related Error",
-
             '3001' => "Problem Not Found",
             '3002' => "Submission Size Limit Exceed(64kb max)",
             '3005' => "Copper", // Reserved for Copper in memory of OASIS and those who contributed a lot
 
             '4000' => "Contest-Related Error",
-
             '4001' => "Contest Not Found",
             '4002' => "Too Much Problems",
 
             '5000' => "Status-Related Error",
-
             '5001' => "Status Not Found",
 
             '6000' => "Submission-Related Error",
-
             '6001' => "Cannot Find Available Judgers",
 
             '7000' => "Group-Related Error",
-
             '7001' => "Group Not Found",
 
         ];
