@@ -55,7 +55,7 @@ Route::group(['namespace' => 'Tool'], function () {
     Route::group(['prefix' => 'tool'], function () {
         Route::redirect('/', '/', 301);
         Route::group(['prefix' => 'pastebin'], function () {
-            Route::get('/', 'PastebinController@index')->middleware('auth')->name('tool_pastebin_index');
+            Route::redirect('/', '/tool/pastebin/create', 301);
             Route::get('/create', 'PastebinController@create')->middleware('auth')->name('tool_pastebin_create');
             Route::get('/view/{$code}', 'PastebinController@view')->name('tool_pastebin_view');
         });

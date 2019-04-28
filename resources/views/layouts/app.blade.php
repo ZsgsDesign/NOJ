@@ -276,7 +276,7 @@
                         <h5 class="title mb-4 mt-3 font-bold">Services</h5>
                         <p class="mb-1"><a href="/status">Judging Queue</a></p>
                         <p class="mb-1"><a href="/system/info">System Info</a></p>
-                        <p class="mb-1"><a href="#">PasteBin</a></p>
+                        <p class="mb-1"><a href="/tool/pastebin/create">PasteBin</a></p>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">

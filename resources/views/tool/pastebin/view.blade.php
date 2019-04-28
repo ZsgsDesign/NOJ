@@ -94,13 +94,13 @@
 </style>
 <div class="container mundb-standard-container">
     <user-section>
-        <img src="{{$detail["userInfo"]["avatar"]}}" class="cm-avatar-square">
+        <a href="/user/{{$detail["userInfo"]["id"]}}"><img src="{{$detail["userInfo"]["avatar"]}}" class="cm-avatar-square"></a>
         <p>{{$detail["userInfo"]["name"]}}</p>
     </user-section>
     <small style="color:rgba(0,0,0,0.42);">Created at {{$detail["create_date"]}}@if($detail["expire"]), Expired at {{$detail["expire"]}}@endif</small>
     <code-paper>
         <code-header>{{$detail["title"]}}</code-header>
-        <pre data-lang="php" id="pb_content">{{$detail["content"]}}</pre>
+        <pre data-lang="{{$detail["lang"]}}" id="pb_content">{{$detail["content"]}}</pre>
     </code-paper>
 </div>
 @endsection
