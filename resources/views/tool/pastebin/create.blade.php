@@ -101,6 +101,8 @@
     <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
     <script>
         var aval_lang=[];
+        var generate_processing=false;
+
         require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});
 
         // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
@@ -148,19 +150,15 @@
         });
 
         function generate(){
+            if(generate_processing) return;
+            else generate_processing=true;
             $.ajax({
                 type: 'POST',
                 url: '/tool/ajax/pastebin/generate',
                 data: {
-                    lang: chosen_lang,
-                    pid:{{$detail["pid"]}},
-                    pcode:"{{$detail["pcode"]}}",
-                    cid:"{{$detail["contest_id"]}}",
-                    iid:"{{$detail["index_id"]}}",
-                    oj:"{{$detail["oj_detail"]["ocode"]}}",
-                    coid: chosen_coid,
-                    solution: editor.getValue(),
-                    @if($contest_mode) contest: {{$cid}} @endif
+                    syntax: chosen_lang,
+                    expiration:{{$detail["pid"]}},
+                    title:"{{$detail["pcode"]}}",
                 },
                 dataType: 'json',
                 headers: {
@@ -168,60 +166,11 @@
                 }, success: function(ret){
                     console.log(ret);
                     if(ret.ret==200){
-                        // submitted
-                        $("#verdict_info").popover('dispose');
-                        $("#verdict_text").text("Pending");
-                        $("#verdict_text").removeClass("cm-popover-decoration");
-                        $("#verdict_info").removeClass();
-                        $("#verdict_info").addClass("wemd-blue-text");
-                        var tempInterval=setInterval(()=>{
-                            $.ajax({
-                                type: 'POST',
-                                url: '/ajax/judgeStatus',
-                                data: {
-                                    sid: ret.data.sid
-                                },
-                                dataType: 'json',
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                }, success: function(ret){
-                                    console.log(ret);
-                                    if(ret.ret==200){
-                                        if(ret.data.verdict=="Compile Error"){
-                                            $("#verdict_info").attr('title',"Compile Info");
-                                            $("#verdict_info").attr('data-content',ret.data.compile_info);
-                                            $("#verdict_text").addClass("cm-popover-decoration");
-                                            $("#verdict_info").popover();
-                                        }
-                                        if(ret.data.verdict=="Partially Accepted"){
-                                            let real_score = Math.round(ret.data.score / tot_scores * tot_points);
-                                            $("#verdict_text").text(ret.data.verdict + ` (${real_score})`);
-                                        } else{
-                                            $("#verdict_text").text(ret.data.verdict);
-                                        }
-                                        $("#verdict_info").removeClass();
-                                        $("#verdict_info").addClass(ret.data.color);
-                                        if(ret.data.verdict!="Pending" && ret.data.verdict!="Waiting" && ret.data.verdict!="Judging") {
-                                            clearInterval(tempInterval);
-                                            notify(ret.data.verdict, 'Your submission to problem {{$detail["title"]}} has been proceed.',(ret.data.verdict=="Partially Accepted"||ret.data.verdict=="Accepted")?"/static/img/notify/checked.png":"/static/img/notify/cancel.png",'{{$detail["pid"]}}');
-                                        }
-                                    }
-                                }, error: function(xhr, type){
-                                    console.log('Ajax error while posting to judgeStatus!');
-                                }
-                            });
-                        },5000);
+                        ;
                     }else{
                         console.log(ret.desc);
-                        $("#verdict_text").text(ret.desc);
-                        $("#verdict_info").removeClass();
-                        $("#verdict_info").addClass("wemd-black-text");
                     }
-                    submission_processing = false;
-                    $("#submitBtn > i").addClass("send");
-                    $("#submitBtn > i").removeClass("autorenew");
-                    $("#submitBtn > i").removeClass("cm-refreshing");
-                    $("#submitBtn > span").text("Submit Code");
+                    generate_processing = false;
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
 
@@ -232,18 +181,14 @@
                             $("#verdict_info").removeClass();
                             $("#verdict_info").addClass("wemd-black-text");
                             break;
-
+                        case 422:
+                            alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                            break;
                         default:
-                            $("#verdict_text").text("System Error");
-                            $("#verdict_info").removeClass();
-                            $("#verdict_info").addClass("wemd-black-text");
+                            alert("Oops","Something went wrong!");
                     }
 
-                    submission_processing = false;
-                    $("#submitBtn > i").addClass("send");
-                    $("#submitBtn > i").removeClass("autorenew");
-                    $("#submitBtn > i").removeClass("cm-refreshing");
-                    $("#submitBtn > span").text("Submit Code");
+                    generate_processing = false;
                 }
             });
         }
