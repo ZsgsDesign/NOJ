@@ -153,7 +153,7 @@
                                     <h5 class="modal-title"><i class="MDI share"></i> Submission Sharing</h5>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Please choose a method to share. Using Direct Share would make your code available for users of NOJ by click the submission detail and by Pastebin would allow you to share your code though a link.</p>
+                                    <p>Please choose a method to share. Using Direct Share would make your code available for users of NOJ by clicking the submission detail and by Pastebin would allow you to share your code through a link.</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-info" onclick="share(${ret.data.sid},${id})"><i class="MDI cube-outline"></i> ${ret.data.share?'Disable':'Enable'} Direct Share</button>
