@@ -349,6 +349,22 @@
             display:block;
         }
 
+        top-side.problem-only > left-side{
+            width:100%;
+        }
+
+        top-side.problem-only > right-side{
+            display:none;
+        }
+
+        top-side.editor-only > right-side{
+            width:100%;
+        }
+
+        top-side.editor-only > left-side{
+            display:none;
+        }
+
         [class^="devicon-"], [class*=" devicon-"] {
             display:inline-block;
             transform: scale(1.3);
