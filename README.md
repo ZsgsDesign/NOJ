@@ -136,11 +136,11 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
 - [ ] Status System
     - [X] Status List
     - [ ] Status Filter
-    - [ ] Status Details
+    - [X] Status Details
         - [X] Syntax Highlight
         - [X] Verdict
         - [X] Code Download
-        - [ ] Code Share
+        - [X] Code Share
 - [ ] Contest System
     - [X] Contest List
     - [ ] Contest Tag
@@ -161,7 +161,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
         - [X] Problem Temp Block
     - [X] Contest Ranking System
     - [ ] Contest Clone
-    - [ ] Contest Replay
+    - [ ] Contest Virtual Participate
 - [ ] Group System
     - [X] Group List
     - [X] Group Details
