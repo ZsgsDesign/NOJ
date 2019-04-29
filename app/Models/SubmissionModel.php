@@ -305,18 +305,22 @@ class SubmissionModel extends Model
     public function getJudgeStatus($sid, $uid)
     {
         $status=DB::table($this->tableName)->where(['sid'=>$sid])->first();
-        if ($uid!=$status["uid"]) {
+        if (empty($status)) {
+            return [];
+        }
+        if ($status["share"]==0 && $status["uid"]!=$uid) {
             $status["solution"]=null;
         }
         $compilerModel=new CompilerModel();
         $status["lang"]=$compilerModel->detail($status["coid"])["lang"];
+        $status["owner"]=$uid==$status["uid"];
         return $status;
     }
 
     public function downloadCode($sid, $uid)
     {
-        $status=DB::table($this->tableName)->where(['sid'=>$sid, 'uid'=>$uid])->first();
-        if (empty($status)) {
+        $status=DB::table($this->tableName)->where(['sid'=>$sid])->first();
+        if (empty($status) || ($status["share"]==0 && $status["uid"]!=$uid)) {
             return [];
         }
         $lang=DB::table("compiler")->where(['coid'=>$status["coid"]])->first()["lang"];
