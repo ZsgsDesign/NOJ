@@ -365,6 +365,14 @@
             display:none;
         }
 
+        #problemBtn,#editorBtn{
+            padding: .46875rem .8rem;
+        }
+
+        #problemBtn.active,#editorBtn.active{
+            box-shadow: inset rgba(0, 0, 0, 0.15) 0px 0px 15px;
+        }
+
         [class^="devicon-"], [class*=" devicon-"] {
             display:inline-block;
             transform: scale(1.3);
@@ -620,6 +628,8 @@
         <bottom-side>
             <a tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="top" @if($status["verdict"]=="Compile Error") title="Compile Info" data-content="{{$status["compile_info"]}}"@endif style="color: #7a8e97" id="verdict_info" class="{{$status["color"]}}"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">{{$status["verdict"]}} @if($status["verdict"]=="Partially Accepted")({{round($status["score"]/$detail["tot_score"]*$detail["points"])}})@endif</span></a>
             <div>
+                <button type="button" class="btn btn-secondary active" id="problemBtn"> <i class="MDI book"></i></button>
+                <button type="button" class="btn btn-secondary active" id="editorBtn"> <i class="MDI pencil"></i></button>
                 <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> History</button>
                 <div class="btn-group dropup">
                     <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_lang_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -747,6 +757,34 @@
         var chosen_coid="{{$compiler_list[$pref]['coid']}}";
         var tot_points=parseInt("{{$detail["points"]}}");
         var tot_scores=parseInt("{{$detail["tot_score"]}}");
+        var problemEnable=true,editorEnable=true;
+
+        $( "#problemBtn" ).click(function() {
+            if(!editorEnable && problemEnable) return;
+            if(problemEnable) $("problemBtn").removeClass("active");
+            else $("problemBtn").addClass("active");
+            problemEnable=!problemEnable;
+            adjustAppearance();
+        });
+
+        $( "#editorBtn" ).click(function() {
+            if(editorEnable && !problemEnable) return;
+            if(editorEnable) $("editorBtn").removeClass("active");
+            else $("editorBtn").addClass("active");
+            editorEnable=!editorEnable;
+            adjustAppearance();
+        });
+
+        function adjustAppearance(){
+            if(problemEnable && editorEnable){
+                $("top-side").removeClass("editor-only");
+                $("top-side").removeClass("problem-only");
+            }else if(problemEnable){
+                $("top-side").addClass("problem-only");
+            }else if(editorEnable){
+                $("top-side").addClass("editor-only");
+            }
+        }
 
         $( ".lang-selector" ).click(function() {
             // console.log($( this ).data("lang"));
