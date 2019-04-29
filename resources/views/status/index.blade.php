@@ -98,6 +98,10 @@
         background: rgba(255, 193, 7, 0.1);
     }
 
+    .cm-shared{
+        background: rgba(76, 175, 80, 0.1);
+    }
+
     .alert.cm-notification{
         margin:1rem
     }
@@ -122,7 +126,7 @@
                     </thead>
                     <tbody>
                         @foreach($records["records"] as $r)
-                        <tr class="@if(Auth::check() && $r["uid"]==Auth::user()->id) cm-me @endif" style="cursor:pointer" onclick="fetchSubmissionDetail({{$r['sid']}})">
+                        <tr class="@if(Auth::check() && $r["uid"]==Auth::user()->id) cm-me @endif  @if($r["share"]) cm-shared @endif" style="cursor:pointer" onclick="fetchSubmissionDetail({{$r['sid']}})">
                             <th scope="row">{{$r["sid"]}}</th>
                             <td>{{$r["pcode"]}}</td>
                             <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>

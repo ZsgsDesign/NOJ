@@ -109,6 +109,10 @@
         background: rgba(255, 193, 7, 0.1);
     }
 
+    .cm-shared{
+        background: rgba(76, 175, 80, 0.1);
+    }
+
     .alert.cm-notification{
         margin:1rem
     }
@@ -180,7 +184,7 @@
                         @else
                             {{-- OI Mode --}}
                             @foreach($contest_rank as $r)
-                            <tr class="@if($r["uid"]==Auth::user()->id) cm-me @endif">
+                            <tr class="@if($r["uid"]==Auth::user()->id) cm-me @endif @if($r["share"]) cm-shared @endif">
                                 <th scope="row">{{$loop->iteration}}</th>
                                 <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
                                 <td>{{round($r["score"])}}</td>

@@ -480,7 +480,8 @@ class SubmissionModel extends Model
             "memory",
             "language",
             "score",
-            "submission_date"
+            "submission_date",
+            "share"
         )->orderBy(
             'submission_date',
             'desc'
