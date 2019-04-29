@@ -369,8 +369,8 @@
             padding: .46875rem .8rem;
         }
 
-        #problemBtn.active,#editorBtn.active{
-            box-shadow: inset rgba(0, 0, 0, 0.15) 0px 0px 15px;
+        #problemBtn.cm-active,#editorBtn.cm-active{
+            box-shadow: inset rgba(0, 0, 0, 0.25) 0px 0px 15px;
         }
 
         [class^="devicon-"], [class*=" devicon-"] {
@@ -628,8 +628,8 @@
         <bottom-side>
             <a tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="top" @if($status["verdict"]=="Compile Error") title="Compile Info" data-content="{{$status["compile_info"]}}"@endif style="color: #7a8e97" id="verdict_info" class="{{$status["color"]}}"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">{{$status["verdict"]}} @if($status["verdict"]=="Partially Accepted")({{round($status["score"]/$detail["tot_score"]*$detail["points"])}})@endif</span></a>
             <div>
-                <button type="button" class="btn btn-secondary active" id="problemBtn"> <i class="MDI book"></i></button>
-                <button type="button" class="btn btn-secondary active" id="editorBtn"> <i class="MDI pencil"></i></button>
+                <button type="button" class="btn btn-secondary cm-active" id="problemBtn"> <i class="MDI book"></i></button>
+                <button type="button" class="btn btn-secondary cm-active" id="editorBtn"> <i class="MDI pencil"></i></button>
                 <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> History</button>
                 <div class="btn-group dropup">
                     <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_lang_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -761,16 +761,16 @@
 
         $( "#problemBtn" ).click(function() {
             if(!editorEnable && problemEnable) return;
-            if(problemEnable) $("problemBtn").removeClass("active");
-            else $("problemBtn").addClass("active");
+            if(problemEnable) $("#problemBtn").removeClass("cm-active");
+            else $("#problemBtn").addClass("cm-active");
             problemEnable=!problemEnable;
             adjustAppearance();
         });
 
         $( "#editorBtn" ).click(function() {
             if(editorEnable && !problemEnable) return;
-            if(editorEnable) $("editorBtn").removeClass("active");
-            else $("editorBtn").addClass("active");
+            if(editorEnable) $("#editorBtn").removeClass("cm-active");
+            else $("#editorBtn").addClass("cm-active");
             editorEnable=!editorEnable;
             adjustAppearance();
         });
