@@ -772,6 +772,7 @@ class ContestModel extends Model
 
         $frozen_time=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
         $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+        $contestEnd=time()>$end_time;
 
         if ($basicInfo["status_visibility"]==2) {
             // View all
@@ -806,7 +807,8 @@ class ContestModel extends Model
                 "memory",
                 "language",
                 "score",
-                "submission_date"
+                "submission_date",
+                "share"
             )->orderBy(
                 'submission_date',
                 'desc'
@@ -835,7 +837,8 @@ class ContestModel extends Model
                 "memory",
                 "language",
                 "score",
-                "submission_date"
+                "submission_date",
+                "share"
             )->orderBy(
                 'submission_date',
                 'desc'
@@ -857,6 +860,7 @@ class ContestModel extends Model
                 $score_parsed=round($r["score"] / $problemSet[(string) $r["pid"]]["tot_score"] * $problemSet[(string) $r["pid"]]["points"], 1);
                 $r["verdict"].=" ($score_parsed)";
             }
+            if(!$contestEnd) $r["share"]=0;
         }
         return [
             "paginator"=>$paginator,

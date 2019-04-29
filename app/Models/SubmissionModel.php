@@ -308,6 +308,10 @@ class SubmissionModel extends Model
         if (empty($status)) {
             return [];
         }
+        if ($status["share"]==1 && $status["cid"]) {
+            $end_time=strtotime(DB::table("contest")->where(["cid"=>$status["cid"]])->select("end_time")->first()["end_time"]);
+            if(time()<$end_time) $status["solution"]=null;
+        }
         if ($status["share"]==0 && $status["uid"]!=$uid) {
             $status["solution"]=null;
         }
