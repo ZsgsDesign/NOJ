@@ -438,7 +438,7 @@
                         <div class="dropdown-menu">
                             <button class="dropdown-item"><i class="MDI github-circle"></i> GitHub</button>
                             <div class="dropdown-divider"></div>
-                            <button class="dropdown-item wemd-red-text"><i class="MDI alert-circle wemd-red-text"></i> Report Abuse</button>
+                            <button class="dropdown-item wemd-red-text" onclick="alert('???')"><i class="MDI alert-circle wemd-red-text"></i> Report Abuse</button>
                         </div>
                     </shadow-button>
 
