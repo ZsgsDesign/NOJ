@@ -171,6 +171,9 @@ class CodeForces extends CrawlerBase
                 $this->pro['index_id']=$result['result']['problems'][$i]['index'];
                 $this->pro['contest_id']=$result['result']['problems'][$i]['contestId'];
                 $this->pro['OJ']=$this->oid;
+                $this->pro['tot_score']=1;
+                $this->pro['partial']=0;
+                $this->pro['markdown']=0;
 
                 $now=time()-$start;
                 fwrite($f, "{$this->pro['pcode']} start at {$now}".PHP_EOL);
