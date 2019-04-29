@@ -11,6 +11,7 @@ use App\Http\Controllers\VirtualJudge\ContestHunter\ContestHunter;
 use App\Http\Controllers\VirtualJudge\POJ\POJ;
 use App\Http\Controllers\VirtualJudge\Vijos\Vijos;
 use App\Http\Controllers\VirtualJudge\PTA\PTA;
+use App\Http\Controllers\VirtualJudge\UVa\UVa;
 use Requests;
 
 class Core extends Curl
@@ -51,6 +52,11 @@ class Core extends Curl
         if ($oj=='pta') {
             $PTA=new PTA($sub, $all_data);
             $PTA->submit();
+        }
+
+        if ($oj=='uva') {
+            $UVa=new UVa($sub, $all_data);
+            $UVa->submit();
         }
     }
 }

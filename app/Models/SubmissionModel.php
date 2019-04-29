@@ -383,7 +383,7 @@ class SubmissionModel extends Model
     public function getEarliestSubmission($oid)
     {
         return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
-                                            ->select("sid", "OJ as oid", "remote_id", "cid")
+                                            ->select("sid", "OJ as oid", "remote_id", "cid", "jid")
                                             ->where(['verdict'=>'Waiting', 'OJ'=>$oid])
                                             ->orderBy("sid", "asc")
                                             ->first();
