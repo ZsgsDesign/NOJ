@@ -80,14 +80,14 @@
                     $(`#submission${id}`).modal('toggle');
                     if(ret.data.solution!==null) {
                         $(`#submission${id} pre`).text(ret.data.solution);
-                        $(`#submission${id} .modal-footer button:nth-of-type(2)`).removeClass("d-none");
+                        $(`#submission${id} .modal-footer button:nth-of-type(3)`).removeClass("d-none");
                         $(`#submission${id} .modal-footer button:nth-of-type(4)`).addClass("d-none");
                         hljs.highlightBlock(document.querySelector(`#submission${id} pre`));
                     }else{
                         $(`#submission${id} pre`).remove();
                     }
                     if(ret.data.owner){
-                        $(`#submission${id} .modal-footer button:nth-of-type(3)`).removeClass("d-none");
+                        $(`#submission${id} .modal-footer button:nth-of-type(2)`).removeClass("d-none");
                     }
                 } else {
                     alert(ret.desc);
