@@ -72,6 +72,7 @@ class ResponseModel extends Model
 
             '6000' => "Submission-Related Error",
             '6001' => "Cannot Find Available Judgers",
+            '6002' => "Sharing Method Not Allowed",
 
             '7000' => "Group-Related Error",
             '7001' => "Group Not Found",
