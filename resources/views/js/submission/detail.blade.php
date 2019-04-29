@@ -1,7 +1,12 @@
 @include("js.common.hljs")
+
 <style>
 .modal-dialog-submission {
     width: 60vw;
+}
+
+.modal-dialog-submission-share {
+    width: 40vw;
 }
 
 .modal-dialog-submission .modal-content{
@@ -17,6 +22,9 @@
 </style>
 <script>
     var fetchingSubmission=false;
+    var fetchingSubmissionShare=false;
+    var sharing=false;
+
     function fetchSubmissionDetail(sid){
         if(fetchingSubmission) return;
         fetchingSubmission=true;
@@ -119,5 +127,112 @@
         form.submit();
         $(form).remove();
         downloadingCode=false;
+    }
+
+    function prepareShare(sid){
+        if(fetchingSubmissionShare) return;
+        fetchingSubmissionShare=true;
+        $.ajax({
+            type: 'POST',
+            url: '/ajax/submission/detail',
+            data: {
+                sid: sid,
+            },
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }, success: function(ret) {
+                console.log(ret);
+                if(ret.ret==200){
+                    var id = new Date().getTime();
+                    $('body').append(`
+                    <div class="modal fade" id="submission_share${id}" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-submission-share" role="document">
+                            <div class="modal-content sm-modal">
+                                <div class="modal-header">
+                                    <h5 class="modal-title"><i class="MDI share"></i> Submission Sharing</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Please choose a method to share. Using Direct Share would make your code available for users of NOJ by click the submission detail and by Pastebin would allow you to share your code though a link.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-info" onclick="share(${ret.data.sid},${id})"><i class="MDI cube-outline"></i> ${ret.data.share?'Disable':'Enable'} Direct Share</button>
+                                    <button type="button" class="btn btn-warning" onclick="sharePB(${ret.data.sid},${id})"><i class="MDI note-plus"></i> Create a NOJ Pastebin</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `);
+                    $(`#submission_share${id}`).on('shown.bs.modal', function (e) {
+                        changeDepth();
+                    });
+                    $(`#submission_share${id}`).modal('toggle');
+                } else {
+                    alert(ret.desc);
+                }
+                fetchingSubmissionShare=false;
+            }, error: function(xhr, type) {
+                console.log('Ajax error!');
+                fetchingSubmissionShare=false;
+            }
+        });
+    }
+
+    function share(sid,id){
+        if(sharing) return;
+        sharing=true;
+        $.ajax({
+            type: 'POST',
+            url: '/ajax/submission/share',
+            data: {
+                sid: sid,
+                method: 1
+            },
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }, success: function(ret) {
+                console.log(ret);
+                if(ret.ret==200){
+                    $(`#submission_share${id}`).modal('toggle');
+                    location.reload();
+                } else {
+                    alert(ret.desc);
+                }
+                sharing=false;
+            }, error: function(xhr, type) {
+                console.log('Ajax error!');
+                sharing=false;
+            }
+        });
+    }
+
+    function sharePB(sid,id){
+        if(sharing) return;
+        sharing=true;
+        $.ajax({
+            type: 'POST',
+            url: '/ajax/submission/share',
+            data: {
+                sid: sid,
+                method: 2
+            },
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }, success: function(ret) {
+                console.log(ret);
+                if(ret.ret==200){
+                    $(`#submission_share${id}`).modal('toggle');
+                    location.href="/pb/"+ret.data.code;
+                } else {
+                    alert(ret.desc);
+                }
+                sharing=false;
+            }, error: function(xhr, type) {
+                console.log('Ajax error!');
+                sharing=false;
+            }
+        });
     }
 </script>

@@ -94,6 +94,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
 
     Route::group(['prefix' => 'submission'], function () {
         Route::post('detail', 'SubmissionController@detail');
+        Route::post('share', 'SubmissionController@share');
     });
 
     Route::group(['prefix' => 'account'], function () {

@@ -533,11 +533,11 @@ class SubmissionModel extends Model
         ]);
 
         if(is_null($ret)){
-            return ResponseModel::err(1001);
+            return [];
         }else{
-            return ResponseModel::success(200, null, [
+            return [
                 "code" => $ret
-            ]);
+            ];
         }
     }
 }
