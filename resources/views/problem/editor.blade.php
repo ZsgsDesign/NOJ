@@ -646,7 +646,7 @@
                 @if($contest_mode && $contest_ended)
                     <a href="/problem/{{$detail["pcode"]}}"><button type="button" class="btn btn-info" id="origialBtn"> <i class="MDI launch"></i> Original Problem</button></a>
                 @else
-                    <button type="button" class="btn btn-primary" id="submitBtn"@if(!count($compiler_list)) disabled @endif> <i class="MDI send"></i> <span>Submit Code</span></button>
+                    <button type="button" class="btn btn-primary" id="submitBtn"@if(!count($compiler_list) || !$oj_detail['status']) disabled @endif> <i class="MDI send"></i> <span>Submit Code</span></button>
                 @endif
             </div>
 

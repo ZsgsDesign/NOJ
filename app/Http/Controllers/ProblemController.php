@@ -95,6 +95,8 @@ class ProblemController extends Controller
         $pref=$compiler_pref["pref"];
         $submit_code=$compiler_pref["code"];
 
+        $oj_detail=$problem->ojdetail($prob_detail["OJ"]);
+
         if (empty($prob_status)) {
             $prob_status=[
                 "verdict"=>"NOT SUBMIT",
@@ -111,7 +113,8 @@ class ProblemController extends Controller
                                             'status' => $prob_status,
                                             'pref'=>$pref<0 ? 0 : $pref,
                                             'submit_code'=>$submit_code,
-                                            'contest_mode'=> false
+                                            'contest_mode'=> false,
+                                            'oj_detail'=>$oj_detail
                                         ]);
     }
 }

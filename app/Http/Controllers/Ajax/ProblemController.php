@@ -40,7 +40,9 @@ class ProblemController extends Controller
         if ($validator->fails()) {
             return ResponseModel::err(3002);
         }
-
+        if (!$problemModel->ojdetail($problemModel->detail($problemModel->pcode($all_data['pid']))['OJ'])['status']) {
+            return ResponseModel::err(6001);
+        }
         if ($problemModel->isBlocked($all_data["pid"], isset($all_data["contest"]) ? $all_data["contest"] : null)) {
             return header("HTTP/1.1 403 Forbidden");
         }
