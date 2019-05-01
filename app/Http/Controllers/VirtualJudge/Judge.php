@@ -400,7 +400,7 @@ class Judge extends Core
         $judgerDetail=$judger->detail($earliest['jid']);
         $ret['handle']=$judgerDetail['handle'];
 
-        $response=$this->grab_page("https://uhunt.onlinejudge.org/api/subs-user/$judgerDetail[user_id]/".($earliest['remote_id']-1), 'uva', [], $judgerDetail['handle']);
+        $response=$this->grab_page("https://uhunt.onlinejudge.org/api/subs-user/".$judgerDetail['user_id']."/".($earliest['remote_id']-1), 'uva', [], $judgerDetail['handle']);
         $result=json_decode($response, true);
         foreach ($result['subs'] as $i) {
             $ret[$i[0]] = ['time'=>$i[3], 'verdict'=>$i[2]];
