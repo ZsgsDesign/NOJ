@@ -90,6 +90,11 @@ class ProblemModel extends Model
         return DB::table("oj")->orderBy('oid', 'asc')->limit(12)->get()->all();
     }
 
+    public function ojdetail($oid)
+    {
+        return DB::table("oj")->where('oid', $oid)->first();
+    }
+
     public function isBlocked($pid, $cid=null)
     {
         $conflictContests=DB::table("contest")

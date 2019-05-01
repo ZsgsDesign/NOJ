@@ -632,19 +632,21 @@
                 <button type="button" class="btn btn-secondary cm-active" id="editorBtn"> <i class="MDI pencil"></i></button>
                 <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> History</button>
                 <div class="btn-group dropup">
-                    <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_lang_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="{{$compiler_list[$pref]['icon']}} colored"></i> {{$compiler_list[$pref]['display_name']}}
-                    </button>
-                    <div class="dropdown-menu cm-scrollable-menu">
-                        @foreach ($compiler_list as $c)
-                            <button class="dropdown-item lang-selector" data-coid="{{$c['coid']}}" data-comp="{{$c['comp']}}" data-lang="{{$c['lang']}}" data-lcode="{{$c['lcode']}}"><i class="{{$c['icon']}} colored"></i> {{$c['display_name']}}</button>
-                        @endforeach
-                    </div>
+                    @if(count($compiler_list))
+                        <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_lang_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="{{$compiler_list[$pref]['icon']}} colored"></i> {{$compiler_list[$pref]['display_name']}}
+                        </button>
+                        <div class="dropdown-menu cm-scrollable-menu">
+                            @foreach ($compiler_list as $c)
+                                <button class="dropdown-item lang-selector" data-coid="{{$c['coid']}}" data-comp="{{$c['comp']}}" data-lang="{{$c['lang']}}" data-lcode="{{$c['lcode']}}"><i class="{{$c['icon']}} colored"></i> {{$c['display_name']}}</button>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
                 @if($contest_mode && $contest_ended)
                     <a href="/problem/{{$detail["pcode"]}}"><button type="button" class="btn btn-info" id="origialBtn"> <i class="MDI launch"></i> Original Problem</button></a>
                 @else
-                    <button type="button" class="btn btn-primary" id="submitBtn"> <i class="MDI send"></i> <span>Submit Code</span></button>
+                    <button type="button" class="btn btn-primary" id="submitBtn"@if(!count($compiler_list) || !$oj_detail['status']) disabled @endif> <i class="MDI send"></i> <span>Submit Code</span></button>
                 @endif
             </div>
 
@@ -753,8 +755,8 @@
     <script>
         var historyOpen=false;
         var submission_processing=false;
-        var chosen_lang="{{$compiler_list[$pref]['lcode']}}";
-        var chosen_coid="{{$compiler_list[$pref]['coid']}}";
+        var chosen_lang="@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['lcode']}}@endif";
+        var chosen_coid="@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['coid']}}@endif";
         var tot_points=parseInt("{{$detail["points"]}}");
         var tot_scores=parseInt("{{$detail["tot_score"]}}");
         var problemEnable=true,editorEnable=true;
@@ -995,7 +997,7 @@
             require(["vs/editor/editor.main"], function () {
                 editor = monaco.editor.create(document.getElementById('vscode'), {
                     value: "{!!$submit_code!!}",
-                    language: "{{$compiler_list[$pref]['lang']}}",
+                    language: "@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['lang']}}@else{{'plaintext'}}@endif",
                     theme: "vs-dark",
                     fontSize: 16,
                     formatOnPaste: true,
