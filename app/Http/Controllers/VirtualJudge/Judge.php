@@ -333,6 +333,9 @@ class Judge extends Core
             } elseif ($row['oid']==7) {
                 if (array_key_exists($row['remote_id'], $uvaList)) {
                     $sub=[];
+                    if (!isset($uva_v[$uvaList[$row['remote_id']]['verdict']])) { // Sometimes verdict is 0 and i have no idea why
+                        continue;
+                    }
                     $sub['verdict']=$uva_v[$uvaList[$row['remote_id']]['verdict']];
                     if ($sub['verdict']==='Compile Error') {
                         $response=$this->grab_page("https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=9&page=show_compilationerror&submission=$row[remote_id]", 'uva', [], $uvaList['handle']);
