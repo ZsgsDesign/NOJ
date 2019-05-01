@@ -67,6 +67,7 @@ class Curl
     {
         $datapost=curl_init();
         $headers=array("Expect:");
+        $handle=urlencode($handle);
         if ($postJson) {
             $data=$data ? json_encode($data) : '{}';
             array_push($headers, 'Content-Type: application/json', 'Content-Length: '.strlen($data));
