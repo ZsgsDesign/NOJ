@@ -29,11 +29,9 @@ class UVa extends Curl
     {
         $response=$this->grab_page("https://uva.onlinejudge.org/", 'uva', [], $this->selectedJudger['handle']);
         if (strpos($response, 'Logout') === false) {
-            $judger=new JudgerModel();
-            $judger_list=$judger->list(7);
             $post_data = [
-                'username' => $judger_list[0]["handle"],
-                'passwd' => $judger_list[0]["password"],
+                'username' => $this->selectedJudger["handle"],
+                'passwd' => $this->selectedJudger["password"],
                 'remember' => 'yes',
             ];
             $inputs = preg_match_all('/<input type="\w*" name="(op2|lang|force_session|return|message|loginfrom|cbsecuritym3|\w[0-9a-z]{32})" value="(.*?)" \/>/', $response, $matches);
