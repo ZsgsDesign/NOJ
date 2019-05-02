@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Babel;
+namespace App\Babel\Crawler;
 
 use App\Models\ProblemModel;
 use KubAT\PhpSimple\HtmlDomParser;

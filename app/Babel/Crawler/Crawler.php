@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Babel;
+namespace App\Babel\Crawler;
 
 use App\Http\Controllers\VirtualCrawler\CodeForces\CodeForces;
 use App\Http\Controllers\VirtualCrawler\ContestHunter\ContestHunter;

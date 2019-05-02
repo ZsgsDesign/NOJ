@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Babel;
+namespace App\Babel\Judger;
 
 use App\Models\SubmissionModel;
 use App\Http\Controllers\VirtualJudge\Core;

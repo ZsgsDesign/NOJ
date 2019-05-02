@@ -1,5 +1,5 @@
 <?php
-namespace App\Babel;
+namespace App\Babel\Judger;
 
 use App\Models\SubmissionModel;
 
