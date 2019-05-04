@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c58ca21bf182f4036ec37766e755a759",
+    "content-hash": "4ea269a23dbb73f0806a1252a98d2be9",
     "packages": [
         {
             "name": "composer/installers",
@@ -2217,6 +2217,33 @@
             "time": "2019-02-16T20:54:15+00:00"
         },
         {
+            "name": "npm-asset/amator",
+            "version": "1.1.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/amator/-/amator-1.1.0.tgz"
+            },
+            "require": {
+                "npm-asset/bezier-easing": ">=2.0.3,<3.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "npm-asset/bezier-easing",
+            "version": "2.1.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/bezier-easing/-/bezier-easing-2.1.0.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
             "name": "npm-asset/chart.js",
             "version": "2.8.0",
             "dist": {
@@ -2389,6 +2416,35 @@
             ]
         },
         {
+            "name": "npm-asset/ngraph.events",
+            "version": "0.0.4",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/ngraph.events/-/ngraph.events-0.0.4.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "npm-asset/panzoom",
+            "version": "8.0.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/panzoom/-/panzoom-8.0.0.tgz"
+            },
+            "require": {
+                "npm-asset/amator": ">=1.1.0,<2.0.0",
+                "npm-asset/ngraph.events": "0.0.4",
+                "npm-asset/wheel": "0.0.5"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
             "name": "npm-asset/select",
             "version": "1.1.2",
             "dist": {
@@ -2406,6 +2462,18 @@
             "dist": {
                 "type": "tar",
                 "url": "https://registry.npmjs.org/tiny-emitter/-/tiny-emitter-2.1.0.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "npm-asset/wheel",
+            "version": "0.0.5",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/wheel/-/wheel-0.0.5.tgz"
             },
             "type": "npm-asset",
             "license": [

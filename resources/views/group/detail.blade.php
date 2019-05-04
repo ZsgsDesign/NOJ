@@ -817,6 +817,7 @@
     <script src="/static/js/jquery.datetimepicker.full.min.js"></script>
     <script src="/static/js/jquery-ui-sortable.min.js"></script>
     <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
+    <script src="/static/js/parazoom.min.js"></script>
     <script>
         function sortableInit(){
             $("#contestModal tbody").sortable({
