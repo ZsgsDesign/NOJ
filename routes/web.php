@@ -24,11 +24,12 @@ Route::group(['prefix' => 'user'], function () {
     Route::redirect('/', '/', 301);
     Route::get('/{uid}', 'UserController@view')->name('user_view');
 });
-
-Route::get('/problem', 'ProblemController@index')->middleware('contest_account')->name('problem_index');
-Route::get('/problem/{pcode}', 'ProblemController@detail')->middleware('contest_account')->name('problem_detail');
-Route::get('/problem/{pcode}/editor', 'ProblemController@editor')->middleware('auth')->name('problem_editor');
-
+Route::group(['prefix' => 'contest'], function () {
+    Route::get('/', 'ProblemController@index')->middleware('contest_account')->name('problem_index');
+    Route::get('/{pcode}', 'ProblemController@detail')->middleware('contest_account')->name('problem_detail');
+    Route::get('/{pcode}/editor', 'ProblemController@editor')->middleware('auth')->name('problem_editor');
+    Route::get('/{pcode}/solution', 'ProblemController@solution')->middleware('auth')->name('problem_solution');
+});
 Route::get('/status', 'StatusController@index')->middleware('contest_account')->name('status_index');
 
 Route::get('/group', 'GroupController@index')->middleware('contest_account')->name('group_index');

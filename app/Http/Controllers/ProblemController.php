@@ -75,6 +75,26 @@ class ProblemController extends Controller
     }
 
     /**
+     * Show the Problem Solution Page.
+     *
+     * @return Response
+     */
+    public function solution($pcode)
+    {
+        $problem=new ProblemModel();
+        $prob_detail=$problem->detail($pcode);
+        if ($problem->isBlocked($prob_detail["pid"])) {
+            return abort('403');
+        }
+        return is_null($prob_detail) ?  redirect("/problem") : view('problem.solution', [
+                                            'page_title'=> "Solution",
+                                            'site_title'=>"NOJ",
+                                            'navigation' => $prob_detail["title"],
+                                            'detail' => $prob_detail
+                                        ]);
+    }
+
+    /**
      * Show the Problem Editor Page.
      *
      * @return Response
