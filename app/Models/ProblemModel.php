@@ -127,7 +127,7 @@ class ProblemModel extends Model
         if ($filter['tag']) {
             $preQuery=$preQuery->join("problem_tag", "problem.pid", "=", "problem_tag.pid")->where(["tag"=>$filter['tag']]);
         }
-        $paginator=$preQuery->select("problem.pid as pid", "pcode", "title")->orderBy("pcode","ASC")->paginate(20);
+        $paginator=$preQuery->select("problem.pid as pid", "pcode", "title")->orderBy("OJ","ASC")->orderBy("contest_id","ASC")->orderBy("contest_id","ASC")->orderBy("index_id","ASC")->orderBy("pcode","ASC")->paginate(20);
         $prob_list=$paginator->all();
 
         if (empty($prob_list)) {
