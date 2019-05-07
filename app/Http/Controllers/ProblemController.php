@@ -87,12 +87,14 @@ class ProblemController extends Controller
             return abort('403');
         }
         $solution=$problem->solution($prob_detail["pid"]);
+        $submitted=Auth::check()?$problem->solution($prob_detail["pid"],Auth::user()->id):[];
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.solution', [
                                             'page_title'=> "Solution",
                                             'site_title'=>"NOJ",
                                             'navigation' => $prob_detail["title"],
                                             'detail' => $prob_detail,
-                                            'solution'=>$solution
+                                            'solution'=>$solution,
+                                            'submitted'=>$submitted
                                         ]);
     }
 

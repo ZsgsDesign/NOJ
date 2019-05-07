@@ -426,22 +426,25 @@
             </paper-card>
             <paper-card class="animated fadeInLeft p-3">
                 @if(Auth::check())
-                <solution-section>
-                    <content-section>
-                        <user-section>
-                            <a href="/user/{{Auth::user()->id}}"><img src="{{Auth::user()->avatar}}" class="cm-avatar-square"></a>
-                            <p>{{Auth::user()->name}}</p>
-                        </user-section>
-                        <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
-                        <markdown-editor class="mt-3 mb-3">
-                            <textarea id="solution_editor"></textarea>
-                        </markdown-editor>
-                        <div class="mb-3">
-                            <button type="button" class="btn btn-outline-primary"><i class="MDI share"></i> Share</button>
-                            <button type="button" class="btn btn-secondary">Cancel</button>
-                        </div>
-                    </content-section>
-                </solution-section>
+                    @if(empty($submitted))
+                        <solution-section>
+                            <content-section>
+                                <user-section>
+                                    <a href="/user/{{Auth::user()->id}}"><img src="{{Auth::user()->avatar}}" class="cm-avatar-square"></a>
+                                    <p>{{Auth::user()->name}}</p>
+                                </user-section>
+                                <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
+                                <markdown-editor class="mt-3 mb-3">
+                                    <textarea id="solution_editor"></textarea>
+                                </markdown-editor>
+                                <div class="mb-3">
+                                    <button type="button" class="btn btn-outline-primary"><i class="MDI share"></i> Share</button>
+                                    <button type="button" class="btn btn-secondary">Cancel</button>
+                                </div>
+                            </content-section>
+                        </solution-section>
+                    @else
+                    @endif
                 @endif
                 @foreach ($solution as $s)
                     <solution-section>

@@ -95,9 +95,11 @@ class ProblemModel extends Model
         return DB::table("oj")->where('oid', $oid)->first();
     }
 
-    public function solution($pid)
+    public function solution($pid,$uid=null)
     {
-        $details=DB::table("problem_solution")->join("users","id","=","uid")->where(['pid'=>$pid,'audit'=>1])->get()->all();
+        $details=DB::table("problem_solution")->join("users","id","=","uid")->where(['pid'=>$pid,'audit'=>1]);
+        if($uid!=null) $details=$details->where(["uid"=>$uid]);
+        $details=$details->get()->all();
         foreach($details as &$d){
             $d["content_parsed"]=clean(Markdown::convertToHtml($d["content"]));
         }
