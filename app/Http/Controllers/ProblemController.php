@@ -86,11 +86,13 @@ class ProblemController extends Controller
         if ($problem->isBlocked($prob_detail["pid"])) {
             return abort('403');
         }
+        $solution=$problem->solution($prob_detail["pid"]);
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.solution', [
                                             'page_title'=> "Solution",
                                             'site_title'=>"NOJ",
                                             'navigation' => $prob_detail["title"],
-                                            'detail' => $prob_detail
+                                            'detail' => $prob_detail,
+                                            'solution'=>$solution
                                         ]);
     }
 

@@ -95,6 +95,15 @@ class ProblemModel extends Model
         return DB::table("oj")->where('oid', $oid)->first();
     }
 
+    public function solution($pid)
+    {
+        $details=DB::table("problem_solution")->join("users","id","=","uid")->where(['pid'=>$pid,'audit'=>1])->get()->all();
+        foreach($details as &$d){
+            $d["content_parsed"]=clean(Markdown::convertToHtml($d["content"]));
+        }
+        return $details;
+    }
+
     public function isBlocked($pid, $cid=null)
     {
         $conflictContests=DB::table("contest")

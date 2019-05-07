@@ -443,25 +443,26 @@
                     </content-section>
                 </solution-section>
                 @endif
-                <solution-section>
-                    <polling-section>
-                        <h3>5</h3>
-                        <div class="btn-group" role="group" aria-label="Voting for solutions">
-                            <div><i class="MDI thumb-up-outline"></i></div>
-                            <div><i class="MDI thumb-down-outline"></i></div>
-                        </div>
-                    </polling-section>
-                    <content-section>
-                        <user-section>
-                            <a href="/user/2"><img src="http://ojsystem.com/static/img/avatar/default.png" class="cm-avatar-square"></a>
-                            <p>John Doe</p>
-                        </user-section>
-                        <solution-content class="mt-3 mb-3">
-                            <h1>123</h1>
-                            <p>123</p>
-                        </solution-content>
-                    </content-section>
-                </solution-section>
+                @foreach ($solution as $s)
+                    <solution-section>
+                        <polling-section>
+                            <h3>5</h3>
+                            <div class="btn-group" role="group" aria-label="Voting for solutions">
+                                <div><i class="MDI thumb-up-outline"></i></div>
+                                <div><i class="MDI thumb-down-outline"></i></div>
+                            </div>
+                        </polling-section>
+                        <content-section>
+                            <user-section>
+                                <a href="/user/{{$s["uid"]}}"><img src="{{$s["avatar"]}}" class="cm-avatar-square"></a>
+                                <p>{{$s["name"]}}</p>
+                            </user-section>
+                            <solution-content class="mt-3 mb-3">
+                                {!!$s["content_parsed"]!!}
+                            </solution-content>
+                        </content-section>
+                    </solution-section>
+                @endforeach
             </paper-card>
         </div>
         <div class="col-sm-12 col-lg-3">
