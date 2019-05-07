@@ -215,6 +215,13 @@
 
     solution-section{
         display:flex;
+        border-bottom:1px solid rgba(0,0,0,0.25);
+        margin-bottom:2rem;
+    }
+
+    solution-section:last-of-type{
+        border-bottom:none;
+        margin-bottom:0;
     }
 
     solution-section > polling-section{
@@ -312,6 +319,98 @@
     markdown-editor .editor-toolbar.disabled-for-preview a:not(.no-disable){
         opacity: 0.5;
     }
+
+    solution-content{
+        display: block;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        -ms-word-break: break-all;
+        word-break: break-word;
+        -ms-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto;
+        font-family: Roboto,Helvetica,Arial,sans-serif;
+        color:rgba(0, 0, 0, 0.93);
+    }
+
+    solution-content p {
+        line-height: 1.5;
+        font-size: inherit
+    }
+
+    solution-content h1,solution-content h2,solution-content h3,solution-content h4,solution-content h5,solution-content h6 {
+        margin-top: 1em;
+        margin-bottom: .6em;
+        line-height: 1.1
+    }
+
+    solution-content h1 {
+        font-size: 1.8em
+    }
+
+    solution-content h2 {
+        font-size: 1.4em
+    }
+
+    solution-content h3 {
+        font-size: 1.17em
+    }
+
+    solution-content h4,solution-content h5,solution-content h6 {
+        font-size: 1em
+    }
+
+    solution-content ul {
+        margin-left: 1.3em;
+        list-style: square
+    }
+
+    .no-heading h1,.no-heading h2,.no-heading h3,.no-heading h4,.no-heading h5,.no-heading h6 {
+        padding-top: .3em;
+        padding-bottom: .3em;
+        margin: 0;
+        font-size: inherit;
+        font-weight: 400;
+        line-height: 1;
+        margin-top: .6em
+    }
+
+    solution-content ol {
+        list-style: decimal;
+        margin-left: 1.9em
+    }
+
+    solution-content li ol,solution-content li ul {
+        margin-top: 1.2em;
+        margin-bottom: 1.2em;
+        margin-left: 2em
+    }
+
+    solution-content li ul {
+        list-style: circle
+    }
+
+    solution-content table caption,solution-content table td,solution-content table th {
+        border: 1px solid #ddd;
+        padding: .5em 1em;
+        color: #666
+    }
+
+    solution-content table th {
+        background: #fbfbfb
+    }
+
+    solution-content table thead th {
+        background: #f1f1f1
+    }
+
+    solution-content table caption {
+        border-bottom: none
+    }
+
+    solution-content img {
+        max-width: 100%
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -328,13 +427,6 @@
             <paper-card class="animated fadeInLeft p-3">
                 @if(Auth::check())
                 <solution-section>
-                    <polling-section>
-                        <h3>0</h3>
-                        <div class="btn-group" role="group" aria-label="Voting for solutions">
-                            <div><i class="MDI thumb-up-outline"></i></div>
-                            <div><i class="MDI thumb-down-outline"></i></div>
-                        </div>
-                    </polling-section>
                     <content-section>
                         <user-section>
                             <a href="/user/{{Auth::user()->id}}"><img src="{{Auth::user()->avatar}}" class="cm-avatar-square"></a>
@@ -344,9 +436,32 @@
                         <markdown-editor class="mt-3 mb-3">
                             <textarea id="solution_editor"></textarea>
                         </markdown-editor>
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-outline-primary"><i class="MDI share"></i> Share</button>
+                            <button type="button" class="btn btn-secondary">Cancel</button>
+                        </div>
                     </content-section>
                 </solution-section>
                 @endif
+                <solution-section>
+                    <polling-section>
+                        <h3>5</h3>
+                        <div class="btn-group" role="group" aria-label="Voting for solutions">
+                            <div><i class="MDI thumb-up-outline"></i></div>
+                            <div><i class="MDI thumb-down-outline"></i></div>
+                        </div>
+                    </polling-section>
+                    <content-section>
+                        <user-section>
+                            <a href="/user/2"><img src="http://ojsystem.com/static/img/avatar/default.png" class="cm-avatar-square"></a>
+                            <p>John Doe</p>
+                        </user-section>
+                        <solution-content class="mt-3 mb-3">
+                            <h1>123</h1>
+                            <p>123</p>
+                        </solution-content>
+                    </content-section>
+                </solution-section>
             </paper-card>
         </div>
         <div class="col-sm-12 col-lg-3">
@@ -400,6 +515,7 @@
         renderingConfig: {
             codeSyntaxHighlighting: true
         },
+        status:false,
         toolbar: [{
                 name: "bold",
                 action: SimpleMDE.toggleBold,
