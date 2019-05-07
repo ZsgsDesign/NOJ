@@ -500,7 +500,7 @@
 @endsection
 
 @section("additionJS")
-@include("js.common.hljs")
+@include("js.common.hljsLight")
 <script type="text/javascript" src="/static/library/simplemde/dist/simplemde.min.js"></script>
 <script>
     var simplemde = new SimpleMDE({
@@ -576,5 +576,7 @@
             },
         ],
     });
+
+    hljs.initHighlighting();
 </script>
 @endsection
