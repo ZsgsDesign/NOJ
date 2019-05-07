@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c58ca21bf182f4036ec37766e755a759",
+    "content-hash": "9671bc0c8bc1849d6fbb03a66d3e0bad",
     "packages": [
         {
             "name": "composer/installers",
@@ -2281,6 +2281,33 @@
             ]
         },
         {
+            "name": "npm-asset/codemirror",
+            "version": "5.46.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/codemirror/-/codemirror-5.46.0.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "npm-asset/codemirror-spell-checker",
+            "version": "1.1.2",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/codemirror-spell-checker/-/codemirror-spell-checker-1.1.2.tgz"
+            },
+            "require": {
+                "npm-asset/typo-js": "*"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
             "name": "npm-asset/color-convert",
             "version": "0.5.3",
             "dist": {
@@ -2353,6 +2380,18 @@
             ]
         },
         {
+            "name": "npm-asset/marked",
+            "version": "0.6.2",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/marked/-/marked-0.6.2.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
             "name": "npm-asset/mathjax",
             "version": "2.7.5",
             "dist": {
@@ -2401,6 +2440,23 @@
             ]
         },
         {
+            "name": "npm-asset/simplemde",
+            "version": "1.11.2",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/simplemde/-/simplemde-1.11.2.tgz"
+            },
+            "require": {
+                "npm-asset/codemirror": "*",
+                "npm-asset/codemirror-spell-checker": "*",
+                "npm-asset/marked": "*"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
             "name": "npm-asset/tiny-emitter",
             "version": "2.1.0",
             "dist": {
@@ -2410,6 +2466,18 @@
             "type": "npm-asset",
             "license": [
                 "MIT"
+            ]
+        },
+        {
+            "name": "npm-asset/typo-js",
+            "version": "1.0.3",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/typo-js/-/typo-js-1.0.3.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
             ]
         },
         {

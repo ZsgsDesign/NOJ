@@ -24,7 +24,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::redirect('/', '/', 301);
     Route::get('/{uid}', 'UserController@view')->name('user_view');
 });
-Route::group(['prefix' => 'contest'], function () {
+Route::group(['prefix' => 'problem'], function () {
     Route::get('/', 'ProblemController@index')->middleware('contest_account')->name('problem_index');
     Route::get('/{pcode}', 'ProblemController@detail')->middleware('contest_account')->name('problem_detail');
     Route::get('/{pcode}/editor', 'ProblemController@editor')->middleware('auth')->name('problem_editor');
