@@ -110,16 +110,17 @@ class ProblemModel extends Model
                 "desc"
             )->get()->all();
         } else {
+            $votes=DB::table("problem_solution_vote")->where([
+                "uid"=>$uid
+            ])->get()->all();
+            foreach($votes as $v){
+                $userVotes[$v["psoid"]]=$v["type"];
+            }
             $details=DB::table("problem_solution")->join(
                 "users",
                 "id",
                 "=",
                 "problem_solution.uid"
-            )->leftjoin(
-                "problem_solution_vote",
-                "problem_solution.psoid",
-                "=",
-                "problem_solution_vote.psoid"
             )->where([
                 'problem_solution.pid'=>$pid,
                 'problem_solution.audit'=>1
@@ -133,9 +134,12 @@ class ProblemModel extends Model
                 "problem_solution.created_at as created_at",
                 "problem_solution.updated_at as updated_at",
                 "avatar",
-                "name",
-                "type"
+                "name"
             ])->orderBy("problem_solution.votes","desc")->get()->all();
+            foreach($details as &$d){
+                $d["type"]=isset($userVotes[$d["psoid"]])?$userVotes[$d["psoid"]]:null;
+            }
+            unset($d);
         }
         foreach($details as &$d){
             $d["content_parsed"]=clean(Markdown::convertToHtml($d["content"]));
