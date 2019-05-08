@@ -116,12 +116,52 @@ class ProblemModel extends Model
                 "uid"=>$uid,
                 "pid"=>$pid,
                 "content"=>$content,
+                "votes"=>0,
                 "created_at"=>date("Y-m-d H:i:s"),
                 "updated_at"=>date("Y-m-d H:i:s"),
             ]);
             return true;
         }
         return false;
+    }
+
+    public function voteSolution($psoid,$uid,$type)
+    {
+        $val=$type?1:-1;
+        $details=DB::table("problem_solution")->where(['psoid'=>$psoid])->first();
+        if(empty($details)) return false;
+
+        $userVote=DB::table("problem_solution_vote")->where(['uid'=>$uid,"psoid"=>$psoid])->first();
+
+        if(!empty($userVote)){
+            DB::table("problem_solution_vote")->where(['uid'=>$uid,"psoid"=>$psoid])->delete();
+            if($userVote["type"]==$type){
+                DB::table("problem_solution")->where([
+                    'psoid'=>$psoid
+                ])->update([
+                    "votes"=>$details["votes"]+($userVote["type"]==1?-1:1),
+                ]);
+                return true; //disvote
+            }elseif($userVote["type"]==1){
+                $val--;
+            }else{
+                $val++;
+            }
+        }
+
+        DB::table("problem_solution")->where([
+            'psoid'=>$psoid
+        ])->update([
+            "votes"=>$details["votes"]+$val,
+        ]);
+
+        DB::table("problem_solution_vote")->insert([
+            "uid"=>$uid,
+            "psoid"=>$psoid,
+            "type"=>$type,
+        ]);
+
+        return true;
     }
 
     public function removeSolution($psoid,$uid)
@@ -136,6 +176,7 @@ class ProblemModel extends Model
         if(empty(DB::table("problem_solution")->where(['psoid'=>$psoid,'uid'=>$uid])->first())) return false;
         DB::table("problem_solution")->where(['psoid'=>$psoid,'uid'=>$uid])->update([
             "content"=>$content,
+            "audit"=>0,
             "updated_at"=>date("Y-m-d H:i:s"),
         ]);
         return true;

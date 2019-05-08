@@ -411,6 +411,22 @@
     solution-content img {
         max-width: 100%
     }
+
+    empty-container{
+        display:block;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    empty-container i{
+        font-size:5rem;
+        color:rgba(0,0,0,0.42);
+    }
+
+    empty-container p{
+        font-size: 1rem;
+        color:rgba(0,0,0,0.54);
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -473,26 +489,35 @@
                         </solution-section>
                     @endif
                 @endif
-                @foreach ($solution as $s)
-                    <solution-section>
-                        <polling-section>
-                            <h3>5</h3>
-                            <div class="btn-group" role="group" aria-label="Voting for solutions">
-                                <div><i class="MDI thumb-up-outline"></i></div>
-                                <div><i class="MDI thumb-down-outline"></i></div>
-                            </div>
-                        </polling-section>
-                        <content-section>
-                            <user-section>
-                                <a href="/user/{{$s["uid"]}}"><img src="{{$s["avatar"]}}" class="cm-avatar-square"></a>
-                                <p>{{$s["name"]}}</p>
-                            </user-section>
-                            <solution-content class="mt-3 mb-3">
-                                {!!$s["content_parsed"]!!}
-                            </solution-content>
-                        </content-section>
-                    </solution-section>
-                @endforeach
+                @if(empty($solution))
+                <solution-section style="align-items: center; justify-content: center;">
+                    <empty-container>
+                        <i class="MDI package-variant"></i>
+                        <p>No Solution Yet.</p>
+                    </empty-container>
+                </solution-section>
+                @else
+                    @foreach ($solution as $s)
+                        <solution-section>
+                            <polling-section>
+                                <h3 id="vote_{{$s['psoid']}}">{{$s['votes']}}</h3>
+                                <div class="btn-group" role="group" aria-label="Voting for solutions">
+                                    <div onclick="voteSolutionDiscussion({{$s['psoid']}},1)"><i class="MDI thumb-up-outline"></i></div>
+                                    <div onclick="voteSolutionDiscussion({{$s['psoid']}},0)"><i class="MDI thumb-down-outline"></i></div>
+                                </div>
+                            </polling-section>
+                            <content-section>
+                                <user-section>
+                                    <a href="/user/{{$s["uid"]}}"><img src="{{$s["avatar"]}}" class="cm-avatar-square"></a>
+                                    <p>{{$s["name"]}}</p>
+                                </user-section>
+                                <solution-content class="mt-3 mb-3">
+                                    {!!$s["content_parsed"]!!}
+                                </solution-content>
+                            </content-section>
+                        </solution-section>
+                    @endforeach
+                @endif
             </paper-card>
         </div>
         <div class="col-sm-12 col-lg-3">
@@ -547,6 +572,15 @@
         tabSize: 4,
         renderingConfig: {
             codeSyntaxHighlighting: true
+        },
+        previewRender: function (plainText) {
+            return marked(plainText, {
+                sanitize: true,
+                sanitizer: DOMPurify.sanitize,
+                highlight: function (code) {
+                    return hljs.highlightAuto(code).value;
+                }
+            });
         },
         status:false,
         toolbar: [{
@@ -651,6 +685,49 @@
                 }
                 console.log('Ajax error while posting to submitSolutionDiscussion!');
                 submitingSolutionDiscussion=false;
+            }
+        });
+    }
+
+    var votingSolutionDiscussion=false;
+
+    function voteSolutionDiscussion(psoid,type) {
+        if(votingSolutionDiscussion)return;
+        else votingSolutionDiscussion=true;
+        $.ajax({
+            type: 'POST',
+            url: '/ajax/voteSolutionDiscussion',
+            data: {
+                psoid: psoid,
+                type: type,
+            },
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }, success: function(ret){
+                console.log(ret);
+                if (ret.ret==200) {
+                    // alert("Your Solution Has Been Recieved.");
+                    // location.reload();
+                    $(`#vote_${psoid}`).text(parseInt($(`#vote_${psoid}`).text())+(type?1:-1));
+                } else {
+                    alert(ret.desc);
+                }
+                votingSolutionDiscussion=false;
+            }, error: function(xhr, type){
+                console.log(xhr);
+                switch(xhr.status) {
+                    case 422:
+                        alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                        break;
+                    case 429:
+                        alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                        break;
+                    default:
+                        alert("Server Connection Error");
+                }
+                console.log('Ajax error while posting to voteSolutionDiscussion!');
+                votingSolutionDiscussion=false;
             }
         });
     }

@@ -142,7 +142,23 @@ class ProblemController extends Controller
         $all_data=$request->all();
         $problemModel=new ProblemModel();
         $psoid=$all_data["psoid"];
-        $ret=$problemModel->deleteSolution($psoid,Auth::user()->id);
+        $ret=$problemModel->removeSolution($psoid,Auth::user()->id);
+        return $ret?ResponseModel::success(200):ResponseModel::err(3004);
+    }
+    /**
+     * The Ajax Problem Solution Discussion Vote.
+     *
+     * @param Request $request web request
+     *
+     * @return Response
+     */
+    public function voteSolutionDiscussion(Request $request)
+    {
+        $all_data=$request->all();
+        $problemModel=new ProblemModel();
+        $psoid=$all_data["psoid"];
+        $type=$all_data["type"];
+        $ret=$problemModel->voteSolution($psoid,Auth::user()->id,$type);
         return $ret?ResponseModel::success(200):ResponseModel::err(3004);
     }
     /**
