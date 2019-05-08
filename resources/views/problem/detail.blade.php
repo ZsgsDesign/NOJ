@@ -260,7 +260,7 @@
                 <button type="button" class="btn btn-secondary" id="submitBtn"><i class="MDI send"></i>@guest Login & Submit @else Submit @endguest</button>
                 <separate-line class="ultra-thin"></separate-line>
                 <button type="button" class="btn btn-secondary"><i class="MDI comment-multiple-outline"></i> Discussion </button>
-                <button type="button" class="btn btn-secondary"><i class="MDI comment-check-outline"></i> Solution </button>
+                <button type="button" class="btn btn-secondary" id="solutionBtn"><i class="MDI comment-check-outline"></i> Solution </button>
             </paper-card>
             <paper-card class="animated fadeInRight">
                 <p>Info</p>
@@ -294,6 +294,10 @@
 
     document.getElementById("submitBtn").addEventListener("click",function(){
         location.href="/problem/{{$detail["pcode"]}}/editor";
+    },false)
+
+    document.getElementById("solutionBtn").addEventListener("click",function(){
+        location.href="/problem/{{$detail["pcode"]}}/solution";
     },false)
 
 </script>

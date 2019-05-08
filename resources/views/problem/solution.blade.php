@@ -535,7 +535,7 @@
             <paper-card class="animated fadeInRight btn-group-vertical cm-action-group" role="group" aria-label="vertical button group">
                 <button type="button" class="btn btn-secondary" id="submitBtn"><i class="MDI send"></i>@guest Login & Submit @else Submit @endguest</button>
                 <separate-line class="ultra-thin"></separate-line>
-                <button type="button" class="btn btn-secondary"><i class="MDI comment-text-outline"></i> Description </button>
+                <button type="button" class="btn btn-secondary" id="descBtn"><i class="MDI comment-text-outline"></i> Description </button>
                 <button type="button" class="btn btn-secondary"><i class="MDI comment-multiple-outline"></i> Discussion </button>
             </paper-card>
             <paper-card class="animated fadeInRight">
@@ -563,6 +563,17 @@
         </div>
     </div>
 </div>
+<script>
+
+        document.getElementById("submitBtn").addEventListener("click",function(){
+            location.href="/problem/{{$detail["pcode"]}}/editor";
+        },false)
+
+        document.getElementById("descBtn").addEventListener("click",function(){
+            location.href="/problem/{{$detail["pcode"]}}/";
+        },false)
+
+</script>
 @endsection
 
 @section("additionJS")
