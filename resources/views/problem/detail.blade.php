@@ -199,6 +199,9 @@
         .no-print{
             display:none;
         }
+        fresh-container{
+            display:inline;
+        }
     }
 </style>
 
