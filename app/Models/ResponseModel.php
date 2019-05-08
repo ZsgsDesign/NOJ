@@ -61,6 +61,7 @@ class ResponseModel extends Model
             '3000' => "Problem-Related Error",
             '3001' => "Problem Not Found",
             '3002' => "Submission Size Limit Exceed(64kb max)",
+            '3003' => "Duplicate Problem Solution Submitted",
             '3005' => "Copper", // Reserved for Copper in memory of OASIS and those who contributed a lot
 
             '4000' => "Contest-Related Error",

@@ -119,9 +119,9 @@ class ProblemModel extends Model
                 "create_at"=>time(),
                 "update_at"=>time(),
             ]);
-        } else {
-            return [];
+            return true;
         }
+        return false;
     }
 
     public function removeSolution($psoid)

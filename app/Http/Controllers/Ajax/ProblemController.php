@@ -75,7 +75,7 @@ class ProblemController extends Controller
         ]);
     }
     /**
-     * The Ajax Problem Solution Submit.
+     * The Ajax Problem Status Check.
      *
      * @param Request $request web request
      *
@@ -93,6 +93,46 @@ class ProblemController extends Controller
         } else {
             return ResponseModel::err(3001);
         }
+    }
+    /**
+     * The Ajax Problem Solution Discussion Submission.
+     *
+     * @param Request $request web request
+     *
+     * @return Response
+     */
+    public function submitSolutionDiscussion(Request $request)
+    {
+        $all_data=$request->all();
+        $problemModel=new ProblemModel();
+        $pid=$all_data["pid"];
+        $content=$all_data["content"];
+        $basic=$problemModel->basic($pid);
+        if (empty($basic)) {
+            return ResponseModel::err(3001);
+        }
+        $ret=$problemModel->addSolution($pid,Auth::user()->id,$content);
+        return $ret?ResponseModel::success(200):ResponseModel::err(3003);
+    }
+    /**
+     * The Ajax Problem Solution Discussion Update.
+     *
+     * @param Request $request web request
+     *
+     * @return Response
+     */
+    public function updateSolutionDiscussion(Request $request)
+    {
+        $all_data=$request->all();
+        $problemModel=new ProblemModel();
+        $pid=$all_data["pid"];
+        $content=$all_data["content"];
+        $basic=$problemModel->basic($pid);
+        if (empty($basic)) {
+            return ResponseModel::err(3001);
+        }
+        $ret=$problemModel->addSolution($pid,Auth::user()->id,$content);
+        return $ret?ResponseModel::success(200):ResponseModel::err(3003);
     }
     /**
      * The Ajax Problem Solution Submit.
