@@ -98,7 +98,17 @@ class ProblemModel extends Model
     public function solutionList($pid,$uid=null)
     {
         if(is_null($uid)) {
-            $details=DB::table("problem_solution")->join("users","id","=","problem_solution.uid")->where(['problem_solution.pid'=>$pid,'problem_solution.audit'=>1])->first();
+            $details=DB::table("problem_solution")->join(
+                "users","id",
+                "=",
+                "problem_solution.uid"
+            )->where([
+                'problem_solution.pid'=>$pid,
+                'problem_solution.audit'=>1
+            ])->orderBy(
+                "problem_solution.votes",
+                "desc"
+            )->get()->all();
         } else {
             $details=DB::table("problem_solution")->join(
                 "users",
@@ -125,7 +135,7 @@ class ProblemModel extends Model
                 "avatar",
                 "name",
                 "type"
-            ])->get()->all();
+            ])->orderBy("problem_solution.votes","desc")->get()->all();
         }
         foreach($details as &$d){
             $d["content_parsed"]=clean(Markdown::convertToHtml($d["content"]));
