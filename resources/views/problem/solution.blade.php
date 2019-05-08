@@ -238,6 +238,7 @@
         transition: .5s ease-out .0s;
         border:1px solid rgba(0, 0, 0, 0);
         border-radius: 0.875rem;
+        margin-bottom: 2rem;
     }
 
     solution-section > polling-section > .btn-group:hover {
