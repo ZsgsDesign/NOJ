@@ -112,8 +112,7 @@ class ProblemModel extends Model
                 "problem_solution_vote.psoid"
             )->where([
                 'problem_solution.pid'=>$pid,
-                'problem_solution.audit'=>1,
-                'problem_solution.uid'=>$uid
+                'problem_solution.audit'=>1
             ])->select([
                 "problem_solution.psoid as psoid",
                 "problem_solution.uid as uid",
