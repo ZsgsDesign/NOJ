@@ -159,7 +159,7 @@ class ProblemController extends Controller
         $psoid=$all_data["psoid"];
         $type=$all_data["type"];
         $ret=$problemModel->voteSolution($psoid,Auth::user()->id,$type);
-        return $ret?ResponseModel::success(200):ResponseModel::err(3004);
+        return $ret["ret"]?ResponseModel::success(200,null,["votes"=>$ret["votes"],"select"=>$ret["select"]]):ResponseModel::err(3004);
     }
     /**
      * The Ajax Problem Solution Submit.

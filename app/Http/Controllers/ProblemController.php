@@ -86,7 +86,7 @@ class ProblemController extends Controller
         if ($problem->isBlocked($prob_detail["pid"])) {
             return abort('403');
         }
-        $solution=$problem->solution($prob_detail["pid"]);
+        $solution=$problem->solutionList($prob_detail["pid"],Auth::check()?Auth::user()->id:null);
         $submitted=Auth::check()?$problem->solution($prob_detail["pid"],Auth::user()->id):[];
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.solution', [
                                             'page_title'=> "Solution",

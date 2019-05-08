@@ -95,16 +95,48 @@ class ProblemModel extends Model
         return DB::table("oj")->where('oid', $oid)->first();
     }
 
-    public function solution($pid,$uid=null)
+    public function solutionList($pid,$uid=null)
     {
-        if($uid!=null) {
-            $details=DB::table("problem_solution")->join("users","id","=","uid")->where(['pid'=>$pid,'uid'=>$uid])->first();
+        if(is_null($uid)) {
+            $details=DB::table("problem_solution")->join("users","id","=","problem_solution.uid")->where(['problem_solution.pid'=>$pid,'problem_solution.audit'=>1])->first();
         } else {
-            $details=DB::table("problem_solution")->join("users","id","=","uid")->where(['pid'=>$pid,'audit'=>1])->get()->all();
-            foreach($details as &$d){
-                $d["content_parsed"]=clean(Markdown::convertToHtml($d["content"]));
-            }
+            $details=DB::table("problem_solution")->join(
+                "users",
+                "id",
+                "=",
+                "problem_solution.uid"
+            )->leftjoin(
+                "problem_solution_vote",
+                "problem_solution.psoid",
+                "=",
+                "problem_solution_vote.psoid"
+            )->where([
+                'problem_solution.pid'=>$pid,
+                'problem_solution.audit'=>1,
+                'problem_solution.uid'=>$uid
+            ])->select([
+                "problem_solution.psoid as psoid",
+                "problem_solution.uid as uid",
+                "problem_solution.pid as pid",
+                "problem_solution.content as content",
+                "problem_solution.audit as audit",
+                "problem_solution.votes as votes",
+                "problem_solution.created_at as created_at",
+                "problem_solution.updated_at as updated_at",
+                "avatar",
+                "name",
+                "type"
+            ])->get()->all();
         }
+        foreach($details as &$d){
+            $d["content_parsed"]=clean(Markdown::convertToHtml($d["content"]));
+        }
+        return $details;
+    }
+
+    public function solution($pid,$uid)
+    {
+        $details=DB::table("problem_solution")->join("users","id","=","uid")->where(['pid'=>$pid,'uid'=>$uid])->first();
         return $details;
     }
 
@@ -129,7 +161,7 @@ class ProblemModel extends Model
     {
         $val=$type?1:-1;
         $details=DB::table("problem_solution")->where(['psoid'=>$psoid])->first();
-        if(empty($details)) return false;
+        if(empty($details)) return ["ret"=>false];
 
         $userVote=DB::table("problem_solution_vote")->where(['uid'=>$uid,"psoid"=>$psoid])->first();
 
@@ -141,7 +173,7 @@ class ProblemModel extends Model
                 ])->update([
                     "votes"=>$details["votes"]+($userVote["type"]==1?-1:1),
                 ]);
-                return true; //disvote
+                return ["ret"=>true,"votes"=>$details["votes"]+($userVote["type"]==1?-1:1),"select"=>-1]; //disvote
             }elseif($userVote["type"]==1){
                 $val--;
             }else{
@@ -161,7 +193,7 @@ class ProblemModel extends Model
             "type"=>$type,
         ]);
 
-        return true;
+        return ["ret"=>true,"votes"=>$details["votes"]+$val,"select"=>$type];
     }
 
     public function removeSolution($psoid,$uid)

@@ -237,7 +237,7 @@
         opacity: 0.4;
         transition: .5s ease-out .0s;
         border:1px solid rgba(0, 0, 0, 0);
-        border-radius: 0.8125rem;
+        border-radius: 0.875rem;
     }
 
     solution-section > polling-section > .btn-group:hover {
@@ -278,6 +278,11 @@
         box-shadow: 0 2px 10px rgba(46,204,64,.4);
     }
 
+    solution-section > polling-section > .btn-group > div.upvote-selected{
+        color: #2ecc40;
+    }
+
+
     solution-section > polling-section > .btn-group > div:last-of-type{
         border-top-right-radius: 0.8125rem;
         border-bottom-right-radius: 0.8125rem;
@@ -288,6 +293,10 @@
         color: #fff;
         -webkit-box-shadow: 0 2px 10px rgba(255,65,54,.4);
         box-shadow: 0 2px 10px rgba(255,65,54,.4);
+    }
+
+    solution-section > polling-section > .btn-group > div.downvote-selected{
+        color: #ff4136;
     }
 
     solution-section > polling-section > h3{
@@ -499,12 +508,14 @@
                 @else
                     @foreach ($solution as $s)
                         <solution-section>
-                            <polling-section>
+                            <polling-section id="poll_{{$s['psoid']}}">
                                 <h3 id="vote_{{$s['psoid']}}">{{$s['votes']}}</h3>
-                                <div class="btn-group" role="group" aria-label="Voting for solutions">
-                                    <div onclick="voteSolutionDiscussion({{$s['psoid']}},1)"><i class="MDI thumb-up-outline"></i></div>
-                                    <div onclick="voteSolutionDiscussion({{$s['psoid']}},0)"><i class="MDI thumb-down-outline"></i></div>
-                                </div>
+                                @if(Auth::check())
+                                    <div class="btn-group" role="group" aria-label="Voting for solutions">
+                                        <div class="@if(!is_null($s['type']) && $s['type']==1) upvote-selected @endif" onclick="voteSolutionDiscussion({{$s['psoid']}},1)"><i class="MDI thumb-up-outline"></i></div>
+                                        <div class="@if(!is_null($s['type']) && $s['type']==0) downvote-selected @endif" onclick="voteSolutionDiscussion({{$s['psoid']}},0)"><i class="MDI thumb-down-outline"></i></div>
+                                    </div>
+                                @endif
                             </polling-section>
                             <content-section>
                                 <user-section>
@@ -707,9 +718,10 @@
             }, success: function(ret){
                 console.log(ret);
                 if (ret.ret==200) {
-                    // alert("Your Solution Has Been Recieved.");
-                    // location.reload();
-                    $(`#vote_${psoid}`).text(parseInt($(`#vote_${psoid}`).text())+(type?1:-1));
+                    $(`#vote_${psoid}`).text(ret.data.votes);
+                    $(`#poll_${psoid} .btn-group div`).removeClass();
+                    if(ret.data.select==1) $(`#poll_${psoid} .btn-group div:first-of-type`).addClass("upvote-selected");
+                    if(ret.data.select==0) $(`#poll_${psoid} .btn-group div:last-of-type`).addClass("downvote-selected");
                 } else {
                     alert(ret.desc);
                 }
