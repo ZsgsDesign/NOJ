@@ -438,7 +438,7 @@
                                     <textarea id="solution_editor"></textarea>
                                 </markdown-editor>
                                 <div class="mb-3">
-                                    <button type="button" class="btn btn-outline-primary"><i class="MDI share"></i> Share</button>
+                                    <button type="button" class="btn btn-outline-primary" onclick="submitSolutionDiscussion()"><i class="MDI share"></i> Share</button>
                                     <button type="button" class="btn btn-secondary">Cancel</button>
                                 </div>
                             </content-section>
@@ -456,8 +456,8 @@
                                 </markdown-editor>
                                 <div class="mb-3" style="display:flex;justify-content:space-between;align-items:cneter;padding-right:1rem;">
                                     <div>
-                                        <button type="button" class="btn btn-outline-primary mb-0"><i class="MDI pencil"></i> Update</button>
-                                        <button type="button" class="btn btn-danger mb-0"><i class="MDI delete"></i> Delete</button>
+                                        <button type="button" class="btn btn-outline-primary mb-0" onclick="updateSolutionDiscussion()"><i class="MDI pencil"></i> Update</button>
+                                        <button type="button" class="btn btn-danger mb-0" onclick="deleteSolutionDiscussion()"><i class="MDI delete"></i> Delete</button>
                                     </div>
                                     <div style="flex-grow:0;flex-shrink:0;display:flex;align-items:center;">
                                         @if($submitted["audit"]==1)
@@ -532,6 +532,8 @@
 @section("additionJS")
 @include("js.common.hljsLight")
 <script type="text/javascript" src="/static/library/simplemde/dist/simplemde.min.js"></script>
+<script type="text/javascript" src="/static/library/marked/marked.min.js"></script>
+<script type="text/javascript" src="/static/library/dompurify/dist/purify.min.js"></script>
 <script>
     var simplemde = new SimpleMDE({
         autosave: {
@@ -608,5 +610,138 @@
     });
 
     hljs.initHighlighting();
+
+    @if(Auth::check())
+
+    var submitingSolutionDiscussion=false;
+
+    function submitSolutionDiscussion() {
+        if(submitingSolutionDiscussion)return;
+        else submitingSolutionDiscussion=true;
+        $.ajax({
+            type: 'POST',
+            url: '/ajax/submitSolutionDiscussion',
+            data: {
+                pid: {{$detail["pid"]}},
+                content: simplemde.value(),
+            },
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }, success: function(ret){
+                console.log(ret);
+                if (ret.ret==200) {
+                    alert("Your Solution Has Been Recieved.");
+                    location.reload();
+                } else {
+                    alert(ret.desc);
+                }
+                submitingSolutionDiscussion=false;
+            }, error: function(xhr, type){
+                console.log(xhr);
+                switch(xhr.status) {
+                    case 422:
+                        alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                        break;
+                    case 429:
+                        alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                        break;
+                    default:
+                        alert("Server Connection Error");
+                }
+                console.log('Ajax error while posting to submitSolutionDiscussion!');
+                submitingSolutionDiscussion=false;
+            }
+        });
+    }
+
+    @if(!empty($submitted))
+
+    var updatingSolutionDiscussion=false;
+
+    function updateSolutionDiscussion() {
+        if(updatingSolutionDiscussion)return;
+        else updatingSolutionDiscussion=true;
+        $.ajax({
+            type: 'POST',
+            url: '/ajax/updateSolutionDiscussion',
+            data: {
+                psoid: {{$submitted["psoid"]}},
+                content: simplemde.value(),
+            },
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }, success: function(ret){
+                console.log(ret);
+                if (ret.ret==200) {
+                    alert("Your Solution Has Been Updated.");
+                    location.reload();
+                } else {
+                    alert(ret.desc);
+                }
+                updatingSolutionDiscussion=false;
+            }, error: function(xhr, type){
+                console.log(xhr);
+                switch(xhr.status) {
+                    case 422:
+                        alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                        break;
+                    case 429:
+                        alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                        break;
+                    default:
+                        alert("Server Connection Error");
+                }
+                console.log('Ajax error while posting to updateSolutionDiscussion!');
+                updatingSolutionDiscussion=false;
+            }
+        });
+    }
+
+    // var deletingSolutionDiscussion=false;
+
+    function deleteSolutionDiscussion() {
+        if(updatingSolutionDiscussion)return;
+        else updatingSolutionDiscussion=true;
+        $.ajax({
+            type: 'POST',
+            url: '/ajax/deleteSolutionDiscussion',
+            data: {
+                psoid: {{$submitted["psoid"]}}
+            },
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }, success: function(ret){
+                console.log(ret);
+                if (ret.ret==200) {
+                    alert("Your Solution Has Been Deleted.");
+                    location.reload();
+                } else {
+                    alert(ret.desc);
+                }
+                updatingSolutionDiscussion=false;
+            }, error: function(xhr, type){
+                console.log(xhr);
+                switch(xhr.status) {
+                    case 422:
+                        alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                        break;
+                    case 429:
+                        alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                        break;
+                    default:
+                        alert("Server Connection Error");
+                }
+                console.log('Ajax error while posting to deleteSolutionDiscussion!');
+                updatingSolutionDiscussion=false;
+            }
+        });
+    }
+
+    @endif
+    @endif
+
 </script>
 @endsection

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9671bc0c8bc1849d6fbb03a66d3e0bad",
+    "content-hash": "8dde7577a075a19f7c106a7e266d12e3",
     "packages": [
         {
             "name": "composer/installers",
@@ -2338,6 +2338,18 @@
             "type": "npm-asset",
             "license": [
                 "MIT"
+            ]
+        },
+        {
+            "name": "npm-asset/dompurify",
+            "version": "1.0.10",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/dompurify/-/dompurify-1.0.10.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MPL-2.0 OR Apache-2.0"
             ]
         },
         {

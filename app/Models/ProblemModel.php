@@ -116,8 +116,8 @@ class ProblemModel extends Model
                 "uid"=>$uid,
                 "pid"=>$pid,
                 "content"=>$content,
-                "create_at"=>time(),
-                "update_at"=>time(),
+                "created_at"=>date("Y-m-d H:i:s"),
+                "updated_at"=>date("Y-m-d H:i:s"),
             ]);
             return true;
         }
@@ -136,7 +136,7 @@ class ProblemModel extends Model
         if(empty(DB::table("problem_solution")->where(['psoid'=>$psoid,'uid'=>$uid])->first())) return false;
         DB::table("problem_solution")->where(['psoid'=>$psoid,'uid'=>$uid])->update([
             "content"=>$content,
-            "update_at"=>time(),
+            "updated_at"=>date("Y-m-d H:i:s"),
         ]);
         return true;
     }
