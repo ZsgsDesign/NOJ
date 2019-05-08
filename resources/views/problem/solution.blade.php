@@ -444,6 +444,33 @@
                             </content-section>
                         </solution-section>
                     @else
+                        <solution-section>
+                            <content-section>
+                                <user-section>
+                                    <a href="/user/{{Auth::user()->id}}"><img src="{{Auth::user()->avatar}}" class="cm-avatar-square"></a>
+                                    <p>{{Auth::user()->name}}</p>
+                                </user-section>
+                                <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
+                                <markdown-editor class="mt-3 mb-3">
+                                    <textarea id="solution_editor">{{$submitted["content"]}}</textarea>
+                                </markdown-editor>
+                                <div class="mb-3" style="display:flex;justify-content:space-between;align-items:cneter;padding-right:1rem;">
+                                    <div>
+                                        <button type="button" class="btn btn-outline-primary mb-0"><i class="MDI pencil"></i> Update</button>
+                                        <button type="button" class="btn btn-danger mb-0"><i class="MDI delete"></i> Delete</button>
+                                    </div>
+                                    <div style="flex-grow:0;flex-shrink:0;display:flex;align-items:center;">
+                                        @if($submitted["audit"]==1)
+                                            <p class="mb-0">Audit Status <span class="wemd-green-text"><i class="MDI checkbox-blank-circle"></i> Passed</span></p>
+                                        @elseif($submitted["audit"]==0)
+                                            <p class="mb-0">Audit Status <span class="wemd-blue-text"><i class="MDI checkbox-blank-circle"></i> Pending</span></p>
+                                        @else
+                                            <p class="mb-0">Audit Status <span class="wemd-red-text"><i class="MDI checkbox-blank-circle"></i> Denied</span></p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </content-section>
+                        </solution-section>
                     @endif
                 @endif
                 @foreach ($solution as $s)

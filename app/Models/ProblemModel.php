@@ -97,13 +97,44 @@ class ProblemModel extends Model
 
     public function solution($pid,$uid=null)
     {
-        $details=DB::table("problem_solution")->join("users","id","=","uid")->where(['pid'=>$pid,'audit'=>1]);
-        if($uid!=null) $details=$details->where(["uid"=>$uid]);
-        $details=$details->get()->all();
-        foreach($details as &$d){
-            $d["content_parsed"]=clean(Markdown::convertToHtml($d["content"]));
+        if($uid!=null) {
+            $details=DB::table("problem_solution")->join("users","id","=","uid")->where(['pid'=>$pid,'uid'=>$uid])->first();
+        } else {
+            $details=DB::table("problem_solution")->join("users","id","=","uid")->where(['pid'=>$pid,'audit'=>1])->get()->all();
+            foreach($details as &$d){
+                $d["content_parsed"]=clean(Markdown::convertToHtml($d["content"]));
+            }
         }
         return $details;
+    }
+
+    public function addSolution($pid,$uid,$content)
+    {
+        $details=DB::table("problem_solution")->where(['pid'=>$pid,'uid'=>$uid])->first();
+        if(empty($details)){
+            DB::table("problem_solution")->insert([
+                "uid"=>$uid,
+                "pid"=>$pid,
+                "content"=>$content,
+                "create_at"=>time(),
+                "update_at"=>time(),
+            ]);
+        } else {
+            return [];
+        }
+    }
+
+    public function removeSolution($psoid)
+    {
+        return DB::table("problem_solution")->where(['psoid'=>$psoid])->delete();
+    }
+
+    public function updateSolution($psoid,$content)
+    {
+        return DB::table("problem_solution")->where(['psoid'=>$psoid])->update([
+            "content"=>$content,
+            "update_at"=>time(),
+        ]);
     }
 
     public function isBlocked($pid, $cid=null)
