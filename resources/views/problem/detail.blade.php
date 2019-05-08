@@ -194,6 +194,12 @@
         margin-right: 1rem;
         font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
     }
+
+    @media print{
+        .no-print{
+            display:none;
+        }
+    }
 </style>
 
 <div class="container mundb-standard-container">
@@ -255,7 +261,7 @@
                 </fresh-container>
             </paper-card>
         </div>
-        <div class="col-sm-12 col-lg-3">
+        <div class="col-sm-12 col-lg-3 no-print">
             <paper-card class="animated fadeInRight btn-group-vertical cm-action-group" role="group" aria-label="vertical button group">
                 <button type="button" class="btn btn-secondary" id="submitBtn"><i class="MDI send"></i>@guest Login & Submit @else Submit @endguest</button>
                 <separate-line class="ultra-thin"></separate-line>
