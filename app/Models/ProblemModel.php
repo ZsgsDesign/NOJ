@@ -124,17 +124,21 @@ class ProblemModel extends Model
         return false;
     }
 
-    public function removeSolution($psoid)
+    public function removeSolution($psoid,$uid)
     {
-        return DB::table("problem_solution")->where(['psoid'=>$psoid])->delete();
+        if(empty(DB::table("problem_solution")->where(['psoid'=>$psoid,'uid'=>$uid])->first())) return false;
+        DB::table("problem_solution")->where(['psoid'=>$psoid,'uid'=>$uid])->delete();
+        return true;
     }
 
-    public function updateSolution($psoid,$content)
+    public function updateSolution($psoid,$uid,$content)
     {
-        return DB::table("problem_solution")->where(['psoid'=>$psoid])->update([
+        if(empty(DB::table("problem_solution")->where(['psoid'=>$psoid,'uid'=>$uid])->first())) return false;
+        DB::table("problem_solution")->where(['psoid'=>$psoid,'uid'=>$uid])->update([
             "content"=>$content,
             "update_at"=>time(),
         ]);
+        return true;
     }
 
     public function isBlocked($pid, $cid=null)

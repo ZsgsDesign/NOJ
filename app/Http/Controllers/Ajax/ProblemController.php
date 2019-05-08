@@ -125,14 +125,25 @@ class ProblemController extends Controller
     {
         $all_data=$request->all();
         $problemModel=new ProblemModel();
-        $pid=$all_data["pid"];
+        $psoid=$all_data["psoid"];
         $content=$all_data["content"];
-        $basic=$problemModel->basic($pid);
-        if (empty($basic)) {
-            return ResponseModel::err(3001);
-        }
-        $ret=$problemModel->addSolution($pid,Auth::user()->id,$content);
-        return $ret?ResponseModel::success(200):ResponseModel::err(3003);
+        $ret=$problemModel->updateSolution($psoid,Auth::user()->id,$content);
+        return $ret?ResponseModel::success(200):ResponseModel::err(3004);
+    }
+    /**
+     * The Ajax Problem Solution Discussion Delete.
+     *
+     * @param Request $request web request
+     *
+     * @return Response
+     */
+    public function deleteSolutionDiscussion(Request $request)
+    {
+        $all_data=$request->all();
+        $problemModel=new ProblemModel();
+        $psoid=$all_data["psoid"];
+        $ret=$problemModel->deleteSolution($psoid,Auth::user()->id);
+        return $ret?ResponseModel::success(200):ResponseModel::err(3004);
     }
     /**
      * The Ajax Problem Solution Submit.

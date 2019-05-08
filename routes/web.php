@@ -79,7 +79,9 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('arrangeContest', 'GroupController@arrangeContest')->middleware('auth');
     Route::post('joinGroup', 'GroupController@joinGroup')->middleware('auth');
     Route::get('downloadCode', 'ProblemController@downloadCode')->middleware('auth');
-    Route::get('submitSolutionDiscussion', 'ProblemController@submitSolutionDiscussion')->middleware('auth');
+    Route::post('submitSolutionDiscussion', 'ProblemController@submitSolutionDiscussion')->middleware('auth');
+    Route::post('updateSolutionDiscussion', 'ProblemController@updateSolutionDiscussion')->middleware('auth');
+    Route::post('deleteSolutionDiscussion', 'ProblemController@deleteSolutionDiscussion')->middleware('auth');
 
     Route::post('search', 'SearchController')->name('search');
 
