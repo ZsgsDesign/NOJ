@@ -109,7 +109,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
     - [X] Problem Tag
     - [X] Problem Filter
     - [X] Problem Details
-    - [ ] Problem Solution
+    - [X] Problem Solution
     - [ ] Problem Discussion
     - [X] Problem Submit
         - [X] Problem Immersive Mode
@@ -120,7 +120,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
         - [X] Problem Virtual Judge
             - [X] Submit to VJ
                 - [X] CodeForces
-                - [ ] UVa
+                - [X] UVa
                 - [ ] UVa Live
                 - [ ] SPOJ
                 - [X] Contest Hunter
@@ -183,6 +183,8 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
             - [ ] Group Settings
 - [ ] Admin Panel
     - [X] User Management
+    - [X] Contest Management
+    - [X] Problem Management
 
 
 ## Credit
