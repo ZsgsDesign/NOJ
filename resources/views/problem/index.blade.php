@@ -86,6 +86,7 @@
             </empty-container>
             @else
             <paper-card class="animated bounceInLeft">
+                <div class="table-responsive">
                 <table class="table table-borderless">
                     <thead>
                         <tr>
@@ -108,6 +109,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                </div>
             </paper-card>
 
             {{$paginator->appends($filter)->links()}}
