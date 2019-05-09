@@ -80,6 +80,15 @@
         transform: scale(1.10);
         display: inline-block;
     }
+
+    table a{
+        transition: .2s ease-out .0s;
+        color: #009688;
+    }
+    table a:hover{
+        text-decoration: none;
+        color: #004d40;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">

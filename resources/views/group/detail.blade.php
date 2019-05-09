@@ -401,6 +401,15 @@
         margin-bottom: 0;
     }
 
+    contest-container a{
+        transition: .2s ease-out .0s;
+        color: #009688;
+    }
+    contest-container a:hover{
+        text-decoration: none;
+        color: #004d40;
+    }
+
     /*
     .xdsoft_datetimepicker .xdsoft_next,
     .xdsoft_datetimepicker .xdsoft_prev{
