@@ -22,6 +22,7 @@ use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Contracts\Broadcasting\Factory as BroadcastFactory;
+use Illuminate\Support\Facades\DB;
 
 if (!function_exists('version')) {
     function version()
@@ -31,5 +32,20 @@ if (!function_exists('version')) {
             base_path()
         );
         return $version->getVersion();
+    }
+}
+
+if (!function_exists('getCustomUrl')) {
+    function getCustomUrl()
+    {
+        $customUrlCached=Cache::tags(['custom'])->get('url');
+
+        if($customUrlCached==null) {
+            $urls=DB::table("custom_url")->where(["available"=>1])->get()->all();
+            Cache::tags(['custom'])->put('url', $urls, 1200);
+            return $urls;
+        }
+
+        return $customUrlCached;
     }
 }
