@@ -75,6 +75,11 @@
         color: white;
         background-color: #03a9f4;
     }
+
+    .cisco-webex{
+        transform: scale(1.10);
+        display: inline-block;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -101,7 +106,7 @@
                         @foreach ($prob_list as $p)
                         <tr>
                             <th scope="row">{{$p["pcode"]}}</th>
-                            <td><a href="/problem/{{$p["pcode"]}}">{{$p["title"]}}</a></td>
+                            <td><i class="MDI {{$p["prob_status"]["icon"]}} {{$p["prob_status"]["color"]}}"></i> <a href="/problem/{{$p["pcode"]}}">{{$p["title"]}}</a></td>
                             <td>{{$p["submission_count"]}}</td>
                             <td>{{$p["passed_count"]}}</td>
                             <td>{{$p["ac_rate"]}}%</td>

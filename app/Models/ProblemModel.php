@@ -5,6 +5,7 @@ namespace App\Models;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Cache;
 
 class ProblemModel extends Model
 {
@@ -250,9 +251,10 @@ class ProblemModel extends Model
         return true;
     }
 
-    public function list($filter)
+    public function list($filter,$uid=null)
     {
         // $prob_list = DB::table($this->table)->select("pid","pcode","title")->get()->all(); // return a array
+        $submissionModel=new SubmissionModel();
         $preQuery=DB::table($this->table);
         if ($filter['oj']) {
             $preQuery=$preQuery->where(["OJ"=>$filter['oj']]);
@@ -298,6 +300,25 @@ class ProblemModel extends Model
                 $p["submission_count"]=$prob_stat["submission_count"];
                 $p["passed_count"]=$prob_stat["passed_count"];
                 $p["ac_rate"]=round($prob_stat["ac_rate"], 2);
+            }
+            if(!is_null($uid)){
+                $prob_status=$submissionModel->getProblemStatus($p["pid"], $uid);
+                if (empty($prob_status)) {
+                    $p["prob_status"]=[
+                        "icon"=>"checkbox-blank-circle-outline",
+                        "color"=>"wemd-grey-text"
+                    ];
+                } else {
+                    $p["prob_status"]=[
+                        "icon"=>$prob_status["verdict"]=="Accepted" ? "checkbox-blank-circle" : "cisco-webex",
+                        "color"=>$prob_status["color"]
+                    ];
+                }
+            }else{
+                $p["prob_status"]=[
+                    "icon"=>"checkbox-blank-circle-outline",
+                    "color"=>"wemd-grey-text"
+                ];
             }
         }
         return [

@@ -23,7 +23,7 @@ class ProblemController extends Controller
         $problem=new ProblemModel();
         $filter["oj"]=isset($all_data["oj"]) ? $all_data["oj"] : null;
         $filter["tag"]=isset($all_data["tag"]) ? $all_data["tag"] : null;
-        $list_return=$problem->list($filter);
+        $list_return=$problem->list($filter,Auth::check()?Auth::user()->id:null);
         $tags=$problem->tags();
         $ojs=$problem->ojs();
         if (is_null($list_return)) {
