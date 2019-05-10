@@ -61,6 +61,8 @@ class JudgerModel extends Model
     {
         $curl=curl_init();
 
+        if($curl===false) return [];
+
         curl_setopt_array($curl, array(
             CURLOPT_PORT => $port,
             CURLOPT_URL => $url,
