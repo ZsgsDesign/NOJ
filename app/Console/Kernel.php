@@ -34,12 +34,12 @@ class Kernel extends ConsoleKernel
             }
         })->everyMinute()->description("Sync Judger");
 
-        $schedule->call(function(){
+        $schedule->call(function() {
             $accountModel=new AccountModel();
             $accountModel->rankList();
         })->daily()->description("Update Rank");
 
-        $schedule->call(function(){
+        $schedule->call(function() {
             $siteMapModel=new SiteMapModel();
         })->daily()->description("Update SiteMap");
 

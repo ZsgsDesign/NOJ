@@ -79,13 +79,13 @@ class UserController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new UserModel);
+        $grid=new Grid(new UserModel);
         $grid->id('ID')->sortable();
         $grid->name()->editable();
         $grid->email();
         $grid->created_at();
         $grid->updated_at();
-        $grid->filter(function (Grid\Filter $filter) {
+        $grid->filter(function(Grid\Filter $filter) {
             $filter->disableIdFilter();
             $filter->like('name');
             $filter->like('email')->email();
@@ -101,7 +101,7 @@ class UserController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(UserModel::findOrFail($id));
+        $show=new Show(UserModel::findOrFail($id));
         return $show;
     }
 
@@ -112,22 +112,22 @@ class UserController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new UserModel);
+        $form=new Form(new UserModel);
         $form->model()->makeVisible('password');
-        $form->tab('Basic', function (Form $form) {
+        $form->tab('Basic', function(Form $form) {
             $form->display('id');
             $form->text('name')->rules('required');
             $form->email('email')->rules('required');
             $form->display('created_at');
             $form->display('updated_at');
-        })->tab('Password', function (Form $form) {
+        })->tab('Password', function(Form $form) {
             $form->password('password')->rules('confirmed');
             $form->password('password_confirmation');
         });
         $form->ignore(['password_confirmation']);
-        $form->saving(function (Form $form) {
-            if ($form->password && $form->model()->password != $form->password) {
-                $form->password = bcrypt($form->password);
+        $form->saving(function(Form $form) {
+            if ($form->password && $form->model()->password!=$form->password) {
+                $form->password=bcrypt($form->password);
             }
         });
         return $form;

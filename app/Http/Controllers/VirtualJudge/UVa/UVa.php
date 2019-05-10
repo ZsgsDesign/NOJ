@@ -35,7 +35,9 @@ class UVa extends Curl
                 'remember' => 'yes',
             ];
             $inputs = preg_match_all('/<input type="\w*" name="(op2|lang|force_session|return|message|loginfrom|cbsecuritym3|\w[0-9a-z]{32})" value="(.*?)" \/>/', $response, $matches);
-            for ($i = 0; $i < $inputs; ++$i) $post_data[$matches[1][$i]] = $matches[2][$i];
+            for ($i = 0; $i < $inputs; ++$i) {
+                $post_data[$matches[1][$i]] = $matches[2][$i];
+            }
             $this->post_data('https://uva.onlinejudge.org/index.php?option=com_comprofiler&task=login', $post_data, 'uva', false, false, false, false, [], $this->selectedJudger['handle']);
         }
     }
@@ -49,7 +51,7 @@ class UVa extends Curl
         ];
 
         $response=$this->post_data("https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=25&page=save_submission", $params, 'uva', true, false, true, false, [], $this->selectedJudger['handle']);
-        $this->sub['jid'] = $this->selectedJudger["jid"];
+        $this->sub['jid']=$this->selectedJudger["jid"];
         if (preg_match('/Submission\+received\+with\+ID\+(\d+)/', $response, $match)) {
             $this->sub['remote_id']=$match[1];
         } else {

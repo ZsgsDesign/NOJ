@@ -10,7 +10,7 @@ class GroupModel extends Model
 {
     protected $tableName='group';
     protected $table='group';
-    protected $primaryKey = 'gid';
+    protected $primaryKey='gid';
     const DELETED_AT=null;
     const UPDATED_AT=null;
     const CREATED_AT=null;

@@ -34,7 +34,7 @@ class CompilerModel extends Model
             // get user pref of this OJ for compilers
             $problemModel=new ProblemModel();
             $oid=$problemModel->oid($pid);
-            $temp_last_submission=DB::table("submission")->join("problem","submission.pid","=","problem.pid")->where(["OJ"=>$oid, "uid"=>$uid])->orderBy('submission_date', 'desc')->first();
+            $temp_last_submission=DB::table("submission")->join("problem", "submission.pid", "=", "problem.pid")->where(["OJ"=>$oid, "uid"=>$uid])->orderBy('submission_date', 'desc')->first();
             if (empty($temp_last_submission)) {
                 // get user pref for compilers
                 $temp_last_submission=DB::table("submission")->where(["uid"=>$uid])->orderBy('submission_date', 'desc')->first();

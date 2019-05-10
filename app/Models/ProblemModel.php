@@ -10,15 +10,15 @@ use Cache;
 class ProblemModel extends Model
 {
     protected $table='problem';
-    protected $primaryKey = 'pid';
-    const UPDATED_AT = "update_date";
+    protected $primaryKey='pid';
+    const UPDATED_AT="update_date";
 
     public function detail($pcode, $cid=null)
     {
         $prob_detail=DB::table($this->table)->where("pcode", $pcode)->first();
         // [Depreciated] Joint Query was depreciated here for code maintenance reasons
         if (!is_null($prob_detail)) {
-            if($prob_detail["force_raw"]) {
+            if ($prob_detail["force_raw"]) {
                 $prob_detail["parsed"]=[
                     "description"=>$prob_detail["description"],
                     "input"=>$prob_detail["input"],
@@ -96,11 +96,11 @@ class ProblemModel extends Model
         return DB::table("oj")->where('oid', $oid)->first();
     }
 
-    public function solutionList($pid,$uid=null)
+    public function solutionList($pid, $uid=null)
     {
-        if(is_null($uid)) {
+        if (is_null($uid)) {
             $details=DB::table("problem_solution")->join(
-                "users","id",
+                "users", "id",
                 "=",
                 "problem_solution.uid"
             )->where([
@@ -114,7 +114,7 @@ class ProblemModel extends Model
             $votes=DB::table("problem_solution_vote")->where([
                 "uid"=>$uid
             ])->get()->all();
-            foreach($votes as $v){
+            foreach ($votes as $v) {
                 $userVotes[$v["psoid"]]=$v["type"];
             }
             $details=DB::table("problem_solution")->join(
@@ -136,28 +136,28 @@ class ProblemModel extends Model
                 "problem_solution.updated_at as updated_at",
                 "avatar",
                 "name"
-            ])->orderBy("problem_solution.votes","desc")->get()->all();
-            foreach($details as &$d){
-                $d["type"]=isset($userVotes[$d["psoid"]])?$userVotes[$d["psoid"]]:null;
+            ])->orderBy("problem_solution.votes", "desc")->get()->all();
+            foreach ($details as &$d) {
+                $d["type"]=isset($userVotes[$d["psoid"]]) ? $userVotes[$d["psoid"]] : null;
             }
             unset($d);
         }
-        foreach($details as &$d){
+        foreach ($details as &$d) {
             $d["content_parsed"]=clean(Markdown::convertToHtml($d["content"]));
         }
         return $details;
     }
 
-    public function solution($pid,$uid)
+    public function solution($pid, $uid)
     {
-        $details=DB::table("problem_solution")->join("users","id","=","uid")->where(['pid'=>$pid,'uid'=>$uid])->first();
+        $details=DB::table("problem_solution")->join("users", "id", "=", "uid")->where(['pid'=>$pid, 'uid'=>$uid])->first();
         return $details;
     }
 
-    public function addSolution($pid,$uid,$content)
+    public function addSolution($pid, $uid, $content)
     {
-        $details=DB::table("problem_solution")->where(['pid'=>$pid,'uid'=>$uid])->first();
-        if(empty($details)){
+        $details=DB::table("problem_solution")->where(['pid'=>$pid, 'uid'=>$uid])->first();
+        if (empty($details)) {
             DB::table("problem_solution")->insert([
                 "uid"=>$uid,
                 "pid"=>$pid,
@@ -172,26 +172,26 @@ class ProblemModel extends Model
         return false;
     }
 
-    public function voteSolution($psoid,$uid,$type)
+    public function voteSolution($psoid, $uid, $type)
     {
-        $val=$type?1:-1;
+        $val=$type ? 1 : -1;
         $details=DB::table("problem_solution")->where(['psoid'=>$psoid])->first();
-        if(empty($details)) return ["ret"=>false];
+        if (empty($details)) return ["ret"=>false];
 
-        $userVote=DB::table("problem_solution_vote")->where(['uid'=>$uid,"psoid"=>$psoid])->first();
+        $userVote=DB::table("problem_solution_vote")->where(['uid'=>$uid, "psoid"=>$psoid])->first();
 
-        if(!empty($userVote)){
-            DB::table("problem_solution_vote")->where(['uid'=>$uid,"psoid"=>$psoid])->delete();
-            if($userVote["type"]==$type){
+        if (!empty($userVote)) {
+            DB::table("problem_solution_vote")->where(['uid'=>$uid, "psoid"=>$psoid])->delete();
+            if ($userVote["type"]==$type) {
                 DB::table("problem_solution")->where([
                     'psoid'=>$psoid
                 ])->update([
-                    "votes"=>$details["votes"]+($userVote["type"]==1?-1:1),
+                    "votes"=>$details["votes"]+($userVote["type"]==1 ?-1 : 1),
                 ]);
-                return ["ret"=>true,"votes"=>$details["votes"]+($userVote["type"]==1?-1:1),"select"=>-1]; //disvote
-            }elseif($userVote["type"]==1){
+                return ["ret"=>true, "votes"=>$details["votes"]+($userVote["type"]==1 ?-1 : 1), "select"=>-1]; //disvote
+            }elseif ($userVote["type"]==1) {
                 $val--;
-            }else{
+            } else {
                 $val++;
             }
         }
@@ -208,20 +208,20 @@ class ProblemModel extends Model
             "type"=>$type,
         ]);
 
-        return ["ret"=>true,"votes"=>$details["votes"]+$val,"select"=>$type];
+        return ["ret"=>true, "votes"=>$details["votes"]+$val, "select"=>$type];
     }
 
-    public function removeSolution($psoid,$uid)
+    public function removeSolution($psoid, $uid)
     {
-        if(empty(DB::table("problem_solution")->where(['psoid'=>$psoid,'uid'=>$uid])->first())) return false;
-        DB::table("problem_solution")->where(['psoid'=>$psoid,'uid'=>$uid])->delete();
+        if (empty(DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->first())) return false;
+        DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->delete();
         return true;
     }
 
-    public function updateSolution($psoid,$uid,$content)
+    public function updateSolution($psoid, $uid, $content)
     {
-        if(empty(DB::table("problem_solution")->where(['psoid'=>$psoid,'uid'=>$uid])->first())) return false;
-        DB::table("problem_solution")->where(['psoid'=>$psoid,'uid'=>$uid])->update([
+        if (empty(DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->first())) return false;
+        DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->update([
             "content"=>$content,
             "audit"=>0,
             "updated_at"=>date("Y-m-d H:i:s"),
@@ -251,7 +251,7 @@ class ProblemModel extends Model
         return true;
     }
 
-    public function list($filter,$uid=null)
+    public function list($filter, $uid=null)
     {
         // $prob_list = DB::table($this->table)->select("pid","pcode","title")->get()->all(); // return a array
         $submissionModel=new SubmissionModel();
@@ -301,7 +301,7 @@ class ProblemModel extends Model
                 $p["passed_count"]=$prob_stat["passed_count"];
                 $p["ac_rate"]=round($prob_stat["ac_rate"], 2);
             }
-            if(!is_null($uid)){
+            if (!is_null($uid)) {
                 $prob_status=$submissionModel->getProblemStatus($p["pid"], $uid);
                 if (empty($prob_status)) {
                     $p["prob_status"]=[
@@ -314,7 +314,7 @@ class ProblemModel extends Model
                         "color"=>$prob_status["color"]
                     ];
                 }
-            }else{
+            } else {
                 $p["prob_status"]=[
                     "icon"=>"checkbox-blank-circle-outline",
                     "color"=>"wemd-grey-text"

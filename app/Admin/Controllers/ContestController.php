@@ -79,33 +79,33 @@ class ContestController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new ContestModel);
-        $grid->column('cid',"ID")->sortable();
-        $grid->column("gid","Group");
+        $grid=new Grid(new ContestModel);
+        $grid->column('cid', "ID")->sortable();
+        $grid->column("gid", "Group");
         $grid->name("Name")->editable();
-        $grid->verified("Verified")->display(function ($verified) {
-            return $verified?"Yes":"No";
+        $grid->verified("Verified")->display(function($verified) {
+            return $verified ? "Yes" : "No";
         });
-        $grid->rated("Rated")->display(function ($rated) {
-            return $rated?"Yes":"No";
+        $grid->rated("Rated")->display(function($rated) {
+            return $rated ? "Yes" : "No";
         });
-        $grid->anticheated("AntiCheated")->display(function ($anticheated) {
-            return $anticheated?"Yes":"No";
+        $grid->anticheated("AntiCheated")->display(function($anticheated) {
+            return $anticheated ? "Yes" : "No";
         });
-        $grid->featured("Featured")->display(function ($featured) {
-            return $featured?"Yes":"No";
+        $grid->featured("Featured")->display(function($featured) {
+            return $featured ? "Yes" : "No";
         });
-        $grid->column("rule","Rule");
+        $grid->column("rule", "Rule");
         $grid->begin_time("Begins");
         $grid->end_time("Ends");
-        $grid->public("Public")->display(function ($public) {
-            return $public?"Yes":"No";
+        $grid->public("Public")->display(function($public) {
+            return $public ? "Yes" : "No";
         });
-        $grid->column("registration","Registration")->display(function ($registration) {
-            return $registration?"Required":"Free";
+        $grid->column("registration", "Registration")->display(function($registration) {
+            return $registration ? "Required" : "Free";
         });
         $grid->registration_due("Registration Due");
-        $grid->filter(function (Grid\Filter $filter) {
+        $grid->filter(function(Grid\Filter $filter) {
             $filter->match('gid');
             $filter->like('name');
         });
@@ -120,7 +120,7 @@ class ContestController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(ContestModel::findOrFail($id));
+        $show=new Show(ContestModel::findOrFail($id));
         return $show;
     }
 
@@ -131,9 +131,9 @@ class ContestController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new ContestModel);
+        $form=new Form(new ContestModel);
         $form->model()->makeVisible('password');
-        $form->tab('Basic', function (Form $form) {
+        $form->tab('Basic', function(Form $form) {
             $form->display('cid');
             // $form->number('gid')->rules('required');
             $form->text('name')->rules('required');

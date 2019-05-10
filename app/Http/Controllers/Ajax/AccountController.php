@@ -21,28 +21,28 @@ class AccountController extends Controller
      */
     public function updateAvatar(Request $request)
     {
-        $isValid = $request->file('avatar')->isValid();
-        if($isValid){
-            $extension = $request->file('avatar')->extension();
-        }else{
+        $isValid=$request->file('avatar')->isValid();
+        if ($isValid) {
+            $extension=$request->file('avatar')->extension();
+        } else {
             return ResponseModel::err(1005);
         }
 
-        $allow_extension = ['jpg','png','jpeg','gif','bmp'];
-        if($isValid && in_array($extension,$allow_extension)){
-            $path = $request->file('avatar')->store('/static/img/avatar','NOJPublic');
+        $allow_extension=['jpg', 'png', 'jpeg', 'gif', 'bmp'];
+        if ($isValid && in_array($extension, $allow_extension)) {
+            $path=$request->file('avatar')->store('/static/img/avatar', 'NOJPublic');
 
-            $user = Auth::user();
-            $old_path = $user->avatar;
-            if($old_path != '/static/img/avatar/default.png' && $old_path != '/static/img/avatar/noj.png'){
+            $user=Auth::user();
+            $old_path=$user->avatar;
+            if ($old_path!='/static/img/avatar/default.png' && $old_path!='/static/img/avatar/noj.png') {
                 Storage::disk('NOJPublic')->delete($old_path);
             }
 
-            $user->avatar = '/'.$path;
+            $user->avatar='/'.$path;
             $user->save();
 
             return ResponseModel::success(200, null, '/'.$path);
-        }else{
+        } else {
             return ResponseModel::err(1005);
         }
 

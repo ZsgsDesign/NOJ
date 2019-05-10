@@ -58,7 +58,7 @@ class POJ extends CrawlerBase
     private function cacheImage($dom)
     {
         foreach ($dom->find('img') as $ele) {
-            $src = str_replace('\\', '/', $ele->src);
+            $src=str_replace('\\', '/', $ele->src);
             if (strpos($src, '://')!==false) {
                 $url=$src;
             } elseif ($src[0]=='/') {

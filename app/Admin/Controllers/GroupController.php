@@ -79,23 +79,23 @@ class GroupController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new GroupModel);
-        $grid->column('gid',"ID")->sortable();
-        $grid->column("gcode","Group Code");
+        $grid=new Grid(new GroupModel);
+        $grid->column('gid', "ID")->sortable();
+        $grid->column("gcode", "Group Code");
         $grid->img("Focus Image")->display(function($url) {
             return '<img src="'.$url.'" style="max-width:200px;max-height:200px" class="img img-thumbnail">';
         });
         $grid->name("Name")->editable();
-        $grid->public("Publicity")->display(function ($public) {
-            return $public?"Public":"Private";
+        $grid->public("Publicity")->display(function($public) {
+            return $public ? "Public" : "Private";
         });
-        $grid->verified("Verified")->display(function ($verified) {
-            return $verified?"Yes":"No";
+        $grid->verified("Verified")->display(function($verified) {
+            return $verified ? "Yes" : "No";
         });
         $grid->join_policy("Join Policy");
         // $grid->custom_icon("Custom Icon")->image();
         // $grid->custom_title("Custom Title");
-        $grid->filter(function (Grid\Filter $filter) {
+        $grid->filter(function(Grid\Filter $filter) {
             $filter->like('gcode');
             $filter->like('name');
         });
@@ -110,7 +110,7 @@ class GroupController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(GroupModel::findOrFail($id));
+        $show=new Show(GroupModel::findOrFail($id));
         return $show;
     }
 
@@ -121,9 +121,9 @@ class GroupController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new GroupModel);
+        $form=new Form(new GroupModel);
         $form->model()->makeVisible('password');
-        $form->tab('Basic', function (Form $form) {
+        $form->tab('Basic', function(Form $form) {
             $form->display('gid');
             $form->text('name')->rules('required');
         });
