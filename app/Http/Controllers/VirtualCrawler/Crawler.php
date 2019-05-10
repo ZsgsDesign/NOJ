@@ -40,6 +40,8 @@ class Crawler
         if ($name=="UVa") {
             $crawler=new UVa($action, $con, $cached);
         }
-        if (isset($crawler)) $this->data=$crawler->data;
+        if (isset($crawler)) {
+            $this->data=$crawler->data;
+        }
     }
 }
