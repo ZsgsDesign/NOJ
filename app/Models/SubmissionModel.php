@@ -10,7 +10,7 @@ class SubmissionModel extends Model
 {
     protected $tableName='submission';
     protected $table='submission';
-    protected $primaryKey = 'sid';
+    protected $primaryKey='sid';
     const DELETED_AT=null;
     const UPDATED_AT=null;
     const CREATED_AT=null;
@@ -311,7 +311,7 @@ class SubmissionModel extends Model
         }
         if ($status["share"]==1 && $status["cid"]) {
             $end_time=strtotime(DB::table("contest")->where(["cid"=>$status["cid"]])->select("end_time")->first()["end_time"]);
-            if(time()<$end_time) $status["solution"]=null;
+            if (time()<$end_time) $status["solution"]=null;
         }
         if ($status["share"]==0 && $status["uid"]!=$uid) {
             $status["solution"]=null;
@@ -505,24 +505,24 @@ class SubmissionModel extends Model
         ];
     }
 
-    public function share($sid,$uid)
+    public function share($sid, $uid)
     {
-        $basic=DB::table($this->tableName)->where(['sid'=>$sid,'uid'=>$uid])->first();
-        if(empty($basic)) return [];
+        $basic=DB::table($this->tableName)->where(['sid'=>$sid, 'uid'=>$uid])->first();
+        if (empty($basic)) return [];
         DB::table($this->tableName)->where(['sid'=>$sid])->update([
-            "share"=>$basic["share"]?0:1
+            "share"=>$basic["share"] ? 0 : 1
         ]);
         return [
-            "share"=>$basic["share"]?0:1
+            "share"=>$basic["share"] ? 0 : 1
         ];
     }
 
-    public function sharePB($sid,$uid)
+    public function sharePB($sid, $uid)
     {
-        $basic=DB::table($this->tableName)->where(['sid'=>$sid,'uid'=>$uid])->first();
+        $basic=DB::table($this->tableName)->where(['sid'=>$sid, 'uid'=>$uid])->first();
         $problem=DB::table("problem")->where(['pid'=>$basic["pid"]])->first();
         $compiler=DB::table("compiler")->where(['coid'=>$basic["coid"]])->first();
-        if(empty($basic)) return [];
+        if (empty($basic)) return [];
         $pastebinModel=new PastebinModel();
         $ret=$pastebinModel->generate([
             "syntax"=>$compiler["lang"],
@@ -532,9 +532,9 @@ class SubmissionModel extends Model
             "uid"=>$uid
         ]);
 
-        if(is_null($ret)){
+        if (is_null($ret)) {
             return [];
-        }else{
+        } else {
             return [
                 "code" => $ret
             ];

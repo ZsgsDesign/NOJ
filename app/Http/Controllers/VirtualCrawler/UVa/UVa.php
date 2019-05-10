@@ -36,15 +36,15 @@ class UVa extends CrawlerBase
     public function crawler($con)
     {
         $problemModel=new ProblemModel();
-        if ($con == 'all') {
+        if ($con=='all') {
             $res=Requests::get("https://uhunt.onlinejudge.org/api/p");
-            $result = json_decode($res->body, true);
-            $info = [];
-            for ($i = 0; $i < count($result); ++$i) {
-                $info[$result[$i][1]] = [$result[$i][0], $result[$i][2], $result[$i][3], $result[$i][19]];
+            $result=json_decode($res->body, true);
+            $info=[];
+            for ($i=0; $i<count($result); ++$i) {
+                $info[$result[$i][1]]=[$result[$i][0], $result[$i][2], $result[$i][3], $result[$i][19]];
             }
             ksort($info);
-            foreach($info as $key=>$value) {
+            foreach ($info as $key=>$value) {
                 $this->pro['pcode']='UVA'.$key;
                 $this->pro['OJ']=$this->oid;
                 $this->pro['contest_id']=null;
@@ -75,9 +75,9 @@ class UVa extends CrawlerBase
 
                 // $problemModel->addTags($new_pid, $tag); // not present
             }
-            $this->data = array_keys($info);
+            $this->data=array_keys($info);
         } else {
-            $pf = substr($con, 0, strlen($con) - 2);
+            $pf=substr($con, 0, strlen($con)-2);
             $res=Requests::get("https://uva.onlinejudge.org/external/$pf/p$con.pdf");
             file_put_contents(base_path("public/external/gym/UVa$con.pdf"), $res->body);
         }

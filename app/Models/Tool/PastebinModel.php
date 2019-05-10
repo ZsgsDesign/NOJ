@@ -23,7 +23,7 @@ class PastebinModel extends Model
     public function detail($code)
     {
         $basic=DB::table($this->tableName)->where(["code"=>$code])->first();
-        if(empty($basic)) return [];
+        if (empty($basic)) return [];
         $basic["userInfo"]=DB::table("users")->where(["id"=>$basic["uid"]])->first();
         return $basic;
     }
@@ -59,7 +59,7 @@ class PastebinModel extends Model
                 'create_date' => date("Y-m-d H:i:s"),
             ]);
             return $code;
-        }else{
+        } else {
             return null;
         }
     }

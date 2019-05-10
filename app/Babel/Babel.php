@@ -1,7 +1,7 @@
 <?php
 namespace App\Babel;
 
-class Bable{
+class Bable {
     public function submit($conf)
     {
         new Judger\Submit($conf);
@@ -9,7 +9,7 @@ class Bable{
 
     public function crawl($conf)
     {
-        new Crawler\Crawler($conf["name"],$conf["action"],$conf["con"],$conf["cached"]=="true");
+        new Crawler\Crawler($conf["name"], $conf["action"], $conf["con"], $conf["cached"]=="true");
     }
 
     public function judge($conf)

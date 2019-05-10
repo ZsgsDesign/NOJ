@@ -79,24 +79,24 @@ class SubmissionController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new SubmissionModel);
-        $grid->column('sid',"ID")->sortable();
+        $grid=new Grid(new SubmissionModel);
+        $grid->column('sid', "ID")->sortable();
         $grid->time("Time");
         $grid->memory("Memory");
-        $grid->verdict("Verdict")->display(function ($verdict) {
+        $grid->verdict("Verdict")->display(function($verdict) {
             return '<i class="fa fa-circle '.$this->color.'"></i> '.$verdict;
         });
         $grid->language("Language");
-        $grid->submission_date("Submission Date")->display(function ($submission_date) {
-            return date("Y-m-d H:i:s",$submission_date);
-        });;
+        $grid->submission_date("Submission Date")->display(function($submission_date) {
+            return date("Y-m-d H:i:s", $submission_date);
+        }); ;
         $grid->uid("UID");
         $grid->cid("CID");
         $grid->pid("PID");
         $grid->jid("JID");
         $grid->coid("COID");
         $grid->score("Raw Score");
-        $grid->filter(function (Grid\Filter $filter) {
+        $grid->filter(function(Grid\Filter $filter) {
             $filter->like('verdict');
         });
         return $grid;
@@ -110,7 +110,7 @@ class SubmissionController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(SubmissionModel::findOrFail($id));
+        $show=new Show(SubmissionModel::findOrFail($id));
         return $show;
     }
 
@@ -121,9 +121,9 @@ class SubmissionController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new SubmissionModel);
+        $form=new Form(new SubmissionModel);
         $form->model()->makeVisible('password');
-        $form->tab('Basic', function (Form $form) {
+        $form->tab('Basic', function(Form $form) {
             $form->display('sid');
             $form->text('time')->rules('required');
             $form->text('memory')->rules('required');

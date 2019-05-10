@@ -40,7 +40,7 @@ if (!function_exists('getCustomUrl')) {
     {
         $customUrlCached=Cache::tags(['custom'])->get('url');
 
-        if($customUrlCached==null) {
+        if ($customUrlCached==null) {
             $urls=DB::table("custom_url")->where(["available"=>1])->get()->all();
             Cache::tags(['custom'])->put('url', $urls, 1200);
             return $urls;
