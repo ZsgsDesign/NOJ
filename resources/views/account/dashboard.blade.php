@@ -2,63 +2,6 @@
 
 @section('template')
 <style>
-    post-card {
-        display: block;
-        box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 10px;
-        border-radius: 4px;
-        transition: .2s ease-out .0s;
-        color: #7a8e97;
-        background: #fff;
-        /* padding: 1rem; */
-        position: relative;
-        border: 1px solid rgba(0, 0, 0, 0.15);
-        margin-bottom: 2rem;
-        overflow: hidden;
-    }
-
-    post-card:hover {
-        box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
-    }
-
-    post-card > post-footer{
-        display: block;
-        padding: 2rem 4rem;
-        background-color: #f7f7f7;
-        line-height: 1.5;
-    }
-
-    post-card > post-footer > info-section{
-        display: inline-block;
-        padding-left:1rem;
-        padding-right:1rem;
-    }
-
-    post-card > post-footer > info-section:first-of-type{
-        padding-left: 0;
-    }
-
-    post-card > post-footer > info-section:last-of-type{
-        padding-right: 0;
-    }
-
-    post-card > post-body{
-        display: block;
-        padding: 4rem;
-    }
-
-    post-card > post-body > a{
-        margin-top: 1rem;
-        display: inline-block;
-    }
-
-    post-card > post-body > h1{
-        color: #333;
-    }
-
-    post-card > post-body > p{
-        margin:0;
-    }
-
     empty-container{
         display:block;
         text-align: center;
@@ -216,6 +159,92 @@
         border-color: #57a3f3;
     }
 
+    feed-card[feed-type="event"]{
+        display: flex;
+        margin-bottom: 2rem;
+    }
+
+    feed-card[feed-type="event"] > div:first-of-type{
+        margin-right: 2rem;
+    }
+
+    feed-card[feed-type="event"] > div:first-of-type >i{
+        display: inline-block;
+        transform: scale(2);
+        transform-origin: left center;
+    }
+
+    feed-card[feed-type="event"] > div:last-of-type{
+        color:rgba(0,0,0,0.42);
+    }
+
+    feed-card[feed-type="event"] > div:last-of-type h5{
+        margin-bottom:0.5rem;
+        font-size: 1.2rem;
+    }
+
+    feed-card[feed-type="event"] > div:last-of-type p{
+        margin-bottom:0;
+        font-size: 0.9rem;
+    }
+
+    feed-card[feed-type="card"] {
+        display: block;
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 10px;
+        border-radius: 4px;
+        transition: .2s ease-out .0s;
+        color: #7a8e97;
+        background: #fff;
+        /* padding: 1rem; */
+        position: relative;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        margin-bottom: 2rem;
+        overflow: hidden;
+    }
+
+    feed-card[feed-type="card"]:hover {
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
+    }
+
+    feed-card[feed-type="card"] > feed-footer{
+        display: block;
+        padding: 2rem 4rem;
+        background-color: #f7f7f7;
+        line-height: 1.5;
+    }
+
+    feed-card[feed-type="card"] > feed-footer > info-section{
+        display: inline-block;
+        padding-left:1rem;
+        padding-right:1rem;
+    }
+
+    feed-card[feed-type="card"] > feed-footer > info-section:first-of-type{
+        padding-left: 0;
+    }
+
+    feed-card[feed-type="card"] > feed-footer > info-section:last-of-type{
+        padding-right: 0;
+    }
+
+    feed-card[feed-type="card"] > feed-body{
+        display: block;
+        padding: 4rem;
+    }
+
+    feed-card[feed-type="card"] > feed-body > a{
+        margin-top: 1rem;
+        display: inline-block;
+    }
+
+    feed-card[feed-type="card"] > feed-body > h1{
+        color: #333;
+    }
+
+    feed-card[feed-type="card"] > feed-body > p{
+        margin:0;
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -280,18 +309,36 @@
                 <i class="MDI package-variant"></i>
                 <p>NOJ Feed is empty, try adding some :-)</p>
             </empty-container>
-            {{-- <post-card>
-                <post-body>
+            {{-- <feed-card feed-type="card">
+                <feed-body>
                     <h1>Introducing NOJ Feed</h1>
                     <p>Meet the fully new design of NOJ Feed.</p>
                     <!--<a href="/">// Continue Reading</a>-->
-                </post-body>
-                <post-footer>
+                </feed-body>
+                <feed-footer>
                     <info-section><i class="MDI calendar"></i> 29 Apr,2019</info-section>
                     <info-section><i class="MDI tag-multiple"></i> Solution, Posts</info-section>
                     <info-section><i class="MDI thumb-up"></i> 35 users</info-section>
-                </post-footer>
-            </post-card> --}}
+                </feed-footer>
+            </feed-card>
+            <feed-card feed-type="event">
+                <div>
+                    <i class="MDI comment-check-outline wemd-orange-text"></i>
+                </div>
+                <div>
+                    <h5><strong style="color:#000">admin</strong> posted a solution to <strong>NOJ2344</strong></h5>
+                    <p>Mar 18, 9:05 PM</p>
+                </div>
+            </feed-card>
+            <feed-card feed-type="event">
+                <div>
+                   <i class="MDI flag wemd-blue-text"></i>
+                </div>
+                <div>
+                    <h5><strong style="color:#000">admin</strong> joined NOJ</h5>
+                    <p>Mar 18, 9:05 PM</p>
+                </div>
+            </feed-card> --}}
         </div>
     </div>
     <div class="modal fade" id="update-avatar-modal" tabindex="-1" role="dialog">
