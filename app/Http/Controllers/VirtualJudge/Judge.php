@@ -339,7 +339,9 @@ class Judge extends Core
                     $sub['verdict']=$uva_v[$uvaList[$row['remote_id']]['verdict']];
                     if ($sub['verdict']==='Compile Error') {
                         $response=$this->grab_page("https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=9&page=show_compilationerror&submission=$row[remote_id]", 'uva', [], $uvaList['handle']);
-                        if (preg_match('/<pre>([\s\S]*)<\/pre>/', $response, $match)) $sub['compile_info']=trim($match[1]);
+                        if (preg_match('/<pre>([\s\S]*)<\/pre>/', $response, $match)) {
+                            $sub['compile_info']=trim($match[1]);
+                        }
                     }
                     $sub['score']=$sub['verdict']=="Accepted" ? 1 : 0;
                     $sub['remote_id']=$row['remote_id'];
@@ -397,7 +399,9 @@ class Judge extends Core
     private function get_last_uva($earliest)
     {
         $ret = [];
-        if (!$earliest) return $ret;
+        if (!$earliest) {
+            return $ret;
+        }
 
         $judger=new JudgerModel();
         $judgerDetail=$judger->detail($earliest['jid']);
@@ -406,7 +410,7 @@ class Judge extends Core
         $response=$this->grab_page("https://uhunt.onlinejudge.org/api/subs-user/".$judgerDetail['user_id']."/".($earliest['remote_id']-1), 'uva', [], $judgerDetail['handle']);
         $result=json_decode($response, true);
         foreach ($result['subs'] as $i) {
-            $ret[$i[0]] = ['time'=>$i[3], 'verdict'=>$i[2]];
+            $ret[$i[0]]=['time'=>$i[3], 'verdict'=>$i[2]];
         }
 
         return $ret;
