@@ -56,6 +56,7 @@
         right: 0;
         position: absolute;
         margin: 0 auto;
+        object-fit: cover;
         @unless($userView)cursor: pointer;@endunless
     }
 
@@ -160,32 +161,86 @@
     }
 
     feed-card[feed-type="event"]{
-        display: flex;
+        display: block;
         margin-bottom: 2rem;
     }
 
-    feed-card[feed-type="event"] > div:first-of-type{
-        margin-right: 2rem;
+    feed-card[feed-type="event"] > feed-header{
+        display: flex;
+        align-items: center;
     }
 
-    feed-card[feed-type="event"] > div:first-of-type >i{
-        display: inline-block;
-        transform: scale(2);
-        transform-origin: left center;
+    feed-card[feed-type="event"] > feed-header > feed-circle{
+        display: flex;
+        height:3rem;
+        width:3rem;
+        border-radius: 2000px;
+        overflow: hidden;
+        margin-right: 1rem;
+        align-items: center;
+        justify-content: center;
     }
 
-    feed-card[feed-type="event"] > div:last-of-type{
+    feed-card[feed-type="event"] > feed-header > feed-circle > i{
+        color:#fff;
+        font-size: 1.5rem;
+    }
+
+    feed-card[feed-type="event"] > feed-header > feed-circle > img{
+        object-fit: cover;
+        width:100%;
+        height:100%;
+    }
+
+    feed-card[feed-type="event"] > feed-header > feed-info{
         color:rgba(0,0,0,0.42);
     }
 
-    feed-card[feed-type="event"] > div:last-of-type h5{
-        margin-bottom:0.5rem;
+    feed-card[feed-type="event"] > feed-header > feed-info > h5{
         font-size: 1.2rem;
+        margin-bottom: 0.5rem;
     }
 
-    feed-card[feed-type="event"] > div:last-of-type p{
-        margin-bottom:0;
+    feed-card[feed-type="event"] > feed-header > feed-info > p{
         font-size: 0.9rem;
+        margin-bottom: 0;
+    }
+
+    feed-card[feed-type="event"] > feed-body{
+        margin-left: 4rem;
+        display: block;
+        /* box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 10px; */
+        border-radius: 4px;
+        transition: .2s ease-out .0s;
+        color:rgba(0,0,0,0.92);
+        background: #fff;
+        padding: 1rem;
+        position: relative;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+        margin-bottom: 1rem;
+        cursor: pointer;
+    }
+
+    feed-card[feed-type="event"] > feed-body:hover {
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 10px;
+    }
+
+    feed-card[feed-type="event"] > feed-body h1 {
+        font-size: 1.5rem;
+    }
+
+    feed-card[feed-type="event"] > feed-body p {
+        font-size: 1rem;
+        margin-bottom: 0;
+        color:rgba(0,0,0,0.54);
+    }
+
+    feed-card[feed-type="event"] > feed-footer {
+        margin-left: 4rem;
+        display: block;
+        color:rgba(0,0,0,0.42);
+        font-size: 0.8rem;
     }
 
     feed-card[feed-type="card"] {
@@ -305,10 +360,10 @@
             </user-card>
         </div>
         <div class="col-sm-12 col-md-8">
-            <empty-container>
+            {{-- <empty-container>
                 <i class="MDI package-variant"></i>
                 <p>NOJ Feed is empty, try adding some :-)</p>
-            </empty-container>
+            </empty-container> --}}
             {{-- <feed-card feed-type="card">
                 <feed-body>
                     <h1>Introducing NOJ Feed</h1>
@@ -320,25 +375,35 @@
                     <info-section><i class="MDI tag-multiple"></i> Solution, Posts</info-section>
                     <info-section><i class="MDI thumb-up"></i> 35 users</info-section>
                 </feed-footer>
-            </feed-card>
-            <feed-card feed-type="event">
-                <div>
-                    <i class="MDI comment-check-outline wemd-orange-text"></i>
-                </div>
-                <div>
-                    <h5><strong style="color:#000">admin</strong> posted a solution to <strong>NOJ2344</strong></h5>
-                    <p>Mar 18, 9:05 PM</p>
-                </div>
-            </feed-card>
-            <feed-card feed-type="event">
-                <div>
-                   <i class="MDI flag wemd-blue-text"></i>
-                </div>
-                <div>
-                    <h5><strong style="color:#000">admin</strong> joined NOJ</h5>
-                    <p>Mar 18, 9:05 PM</p>
-                </div>
             </feed-card> --}}
+            @foreach($feed as $f)
+                <feed-card feed-type="{{$f["type"]}}">
+                    <feed-header>
+                        <feed-circle class="{{$f["color"]}}">
+                            <i class="MDI {{$f["icon"]}}"></i>
+                        </feed-circle>
+                        <feed-info>
+                            <h5><strong style="color:#000">{{$info["name"]}}</strong> posted a solution to <strong>{{$f["pcode"]}}</strong></h5>
+                        </feed-info>
+                    </feed-header>
+                    <feed-body onclick="location.href='/problem/{{$f["pcode"]}}/solution'">
+                        <h1>{{$f["title"]}}</h1>
+                        <p>See more about this solution.</p>
+                    </feed-body>
+                    <feed-footer>{{$f["created_at"]}}</feed-footer>
+                </feed-card>
+            @endforeach
+            <feed-card feed-type="event">
+                <feed-header>
+                    <feed-circle>
+                        <img src="{{$info["avatar"]}}">
+                    </feed-circle>
+                    <feed-info>
+                        <h5><strong style="color:#000">{{$info["name"]}}</strong> joined NOJ</h5>
+                    </feed-info>
+                </feed-header>
+                <feed-footer>{{$info["created_at"]}}</feed-footer>
+            </feed-card>
         </div>
     </div>
     <div class="modal fade" id="update-avatar-modal" tabindex="-1" role="dialog">

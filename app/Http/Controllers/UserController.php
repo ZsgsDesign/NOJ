@@ -27,12 +27,14 @@ class UserController extends Controller
     {
         $accountModel=new AccountModel();
         $info=$accountModel->detail($uid);
+        $feed=$accountModel->feed(Auth::user()->id);
         return view("account.dashboard", [
             'page_title'=>$info["name"],
             'site_title'=>"NOJ",
             'navigation'=>"DashBoard",
             'info'=>$info,
-            'userView'=>true
+            'userView'=>true,
+            'feed'=>$feed
         ]);
     }
 }
