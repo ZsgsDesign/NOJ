@@ -100,7 +100,8 @@ class ProblemModel extends Model
     {
         if (is_null($uid)) {
             $details=DB::table("problem_solution")->join(
-                "users", "id",
+                "users",
+                "id",
                 "=",
                 "problem_solution.uid"
             )->where([
@@ -176,7 +177,9 @@ class ProblemModel extends Model
     {
         $val=$type ? 1 : -1;
         $details=DB::table("problem_solution")->where(['psoid'=>$psoid])->first();
-        if (empty($details)) return ["ret"=>false];
+        if (empty($details)) {
+            return ["ret"=>false];
+        }
 
         $userVote=DB::table("problem_solution_vote")->where(['uid'=>$uid, "psoid"=>$psoid])->first();
 
@@ -189,7 +192,7 @@ class ProblemModel extends Model
                     "votes"=>$details["votes"]+($userVote["type"]==1 ?-1 : 1),
                 ]);
                 return ["ret"=>true, "votes"=>$details["votes"]+($userVote["type"]==1 ?-1 : 1), "select"=>-1]; //disvote
-            }elseif ($userVote["type"]==1) {
+            } elseif ($userVote["type"]==1) {
                 $val--;
             } else {
                 $val++;
@@ -213,14 +216,18 @@ class ProblemModel extends Model
 
     public function removeSolution($psoid, $uid)
     {
-        if (empty(DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->first())) return false;
+        if (empty(DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->first())) {
+            return false;
+        }
         DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->delete();
         return true;
     }
 
     public function updateSolution($psoid, $uid, $content)
     {
-        if (empty(DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->first())) return false;
+        if (empty(DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->first())) {
+            return false;
+        }
         DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->update([
             "content"=>$content,
             "audit"=>0,

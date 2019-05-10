@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use grubersjoe\BingPhoto;
-use Cache,Storage;
+use Cache;
+use Storage;
 
 class AccountModel extends Model
 {
@@ -75,15 +76,15 @@ class AccountModel extends Model
         $ret["solved"]=DB::table("submission")->where([
             "uid"=>$uid,
             "verdict"=>"Accepted"
-        ])->join("problem","problem.pid","=","submission.pid")->select('pcode')->distinct()->get()->all();
+        ])->join("problem", "problem.pid", "=", "submission.pid")->select('pcode')->distinct()->get()->all();
         $ret["solvedCount"]=count($ret["solved"]);
-        $ret["rank"]=Cache::tags(['rank'])->get($ret["id"],"N/A");
-        if(Cache::tags(['bing','pic'])->get(date("Y-m-d"))==null){
+        $ret["rank"]=Cache::tags(['rank'])->get($ret["id"], "N/A");
+        if (Cache::tags(['bing','pic'])->get(date("Y-m-d"))==null) {
             $bing = new BingPhoto([
                 'locale' => 'zh-CN',
             ]);
-            Storage::disk('NOJPublic')->put("static/img/bing/".date("Y-m-d").".jpg",file_get_contents($bing->getImage()['url']),86400);
-            Cache::tags(['bing','pic'])->put(date("Y-m-d"),"/static/img/bing/".date("Y-m-d").".jpg");
+            Storage::disk('NOJPublic')->put("static/img/bing/".date("Y-m-d").".jpg", file_get_contents($bing->getImage()['url']), 86400);
+            Cache::tags(['bing','pic'])->put(date("Y-m-d"), "/static/img/bing/".date("Y-m-d").".jpg");
         }
         $ret["image"]=Cache::tags(['bing','pic'])->get(date("Y-m-d"));
         return $ret;
@@ -96,8 +97,8 @@ class AccountModel extends Model
         $rankIter=1;
         $rankValue=1;
         $rankSolved=-1;
-        foreach($rankList as $rankItem){
-            if($rankSolved!=$rankItem["solvedCount"]){
+        foreach ($rankList as $rankItem) {
+            if ($rankSolved!=$rankItem["solvedCount"]) {
                 $rankValue=$rankIter;
                 $rankSolved=$rankItem["solvedCount"];
             }

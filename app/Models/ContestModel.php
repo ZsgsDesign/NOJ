@@ -5,7 +5,8 @@ namespace App\Models;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Auth, Cache;
+use Auth;
+use Cache;
 
 class ContestModel extends Model
 {
@@ -149,22 +150,22 @@ class ContestModel extends Model
                 ->join('contest', 'group_member.gid', '=', 'contest.gid')
                 ->leftJoin('contest_participant', 'contest.cid', '=', 'contest_participant.cid')
                 ->where(
-                    function($query) {
+                    function ($query) {
                         $query->where('public', 1)
                               ->where('audit', 1);
                     }
                 )
                 ->orWhere(
-                    function($query) use ($uid) {
+                    function ($query) use ($uid) {
                         $query->where('group_member.uid', $uid)
                                 ->where('group_member.role', '>', 0)
-                                ->where(function($query) use ($uid) {
+                                ->where(function ($query) use ($uid) {
                                     $query->where('contest_participant.uid', $uid)
                                           ->orWhereNull('contest_participant.uid');
                                 })
-                              ->where(function($query) {
+                              ->where(function ($query) {
                                   $query->where('registration', 0)
-                                                ->orWhere(function($query) {
+                                                ->orWhere(function ($query) {
                                                     $query->where('registration', 1)
                                                           ->whereNotNull('contest_participant.uid');
                                                 });
@@ -174,10 +175,10 @@ class ContestModel extends Model
                 ->orderBy('contest.begin_time', 'desc')
                 ->paginate(10, ['contest.cid']);
 
-           /*  $paginator=DB::table($this->tableName)->where([
-                "public"=>1,
-                "audit_status"=>1
-            ])->orderBy('begin_time', 'desc')->paginate(10); */
+        /*  $paginator=DB::table($this->tableName)->where([
+             "public"=>1,
+             "audit_status"=>1
+         ])->orderBy('begin_time', 'desc')->paginate(10); */
         } else {
             $paginator=DB::table($this->tableName)->where([
                 "public"=>1,
@@ -504,7 +505,7 @@ class ContestModel extends Model
                     "problem_detail" => $prob_detail
                 ];
             }
-            usort($ret, function($a, $b) {
+            usort($ret, function ($a, $b) {
                 if ($a["score"]==$b["score"]) {
                     if ($a["penalty"]==$b["penalty"]) {
                         return 0;
@@ -551,7 +552,7 @@ class ContestModel extends Model
                     "problem_detail" => $prob_detail
                 ];
             }
-            usort($ret, function($a, $b) {
+            usort($ret, function ($a, $b) {
                 if ($a["score"]==$b["score"]) {
                     if ($a["solved"]==$b["solved"]) {
                         return 0;
@@ -593,12 +594,16 @@ class ContestModel extends Model
 
         $contestRankRaw=Cache::tags(['contest', 'rank'])->get($cid);
 
-        if ($contestRankRaw==null) $contestRankRaw=$this->contestRankCache($cid);
+        if ($contestRankRaw==null) {
+            $contestRankRaw=$this->contestRankCache($cid);
+        }
 
         $ret=$contestRankRaw;
 
         foreach ($ret as $r) {
-            if (!$user_in_group) $r["nick_name"]='';
+            if (!$user_in_group) {
+                $r["nick_name"]='';
+            }
         }
 
         return $ret;
@@ -640,7 +645,7 @@ class ContestModel extends Model
     {
         return DB::table("contest_clarification")->where([
             "cid"=>$cid
-        ])->where(function($query) {
+        ])->where(function ($query) {
             $query->where([
                 "public"=>1
             ])->orWhere([
@@ -656,7 +661,8 @@ class ContestModel extends Model
             "type"=>0,
             "public"=>1
         ])->whereBetween(
-            'create_time', [
+            'create_time',
+            [
                 date("Y-m-d H:i:s", time()-59),
                 date("Y-m-d H:i:s")
             ]
@@ -787,7 +793,7 @@ class ContestModel extends Model
                 "users.id",
                 "=",
                 "submission.uid"
-            )->where(function($query) use ($frozen_time) {
+            )->where(function ($query) use ($frozen_time) {
                 $query->where(
                     "submission_date",
                     "<",
@@ -860,7 +866,9 @@ class ContestModel extends Model
                 $score_parsed=round($r["score"] / $problemSet[(string) $r["pid"]]["tot_score"] * $problemSet[(string) $r["pid"]]["points"], 1);
                 $r["verdict"].=" ($score_parsed)";
             }
-            if (!$contestEnd) $r["share"]=0;
+            if (!$contestEnd) {
+                $r["share"]=0;
+            }
         }
         return [
             "paginator"=>$paginator,
@@ -977,7 +985,7 @@ class ContestModel extends Model
 
     public function arrangeContest($gid, $config, $problems)
     {
-        DB::transaction(function() use ($gid, $config, $problems) {
+        DB::transaction(function () use ($gid, $config, $problems) {
             $cid=DB::table($this->tableName)->insertGetId([
                 "gid"=>$gid,
                 "name"=>$config["name"],

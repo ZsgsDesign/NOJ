@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Requests, Exception;
+use Requests;
+use Exception;
 
 class JudgerModel extends Model
 {

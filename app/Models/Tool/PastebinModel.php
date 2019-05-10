@@ -23,7 +23,9 @@ class PastebinModel extends Model
     public function detail($code)
     {
         $basic=DB::table($this->tableName)->where(["code"=>$code])->first();
-        if (empty($basic)) return [];
+        if (empty($basic)) {
+            return [];
+        }
         $basic["userInfo"]=DB::table("users")->where(["id"=>$basic["uid"]])->first();
         return $basic;
     }
@@ -36,19 +38,19 @@ class PastebinModel extends Model
         $title=$all_data["title"];
         $uid=$all_data["uid"];
 
-        if($expire==0){
+        if ($expire==0) {
             $expire_time=null;
-        }elseif($expire==1){
+        } elseif ($expire==1) {
             $expire_time=date("Y-m-d H:i:s", strtotime('+1 days'));
-        }elseif($expire==7){
+        } elseif ($expire==7) {
             $expire_time=date("Y-m-d H:i:s", strtotime('+7 days'));
-        }elseif($expire==30){
+        } elseif ($expire==30) {
             $expire_time=date("Y-m-d H:i:s", strtotime('+30 days'));
         }
 
         $code=$this->generatePbCode(6);
         $ret=$this->detail($code);
-        if(empty($ret)){
+        if (empty($ret)) {
             DB::table($this->tableName)->insert([
                 'lang' => $lang,
                 'expire' => $expire_time,
