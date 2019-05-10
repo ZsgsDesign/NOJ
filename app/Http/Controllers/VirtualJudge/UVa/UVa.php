@@ -28,15 +28,15 @@ class UVa extends Curl
     private function ojLogin()
     {
         $response=$this->grab_page("https://uva.onlinejudge.org/", 'uva', [], $this->selectedJudger['handle']);
-        if (strpos($response, 'Logout') === false) {
-            $post_data = [
+        if (strpos($response, 'Logout')===false) {
+            $post_data=[
                 'username' => $this->selectedJudger["handle"],
                 'passwd' => $this->selectedJudger["password"],
                 'remember' => 'yes',
             ];
-            $inputs = preg_match_all('/<input type="\w*" name="(op2|lang|force_session|return|message|loginfrom|cbsecuritym3|\w[0-9a-z]{32})" value="(.*?)" \/>/', $response, $matches);
-            for ($i = 0; $i < $inputs; ++$i) {
-                $post_data[$matches[1][$i]] = $matches[2][$i];
+            $inputs=preg_match_all('/<input type="\w*" name="(op2|lang|force_session|return|message|loginfrom|cbsecuritym3|\w[0-9a-z]{32})" value="(.*?)" \/>/', $response, $matches);
+            for ($i=0; $i<$inputs; ++$i) {
+                $post_data[$matches[1][$i]]=$matches[2][$i];
             }
             $this->post_data('https://uva.onlinejudge.org/index.php?option=com_comprofiler&task=login', $post_data, 'uva', false, false, false, false, [], $this->selectedJudger['handle']);
         }
