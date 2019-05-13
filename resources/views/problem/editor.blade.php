@@ -126,7 +126,7 @@
     <!-- Style -->
     <link rel="stylesheet" href="/static/fonts/Roboto/roboto.css">
     <link rel="stylesheet" href="/static/fonts/Montserrat/montserrat.css">
-    <link rel="stylesheet" href="/static/css/bootstrap-material-design.min.css">
+    <link rel="stylesheet" href="/static/library/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
     <link rel="stylesheet" href="/static/css/wemd-color-scheme.css">
     <link rel="stylesheet" href="/static/css/main.css?version={{version()}}">
     <link rel="stylesheet" href="/static/css/animate.min.css">
@@ -742,7 +742,7 @@
     <script src="/static/library/jquery/dist/jquery.min.js"></script>
     <script src="/static/js/popper.min.js"></script>
     <script src="/static/js/snackbar.min.js"></script>
-    <script src="/static/js/bootstrap-material-design.js"></script>
+    <script src="/static/library/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"></script>
     <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
