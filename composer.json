@@ -36,6 +36,7 @@
         "npm-asset/marked": "^0.6.2",
         "npm-asset/mathjax": "^2.7",
         "npm-asset/monaco-editor": "^0.16.2",
+        "npm-asset/popper.js": "^2.0",
         "npm-asset/simplemde": "^1.11",
         "oomphinc/composer-installers-extender": "^1.1",
         "orangehill/iseed": "^2.6",

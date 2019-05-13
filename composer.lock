@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "564d42098fe23309b96d296864eb49a3",
+    "content-hash": "85be39ff8f9e6614bc479aba65db7177",
     "packages": [
         {
             "name": "composer/installers",
@@ -2445,6 +2445,18 @@
             "dist": {
                 "type": "tar",
                 "url": "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.16.2.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "npm-asset/popper.js",
+            "version": "2.0.0-patch.4",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/popper.js/-/popper.js-2.0.0-next.4.tgz"
             },
             "type": "npm-asset",
             "license": [
