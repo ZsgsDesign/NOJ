@@ -191,6 +191,11 @@
                         <a class="nav-link @if ($navigation === "Status") active @endif" href="/status">Status</a>
                     </li>
                 @endif
+                @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    <li class="nav-item />">
+                        <a class="nav-link @if ($navigation === "Rank") active @endif" href="/rank">Rank</a>
+                    </li>
+                @endif
                 <li class="nav-item />">
                     <a class="nav-link @if ($navigation === "Contest") active @endif" href="/contest">Contest</a>
                 </li>
