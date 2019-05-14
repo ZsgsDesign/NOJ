@@ -89,10 +89,7 @@
         <div class="col-sm-12 col-md-8 col-lg-6">
             <div class="text-center" style="margin-top:10vh;margin-bottom:20px;">
                 <h1 style="padding:20px;display:inline-block;">NOJ</h1>
-                <p>NOJ's yet another Virtual Judge</p>
-                <div class="alert alert-primary text-left" role="alert">
-                    NOJ is still under alpha version, you can create new issues <a href="https://github.com/ZsgsDesign/NOJ/issues">here</a>.
-                </div>
+                <p>NOJ's yet another Online Judge</p>
             </div>
             <div class="card">
                 <div class="card-header">
