@@ -311,6 +311,7 @@
                 </avatar-section>
                 <basic-section>
                     <h3>{{$info["name"]}}</h3>
+                    <small class="{{$info["rankTitleColor"]}}">{{$info["rankTitle"]}}</small>
                     {{-- <p style="margin-bottom: .5rem;"><small class="wemd-light-blue-text">站点管理员</small></p> --}}
                     {{-- <p>{{$info["email"]}}</p> --}}
                 </basic-section>

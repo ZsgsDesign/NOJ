@@ -92,6 +92,8 @@ class AccountModel extends Model
         ])->join("problem", "problem.pid", "=", "submission.pid")->select('pcode')->distinct()->get()->all();
         $ret["solvedCount"]=count($ret["solved"]);
         $ret["rank"]=Cache::tags(['rank'])->get($ret["id"], "N/A");
+        $ret["rankTitle"]=Cache::tags(['rank'])->get($ret["id"]."_title");
+        $ret["rankTitleColor"]=RankModel::getColor($ret["rankTitle"]);
         if (Cache::tags(['bing', 'pic'])->get(date("Y-m-d"))==null) {
             $bing=new BingPhoto([
                 'locale' => 'zh-CN',
