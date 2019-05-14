@@ -91,11 +91,11 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
 - [ ] User System
     - [X] User Login
     - [X] User Register
-    - [ ] User Password Retrive
+    - [X] User Password Retrive
     - [ ] User Email Verify
     - [ ] DashBoard
         - [X] Statistics
-        - [ ] Activities
+        - [X] Activities
         - [ ] Profile
     - [ ] Settings
 - [ ] Search System
