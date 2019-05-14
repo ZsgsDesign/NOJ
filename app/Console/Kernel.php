@@ -4,7 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use App\Http\Controllers\VirtualJudge\Judge;
-use App\Models\AccountModel;
+use App\Models\RankModel;
 use App\Models\SiteMapModel;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -35,8 +35,8 @@ class Kernel extends ConsoleKernel
         })->everyMinute()->description("Sync Judger");
 
         $schedule->call(function() {
-            $accountModel=new AccountModel();
-            $accountModel->rankList();
+            $rankModel=new RankModel();
+            $rankModel->rankList();
         })->daily()->description("Update Rank");
 
         $schedule->call(function() {

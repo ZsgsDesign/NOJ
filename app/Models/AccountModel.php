@@ -102,21 +102,4 @@ class AccountModel extends Model
         $ret["image"]=Cache::tags(['bing', 'pic'])->get(date("Y-m-d"));
         return $ret;
     }
-
-    public function rankList()
-    {
-        Cache::tags(['rank'])->flush();
-        $rankList=DB::select("SELECT * FROM (SELECT uid,count(DISTINCT pcode) as solvedCount from submission inner join problem on problem.pid=submission.pid and verdict=\"Accepted\" group by uid) as temp ORDER BY solvedCount desc");
-        $rankIter=1;
-        $rankValue=1;
-        $rankSolved=-1;
-        foreach ($rankList as $rankItem) {
-            if ($rankSolved!=$rankItem["solvedCount"]) {
-                $rankValue=$rankIter;
-                $rankSolved=$rankItem["solvedCount"];
-            }
-            Cache::tags(['rank'])->put($rankItem["uid"], $rankValue, 86400);
-            $rankIter++;
-        }
-    }
 }
