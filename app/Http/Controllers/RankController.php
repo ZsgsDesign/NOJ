@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 
-class MainController extends Controller
+class RankController extends Controller
 {
     /**
      * Show the Rank Page.
@@ -15,7 +15,7 @@ class MainController extends Controller
      *
      * @return Response
      */
-    public function home(Request $request)
+    public function index(Request $request)
     {
         $rankModel=new RankModel();
         $rankingList=$rankModel->list();

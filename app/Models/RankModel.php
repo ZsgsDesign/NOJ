@@ -52,6 +52,8 @@ class RankModel extends Model
 
     public function list()
     {
+        $rankList=Cache::tags(['rank'])->get();
+        var_dump($rankList);exit();
         return [];
     }
 
@@ -70,8 +72,8 @@ class RankModel extends Model
                     $rankValue=$rankIter;
                     $rankSolved=$rankItem["solvedCount"];
                 }
-                Cache::tags(['rank'])->put($rankItem["uid"], $rankValue, 86400);
-                Cache::tags(['rank'])->put($rankItem["uid"]."_title", $this->getRankTitle($rankValue), 86400);
+                Cache::tags(['rank',$rankItem["uid"]])->put("rank", $rankValue, 86400);
+                Cache::tags(['rank',$rankItem["uid"]])->put("title", $this->getRankTitle($rankValue), 86400);
                 $rankIter++;
             }
         }

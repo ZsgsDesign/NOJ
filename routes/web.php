@@ -52,6 +52,10 @@ Route::group(['prefix' => 'system'], function () {
     Route::get('/info', 'SystemController@info')->name('system_info');
 });
 
+Route::group(['prefix' => 'rank'], function () {
+    Route::get('/', 'RankController@index')->name('rank_index');
+});
+
 Route::group(['namespace' => 'Tool'], function () {
     Route::group(['prefix' => 'tool'], function () {
         Route::redirect('/', '/', 301);
