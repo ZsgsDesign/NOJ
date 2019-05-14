@@ -91,7 +91,7 @@ class AccountModel extends Model
             "verdict"=>"Accepted"
         ])->join("problem", "problem.pid", "=", "submission.pid")->select('pcode')->distinct()->get()->all();
         $ret["solvedCount"]=count($ret["solved"]);
-        $ret["rank"]=Cache::tags(['rank',$ret["id"]])->get("value", "N/A");
+        $ret["rank"]=Cache::tags(['rank',$ret["id"]])->get("rank", "N/A");
         $ret["rankTitle"]=Cache::tags(['rank',$ret["id"]])->get("title");
         $ret["rankTitleColor"]=RankModel::getColor($ret["rankTitle"]);
         if (Cache::tags(['bing', 'pic'])->get(date("Y-m-d"))==null) {
