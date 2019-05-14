@@ -99,7 +99,7 @@ class RankModel extends Model
 
     private function procRankingPer()
     {
-        $totUsers=DB::table("submission")->distinct()->where(["verdict"=>"Accepted"])->count();
+        $totUsers=DB::table("submission")->distinct()->where(["verdict"=>"Accepted"])->select("uid")->count();
         if ($totUsers>0) {
             $tot=0;
             $cur=0;
