@@ -4,7 +4,7 @@
 <style>
     paper-card {
         display: block;
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
+        /* box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px; */
         border-radius: 4px;
         transition: .2s ease-out .0s;
         color: #7a8e97;
@@ -16,7 +16,7 @@
     }
 
     paper-card:hover {
-        box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
+        /* box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px; */
     }
 
     a:hover{
@@ -106,6 +106,31 @@
         margin:1rem
     }
 
+    .cm-avatar{
+        height:4rem;
+        width:4rem;
+        object-fit: cover;
+        border-radius: 2000px;
+        border: 0.1rem solid currentColor;
+        margin-right:1rem;
+    }
+
+    th[scope="row"] > div{
+        display:flex;
+        align-items: center;
+    }
+
+    th[scope="row"] > div strong{
+        font-size: 1.2rem;
+        margin-bottom:0.25rem;
+        color:rgba(0, 0, 0, 0.62);
+    }
+
+    th[scope="row"] > div p{
+        font-size: 1.1rem;
+        margin-bottom:0;
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
@@ -114,26 +139,31 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col"></th>
-                            <th scope="col">University / Organization</th>
-                            <th scope="col">Motto</th>
+                            <th scope="col" style="text-align: left;">Rank</th>
+                            <th scope="col">Title</th>
                             <th scope="col">Solved</th>
-                            <th scope="col">Submitted</th>
-                            <th scope="col">AC Ratio</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row"><img src=""></th>
-                            <td>NJUPT</td>
-                            <td>lalala!</td>
-                            <td>123</td>
-                            <td>12453</td>
-                            <td>23.45%</td>
-                        </tr>
+                        @foreach($rankingList as $r)
+                            <tr class="@if(Auth::check() && $r["uid"]==Auth::user()->id) cm-me @endif">
+                                <th scope="row">
+                                    <div>
+                                        <a href="/user/{{$r["uid"]}}">
+                                            <img class="cm-avatar {{$r["titleColor"]}}" src="{{$r["details"]["avatar"]}}">
+                                        </a>
+                                        <div>
+                                            <strong>#{{$r["rank"]}}</strong>
+                                            <p class="{{$r["titleColor"]}}">{{$r["details"]["name"]}}</p>
+                                        </div>
+                                    </div>
+                                </th>
+                                <td class="{{$r["titleColor"]}}">{{$r["title"]}}</td>
+                                <td>{{$r["solved"]}}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
-                {{$records["paginator"]->links()}}
             </div>
         </div>
     </paper-card>
