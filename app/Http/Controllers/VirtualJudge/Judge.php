@@ -250,7 +250,7 @@ class Judge extends Core
                 ];
                 $this->MODEL->updateSubmission($row['sid'], $sub);
             } elseif ($row['oid']==5) {
-
+                try {
                     $sub=[];
                     $res=Requests::get('https://vijos.org/records/'.$row['remote_id']);
                     preg_match('/<span class="record-status--text \w*">\s*(.*?)\s*<\/span>/', $res->body, $match);
@@ -277,9 +277,9 @@ class Judge extends Core
                     if ($sub['verdict']!="Submission Error" && $sub['verdict']!="Compile Error") {
                         $maxtime=0;
                         preg_match_all('/<td class="col--time">(?:&ge;)?(\d+)ms<\/td>/', $res->body, $matches);
-                        foreach ($matches as $match) {
-                            if ($match[1]>$maxtime) {
-                                $maxtime=$match[1];
+                        foreach ($matches[1] as $match) {
+                            if ($match>$maxtime) {
+                                $maxtime=$match;
                             }
                         }
                         $sub['time']=$maxtime;
@@ -298,7 +298,8 @@ class Judge extends Core
                         "verdict"=>$sub['verdict']
                     ];
                     $this->MODEL->updateSubmission($row['sid'], $sub);
-
+                } catch (Exception $e) {
+                }
             } elseif ($row['oid']==6) {
                 try {
                     $sub=[];
