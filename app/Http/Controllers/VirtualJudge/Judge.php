@@ -250,7 +250,7 @@ class Judge extends Core
                 ];
                 $this->MODEL->updateSubmission($row['sid'], $sub);
             } elseif ($row['oid']==5) {
-                try {
+
                     $sub=[];
                     $res=Requests::get('https://vijos.org/records/'.$row['remote_id']);
                     preg_match('/<span class="record-status--text \w*">\s*(.*?)\s*<\/span>/', $res->body, $match);
@@ -298,8 +298,7 @@ class Judge extends Core
                         "verdict"=>$sub['verdict']
                     ];
                     $this->MODEL->updateSubmission($row['sid'], $sub);
-                } catch (Exception $e) {
-                }
+
             } elseif ($row['oid']==6) {
                 try {
                     $sub=[];
