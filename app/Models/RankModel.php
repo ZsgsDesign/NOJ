@@ -68,7 +68,7 @@ class RankModel extends Model
     public function rankList()
     {
         Cache::tags(['rank'])->flush();
-        $totUsers=DB::table("submission")->distinct()->where(["verdict"=>"Accepted"])->count();
+        $totUsers=DB::table("submission")->where(["verdict"=>"Accepted"])->select(DB::raw("count(distinct uid) as res"))->get()->first()["res"];
         if ($totUsers>0) {
             $rankList=DB::select("SELECT * FROM (SELECT uid,count(DISTINCT pcode) as solvedCount from submission inner join problem on problem.pid=submission.pid and verdict=\"Accepted\" group by uid) as temp ORDER BY solvedCount desc");
             $rankIter=1;
@@ -99,7 +99,7 @@ class RankModel extends Model
 
     private function procRankingPer()
     {
-        $totUsers=DB::table("submission")->where(["verdict"=>"Accepted"])->select("distinct uid")->count();
+        $totUsers=DB::table("submission")->where(["verdict"=>"Accepted"])->select(DB::raw("count(distinct uid) as res"))->get()->first()["res"];
         if ($totUsers>0) {
             $tot=0;
             $cur=0;
