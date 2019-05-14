@@ -115,21 +115,21 @@
                     <thead>
                         <tr>
                             <th scope="col"></th>
-                            <th scope="col">NOJ Credits</th>
-                            <th scope="col">Basis</th>
-                            <th scope="col">Community</th>
-                            <th scope="col">Practises</th>
-                            <th scope="col">Contests</th>
+                            <th scope="col">University / Organization</th>
+                            <th scope="col">Motto</th>
+                            <th scope="col">Solved</th>
+                            <th scope="col">Submitted</th>
+                            <th scope="col">AC Ratio</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <th scope="row"><img src=""></th>
+                            <td>NJUPT</td>
+                            <td>lalala!</td>
                             <td>123</td>
-                            <td>50</td>
-                            <td>100</td>
-                            <td>80</td>
-                            <td>0</td>
+                            <td>12453</td>
+                            <td>23.45%</td>
                         </tr>
                     </tbody>
                 </table>
