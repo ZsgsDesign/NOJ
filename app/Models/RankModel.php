@@ -70,16 +70,16 @@ class RankModel extends Model
         Cache::tags(['rank'])->flush();
         $totUsers=DB::table("submission")->where(["verdict"=>"Accepted"])->select(DB::raw("count(distinct uid) as res"))->get()->first()["res"];
         if ($totUsers>0) {
-            $rankList=DB::select("SELECT * FROM (SELECT uid,count(DISTINCT pcode) as solvedCount from submission inner join problem on problem.pid=submission.pid and verdict=\"Accepted\" group by uid) as temp ORDER BY solvedCount desc");
+            $rankList=DB::select("SELECT *,solvedCount+communityCount as totValue FROM (SELECT uid,sum(solvedCount) as solvedCount,sum(communityCount) as communityCount FROM ((SELECT uid,count(DISTINCT submission.pid) as solvedCount,0 as communityCount from submission where verdict=\"Accepted\" group by uid) UNION (SELECT uid,0 as solvedCount,count(DISTINCT pid) from problem_solution where audit=1 group by uid)) as temp GROUP BY uid) as temp2 ORDER BY solvedCount+communityCount DESC");
             $rankIter=1;
             $rankValue=1;
             $rankSolved=-1;
             $rankListCached=[];
             $this->procRankingPer();
             foreach ($rankList as $rankItem) {
-                if ($rankSolved!=$rankItem["solvedCount"]) {
+                if ($rankSolved!=$rankItem["totValue"]) {
                     $rankValue=$rankIter;
-                    $rankSolved=$rankItem["solvedCount"];
+                    $rankSolved=$rankItem["totValue"];
                 }
                 $rankTitle=$this->getRankTitle($rankValue);
                 Cache::tags(['rank',$rankItem["uid"]])->put("rank", $rankValue, 86400);
@@ -89,7 +89,8 @@ class RankModel extends Model
                     "rank"=>$rankValue,
                     "title"=>$rankTitle,
                     "titleColor"=>self::getColor($rankTitle),
-                    "solved"=>$rankItem["solvedCount"]
+                    "solved"=>$rankItem["solvedCount"],
+                    "community"=>$rankItem["communityCount"]
                 ];
                 $rankIter++;
             }

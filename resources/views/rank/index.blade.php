@@ -142,6 +142,7 @@
                             <th scope="col" style="text-align: left;">Rank</th>
                             <th scope="col">Title</th>
                             <th scope="col">Solved</th>
+                            <th scope="col">Community</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -160,6 +161,7 @@
                                 </th>
                                 <td class="{{$r["titleColor"]}}">{{$r["title"]}}</td>
                                 <td>{{$r["solved"]}}</td>
+                                <td>{{$r["community"]}}</td>
                             </tr>
                         @endforeach
                     </tbody>
