@@ -401,6 +401,15 @@
         margin-bottom: 0;
     }
 
+    contest-container a{
+        transition: .2s ease-out .0s;
+        color: #009688;
+    }
+    contest-container a:hover{
+        text-decoration: none;
+        color: #004d40;
+    }
+
     /*
     .xdsoft_datetimepicker .xdsoft_next,
     .xdsoft_datetimepicker .xdsoft_prev{
@@ -438,7 +447,7 @@
                         <div class="dropdown-menu">
                             <button class="dropdown-item"><i class="MDI github-circle"></i> GitHub</button>
                             <div class="dropdown-divider"></div>
-                            <button class="dropdown-item wemd-red-text"><i class="MDI alert-circle wemd-red-text"></i> Report Abuse</button>
+                            <button class="dropdown-item wemd-red-text" onclick="alert('???')"><i class="MDI alert-circle wemd-red-text"></i> Report Abuse</button>
                         </div>
                     </shadow-button>
 
@@ -620,7 +629,7 @@
                                 @foreach($member_list as $m)
                                 <user-card>
                                     <user-avatar>
-                                        <img src="{{$m["avatar"]}}">
+                                        <a href="/user/{{$m["uid"]}}"><img src="{{$m["avatar"]}}"></a>
                                     </user-avatar>
                                     <user-info>
                                         <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
@@ -817,6 +826,7 @@
     <script src="/static/js/jquery.datetimepicker.full.min.js"></script>
     <script src="/static/js/jquery-ui-sortable.min.js"></script>
     <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
+    <script src="/static/js/parazoom.min.js"></script>
     <script>
         function sortableInit(){
             $("#contestModal tbody").sortable({

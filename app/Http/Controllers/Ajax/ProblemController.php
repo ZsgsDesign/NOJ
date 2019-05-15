@@ -40,7 +40,9 @@ class ProblemController extends Controller
         if ($validator->fails()) {
             return ResponseModel::err(3002);
         }
-
+        if (!$problemModel->ojdetail($problemModel->detail($problemModel->pcode($all_data['pid']))['OJ'])['status']) {
+            return ResponseModel::err(6001);
+        }
         if ($problemModel->isBlocked($all_data["pid"], isset($all_data["contest"]) ? $all_data["contest"] : null)) {
             return header("HTTP/1.1 403 Forbidden");
         }
@@ -73,7 +75,7 @@ class ProblemController extends Controller
         ]);
     }
     /**
-     * The Ajax Problem Solution Submit.
+     * The Ajax Problem Status Check.
      *
      * @param Request $request web request
      *
@@ -91,6 +93,73 @@ class ProblemController extends Controller
         } else {
             return ResponseModel::err(3001);
         }
+    }
+    /**
+     * The Ajax Problem Solution Discussion Submission.
+     *
+     * @param Request $request web request
+     *
+     * @return Response
+     */
+    public function submitSolutionDiscussion(Request $request)
+    {
+        $all_data=$request->all();
+        $problemModel=new ProblemModel();
+        $pid=$all_data["pid"];
+        $content=$all_data["content"];
+        $basic=$problemModel->basic($pid);
+        if (empty($basic)) {
+            return ResponseModel::err(3001);
+        }
+        $ret=$problemModel->addSolution($pid,Auth::user()->id,$content);
+        return $ret?ResponseModel::success(200):ResponseModel::err(3003);
+    }
+    /**
+     * The Ajax Problem Solution Discussion Update.
+     *
+     * @param Request $request web request
+     *
+     * @return Response
+     */
+    public function updateSolutionDiscussion(Request $request)
+    {
+        $all_data=$request->all();
+        $problemModel=new ProblemModel();
+        $psoid=$all_data["psoid"];
+        $content=$all_data["content"];
+        $ret=$problemModel->updateSolution($psoid,Auth::user()->id,$content);
+        return $ret?ResponseModel::success(200):ResponseModel::err(3004);
+    }
+    /**
+     * The Ajax Problem Solution Discussion Delete.
+     *
+     * @param Request $request web request
+     *
+     * @return Response
+     */
+    public function deleteSolutionDiscussion(Request $request)
+    {
+        $all_data=$request->all();
+        $problemModel=new ProblemModel();
+        $psoid=$all_data["psoid"];
+        $ret=$problemModel->removeSolution($psoid,Auth::user()->id);
+        return $ret?ResponseModel::success(200):ResponseModel::err(3004);
+    }
+    /**
+     * The Ajax Problem Solution Discussion Vote.
+     *
+     * @param Request $request web request
+     *
+     * @return Response
+     */
+    public function voteSolutionDiscussion(Request $request)
+    {
+        $all_data=$request->all();
+        $problemModel=new ProblemModel();
+        $psoid=$all_data["psoid"];
+        $type=$all_data["type"];
+        $ret=$problemModel->voteSolution($psoid,Auth::user()->id,$type);
+        return $ret["ret"]?ResponseModel::success(200,null,["votes"=>$ret["votes"],"select"=>$ret["select"]]):ResponseModel::err(3004);
     }
     /**
      * The Ajax Problem Solution Submit.
@@ -184,7 +253,7 @@ class ProblemController extends Controller
 
         $all_data=$request->all();
 
-        $crawler = new Crawler($all_data["name"], $all_data["action"], $all_data["con"], $all_data["cached"]);
+        $crawler=new Crawler($all_data["name"], $all_data["action"], $all_data["con"], $all_data["cached"]);
 
         return ResponseModel::success(200, null, $crawler->data);
     }

@@ -58,7 +58,8 @@ class NOJ
         $contestModel=new ContestModel();
         $bestServer=$judgerModel->server(1);
         if (is_null($bestServer)) {
-            $this->sub['verdict']="System Error";
+            $this->sub['verdict']="Compile Error";
+            $this->sub['compile_info']="No Available Judger.";
             return;
         }
         $probBasic=$problemModel->basic($this->post_data["pid"]);

@@ -18,7 +18,7 @@
     a.action-menu-item:hover{
         text-decoration: none;
     }
-    input.form-control {
+    input.form-control.pb-input {
         height: calc(2.4375rem + 2px);
     }
 
@@ -71,7 +71,7 @@
                 <label for="pb_time" class="bmd-label-floating">Expiration</label>
                 <div class="form-control cm-fake-select dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="pb_time" name="pb_time" required="">None</div>
                 <div class="dropdown-menu cm-scrollable-menu"  id="pb_time_option">
-                    <button class="dropdown-item" data-value="-1">None</button>
+                    <button class="dropdown-item" data-value="0">None</button>
                     <button class="dropdown-item" data-value="1">A Day</button>
                     <button class="dropdown-item" data-value="7">A Week</button>
                     <button class="dropdown-item" data-value="30">A Month</button>
@@ -80,8 +80,8 @@
         </div>
         <div class="col-lg-4 col-12">
             <div class="form-group bmd-form-group is-filled">
-                <label for="pb_author" class="bmd-label-floating">Author</label>
-                <input type="text" class="form-control" name="pb_author" id="pb_author" value="">
+                <label for="pb_title" class="bmd-label-floating">Title</label>
+                <input type="text" class="form-control pb-input" name="pb_title" id="pb_title" value="Untitled">
             </div>
         </div>
     </div>
@@ -92,7 +92,7 @@
     </div>
     <div style="text-align: right;margin-bottom:2rem;">
         <button type="button" class="btn btn-secondary">Cancel</button>
-        <button type="button" class="btn btn-raised btn-primary">Create</button>
+        <button type="button" class="btn btn-raised btn-primary" onclick="generate()">Create</button>
     </div>
 </div>
 @endsection
@@ -101,6 +101,9 @@
     <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
     <script>
         var aval_lang=[];
+        var generate_processing=false;
+        var targ_lang="plaintext",targ_expire=0,editor;
+
         require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});
 
         // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
@@ -137,15 +140,61 @@
                 console.log(lang_conf.id);
             });
             $('#pb_lang_option button').click(function(){
-                var targ_lang=$(this).attr("data-value");
+                targ_lang=$(this).attr("data-value");
                 $("#pb_lang").text($(this).text());
                 monaco.editor.setModelLanguage(editor.getModel(), targ_lang);
             });
             $('#pb_time_option button').click(function(){
+                targ_expire=$(this).attr("data-value");
                 $("#pb_time").text($(this).text());
             });
             // monaco.editor.setModelLanguage(editor.getModel(), "plaintext");
         });
+
+        function generate(){
+            if(generate_processing) return;
+            else generate_processing=true;
+            $.ajax({
+                type: 'POST',
+                url: '/tool/ajax/pastebin/generate',
+                data: {
+                    syntax: targ_lang,
+                    expiration:targ_expire,
+                    title:$("#pb_title").val(),
+                    content: editor.getValue()
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if(ret.ret==200){
+                        location.href="/pb/"+ret.data.code;
+                    }else{
+                        alert(ret.desc,"Oops!");
+                    }
+                    generate_processing = false;
+                }, error: function(xhr, type){
+                    console.log('Ajax error!');
+
+                    switch(xhr.status) {
+                        case 429:
+                            alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                            $("#verdict_text").text("Submit Frequency Exceed");
+                            $("#verdict_info").removeClass();
+                            $("#verdict_info").addClass("wemd-black-text");
+                            break;
+                        case 422:
+                            alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                            break;
+                        default:
+                            alert("Something went wrong","Oops!");
+                    }
+
+                    generate_processing = false;
+                }
+            });
+        }
     </script>
 @endsection
 

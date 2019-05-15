@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Tool;
 
-use App\Models\SubmissionModel;
+use App\Models\Tool\PastebinModel;
 use App\Http\Controllers\Controller;
 use Auth;
 
@@ -13,12 +13,15 @@ class PastebinController extends Controller
      *
      * @return Response
      */
-    public function view()
+    public function view($code)
     {
+        $pastebinModel=new PastebinModel();
+        $detail=$pastebinModel->detail($code);
         return view('tool.pastebin.view', [
             'page_title' => "Detail",
             'site_title' => "PasteBin",
-            'navigation' => "PasteBin"
+            'navigation' => "PasteBin",
+            'detail' => $detail
         ]);
     }
 

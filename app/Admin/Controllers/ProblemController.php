@@ -79,22 +79,22 @@ class ProblemController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new ProblemModel);
-        $grid->column('pid',"ID")->sortable();
-        $grid->column('pcode',"PCode")->editable();
+        $grid=new Grid(new ProblemModel);
+        $grid->column('pid', "ID")->sortable();
+        $grid->column('pcode', "PCode")->editable();
         $grid->title("Title")->editable();
         $grid->time_limit("Time/ms")->editable();
         $grid->memory_limit("Memory/kb")->editable();
         $grid->OJ();
         $grid->update_date();
         $grid->tot_score("Score");
-        $grid->partial("Partial")->display(function ($partial) {
+        $grid->partial("Partial")->display(function($partial) {
             return $partial ? 'Yes' : 'No';
         });
-        $grid->markdown("Markdown")->display(function ($markdown) {
+        $grid->markdown("Markdown")->display(function($markdown) {
             return $markdown ? 'Yes' : 'No';
         });
-        $grid->filter(function (Grid\Filter $filter) {
+        $grid->filter(function(Grid\Filter $filter) {
             $filter->disableIdFilter();
             $filter->like('pcode');
             $filter->like('title');
@@ -110,7 +110,7 @@ class ProblemController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(ProblemModel::findOrFail($id));
+        $show=new Show(ProblemModel::findOrFail($id));
         return $show;
     }
 
@@ -121,9 +121,9 @@ class ProblemController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new ProblemModel);
+        $form=new Form(new ProblemModel);
         $form->model()->makeVisible('password');
-        $form->tab('Basic', function (Form $form) {
+        $form->tab('Basic', function(Form $form) {
             // $form->display('pid');
             // $form->text('pcode')->rules('required');
             $form->text('title')->rules('required');

@@ -5,13 +5,14 @@ namespace App\Models;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Auth,Cache;
+use Auth;
+use Cache;
 
 class ContestModel extends Model
 {
     protected $tableName='contest';
     protected $table='contest';
-    protected $primaryKey = 'cid';
+    protected $primaryKey='cid';
     const DELETED_AT=null;
     const UPDATED_AT=null;
     const CREATED_AT=null;
@@ -141,9 +142,9 @@ class ContestModel extends Model
 
     public function list($uid)
     {
-        if($uid){
+        if ($uid) {
             //$paginator=DB::select('SELECT DISTINCT contest.* FROM group_member inner join contest on group_member.gid=contest.gid left join contest_participant on contest.cid=contest_participant.cid where (public=1 and audit=1) or (group_member.uid=:uid and group_member.role>0 and (contest_participant.uid=:uidd or ISNULL(contest_participant.uid)) and (registration=0 or (registration=1 and not ISNULL(contest_participant.uid))))',["uid"=>$uid,"uidd"=>$uid])->paginate(10);
-            $paginator = DB::table('group_member')
+            $paginator=DB::table('group_member')
                 ->distinct()
                 ->select('contest.*')
                 ->join('contest', 'group_member.gid', '=', 'contest.gid')
@@ -174,11 +175,11 @@ class ContestModel extends Model
                 ->orderBy('contest.begin_time', 'desc')
                 ->paginate(10, ['contest.cid']);
 
-           /*  $paginator=DB::table($this->tableName)->where([
-                "public"=>1,
-                "audit_status"=>1
-            ])->orderBy('begin_time', 'desc')->paginate(10); */
-        }else{
+        /*  $paginator=DB::table($this->tableName)->where([
+             "public"=>1,
+             "audit_status"=>1
+         ])->orderBy('begin_time', 'desc')->paginate(10); */
+        } else {
             $paginator=DB::table($this->tableName)->where([
                 "public"=>1,
                 "audit_status"=>1
@@ -568,7 +569,7 @@ class ContestModel extends Model
             });
         }
 
-        Cache::tags(['contest','rank'])->put($cid, $ret, 60);
+        Cache::tags(['contest', 'rank'])->put($cid, $ret, 60);
 
         return $ret;
     }
@@ -591,14 +592,18 @@ class ContestModel extends Model
             "gid" => $contest_info["gid"]
         ])->where("role", ">", 0)->first());
 
-        $contestRankRaw=Cache::tags(['contest','rank'])->get($cid);
+        $contestRankRaw=Cache::tags(['contest', 'rank'])->get($cid);
 
-        if($contestRankRaw==null) $contestRankRaw=$this->contestRankCache($cid);
+        if ($contestRankRaw==null) {
+            $contestRankRaw=$this->contestRankCache($cid);
+        }
 
         $ret=$contestRankRaw;
 
-        foreach($ret as $r){
-            if(!$user_in_group) $r["nick_name"]='';
+        foreach ($ret as $r) {
+            if (!$user_in_group) {
+                $r["nick_name"]='';
+            }
         }
 
         return $ret;
@@ -656,7 +661,8 @@ class ContestModel extends Model
             "type"=>0,
             "public"=>1
         ])->whereBetween(
-            'create_time', [
+            'create_time',
+            [
                 date("Y-m-d H:i:s", time()-59),
                 date("Y-m-d H:i:s")
             ]
@@ -772,6 +778,7 @@ class ContestModel extends Model
 
         $frozen_time=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
         $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+        $contestEnd=time()>$end_time;
 
         if ($basicInfo["status_visibility"]==2) {
             // View all
@@ -806,7 +813,8 @@ class ContestModel extends Model
                 "memory",
                 "language",
                 "score",
-                "submission_date"
+                "submission_date",
+                "share"
             )->orderBy(
                 'submission_date',
                 'desc'
@@ -835,7 +843,8 @@ class ContestModel extends Model
                 "memory",
                 "language",
                 "score",
-                "submission_date"
+                "submission_date",
+                "share"
             )->orderBy(
                 'submission_date',
                 'desc'
@@ -856,6 +865,9 @@ class ContestModel extends Model
             if ($r["verdict"]=="Partially Accepted") {
                 $score_parsed=round($r["score"] / $problemSet[(string) $r["pid"]]["tot_score"] * $problemSet[(string) $r["pid"]]["points"], 1);
                 $r["verdict"].=" ($score_parsed)";
+            }
+            if (!$contestEnd) {
+                $r["share"]=0;
             }
         }
         return [

@@ -5,19 +5,20 @@ namespace App\Models;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Cache;
 
 class ProblemModel extends Model
 {
     protected $table='problem';
-    protected $primaryKey = 'pid';
-    const UPDATED_AT = "update_date";
+    protected $primaryKey='pid';
+    const UPDATED_AT="update_date";
 
     public function detail($pcode, $cid=null)
     {
         $prob_detail=DB::table($this->table)->where("pcode", $pcode)->first();
         // [Depreciated] Joint Query was depreciated here for code maintenance reasons
         if (!is_null($prob_detail)) {
-            if($prob_detail["force_raw"]) {
+            if ($prob_detail["force_raw"]) {
                 $prob_detail["parsed"]=[
                     "description"=>$prob_detail["description"],
                     "input"=>$prob_detail["input"],
@@ -90,6 +91,151 @@ class ProblemModel extends Model
         return DB::table("oj")->orderBy('oid', 'asc')->limit(12)->get()->all();
     }
 
+    public function ojdetail($oid)
+    {
+        return DB::table("oj")->where('oid', $oid)->first();
+    }
+
+    public function solutionList($pid, $uid=null)
+    {
+        if (is_null($uid)) {
+            $details=DB::table("problem_solution")->join(
+                "users",
+                "id",
+                "=",
+                "problem_solution.uid"
+            )->where([
+                'problem_solution.pid'=>$pid,
+                'problem_solution.audit'=>1
+            ])->orderBy(
+                "problem_solution.votes",
+                "desc"
+            )->get()->all();
+        } else {
+            $votes=DB::table("problem_solution_vote")->where([
+                "uid"=>$uid
+            ])->get()->all();
+            foreach ($votes as $v) {
+                $userVotes[$v["psoid"]]=$v["type"];
+            }
+            $details=DB::table("problem_solution")->join(
+                "users",
+                "id",
+                "=",
+                "problem_solution.uid"
+            )->where([
+                'problem_solution.pid'=>$pid,
+                'problem_solution.audit'=>1
+            ])->select([
+                "problem_solution.psoid as psoid",
+                "problem_solution.uid as uid",
+                "problem_solution.pid as pid",
+                "problem_solution.content as content",
+                "problem_solution.audit as audit",
+                "problem_solution.votes as votes",
+                "problem_solution.created_at as created_at",
+                "problem_solution.updated_at as updated_at",
+                "avatar",
+                "name"
+            ])->orderBy("problem_solution.votes", "desc")->get()->all();
+            foreach ($details as &$d) {
+                $d["type"]=isset($userVotes[$d["psoid"]]) ? $userVotes[$d["psoid"]] : null;
+            }
+            unset($d);
+        }
+        foreach ($details as &$d) {
+            $d["content_parsed"]=clean(Markdown::convertToHtml($d["content"]));
+        }
+        return $details;
+    }
+
+    public function solution($pid, $uid)
+    {
+        $details=DB::table("problem_solution")->join("users", "id", "=", "uid")->where(['pid'=>$pid, 'uid'=>$uid])->first();
+        return $details;
+    }
+
+    public function addSolution($pid, $uid, $content)
+    {
+        $details=DB::table("problem_solution")->where(['pid'=>$pid, 'uid'=>$uid])->first();
+        if (empty($details)) {
+            DB::table("problem_solution")->insert([
+                "uid"=>$uid,
+                "pid"=>$pid,
+                "content"=>$content,
+                "votes"=>0,
+                "audit"=>0,
+                "created_at"=>date("Y-m-d H:i:s"),
+                "updated_at"=>date("Y-m-d H:i:s"),
+            ]);
+            return true;
+        }
+        return false;
+    }
+
+    public function voteSolution($psoid, $uid, $type)
+    {
+        $val=$type ? 1 : -1;
+        $details=DB::table("problem_solution")->where(['psoid'=>$psoid])->first();
+        if (empty($details)) {
+            return ["ret"=>false];
+        }
+
+        $userVote=DB::table("problem_solution_vote")->where(['uid'=>$uid, "psoid"=>$psoid])->first();
+
+        if (!empty($userVote)) {
+            DB::table("problem_solution_vote")->where(['uid'=>$uid, "psoid"=>$psoid])->delete();
+            if ($userVote["type"]==$type) {
+                DB::table("problem_solution")->where([
+                    'psoid'=>$psoid
+                ])->update([
+                    "votes"=>$details["votes"]+($userVote["type"]==1 ?-1 : 1),
+                ]);
+                return ["ret"=>true, "votes"=>$details["votes"]+($userVote["type"]==1 ?-1 : 1), "select"=>-1]; //disvote
+            } elseif ($userVote["type"]==1) {
+                $val--;
+            } else {
+                $val++;
+            }
+        }
+
+        DB::table("problem_solution")->where([
+            'psoid'=>$psoid
+        ])->update([
+            "votes"=>$details["votes"]+$val,
+        ]);
+
+        DB::table("problem_solution_vote")->insert([
+            "uid"=>$uid,
+            "psoid"=>$psoid,
+            "type"=>$type,
+        ]);
+
+        return ["ret"=>true, "votes"=>$details["votes"]+$val, "select"=>$type];
+    }
+
+    public function removeSolution($psoid, $uid)
+    {
+        if (empty(DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->first())) {
+            return false;
+        }
+        DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->delete();
+        return true;
+    }
+
+    public function updateSolution($psoid, $uid, $content)
+    {
+        if (empty(DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->first())) {
+            return false;
+        }
+        DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->update([
+            "content"=>$content,
+            "audit"=>0,
+            "updated_at"=>date("Y-m-d H:i:s"),
+        ]);
+        return true;
+    }
+
     public function isBlocked($pid, $cid=null)
     {
         $conflictContests=DB::table("contest")
@@ -112,9 +258,10 @@ class ProblemModel extends Model
         return true;
     }
 
-    public function list($filter)
+    public function list($filter, $uid=null)
     {
         // $prob_list = DB::table($this->table)->select("pid","pcode","title")->get()->all(); // return a array
+        $submissionModel=new SubmissionModel();
         $preQuery=DB::table($this->table);
         if ($filter['oj']) {
             $preQuery=$preQuery->where(["OJ"=>$filter['oj']]);
@@ -122,7 +269,25 @@ class ProblemModel extends Model
         if ($filter['tag']) {
             $preQuery=$preQuery->join("problem_tag", "problem.pid", "=", "problem_tag.pid")->where(["tag"=>$filter['tag']]);
         }
-        $paginator=$preQuery->select("problem.pid as pid", "pcode", "title")->paginate(20);
+        $paginator=$preQuery->select("problem.pid as pid", "pcode", "title")->orderBy(
+            "OJ",
+            "ASC"
+        )->orderBy(
+            DB::raw("length(contest_id)"),
+            "ASC"
+        )->orderBy(
+            "contest_id",
+            "ASC"
+        )->orderBy(
+            DB::raw("length(index_id)"),
+            "ASC"
+        )->orderBy(
+            "index_id",
+            "ASC"
+        )->orderBy(
+            "pcode",
+            "ASC"
+        )->paginate(20);
         $prob_list=$paginator->all();
 
         if (empty($prob_list)) {
@@ -142,6 +307,25 @@ class ProblemModel extends Model
                 $p["submission_count"]=$prob_stat["submission_count"];
                 $p["passed_count"]=$prob_stat["passed_count"];
                 $p["ac_rate"]=round($prob_stat["ac_rate"], 2);
+            }
+            if (!is_null($uid)) {
+                $prob_status=$submissionModel->getProblemStatus($p["pid"], $uid);
+                if (empty($prob_status)) {
+                    $p["prob_status"]=[
+                        "icon"=>"checkbox-blank-circle-outline",
+                        "color"=>"wemd-grey-text"
+                    ];
+                } else {
+                    $p["prob_status"]=[
+                        "icon"=>$prob_status["verdict"]=="Accepted" ? "checkbox-blank-circle" : "cisco-webex",
+                        "color"=>$prob_status["color"]
+                    ];
+                }
+            } else {
+                $p["prob_status"]=[
+                    "icon"=>"checkbox-blank-circle-outline",
+                    "color"=>"wemd-grey-text"
+                ];
             }
         }
         return [

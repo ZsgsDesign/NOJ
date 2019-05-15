@@ -126,7 +126,7 @@
     <!-- Style -->
     <link rel="stylesheet" href="/static/fonts/Roboto/roboto.css">
     <link rel="stylesheet" href="/static/fonts/Montserrat/montserrat.css">
-    <link rel="stylesheet" href="/static/css/bootstrap-material-design.min.css">
+    <link rel="stylesheet" href="/static/library/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
     <link rel="stylesheet" href="/static/css/wemd-color-scheme.css">
     <link rel="stylesheet" href="/static/css/main.css?version={{version()}}">
     <link rel="stylesheet" href="/static/css/animate.min.css">
@@ -347,6 +347,30 @@
 
         left-side,right-side{
             display:block;
+        }
+
+        top-side.problem-only > left-side{
+            width:100%;
+        }
+
+        top-side.problem-only > right-side{
+            display:none;
+        }
+
+        top-side.editor-only > right-side{
+            width:100%;
+        }
+
+        top-side.editor-only > left-side{
+            display:none;
+        }
+
+        #problemBtn,#editorBtn{
+            padding: .46875rem .8rem;
+        }
+
+        #problemBtn.cm-active,#editorBtn.cm-active{
+            box-shadow: inset rgba(0, 0, 0, 0.25) 0px 0px 15px;
         }
 
         [class^="devicon-"], [class*=" devicon-"] {
@@ -604,21 +628,29 @@
         <bottom-side>
             <a tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="top" @if($status["verdict"]=="Compile Error") title="Compile Info" data-content="{{$status["compile_info"]}}"@endif style="color: #7a8e97" id="verdict_info" class="{{$status["color"]}}"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">{{$status["verdict"]}} @if($status["verdict"]=="Partially Accepted")({{round($status["score"]/$detail["tot_score"]*$detail["points"])}})@endif</span></a>
             <div>
+                <button type="button" class="btn btn-secondary cm-active" id="problemBtn"> <i class="MDI book"></i></button>
+                <button type="button" class="btn btn-secondary cm-active" id="editorBtn"> <i class="MDI pencil"></i></button>
                 <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> History</button>
                 <div class="btn-group dropup">
-                    <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_lang_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="{{$compiler_list[$pref]['icon']}} colored"></i> {{$compiler_list[$pref]['display_name']}}
-                    </button>
-                    <div class="dropdown-menu cm-scrollable-menu">
-                        @foreach ($compiler_list as $c)
-                            <button class="dropdown-item lang-selector" data-coid="{{$c['coid']}}" data-comp="{{$c['comp']}}" data-lang="{{$c['lang']}}" data-lcode="{{$c['lcode']}}"><i class="{{$c['icon']}} colored"></i> {{$c['display_name']}}</button>
-                        @endforeach
-                    </div>
+                    @if(count($compiler_list))
+                        <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_lang_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="{{$compiler_list[$pref]['icon']}} colored"></i> {{$compiler_list[$pref]['display_name']}}
+                        </button>
+                        <div class="dropdown-menu cm-scrollable-menu">
+                            @foreach ($compiler_list as $c)
+                                <button class="dropdown-item lang-selector" data-coid="{{$c['coid']}}" data-comp="{{$c['comp']}}" data-lang="{{$c['lang']}}" data-lcode="{{$c['lcode']}}"><i class="{{$c['icon']}} colored"></i> {{$c['display_name']}}</button>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
                 @if($contest_mode && $contest_ended)
                     <a href="/problem/{{$detail["pcode"]}}"><button type="button" class="btn btn-info" id="origialBtn"> <i class="MDI launch"></i> Original Problem</button></a>
                 @else
-                    <button type="button" class="btn btn-primary" id="submitBtn"> <i class="MDI send"></i> <span>Submit Code</span></button>
+                    @if(!count($compiler_list) || !$oj_detail['status'])
+                        <button type="button" class="btn btn-secondary" disabled> <i class="MDI send"></i> <span>Submit Unavailable</span></button>
+                    @else
+                        <button type="button" class="btn btn-primary" id="submitBtn"> <i class="MDI send"></i> <span>Submit Code</span></button>
+                    @endif
                 @endif
             </div>
 
@@ -708,9 +740,9 @@
         });
     </script>
     <script src="/static/library/jquery/dist/jquery.min.js"></script>
-    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/library/popper.js/dist/umd/popper.min.js"></script>
     <script src="/static/js/snackbar.min.js"></script>
-    <script src="/static/js/bootstrap-material-design.js"></script>
+    <script src="/static/library/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"></script>
     <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
@@ -727,10 +759,38 @@
     <script>
         var historyOpen=false;
         var submission_processing=false;
-        var chosen_lang="{{$compiler_list[$pref]['lcode']}}";
-        var chosen_coid="{{$compiler_list[$pref]['coid']}}";
+        var chosen_lang="@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['lcode']}}@endif";
+        var chosen_coid="@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['coid']}}@endif";
         var tot_points=parseInt("{{$detail["points"]}}");
         var tot_scores=parseInt("{{$detail["tot_score"]}}");
+        var problemEnable=true,editorEnable=true;
+
+        $( "#problemBtn" ).click(function() {
+            if(!editorEnable && problemEnable) return;
+            if(problemEnable) $("#problemBtn").removeClass("cm-active");
+            else $("#problemBtn").addClass("cm-active");
+            problemEnable=!problemEnable;
+            adjustAppearance();
+        });
+
+        $( "#editorBtn" ).click(function() {
+            if(editorEnable && !problemEnable) return;
+            if(editorEnable) $("#editorBtn").removeClass("cm-active");
+            else $("#editorBtn").addClass("cm-active");
+            editorEnable=!editorEnable;
+            adjustAppearance();
+        });
+
+        function adjustAppearance(){
+            if(problemEnable && editorEnable){
+                $("top-side").removeClass("editor-only");
+                $("top-side").removeClass("problem-only");
+            }else if(problemEnable){
+                $("top-side").addClass("problem-only");
+            }else if(editorEnable){
+                $("top-side").addClass("editor-only");
+            }
+        }
 
         $( ".lang-selector" ).click(function() {
             // console.log($( this ).data("lang"));
@@ -941,7 +1001,7 @@
             require(["vs/editor/editor.main"], function () {
                 editor = monaco.editor.create(document.getElementById('vscode'), {
                     value: "{!!$submit_code!!}",
-                    language: "{{$compiler_list[$pref]['lang']}}",
+                    language: "@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['lang']}}@else{{'plaintext'}}@endif",
                     theme: "vs-dark",
                     fontSize: 16,
                     formatOnPaste: true,

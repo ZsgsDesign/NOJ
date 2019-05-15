@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Models\Tool\PastebinModel;
 
 class SubmissionModel extends Model
 {
     protected $tableName='submission';
     protected $table='submission';
-    protected $primaryKey = 'sid';
+    protected $primaryKey='sid';
     const DELETED_AT=null;
     const UPDATED_AT=null;
     const CREATED_AT=null;
@@ -305,18 +306,28 @@ class SubmissionModel extends Model
     public function getJudgeStatus($sid, $uid)
     {
         $status=DB::table($this->tableName)->where(['sid'=>$sid])->first();
-        if ($uid!=$status["uid"]) {
+        if (empty($status)) {
+            return [];
+        }
+        if ($status["share"]==1 && $status["cid"]) {
+            $end_time=strtotime(DB::table("contest")->where(["cid"=>$status["cid"]])->select("end_time")->first()["end_time"]);
+            if (time()<$end_time) {
+                $status["solution"]=null;
+            }
+        }
+        if ($status["share"]==0 && $status["uid"]!=$uid) {
             $status["solution"]=null;
         }
         $compilerModel=new CompilerModel();
         $status["lang"]=$compilerModel->detail($status["coid"])["lang"];
+        $status["owner"]=$uid==$status["uid"];
         return $status;
     }
 
     public function downloadCode($sid, $uid)
     {
-        $status=DB::table($this->tableName)->where(['sid'=>$sid, 'uid'=>$uid])->first();
-        if (empty($status)) {
+        $status=DB::table($this->tableName)->where(['sid'=>$sid])->first();
+        if (empty($status) || ($status["share"]==0 && $status["uid"]!=$uid)) {
             return [];
         }
         $lang=DB::table("compiler")->where(['coid'=>$status["coid"]])->first()["lang"];
@@ -374,7 +385,7 @@ class SubmissionModel extends Model
     public function getEarliestSubmission($oid)
     {
         return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
-                                            ->select("sid", "OJ as oid", "remote_id", "cid")
+                                            ->select("sid", "OJ as oid", "remote_id", "cid", "jid")
                                             ->where(['verdict'=>'Waiting', 'OJ'=>$oid])
                                             ->orderBy("sid", "asc")
                                             ->first();
@@ -476,7 +487,8 @@ class SubmissionModel extends Model
             "memory",
             "language",
             "score",
-            "submission_date"
+            "submission_date",
+            "share"
         )->orderBy(
             'submission_date',
             'desc'
@@ -493,5 +505,45 @@ class SubmissionModel extends Model
             "paginator"=>$paginator,
             "records"=>$records
         ];
+    }
+
+    public function share($sid, $uid)
+    {
+        $basic=DB::table($this->tableName)->where(['sid'=>$sid, 'uid'=>$uid])->first();
+        if (empty($basic)) {
+            return [];
+        }
+        DB::table($this->tableName)->where(['sid'=>$sid])->update([
+            "share"=>$basic["share"] ? 0 : 1
+        ]);
+        return [
+            "share"=>$basic["share"] ? 0 : 1
+        ];
+    }
+
+    public function sharePB($sid, $uid)
+    {
+        $basic=DB::table($this->tableName)->where(['sid'=>$sid, 'uid'=>$uid])->first();
+        $problem=DB::table("problem")->where(['pid'=>$basic["pid"]])->first();
+        $compiler=DB::table("compiler")->where(['coid'=>$basic["coid"]])->first();
+        if (empty($basic)) {
+            return [];
+        }
+        $pastebinModel=new PastebinModel();
+        $ret=$pastebinModel->generate([
+            "syntax"=>$compiler["lang"],
+            "expiration"=>0,
+            "content"=>$basic["solution"],
+            "title"=>$problem["pcode"]." - ".$basic["verdict"],
+            "uid"=>$uid
+        ]);
+
+        if (is_null($ret)) {
+            return [];
+        } else {
+            return [
+                "code" => $ret
+            ];
+        }
     }
 }

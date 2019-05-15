@@ -75,6 +75,20 @@
         color: white;
         background-color: #03a9f4;
     }
+
+    .cisco-webex{
+        transform: scale(1.10);
+        display: inline-block;
+    }
+
+    table a{
+        transition: .2s ease-out .0s;
+        color: #009688;
+    }
+    table a:hover{
+        text-decoration: none;
+        color: #004d40;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -86,6 +100,7 @@
             </empty-container>
             @else
             <paper-card class="animated bounceInLeft">
+                <div class="table-responsive">
                 <table class="table table-borderless">
                     <thead>
                         <tr>
@@ -100,7 +115,7 @@
                         @foreach ($prob_list as $p)
                         <tr>
                             <th scope="row">{{$p["pcode"]}}</th>
-                            <td><a href="/problem/{{$p["pcode"]}}">{{$p["title"]}}</a></td>
+                            <td><i class="MDI {{$p["prob_status"]["icon"]}} {{$p["prob_status"]["color"]}}"></i> <a href="/problem/{{$p["pcode"]}}">{{$p["title"]}}</a></td>
                             <td>{{$p["submission_count"]}}</td>
                             <td>{{$p["passed_count"]}}</td>
                             <td>{{$p["ac_rate"]}}%</td>
@@ -108,6 +123,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                </div>
             </paper-card>
 
             {{$paginator->appends($filter)->links()}}

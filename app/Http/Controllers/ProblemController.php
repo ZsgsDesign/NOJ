@@ -23,7 +23,7 @@ class ProblemController extends Controller
         $problem=new ProblemModel();
         $filter["oj"]=isset($all_data["oj"]) ? $all_data["oj"] : null;
         $filter["tag"]=isset($all_data["tag"]) ? $all_data["tag"] : null;
-        $list_return=$problem->list($filter);
+        $list_return=$problem->list($filter, Auth::check() ?Auth::user()->id : null);
         $tags=$problem->tags();
         $ojs=$problem->ojs();
         if (is_null($list_return)) {
@@ -75,6 +75,30 @@ class ProblemController extends Controller
     }
 
     /**
+     * Show the Problem Solution Page.
+     *
+     * @return Response
+     */
+    public function solution($pcode)
+    {
+        $problem=new ProblemModel();
+        $prob_detail=$problem->detail($pcode);
+        if ($problem->isBlocked($prob_detail["pid"])) {
+            return abort('403');
+        }
+        $solution=$problem->solutionList($prob_detail["pid"], Auth::check() ?Auth::user()->id : null);
+        $submitted=Auth::check() ? $problem->solution($prob_detail["pid"], Auth::user()->id) : [];
+        return is_null($prob_detail) ?  redirect("/problem") : view('problem.solution', [
+                                            'page_title'=> "Solution",
+                                            'site_title'=>"NOJ",
+                                            'navigation' => $prob_detail["title"],
+                                            'detail' => $prob_detail,
+                                            'solution'=>$solution,
+                                            'submitted'=>$submitted
+                                        ]);
+    }
+
+    /**
      * Show the Problem Editor Page.
      *
      * @return Response
@@ -95,6 +119,8 @@ class ProblemController extends Controller
         $pref=$compiler_pref["pref"];
         $submit_code=$compiler_pref["code"];
 
+        $oj_detail=$problem->ojdetail($prob_detail["OJ"]);
+
         if (empty($prob_status)) {
             $prob_status=[
                 "verdict"=>"NOT SUBMIT",
@@ -111,7 +137,8 @@ class ProblemController extends Controller
                                             'status' => $prob_status,
                                             'pref'=>$pref<0 ? 0 : $pref,
                                             'submit_code'=>$submit_code,
-                                            'contest_mode'=> false
+                                            'contest_mode'=> false,
+                                            'oj_detail'=>$oj_detail
                                         ]);
     }
 }

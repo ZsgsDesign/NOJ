@@ -4,13 +4,14 @@
 
 NOJ's another online judge platform, stands for NJUPT Online Judge. It's written in PHP, GO, Python and other function-supporting languages.
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/?branch=master)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster?ref=badge_shield)
-[![Code Coverage](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/badges/build.png?b=master)](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/build-status/master)
-[![Code Intelligence Status](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
-![Stars](https://img.shields.io/github/stars/zsgsdesign/noj.svg)
-![Forks](https://img.shields.io/github/forks/zsgsdesign/noj.svg)
+![License](https://img.shields.io/github/license/ZsgsDesign/NOJ.svg?style=flat-square)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/ZsgsDesign/NOJ.svg?style=flat-square)](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/?branch=master)
+[![FOSSA Status](https://img.shields.io/badge/license%20scan-passing-green.svg?style=flat-square)](https://app.fossa.io/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster?ref=badge_shield)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/ZsgsDesign/NOJ/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/?branch=master)
+[![Build Status](https://img.shields.io/scrutinizer/build/g/ZsgsDesign/NOJ.svg?style=flat-square)](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/build-status/master)
+![GitHub repo size](https://img.shields.io/github/repo-size/ZsgsDesign/NOJ.svg?style=flat-square)
+![Stars](https://img.shields.io/github/stars/zsgsdesign/noj.svg?style=flat-square)
+![Forks](https://img.shields.io/github/forks/zsgsdesign/noj.svg?style=flat-square)
 
 ## Installation
 
@@ -90,11 +91,11 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
 - [ ] User System
     - [X] User Login
     - [X] User Register
-    - [ ] User Password Retrive
+    - [X] User Password Retrive
     - [ ] User Email Verify
     - [ ] DashBoard
         - [X] Statistics
-        - [ ] Activities
+        - [X] Activities
         - [ ] Profile
     - [ ] Settings
 - [ ] Search System
@@ -108,7 +109,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
     - [X] Problem Tag
     - [X] Problem Filter
     - [X] Problem Details
-    - [ ] Problem Solution
+    - [X] Problem Solution
     - [ ] Problem Discussion
     - [X] Problem Submit
         - [X] Problem Immersive Mode
@@ -119,7 +120,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
         - [X] Problem Virtual Judge
             - [X] Submit to VJ
                 - [X] CodeForces
-                - [ ] UVa
+                - [X] UVa
                 - [ ] UVa Live
                 - [ ] SPOJ
                 - [X] Contest Hunter
@@ -135,11 +136,14 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
 - [ ] Status System
     - [X] Status List
     - [ ] Status Filter
-    - [ ] Status Details
+    - [X] Status Details
         - [X] Syntax Highlight
         - [X] Verdict
         - [X] Code Download
-        - [ ] Code Share
+        - [X] Code Share
+- [ ] Ranking System
+    - [X] Casual Ranking List
+    - [ ] Professional Ranking List
 - [ ] Contest System
     - [X] Contest List
     - [ ] Contest Tag
@@ -160,7 +164,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
         - [X] Problem Temp Block
     - [X] Contest Ranking System
     - [ ] Contest Clone
-    - [ ] Contest Replay
+    - [ ] Contest Virtual Participate
 - [ ] Group System
     - [X] Group List
     - [X] Group Details
@@ -182,6 +186,8 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
             - [ ] Group Settings
 - [ ] Admin Panel
     - [X] User Management
+    - [X] Contest Management
+    - [X] Problem Management
 
 
 ## Credit

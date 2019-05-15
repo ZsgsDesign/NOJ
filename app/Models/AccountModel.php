@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use grubersjoe\BingPhoto;
-use Cache,Storage;
+use Cache;
+use Storage;
 
 class AccountModel extends Model
 {
@@ -19,6 +20,19 @@ class AccountModel extends Model
             $password.=$chars[mt_rand(0, strlen($chars)-1)];
         }
         return $password;
+    }
+
+    public function feed($uid=null)
+    {
+        $ret=[];
+        $solution=DB::table("problem_solution")->join("problem","problem.pid","=","problem_solution.pid")->where(["uid"=>$uid,"audit"=>1])->select("problem.pid as pid","pcode","title","problem_solution.created_at as created_at")->get()->all();
+        foreach($solution as &$s){
+            $s["type"]="event";
+            $s["color"]="wemd-orange";
+            $s["icon"]="comment-check-outline";
+            $ret[]=$s;
+        }
+        return $ret;
     }
 
     public function generateContestAccount($cid, $ccode, $num)
@@ -75,34 +89,19 @@ class AccountModel extends Model
         $ret["solved"]=DB::table("submission")->where([
             "uid"=>$uid,
             "verdict"=>"Accepted"
-        ])->join("problem","problem.pid","=","submission.pid")->select('pcode')->distinct()->get()->all();
+        ])->join("problem", "problem.pid", "=", "submission.pid")->select('pcode')->distinct()->get()->all();
         $ret["solvedCount"]=count($ret["solved"]);
-        $ret["rank"]=Cache::tags(['rank'])->get($ret["id"],"N/A");
-        if(Cache::tags(['bing','pic'])->get(date("Y-m-d"))==null){
-            $bing = new BingPhoto([
+        $ret["rank"]=Cache::tags(['rank',$ret["id"]])->get("rank", "N/A");
+        $ret["rankTitle"]=Cache::tags(['rank',$ret["id"]])->get("title");
+        $ret["rankTitleColor"]=RankModel::getColor($ret["rankTitle"]);
+        if (Cache::tags(['bing', 'pic'])->get(date("Y-m-d"))==null) {
+            $bing=new BingPhoto([
                 'locale' => 'zh-CN',
             ]);
-            Storage::disk('NOJPublic')->put("static/img/bing/".date("Y-m-d").".jpg",file_get_contents($bing->getImage()['url']),86400);
-            Cache::tags(['bing','pic'])->put(date("Y-m-d"),"/static/img/bing/".date("Y-m-d").".jpg");
+            Storage::disk('NOJPublic')->put("static/img/bing/".date("Y-m-d").".jpg", file_get_contents($bing->getImage()['url']), 86400);
+            Cache::tags(['bing', 'pic'])->put(date("Y-m-d"), "/static/img/bing/".date("Y-m-d").".jpg");
         }
-        $ret["image"]=Cache::tags(['bing','pic'])->get(date("Y-m-d"));
+        $ret["image"]=Cache::tags(['bing', 'pic'])->get(date("Y-m-d"));
         return $ret;
-    }
-
-    public function rankList()
-    {
-        Cache::tags(['rank'])->flush();
-        $rankList=DB::select("SELECT * FROM (SELECT uid,count(DISTINCT pcode) as solvedCount from submission inner join problem on problem.pid=submission.pid and verdict=\"Accepted\" group by uid) as temp ORDER BY solvedCount desc");
-        $rankIter=1;
-        $rankValue=1;
-        $rankSolved=-1;
-        foreach($rankList as $rankItem){
-            if($rankSolved!=$rankItem["solvedCount"]){
-                $rankValue=$rankIter;
-                $rankSolved=$rankItem["solvedCount"];
-            }
-            Cache::tags(['rank'])->put($rankItem["uid"], $rankValue, 86400);
-            $rankIter++;
-        }
     }
 }

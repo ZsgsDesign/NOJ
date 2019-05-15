@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Requests, Exception;
+use Requests;
+use Exception;
 
 class JudgerModel extends Model
 {
@@ -59,6 +60,8 @@ class JudgerModel extends Model
     public function ping($url, $port, $token)
     {
         $curl=curl_init();
+
+        if($curl===false) return [];
 
         curl_setopt_array($curl, array(
             CURLOPT_PORT => $port,

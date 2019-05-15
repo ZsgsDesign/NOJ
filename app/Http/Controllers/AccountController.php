@@ -27,11 +27,14 @@ class AccountController extends Controller
     {
         $accountModel=new AccountModel();
         $info=$accountModel->detail(Auth::user()->id);
+        $feed=$accountModel->feed(Auth::user()->id);
         return view("account.dashboard", [
             'page_title'=>"DashBoard",
             'site_title'=>"NOJ",
             'navigation'=>"DashBoard",
-            'info'=>$info
+            'info'=>$info,
+            'userView'=>false,
+            'feed'=>$feed
         ]);
     }
 }

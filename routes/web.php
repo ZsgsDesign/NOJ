@@ -20,10 +20,16 @@ Route::group(['prefix' => 'account'], function () {
     Route::get('/dashboard', 'AccountController@dashboard')->middleware('auth')->name('account_dashboard');
 });
 
-Route::get('/problem', 'ProblemController@index')->middleware('contest_account')->name('problem_index');
-Route::get('/problem/{pcode}', 'ProblemController@detail')->middleware('contest_account')->name('problem_detail');
-Route::get('/problem/{pcode}/editor', 'ProblemController@editor')->middleware('auth')->name('problem_editor');
-
+Route::group(['prefix' => 'user'], function () {
+    Route::redirect('/', '/', 301);
+    Route::get('/{uid}', 'UserController@view')->name('user_view');
+});
+Route::group(['prefix' => 'problem'], function () {
+    Route::get('/', 'ProblemController@index')->middleware('contest_account')->name('problem_index');
+    Route::get('/{pcode}', 'ProblemController@detail')->middleware('contest_account')->name('problem_detail');
+    Route::get('/{pcode}/editor', 'ProblemController@editor')->middleware('auth')->name('problem_editor');
+    Route::get('/{pcode}/solution', 'ProblemController@solution')->middleware('auth')->name('problem_solution');
+});
 Route::get('/status', 'StatusController@index')->middleware('contest_account')->name('status_index');
 
 Route::get('/group', 'GroupController@index')->middleware('contest_account')->name('group_index');
@@ -46,13 +52,25 @@ Route::group(['prefix' => 'system'], function () {
     Route::get('/info', 'SystemController@info')->name('system_info');
 });
 
-Route::group(['prefix' => 'tool', 'namespace' => 'Tool'], function () {
-    Route::redirect('/', '/', 301);
-    Route::group(['prefix' => 'pastebin'], function () {
-        Route::get('/', 'PastebinController@index')->middleware('auth')->name('tool_pastebin_index');
-        Route::get('/create', 'PastebinController@create')->middleware('auth')->name('tool_pastebin_create');
-        Route::get('/{tpid}', 'PastebinController@view')->name('tool_pastebin_view');
+Route::group(['prefix' => 'rank'], function () {
+    Route::get('/', 'RankController@index')->name('rank_index');
+});
+
+Route::group(['namespace' => 'Tool'], function () {
+    Route::group(['prefix' => 'tool'], function () {
+        Route::redirect('/', '/', 301);
+        Route::group(['prefix' => 'pastebin'], function () {
+            Route::redirect('/', '/tool/pastebin/create', 301);
+            Route::get('/create', 'PastebinController@create')->middleware('auth')->name('tool_pastebin_create');
+            Route::get('/view/{$code}', 'PastebinController@view')->name('tool_pastebin_view');
+        });
+        Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
+            Route::group(['prefix' => 'pastebin'], function () {
+                Route::post('generate', 'PastebinController@generate')->middleware('auth')->name('tool_ajax_pastebin_generate');
+            });
+        });
     });
+    Route::get('/pb/{code}', 'PastebinController@view')->name('tool_pastebin_view_shortlink');
 });
 
 Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
@@ -65,6 +83,10 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('arrangeContest', 'GroupController@arrangeContest')->middleware('auth');
     Route::post('joinGroup', 'GroupController@joinGroup')->middleware('auth');
     Route::get('downloadCode', 'ProblemController@downloadCode')->middleware('auth');
+    Route::post('submitSolutionDiscussion', 'ProblemController@submitSolutionDiscussion')->middleware('auth');
+    Route::post('updateSolutionDiscussion', 'ProblemController@updateSolutionDiscussion')->middleware('auth');
+    Route::post('deleteSolutionDiscussion', 'ProblemController@deleteSolutionDiscussion')->middleware('auth');
+    Route::post('voteSolutionDiscussion', 'ProblemController@voteSolutionDiscussion')->middleware('auth');
 
     Route::post('search', 'SearchController')->name('search');
 
@@ -81,6 +103,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
 
     Route::group(['prefix' => 'submission'], function () {
         Route::post('detail', 'SubmissionController@detail');
+        Route::post('share', 'SubmissionController@share');
     });
 
     Route::group(['prefix' => 'account'], function () {
@@ -88,4 +111,4 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     });
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);

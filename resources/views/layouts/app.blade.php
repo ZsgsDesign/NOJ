@@ -144,7 +144,7 @@
     <!-- Style -->
     <link rel="stylesheet" href="/static/fonts/Roboto/roboto.css">
     <link rel="stylesheet" href="/static/fonts/Montserrat/montserrat.css">
-    <link rel="stylesheet" href="/static/css/bootstrap-material-design.min.css">
+    <link rel="stylesheet" href="/static/library/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
     <link rel="stylesheet" href="/static/css/wemd-color-scheme.css">
     <link rel="stylesheet" href="/static/css/main.css?version={{version()}}">
     <link rel="stylesheet" href="/static/css/animate.min.css">
@@ -191,6 +191,11 @@
                         <a class="nav-link @if ($navigation === "Status") active @endif" href="/status">Status</a>
                     </li>
                 @endif
+                @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    <li class="nav-item />">
+                        <a class="nav-link @if ($navigation === "Rank") active @endif" href="/rank">Rank</a>
+                    </li>
+                @endif
                 <li class="nav-item />">
                     <a class="nav-link @if ($navigation === "Contest") active @endif" href="/contest">Contest</a>
                 </li>
@@ -199,12 +204,19 @@
                     <a class="nav-link @if ($navigation === "Group") active @endif" href="/group">Group</a>
                 </li>
                 @endif
+                @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    @foreach(getCustomUrl() as $u)
+                        <li class="nav-item />">
+                            <a class="nav-link" href="{{$u["url"]}}" target="{{$u["newtab"]?'_blank':''}}">{{$u["display_name"]}}</a>
+                        </li>
+                    @endforeach
+                @endif
             </ul>
 
             <ul class="navbar-nav mundb-nav-right">
                 @if(!Auth::check() || is_null(Auth::user()->contest_account))
                 <form id="search-box" action="/search" method="get" class="form-inline my-2 my-lg-0 mundb-inline">
-                    <span class="bmd-form-group"><input id="search-key" class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" placeholder="Problem code" aria-label="search"></span>
+                    <span class="bmd-form-group"><input id="search-key" class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" placeholder="Problem code" autocomplete="off" aria-label="search"></span>
                 </form>
                 @endif
 
@@ -276,7 +288,7 @@
                         <h5 class="title mb-4 mt-3 font-bold">Services</h5>
                         <p class="mb-1"><a href="/status">Judging Queue</a></p>
                         <p class="mb-1"><a href="/system/info">System Info</a></p>
-                        <p class="mb-1"><a href="#">PasteBin</a></p>
+                        <p class="mb-1"><a href="/tool/pastebin/create">PasteBin</a></p>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">
@@ -299,9 +311,9 @@
         <div class="mundb-footer mundb-copyright">&copy; 2018-{{date('Y')}}, NOJ. <a href="https://github.com/ZsgsDesign/NOJ" target="_blank"><i class="MDI github-circle"></i></a></div>
     </footer>
     <script src="/static/library/jquery/dist/jquery.min.js"></script>
-    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/library/popper.js/dist/umd/popper.min.js"></script>
     <script src="/static/js/snackbar.min.js"></script>
-    <script src="/static/js/bootstrap-material-design.js"></script>
+    <script src="/static/library/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"></script>
     @include('layouts.primaryJS')
     @yield('additionJS')
 </body>

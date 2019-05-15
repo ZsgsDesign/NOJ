@@ -194,6 +194,15 @@
         margin-right: 1rem;
         font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
     }
+
+    @media print{
+        .no-print{
+            display:none;
+        }
+        fresh-container{
+            display:inline;
+        }
+    }
 </style>
 
 <div class="container mundb-standard-container">
@@ -255,12 +264,12 @@
                 </fresh-container>
             </paper-card>
         </div>
-        <div class="col-sm-12 col-lg-3">
+        <div class="col-sm-12 col-lg-3 no-print">
             <paper-card class="animated fadeInRight btn-group-vertical cm-action-group" role="group" aria-label="vertical button group">
                 <button type="button" class="btn btn-secondary" id="submitBtn"><i class="MDI send"></i>@guest Login & Submit @else Submit @endguest</button>
                 <separate-line class="ultra-thin"></separate-line>
                 <button type="button" class="btn btn-secondary"><i class="MDI comment-multiple-outline"></i> Discussion </button>
-                <button type="button" class="btn btn-secondary"><i class="MDI comment-check-outline"></i> Solution </button>
+                <button type="button" class="btn btn-secondary" id="solutionBtn"><i class="MDI comment-check-outline"></i> Solution </button>
             </paper-card>
             <paper-card class="animated fadeInRight">
                 <p>Info</p>
@@ -294,6 +303,10 @@
 
     document.getElementById("submitBtn").addEventListener("click",function(){
         location.href="/problem/{{$detail["pcode"]}}/editor";
+    },false)
+
+    document.getElementById("solutionBtn").addEventListener("click",function(){
+        location.href="/problem/{{$detail["pcode"]}}/solution";
     },false)
 
 </script>

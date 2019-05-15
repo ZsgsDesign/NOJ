@@ -7,6 +7,7 @@ use App\Models\ContestModel;
 use App\Http\Controllers\VirtualJudge\Core;
 use Requests;
 use Exception;
+use Log;
 
 class Judge extends Core
 {
@@ -18,14 +19,18 @@ class Judge extends Core
         $ret=[];
 
         $uva_v=[
-            'Wrong answer'=>"Wrong Answer",
-            'Accepted'=>"Accepted",
-            'Runtime error'=>"Runtime Error",
-            'Time limit exceeded'=>"Time Limit Exceed",
-            'Presentation error'=>"Presentation Error",
-            'Submission error'=>'Submission Error',
-            'Compilation error'=>"Compile Error",
-            'Output Limit Exceeded'=>"Output Limit Exceeded",
+            10=>'Submission Error',
+            15=>'Submission Error', // Can't be judged
+            // 20 In queue
+            30=>"Compile Error",
+            35=>"Compile Error", // Restricted function
+            40=>"Runtime Error",
+            45=>"Output Limit Exceeded",
+            50=>"Time Limit Exceed",
+            60=>"Memory Limit Exceed",
+            70=>"Wrong Answer",
+            80=>"Presentation Error",
+            90=>"Accepted",
         ];
 
         $codeforces_v=[
@@ -109,6 +114,8 @@ class Judge extends Core
         $curl=new Curl();
 
         $cfList=$this->get_last_codeforces($this->MODEL->countEarliestWaitingSubmission(2)+100);
+        // Log::debug($this->MODEL->getEarliestSubmission(7));
+        $uvaList=$this->get_last_uva($this->MODEL->getEarliestSubmission(7));
         $poj=[];
 
         $pojJudgerList=$judger->list(4);
@@ -272,9 +279,9 @@ class Judge extends Core
                     if ($sub['verdict']!="Submission Error" && $sub['verdict']!="Compile Error") {
                         $maxtime=0;
                         preg_match_all('/<td class="col--time">(?:&ge;)?(\d+)ms<\/td>/', $res->body, $matches);
-                        foreach ($matches as $match) {
-                            if ($match[1]>$maxtime) {
-                                $maxtime=$match[1];
+                        foreach ($matches[1] as $match) {
+                            if ($match>$maxtime) {
+                                $maxtime=$match;
                             }
                         }
                         $sub['time']=$maxtime;
@@ -325,6 +332,28 @@ class Judge extends Core
                     $this->MODEL->updateSubmission($row['sid'], $sub);
                 } catch (Exception $e) {
                 }
+            } elseif ($row['oid']==7) {
+                if (array_key_exists($row['remote_id'], $uvaList)) {
+                    $sub=[];
+                    if (!isset($uva_v[$uvaList[$row['remote_id']]['verdict']])) { // Sometimes verdict is 0 and i have no idea why
+                        continue;
+                    }
+                    $sub['verdict']=$uva_v[$uvaList[$row['remote_id']]['verdict']];
+                    if ($sub['verdict']==='Compile Error') {
+                        $response=$this->grab_page("https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=9&page=show_compilationerror&submission=$row[remote_id]", 'uva', [], $uvaList['handle']);
+                        if (preg_match('/<pre>([\s\S]*)<\/pre>/', $response, $match)) {
+                            $sub['compile_info']=trim($match[1]);
+                        }
+                    }
+                    $sub['score']=$sub['verdict']=="Accepted" ? 1 : 0;
+                    $sub['remote_id']=$row['remote_id'];
+                    $sub['time']=$uvaList[$row['remote_id']]['time'];
+
+                    $ret[$row['sid']]=[
+                        "verdict"=>$sub['verdict']
+                    ];
+                    $this->MODEL->updateSubmission($row['sid'], $sub);
+                }
             }
             // if ($row['oid']=='Spoj') {
             //     if (isset($spoj_v[$sj[$j][2]])) {
@@ -369,48 +398,24 @@ class Judge extends Core
      *
      * @return void
      */
-    private function get_last_uva($num)
+    private function get_last_uva($earliest)
     {
-        $ret=array();
-        if ($num==0) {
-            return $ret;
-        }
-        $response=$this->grab_page('https://uva.onlinejudge.org', 'uva');
-        if (!(strpos($response, 'UVa Online Judge - Offline')!==false)) {
-            $this->uva_live_login('https://uva.onlinejudge.org', 'https://uva.onlinejudge.org/index.php?option=com_comprofiler&task=login', 'uva');
-        } else {
+        $ret = [];
+        if (!$earliest) {
             return $ret;
         }
 
-        $i=0;
-        while (true) {
-            $response=$this->grab_page("https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=9&limit=50&limitstart={$i}", 'uva');
+        $judger=new JudgerModel();
+        $judgerDetail=$judger->detail($earliest['jid']);
+        $ret['handle']=$judgerDetail['handle'];
 
-            $exploded=explode('<table cellpadding="4" cellspacing="0" border="0" width="100%">', $response);
-            $table=explode('</table>', $exploded[1])[0];
-
-            $table=explode('<tr class="sectiontableentry', $table);
-
-            for ($j=1; $j<count($table); $j++) {
-                $num--;
-                $sub=$table[$j];
-
-                $sub=explode('<td>', $sub);
-                $verdict=explode('</td>', $sub[3])[0];
-                $time=explode('</td>', $sub[5])[0];
-
-                if ((strpos($verdict, '<a href=')!==false)) {
-                    $verdict=explode('</a', explode('>', explode('<a href=', $verdict)[1])[1])[0];
-                }
-
-                array_push($ret, array($time * 1000, -1, $verdict));
-
-                if ($num==0) {
-                    return array_reverse($ret);
-                }
-            }
-            $i+=50;
+        $response=$this->grab_page("https://uhunt.onlinejudge.org/api/subs-user/".$judgerDetail['user_id']."/".($earliest['remote_id']-1), 'uva', [], $judgerDetail['handle']);
+        $result=json_decode($response, true);
+        foreach ($result['subs'] as $i) {
+            $ret[$i[0]]=['time'=>$i[3], 'verdict'=>$i[2]];
         }
+        // Log::debug($ret);
+        return $ret;
     }
 
     /**
