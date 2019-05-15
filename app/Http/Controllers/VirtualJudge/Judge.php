@@ -7,6 +7,7 @@ use App\Models\ContestModel;
 use App\Http\Controllers\VirtualJudge\Core;
 use Requests;
 use Exception;
+use Log;
 
 class Judge extends Core
 {
@@ -412,7 +413,7 @@ class Judge extends Core
         foreach ($result['subs'] as $i) {
             $ret[$i[0]]=['time'=>$i[3], 'verdict'=>$i[2]];
         }
-
+        Log::debug($ret);
         return $ret;
     }
 
