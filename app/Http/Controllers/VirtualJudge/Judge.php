@@ -114,6 +114,7 @@ class Judge extends Core
         $curl=new Curl();
 
         $cfList=$this->get_last_codeforces($this->MODEL->countEarliestWaitingSubmission(2)+100);
+        Log::debug($this->MODEL->getEarliestSubmission(7));
         $uvaList=$this->get_last_uva($this->MODEL->getEarliestSubmission(7));
         $poj=[];
 
