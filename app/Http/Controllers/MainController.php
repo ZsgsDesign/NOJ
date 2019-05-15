@@ -42,7 +42,7 @@ class MainController extends Controller
         $group_notice=$groupModel->groupNotice(1);
         $problem=new ProblemModel();
         $ojs=$problem->ojs();
-        Log::debug(["info"=>"User Viewed Home!"]);
+        // Log::debug(["info"=>"User Viewed Home!"]);
         return view('home', [
                 'page_title'=>"Home",
                 'site_title'=>"NOJ",
