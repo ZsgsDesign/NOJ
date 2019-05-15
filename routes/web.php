@@ -111,4 +111,4 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     });
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
