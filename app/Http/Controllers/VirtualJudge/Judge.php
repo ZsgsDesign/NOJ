@@ -114,7 +114,7 @@ class Judge extends Core
         $curl=new Curl();
 
         $cfList=$this->get_last_codeforces($this->MODEL->countEarliestWaitingSubmission(2)+100);
-        Log::debug($this->MODEL->getEarliestSubmission(7));
+        // Log::debug($this->MODEL->getEarliestSubmission(7));
         $uvaList=$this->get_last_uva($this->MODEL->getEarliestSubmission(7));
         $poj=[];
 
@@ -414,7 +414,7 @@ class Judge extends Core
         foreach ($result['subs'] as $i) {
             $ret[$i[0]]=['time'=>$i[3], 'verdict'=>$i[2]];
         }
-        Log::debug($ret);
+        // Log::debug($ret);
         return $ret;
     }
 
