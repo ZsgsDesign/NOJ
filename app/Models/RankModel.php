@@ -45,8 +45,8 @@ class RankModel extends Model
         "Deputy Community Contributor"=>"wemd-orange-text",
         "Community Helper"=>"wemd-purple-text",
         "Deputy Community Helper"=>"wemd-blue-text",
-        "Participant"=>"wemd-cyan-text",
-        "Trainee"=>"wemd-green-text",
+        "Community Participant"=>"wemd-cyan-text",
+        "Community Trainee"=>"wemd-green-text",
         "Brand New"=>"wemd-gray-text",
     ];
 
@@ -58,8 +58,8 @@ class RankModel extends Model
         "Deputy Community Contributor"=>50,
         "Community Helper"=>100,
         "Deputy Community Helper"=>300,
-        "Participant"=>700,
-        "Trainee"=>1000,
+        "Community Participant"=>700,
+        "Community Trainee"=>1000,
         "Brand New"=>400,
     ];
 
