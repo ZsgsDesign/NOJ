@@ -141,12 +141,13 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
         - [X] Verdict
         - [X] Code Download
         - [X] Code Share
-- [ ] Ranking System
+- [X] Ranking System
     - [X] Casual Ranking List
-    - [ ] Professional Ranking List
+    - [X] Professional Ranking List
 - [ ] Contest System
     - [X] Contest List
     - [ ] Contest Tag
+    - [X] Contest Ranking
     - [ ] Contest Filter
     - [ ] Contest Details
         - [ ] Contest Registration
