@@ -5,6 +5,7 @@ namespace App\Models;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Models\Rating\RatingCalculator;
 use Auth;
 use Cache;
 
@@ -981,6 +982,16 @@ class ContestModel extends Model
     public function contestRule($cid)
     {
         return DB::table("contest")->where("cid", $cid)->select("rule")->first()["rule"];
+    }
+
+    public function updateProfessionalRate($cid)
+    {
+        $basic=$this->basic($cid);
+        if($basic["rated"]){
+            $ratingCalculator=new RatingCalculator($cid);
+            $ratingCalculator->calculate();
+            $ratingCalculator->storage();
+        }
     }
 
     public function arrangeContest($gid, $config, $problems)
