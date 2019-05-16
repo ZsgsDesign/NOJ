@@ -5,6 +5,7 @@ namespace App\Models\Rating;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\ContestModel;
 use Cache;
 use Storage;
 use Log;
@@ -24,13 +25,19 @@ class RatingCalculator extends Model
     }
 
     private function getRecord(){
-        $ret = DB::table("professional_ranking_temp")->where(["cid"=>$this->cid])->get()->all();
+        $contestRankRaw=Cache::tags(['contest', 'rank'])->get($this->$cid);
+
+        if ($contestRankRaw==null) {
+            $contestModel=new ContestModel();
+            $contestRankRaw=$contestModel->contestRankCache($this->$cid);
+        }
+
         $this->totParticipants = count($ret);
-        foreach($ret as $r){
+        foreach($contestRankRaw as $c){
             $this->contestants[]=[
-                "uid"=>$r["uid"],
-                "points"=>$r["points"],
-                "rating"=>$r["rating"]
+                "uid"=>$c["uid"],
+                "points"=>$c["score"],
+                "rating"=>DB::table("users")->where(["uid"=>$c["uid"]])->first()["professional_rate"]
             ];
         }
     }
