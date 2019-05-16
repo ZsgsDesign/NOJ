@@ -41,7 +41,7 @@ class RankModel extends Model
         "Community Star"=>"cm-colorful-text",
         "Community Assistant"=>"wemd-pink-text",
         "Deputy Community Assistant"=>"wemd-red-text",
-        "Community Contributor"=>"wemd-amber-text",
+        "Community Contributor"=>"wemd-deep-orange-text",
         "Deputy Community Contributor"=>"wemd-orange-text",
         "Community Helper"=>"wemd-purple-text",
         "Deputy Community Helper"=>"wemd-blue-text",
