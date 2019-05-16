@@ -123,7 +123,7 @@ class RankModel extends Model
         }
     }
 
-    private function getProfessionalRanking()
+    public function getProfessionalRanking()
     {
         $professionalRankList = [];
         $verifiedUsers = DB::table("users")->select("professional_rate","id as uid","avatar","name")->get()->all();
@@ -163,7 +163,7 @@ class RankModel extends Model
         }
     }
 
-    private function getRankTitle($rankVal)
+    public function getRankTitle($rankVal)
     {
         foreach($this->casualRankingPer as $title=>$c){
             if($rankVal<=$c) return $title;
@@ -171,7 +171,7 @@ class RankModel extends Model
         return Arr::last($this->casualRankingPer);
     }
 
-    private function getProfessionalTitle($rankVal)
+    public function getProfessionalTitle($rankVal)
     {
         foreach($this->professionalRankingPer as $title=>$point) {
             if($rankVal >= $point) return $title;
