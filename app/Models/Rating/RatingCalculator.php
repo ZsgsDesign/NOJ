@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Cache;
 use Storage;
+use Log;
 
 class RatingCalculator extends Model
 {
@@ -48,9 +49,9 @@ class RatingCalculator extends Model
         return $left;
     }
 
-    private function sort(){
-        usort($this->contestants, function ($a, $b) {
-            return $b["rating"] <=> $a["rating"];
+    private function sort($key){
+        usort($this->contestants, function ($a, $b) use ($key) {
+            return $b[$key] <=> $a[$key];
         });
     }
 
@@ -77,7 +78,7 @@ class RatingCalculator extends Model
             $contestant["delta"] = floor(($contestant["needRating"] - $contestant["rating"])/2);
         }
 
-        $this->sort();
+        $this->sort("rating");
 
         # DO some adjuct
         # Total sum should not be more than ZERO.
@@ -92,16 +93,41 @@ class RatingCalculator extends Model
         }
 
         # Sum of top-4*sqrt should be adjusted to ZERO.
+
         $sum = 0;
         $zeroSumCount = min(intval(4*round(sqrt($this->totParticipants))), $this->totParticipants);
 
         for($i=0;$i<$zeroSumCount;$i++){
             $sum += $this->contestants[i]["delta"];
         }
+
         $inc = min(max(-floor($sum / $zeroSumCount), -10), 0);
+
         for($i=0;$i<$zeroSumCount;$i++){
             $this->contestants[i]["delta"] += $inc;
         }
+
         $this->validateDeltas();
     }
+
+    private function validateDeltas(){
+        $this->sort("points");
+
+        for($i=0;$i<$this->totParticipants;$i++){
+            for($j=$i+1;$j<$this->totParticipants;$j++){
+                if($this->contestants[i]["rating"] > $this->contestants[j]["rating"]){
+                    if($this->contestants[i]["rating"] + $this->contestants[i]["delta"] < $this->contestants[j]["rating"] + $this->contestants[j]["delta"]){
+                        Log::debug("First rating invariant failed: {$this->contestants[i]["uid"]} vs. {$this->contestants[j]["uid"]}.");
+                    }
+                }
+
+                if($this->contestants[i]["rating"] < $this->contestants[j]["rating"]){
+                    if($this->contestants[i]["delta"] < $this->contestants[j]["delta"]){
+                        Log::debug("Second rating invariant failed: {$this->contestants[i]["uid"]} vs.  {$this->contestants[j]["uid"]}.");
+                    }
+                }
+            }
+        }
+    }
+
 }
