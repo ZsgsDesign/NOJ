@@ -38,16 +38,16 @@ class RankModel extends Model
     ];
 
     private static $casualRanking=[
-        "Legendary Grandmaster"=>"cm-colorful-text",
-        "International Grandmaster"=>"wemd-pink-text",
-        "Grandmaster"=>"wemd-red-text",
-        "International Master"=>"wemd-amber-text",
-        "Master"=>"wemd-orange-text",
-        "Candidate Master"=>"wemd-purple-text",
-        "Expert"=>"wemd-blue-text",
-        "Specialist"=>"wemd-cyan-text",
-        "Pupil"=>"wemd-green-text",
-        "Newbie"=>"wemd-gray-text",
+        "Legendary Grandstar"=>"cm-colorful-text",
+        "International Grandstar"=>"wemd-pink-text",
+        "Grandstar"=>"wemd-red-text",
+        "International Star"=>"wemd-amber-text",
+        "Star"=>"wemd-orange-text",
+        "Candidate Star"=>"wemd-purple-text",
+        "Community Helper"=>"wemd-blue-text",
+        "Participant"=>"wemd-cyan-text",
+        "Trainee"=>"wemd-green-text",
+        "Brand New"=>"wemd-gray-text",
     ];
 
     public $casualRankingPer=[
