@@ -14,13 +14,49 @@ class RatingCalculator extends Model
     public $cid=0;
     public $contestants=[];
     public $totParticipants=0;
+    public $INITIAL_RATING=1500;
 
     public function __construct($cid){
         $this->cid=$cid;
+
+        // get rank
+        $this->getRecord();
     }
 
-    private function reassignRanks(){
-        return;
+    private function getRecord(){
+        $ret = DB::table("professional_ranking_temp")->where(["cid"=>$this->cid])->get()->all();
+        $this->totParticipants = count($ret);
+        foreach($ret as $r){
+            $this->contestants[]=[
+                "uid"=>$r["uid"],
+                "points"=>$r["points"],
+                "rating"=>$r["rating"]
+            ];
+        }
+    }
+
+    private function reassignRank(){
+        $this->sort("points");
+        $idx = 0;
+        $points = $this->contestants[0]["points"];
+        $i = 1;
+        while($i < $this->totParticipants){
+            if($this->contestants[$i]["points"] < $points){
+                $j = $idx;
+                while($j < $i){
+                    $this->contestants[$j]["rank"] = $i;
+                    $j += 1;
+                }
+                $idx = $i;
+                $points = $this->contestants[$i]["points"];
+            }
+            $i += 1;
+        }
+        $j = $idx;
+        while($j < $this->totParticipants){
+            $this->contestants[$j]["rank"] = $this->totParticipants;
+            $j += 1;
+        }
     }
 
     private function getEloWinProbability($Ra, $Rb){
@@ -60,8 +96,8 @@ class RatingCalculator extends Model
             return;
         }
 
-        # 重新计算 参赛者 rank
-        $this->reassignRanks();
+        // recalc rank
+        $this->reassignRank();
 
         foreach($this->contestants as $member){
             $member["seed"] = 1.0;
@@ -80,8 +116,8 @@ class RatingCalculator extends Model
 
         $this->sort("rating");
 
-        # DO some adjuct
-        # Total sum should not be more than ZERO.
+        // DO some adjuct
+        // Total sum should not be more than ZERO.
         $sum = 0;
 
         foreach($this->contestants as $contestant){
@@ -92,7 +128,7 @@ class RatingCalculator extends Model
             $contestant["delta"] += $inc;
         }
 
-        # Sum of top-4*sqrt should be adjusted to ZERO.
+        // Sum of top-4*sqrt should be adjusted to ZERO.
 
         $sum = 0;
         $zeroSumCount = min(intval(4*round(sqrt($this->totParticipants))), $this->totParticipants);
