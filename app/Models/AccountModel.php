@@ -98,6 +98,8 @@ class AccountModel extends Model
         // Professional
         $ret["professionalTitle"]=RankModel::getProfessionalTitle($ret["professional_rate"]);
         $ret["professionalTitleColor"]=RankModel::getProfessionalColor($ret["professionalTitle"]);
+        // Administration Group
+        $ret["admin"]=$uid==1?1:0;
         if (Cache::tags(['bing', 'pic'])->get(date("Y-m-d"))==null) {
             $bing=new BingPhoto([
                 'locale' => 'zh-CN',

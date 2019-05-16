@@ -315,6 +315,7 @@
                 </avatar-section>
                 <basic-section>
                     <h3>{{$info["name"]}}</h3>
+                    @if($info["admin"])<p class="mb-0"><small class="wemd-indigo-text">Administration Group</small></p>@endif
                     @unless(is_null($info["professionalTitle"]))<p class="mb-0"><small class="{{$info["professionalTitleColor"]}}">{{$info["professionalTitle"]}}</small></p>@endunless
                     @unless(is_null($info["rankTitle"]))<p class="mb-0"><small class="{{$info["rankTitleColor"]}}">{{$info["rankTitle"]}}</small></p>@endunless
                     {{-- <p style="margin-bottom: .5rem;"><small class="wemd-light-blue-text">站点管理员</small></p> --}}
