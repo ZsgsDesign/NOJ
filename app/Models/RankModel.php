@@ -24,7 +24,7 @@ class RankModel extends Model
         "Newbie"=>"wemd-gray-text",
     ];
 
-    public $professionalRankingPer=[
+    private static $professionalRankingPer=[
         "Legendary Grandmaster"=>3000,
         "International Grandmaster"=>2600,
         "Grandmaster"=>2400,
