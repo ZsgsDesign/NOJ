@@ -146,6 +146,12 @@ class RatingCalculator extends Model
         $this->validateDeltas();
     }
 
+    public function storage(){
+        foreach($this->contestants as $contestant){
+            $newRating=$contestant["rating"]+$contestant["delta"];
+        }
+    }
+
     private function validateDeltas(){
         $this->sort("points");
 
