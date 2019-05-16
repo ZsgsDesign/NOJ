@@ -51,16 +51,16 @@ class RankModel extends Model
     ];
 
     public $casualRankingPer=[
-        "Legendary Grandmaster"=>1,
-        "International Grandmaster"=>5,
-        "Grandmaster"=>10,
-        "International Master"=>10,
-        "Master"=>50,
-        "Candidate Master"=>100,
-        "Expert"=>300,
-        "Specialist"=>700,
-        "Pupil"=>1000,
-        "Newbie"=>400,
+        "Legendary Grandstar"=>1,
+        "International Grandstar"=>5,
+        "Grandstar"=>10,
+        "International Star"=>10,
+        "Star"=>50,
+        "Candidate Star"=>100,
+        "Community Helper"=>300,
+        "Participant"=>700,
+        "Trainee"=>1000,
+        "Brand New"=>400,
     ];
 
     public static function getColor($rankTitle)
