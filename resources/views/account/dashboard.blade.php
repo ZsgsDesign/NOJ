@@ -84,6 +84,10 @@
         font-family: 'Montserrat';
     }
 
+    user-card statistic-block p{
+        font-size: 0.85rem;
+    }
+
     user-card social-section{
         font-size: 2rem;
         color:#24292e;
@@ -324,19 +328,39 @@
                                 <p>Solved</p>
                             </statistic-block>
                         </div>
-                        <div class="col-lg-4 col-12">
+                        {{-- <div class="col-lg-4 col-12">
                             <statistic-block>
                                 <h1>{{$info["submissionCount"]}}</h1>
                                 <p>Submissions</p>
+                            </statistic-block>
+                        </div> --}}
+                        <div class="col-lg-4 col-12">
+                            <statistic-block>
+                                <h1>{{$info["professional_rate"]}}</h1>
+                                <p>Rated</p>
                             </statistic-block>
                         </div>
                         <div class="col-lg-4 col-12">
                             <statistic-block>
                                 <h1>{{$info["rank"]}}</h1>
-                                <p>Rank</p>
+                                <p>Casu. Rank</p>
                             </statistic-block>
                         </div>
                     </div>
+                    {{-- <div class="row">
+                        <div class="col-lg-6 col-12">
+                            <statistic-block>
+                                <h1>{{$info["professional_rate"]}}</h1>
+                                <p>Rated</p>
+                            </statistic-block>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <statistic-block>
+                                <h1>{{$info["submissionCount"]}}</h1>
+                                <p>Prof. Rank</p>
+                            </statistic-block>
+                        </div>
+                    </div> --}}
                 </statistic-section>
                 <hr class="atsast-line">
                 <solved-section>
