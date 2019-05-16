@@ -130,7 +130,7 @@ class RankModel extends Model
         $rankIter = 0;
         foreach($verifiedUsers as $user) {
             $rankVal = $user['professional_rate'];
-            $rankTitle = $this->getProfessionalTitle($rankVal);
+            $rankTitle = self::getProfessionalTitle($rankVal);
             $titleColor = self::getProfessionalColor($rankTitle);
             $professionalRankList[$rankIter++] = [
                 "name"=>$user["name"],
@@ -171,11 +171,11 @@ class RankModel extends Model
         return Arr::last($this->casualRankingPer);
     }
 
-    public function getProfessionalTitle($rankVal)
+    public static function getProfessionalTitle($rankVal)
     {
-        foreach($this->professionalRankingPer as $title=>$point) {
+        foreach(self::$professionalRankingPer as $title=>$point) {
             if($rankVal >= $point) return $title;
         }
-        return Arr::last($this->professionalRankingPer);
+        return Arr::last(self::$professionalRankingPer);
     }
 }
