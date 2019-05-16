@@ -21,6 +21,7 @@ class ContestController extends Controller
     public function index()
     {
         $contestModel=new ContestModel();
+        $contestModel->updateProfessionalRate(1);
         $return_list=$contestModel->list(Auth::check()?Auth::user()->id:0);
         $featured=$contestModel->featured();
         return view('contest.index', [
