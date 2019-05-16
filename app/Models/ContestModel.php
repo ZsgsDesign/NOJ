@@ -987,10 +987,16 @@ class ContestModel extends Model
     public function updateProfessionalRate($cid)
     {
         $basic=$this->basic($cid);
-        if($basic["rated"]){
+        if($basic["rated"]&&!$basic["is_rated"]){
             $ratingCalculator=new RatingCalculator($cid);
-            $ratingCalculator->calculate();
-            $ratingCalculator->storage();
+            if($ratingCalculator->calculate()){
+                $ratingCalculator->storage();
+                return true;
+            }else{
+                return false;
+            }
+        } else {
+            return false;
         }
     }
 

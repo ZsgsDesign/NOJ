@@ -14,7 +14,7 @@ class AddIsRatedToContest extends Migration
     public function up()
     {
         Schema::table('contest', function (Blueprint $table) {
-            //
+            $table->boolean('is_rated')->nullable()->default(0)->after('rated');
         });
     }
 
@@ -26,7 +26,7 @@ class AddIsRatedToContest extends Migration
     public function down()
     {
         Schema::table('contest', function (Blueprint $table) {
-            //
+            $table->dropColumn(['is_rated']);
         });
     }
 }

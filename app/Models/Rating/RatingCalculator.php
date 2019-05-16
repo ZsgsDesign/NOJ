@@ -166,7 +166,18 @@ class RatingCalculator extends Model
                 ])->update([
                     "professional_rate"=>$newRating
                 ]);
+                DB::table("professional_rated_change_log")->insert([
+                    "uid"=>$contestant["uid"],
+                    "cid"=>$this->cid,
+                    "rated"=>$newRating
+                ]);
             }
+            // Mark
+            DB::table("contest")->where([
+                "cid"=>$this->cid
+            ])->update([
+                "is_rated"=>1
+            ]);
         }, 5);
     }
 

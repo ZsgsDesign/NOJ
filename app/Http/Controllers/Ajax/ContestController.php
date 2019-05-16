@@ -31,6 +31,22 @@ class ContestController extends Controller
         }
     }
 
+    public function updateProfessionalRate(Request $request)
+    {
+        if (Auth::user()->id!=1) {
+            return ResponseModel::err(2001);
+        }
+
+        $request->validate([
+            'cid' => 'required|integer'
+        ]);
+
+        $all_data=$request->all();
+
+        $contestModel=new ContestModel();
+        return $contestModel->updateProfessionalRate($all_data["cid"])?ResponseModel::success(200):ResponseModel::err(1001);
+    }
+
     public function requestClarification(Request $request)
     {
         $request->validate([
