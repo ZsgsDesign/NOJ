@@ -147,9 +147,17 @@ class RatingCalculator extends Model
     }
 
     public function storage(){
-        foreach($this->contestants as $contestant){
-            $newRating=$contestant["rating"]+$contestant["delta"];
-        }
+        $contestants=$this->contestants;
+        DB::transaction(function () use ($contestants) {
+            foreach($contestants as $contestant){
+                $newRating=$contestant["rating"]+$contestant["delta"];
+                DB::table("users")->where([
+                    "uid"=>$contestant["uid"]
+                ])->update([
+                    "rate"=>$newRating
+                ]);
+            }
+        }, 5);
     }
 
     private function validateDeltas(){
