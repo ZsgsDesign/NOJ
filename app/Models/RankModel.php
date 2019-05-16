@@ -10,12 +10,30 @@ use Cache,Redis;
 
 class RankModel extends Model
 {
-    private static $professionalRankiing=[
-        "None"=>"wemd-black-text"
+    private static $professionalRanking=[
+        "Legendary Grandmaster"=>"cm-colorful-text",
+        "International Grandmaster"=>"wemd-pink-text",
+        "Grandmaster"=>"wemd-red-text",
+        "International Master"=>"wemd-amber-text",
+        "Master"=>"wemd-orange-text",
+        "Candidate Master"=>"wemd-purple-text",
+        "Expert"=>"wemd-blue-text",
+        "Specialist"=>"wemd-cyan-text",
+        "Pupil"=>"wemd-green-text",
+        "Newbie"=>"wemd-gray-text",
     ];
 
-    public $professionalRankiingPer=[
-        "None"=>1
+    public $professionalRankingPer=[
+        "Legendary Grandmaster"=>3000,
+        "International Grandmaster"=>2600,
+        "Grandmaster"=>2400,
+        "International Master"=>2300,
+        "Master"=>2100,
+        "Candidate Master"=>1900,
+        "Expert"=>1600,
+        "Specialist"=>1400,
+        "Pupil"=>1200,
+        "Newbie"=>1,
     ];
 
     private static $casualRanking=[
@@ -48,6 +66,12 @@ class RankModel extends Model
     {
         if(is_null($rankTitle)) return "";
         return self::$casualRanking[$rankTitle];
+    }
+
+    public static function getProfessionalColor($rankTitle)
+    {
+        if(is_null($rankTitle)) return self::$professionalRanking["None"];
+        return self::$professionalRanking[$rankTitle];
     }
 
     public function list()
@@ -98,6 +122,27 @@ class RankModel extends Model
         }
     }
 
+    private function getProfessionalRanking()
+    {
+        $professionalRankList = [];
+        $verifiedUsers = DB::table("users")->select("professional_rate","id as uid","avatar","name")->get()->all();
+        $rankIter = 0;
+        foreach($verifiedUsers as $user) {
+            $rankVal = $user['professional_rate'];
+            $rankTitle = $this->getProfessionalTitle($rankVal);
+            $titleColor = self::getProfessionalColor($rankTitle);
+            $professionalRankList[$rankIter++] = [
+                "name"=>$user["name"],
+                "uid"=>$user["uid"],
+                "avatar"=>$user["avatar"],
+                "professionalRate"=>$user["professional_rate"],
+                "rankTitle"=>$rankTitle,
+                "titleColor"=>$titleColor
+            ];
+        }
+        return $rankList;
+    }
+
     private function procRankingPer()
     {
         $totUsers=DB::table("submission")->where(["verdict"=>"Accepted"])->select(DB::raw("count(distinct uid) as res"))->get()->first()["res"];
@@ -123,5 +168,13 @@ class RankModel extends Model
             if($rankVal<=$c) return $title;
         }
         return Arr::last($this->casualRankingPer);
+    }
+
+    private function getProfessionalTitle($rankVal)
+    {
+        foreach($this->professionalRankingPer as $title=>$point) {
+            if($rankVal >= $point) return $title;
+        }
+        return Arr::last($this->professionalRankingPer);
     }
 }
