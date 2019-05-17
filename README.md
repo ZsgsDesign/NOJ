@@ -87,7 +87,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva
         - [X] Browser
         - [ ] Mail
     - [X] System Version
-    - [ ] System Bug Report
+    - [x] System Bug Report
 - [ ] User System
     - [X] User Login
     - [X] User Register
@@ -99,6 +99,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva
         - [ ] Profile
     - [ ] Settings
 - [ ] Search System
+    - [X] Basic Redirect
     - [ ] Problem Search
     - [ ] Status Search
     - [ ] Group Search
@@ -123,6 +124,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva
                 - [X] UVa
                 - [ ] UVa Live
                 - [ ] SPOJ
+                - [ ] HDU
                 - [X] Contest Hunter
                 - [X] POJ
                 - [X] Vijos
@@ -185,7 +187,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva
             - [ ] Group Own ProblemSet
                 - [ ] Add Problem
             - [ ] Group Settings
-- [ ] Admin Panel
+- [ ] Admin Portal
     - [X] User Management
     - [X] Contest Management
     - [X] Problem Management
