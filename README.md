@@ -152,7 +152,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva
     - [X] Contest Ranking
     - [ ] Contest Filter
     - [ ] Contest Details
-        - [ ] Contest Registration
+        - [x] Contest Registration
         - [X] Contest Temp Account
         - [X] Leader Board
         - [X] Contest CountDown
