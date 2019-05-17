@@ -88,4 +88,34 @@ class ContestController extends Controller
 
         return ResponseModel::success(200);
     }
+
+    public function registContest(Request $request)
+    {
+        $request->validate([
+            'cid' => 'required|integer'
+        ]);
+
+        $all_data=$request->all();
+
+        $contestModel=new ContestModel();
+        $groupModel=new GroupModel();
+        $basic=$contestModel->basic();
+
+        if(!$basic["registration"]){
+            return ResponseModel::err(4003);
+        }
+        if(strtotime($basic["registration_due"])<time()){
+            return ResponseModel::err(4004);
+        }
+        if(!$basic["registant_type"]){
+            return ResponseModel::err(4005);
+        }
+        if($basic["registant_type"]==1 && !$groupModel->isMember($basic["gid"], Auth::user()->id)){
+            return ResponseModel::err(4005);
+        }
+
+        $ret=$contestModel->registContest($all_data["cid"], Auth::user()->id);
+
+        return $ret ? ResponseModel::success(200) : ResponseModel::err(1001);
+    }
 }

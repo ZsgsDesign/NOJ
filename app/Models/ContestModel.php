@@ -153,24 +153,24 @@ class ContestModel extends Model
                 ->where(
                     function ($query) {
                         $query->where('public', 1)
-                              ->where('audit', 1);
+                              ->where('audit_status', 1);
                     }
                 )
                 ->orWhere(
                     function ($query) use ($uid) {
                         $query->where('group_member.uid', $uid)
-                                ->where('group_member.role', '>', 0)
-                                ->where(function ($query) use ($uid) {
-                                    $query->where('contest_participant.uid', $uid)
-                                          ->orWhereNull('contest_participant.uid');
-                                })
-                              ->where(function ($query) {
-                                  $query->where('registration', 0)
-                                                ->orWhere(function ($query) {
-                                                    $query->where('registration', 1)
-                                                          ->whereNotNull('contest_participant.uid');
-                                                });
-                              });
+                                ->where('group_member.role', '>', 0);
+                            //     ->where(function ($query) use ($uid) {
+                            //         $query->where('contest_participant.uid', $uid)
+                            //               ->orWhereNull('contest_participant.uid');
+                            //     })
+                            //   ->where(function ($query) {
+                            //       $query->where('registration', 0)
+                            //                     ->orWhere(function ($query) {
+                            //                         $query->where('registration', 1)
+                            //                               ->whereNotNull('contest_participant.uid');
+                            //                     });
+                            //   });
                     }
                 )
                 ->orderBy('contest.begin_time', 'desc')
@@ -219,6 +219,22 @@ class ContestModel extends Model
             return $featured;
         } else {
             return null;
+        }
+    }
+
+    public function registContest($cid,$uid)
+    {
+        $registered=DB::table("contest_participant")->where([
+            "cid"=>$cid,
+            "uid"=>$uid
+        ])->first();
+
+        if(empty($registered)){
+            DB::table("contest_participant")->insert([
+                "cid"=>$cid,
+                "uid"=>$uid,
+                "audit"=>1
+            ]);
         }
     }
 
