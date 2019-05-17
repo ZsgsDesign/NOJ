@@ -99,7 +99,7 @@ class ContestController extends Controller
 
         $contestModel=new ContestModel();
         $groupModel=new GroupModel();
-        $basic=$contestModel->basic();
+        $basic=$contestModel->basic($all_data["cid"]);
 
         if(!$basic["registration"]){
             return ResponseModel::err(4003);
@@ -116,6 +116,6 @@ class ContestController extends Controller
 
         $ret=$contestModel->registContest($all_data["cid"], Auth::user()->id);
 
-        return $ret ? ResponseModel::success(200) : ResponseModel::err(1001);
+        return $ret ? ResponseModel::success(200) : ResponseModel::err(4006);
     }
 }

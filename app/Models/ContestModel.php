@@ -235,7 +235,9 @@ class ContestModel extends Model
                 "uid"=>$uid,
                 "audit"=>1
             ]);
+            return true;
         }
+        return false;
     }
 
     public function remainingTime($cid)

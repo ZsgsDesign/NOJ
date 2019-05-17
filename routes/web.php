@@ -100,6 +100,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
         Route::post('requestClarification', 'ContestController@requestClarification')->middleware('auth', 'throttle:1,0.34');
         Route::get('rejudge', 'ContestController@rejudge')->middleware('auth');
         Route::get('updateProfessionalRate', 'ContestController@updateProfessionalRate')->middleware('auth');
+        Route::post('registContest', 'ContestController@registContest')->middleware('auth')->name('ajax.contest.registContest');
     });
 
     Route::group(['prefix' => 'submission'], function () {

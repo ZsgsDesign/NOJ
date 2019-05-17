@@ -277,7 +277,33 @@
                                         @if( strtotime($detail['registration_due']) < time() || $detail["registant_type"]==0 || ($detail["registant_type"]==1 && !$inGroup) )
                                             <button type="button" class="btn btn-secondary">No Access</button>
                                         @else
-                                            <button type="button" class="btn btn-primary">Apply</button>
+                                            <button type="button" class="btn btn-primary" onclick="registContest()">Apply</button>
+                                            <script>
+                                                var registing=false;
+                                                function registContest(){
+                                                    if(registing) return;
+                                                    else registing=true;
+                                                    $.ajax({
+                                                        type: 'POST',
+                                                        url: '{{route("ajax.contest.registContest")}}',
+                                                        data: {
+                                                            cid: "{{$detail['cid']}}"
+                                                        },
+                                                        dataType: 'json',
+                                                        headers: {
+                                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                        }, success: function(ret){
+                                                            console.log(ret);
+                                                            if(ret.ret==200){
+                                                                location.reload();
+                                                            }else{
+                                                                alert(ret.desc);
+                                                                registing=false;
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            </script>
                                         @endif
                                     @endif
                                 @else

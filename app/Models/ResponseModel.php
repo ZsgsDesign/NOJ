@@ -71,6 +71,7 @@ class ResponseModel extends Model
             '4003' => "No Need for Registration",
             '4004' => "Registration Ended",
             '4005' => "Registration Denied",
+            '4006' => "AlreadyRegistered",
 
             '5000' => "Status-Related Error",
             '5001' => "Status Not Found",
