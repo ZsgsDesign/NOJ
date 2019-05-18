@@ -72,7 +72,7 @@ php artisan migrate
 crontab -e
 * * * * * php /path-to-noj/artisan schedule:run
 
-php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
+php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva
 ```
 
 9. NOJ's up-and-running, enjoy!
@@ -87,7 +87,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
         - [X] Browser
         - [ ] Mail
     - [X] System Version
-    - [ ] System Bug Report
+    - [x] System Bug Report
 - [ ] User System
     - [X] User Login
     - [X] User Register
@@ -99,6 +99,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
         - [ ] Profile
     - [ ] Settings
 - [ ] Search System
+    - [X] Basic Redirect
     - [ ] Problem Search
     - [ ] Status Search
     - [ ] Group Search
@@ -123,6 +124,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
                 - [X] UVa
                 - [ ] UVa Live
                 - [ ] SPOJ
+                - [ ] HDU
                 - [X] Contest Hunter
                 - [X] POJ
                 - [X] Vijos
@@ -141,15 +143,16 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
         - [X] Verdict
         - [X] Code Download
         - [X] Code Share
-- [ ] Ranking System
+- [X] Ranking System
     - [X] Casual Ranking List
-    - [ ] Professional Ranking List
+    - [X] Professional Ranking List
 - [ ] Contest System
     - [X] Contest List
     - [ ] Contest Tag
+    - [X] Contest Ranking
     - [ ] Contest Filter
     - [ ] Contest Details
-        - [ ] Contest Registration
+        - [x] Contest Registration
         - [X] Contest Temp Account
         - [X] Leader Board
         - [X] Contest CountDown
@@ -184,7 +187,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
             - [ ] Group Own ProblemSet
                 - [ ] Add Problem
             - [ ] Group Settings
-- [ ] Admin Panel
+- [ ] Admin Portal
     - [X] User Management
     - [X] Contest Management
     - [X] Problem Management
@@ -202,7 +205,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta
 
 [HTML Purifier](https://github.com/mewebstudio/Purifier)
 
-See `composer.json` for more info.
+See `composer.json` or [Dependency List](https://s3.amazonaws.com/blob.fossa.io/FOSSA_BOMS/9088/REPORT_NOJ_1558024962658.html?AWSAccessKeyId=AKIAJEGBNPHNC7DM3S3A&Expires=1558111370&Signature=wsqlsiBOBFgEsZmGMDFu5RjKJ8k%3D) for more info.
 
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster?ref=badge_large)

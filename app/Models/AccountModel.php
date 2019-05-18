@@ -91,9 +91,15 @@ class AccountModel extends Model
             "verdict"=>"Accepted"
         ])->join("problem", "problem.pid", "=", "submission.pid")->select('pcode')->distinct()->get()->all();
         $ret["solvedCount"]=count($ret["solved"]);
+        // Casual
         $ret["rank"]=Cache::tags(['rank',$ret["id"]])->get("rank", "N/A");
         $ret["rankTitle"]=Cache::tags(['rank',$ret["id"]])->get("title");
         $ret["rankTitleColor"]=RankModel::getColor($ret["rankTitle"]);
+        // Professional
+        $ret["professionalTitle"]=RankModel::getProfessionalTitle($ret["professional_rate"]);
+        $ret["professionalTitleColor"]=RankModel::getProfessionalColor($ret["professionalTitle"]);
+        // Administration Group
+        $ret["admin"]=$uid==1?1:0;
         if (Cache::tags(['bing', 'pic'])->get(date("Y-m-d"))==null) {
             $bing=new BingPhoto([
                 'locale' => 'zh-CN',

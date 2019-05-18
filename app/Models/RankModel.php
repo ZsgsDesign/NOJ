@@ -6,19 +6,12 @@ use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
+use App\Models\Rating\RatingCalculator;
 use Cache,Redis;
 
 class RankModel extends Model
 {
-    private static $professionalRankiing=[
-        "None"=>"wemd-black-text"
-    ];
-
-    public $professionalRankiingPer=[
-        "None"=>1
-    ];
-
-    private static $casualRanking=[
+    private static $professionalRanking=[
         "Legendary Grandmaster"=>"cm-colorful-text",
         "International Grandmaster"=>"wemd-pink-text",
         "Grandmaster"=>"wemd-red-text",
@@ -31,23 +24,55 @@ class RankModel extends Model
         "Newbie"=>"wemd-gray-text",
     ];
 
+    private static $professionalRankingPer=[
+        "Legendary Grandmaster"=>3000,
+        "International Grandmaster"=>2600,
+        "Grandmaster"=>2400,
+        "International Master"=>2300,
+        "Master"=>2100,
+        "Candidate Master"=>1900,
+        "Expert"=>1600,
+        "Specialist"=>1400,
+        "Pupil"=>1200,
+        "Newbie"=>1,
+    ];
+
+    private static $casualRanking=[
+        "Community Star"=>"cm-colorful-text",
+        "Community Assistant"=>"wemd-pink-text",
+        "Deputy Community Assistant"=>"wemd-red-text",
+        "Community Contributor"=>"wemd-deep-orange-text",
+        "Deputy Community Contributor"=>"wemd-orange-text",
+        "Community Helper"=>"wemd-purple-text",
+        "Deputy Community Helper"=>"wemd-blue-text",
+        "Community Participant"=>"wemd-cyan-text",
+        "Community Trainee"=>"wemd-green-text",
+        "Brand New"=>"wemd-gray-text",
+    ];
+
     public $casualRankingPer=[
-        "Legendary Grandmaster"=>1,
-        "International Grandmaster"=>5,
-        "Grandmaster"=>10,
-        "International Master"=>10,
-        "Master"=>50,
-        "Candidate Master"=>100,
-        "Expert"=>300,
-        "Specialist"=>700,
-        "Pupil"=>1000,
-        "Newbie"=>400,
+        "Community Star"=>1,
+        "Community Assistant"=>5,
+        "Deputy Community Assistant"=>10,
+        "Community Contributor"=>10,
+        "Deputy Community Contributor"=>50,
+        "Community Helper"=>100,
+        "Deputy Community Helper"=>300,
+        "Community Participant"=>700,
+        "Community Trainee"=>1000,
+        "Brand New"=>400,
     ];
 
     public static function getColor($rankTitle)
     {
         if(is_null($rankTitle)) return "";
         return self::$casualRanking[$rankTitle];
+    }
+
+    public static function getProfessionalColor($rankTitle)
+    {
+        if(is_null($rankTitle)) return self::$professionalRanking["None"];
+        return self::$professionalRanking[$rankTitle];
     }
 
     public function list()
@@ -98,6 +123,27 @@ class RankModel extends Model
         }
     }
 
+    public function getProfessionalRanking()
+    {
+        $professionalRankList = [];
+        $verifiedUsers = DB::table("users")->select("professional_rate","id as uid","avatar","name")->get()->all();
+        $rankIter = 0;
+        foreach($verifiedUsers as $user) {
+            $rankVal = $user['professional_rate'];
+            $rankTitle = self::getProfessionalTitle($rankVal);
+            $titleColor = self::getProfessionalColor($rankTitle);
+            $professionalRankList[$rankIter++] = [
+                "name"=>$user["name"],
+                "uid"=>$user["uid"],
+                "avatar"=>$user["avatar"],
+                "professionalRate"=>$user["professional_rate"],
+                "rankTitle"=>$rankTitle,
+                "titleColor"=>$titleColor
+            ];
+        }
+        return $rankList;
+    }
+
     private function procRankingPer()
     {
         $totUsers=DB::table("submission")->where(["verdict"=>"Accepted"])->select(DB::raw("count(distinct uid) as res"))->get()->first()["res"];
@@ -117,11 +163,19 @@ class RankModel extends Model
         }
     }
 
-    private function getRankTitle($rankVal)
+    public function getRankTitle($rankVal)
     {
         foreach($this->casualRankingPer as $title=>$c){
             if($rankVal<=$c) return $title;
         }
         return Arr::last($this->casualRankingPer);
+    }
+
+    public static function getProfessionalTitle($rankVal)
+    {
+        foreach(self::$professionalRankingPer as $title=>$point) {
+            if($rankVal >= $point) return $title;
+        }
+        return Arr::last(self::$professionalRankingPer);
     }
 }

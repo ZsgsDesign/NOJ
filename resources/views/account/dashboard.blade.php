@@ -84,6 +84,10 @@
         font-family: 'Montserrat';
     }
 
+    user-card statistic-block p{
+        font-size: 0.85rem;
+    }
+
     user-card social-section{
         font-size: 2rem;
         color:#24292e;
@@ -311,7 +315,9 @@
                 </avatar-section>
                 <basic-section>
                     <h3>{{$info["name"]}}</h3>
-                    @unless(is_null($info["rankTitle"]))<small class="{{$info["rankTitleColor"]}}">{{$info["rankTitle"]}}</small>@endunless
+                    @if($info["admin"])<p class="mb-0"><small class="wemd-indigo-text">Administration Group</small></p>@endif
+                    @unless(is_null($info["professionalTitle"]))<p class="mb-0"><small class="{{$info["professionalTitleColor"]}}">{{$info["professionalTitle"]}}</small></p>@endunless
+                    @unless(is_null($info["rankTitle"]))<p class="mb-0"><small class="{{$info["rankTitleColor"]}}">{{$info["rankTitle"]}}</small></p>@endunless
                     {{-- <p style="margin-bottom: .5rem;"><small class="wemd-light-blue-text">站点管理员</small></p> --}}
                     {{-- <p>{{$info["email"]}}</p> --}}
                 </basic-section>
@@ -324,19 +330,39 @@
                                 <p>Solved</p>
                             </statistic-block>
                         </div>
-                        <div class="col-lg-4 col-12">
+                        {{-- <div class="col-lg-4 col-12">
                             <statistic-block>
                                 <h1>{{$info["submissionCount"]}}</h1>
                                 <p>Submissions</p>
+                            </statistic-block>
+                        </div> --}}
+                        <div class="col-lg-4 col-12">
+                            <statistic-block>
+                                <h1>{{$info["professional_rate"]}}</h1>
+                                <p>Rated</p>
                             </statistic-block>
                         </div>
                         <div class="col-lg-4 col-12">
                             <statistic-block>
                                 <h1>{{$info["rank"]}}</h1>
-                                <p>Rank</p>
+                                <p>Casu. Rank</p>
                             </statistic-block>
                         </div>
                     </div>
+                    {{-- <div class="row">
+                        <div class="col-lg-6 col-12">
+                            <statistic-block>
+                                <h1>{{$info["professional_rate"]}}</h1>
+                                <p>Rated</p>
+                            </statistic-block>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <statistic-block>
+                                <h1>{{$info["submissionCount"]}}</h1>
+                                <p>Prof. Rank</p>
+                            </statistic-block>
+                        </div>
+                    </div> --}}
                 </statistic-section>
                 <hr class="atsast-line">
                 <solved-section>

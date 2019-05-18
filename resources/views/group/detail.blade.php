@@ -6,7 +6,6 @@
     body{
         display: flex;
         flex-direction: column;
-        height: 100vh;
     }
     footer{
         display: none;
@@ -70,7 +69,6 @@
     group-container{
         flex-shrink: 1;
         flex-grow: 1;
-        height: 0px; /* so that 100% would work */
         overflow: hidden;
     }
 
@@ -408,6 +406,15 @@
     contest-container a:hover{
         text-decoration: none;
         color: #004d40;
+    }
+
+    @media (min-width: 768px) {
+        group-container{
+            height: 0px; /* so that 100% would work */
+        }
+        body{
+            height:100vh;
+        }
     }
 
     /*

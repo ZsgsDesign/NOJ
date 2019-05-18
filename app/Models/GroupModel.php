@@ -79,6 +79,7 @@ class GroupModel extends Model
     public function details($gcode)
     {
         $basic_info=DB::table($this->tableName)->where(["gcode"=>$gcode])->first();
+        if(empty($basic_info)) return [];
         $basic_info["members"]=$this->countGroupMembers($basic_info["gid"]);
         $basic_info["tags"]=$this->getGroupTags($basic_info["gid"]);
         $basic_info["create_time_foramt"]=date_format(date_create($basic_info["create_time"]), 'M jS, Y');
