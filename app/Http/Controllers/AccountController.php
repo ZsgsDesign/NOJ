@@ -34,7 +34,26 @@ class AccountController extends Controller
             'navigation'=>"DashBoard",
             'info'=>$info,
             'userView'=>false,
+            'settingView' => false,
             'feed'=>$feed
+        ]);
+    }
+
+    public function setting()
+    {
+        $accountModel=new AccountModel();
+        $info=$accountModel->detail(Auth::user()->id);
+        if(!empty(session('last_email_send'))){
+            $email_cooldown = 300 - (time() - session('last_email_send'));
+        }
+        return view("account.dashboard", [
+            'page_title'=>"Setting",
+            'site_title'=>"NOJ",
+            'navigation'=>"Setting",
+            'info'=>$info,
+            'userView'=>false,
+            'settingView' => true,
+            'email_cooldown' => $email_cooldown ?? null,
         ]);
     }
 }

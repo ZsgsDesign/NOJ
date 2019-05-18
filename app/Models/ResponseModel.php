@@ -52,11 +52,15 @@ class ResponseModel extends Model
             '1003' => "Missing Params",
             '1004' => "Write/Read Permission Denied",
             '1005' => "Invalid File",
+            '1006' => "Invalid length params",
             '1984' => "Ignorance is Strength",
 
             '2000' => "Account-Related Error",
             '2001' => "Permission Denied",
             '2002' => "Please Login First",
+            '2003' => "A user with the same username already exists",
+            '2004' => "New passwords do not match",
+            '2005' => "Old passwords error",
 
             '3000' => "Problem-Related Error",
             '3001' => "Problem Not Found",
