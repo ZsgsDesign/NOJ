@@ -516,15 +516,15 @@
                         <p>Change password</p>
                         <div class="form-group">
                             <label for="old-password" class="bmd-label-floating">old password</label>
-                            <input type="password" name="old-password" class="form-control" id="old-password" autocomplete="off" required>
+                            <input type="password" name="old-password" class="form-control" id="old-password" autocomplete="new-password" required>
                         </div>
                         <div class="form-group">
                             <label for="new-password" class="bmd-label-floating">new password</label>
-                            <input type="password" name="new-password" class="form-control" id="new-password" autocomplete="off" required>
+                            <input type="password" name="new-password" class="form-control" id="new-password" autocomplete="new-password" required>
                         </div>
                         <div class="form-group">
                             <label for="confirm-password" class="bmd-label-floating">confirm password</label>
-                            <input type="password" name="confirm-password" class="form-control" id="confirm-password" autocomplete="off" required>
+                            <input type="password" name="confirm-password" class="form-control" id="confirm-password" autocomplete="new-password" required>
                         </div>
                         <div class="text-center">
                             <button id="password-change" class="btn btn-danger">change</button>
