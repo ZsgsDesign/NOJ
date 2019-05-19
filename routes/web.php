@@ -18,6 +18,7 @@ Route::get('/', 'MainController@home')->middleware('contest_account')->name('hom
 Route::group(['prefix' => 'account'], function () {
     Route::get('/', 'AccountController@index')->name('account_index');
     Route::get('/dashboard', 'AccountController@dashboard')->middleware('auth')->name('account_dashboard');
+    Route::get('/setting', 'AccountController@setting')->middleware('auth')->name('account_setting');
 });
 
 Route::group(['prefix' => 'user'], function () {
@@ -110,6 +111,9 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
 
     Route::group(['prefix' => 'account'], function () {
         Route::post('update_avatar', 'AccountController@updateAvatar')->middleware('auth')->name('account_update_avatar');
+        Route::post('change_basic_info', 'AccountController@changeBasicInfo')->middleware('auth')->name('account_change_basic_info');
+        Route::post('change_password', 'AccountController@changePassword')->middleware('auth')->name('account_change_password');
+        Route::post('check_email_cooldown', 'AccountController@checkEmailCooldown')->middleware('auth')->name('account_check_email_cooldown');
     });
 });
 
