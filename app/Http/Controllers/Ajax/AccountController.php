@@ -57,20 +57,20 @@ class AccountController extends Controller
      * @return Response
      */
     public function changeBasicInfo(Request $request){
-        if(!$request->has('username')){
-            return ResponseModel::err(1003);
-        }
-        $username = $request->input('username');
+        // if(!$request->has('username')){
+        //     return ResponseModel::err(1003);
+        // }
+        // $username = $request->input('username');
         $describes = $request->input('describes');
-        if(empty($username) || strlen($username) > 16 || strlen($describes) > 255){
+        if(strlen($describes) > 255){
             return ResponseModel::err(1006);
         }
-        $old_username=Auth::user()->name;
-        if($old_username != $username && !empty(UserModel::where('name',$username)->first())){
-            return ResponseModel::err(2003);
-        }
+        // $old_username=Auth::user()->name;
+        // if($old_username != $username && !empty(UserModel::where('name',$username)->first())){
+        //     return ResponseModel::err(2003);
+        // }
         $user=Auth::user();
-        $user->name = $username;
+        // $user->name = $username;
         $user->describes = $describes;
         $user->save();
         return ResponseModel::success();
