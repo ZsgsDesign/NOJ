@@ -53,6 +53,7 @@ class ResponseModel extends Model
             '1004' => "Write/Read Permission Denied",
             '1005' => "Invalid File",
             '1006' => "Invalid length params",
+            '1007' => "Invalid parameter passed",
             '1984' => "Ignorance is Strength",
 
             '2000' => "Account-Related Error",
