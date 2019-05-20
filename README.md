@@ -80,24 +80,24 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva
 ## Supported Feature
 
 - [X] Basic Home Page
-- [ ] General
+- [X] General
     - [X] Cron Support
     - [X] Queue Support
-    - [ ] Notification Support
+    - [X] Notification Support
         - [X] Browser
-        - [ ] Mail
+        - [X] Mail
     - [X] System Version
     - [x] System Bug Report
 - [ ] User System
     - [X] User Login
     - [X] User Register
     - [X] User Password Retrive
-    - [ ] User Email Verify
+    - [X] User Email Verify
     - [ ] DashBoard
         - [X] Statistics
         - [X] Activities
         - [ ] Profile
-    - [ ] Settings
+    - [X] Settings
 - [ ] Search System
     - [X] Basic Redirect
     - [ ] Problem Search

@@ -335,6 +335,10 @@
         border: none;
     }
 
+    .form-control:disabled{
+        background-color: transparent;
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -470,7 +474,7 @@
                         <p>Basic info</p>
                         <div class="form-group">
                             <label for="username" class="bmd-label-floating">username</label>
-                            <input type="text" name="username" class="form-control" value="{{ $info['name'] }}" id="username" maxlength="16" autocomplete="off" required>
+                            <input type="text" name="username" class="form-control" value="{{ $info['name'] }}" id="username" maxlength="16" autocomplete="off" required disabled>
                         </div>
                         <div class="form-group">
                             <label for="describes" class="bmd-label-floating">describes</label>
@@ -512,15 +516,15 @@
                         <p>Change password</p>
                         <div class="form-group">
                             <label for="old-password" class="bmd-label-floating">old password</label>
-                            <input type="password" name="old-password" class="form-control" id="old-password" required>
+                            <input type="password" name="old-password" class="form-control" id="old-password" autocomplete="new-password" required>
                         </div>
                         <div class="form-group">
                             <label for="new-password" class="bmd-label-floating">new password</label>
-                            <input type="password" name="new-password" class="form-control" id="new-password" required>
+                            <input type="password" name="new-password" class="form-control" id="new-password" autocomplete="new-password" required>
                         </div>
                         <div class="form-group">
                             <label for="confirm-password" class="bmd-label-floating">confirm password</label>
-                            <input type="password" name="confirm-password" class="form-control" id="confirm-password" required>
+                            <input type="password" name="confirm-password" class="form-control" id="confirm-password" autocomplete="new-password" required>
                         </div>
                         <div class="text-center">
                             <button id="password-change" class="btn btn-danger">change</button>
@@ -604,7 +608,7 @@
                 url : '{{route("account_change_basic_info")}}',
                 type : 'POST',
                 data : {
-                    username : username,
+                    // username : username,
                     describes : describes,
                 },
                 headers: {
