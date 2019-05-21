@@ -41,7 +41,7 @@ class AccountController extends Controller
         ]);
     }
 
-    public function setting()
+    public function settings()
     {
         $accountModel=new AccountModel();
         $info=$accountModel->detail(Auth::user()->id);

@@ -49,3 +49,14 @@ if (!function_exists('getCustomUrl')) {
         return $customUrlCached;
     }
 }
+
+if (!function_exists('emailVerified')) {
+    function emailVerified()
+    {
+        if(Auth::check()){
+            return !is_null(Auth::user()->email_verified_at);
+        }
+
+        return null;
+    }
+}
