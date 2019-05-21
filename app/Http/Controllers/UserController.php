@@ -35,7 +35,7 @@ class UserController extends Controller
             'navigation'=>"DashBoard",
             'info'=>$info,
             'userView'=>true,
-            'settingView' => false,
+            'settingsView' => false,
             'feed'=>$feed,
             'extra_info' => $extraInfo,
         ]);

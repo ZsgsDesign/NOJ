@@ -439,7 +439,7 @@
             </user-card>
         </div>
         <div class="col-sm-12 col-md-8">
-            @if(!$settingView)
+            @if(!$settingsView)
                 {{-- <empty-container>
                     <i class="MDI package-variant"></i>
                     <p>NOJ Feed is empty, try adding some :-)</p>
@@ -557,10 +557,10 @@
                         </form>
                     </extra-section>
                     {{-- <style-section class="paper-card">
-                        <p>Style setting</p>
+                        <p>Style settings</p>
                     </style-section> --}}
                     {{-- <privacy-section class="paper-card">
-                        <p>Privacy setting</p>
+                        <p>Privacy settings</p>
                     </privacy-section> --}}
                     <email-section class="paper-card">
                         <p>Email verify</p>
@@ -652,7 +652,7 @@
             $(div_dom).slideDown(100);
         }
 
-        @if($settingView)
+        @if($settingsView)
         $('#describes-length').text($('#describes').val().length);
         $('#describes').bind('input',function(){
             var length = $(this).val().length;

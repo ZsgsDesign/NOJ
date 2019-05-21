@@ -50,12 +50,12 @@ class AccountController extends Controller
         }
         $extraInfo = $accountModel->getExtraInfo(Auth::user()->id,100);
         return view("account.dashboard", [
-            'page_title'=>"Setting",
+            'page_title'=>"Settings",
             'site_title'=>"NOJ",
-            'navigation'=>"Setting",
+            'navigation'=>"Settings",
             'info'=>$info,
             'userView'=>false,
-            'settingView' => true,
+            'settingsView' => true,
             'email_cooldown' => $email_cooldown ?? null,
             'extra_info' => $extraInfo
         ]);
