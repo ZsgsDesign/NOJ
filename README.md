@@ -88,15 +88,15 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva
         - [X] Mail
     - [X] System Version
     - [x] System Bug Report
-- [ ] User System
+- [X] User System
     - [X] User Login
     - [X] User Register
     - [X] User Password Retrive
     - [X] User Email Verify
-    - [ ] DashBoard
+    - [X] DashBoard
         - [X] Statistics
         - [X] Activities
-        - [ ] Profile
+        - [X] Profile
     - [X] Settings
 - [ ] Search System
     - [X] Basic Redirect

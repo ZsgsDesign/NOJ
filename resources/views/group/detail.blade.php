@@ -55,7 +55,7 @@
         box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
     }
 
-    nav.navbar{
+    #nav-container{
         margin-bottom:0!important;
         flex-shrink: 0;
         flex-grow: 0;

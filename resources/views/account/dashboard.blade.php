@@ -439,7 +439,7 @@
             </user-card>
         </div>
         <div class="col-sm-12 col-md-8">
-            @if(!$settingView)
+            @if(!$settingsView)
                 {{-- <empty-container>
                     <i class="MDI package-variant"></i>
                     <p>NOJ Feed is empty, try adding some :-)</p>
@@ -557,15 +557,15 @@
                         </form>
                     </extra-section>
                     {{-- <style-section class="paper-card">
-                        <p>Style setting</p>
+                        <p>Style settings</p>
                     </style-section> --}}
                     {{-- <privacy-section class="paper-card">
-                        <p>Privacy setting</p>
+                        <p>Privacy settings</p>
                     </privacy-section> --}}
                     <email-section class="paper-card">
                         <p>Email verify</p>
                         <div class="text-center">
-                            @if(empty($info['email_verified_at']))
+                            @unless(emailVerified())
                                 <p style="padding: 1rem 0" >you have not verified your email, your account security cannot be guaranteed <br> You can click the button below to send a confirmation email to your mailbox</p>
                                 <div class="text-center">
                                     <button id="send-email" @if(!empty($email_cooldown) && $email_cooldown > 0) data-cooldown="{{$email_cooldown}}" @endif class="btn btn-danger @if(!empty($email_cooldown) && $email_cooldown > 0) cooldown @endif">send email</button>
@@ -577,7 +577,7 @@
                                 <p style="padding: 1rem 0">
                                     Your email address <span class="text-info">{{$info['email']}}</span> has been confirmed, and your email will provide extra support in case of security problems of your account.
                                 </p>
-                            @endif
+                            @endunless
                         </div>
                     </email-section>
                     <password-section class="paper-card">
@@ -652,7 +652,7 @@
             $(div_dom).slideDown(100);
         }
 
-        @if($settingView)
+        @if($settingsView)
         $('#describes-length').text($('#describes').val().length);
         $('#describes').bind('input',function(){
             var length = $(this).val().length;
