@@ -271,7 +271,7 @@
         </nav>
         @if(emailVerified()===false && is_null(request()->cookie('isEmailVerifiedNoticed')))
         <div class="alert alert-info mb-0" role="alert">
-            <strong>Boost your security!</strong> You have not verified your email address, please verify it in your Settings page.
+            <strong>Boost your security!</strong> You have not verified your email address, please verify it in your Settings Page.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="setCookie('isEmailVerifiedNoticed',1,1)">
                 <span aria-hidden="true">×</span>
             </button>
