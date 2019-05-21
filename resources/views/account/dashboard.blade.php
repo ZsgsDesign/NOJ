@@ -28,6 +28,10 @@
         margin-left: 1rem;
     }
 
+    .gender-select{
+        cursor: pointer;
+    }
+
     empty-container{
         display:block;
         text-align: center;
@@ -356,6 +360,18 @@
                     {{-- <p style="margin-bottom: .5rem;"><small class="wemd-light-blue-text">站点管理员</small></p> --}}
                     {{-- <p>{{$info["email"]}}</p> --}}
                     <p id="user-describes" style="padding-top: 1rem;">{{$info['describes']}}</p>
+                    @if(!empty($extra_info))
+                        <a id="extra-info-btn" class="btn text-muted" data-toggle="collapse" href="#extra-info" role="button" aria-expanded="false" aria-controls="extra-info" style="font-size: .75rem;">
+                            more information
+                        </a>
+                        <div class="collapse" id="extra-info">
+                            <p id="extra-info-text" style="font-size: .75rem; text-align:left">
+                                @foreach ($extra_info as $key => $value)
+                                    {{$key}} : {{$value}} <br />
+                                @endforeach
+                            </p>
+                        </div>
+                    @endif
                 </basic-section>
                 <hr class="atsast-line">
                 <statistic-section>
@@ -472,7 +488,7 @@
                 <setting-card>
                     <basic-info-section class="paper-card">
                         <p>Basic info</p>
-                        <div class="form-group">
+                        <div class="form-group" data-toggle="tooltip" data-placement="top" title="Changing the user name is not allowed for the time being">
                             <label for="username" class="bmd-label-floating">username</label>
                             <input type="text" name="username" class="form-control" value="{{ $info['name'] }}" id="username" maxlength="16" autocomplete="off" required disabled>
                         </div>
@@ -488,6 +504,58 @@
                             <small id="basic-info-tip-text" class="text-danger font-weight-bold"></small>
                         </div>
                     </basic-info-section>
+                    <extra-section class="paper-card">
+                        <p>Extra info</p>
+                        <form id="extra-info-form">
+                            <div>
+                                <label style="font-size: .75rem; color: rgba(0,0,0,.26);">gender</label>
+                                <div class="input-group text-center" style="display: flex;justify-content: center; align-items: center;">
+                                    <div class="input-group-prepend">
+                                        <button id="gender-btn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            @if(!empty($extra_info['gender']))
+                                                @if($extra_info['gender'] == 'MALE' || $extra_info['gender'] == 'FAMALE')
+                                                    {{$extra_info['gender']}}
+                                                @else
+                                                    OTHER
+                                                @endif
+                                            @else
+                                                PRIVATE
+                                            @endif
+                                        </button>
+                                        <div class="dropdown-menu" style="font-size: .75rem">
+                                            <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('MALE');$('#gender').val('MALE');$('#gender-input').fadeOut(200);">MALE</a>
+                                            <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('FAMALE');$('#gender').val('FAMALE');$('#gender-input').fadeOut(200);">FAMALE</a>
+                                            <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('OTHER');$('#gender').fadeIn(200);">OTHER I WANT</a>
+                                            <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('PRIVATE');$('#gender').val('');$('#gender-input').fadeOut(200);">PRIVATE</a>
+                                        </div>
+                                    </div>
+                                    <input @if(empty($extra_info['gender']) || $extra_info['gender'] =='MALE' || $extra_info['gender'] == 'FAMALE') style="display:none;" @endif id="gender" name="gender" type="text" class="form-control" value="@if(!empty($extra_info['gender'])){{$extra_info['gender']}}@endif" aria-label="gender input box">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact" class="bmd-label-floating">Contact - Mobile phone number</label>
+                                <input type="text" name="contact" class="form-control" value="@if(!empty($extra_info['contact'])){{$extra_info['contact']}}@endif" id="contact" autocomplete="off" />
+                            </div>
+                            <div class="form-group">
+                                <label for="school" class="bmd-label-floating">School</label>
+                                <input type="text" name="school" class="form-control" value="@if(!empty($extra_info['school'])){{$extra_info['school']}}@endif" id="school" autocomplete="off" />
+                            </div>
+                            <div class="form-group">
+                                <label for="country" class="bmd-label-floating">Country and region</label>
+                                <input type="text" name="country" class="form-control" value="@if(!empty($extra_info['country'])){{$extra_info['country']}}@endif" id="country" autocomplete="off" />
+                            </div>
+                            <div class="form-group">
+                                <label for="location" class="bmd-label-floating">Detailed location</label>
+                                <input type="text" name="location" class="form-control" value="@if(!empty($extra_info['location'])){{$extra_info['location']}}@endif" id="location" autocomplete="off" />
+                            </div>
+                            <div class="text-center">
+                                <button type="button" id="extra-info-update" class="btn btn-danger">update</button>
+                            </div>
+                            <div id="extra-info-tip" style="display: none;" class="text-center">
+                                <small id="extra-info-tip-text" class="text-danger font-weight-bold"></small>
+                            </div>
+                        </form>
+                    </extra-section>
                     {{-- <style-section class="paper-card">
                         <p>Style setting</p>
                     </style-section> --}}
@@ -516,7 +584,7 @@
                         <p>Change password</p>
                         <div class="form-group">
                             <label for="old-password" class="bmd-label-floating">old password</label>
-                            <input type="password" name="old-password" class="form-control" id="old-password" autocomplete="new-password" required>
+                            <input type="password" name="old-password" class="form-control" id="old-password" autocomplete="off" required>
                         </div>
                         <div class="form-group">
                             <label for="new-password" class="bmd-label-floating">new password</label>
@@ -598,9 +666,9 @@
             }
             $(this).addClass('updating');
             slideUp('#basic-info-tip');
-            var username = $('#username').val();
+            //var username = $('#username').val();
             var describes = $('#describes').val();
-            if(username.length == 0 || username.length > 16 || describes.length > 255){
+            if(/* username.length == 0 || username.length > 16 ||  */describes.length > 255){
                 error_tip('#basic-info-tip','#basic-info-tip-text','Invalid length input value');
                 return;
             }
@@ -617,9 +685,9 @@
                 success : function(result){
                     if(result.ret == 200){
                         seccess_tip('#basic-info-tip','#basic-info-tip-text','Change Successfully')
-                        $('basic-section').find('h3').text(username);
+                        /* $('basic-section').find('h3').text(username);
                         $('#nav-username').text(username);
-                        $('#nav-dropdown-username').text(username);
+                        $('#nav-dropdown-username').text(username); */
                         $('#user-describes').text(describes);
                         $('#basic-info-update').removeClass('updating');
                         setTimeout(function(){
@@ -628,6 +696,39 @@
                     }else{
                         error_tip('#basic-info-tip','#basic-info-tip-text',result.desc);
                         $('#basic-info-update').removeClass('updating');
+                    }
+                }
+            });
+        });
+
+        $('#extra-info-update').on('click',function(){
+            if($(this).is('.updating')){
+                alert('slow down');
+                return;
+            }
+            $(this).addClass('updating');
+            slideUp('#extra-info-tip');
+            var form_data = new Object();
+            $.each($('#extra-info-form').find('input'),function(key,input){
+                form_data[input.name] = input.value;
+            })
+            $.ajax({
+                url : '{{route("account_change_extra_info")}}',
+                type : 'POST',
+                data : form_data,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success : function(result){
+                    if(result.ret == 200){
+                        seccess_tip('#extra-info-tip','#extra-info-tip-text','Saved Successfully')
+                        setTimeout(function(){
+                            $('#extra-info-tip').slideUp(100);
+                            window.location.reload();
+                        },1000);
+                    }else{
+                        error_tip('#extra-info-tip','#extra-info-tip-text',result.desc);
+                        $('#extra-change').removeClass('updating');
                     }
                 }
             });
@@ -674,7 +775,7 @@
                     }
                 }
             });
-        })
+        });
 
         @if(!empty($email_cooldown) && $email_cooldown > 0)
         var cooldown_intervel = setInterval(function(){
@@ -721,7 +822,7 @@
                     }
                 }
             });
-        })
+        });
         @endif
 
         @unless($userView)

@@ -110,4 +110,71 @@ class AccountModel extends Model
         $ret["image"]=Cache::tags(['bing', 'pic'])->get(date("Y-m-d"));
         return $ret;
     }
+
+    public function getExtraInfo($uid,$secret_level = 0){
+        $ret = DB::table('users_extra')->where('uid',$uid)->get()->all();
+        $key_meaning = [
+            0 => 'gender',
+            1 => 'contact',
+            2 => 'school',
+            3 => 'country',
+            4 => 'location',
+            //TODO...
+        ];
+        $result = [];
+        if(!empty($ret)){
+            foreach ($ret as $value) {
+                if(empty($value['secret_level']) || $value['secret_level'] <= $secret_level){
+                    $key_name = $key_meaning[$value['key']] ?? 'unknown';
+                    $result[$key_name] = $value['value'];
+                }
+            }
+        }
+        return $result;
+    }
+
+    public function setExtraInfo($uid,$key_name,$value = null,$secret_level = -1){
+        $key_value = [
+            'gender'   => 0,
+            'contact'  => 1,
+            'school'   => 2,
+            'country'  => 3,
+            'location' => 4,
+            //TODO...
+        ];
+        $key = $key_value[$key_name];
+        $ret = DB::table('users_extra')->where('uid',$uid)->where('key',$key)->first();
+        if(!empty($ret)){
+            unset($ret['id']);
+            if(!is_null($value)){
+                $ret['value'] = $value;
+            }
+            if($secret_level != -1){
+                $ret['secret_level'] = $secret_level;
+            }
+            DB::table('users_extra')->where('uid',$uid)->where('key',$key)->update($ret);
+        }else{
+            return DB::table('users_extra')->insertGetId(
+                [
+                    'uid' => $uid,
+                    'key' => $key,
+                    'value' => $value,
+                    'secret_level' => $secret_level == -1 ? 0 : $secret_level,
+                ]
+            );
+        }
+    }
+
+    public function unsetExtraInfoIfExist($uid,$key_name){
+        $key_value = [
+            'gender'   => 0,
+            'contact'  => 1,
+            'school'   => 2,
+            'country'  => 3,
+            'location' => 4,
+            //TODO...
+        ];
+        $key = $key_value[$key_name];
+        $ret = DB::table('users_extra')->where('uid',$uid)->where('key',$key)->delete();
+    }
 }

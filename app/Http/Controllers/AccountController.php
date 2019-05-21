@@ -28,6 +28,7 @@ class AccountController extends Controller
         $accountModel=new AccountModel();
         $info=$accountModel->detail(Auth::user()->id);
         $feed=$accountModel->feed(Auth::user()->id);
+        $extraInfo = $accountModel->getExtraInfo(Auth::user()->id,100);
         return view("account.dashboard", [
             'page_title'=>"DashBoard",
             'site_title'=>"NOJ",
@@ -35,7 +36,8 @@ class AccountController extends Controller
             'info'=>$info,
             'userView'=>false,
             'settingView' => false,
-            'feed'=>$feed
+            'feed'=>$feed,
+            'extra_info' => $extraInfo
         ]);
     }
 
@@ -46,6 +48,7 @@ class AccountController extends Controller
         if(!empty(session('last_email_send'))){
             $email_cooldown = 300 - (time() - session('last_email_send'));
         }
+        $extraInfo = $accountModel->getExtraInfo(Auth::user()->id,100);
         return view("account.dashboard", [
             'page_title'=>"Setting",
             'site_title'=>"NOJ",
@@ -54,6 +57,7 @@ class AccountController extends Controller
             'userView'=>false,
             'settingView' => true,
             'email_cooldown' => $email_cooldown ?? null,
+            'extra_info' => $extraInfo
         ]);
     }
 }

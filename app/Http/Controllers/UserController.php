@@ -28,6 +28,7 @@ class UserController extends Controller
         $accountModel=new AccountModel();
         $info=$accountModel->detail($uid);
         $feed=$accountModel->feed($uid);
+        $extraInfo = $accountModel->getExtraInfo(Auth::user()->id,0);
         return view("account.dashboard", [
             'page_title'=>$info["name"],
             'site_title'=>"NOJ",
@@ -35,7 +36,8 @@ class UserController extends Controller
             'info'=>$info,
             'userView'=>true,
             'settingView' => false,
-            'feed'=>$feed
+            'feed'=>$feed,
+            'extra_info' => $extraInfo,
         ]);
     }
 }

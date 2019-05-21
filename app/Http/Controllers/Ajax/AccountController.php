@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Ajax;
 use App\Http\Controllers\Controller;
 use App\Models\ResponseModel;
 use App\Models\UserModel;
+use App\Models\AccountModel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
@@ -114,5 +115,25 @@ class AccountController extends Controller
             $cooldown =  300 - (time() - $last_send);
             return ResponseModel::success(200,null,$cooldown);
         }
+    }
+
+    public function changeExtraInfo(Request $request){
+        $input = $request->input();
+        $allow_change = ['gender','contact','school','country','location'];
+        foreach($input as $key => $value){
+            if(!in_array($key,$allow_change)){
+                return ResponseModel::error(1007);
+            }
+        }
+        $account_model = new AccountModel();
+        $user_id = Auth::user()->id;
+        foreach ($input as $key => $value) {
+            if(strlen($value) != 0){
+                $account_model->setExtraInfo($user_id,$key,$value,0);
+            }else{
+                $account_model->unsetExtraInfoIfExist($user_id,$key);
+            }
+        }
+        return ResponseModel::success();
     }
 }
