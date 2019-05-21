@@ -154,8 +154,8 @@
     <div class="mundb-background-container">
         <img src="">
     </div>
-    <div style="margin-bottom:30px;position:sticky;top:0;z-index:899;">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="flex-shrink: 0;flex-grow: 0;">
+    <div id="nav-container" style="margin-bottom:30px;position:sticky;top:0;z-index:899;flex-shrink: 0;flex-grow: 0;">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
             @if(isset($custom_info) && !is_null($custom_info))
 
