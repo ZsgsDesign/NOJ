@@ -35,7 +35,7 @@ class AccountController extends Controller
             'navigation'=>"DashBoard",
             'info'=>$info,
             'userView'=>false,
-            'settingView' => false,
+            'settingsView' => false,
             'feed'=>$feed,
             'extra_info' => $extraInfo
         ]);
