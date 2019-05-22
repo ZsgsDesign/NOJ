@@ -25,7 +25,7 @@ class AccountModel extends Model
     public function feed($uid=null)
     {
         $ret=[];
-        $solution=DB::table("problem_solution")->join("problem","problem.pid","=","problem_solution.pid")->where(["uid"=>$uid,"audit"=>1])->select("problem.pid as pid","pcode","title","problem_solution.created_at as created_at")->get()->all();
+        $solution=DB::table("problem_solution")->join("problem","problem.pid","=","problem_solution.pid")->where(["uid"=>$uid,"audit"=>1])->select("problem.pid as pid","pcode","title","problem_solution.created_at as created_at")->orderBy("problem_solution.created_at","DESC")->get()->all();
         foreach($solution as &$s){
             $s["type"]="event";
             $s["color"]="wemd-orange";
