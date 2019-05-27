@@ -162,7 +162,7 @@
                 @if(empty($records["records"]))
                     <empty-container>
                         <i class="MDI package-variant"></i>
-                        <p>Nothing matches your filter.</p>
+                        <p>Nothing matches.</p>
                     </empty-container>
                 @endif
                 {{$records["paginator"]->appends($filter)->links()}}
