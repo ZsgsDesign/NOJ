@@ -179,7 +179,7 @@
     function applyFilter(e,key){
         if (e.keyCode == 13) {
             // alert($(e.target).val());
-            _applyFilter(key,$(e.target).val());
+            _applyFilter(key,String($(e.target).val()).trim());
         }
     }
 
