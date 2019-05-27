@@ -192,7 +192,6 @@
         if(_value===null || _value==="") return;
             tempNav+=`${_key}=${encodeURIComponent(_value)}&`;
         })
-        console.log(tempNav=="");
         if(tempNav.endsWith('&')) tempNav=tempNav.substring(0,tempNav.length-1);
         if(tempNav==="") location.href="/status";
         else location.href="/status?"+tempNav;
