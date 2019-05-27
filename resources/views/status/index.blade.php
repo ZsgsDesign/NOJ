@@ -185,7 +185,8 @@
 
     function _applyFilter(key,value) {
         var tempNav="";
-        var orgNav=location.search;
+        // var orgNav=location.search;
+        if(value==filterVal[key]) return;
         filterVal[key]=value;
         Object.keys(filterVal).forEach((_key)=>{
             let _value=filterVal[_key];
@@ -195,7 +196,7 @@
         })
         console.log(tempNav=="");
         if(tempNav.endsWith('&')) tempNav=tempNav.substring(0,tempNav.length-1);
-        if("?"+tempNav==orgNav) return; // not good
+        // if("?"+tempNav==orgNav) return; // not good
         if(tempNav==="") location.href="/status";
         else location.href="/status?"+tempNav;
     }
