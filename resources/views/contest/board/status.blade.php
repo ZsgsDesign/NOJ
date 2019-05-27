@@ -170,7 +170,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                @if(empty($records["records"]))
+                @if(empty($submission_record["records"]))
                     <empty-container>
                         <i class="MDI package-variant"></i>
                         <p>Nothing matches.</p>
