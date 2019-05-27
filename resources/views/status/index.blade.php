@@ -115,7 +115,11 @@
                     <thead>
                         <tr>
                             <th scope="col" style="text-align: left;">SID</th>
-                            <th scope="col">Problem</th>
+                            <th scope="col">
+                                <div class="form-group m-0 p-0">
+                                    <input type="text" class="form-control text-center" id="problemFilter" placeholder="Problem" onkeypress="applyFilter(event)" value="{{$filter['pcode']}}">
+                                </div>
+                            </th>
                             <th scope="col">Account</th>
                             <th scope="col">Result</th>
                             <th scope="col">Time</th>
@@ -139,7 +143,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{$records["paginator"]->links()}}
+                {{$records["paginator"]->appends($filter)->links()}}
             </div>
         </div>
     </paper-card>
@@ -149,6 +153,35 @@
     window.addEventListener("load",function() {
 
     }, false);
+
+    function applyFilter(e){
+        if (e.keyCode == 13) {
+            // alert($("#problemFilter").val());
+            _applyFilter("problem",$("#problemFilter").val());
+        }
+    }
+
+    function _applyFilter(e) {
+        var tempNav="";
+        filterVal.forEach(function(value,key){
+        　　
+        })
+        if($(e).text() == cur_tag) var tempNav="/problem?";
+        else var tempNav="/problem?tag="+$(e).text();
+        if(cur_oid===null){
+            location.href=tempNav;
+        } else {
+            location.href=tempNav+"&oj="+cur_oid;
+        }
+    }
+
+    var filterVal=[];
+
+    @foreach($filter as $key=>$value)
+
+        filterVal["{{$key}}"]=$value;
+
+    @endforeach
 
 </script>
 @include('js.submission.detail')
