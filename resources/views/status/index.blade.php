@@ -106,6 +106,22 @@
         margin:1rem
     }
 
+    empty-container{
+        display:block;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    empty-container i{
+        font-size:5rem;
+        color:rgba(0,0,0,0.42);
+    }
+
+    empty-container p{
+        font-size: 1rem;
+        color:rgba(0,0,0,0.54);
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
@@ -117,7 +133,7 @@
                             <th scope="col" style="text-align: left;">SID</th>
                             <th scope="col">
                                 <div class="form-group m-0 p-0">
-                                    <input type="text" class="form-control text-center" id="problemFilter" placeholder="Problem" onkeypress="applyFilter(event)" value="{{$filter['pcode']}}">
+                                    <input type="text" class="form-control text-center" id="problemFilter" placeholder="Problem" onkeypress="applyFilter(event,'pcode')" value="{{$filter['pcode']}}">
                                 </div>
                             </th>
                             <th scope="col">Account</th>
@@ -143,6 +159,12 @@
                         @endforeach
                     </tbody>
                 </table>
+                @if(empty($records["records"]))
+                    <empty-container>
+                        <i class="MDI package-variant"></i>
+                        <p>Nothing matches your filter.</p>
+                    </empty-container>
+                @endif
                 {{$records["paginator"]->appends($filter)->links()}}
             </div>
         </div>
@@ -154,32 +176,35 @@
 
     }, false);
 
-    function applyFilter(e){
+    function applyFilter(e,key){
         if (e.keyCode == 13) {
-            // alert($("#problemFilter").val());
-            _applyFilter("problem",$("#problemFilter").val());
+            // alert($(e.target).val());
+            _applyFilter(key,$(e.target).val());
         }
     }
 
-    function _applyFilter(e) {
+    function _applyFilter(key,value) {
         var tempNav="";
-        filterVal.forEach(function(value,key){
-        　　
+        var orgNav=location.search;
+        filterVal[key]=value;
+        Object.keys(filterVal).forEach((_key)=>{
+            let _value=filterVal[_key];
+            // console.log(_value+" "+_key);
+        　　if(_value===null || _value==="") return;
+            tempNav+=`${_key}=${_value}&`;
         })
-        if($(e).text() == cur_tag) var tempNav="/problem?";
-        else var tempNav="/problem?tag="+$(e).text();
-        if(cur_oid===null){
-            location.href=tempNav;
-        } else {
-            location.href=tempNav+"&oj="+cur_oid;
-        }
+        console.log(tempNav=="");
+        if(tempNav.endsWith('&')) tempNav=tempNav.substring(0,tempNav.length-1);
+        if("?"+tempNav==orgNav) return; // not good
+        if(tempNav==="") location.href="/status";
+        else location.href="/status?"+tempNav;
     }
 
     var filterVal=[];
 
     @foreach($filter as $key=>$value)
 
-        filterVal["{{$key}}"]=$value;
+        filterVal["{{$key}}"]="{{$value}}";
 
     @endforeach
 

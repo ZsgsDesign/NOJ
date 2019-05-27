@@ -461,7 +461,7 @@ class SubmissionModel extends Model
         return "$difference $periods[$j] {$tense}";
     }
 
-    public function getRecord()
+    public function getRecord($filter)
     {
         $paginator=DB::table("submission")->where([
             'cid'=>null
@@ -492,7 +492,13 @@ class SubmissionModel extends Model
         )->orderBy(
             'submission_date',
             'desc'
-        )->paginate(50);
+        );
+
+        if($filter["pcode"]){
+            $paginator=$paginator->where(["pcode"=>$filter["pcode"]]);
+        }
+
+        $paginator=$paginator->paginate(50);
 
 
         $records=$paginator->all();
