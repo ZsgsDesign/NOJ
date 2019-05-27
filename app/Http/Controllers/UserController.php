@@ -28,7 +28,7 @@ class UserController extends Controller
         $accountModel=new AccountModel();
         $info=$accountModel->detail($uid);
         $feed=$accountModel->feed($uid);
-        $extraInfo = $accountModel->getExtraInfo(Auth::user()->id,0);
+        $extraInfo = $accountModel->getExtraInfo($uid,0);
         return view("account.dashboard", [
             'page_title'=>$info["name"],
             'site_title'=>"NOJ",
