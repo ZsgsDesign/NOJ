@@ -191,7 +191,7 @@
         Object.keys(filterVal).forEach((_key)=>{
             let _value=filterVal[_key];
             // console.log(_value+" "+_key);
-        　　if(_value===null || _value==="") return;
+        if(_value===null || _value==="") return;
             tempNav+=`${_key}=${_value}&`;
         })
         console.log(tempNav=="");
