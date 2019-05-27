@@ -189,9 +189,9 @@
         filterVal[key]=value;
         Object.keys(filterVal).forEach((_key)=>{
             let _value=filterVal[_key];
-        if(_value===null || _value==="") return;
+            if(_value===null || _value==="") return;
             tempNav+=`${_key}=${encodeURIComponent(_value)}&`;
-        })
+        });
         if(tempNav.endsWith('&')) tempNav=tempNav.substring(0,tempNav.length-1);
         if(tempNav==="") location.href="/status";
         else location.href="/status?"+tempNav;
