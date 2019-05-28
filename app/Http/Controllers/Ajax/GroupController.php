@@ -133,4 +133,26 @@ class GroupController extends Controller
             return ResponseModel::success(200);
         }
     }
+
+    public function approveMember(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|integer',
+            'uid' => 'required|integer',
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        if ($clearance>1) {
+            $targetClearance=$groupModel->judgeClearance($all_data["gid"], $all_data["uid"]);
+            if($targetClearance!=0) {
+                return ResponseModel::success(7003);
+            }
+            $groupModel->changeClearance($all_data["uid"], $all_data["gid"], 1);
+            return ResponseModel::success(200);
+        }
+        return ResponseModel::err(7002);
+    }
 }
