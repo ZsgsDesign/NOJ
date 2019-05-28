@@ -123,30 +123,35 @@
     }
 
     tr input.form-control {
+        font-weight: 500;
         font-size: 0.75rem;
         color: rgba(0, 0, 0, 0.93);
         transition: .2s ease-out .0s;
     }
 
     tr input.form-control::-webkit-input-placeholder{
+        font-weight: 500;
         font-size: 0.75rem;
         color: rgba(0, 0, 0, 0.42);
         transition: .2s ease-out .0s;
     }
 
     tr input.form-control::-moz-placeholder{
+        font-weight: 500;
         font-size: 0.75rem;
         color: rgba(0, 0, 0, 0.42);
         transition: .2s ease-out .0s;
     }
 
     tr input.form-control:-ms-input-placeholder{
+        font-weight: 500;
         font-size: 0.75rem;
         color: rgba(0, 0, 0, 0.42);
         transition: .2s ease-out .0s;
     }
 
     tr input.form-control:-moz-placeholder{
+        font-weight: 500;
         font-size: 0.75rem;
         color: rgba(0, 0, 0, 0.42);
         transition: .2s ease-out .0s;
