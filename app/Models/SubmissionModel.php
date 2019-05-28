@@ -498,6 +498,14 @@ class SubmissionModel extends Model
             $paginator=$paginator->where(["pcode"=>$filter["pcode"]]);
         }
 
+        if($filter["result"]){
+            $paginator=$paginator->where(["verdict"=>$filter["result"]]);
+        }
+
+        if($filter["account"]){
+            $paginator=$paginator->where(["name"=>$filter["account"]]);
+        }
+
         $paginator=$paginator->paginate(50);
 
 

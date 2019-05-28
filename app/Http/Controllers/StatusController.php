@@ -18,6 +18,8 @@ class StatusController extends Controller
     {
         $all_data=$request->all();
         $filter["pcode"]=isset($all_data["pcode"]) ? $all_data["pcode"] : null;
+        $filter["result"]=isset($all_data["result"]) ? $all_data["result"] : null;
+        $filter["account"]=isset($all_data["account"]) ? $all_data["account"] : null;
         $submissionModel=new SubmissionModel();
         $records=$submissionModel->getRecord($filter);
         return view('status.index', [
