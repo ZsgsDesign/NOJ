@@ -15,15 +15,8 @@ use Auth;
 
 class AccountController extends Controller
 {
-    /**
-     * The Ajax Update Avatar.
-     *
-     * @param Request $request web request
-     *
-     * @return Response
-     */
-    public function updateAvatar(Request $request)
-    {
+
+    public function updateAvatar(Request $request){
         $isValid=$request->file('avatar')->isValid();
         if ($isValid) {
             $extension=$request->file('avatar')->extension();
@@ -50,13 +43,6 @@ class AccountController extends Controller
         }
     }
 
-    /**
-     * The Ajax Change users' basic info.
-     *
-     * @param Request $request web request
-     *
-     * @return Response
-     */
     public function changeBasicInfo(Request $request){
         // if(!$request->has('username')){
         //     return ResponseModel::err(1003);
@@ -77,13 +63,6 @@ class AccountController extends Controller
         return ResponseModel::success();
     }
 
-    /**
-     * The Ajax Change users' password.
-     *
-     * @param Request $request web request
-     *
-     * @return Response
-     */
     public function changePassword(Request $request){
         if(!$request->has('old_password') || !$request->has('new_password') || !$request->has('confirm_password')){
             return ResponseModel::err(1003);
@@ -120,6 +99,26 @@ class AccountController extends Controller
     public function changeExtraInfo(Request $request){
         $input = $request->input();
         $allow_change = ['gender','contact','school','country','location'];
+        foreach($input as $key => $value){
+            if(!in_array($key,$allow_change)){
+                return ResponseModel::error(1007);
+            }
+        }
+        $account_model = new AccountModel();
+        $user_id = Auth::user()->id;
+        foreach ($input as $key => $value) {
+            if(strlen($value) != 0){
+                $account_model->setExtraInfo($user_id,$key,$value,0);
+            }else{
+                $account_model->unsetExtraInfoIfExist($user_id,$key);
+            }
+        }
+        return ResponseModel::success();
+    }
+
+    public function saveEditorWidth(Request $request){
+        $input = $request->input();
+        $allow_change = ['editor_left_width'];
         foreach($input as $key => $value){
             if(!in_array($key,$allow_change)){
                 return ResponseModel::error(1007);
