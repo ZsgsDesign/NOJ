@@ -640,7 +640,13 @@
                                     </user-avatar>
                                     <user-info>
                                         <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
-                                        <p><small><i class="MDI google-circles"></i> None</small></p>
+                                        <p>
+                                            <small><i class="MDI google-circles"></i> {{$m["sub_group"]}}</small>
+                                            @if($m["role"]>0 && $group_clearance>$m["role"])<small class="wemd-red-text"><i class="MDI account-off"></i> Kick</small>@endif
+                                            @if($m["role"]==0 && $group_clearance>1)<small class="wemd-green-text"><i class="MDI check"></i> Approve</small>@endif
+                                            @if($m["role"]==0 && $group_clearance>1)<small class="wemd-red-text"><i class="MDI cancel"></i> Decline</small>@endif
+                                            @if($m["role"]==-1 && $group_clearance>1)<small class="wemd-red-text"><i class="MDI account-minus"></i> Retrieve</small>@endif
+                                        </p>
                                     </user-info>
                                 </user-card>
                                 @endforeach

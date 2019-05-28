@@ -114,11 +114,13 @@ class GroupModel extends Model
             "uid",
             "name",
             "nick_name",
-            "avatar"
+            "avatar",
+            "sub_group"
         )->get()->all();
         foreach ($user_list as &$u) {
             $u["role_parsed"]=$this->role[$u["role"]];
             $u["role_color"]=$this->role_color[$u["role"]];
+            if(is_null($u["sub_group"])) $u["sub_group"]="None";
         }
         return $user_list;
     }
