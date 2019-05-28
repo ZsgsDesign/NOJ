@@ -135,9 +135,9 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva
             - [X] Judger
             - [X] Submit to OJ
             - [X] Retrive Status
-- [ ] Status System
+- [X] Status System
     - [X] Status List
-    - [ ] Status Filter
+    - [X] Status Filter
     - [X] Status Details
         - [X] Syntax Highlight
         - [X] Verdict
