@@ -375,8 +375,13 @@
             display:block;
         }
 
+        top-side.problem-only > middle-slider,
+        top-side.editor-only > middle-slider{
+            display:none;
+        }
+
         top-side.problem-only > left-side{
-            width:100%;
+            width:100%!important;
         }
 
         top-side.problem-only > right-side{
@@ -384,7 +389,7 @@
         }
 
         top-side.editor-only > right-side{
-            width:100%;
+            width:100%!important;
         }
 
         top-side.editor-only > left-side{
