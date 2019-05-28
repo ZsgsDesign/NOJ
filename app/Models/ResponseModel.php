@@ -87,6 +87,8 @@ class ResponseModel extends Model
 
             '7000' => "Group-Related Error",
             '7001' => "Group Not Found",
+            '7002' => "Insufficient Clearance",
+            '7003' => "No Need to Approve",
 
         ];
         return isset($errDesc[$errCode]) ? $errDesc[$errCode] : $errDesc['1000'];

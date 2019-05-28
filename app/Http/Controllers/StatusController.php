@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SubmissionModel;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Auth;
 
 class StatusController extends Controller
@@ -13,15 +14,20 @@ class StatusController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $all_data=$request->all();
+        $filter["pcode"]=isset($all_data["pcode"]) ? $all_data["pcode"] : null;
+        $filter["result"]=isset($all_data["result"]) ? $all_data["result"] : null;
+        $filter["account"]=isset($all_data["account"]) ? $all_data["account"] : null;
         $submissionModel=new SubmissionModel();
-        $records=$submissionModel->getRecord();
+        $records=$submissionModel->getRecord($filter);
         return view('status.index', [
             'page_title' => "Status",
             'site_title' => "NOJ",
             'navigation' => "Status",
-            'records' => $records
+            'records' => $records,
+            'filter' => $filter
         ]);
     }
 }

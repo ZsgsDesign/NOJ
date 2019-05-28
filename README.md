@@ -135,9 +135,9 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva
             - [X] Judger
             - [X] Submit to OJ
             - [X] Retrive Status
-- [ ] Status System
+- [X] Status System
     - [X] Status List
-    - [ ] Status Filter
+    - [X] Status Filter
     - [X] Status Details
         - [X] Syntax Highlight
         - [X] Verdict
@@ -174,7 +174,8 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva
         - [X] Group Timeline
         - [ ] Group Member Management
             - [ ] Invite
-            - [ ] Delete
+            - [X] Remove Members
+            - [X] Approve Requests
             - [ ] Sub Group
         - [X] Group Profile
         - [X] Group General Info

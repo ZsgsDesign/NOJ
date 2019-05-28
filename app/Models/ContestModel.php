@@ -472,6 +472,8 @@ class ContestModel extends Model
         $ret=[];
 
         $contest_info=DB::table("contest")->where("cid", $cid)->first();
+        $frozen_time=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
+        $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
 
         if ($contest_info["registration"]) {
             $submissionUsers=DB::table("contest_participant")->where([
@@ -482,7 +484,11 @@ class ContestModel extends Model
             // Those who submitted are participants
             $submissionUsers=DB::table("submission")->where([
                 "cid"=>$cid
-            ])->select('uid')->groupBy('uid')->get()->all();
+            ])->where(
+                "submission_date",
+                "<",
+                $frozen_time
+            )->select('uid')->groupBy('uid')->get()->all();
         }
 
         $problemSet=DB::table("contest_problem")->join("problem", "contest_problem.pid", "=", "problem.pid")->where([

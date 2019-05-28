@@ -160,7 +160,7 @@
     function applyFilter(e) {
         if($(e).data("oid")===undefined){
             if($(e).text() == cur_tag) var tempNav="/problem?";
-            else var tempNav="/problem?tag="+$(e).text();
+            else var tempNav="/problem?tag="+encodeURIComponent($(e).text());
             if(cur_oid===null){
                 location.href=tempNav;
             } else {
@@ -168,7 +168,7 @@
             }
         } else {
             if($(e).data("oid") == cur_oid) var tempNav="/problem?";
-            else var tempNav="/problem?oj="+$(e).data("oid");
+            else var tempNav="/problem?oj="+encodeURIComponent($(e).data("oid"));
             if(cur_tag===null){
                 location.href=tempNav;
             } else {
