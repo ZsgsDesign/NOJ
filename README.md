@@ -174,7 +174,8 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva
         - [X] Group Timeline
         - [ ] Group Member Management
             - [ ] Invite
-            - [ ] Delete
+            - [X] Remove Members
+            - [X] Approve Requests
             - [ ] Sub Group
         - [X] Group Profile
         - [X] Group General Info
