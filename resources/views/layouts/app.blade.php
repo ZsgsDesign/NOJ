@@ -243,6 +243,8 @@
                                     -->
                                     @endif
                                     <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/tool/pastebin/create"><i class="MDI content-paste"></i> PasteBin</a>
+                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/system/info"><i class="MDI information-outline"></i> System Info</a>
                                     <a class="dropdown-item" href="https://github.com/ZsgsDesign/NOJ/issues"><i class="MDI bug"></i> Report BUG</a>
                                     <div class="dropdown-divider"></div>
