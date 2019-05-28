@@ -134,6 +134,24 @@
                 </a>
             </div>
         @endforeach
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <a disable-href="/group/create">
+                <group-card style="border-style: dashed;">
+                    <div>
+                        <shadow-div>
+                            <img src="/static/img/group/addphoto.jpg">
+                        </shadow-div>
+                    </div>
+                    <div>
+                        <p class="cm-group-name">Create a New Group</p>
+                        <small class="cm-group-info">Click here to create your own group!</small>
+                        <div class="cm-group-action">
+
+                            </div>
+                    </div>
+                </group-card>
+            </a>
+        </div>
     </div>
     @endif
 </div>
