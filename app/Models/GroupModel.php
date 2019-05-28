@@ -155,6 +155,14 @@ class GroupModel extends Model
         ]);
     }
 
+    public function removeClearance($uid, $gid)
+    {
+        return DB::table("group_member")->where([
+            "uid"=>$uid,
+            "gid"=>$gid
+        ])->delete();
+    }
+
     public function addClearance($uid, $gid, $clearance)
     {
         return DB::table("group_member")->insert([
