@@ -818,8 +818,8 @@
             $('slide-curtain').fadeOut(200);
             $('curtain-slider').hide();
             var left_vw =  (e.pageX-2.5) / window.innerWidth * 100;
-            if(left_vw <= 10)
-                left_vw = 10;
+            if(left_vw <= 25)
+                left_vw = 25;
             if(left_vw >= 90)
                 left_vw = 90;
             var right_vw = 100 - left_vw - 0.35;
@@ -845,9 +845,9 @@
         });
 
         $('slide-curtain').mousemove(function(e){
-            if(e.pageX <= window.innerWidth * 0.1){
+            if(e.pageX <= window.innerWidth * 0.25){
                 $('curtain-slider').css({
-                    left: window.innerWidth * 0.1 - 2.5,
+                    left: window.innerWidth * 0.25 - 2.5,
                     background: '#f004'
                 });
             }else if(e.pageX >= window.innerWidth * 0.9){
