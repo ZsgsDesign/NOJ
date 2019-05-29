@@ -85,7 +85,6 @@ class ContestController extends Controller
     public function challenge($cid)
     {
         $contestModel=new ContestModel();
-        $accountModel=new AccountModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if (!$clearance) {
             return Redirect::route('contest_detail', ['cid' => $cid]);
@@ -99,7 +98,6 @@ class ContestController extends Controller
         if ($remainingTime<=0) {
             $remainingTime=0;
         }
-        $editor_left_width = $accountModel->getExtraInfo(Auth::user()->id)['editor_left_width'] ?? '40';
         return view('contest.board.challenge', [
             'page_title'=>"Challenge",
             'navigation' => "Contest",
@@ -111,8 +109,7 @@ class ContestController extends Controller
             'remaining_time'=>$remainingTime,
             'custom_info' => $customInfo,
             'clarification_list' => $clarificationList,
-            'clearance'=> $clearance,
-            'editor_left_width'=>$editor_left_width,
+            'clearance'=> $clearance
         ]);
     }
 
@@ -127,6 +124,7 @@ class ContestController extends Controller
         $problemModel=new ProblemModel();
         $compilerModel=new CompilerModel();
         $submissionModel=new SubmissionModel();
+        $accountModel=new AccountModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if (!$clearance) {
             return Redirect::route('contest_detail', ['cid' => $cid]);
@@ -159,6 +157,8 @@ class ContestController extends Controller
             ];
         }
 
+        $editor_left_width = $accountModel->getExtraInfo(Auth::user()->id)['editor_left_width'] ?? '40';
+
         return view('contest.board.editor', [
             'page_title'=>"Problem Detail",
             'navigation' => "Contest",
@@ -176,7 +176,8 @@ class ContestController extends Controller
             'contest_rule' => $contest_rule,
             'problem_set' => $problemSet,
             'clearance' => $clearance,
-            'oj_detail' => $oj_detail
+            'oj_detail' => $oj_detail,
+            'editor_left_width'=>$editor_left_width,
         ]);
     }
 
