@@ -297,12 +297,38 @@
         }
 
         left-side{
-            width:40vw;
+            width: {{ $editor_left_width.'vw' }};
             /* width: calc(0.618 * (100vh - 4rem)); */
         }
 
+        slide-curtain{
+            display: none;
+            position: fixed;
+            z-index: 1050;
+            width: 100%;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.2);
+            cursor: ew-resize;
+        }
+
+        curtain-slider{
+            position: absolute;
+            z-index: 1060;
+            background: #fff4;
+            width: .35vw;
+            height: 100%;
+            cursor: ew-resize;
+        }
+
+        middle-slider{
+            width: .35vw;
+            height: 100%;
+            background: linear-gradient(to right, #fafafa, #d4d4d4);
+            cursor: ew-resize;
+        }
+
         right-side{
-            width:60vw;
+            width:{{ (100 - $editor_left_width - 0.35).'vw' }};
             /* width:calc( 100vw - 0.618 * (100vh - 4rem)); */
             /* flex-grow: 1;
             flex-shrink: 1; */
@@ -345,12 +371,17 @@
             text-decoration: none;
         }
 
-        left-side,right-side{
+        left-side,right-side,middle-slider{
             display:block;
         }
 
+        top-side.problem-only > middle-slider,
+        top-side.editor-only > middle-slider{
+            display:none;
+        }
+
         top-side.problem-only > left-side{
-            width:100%;
+            width:100%!important;
         }
 
         top-side.problem-only > right-side{
@@ -358,7 +389,7 @@
         }
 
         top-side.editor-only > right-side{
-            width:100%;
+            width:100%!important;
         }
 
         top-side.editor-only > left-side{
@@ -535,7 +566,6 @@
             from{transform: rotate(0deg)}
             to{transform: rotate(359deg)}
         }
-
     </style>
 
     <div class="immersive-container">
@@ -619,6 +649,12 @@
                     </fresh-container>
                 </div>
             </left-side>
+            <slide-curtain>
+                <curtain-slider>
+                </curtain-slider>
+            </slide-curtain>
+            <middle-slider>
+            </middle-slider>
             <right-side style="background: rgb(30, 30, 30);">
                 <div id="vscode_container" style="width:100%;height:100%;">
                     <div id="vscode" style="width:100%;height:100%;"></div>
@@ -764,6 +800,68 @@
         var tot_points=parseInt("{{$detail["points"]}}");
         var tot_scores=parseInt("{{$detail["tot_score"]}}");
         var problemEnable=true,editorEnable=true;
+
+        var saveWidthTimeout = null;
+
+        $('middle-slider').mousedown(function(){
+            $('slide-curtain').fadeIn(200);
+            $('slide-curtain').css({
+                height: $('top-side').css('height')
+            });
+            $('curtain-slider').css({
+                left: $('left-side').css('width')
+            });
+            $('curtain-slider').show();
+        });
+
+        $('slide-curtain').mouseup(function(e){
+            $('slide-curtain').fadeOut(200);
+            $('curtain-slider').hide();
+            var left_vw =  (e.pageX-2.5) / window.innerWidth * 100;
+            if(left_vw <= 10)
+                left_vw = 10;
+            if(left_vw >= 90)
+                left_vw = 90;
+            var right_vw = 100 - left_vw - 0.35;
+            $('left-side').css({
+                width: left_vw + 'vw'
+            });
+            $('right-side').css({
+                width: right_vw + 'vw'
+            });
+            clearTimeout(saveWidthTimeout);
+            saveWidthTimeout = setTimeout(function(){
+                $.ajax({
+                    url : '{{route("account_save_editor_width")}}',
+                    type : 'POST',
+                    data : {
+                        editor_left_width : left_vw
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+            },5000);
+        });
+
+        $('slide-curtain').mousemove(function(e){
+            if(e.pageX <= window.innerWidth * 0.1){
+                $('curtain-slider').css({
+                    left: window.innerWidth * 0.1 - 2.5,
+                    background: '#f004'
+                });
+            }else if(e.pageX >= window.innerWidth * 0.9){
+                $('curtain-slider').css({
+                    left: window.innerWidth * 0.9 - 2.5,
+                    background: '#f004'
+                });
+            }else{
+                $('curtain-slider').css({
+                    left: e.pageX - 2.5,
+                    background: '#fff4'
+                });
+            }
+        });
 
         $( "#problemBtn" ).click(function() {
             if(!editorEnable && problemEnable) return;

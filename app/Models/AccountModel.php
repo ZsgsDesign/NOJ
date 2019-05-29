@@ -119,7 +119,7 @@ class AccountModel extends Model
             2 => 'school',
             3 => 'country',
             4 => 'location',
-            //TODO...
+            5 => 'editor_left_width',
         ];
         $result = [];
         if(!empty($ret)){
@@ -135,11 +135,12 @@ class AccountModel extends Model
 
     public function setExtraInfo($uid,$key_name,$value = null,$secret_level = -1){
         $key_value = [
-            'gender'   => 0,
-            'contact'  => 1,
-            'school'   => 2,
-            'country'  => 3,
-            'location' => 4,
+            'gender'                    => 0,
+            'contact'                   => 1,
+            'school'                    => 2,
+            'country'                   => 3,
+            'location'                  => 4,
+            'editor_left_width'         => 5,
             //TODO...
         ];
         $key = $key_value[$key_name];
@@ -167,11 +168,12 @@ class AccountModel extends Model
 
     public function unsetExtraInfoIfExist($uid,$key_name){
         $key_value = [
-            'gender'   => 0,
-            'contact'  => 1,
-            'school'   => 2,
-            'country'  => 3,
-            'location' => 4,
+            'gender'                    => 0,
+            'contact'                   => 1,
+            'school'                    => 2,
+            'country'                   => 3,
+            'location'                  => 4,
+            'editor_left_width'         => 5,
             //TODO...
         ];
         $key = $key_value[$key_name];
