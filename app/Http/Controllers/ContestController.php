@@ -7,6 +7,7 @@ use App\Models\GroupModel;
 use App\Models\ProblemModel;
 use App\Models\CompilerModel;
 use App\Models\SubmissionModel;
+use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Auth;
 use Redirect;
@@ -84,6 +85,7 @@ class ContestController extends Controller
     public function challenge($cid)
     {
         $contestModel=new ContestModel();
+        $accountModel=new AccountModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if (!$clearance) {
             return Redirect::route('contest_detail', ['cid' => $cid]);
@@ -97,6 +99,7 @@ class ContestController extends Controller
         if ($remainingTime<=0) {
             $remainingTime=0;
         }
+        $editor_left_width = $accountModel->getExtraInfo(Auth::user()->id)['editor_left_width'] ?? '40';
         return view('contest.board.challenge', [
             'page_title'=>"Challenge",
             'navigation' => "Contest",
@@ -108,7 +111,8 @@ class ContestController extends Controller
             'remaining_time'=>$remainingTime,
             'custom_info' => $customInfo,
             'clarification_list' => $clarificationList,
-            'clearance'=> $clearance
+            'clearance'=> $clearance,
+            'editor_left_width'=>$editor_left_width,
         ]);
     }
 
