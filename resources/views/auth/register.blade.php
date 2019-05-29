@@ -110,7 +110,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="email" class="bmd-label-floating">Nick Name</label>
-                                    <input type="email" name="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" id="register_nick_name" value="{{ old('name') }}" required>
+                                    <input type="email" name="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" id="register_nick_name" value="{{ old('name') }}" maxlength="16" required>
                                     @if ($errors->has('name'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('name') }}</strong>

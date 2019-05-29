@@ -108,6 +108,21 @@
         margin:1rem
     }
 
+    empty-container{
+        display:block;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    empty-container i{
+        font-size:5rem;
+        color:rgba(0,0,0,0.42);
+    }
+
+    empty-container p{
+        font-size: 1rem;
+        color:rgba(0,0,0,0.54);
+    }
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
@@ -155,6 +170,12 @@
                         @endforeach
                     </tbody>
                 </table>
+                @if(empty($submission_record["records"]))
+                    <empty-container>
+                        <i class="MDI package-variant"></i>
+                        <p>Nothing matches.</p>
+                    </empty-container>
+                @endif
                 {{$submission_record["paginator"]->links()}}
             </div>
         </div>

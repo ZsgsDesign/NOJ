@@ -133,4 +133,45 @@ class GroupController extends Controller
             return ResponseModel::success(200);
         }
     }
+
+    public function approveMember(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|integer',
+            'uid' => 'required|integer',
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        $targetClearance=$groupModel->judgeClearance($all_data["gid"], $all_data["uid"]);
+        if ($clearance>1) {
+            if($targetClearance!=0) {
+                return ResponseModel::err(7003);
+            }
+            $groupModel->changeClearance($all_data["uid"], $all_data["gid"], 1);
+            return ResponseModel::success(200);
+        }
+        return ResponseModel::err(7002);
+    }
+
+    public function removeMember(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|integer',
+            'uid' => 'required|integer',
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        $targetClearance=$groupModel->judgeClearance($all_data["gid"], $all_data["uid"]);
+        if ($clearance>1 && $clearance>$targetClearance) {
+            $groupModel->removeClearance($all_data["uid"], $all_data["gid"]);
+            return ResponseModel::success(200);
+        }
+        return ResponseModel::err(7002);
+    }
 }

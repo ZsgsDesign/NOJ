@@ -52,11 +52,16 @@ class ResponseModel extends Model
             '1003' => "Missing Params",
             '1004' => "Write/Read Permission Denied",
             '1005' => "Invalid File",
+            '1006' => "Invalid length params",
+            '1007' => "Invalid parameter passed",
             '1984' => "Ignorance is Strength",
 
             '2000' => "Account-Related Error",
             '2001' => "Permission Denied",
             '2002' => "Please Login First",
+            '2003' => "A user with the same username already exists",
+            '2004' => "New passwords do not match",
+            '2005' => "Old passwords error",
 
             '3000' => "Problem-Related Error",
             '3001' => "Problem Not Found",
@@ -68,6 +73,10 @@ class ResponseModel extends Model
             '4000' => "Contest-Related Error",
             '4001' => "Contest Not Found",
             '4002' => "Too Much Problems",
+            '4003' => "No Need for Registration",
+            '4004' => "Registration Ended",
+            '4005' => "Registration Denied",
+            '4006' => "AlreadyRegistered",
 
             '5000' => "Status-Related Error",
             '5001' => "Status Not Found",
@@ -78,6 +87,8 @@ class ResponseModel extends Model
 
             '7000' => "Group-Related Error",
             '7001' => "Group Not Found",
+            '7002' => "Insufficient Clearance",
+            '7003' => "No Need to Approve",
 
         ];
         return isset($errDesc[$errCode]) ? $errDesc[$errCode] : $errDesc['1000'];

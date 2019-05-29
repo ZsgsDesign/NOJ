@@ -154,119 +154,132 @@
     <div class="mundb-background-container">
         <img src="">
     </div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom:30px;position:sticky;top:0;z-index:999;flex-shrink: 0;flex-grow: 0;">
+    <div id="nav-container" style="margin-bottom:30px;position:sticky;top:0;z-index:899;flex-shrink: 0;flex-grow: 0;">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-        @if(isset($custom_info) && !is_null($custom_info))
+            @if(isset($custom_info) && !is_null($custom_info))
 
-            <a class="navbar-brand" href="#">
-                <img src="{{$custom_info["custom_icon"]}}" height="30"> {{$custom_info["custom_title"]}}
-            </a>
+                <a class="navbar-brand" href="#">
+                    <img src="{{$custom_info["custom_icon"]}}" height="30"> {{$custom_info["custom_title"]}}
+                </a>
 
-        @else
+            @else
 
-            <a class="navbar-brand" href="/">
-                <img src="/static/img/njupt.png" height="30"> NJUPT Online Judge
-            </a>
+                <a class="navbar-brand" href="/">
+                    <img src="/static/img/njupt.png" height="30"> NJUPT Online Judge
+                </a>
 
-        @endif
+            @endif
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-            aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                @if(!Auth::check() || is_null(Auth::user()->contest_account))
-                <li class="nav-item />">
-                    <a class="nav-link @if ($navigation === "Home") active @endif" href="/">Home <span class="sr-only">(current)</span></a>
-                </li>
-                @endif
-                @if(!Auth::check() || is_null(Auth::user()->contest_account))
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
                     <li class="nav-item />">
-                        <a class="nav-link @if ($navigation === "Problem") active @endif" href="/problem">Problem</a>
+                        <a class="nav-link @if ($navigation === "Home") active @endif" href="/">Home <span class="sr-only">(current)</span></a>
                     </li>
-                @endif
-                @if(!Auth::check() || is_null(Auth::user()->contest_account))
-                    <li class="nav-item />">
-                        <a class="nav-link @if ($navigation === "Status") active @endif" href="/status">Status</a>
-                    </li>
-                @endif
-                @if(!Auth::check() || is_null(Auth::user()->contest_account))
-                    <li class="nav-item />">
-                        <a class="nav-link @if ($navigation === "Rank") active @endif" href="/rank">Rank</a>
-                    </li>
-                @endif
-                <li class="nav-item />">
-                    <a class="nav-link @if ($navigation === "Contest") active @endif" href="/contest">Contest</a>
-                </li>
-                @if(!Auth::check() || is_null(Auth::user()->contest_account))
-                <li class="nav-item />">
-                    <a class="nav-link @if ($navigation === "Group") active @endif" href="/group">Group</a>
-                </li>
-                @endif
-                @if(!Auth::check() || is_null(Auth::user()->contest_account))
-                    @foreach(getCustomUrl() as $u)
+                    @endif
+                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
                         <li class="nav-item />">
-                            <a class="nav-link" href="{{$u["url"]}}" target="{{$u["newtab"]?'_blank':''}}">{{$u["display_name"]}}</a>
+                            <a class="nav-link @if ($navigation === "Problem") active @endif" href="/problem">Problem</a>
                         </li>
-                    @endforeach
-                @endif
-            </ul>
-
-            <ul class="navbar-nav mundb-nav-right">
-                @if(!Auth::check() || is_null(Auth::user()->contest_account))
-                <form id="search-box" action="/search" method="get" class="form-inline my-2 my-lg-0 mundb-inline">
-                    <span class="bmd-form-group"><input id="search-key" class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" placeholder="Problem code" autocomplete="off" aria-label="search"></span>
-                </form>
-                @endif
-
-                <li class="nav-item mundb-no-shrink />">
-                    @guest
-                        <a class="nav-link @if ($navigation === "Account") active @endif" href="/account">Account</a>
-                    @else
-                        <li class="nav-item dropdown mundb-btn-ucenter">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{$greeting}}, {{ Auth::user()["name"] }}</a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <div class="dropdown-header"><img src="{{ Auth::user()->avatar }}" class="mundb-avatar" id="atsast_nav_avatar" /><div><h6>{{ Auth::user()["name"] }}<br/><small>{{ Auth::user()->email }}</small></h6></div></div>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/account/dashboard"><i class="MDI account-circle"></i> Dashboard</a>
-                                <!--
-                                <a class="dropdown-item" href="/account/submissions"><i class="MDI airballoon"></i> Submissions</a>
-                                <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> Advanced Settings</a>
-                                -->
-                                @if ("admin"===false)
-                                <!--
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/admin"><i class="MDI view-dashboard"></i> Admin Tools</a>
-                                -->
-                                @endif
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/system/info"><i class="MDI information-outline"></i> System Info</a>
-                                <a class="dropdown-item" href="https://github.com/ZsgsDesign/NOJ/issues"><i class="MDI bug"></i> Report BUG</a>
-                                <div class="dropdown-divider"></div>
-                                <a  class="dropdown-item text-danger"
-                                    href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();">
-                                    <i class="MDI exit-to-app text-danger"></i> {{ __('Logout') }}
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
-                            </div>
+                    @endif
+                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                        <li class="nav-item />">
+                            <a class="nav-link @if ($navigation === "Status") active @endif" href="/status">Status</a>
                         </li>
-                        <script>
-                          window.addEventListener("load", function () {
-                            $('.dropdown-header').click(function (e) {
-                              e.stopPropagation();
-                            });
-                          }, false);
-                        </script>
-                    @endguest
-                </li>
-            </ul>
+                    @endif
+                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                        <li class="nav-item />">
+                            <a class="nav-link @if ($navigation === "Rank") active @endif" href="/rank">Rank</a>
+                        </li>
+                    @endif
+                    <li class="nav-item />">
+                        <a class="nav-link @if ($navigation === "Contest") active @endif" href="/contest">Contest</a>
+                    </li>
+                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    <li class="nav-item />">
+                        <a class="nav-link @if ($navigation === "Group") active @endif" href="/group">Group</a>
+                    </li>
+                    @endif
+                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                        @foreach(getCustomUrl() as $u)
+                            <li class="nav-item />">
+                                <a class="nav-link" href="{{$u["url"]}}" target="{{$u["newtab"]?'_blank':''}}">{{$u["display_name"]}}</a>
+                            </li>
+                        @endforeach
+                    @endif
+                </ul>
+
+                <ul class="navbar-nav mundb-nav-right">
+                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    <form id="search-box" action="/search" method="get" class="form-inline my-2 my-lg-0 mundb-inline">
+                        <span class="bmd-form-group"><input id="search-key" class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" placeholder="Problem code" autocomplete="off" aria-label="search"></span>
+                    </form>
+                    @endif
+
+                    <li class="nav-item mundb-no-shrink />">
+                        @guest
+                            <a class="nav-link @if ($navigation === "Account") active @endif" href="/account">Account</a>
+                        @else
+                            <li class="nav-item dropdown mundb-btn-ucenter">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{$greeting}}, <span id="nav-username">{{ Auth::user()["name"] }}</span></a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <div class="dropdown-header"><img src="{{ Auth::user()->avatar }}" class="mundb-avatar" id="atsast_nav_avatar" /><div><h6><span id="nav-dropdown-username">{{ Auth::user()["name"] }}</span><br/><small>{{ Auth::user()->email }}</small></h6></div></div>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/account/dashboard"><i class="MDI account-circle"></i> Dashboard</a>
+                                    <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> Settings</a>
+                                    <!--
+                                    <a class="dropdown-item" href="/account/submissions"><i class="MDI airballoon"></i> Submissions</a>
+                                    <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> Advanced Settings</a>
+                                    -->
+                                    @if ("admin"===false)
+                                    <!--
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/admin"><i class="MDI view-dashboard"></i> Admin Tools</a>
+                                    -->
+                                    @endif
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/tool/pastebin/create"><i class="MDI content-paste"></i> PasteBin</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/system/info"><i class="MDI information-outline"></i> System Info</a>
+                                    <a class="dropdown-item" href="https://github.com/ZsgsDesign/NOJ/issues"><i class="MDI bug"></i> Report BUG</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a  class="dropdown-item text-danger"
+                                        href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
+                                        <i class="MDI exit-to-app text-danger"></i> {{ __('Logout') }}
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                            <script>
+                            window.addEventListener("load", function () {
+                                $('.dropdown-header').click(function (e) {
+                                e.stopPropagation();
+                                });
+                            }, false);
+                            </script>
+                        @endguest
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        @if(emailVerified()===false && is_null(request()->cookie('isEmailVerifiedNoticed')))
+        <div class="alert alert-info mb-0" role="alert">
+            <strong>Boost your security!</strong> You have not verified your email address, please verify it in your Settings Page.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="setCookie('isEmailVerifiedNoticed',1,1)">
+                <span aria-hidden="true">×</span>
+            </button>
         </div>
-    </nav>
+        @endif
+    </div>
 
     @yield('template')
 

@@ -25,19 +25,19 @@ class RatingCalculator extends Model
     }
 
     private function getRecord(){
-        $contestRankRaw=Cache::tags(['contest', 'rank'])->get($this->$cid);
+        $contestRankRaw=Cache::tags(['contest', 'rank'])->get($this->cid);
 
         if ($contestRankRaw==null) {
             $contestModel=new ContestModel();
-            $contestRankRaw=$contestModel->contestRankCache($this->$cid);
+            $contestRankRaw=$contestModel->contestRankCache($this->cid);
         }
 
-        $this->totParticipants = count($ret);
+        $this->totParticipants = count($contestRankRaw);
         foreach($contestRankRaw as $c){
             $this->contestants[]=[
                 "uid"=>$c["uid"],
                 "points"=>$c["score"],
-                "rating"=>DB::table("users")->where(["uid"=>$c["uid"]])->first()["professional_rate"]
+                "rating"=>DB::table("users")->where(["id"=>$c["uid"]])->first()["professional_rate"]
             ];
         }
     }
@@ -106,7 +106,7 @@ class RatingCalculator extends Model
         // recalc rank
         $this->reassignRank();
 
-        foreach($this->contestants as $member){
+        foreach($this->contestants as &$member){
             $member["seed"] = 1.0;
             foreach($this->contestants as $other){
                 if($member["uid"] != $other["uid"]){
@@ -114,12 +114,14 @@ class RatingCalculator extends Model
                 }
             }
         }
+        unset($member);
 
-        foreach($this->contestants as $contestant){
+        foreach($this->contestants as &$contestant){
             $midRank = sqrt($contestant["rank"] * $contestant["seed"]);
             $contestant["needRating"] = $this->getRatingToRank($midRank);
             $contestant["delta"] = floor(($contestant["needRating"] - $contestant["rating"])/2);
         }
+        unset($contestant);
 
         $this->sort("rating");
 
@@ -131,9 +133,10 @@ class RatingCalculator extends Model
             $sum += $contestant["delta"];
         }
         $inc = -floor($sum / $this->totParticipants) - 1;
-        foreach($this->contestants as $contestant){
+        foreach($this->contestants as &$contestant){
             $contestant["delta"] += $inc;
         }
+        unset($contestant);
 
         // Sum of top-4*sqrt should be adjusted to ZERO.
 
@@ -141,13 +144,13 @@ class RatingCalculator extends Model
         $zeroSumCount = min(intval(4*round(sqrt($this->totParticipants))), $this->totParticipants);
 
         for($i=0;$i<$zeroSumCount;$i++){
-            $sum += $this->contestants[i]["delta"];
+            $sum += $this->contestants[$i]["delta"];
         }
 
         $inc = min(max(-floor($sum / $zeroSumCount), -10), 0);
 
         for($i=0;$i<$zeroSumCount;$i++){
-            $this->contestants[i]["delta"] += $inc;
+            $this->contestants[$i]["delta"] += $inc;
         }
 
         return $this->validateDeltas();
@@ -159,11 +162,22 @@ class RatingCalculator extends Model
             foreach($contestants as $contestant){
                 $newRating=$contestant["rating"]+$contestant["delta"];
                 DB::table("users")->where([
-                    "uid"=>$contestant["uid"]
+                    "id"=>$contestant["uid"]
                 ])->update([
-                    "rate"=>$newRating
+                    "professional_rate"=>$newRating
+                ]);
+                DB::table("professional_rated_change_log")->insert([
+                    "uid"=>$contestant["uid"],
+                    "cid"=>$this->cid,
+                    "rated"=>$newRating
                 ]);
             }
+            // Mark
+            DB::table("contest")->where([
+                "cid"=>$this->cid
+            ])->update([
+                "is_rated"=>1
+            ]);
         }, 5);
     }
 
@@ -172,15 +186,15 @@ class RatingCalculator extends Model
 
         for($i=0;$i<$this->totParticipants;$i++){
             for($j=$i+1;$j<$this->totParticipants;$j++){
-                if($this->contestants[i]["rating"] > $this->contestants[j]["rating"]){
-                    if($this->contestants[i]["rating"] + $this->contestants[i]["delta"] < $this->contestants[j]["rating"] + $this->contestants[j]["delta"]){
+                if($this->contestants[$i]["rating"] > $this->contestants[$j]["rating"]){
+                    if($this->contestants[$i]["rating"] + $this->contestants[$i]["delta"] < $this->contestants[$j]["rating"] + $this->contestants[$j]["delta"]){
                         Log::warning("First rating invariant failed: {$this->contestants[i]["uid"]} vs. {$this->contestants[j]["uid"]}.");
                         return false;
                     }
                 }
 
-                if($this->contestants[i]["rating"] < $this->contestants[j]["rating"]){
-                    if($this->contestants[i]["delta"] < $this->contestants[j]["delta"]){
+                if($this->contestants[$i]["rating"] < $this->contestants[$j]["rating"]){
+                    if($this->contestants[$i]["delta"] < $this->contestants[$j]["delta"]){
                         Log::warning("Second rating invariant failed: {$this->contestants[i]["uid"]} vs.  {$this->contestants[j]["uid"]}.");
                         return false;
                     }

@@ -2,6 +2,36 @@
 
 @section('template')
 <style>
+    .paper-card {
+        display: block;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
+        border-radius: 4px;
+        transition: .2s ease-out .0s;
+        color: #7a8e97;
+        background: #fff;
+        padding: 1rem;
+        position: relative;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        margin-bottom: 2rem;
+    }
+
+    .paper-card:hover {
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
+    }
+
+    .updating::after{
+        content: " - waiting"
+    }
+
+    .cooldown::after{
+        content: attr(data-cooldown);
+        margin-left: 1rem;
+    }
+
+    .gender-select{
+        cursor: pointer;
+    }
+
     empty-container{
         display:block;
         text-align: center;
@@ -73,7 +103,8 @@
     user-card > basic-section,
     user-card > statistic-section,
     user-card > social-section,
-    user-card > solved-section {
+    user-card > solved-section,
+    user-card > control-section {
         text-align: center;
         padding: 1rem;
         display:block;
@@ -82,6 +113,10 @@
     user-card statistic-block{
         display: block;
         font-family: 'Montserrat';
+    }
+
+    user-card statistic-block p{
+        font-size: 0.85rem;
     }
 
     user-card social-section{
@@ -300,6 +335,14 @@
         margin:0;
     }
 
+    #basic-info-table td{
+        border: none;
+    }
+
+    .form-control:disabled{
+        background-color: transparent;
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -311,9 +354,24 @@
                 </avatar-section>
                 <basic-section>
                     <h3>{{$info["name"]}}</h3>
-                    @unless(is_null($info["rankTitle"]))<small class="{{$info["rankTitleColor"]}}">{{$info["rankTitle"]}}</small>@endunless
+                    @if($info["admin"])<p class="mb-0"><small class="wemd-indigo-text">Administration Group</small></p>@endif
+                    @unless(is_null($info["professionalTitle"]))<p class="mb-0"><small class="{{$info["professionalTitleColor"]}}">{{$info["professionalTitle"]}}</small></p>@endunless
+                    @unless(is_null($info["rankTitle"]))<p class="mb-0"><small class="{{$info["rankTitleColor"]}}">{{$info["rankTitle"]}}</small></p>@endunless
                     {{-- <p style="margin-bottom: .5rem;"><small class="wemd-light-blue-text">站点管理员</small></p> --}}
                     {{-- <p>{{$info["email"]}}</p> --}}
+                    <p id="user-describes" style="padding-top: 1rem;">{{$info['describes']}}</p>
+                    @if(!empty($extra_info))
+                        <a id="extra-info-btn" class="btn text-muted" data-toggle="collapse" href="#extra-info" role="button" aria-expanded="false" aria-controls="extra-info" style="font-size: .75rem;">
+                            more information
+                        </a>
+                        <div class="collapse" id="extra-info">
+                            <p id="extra-info-text" style="font-size: .75rem; text-align:left">
+                                @foreach ($extra_info as $key => $value)
+                                    {{$key}} : {{$value}} <br />
+                                @endforeach
+                            </p>
+                        </div>
+                    @endif
                 </basic-section>
                 <hr class="atsast-line">
                 <statistic-section>
@@ -324,19 +382,39 @@
                                 <p>Solved</p>
                             </statistic-block>
                         </div>
-                        <div class="col-lg-4 col-12">
+                        {{-- <div class="col-lg-4 col-12">
                             <statistic-block>
                                 <h1>{{$info["submissionCount"]}}</h1>
                                 <p>Submissions</p>
+                            </statistic-block>
+                        </div> --}}
+                        <div class="col-lg-4 col-12">
+                            <statistic-block>
+                                <h1>{{$info["professional_rate"]}}</h1>
+                                <p>Rated</p>
                             </statistic-block>
                         </div>
                         <div class="col-lg-4 col-12">
                             <statistic-block>
                                 <h1>{{$info["rank"]}}</h1>
-                                <p>Rank</p>
+                                <p>Casu. Rank</p>
                             </statistic-block>
                         </div>
                     </div>
+                    {{-- <div class="row">
+                        <div class="col-lg-6 col-12">
+                            <statistic-block>
+                                <h1>{{$info["professional_rate"]}}</h1>
+                                <p>Rated</p>
+                            </statistic-block>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <statistic-block>
+                                <h1>{{$info["submissionCount"]}}</h1>
+                                <p>Prof. Rank</p>
+                            </statistic-block>
+                        </div>
+                    </div> --}}
                 </statistic-section>
                 <hr class="atsast-line">
                 <solved-section>
@@ -361,50 +439,170 @@
             </user-card>
         </div>
         <div class="col-sm-12 col-md-8">
-            {{-- <empty-container>
-                <i class="MDI package-variant"></i>
-                <p>NOJ Feed is empty, try adding some :-)</p>
-            </empty-container> --}}
-            {{-- <feed-card feed-type="card">
-                <feed-body>
-                    <h1>Introducing NOJ Feed</h1>
-                    <p>Meet the fully new design of NOJ Feed.</p>
-                    <!--<a href="/">// Continue Reading</a>-->
-                </feed-body>
-                <feed-footer>
-                    <info-section><i class="MDI calendar"></i> 29 Apr,2019</info-section>
-                    <info-section><i class="MDI tag-multiple"></i> Solution, Posts</info-section>
-                    <info-section><i class="MDI thumb-up"></i> 35 users</info-section>
-                </feed-footer>
-            </feed-card> --}}
-            @foreach($feed as $f)
-                <feed-card feed-type="{{$f["type"]}}">
+            @if(!$settingsView)
+                {{-- <empty-container>
+                    <i class="MDI package-variant"></i>
+                    <p>NOJ Feed is empty, try adding some :-)</p>
+                </empty-container> --}}
+                {{-- <feed-card feed-type="card">
+                    <feed-body>
+                        <h1>Introducing NOJ Feed</h1>
+                        <p>Meet the fully new design of NOJ Feed.</p>
+                        <!--<a href="/">// Continue Reading</a>-->
+                    </feed-body>
+                    <feed-footer>
+                        <info-section><i class="MDI calendar"></i> 29 Apr,2019</info-section>
+                        <info-section><i class="MDI tag-multiple"></i> Solution, Posts</info-section>
+                        <info-section><i class="MDI thumb-up"></i> 35 users</info-section>
+                    </feed-footer>
+                </feed-card> --}}
+                @foreach($feed as $f)
+                    <feed-card feed-type="{{$f["type"]}}">
+                        <feed-header>
+                            <feed-circle class="{{$f["color"]}}">
+                                <i class="MDI {{$f["icon"]}}"></i>
+                            </feed-circle>
+                            <feed-info>
+                                <h5><strong style="color:#000">{{$info["name"]}}</strong> posted a solution to <strong>{{$f["pcode"]}}</strong></h5>
+                            </feed-info>
+                        </feed-header>
+                        <feed-body onclick="location.href='/problem/{{$f["pcode"]}}/solution'">
+                            <h1>{{$f["title"]}}</h1>
+                            <p>See more about this solution.</p>
+                        </feed-body>
+                        <feed-footer>{{$f["created_at"]}}</feed-footer>
+                    </feed-card>
+                @endforeach
+                <feed-card feed-type="event">
                     <feed-header>
-                        <feed-circle class="{{$f["color"]}}">
-                            <i class="MDI {{$f["icon"]}}"></i>
+                        <feed-circle>
+                            <img src="{{$info["avatar"]}}">
                         </feed-circle>
                         <feed-info>
-                            <h5><strong style="color:#000">{{$info["name"]}}</strong> posted a solution to <strong>{{$f["pcode"]}}</strong></h5>
+                            <h5><strong style="color:#000">{{$info["name"]}}</strong> joined NOJ</h5>
                         </feed-info>
                     </feed-header>
-                    <feed-body onclick="location.href='/problem/{{$f["pcode"]}}/solution'">
-                        <h1>{{$f["title"]}}</h1>
-                        <p>See more about this solution.</p>
-                    </feed-body>
-                    <feed-footer>{{$f["created_at"]}}</feed-footer>
+                    <feed-footer>{{$info["created_at"]}}</feed-footer>
                 </feed-card>
-            @endforeach
-            <feed-card feed-type="event">
-                <feed-header>
-                    <feed-circle>
-                        <img src="{{$info["avatar"]}}">
-                    </feed-circle>
-                    <feed-info>
-                        <h5><strong style="color:#000">{{$info["name"]}}</strong> joined NOJ</h5>
-                    </feed-info>
-                </feed-header>
-                <feed-footer>{{$info["created_at"]}}</feed-footer>
-            </feed-card>
+            @else
+                <setting-card>
+                    <basic-info-section class="paper-card">
+                        <p>Basic info</p>
+                        <div class="form-group" data-toggle="tooltip" data-placement="top" title="Changing the user name is not allowed for the time being">
+                            <label for="username" class="bmd-label-floating">username</label>
+                            <input type="text" name="username" class="form-control" value="{{ $info['name'] }}" id="username" maxlength="16" autocomplete="off" required disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="describes" class="bmd-label-floating">describes</label>
+                            <textarea name="describes" class="form-control" id="describes" rows="5" style="resize: none;" maxlength="255" autocomplete="off" required>{{ $info['describes'] }}</textarea>
+                            <small style="display:block;text-align:right;opacity:0.7">max length : <span id="describes-length">0</span> / 255</small>
+                        </div>
+                        <div class="text-center">
+                            <button id="basic-info-update" class="btn btn-danger">update</button>
+                        </div>
+                        <div id="basic-info-tip" style="display: none;" class="text-center">
+                            <small id="basic-info-tip-text" class="text-danger font-weight-bold"></small>
+                        </div>
+                    </basic-info-section>
+                    <extra-section class="paper-card">
+                        <p>Extra info</p>
+                        <form id="extra-info-form">
+                            <div>
+                                <label style="font-size: .75rem; color: rgba(0,0,0,.26);">gender</label>
+                                <div class="input-group text-center" style="display: flex;justify-content: center; align-items: center;">
+                                    <div class="input-group-prepend">
+                                        <button id="gender-btn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            @if(!empty($extra_info['gender']))
+                                                @if($extra_info['gender'] == 'MALE' || $extra_info['gender'] == 'FAMALE')
+                                                    {{$extra_info['gender']}}
+                                                @else
+                                                    OTHER
+                                                @endif
+                                            @else
+                                                PRIVATE
+                                            @endif
+                                        </button>
+                                        <div class="dropdown-menu" style="font-size: .75rem">
+                                            <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('MALE');$('#gender').val('MALE');$('#gender-input').fadeOut(200);">MALE</a>
+                                            <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('FAMALE');$('#gender').val('FAMALE');$('#gender-input').fadeOut(200);">FAMALE</a>
+                                            <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('OTHER');$('#gender').fadeIn(200);">OTHER I WANT</a>
+                                            <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('PRIVATE');$('#gender').val('');$('#gender-input').fadeOut(200);">PRIVATE</a>
+                                        </div>
+                                    </div>
+                                    <input @if(empty($extra_info['gender']) || $extra_info['gender'] =='MALE' || $extra_info['gender'] == 'FAMALE') style="display:none;" @endif id="gender" name="gender" type="text" class="form-control" value="@if(!empty($extra_info['gender'])){{$extra_info['gender']}}@endif" aria-label="gender input box">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact" class="bmd-label-floating">Contact - Mobile phone number</label>
+                                <input type="text" name="contact" class="form-control" value="@if(!empty($extra_info['contact'])){{$extra_info['contact']}}@endif" id="contact" autocomplete="off" />
+                            </div>
+                            <div class="form-group">
+                                <label for="school" class="bmd-label-floating">School</label>
+                                <input type="text" name="school" class="form-control" value="@if(!empty($extra_info['school'])){{$extra_info['school']}}@endif" id="school" autocomplete="off" />
+                            </div>
+                            <div class="form-group">
+                                <label for="country" class="bmd-label-floating">Country and region</label>
+                                <input type="text" name="country" class="form-control" value="@if(!empty($extra_info['country'])){{$extra_info['country']}}@endif" id="country" autocomplete="off" />
+                            </div>
+                            <div class="form-group">
+                                <label for="location" class="bmd-label-floating">Detailed location</label>
+                                <input type="text" name="location" class="form-control" value="@if(!empty($extra_info['location'])){{$extra_info['location']}}@endif" id="location" autocomplete="off" />
+                            </div>
+                            <div class="text-center">
+                                <button type="button" id="extra-info-update" class="btn btn-danger">update</button>
+                            </div>
+                            <div id="extra-info-tip" style="display: none;" class="text-center">
+                                <small id="extra-info-tip-text" class="text-danger font-weight-bold"></small>
+                            </div>
+                        </form>
+                    </extra-section>
+                    {{-- <style-section class="paper-card">
+                        <p>Style settings</p>
+                    </style-section> --}}
+                    {{-- <privacy-section class="paper-card">
+                        <p>Privacy settings</p>
+                    </privacy-section> --}}
+                    <email-section class="paper-card">
+                        <p>Email verify</p>
+                        <div class="text-center">
+                            @unless(emailVerified())
+                                <p style="padding: 1rem 0" >you have not verified your email, your account security cannot be guaranteed <br> You can click the button below to send a confirmation email to your mailbox</p>
+                                <div class="text-center">
+                                    <button id="send-email" @if(!empty($email_cooldown) && $email_cooldown > 0) data-cooldown="{{$email_cooldown}}" @endif class="btn btn-danger @if(!empty($email_cooldown) && $email_cooldown > 0) cooldown @endif">send email</button>
+                                </div>
+                                <div id="email-tip" style="display: none;" class="text-center">
+                                    <small id="email-tip-text" class="text-danger font-weight-bold"></small>
+                                </div>
+                            @else
+                                <p style="padding: 1rem 0">
+                                    Your email address <span class="text-info">{{$info['email']}}</span> has been confirmed, and your email will provide extra support in case of security problems of your account.
+                                </p>
+                            @endunless
+                        </div>
+                    </email-section>
+                    <password-section class="paper-card">
+                        <p>Change password</p>
+                        <div class="form-group">
+                            <label for="old-password" class="bmd-label-floating">old password</label>
+                            <input type="password" name="old-password" class="form-control" id="old-password" autocomplete="off" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="new-password" class="bmd-label-floating">new password</label>
+                            <input type="password" name="new-password" class="form-control" id="new-password" autocomplete="new-password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password" class="bmd-label-floating">confirm password</label>
+                            <input type="password" name="confirm-password" class="form-control" id="confirm-password" autocomplete="new-password" required>
+                        </div>
+                        <div class="text-center">
+                            <button id="password-change" class="btn btn-danger">change</button>
+                        </div>
+                        <div id="password-tip" style="display: none;" class="text-center">
+                            <small id="password-tip-text" class="text-danger font-weight-bold"></small>
+                        </div>
+                    </password-section>
+                </setting-card>
+            @endif
         </div>
     </div>
     <div class="modal fade" id="update-avatar-modal" tabindex="-1" role="dialog">
@@ -436,6 +634,197 @@
 <script>
 
     window.addEventListener("load",function() {
+        function slideUp(div_dom){
+            $(div_dom).slideUp(100);
+        }
+
+        function error_tip(div_dom,text_dom,text){
+            $(text_dom).addClass('text-danger');
+            $(text_dom).removeClass('text-success');
+            $(text_dom).text(text);
+            $(div_dom).slideDown(100);
+        }
+
+        function seccess_tip(div_dom,text_dom,text){
+            $(text_dom).addClass('text-success');
+            $(text_dom).removeClass('text-danger');
+            $(text_dom).text(text);
+            $(div_dom).slideDown(100);
+        }
+
+        @if($settingsView)
+        $('#describes-length').text($('#describes').val().length);
+        $('#describes').bind('input',function(){
+            var length = $(this).val().length;
+            $('#describes-length').text(length);
+        });
+
+        $('#basic-info-update').on('click',function(){
+            if($(this).is('.updating')){
+                alert('slow down');
+                return;
+            }
+            $(this).addClass('updating');
+            slideUp('#basic-info-tip');
+            //var username = $('#username').val();
+            var describes = $('#describes').val();
+            if(/* username.length == 0 || username.length > 16 ||  */describes.length > 255){
+                error_tip('#basic-info-tip','#basic-info-tip-text','Invalid length input value');
+                return;
+            }
+            $.ajax({
+                url : '{{route("account_change_basic_info")}}',
+                type : 'POST',
+                data : {
+                    // username : username,
+                    describes : describes,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success : function(result){
+                    if(result.ret == 200){
+                        seccess_tip('#basic-info-tip','#basic-info-tip-text','Change Successfully')
+                        /* $('basic-section').find('h3').text(username);
+                        $('#nav-username').text(username);
+                        $('#nav-dropdown-username').text(username); */
+                        $('#user-describes').text(describes);
+                        $('#basic-info-update').removeClass('updating');
+                        setTimeout(function(){
+                            $('#basic-info-tip').slideUp(100);
+                        },1000);
+                    }else{
+                        error_tip('#basic-info-tip','#basic-info-tip-text',result.desc);
+                        $('#basic-info-update').removeClass('updating');
+                    }
+                }
+            });
+        });
+
+        $('#extra-info-update').on('click',function(){
+            if($(this).is('.updating')){
+                alert('slow down');
+                return;
+            }
+            $(this).addClass('updating');
+            slideUp('#extra-info-tip');
+            var form_data = new Object();
+            $.each($('#extra-info-form').find('input'),function(key,input){
+                form_data[input.name] = input.value;
+            })
+            $.ajax({
+                url : '{{route("account_change_extra_info")}}',
+                type : 'POST',
+                data : form_data,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success : function(result){
+                    if(result.ret == 200){
+                        seccess_tip('#extra-info-tip','#extra-info-tip-text','Saved Successfully')
+                        setTimeout(function(){
+                            $('#extra-info-tip').slideUp(100);
+                            window.location.reload();
+                        },1000);
+                    }else{
+                        error_tip('#extra-info-tip','#extra-info-tip-text',result.desc);
+                        $('#extra-change').removeClass('updating');
+                    }
+                }
+            });
+        });
+
+        $('#password-change').on('click',function(){
+            if($(this).is('.updating')){
+                alert('slow down');
+                return;
+            }
+            $(this).addClass('updating');
+            slideUp('#password-tip');
+            var old_password = $('#old-password').val();
+            var new_password = $('#new-password').val();
+            var confirm_password = $('#confirm-password').val();
+            if(new_password != confirm_password){
+                error_tip('#password-tip','#password-tip-text','Please confirm that the new passwords you entered are the same');
+                $('#password-change').removeClass('updating');
+                return;
+            }
+            if(old_password.length < 8 || new_password.length < 8){
+                error_tip('#password-tip','#password-tip-text','The length of the password must be greater than 8 bits');
+                $('#password-change').removeClass('updating');
+                return;
+            }
+            $.ajax({
+                url : '{{route("account_change_password")}}',
+                type : 'POST',
+                data : {
+                    old_password : old_password,
+                    new_password : new_password,
+                    confirm_password : confirm_password
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success : function(result){
+                    if(result.ret == 200){
+                        seccess_tip('#password-tip','#password-tip-text','Change Successfully, Please use the password you just set when logging in later')
+                        $('#password-change').removeClass('updating');
+                    }else{
+                        error_tip('#password-tip','#password-tip-text',result.desc);
+                        $('#password-change').removeClass('updating');
+                    }
+                }
+            });
+        });
+
+        @if(!empty($email_cooldown) && $email_cooldown > 0)
+        var cooldown_intervel = setInterval(function(){
+            if($('#send-email').attr('data-cooldown') != 0){
+                $('#send-email').attr('data-cooldown',$('#send-email').attr('data-cooldown') - 1);
+            }else{
+                $('#send-email').removeClass('cooldown');
+                $('#email-tip').slideUp(100);
+                clearInterval(cooldown_intervel);
+            }
+
+        },1000);
+        @endif
+
+        $('#send-email').on('click',function(){
+            if($(this).attr('data-cooldown') > 0){
+                $(this).addClass('cooldown');
+                error_tip('#email-tip','#email-tip-text','Please do not send emails frequently. The email has been sent out. Please check your mailbox.');
+                return;
+            }
+            $.ajax({
+                url : '{{route("account_check_email_cooldown")}}',
+                type : 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success : function(result){
+                    if(result.data === 0){
+                        window.location = "{{ route('verification.resend') }}";
+                    }else{
+                        error_tip('#email-tip','#email-tip-text','Please do not send emails frequently. The email has been sent out. Please check your mailbox.');
+                        $('#send-email').attr('data-cooldown',result.data);
+                        $('#send-email').addClass('cooldown');
+                        var cooldown_intervel = setInterval(function(){
+                            if($('#send-email').attr('data-cooldown') != 0){
+                                $('#send-email').attr('data-cooldown',$('#send-email').attr('data-cooldown') - 1);
+                            }else{
+                                $('#send-email').removeClass('cooldown');
+                                $('#email-tip').slideUp(100);
+                                clearInterval(cooldown_intervel);
+                            }
+                        },1000);
+                        return;
+                    }
+                }
+            });
+        });
+        @endif
+
         @unless($userView)
         $('#avatar').on('click',function(){
             $('#update-avatar-modal').modal();
@@ -522,6 +911,5 @@
         });
         @endunless
     }, false);
-
 </script>
 @endsection

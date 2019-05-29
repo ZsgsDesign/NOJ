@@ -79,6 +79,7 @@ class GroupModel extends Model
     public function details($gcode)
     {
         $basic_info=DB::table($this->tableName)->where(["gcode"=>$gcode])->first();
+        if(empty($basic_info)) return [];
         $basic_info["members"]=$this->countGroupMembers($basic_info["gid"]);
         $basic_info["tags"]=$this->getGroupTags($basic_info["gid"]);
         $basic_info["create_time_foramt"]=date_format(date_create($basic_info["create_time"]), 'M jS, Y');
@@ -113,11 +114,13 @@ class GroupModel extends Model
             "uid",
             "name",
             "nick_name",
-            "avatar"
+            "avatar",
+            "sub_group"
         )->get()->all();
         foreach ($user_list as &$u) {
             $u["role_parsed"]=$this->role[$u["role"]];
             $u["role_color"]=$this->role_color[$u["role"]];
+            if(is_null($u["sub_group"])) $u["sub_group"]="None";
         }
         return $user_list;
     }
@@ -150,6 +153,14 @@ class GroupModel extends Model
         ])->update([
             "role"=>$clearance
         ]);
+    }
+
+    public function removeClearance($uid, $gid)
+    {
+        return DB::table("group_member")->where([
+            "uid"=>$uid,
+            "gid"=>$gid
+        ])->delete();
     }
 
     public function addClearance($uid, $gid, $clearance)

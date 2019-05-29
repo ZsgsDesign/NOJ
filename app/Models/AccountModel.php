@@ -25,7 +25,7 @@ class AccountModel extends Model
     public function feed($uid=null)
     {
         $ret=[];
-        $solution=DB::table("problem_solution")->join("problem","problem.pid","=","problem_solution.pid")->where(["uid"=>$uid,"audit"=>1])->select("problem.pid as pid","pcode","title","problem_solution.created_at as created_at")->get()->all();
+        $solution=DB::table("problem_solution")->join("problem","problem.pid","=","problem_solution.pid")->where(["uid"=>$uid,"audit"=>1])->select("problem.pid as pid","pcode","title","problem_solution.created_at as created_at")->orderBy("problem_solution.created_at","DESC")->get()->all();
         foreach($solution as &$s){
             $s["type"]="event";
             $s["color"]="wemd-orange";
@@ -91,9 +91,15 @@ class AccountModel extends Model
             "verdict"=>"Accepted"
         ])->join("problem", "problem.pid", "=", "submission.pid")->select('pcode')->distinct()->get()->all();
         $ret["solvedCount"]=count($ret["solved"]);
+        // Casual
         $ret["rank"]=Cache::tags(['rank',$ret["id"]])->get("rank", "N/A");
         $ret["rankTitle"]=Cache::tags(['rank',$ret["id"]])->get("title");
         $ret["rankTitleColor"]=RankModel::getColor($ret["rankTitle"]);
+        // Professional
+        $ret["professionalTitle"]=RankModel::getProfessionalTitle($ret["professional_rate"]);
+        $ret["professionalTitleColor"]=RankModel::getProfessionalColor($ret["professionalTitle"]);
+        // Administration Group
+        $ret["admin"]=$uid==1?1:0;
         if (Cache::tags(['bing', 'pic'])->get(date("Y-m-d"))==null) {
             $bing=new BingPhoto([
                 'locale' => 'zh-CN',
@@ -103,5 +109,74 @@ class AccountModel extends Model
         }
         $ret["image"]=Cache::tags(['bing', 'pic'])->get(date("Y-m-d"));
         return $ret;
+    }
+
+    public function getExtraInfo($uid,$secret_level = 0){
+        $ret = DB::table('users_extra')->where('uid',$uid)->get()->all();
+        $key_meaning = [
+            0 => 'gender',
+            1 => 'contact',
+            2 => 'school',
+            3 => 'country',
+            4 => 'location',
+            5 => 'editor_left_width',
+        ];
+        $result = [];
+        if(!empty($ret)){
+            foreach ($ret as $value) {
+                if(empty($value['secret_level']) || $value['secret_level'] <= $secret_level){
+                    $key_name = $key_meaning[$value['key']] ?? 'unknown';
+                    $result[$key_name] = $value['value'];
+                }
+            }
+        }
+        return $result;
+    }
+
+    public function setExtraInfo($uid,$key_name,$value = null,$secret_level = -1){
+        $key_value = [
+            'gender'                    => 0,
+            'contact'                   => 1,
+            'school'                    => 2,
+            'country'                   => 3,
+            'location'                  => 4,
+            'editor_left_width'         => 5,
+            //TODO...
+        ];
+        $key = $key_value[$key_name];
+        $ret = DB::table('users_extra')->where('uid',$uid)->where('key',$key)->first();
+        if(!empty($ret)){
+            unset($ret['id']);
+            if(!is_null($value)){
+                $ret['value'] = $value;
+            }
+            if($secret_level != -1){
+                $ret['secret_level'] = $secret_level;
+            }
+            DB::table('users_extra')->where('uid',$uid)->where('key',$key)->update($ret);
+        }else{
+            return DB::table('users_extra')->insertGetId(
+                [
+                    'uid' => $uid,
+                    'key' => $key,
+                    'value' => $value,
+                    'secret_level' => $secret_level == -1 ? 0 : $secret_level,
+                ]
+            );
+        }
+    }
+
+    public function unsetExtraInfoIfExist($uid,$key_name){
+        $key_value = [
+            'gender'                    => 0,
+            'contact'                   => 1,
+            'school'                    => 2,
+            'country'                   => 3,
+            'location'                  => 4,
+            'editor_left_width'         => 5,
+            //TODO...
+        ];
+        $key = $key_value[$key_name];
+        $ret = DB::table('users_extra')->where('uid',$uid)->where('key',$key)->delete();
     }
 }

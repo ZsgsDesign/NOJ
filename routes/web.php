@@ -18,6 +18,7 @@ Route::get('/', 'MainController@home')->middleware('contest_account')->name('hom
 Route::group(['prefix' => 'account'], function () {
     Route::get('/', 'AccountController@index')->name('account_index');
     Route::get('/dashboard', 'AccountController@dashboard')->middleware('auth')->name('account_dashboard');
+    Route::get('/settings', 'AccountController@settings')->middleware('auth')->name('account_settings');
 });
 
 Route::group(['prefix' => 'user'], function () {
@@ -93,12 +94,16 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::group(['prefix' => 'group'], function () {
         Route::post('changeNickName', 'GroupController@changeNickName')->middleware('auth');
         Route::get('generateContestAccount', 'GroupController@generateContestAccount')->middleware('auth');
+        Route::post('approveMember', 'GroupController@approveMember')->middleware('auth');
+        Route::post('removeMember', 'GroupController@removeMember')->middleware('auth');
     });
 
     Route::group(['prefix' => 'contest'], function () {
         Route::post('fetchClarification', 'ContestController@fetchClarification')->middleware('auth');
         Route::post('requestClarification', 'ContestController@requestClarification')->middleware('auth', 'throttle:1,0.34');
         Route::get('rejudge', 'ContestController@rejudge')->middleware('auth');
+        Route::get('updateProfessionalRate', 'ContestController@updateProfessionalRate')->middleware('auth');
+        Route::post('registContest', 'ContestController@registContest')->middleware('auth')->name('ajax.contest.registContest');
     });
 
     Route::group(['prefix' => 'submission'], function () {
@@ -108,6 +113,11 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
 
     Route::group(['prefix' => 'account'], function () {
         Route::post('update_avatar', 'AccountController@updateAvatar')->middleware('auth')->name('account_update_avatar');
+        Route::post('change_basic_info', 'AccountController@changeBasicInfo')->middleware('auth')->name('account_change_basic_info');
+        Route::post('change_extra_info', 'AccountController@changeExtraInfo')->middleware('auth')->name('account_change_extra_info');
+        Route::post('change_password', 'AccountController@changePassword')->middleware('auth')->name('account_change_password');
+        Route::post('check_email_cooldown', 'AccountController@checkEmailCooldown')->middleware('auth')->name('account_check_email_cooldown');
+        Route::post('save_editor_width', 'AccountController@saveEditorWidth')->middleware('auth')->name('account_save_editor_width');
     });
 });
 

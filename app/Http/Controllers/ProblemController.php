@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ProblemModel;
 use App\Models\SubmissionModel;
 use App\Models\CompilerModel;
+use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use JavaScript;
@@ -108,6 +109,8 @@ class ProblemController extends Controller
         $problem=new ProblemModel();
         $compiler=new CompilerModel();
         $submission=new SubmissionModel();
+        $account=new AccountModel();
+
         $prob_detail=$problem->detail($pcode);
         if ($problem->isBlocked($prob_detail["pid"])) {
             return abort('403');
@@ -128,6 +131,8 @@ class ProblemController extends Controller
             ];
         }
 
+        $editor_left_width = $account->getExtraInfo(Auth::user()->id)['editor_left_width'] ?? '40';
+
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.editor', [
                                             'page_title'=>$prob_detail["title"],
                                             'site_title'=>"NOJ",
@@ -138,7 +143,8 @@ class ProblemController extends Controller
                                             'pref'=>$pref<0 ? 0 : $pref,
                                             'submit_code'=>$submit_code,
                                             'contest_mode'=> false,
-                                            'oj_detail'=>$oj_detail
+                                            'oj_detail'=>$oj_detail,
+                                            'editor_left_width'=>$editor_left_width,
                                         ]);
     }
 }

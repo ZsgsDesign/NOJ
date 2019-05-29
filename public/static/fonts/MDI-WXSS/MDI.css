@@ -830,6 +830,8 @@
 
 .MDI.close:before { content: "\e795"; }
 
+.MDI.cancel:before { content: "\e795"; }
+
 .MDI.closed-caption:before { content: "\e796"; }
 
 .MDI.close-octagon:before { content: "\e797"; }

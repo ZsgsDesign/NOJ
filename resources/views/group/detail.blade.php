@@ -6,7 +6,6 @@
     body{
         display: flex;
         flex-direction: column;
-        height: 100vh;
     }
     footer{
         display: none;
@@ -56,7 +55,7 @@
         box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
     }
 
-    nav.navbar{
+    #nav-container{
         margin-bottom:0!important;
         flex-shrink: 0;
         flex-grow: 0;
@@ -70,7 +69,6 @@
     group-container{
         flex-shrink: 1;
         flex-grow: 1;
-        height: 0px; /* so that 100% would work */
         overflow: hidden;
     }
 
@@ -410,6 +408,19 @@
         color: #004d40;
     }
 
+    @media (min-width: 768px) {
+        group-container{
+            height: 0px; /* so that 100% would work */
+        }
+        body{
+            height:100vh;
+        }
+    }
+
+    .cm-operation{
+        cursor: pointer;
+    }
+
     /*
     .xdsoft_datetimepicker .xdsoft_next,
     .xdsoft_datetimepicker .xdsoft_prev{
@@ -633,7 +644,13 @@
                                     </user-avatar>
                                     <user-info>
                                         <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
-                                        <p><small><i class="MDI google-circles"></i> None</small></p>
+                                        <p>
+                                            <small><i class="MDI google-circles"></i> {{$m["sub_group"]}}</small>
+                                            @if($m["role"]>0 && $group_clearance>$m["role"])<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}})"><i class="MDI account-off"></i> Kick</small>@endif
+                                            @if($m["role"]==0 && $group_clearance>1)<small class="wemd-green-text cm-operation" onclick="approveMember({{$m['uid']}})"><i class="MDI check"></i> Approve</small>@endif
+                                            @if($m["role"]==0 && $group_clearance>1)<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}})"><i class="MDI cancel"></i> Decline</small>@endif
+                                            @if($m["role"]==-1 && $group_clearance>1)<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}})"><i class="MDI account-minus"></i> Retrieve</small>@endif
+                                        </p>
                                     </user-info>
                                 </user-card>
                                 @endforeach
@@ -833,6 +850,67 @@
                 items: "> tr",
                 appendTo: "parent",
                 helper: "clone"
+            });
+        }
+
+        var approving=false;
+        var declining=false;
+
+        function approveMember(uid){
+            if(approving) return;
+            approving=true;
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/group/approveMember',
+                data: {
+                    gid: {{$basic_info["gid"]}},
+                    uid: uid
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if (ret.ret==200) {
+                        location.reload();
+                    } else {
+                        alert(ret.desc);
+                    }
+                    approving=false;
+                }, error: function(xhr, type){
+                    console.log('Ajax error!');
+                    alert("Server Connection Error");
+                    approving=false;
+                }
+            });
+        }
+
+        function removeMember(uid){
+            if(declining) return;
+            declining=true;
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/group/removeMember',
+                data: {
+                    gid: {{$basic_info["gid"]}},
+                    uid: uid
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if (ret.ret==200) {
+                        location.reload();
+                    } else {
+                        alert(ret.desc);
+                    }
+                    declining=false;
+                }, error: function(xhr, type){
+                    console.log('Ajax error!');
+                    alert("Server Connection Error");
+                    declining=false;
+                }
             });
         }
 

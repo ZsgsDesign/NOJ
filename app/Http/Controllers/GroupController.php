@@ -6,6 +6,7 @@ use App\Models\GroupModel;
 use App\Models\ContestModel;
 use App\Http\Controllers\Controller;
 use Auth;
+use Redirect;
 
 class GroupController extends Controller
 {
@@ -38,6 +39,7 @@ class GroupController extends Controller
         $groupModel=new GroupModel();
         $contestModel=new ContestModel();
         $basic_info=$groupModel->details($gcode);
+        if(empty($basic_info)) return Redirect::route('group_index');
         $my_profile=$groupModel->userProfile(Auth::user()->id, $basic_info["gid"]);
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
         $member_list=$groupModel->userList($basic_info["gid"]);

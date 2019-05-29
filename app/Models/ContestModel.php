@@ -5,6 +5,7 @@ namespace App\Models;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Models\Rating\RatingCalculator;
 use Auth;
 use Cache;
 
@@ -152,24 +153,24 @@ class ContestModel extends Model
                 ->where(
                     function ($query) {
                         $query->where('public', 1)
-                              ->where('audit', 1);
+                              ->where('audit_status', 1);
                     }
                 )
                 ->orWhere(
                     function ($query) use ($uid) {
                         $query->where('group_member.uid', $uid)
-                                ->where('group_member.role', '>', 0)
-                                ->where(function ($query) use ($uid) {
-                                    $query->where('contest_participant.uid', $uid)
-                                          ->orWhereNull('contest_participant.uid');
-                                })
-                              ->where(function ($query) {
-                                  $query->where('registration', 0)
-                                                ->orWhere(function ($query) {
-                                                    $query->where('registration', 1)
-                                                          ->whereNotNull('contest_participant.uid');
-                                                });
-                              });
+                                ->where('group_member.role', '>', 0);
+                            //     ->where(function ($query) use ($uid) {
+                            //         $query->where('contest_participant.uid', $uid)
+                            //               ->orWhereNull('contest_participant.uid');
+                            //     })
+                            //   ->where(function ($query) {
+                            //       $query->where('registration', 0)
+                            //                     ->orWhere(function ($query) {
+                            //                         $query->where('registration', 1)
+                            //                               ->whereNotNull('contest_participant.uid');
+                            //                     });
+                            //   });
                     }
                 )
                 ->orderBy('contest.begin_time', 'desc')
@@ -219,6 +220,24 @@ class ContestModel extends Model
         } else {
             return null;
         }
+    }
+
+    public function registContest($cid,$uid)
+    {
+        $registered=DB::table("contest_participant")->where([
+            "cid"=>$cid,
+            "uid"=>$uid
+        ])->first();
+
+        if(empty($registered)){
+            DB::table("contest_participant")->insert([
+                "cid"=>$cid,
+                "uid"=>$uid,
+                "audit"=>1
+            ]);
+            return true;
+        }
+        return false;
     }
 
     public function remainingTime($cid)
@@ -453,6 +472,8 @@ class ContestModel extends Model
         $ret=[];
 
         $contest_info=DB::table("contest")->where("cid", $cid)->first();
+        $frozen_time=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
+        $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
 
         if ($contest_info["registration"]) {
             $submissionUsers=DB::table("contest_participant")->where([
@@ -463,7 +484,11 @@ class ContestModel extends Model
             // Those who submitted are participants
             $submissionUsers=DB::table("submission")->where([
                 "cid"=>$cid
-            ])->select('uid')->groupBy('uid')->get()->all();
+            ])->where(
+                "submission_date",
+                "<",
+                $frozen_time
+            )->select('uid')->groupBy('uid')->get()->all();
         }
 
         $problemSet=DB::table("contest_problem")->join("problem", "contest_problem.pid", "=", "problem.pid")->where([
@@ -981,6 +1006,22 @@ class ContestModel extends Model
     public function contestRule($cid)
     {
         return DB::table("contest")->where("cid", $cid)->select("rule")->first()["rule"];
+    }
+
+    public function updateProfessionalRate($cid)
+    {
+        $basic=$this->basic($cid);
+        if($basic["rated"]&&!$basic["is_rated"]){
+            $ratingCalculator=new RatingCalculator($cid);
+            if($ratingCalculator->calculate()){
+                $ratingCalculator->storage();
+                return true;
+            }else{
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     public function arrangeContest($gid, $config, $problems)

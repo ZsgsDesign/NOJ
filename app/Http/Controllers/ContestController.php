@@ -7,6 +7,7 @@ use App\Models\GroupModel;
 use App\Models\ProblemModel;
 use App\Models\CompilerModel;
 use App\Models\SubmissionModel;
+use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Auth;
 use Redirect;
@@ -123,6 +124,7 @@ class ContestController extends Controller
         $problemModel=new ProblemModel();
         $compilerModel=new CompilerModel();
         $submissionModel=new SubmissionModel();
+        $accountModel=new AccountModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if (!$clearance) {
             return Redirect::route('contest_detail', ['cid' => $cid]);
@@ -155,6 +157,8 @@ class ContestController extends Controller
             ];
         }
 
+        $editor_left_width = $accountModel->getExtraInfo(Auth::user()->id)['editor_left_width'] ?? '40';
+
         return view('contest.board.editor', [
             'page_title'=>"Problem Detail",
             'navigation' => "Contest",
@@ -172,7 +176,8 @@ class ContestController extends Controller
             'contest_rule' => $contest_rule,
             'problem_set' => $problemSet,
             'clearance' => $clearance,
-            'oj_detail' => $oj_detail
+            'oj_detail' => $oj_detail,
+            'editor_left_width'=>$editor_left_width,
         ]);
     }
 
