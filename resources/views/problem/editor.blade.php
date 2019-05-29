@@ -400,6 +400,10 @@
             padding: .46875rem .8rem;
         }
 
+        #problemBtn:focus,#editorBtn:focus{
+            background: transparent;
+        }
+
         #problemBtn.cm-active,#editorBtn.cm-active{
             box-shadow: inset rgba(0, 0, 0, 0.25) 0px 0px 15px;
         }
