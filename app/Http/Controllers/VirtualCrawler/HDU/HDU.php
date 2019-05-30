@@ -46,7 +46,6 @@ class HDU extends CrawlerBase
 
     private function cacheImage($dom)
     {
-        Log::debug($dom);
         foreach ($dom->find('img') as $ele) {
             $src=str_replace('../../..', '', $ele->src);
             if (strpos($src, '://')!==false) {
@@ -112,8 +111,12 @@ class HDU extends CrawlerBase
             $this->pro['input'] = self::find("/<div class=panel_title align=left>Input.*<div class=panel_content>(.*)<\/div><div class=panel_bottom>/sU",$res->body);
             $this->pro['output'] = self::find("/<div class=panel_title align=left>Output.*<div class=panel_content>(.*)<\/div><div class=panel_bottom>/sU",$res->body);
             $this->pro['sample'] = [];
-            $this->pro['sample']['sample_input'] = self::find("/<pre><div.*>(.*)<\/div><\/pre>/sU",$res->body);
-            $this->pro['sample']['sample_output'] = self::find("/<div.*>Sample Output<\/div><div.*><pre><div.*>(.*)<\/div><\/pre><\/div>/sU",$res->body);
+            $this->pro['sample'][] = [
+                'sample_input'=>self::find("/<pre><div.*>(.*)<\/div><\/pre>/sU",$res->body),
+                'sample_output'=>self::find("/<div.*>Sample Output<\/div><div.*><pre><div.*>(.*)<\/div><\/pre><\/div>/sU",$res->body)
+            ];
+            // $this->pro['sample']['sample_input'] = self::find("/<pre><div.*>(.*)<\/div><\/pre>/sU",$res->body);
+            // $this->pro['sample']['sample_output'] = self::find("/<div.*>Sample Output<\/div><div.*><pre><div.*>(.*)<\/div><\/pre><\/div>/sU",$res->body);
             $this->pro['note'] = self::find("/<i>Hint<\/i><\/div>(.*)<\/div><i style='font-size:1px'>/sU",$res->body);
             $this->pro['source'] = self::find("/<div class=panel_title align=left>Source<\/div> (.*)<div class=panel_bottom>/sU",$res->body);
             $this->pro['force_raw'] = 0;
