@@ -8,7 +8,7 @@ use KubAT\PhpSimple\HtmlDomParser;
 use Auth;
 use Requests;
 use Exception;
-
+use Log;
 
 class HDU extends CrawlerBase
 {
@@ -46,6 +46,7 @@ class HDU extends CrawlerBase
 
     private function cacheImage($dom)
     {
+        Log::debug($dom);
         foreach ($dom->find('img') as $ele) {
             $src=str_replace('../../..', '', $ele->src);
             if (strpos($src, '://')!==false) {
@@ -107,7 +108,7 @@ class HDU extends CrawlerBase
             $this->pro['solved_count'] = self::find("/Accepted Submission(s): ([\d+]*?)/",$res->body);
             $this->pro['input_type']='standard input';
             $this->pro['output_type']='standard output';
-            $this->pro['description'] = $this->cacheImage(self::find("/this->problem Description.*<div class=panel_content>(.*)<\/div><div class=panel_bottom>/sU",$res->body));
+            $this->pro['description'] = $this->cacheImage(HtmlDomParser::str_get_html(self::find("/Problem Description.*<div class=panel_content>(.*)<\/div><div class=panel_bottom>/sU",$res->body), true, true, DEFAULT_TARGET_CHARSET, false));
             $this->pro['input'] = self::find("/<div class=panel_title align=left>Input.*<div class=panel_content>(.*)<\/div><div class=panel_bottom>/sU",$res->body);
             $this->pro['output'] = self::find("/<div class=panel_title align=left>Output.*<div class=panel_content>(.*)<\/div><div class=panel_bottom>/sU",$res->body);
             $this->pro['sample'] = [];
