@@ -12,6 +12,7 @@ use App\Http\Controllers\VirtualJudge\POJ\POJ;
 use App\Http\Controllers\VirtualJudge\Vijos\Vijos;
 use App\Http\Controllers\VirtualJudge\PTA\PTA;
 use App\Http\Controllers\VirtualJudge\UVa\UVa;
+use App\Http\Controllers\VirtualJudge\HDU\HDU;
 use Requests;
 
 class Core extends Curl
