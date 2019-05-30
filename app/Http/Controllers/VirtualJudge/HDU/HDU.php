@@ -44,17 +44,13 @@ class HDU extends Curl
         ];
 
         $response=$this->post_data("http://acm.hdu.edu.cn/submit.php", http_build_query($params), "hdu", true, false);
-
-        if (!strpos('Location: status.php', $response)) {
-            $this->sub['verdict']='Submission Error';
-        } else {
-            $res=Requests::get('http://acm.hdu.edu.cn/status.php?user='.$this->judgerAccount['handle'].'&pid='.$this->post_data['iid']);
-            if (!preg_match("/<td height=22px>([\s\S]*?)<\/td>/", $res->body, $match)) {
+        $this->sub['jid'] = $this->judgerAccount['jid'];
+        $res=Requests::get('http://acm.hdu.edu.cn/status.php?user='.$this->judgerAccount['handle'].'&pid='.$this->post_data['iid']);
+        if (!preg_match("/<td height=22px>([\s\S]*?)<\/td>/", $res->body, $match)) {
                 $this->sub['verdict']='Submission Error';
-            } else {
+        } else {
                 $this->sub['remote_id']=$match[1];
             }
-        }
     }
 
     public function submit()
