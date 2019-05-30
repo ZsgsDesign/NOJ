@@ -8,13 +8,14 @@ use KubAT\PhpSimple\HtmlDomParser;
 use Auth;
 use Requests;
 use Exception;
+use Log;
 
-
-class POJ extends CrawlerBase 
+class HDU extends CrawlerBase
 {
-    public $oid=6;
+    public $oid=8;
     private $con;
     private $imgi;
+
     /**
      * Initial
      *
@@ -26,7 +27,7 @@ class POJ extends CrawlerBase
         if ($action=='judge_level') {
             $this->judge_level();
         } else {
-            $this->ContestHunter($con);
+            $this->crawler($con);
         }
     }
 
@@ -45,6 +46,7 @@ class POJ extends CrawlerBase
 
     private function cacheImage($dom)
     {
+        Log::debug($dom);
         foreach ($dom->find('img') as $ele) {
             $src=str_replace('../../..', '', $ele->src);
             if (strpos($src, '://')!==false) {
@@ -77,7 +79,7 @@ class POJ extends CrawlerBase
         return $dom;
     }
 
-    public function crawler($con) 
+    public function crawler($con)
     {
         if($con == "all") {
             return ;
@@ -85,11 +87,11 @@ class POJ extends CrawlerBase
         $this->con = $con;
         $this->imgi = 1;
         $problemModel = new ProblemModel();
-        $res = Request::get("http://acm.hdu.edu.cn/showproblem.php?pid={$con}");
+        $res = Requests::get("http://acm.hdu.edu.cn/showproblem.php?pid={$con}");
         if (strpos("No such problem",$res->body) !== false) {
             header('HTTP/1.1 404 Not Found');
             die();
-        } 
+        }
         else if(strpos("Invalid Parameter.",$res->body) !== false) {
             header('HTTP/1.1 404 Not Found');
             die();
@@ -100,20 +102,20 @@ class POJ extends CrawlerBase
             $this->pro['contest_id'] = null;
             $this->pro['index_id'] = $con;
             $this->pro['origin'] = "http://acm.hdu.edu.cn/showproblem.php?pid={$con}";
-            $this->pro['title'] = find("/<h1 style='color:#1A5CC8'>([\s\S]*?)<\/h1>/",$res->body);
-            $this->pro['time_limit'] = find('/Time Limit:.*\/(.*) MS/',$res->body);
-            $this->pro['memory_limit'] = find('/Memory Limit:.*\/(.*) K/',$res->body);
-            $this->pro['solved_count'] = find("/Accepted Submission(s): ([\d+]*?)/",$res->body);
+            $this->pro['title'] = self::find("/<h1 style='color:#1A5CC8'>([\s\S]*?)<\/h1>/",$res->body);
+            $this->pro['time_limit'] = self::find('/Time Limit:.*\/(.*) MS/',$res->body);
+            $this->pro['memory_limit'] = self::find('/Memory Limit:.*\/(.*) K/',$res->body);
+            $this->pro['solved_count'] = self::find("/Accepted Submission(s): ([\d+]*?)/",$res->body);
             $this->pro['input_type']='standard input';
             $this->pro['output_type']='standard output';
-            $this->pro['description'] = cacheImage(find("/this->problem Description.*<div class=panel_content>(.*)<\/div><div class=panel_bottom>/sU",$res->body));
-            $this->pro['input'] = find("/<div class=panel_title align=left>Input.*<div class=panel_content>(.*)<\/div><div class=panel_bottom>/sU",$res->body);
-            $this->pro['output'] = find("/<div class=panel_title align=left>Output.*<div class=panel_content>(.*)<\/div><div class=panel_bottom>/sU",$res->body);
+            $this->pro['description'] = $this->cacheImage(HtmlDomParser::str_get_html(self::find("/Problem Description.*<div class=panel_content>(.*)<\/div><div class=panel_bottom>/sU",$res->body), true, true, DEFAULT_TARGET_CHARSET, false));
+            $this->pro['input'] = self::find("/<div class=panel_title align=left>Input.*<div class=panel_content>(.*)<\/div><div class=panel_bottom>/sU",$res->body);
+            $this->pro['output'] = self::find("/<div class=panel_title align=left>Output.*<div class=panel_content>(.*)<\/div><div class=panel_bottom>/sU",$res->body);
             $this->pro['sample'] = [];
-            $this->pro['sample']['sample_input'] = find("/<pre><div.*>(.*)<\/div><\/pre>/sU",$res->body);
-            $this->pro['sample']['sample_output'] = find("/<div.*>Sample Output<\/div><div.*><pre><div.*>(.*)<\/div><\/pre><\/div>/sU",$res->body);
-            $this->pro['note'] = find("/<i>Hint<\/i><\/div>(.*)<\/div><i style='font-size:1px'>/sU",$res->body);
-            $this->pro['source'] = find("/<div class=panel_title align=left>Source<\/div> (.*)<div class=panel_bottom>/sU",$res->body);
+            $this->pro['sample']['sample_input'] = self::find("/<pre><div.*>(.*)<\/div><\/pre>/sU",$res->body);
+            $this->pro['sample']['sample_output'] = self::find("/<div.*>Sample Output<\/div><div.*><pre><div.*>(.*)<\/div><\/pre><\/div>/sU",$res->body);
+            $this->pro['note'] = self::find("/<i>Hint<\/i><\/div>(.*)<\/div><i style='font-size:1px'>/sU",$res->body);
+            $this->pro['source'] = self::find("/<div class=panel_title align=left>Source<\/div> (.*)<div class=panel_bottom>/sU",$res->body);
             $this->pro['force_raw'] = 0;
             $problem=$problemModel->pid($this->pro['pcode']);
 
