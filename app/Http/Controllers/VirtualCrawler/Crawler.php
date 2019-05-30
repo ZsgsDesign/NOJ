@@ -8,6 +8,7 @@ use App\Http\Controllers\VirtualCrawler\POJ\POJ;
 use App\Http\Controllers\VirtualCrawler\PTA\PTA;
 use App\Http\Controllers\VirtualCrawler\Vijos\Vijos;
 use App\Http\Controllers\VirtualCrawler\UVa\UVa;
+use App\Http\Controllers\VirtualCrawler\HDU\HDU;
 use App\Models\ProblemModel;
 use Auth;
 
