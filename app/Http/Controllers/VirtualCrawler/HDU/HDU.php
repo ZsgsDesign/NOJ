@@ -97,7 +97,7 @@ class HDU extends CrawlerBase
         }
         else {
             $this->pro['pcode'] = "HDU".$con;
-            $this->pro['OJ'] = 1;
+            $this->pro['OJ'] = 8;
             $this->pro['contest_id'] = null;
             $this->pro['index_id'] = $con;
             $this->pro['origin'] = "http://acm.hdu.edu.cn/showproblem.php?pid={$con}";
