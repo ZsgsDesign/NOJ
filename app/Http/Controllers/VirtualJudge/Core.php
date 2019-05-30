@@ -58,6 +58,11 @@ class Core extends Curl
             $UVa=new UVa($sub, $all_data);
             $UVa->submit();
         }
+
+        if($oj=='hdu') {
+            $HDU = new HDU($sub, $all_data);
+            $HDU->submit();
+        }
     }
 }
 

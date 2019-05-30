@@ -128,17 +128,16 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="password" class="bmd-label-floating">Password</label>
-                                    <input type="password" name="password" class="form-control" id="register_password" required>
-                                    @if ($errors->has('password'))
+                                    <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="register_password" required>
+                                    @error('password')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('password') }}</strong>
                                         </span>
-                                    @endif
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="password" class="bmd-label-floating">Confirm Password</label>
                                     <input type="password" name="password_confirmation" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" id="register_password_again" required>
-                                    <div class="invalid-feedback">Please confirm your password</div>
                                 </div>
                                 <div class="form-group">
                                     <div class="checkbox">
