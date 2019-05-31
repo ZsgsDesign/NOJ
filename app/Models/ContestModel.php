@@ -119,9 +119,15 @@ class ContestModel extends Model
 
     public function listByGroup($gid)
     {
-        $contest_list=DB::table($this->tableName)->where([
-            "gid"=>$gid
-        ])->orderBy('begin_time', 'desc')->get()->all();
+        // $contest_list=DB::table($this->tableName)->where([
+        //     "gid"=>$gid
+        // ])->orderBy('begin_time', 'desc')->get()->all();
+        $preQuery=DB::table($this->tableName);
+        $paginator=$preQuery->where('gid','=',$gid)->orderBy('begin_time', 'desc')->paginate(10);
+        $contest_list=$paginator->all();
+        if(empty($contest_list)){
+            return null;
+        }
 
         foreach ($contest_list as &$c) {
             $c["rule_parsed"]=$this->rule[$c["rule"]];
@@ -131,7 +137,10 @@ class ContestModel extends Model
             ];
             $c["length"]=$this->calcLength($c["begin_time"], $c["end_time"]);
         }
-        return $contest_list;
+        return [
+            'paginator' => $paginator,
+            'contest_list' => $contest_list,
+        ];
     }
 
     public function rule($cid)
