@@ -55,7 +55,7 @@ class HDU extends CrawlerBase
             } else {
                 $url='http://acm.hdu.edu.cn/'.$src;
             }
-            $res=Requests::get($src, ['Referer' => 'http://acm.hdu.edu.cn']);
+            $res=Requests::get($url, ['Referer' => 'http://acm.hdu.edu.cn']);
             $ext=['image/jpeg'=>'.jpg', 'image/png'=>'.png', 'image/gif'=>'.gif', 'image/bmp'=>'.bmp'];
             if (isset($res->headers['content-type'])) {
                 $cext=$ext[$res->headers['content-type']];
