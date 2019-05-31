@@ -115,7 +115,8 @@ class Judge extends Core
 
         $cfList=$this->get_last_codeforces($this->MODEL->countEarliestWaitingSubmission(2)+100);
         // Log::debug($this->MODEL->getEarliestSubmission(7));
-        $uvaList=$this->get_last_uva($this->MODEL->getEarliestSubmission(7));
+        $uvaList=$this->get_last_uva($this->MODEL->getEarliestSubmission(7), 'uhunt.onlinejudge.org', 'uva');
+        $uvalList=$this->get_last_uva($this->MODEL->getEarliestSubmission(9), 'icpcarchive.ecs.baylor.edu/uhunt', 'uvalive');
         $poj=[];
 
         $pojJudgerList=$judger->list(4);
@@ -332,22 +333,28 @@ class Judge extends Core
                     $this->MODEL->updateSubmission($row['sid'], $sub);
                 } catch (Exception $e) {
                 }
-            } elseif ($row['oid']==7) {
-                if (array_key_exists($row['remote_id'], $uvaList)) {
+            } elseif ($row['oid']==7 || $row['oid']==9) {
+                $host = [7=>'uva.onlinejudge.org', 9=>'icpcarchive.ecs.baylor.edu'][$row['oid']];
+                $handle = [7=>'uva', 9=>'uvalive'][$row['oid']];
+                $list = [7=>$uvaList, 9=>$uvalList][$row['oid']];
+                var_dump($host);
+                var_dump($handle);
+                var_dump($list);
+                if (array_key_exists($row['remote_id'], $list)) {
                     $sub=[];
-                    if (!isset($uva_v[$uvaList[$row['remote_id']]['verdict']])) { // Sometimes verdict is 0 and i have no idea why
+                    if (!isset($uva_v[$list[$row['remote_id']]['verdict']])) { // Sometimes verdict is 0 and i have no idea why
                         continue;
                     }
-                    $sub['verdict']=$uva_v[$uvaList[$row['remote_id']]['verdict']];
+                    $sub['verdict']=$uva_v[$list[$row['remote_id']]['verdict']];
                     if ($sub['verdict']==='Compile Error') {
-                        $response=$this->grab_page("https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=9&page=show_compilationerror&submission=$row[remote_id]", 'uva', [], $uvaList['handle']);
+                        $response=$this->grab_page("https://$host/index.php?option=com_onlinejudge&Itemid=9&page=show_compilationerror&submission=$row[remote_id]", $handle, [], $list['handle']);
                         if (preg_match('/<pre>([\s\S]*)<\/pre>/', $response, $match)) {
                             $sub['compile_info']=trim($match[1]);
                         }
                     }
                     $sub['score']=$sub['verdict']=="Accepted" ? 1 : 0;
                     $sub['remote_id']=$row['remote_id'];
-                    $sub['time']=$uvaList[$row['remote_id']]['time'];
+                    $sub['time']=$list[$row['remote_id']]['time'];
 
                     $ret[$row['sid']]=[
                         "verdict"=>$sub['verdict']
@@ -398,7 +405,7 @@ class Judge extends Core
      *
      * @return void
      */
-    private function get_last_uva($earliest)
+    private function get_last_uva($earliest, $host, $handle)
     {
         $ret = [];
         if (!$earliest) {
@@ -409,7 +416,7 @@ class Judge extends Core
         $judgerDetail=$judger->detail($earliest['jid']);
         $ret['handle']=$judgerDetail['handle'];
 
-        $response=$this->grab_page("https://uhunt.onlinejudge.org/api/subs-user/".$judgerDetail['user_id']."/".($earliest['remote_id']-1), 'uva', [], $judgerDetail['handle']);
+        $response=$this->grab_page("https://$host/api/subs-user/".$judgerDetail['user_id']."/".($earliest['remote_id']-1), $handle, [], $judgerDetail['handle']);
         $result=json_decode($response, true);
         foreach ($result['subs'] as $i) {
             $ret[$i[0]]=['time'=>$i[3], 'verdict'=>$i[2]];

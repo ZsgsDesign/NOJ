@@ -12,6 +12,7 @@ use App\Http\Controllers\VirtualJudge\POJ\POJ;
 use App\Http\Controllers\VirtualJudge\Vijos\Vijos;
 use App\Http\Controllers\VirtualJudge\PTA\PTA;
 use App\Http\Controllers\VirtualJudge\UVa\UVa;
+use App\Http\Controllers\VirtualJudge\UVaLive\UVaLive;
 use Requests;
 
 class Core extends Curl
@@ -57,6 +58,11 @@ class Core extends Curl
         if ($oj=='uva') {
             $UVa=new UVa($sub, $all_data);
             $UVa->submit();
+        }
+
+        if ($oj=='uvalive') {
+            $UVaLive=new UVaLive($sub, $all_data);
+            $UVaLive->submit();
         }
     }
 }

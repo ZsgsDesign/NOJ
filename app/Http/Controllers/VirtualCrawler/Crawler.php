@@ -8,6 +8,7 @@ use App\Http\Controllers\VirtualCrawler\POJ\POJ;
 use App\Http\Controllers\VirtualCrawler\PTA\PTA;
 use App\Http\Controllers\VirtualCrawler\Vijos\Vijos;
 use App\Http\Controllers\VirtualCrawler\UVa\UVa;
+use App\Http\Controllers\VirtualCrawler\UVaLive\UVaLive;
 use App\Models\ProblemModel;
 use Auth;
 
@@ -39,6 +40,9 @@ class Crawler
         }
         if ($name=="UVa") {
             $crawler=new UVa($action, $con, $cached);
+        }
+        if ($name=="UVaLive") {
+            $crawler=new UVaLive($action, $con, $cached);
         }
         if (isset($crawler)) {
             $this->data=$crawler->data;
