@@ -598,6 +598,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            {{$paginator->links()}}
                         </contest-container>
                         @endunless
                     </div>

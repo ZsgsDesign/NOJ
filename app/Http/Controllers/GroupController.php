@@ -44,7 +44,8 @@ class GroupController extends Controller
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
         $member_list=$groupModel->userList($basic_info["gid"]);
         $group_notice=$groupModel->groupNotice($basic_info["gid"]);
-        $contest_list=$contestModel->listByGroup($basic_info["gid"]);
+        $contest_list=$contestModel->listByGroup($basic_info["gid"])['contest_list'];
+        $paginator=$contestModel->listByGroup($basic_info["gid"])['paginator'];
         return view('group.detail', [
             'page_title'=>"Group Detail",
             'site_title'=>"NOJ",
@@ -54,6 +55,7 @@ class GroupController extends Controller
             'member_list'=>$member_list,
             'group_notice'=>$group_notice,
             'contest_list'=>$contest_list,
+            'paginator'=>$paginator,
             'group_clearance'=>$clearance
         ]);
     }
