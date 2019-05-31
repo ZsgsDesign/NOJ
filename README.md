@@ -25,7 +25,11 @@ Till now, NOJ have been successfully deployed to the following systems:
 
 Here is detailed step about deploying NOJ:
 
-1. You need to have a server and installed [PHP](http://php.net/downloads.php) and [Composer](https://getcomposer.org);
+1. You need to have a server and installed the following:
+    - [PHP ^7.1.3(recommend 7.3.4)](http://php.net/downloads.php)
+    - [Composer ^1.8.5(recommend 1.8.5)](https://getcomposer.org)
+    - [MySQL ^5.5.3(recommend 8.0)](https://www.mysql.com/)
+    - [Redis ^3.2.1(recommend 5.0)](https://redis.io)
 
 2. Clone NOJ to your website folder;
 
@@ -72,7 +76,7 @@ php artisan migrate
 crontab -e
 * * * * * php /path-to-noj/artisan schedule:run
 
-php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva
+php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hdu
 ```
 
 9. NOJ's up-and-running, enjoy!
