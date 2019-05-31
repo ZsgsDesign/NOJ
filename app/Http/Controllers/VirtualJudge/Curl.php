@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\VirtualJudge;
 
 use App\Models\SubmissionModel;
+use Log;
 
 class Curl
 {
@@ -85,8 +86,10 @@ class Curl
         curl_setopt($datapost, CURLOPT_POSTFIELDS, $data);
         curl_setopt($datapost, CURLOPT_COOKIEFILE, dirname(__FILE__)."/cookie/{$oj}_{$handle}_cookie.txt");
         curl_setopt($datapost, CURLOPT_COOKIEJAR, dirname(__FILE__)."/cookie/{$oj}_{$handle}_cookie.txt");
+        // Log::debug("{$oj}_{$handle}_cookie");
         ob_start();
         $response=curl_exec($datapost);
+        // Log::debug($response);
         if (curl_errno($datapost)) {
             die(curl_error($datapost));
         }
