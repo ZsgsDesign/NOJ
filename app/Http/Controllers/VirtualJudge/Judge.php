@@ -108,6 +108,17 @@ class Judge extends Core
             'WRONG_ANSWER'=>"Wrong Answer",
         ];
 
+        $hdu_v = [
+            'Accepted'=>"Accepted",
+            "Presentation Error"=>"Presentation Error",
+            'Time Limit Exceeded'=>"Time Limit Exceed",
+            "Memory Limit Exceeded"=>"Memory Limit Exceed",
+            'Wrong Answer'=>"Wrong Answer",
+            'Runtime Error'=>"Runtime Error",
+            'Output Limit Exceeded'=>"Output Limit Exceeded",
+            'Compilation Error'=>"Compile Error",
+        ];
+
         $result=$this->MODEL->getWaitingSubmission();
         $judger=new JudgerModel();
         $contestModel=new ContestModel();
@@ -360,6 +371,27 @@ class Judge extends Core
                         "verdict"=>$sub['verdict']
                     ];
                     $this->MODEL->updateSubmission($row['sid'], $sub);
+                }
+            }else if($row['oid']==8) {
+                try {
+                    $sub = [];
+                    $response = Requests::get("http://acm.hdu.edu.cn/status.php?first=".$row['remote_id']);
+                    preg_match ('/<\/td><td>[\\s\\S]*?<\/td><td>[\\s\\S]*?<\/td><td>([\\s\\S]*?)<\/td><td>[\\s\\S]*?<\/td><td>(\\d*?)MS<\/td><td>(\\d*?)K<\/td>/', $response->body, $match);
+                    $sub['verdict'] = $hdu_v[trim(strip_tags($match[1]))];
+                    preg_match ("/<td>(\\d*?)MS<\/td><td>(\\d*?)K<\/td>/", $response->body, $matches);
+                    $sub['remote_id'] = $row['remote_id'];
+                    $sub['time'] = intval($matches[1]);
+                    $sub['memory'] = intval($matches[2]);
+                    // $sub['score'] = ($sub['verdict'] == 'Accepted')?100:0;
+
+                    if($sub['verdict'] == 'Compile Error') {
+                        $ret = Requests::get("http://acm.hdu.edu.cn/viewerror.php?rid=".$row['remote_id']);
+                        preg_match ("/<pre>([\\s\\S]*?)<\/pre>/", $ret->body, $match);
+                        $sub['compile_info'] = trim(strip_tags($match[0]));
+                    }
+
+                    $this->MODEL->updateSubmission($row['sid'], $sub);
+                } catch (Exception $e) {
                 }
             }
             // if ($row['oid']=='Spoj') {
