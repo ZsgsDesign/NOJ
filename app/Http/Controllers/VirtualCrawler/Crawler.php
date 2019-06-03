@@ -9,6 +9,7 @@ use App\Http\Controllers\VirtualCrawler\PTA\PTA;
 use App\Http\Controllers\VirtualCrawler\Vijos\Vijos;
 use App\Http\Controllers\VirtualCrawler\UVa\UVa;
 use App\Http\Controllers\VirtualCrawler\HDU\HDU;
+use App\Http\Controllers\VirtualCrawler\UVaLive\UVaLive;
 use App\Models\ProblemModel;
 use Auth;
 
@@ -40,6 +41,9 @@ class Crawler
         }
         if ($name=="UVa") {
             $crawler=new UVa($action, $con, $cached);
+        }
+        if ($name=="UVaLive") {
+            $crawler=new UVaLive($action, $con, $cached);
         }
         if ($name=="HDU") {
             $crawler=new HDU($action, $con, $cached);
