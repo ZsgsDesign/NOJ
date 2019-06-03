@@ -96,6 +96,7 @@ class HDU extends CrawlerBase
             die();
         }
         else {
+            $res->body = iconv("gb2312","utf-8//IGNORE",$res->body);
             $this->pro['pcode'] = "HDU".$con;
             $this->pro['OJ'] = 8;
             $this->pro['contest_id'] = null;
@@ -108,8 +109,11 @@ class HDU extends CrawlerBase
             $this->pro['input_type']='standard input';
             $this->pro['output_type']='standard output';
             $this->pro['description'] = $this->cacheImage(HtmlDomParser::str_get_html(self::find("/Problem Description.*<div class=panel_content>(.*)<\/div><div class=panel_bottom>/sU",$res->body), true, true, DEFAULT_TARGET_CHARSET, false));
+            $this->pro['description']=str_replace("$", "$$", $this->pro['description']);
             $this->pro['input'] = self::find("/<div class=panel_title align=left>Input.*<div class=panel_content>(.*)<\/div><div class=panel_bottom>/sU",$res->body);
+            $this->pro['input']=str_replace("$", "$$", $this->pro['input']);
             $this->pro['output'] = self::find("/<div class=panel_title align=left>Output.*<div class=panel_content>(.*)<\/div><div class=panel_bottom>/sU",$res->body);
+            $this->pro['output']=str_replace("$", "$$", $this->pro['output']);
             $this->pro['sample'] = [];
             $this->pro['sample'][] = [
                 'sample_input'=>self::find("/<pre><div.*>(.*)<\/div><\/pre>/sU",$res->body),
@@ -119,6 +123,9 @@ class HDU extends CrawlerBase
             // $this->pro['sample']['sample_output'] = self::find("/<div.*>Sample Output<\/div><div.*><pre><div.*>(.*)<\/div><\/pre><\/div>/sU",$res->body);
             $this->pro['note'] = self::find("/<i>Hint<\/i><\/div>(.*)<\/div><i style='font-size:1px'>/sU",$res->body);
             $this->pro['source'] = strip_tags(self::find("/<div class=panel_title align=left>Source<\/div> (.*)<div class=panel_bottom>/sU",$res->body));
+            if($this->pro['source'] === "") {
+                $this->pro['source'] = $this->pro['pcode'];
+            }
             $this->pro['force_raw'] = 0;
             $problem=$problemModel->pid($this->pro['pcode']);
 
