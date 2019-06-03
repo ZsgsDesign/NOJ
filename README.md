@@ -76,7 +76,7 @@ php artisan migrate
 crontab -e
 * * * * * php /path-to-noj/artisan schedule:run
 
-php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hdu
+php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hdu,uvalive
 ```
 
 9. NOJ's up-and-running, enjoy!
