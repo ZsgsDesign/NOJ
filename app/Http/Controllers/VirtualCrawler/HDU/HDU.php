@@ -86,9 +86,7 @@ class HDU extends CrawlerBase
         $this->con = $con;
         $this->imgi = 1;
         $problemModel = new ProblemModel();
-        $res = Requests::get("http://acm.hdu.edu.cn/showproblem.php?pid={$con}",[
-            'content' => "text/html;charset=UTF-8",
-        ]);
+        $res = Requests::get("http://acm.hdu.edu.cn/showproblem.php?pid={$con}");
         if (strpos("No such problem",$res->body) !== false) {
             header('HTTP/1.1 404 Not Found');
             die();
