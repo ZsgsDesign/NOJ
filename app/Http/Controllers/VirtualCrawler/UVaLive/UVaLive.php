@@ -45,7 +45,7 @@ class UVaLive extends CrawlerBase
             }
             ksort($info);
             foreach ($info as $key=>$value) {
-                $this->pro['pcode']='UvaL'.$key;
+                $this->pro['pcode']='UVaLive'.$key;
                 $this->pro['OJ']=$this->oid;
                 $this->pro['contest_id']=null;
                 $this->pro['index_id']=$value[0];
@@ -56,7 +56,7 @@ class UVaLive extends CrawlerBase
                 $this->pro['solved_count']=$value[2];
                 $this->pro['input_type']='standard input';
                 $this->pro['output_type']='standard output';
-                $this->pro['description']="<a href=\"/external/gym/UvaL{$key}.pdf\">[Attachment Link]</a>";
+                $this->pro['description']="<a href=\"/external/gym/UVaLive{$key}.pdf\">[Attachment Link]</a>";
                 $this->pro['input']='';
                 $this->pro['output']='';
                 $this->pro['note']='';
@@ -79,7 +79,7 @@ class UVaLive extends CrawlerBase
         } else {
             $pf=substr($con, 0, strlen($con)-2);
             $res=Requests::get("https://icpcarchive.ecs.baylor.edu/external/$pf/$con.pdf");
-            file_put_contents(base_path("public/external/gym/UvaL$con.pdf"), $res->body);
+            file_put_contents(base_path("public/external/gym/UVaLive$con.pdf"), $res->body);
         }
     }
 }
