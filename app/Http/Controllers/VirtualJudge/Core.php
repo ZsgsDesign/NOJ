@@ -13,6 +13,7 @@ use App\Http\Controllers\VirtualJudge\Vijos\Vijos;
 use App\Http\Controllers\VirtualJudge\PTA\PTA;
 use App\Http\Controllers\VirtualJudge\UVa\UVa;
 use App\Http\Controllers\VirtualJudge\HDU\HDU;
+use App\Http\Controllers\VirtualJudge\UVaLive\UVaLive;
 use Requests;
 
 class Core extends Curl
@@ -63,6 +64,11 @@ class Core extends Curl
         if($oj=='hdu') {
             $HDU = new HDU($sub, $all_data);
             $HDU->submit();
+        }
+
+        if ($oj=='uvalive') {
+            $UVaLive=new UVaLive($sub, $all_data);
+            $UVaLive->submit();
         }
     }
 }
