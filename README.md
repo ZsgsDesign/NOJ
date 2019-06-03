@@ -126,9 +126,9 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hd
             - [X] Submit to VJ
                 - [X] CodeForces
                 - [X] UVa
-                - [ ] UVa Live
+                - [X] UVa Live
                 - [ ] SPOJ
-                - [ ] HDU
+                - [X] HDU
                 - [X] Contest Hunter
                 - [X] POJ
                 - [X] Vijos
