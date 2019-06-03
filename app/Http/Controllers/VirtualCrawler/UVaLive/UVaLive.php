@@ -37,8 +37,16 @@ class UVaLive extends CrawlerBase
     {
         $problemModel=new ProblemModel();
         if ($con=='all') {
-            $res=Requests::get("https://icpcarchive.ecs.baylor.edu/uhunt/api/p", [], ['timeout'=>600]);
-            $result=json_decode($res->body, true);
+            @$response=file_get_contents(__DIR__."/problemset.problems");
+            if ($response===false) {
+                $res=Requests::get("https://icpcarchive.ecs.baylor.edu/uhunt/api/p", [], ['timeout'=>600]);
+                $response=$res->body;
+                // cache to folder
+                $fp=fopen(__DIR__."/problemset.problems", "w");
+                fwrite($fp, $response);
+                fclose($fp);
+            }
+            $result=json_decode($response, true);
             $info=[];
             for ($i=0; $i<count($result); ++$i) {
                 $info[$result[$i][1]]=[$result[$i][0], $result[$i][2], $result[$i][3], $result[$i][19]];
