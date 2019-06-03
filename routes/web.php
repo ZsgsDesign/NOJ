@@ -12,7 +12,7 @@
 */
 
 Route::redirect('/home', '/', 301);
-Route::redirect('/welcome.do', '/', 301);
+Route::redirect('/acmhome/welcome.do', '/', 301);
 Route::get('/acmhome/problemdetail.do','MainController@oldRedirect')->name('old.redirect');
 
 Route::get('/', 'MainController@home')->middleware('contest_account')->name('home');
