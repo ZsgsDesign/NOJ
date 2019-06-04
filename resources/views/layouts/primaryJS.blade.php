@@ -10,6 +10,7 @@
     </script>
 @endif
 
+@include("js.common.notification")
 <script>
     $(document).ready(function () { $('body').bootstrapMaterialDesign();$('[data-toggle="tooltip"]').tooltip(); });
     window.addEventListener("load",function() {

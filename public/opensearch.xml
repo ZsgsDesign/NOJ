@@ -1,0 +1,9 @@
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+    <ShortName>NOJ</ShortName>
+    <Description>Gracefully Search NOJ Problems and others.</Description>
+    <InputEncoding>UTF-8</InputEncoding>
+    <Image width="16" height="16" type="image/x-icon">https://acm.njupt.edu.cn/favicon.ico</Image>
+    <Url type="text/html" template="/problem/{searchTerms}">
+        <Param name="opensearch" value="1"/>
+    </Url>
+</OpenSearchDescription>
