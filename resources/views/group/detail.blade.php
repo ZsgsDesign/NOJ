@@ -333,6 +333,13 @@
         display: inline-block;
         text-align: center;
         margin: 0 1rem;
+        cursor: pointer;
+        transition: background-color 400ms;
+        padding: .5rem;
+    }
+
+    function-block:hover{
+        background-color: #eee;
     }
 
     function-block i{

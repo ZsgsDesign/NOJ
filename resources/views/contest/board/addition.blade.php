@@ -17,9 +17,14 @@
                         console.log(ret);
                         if(ret.ret==200){
                             if(ret.data){
-                                if(localStorage.ccid!=ret.data.ccid) {
+                                var clarification_ed = localStorage.clarification_ed == null ? [] : JSON.parse(localStorage.clarification_ed);
+                                if(clarification_ed.indexOf(ret.data.ccid) == -1){
                                     alert(ret.data.content, ret.data.title, "bullhorn");
-                                    localStorage.ccid=ret.data.ccid;
+                                    if(Notification.permission != 'denied'){
+                                        notify(ret.data.title,ret.data.content,'/static/img/notify/contest_alert.png');
+                                    }
+                                    clarification_ed.push(ret.data.ccid);
+                                    localStorage.clarification_ed = JSON.stringify(clarification_ed);
                                 }
                             }
                         }
