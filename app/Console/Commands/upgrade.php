@@ -37,19 +37,39 @@ class upgrade extends Command
      */
     public function handle()
     {
-        $bar = $this->output->createProgressBar(5);
+        $bar = $this->output->createProgressBar(8);
         $bar->setFormat("%current%/%max% [%bar%] %percent:3s%%\n<info>%message%</info>");
 
+        $bar->setMessage("Enable Maintenance Mode.");
         $this->callSilent('down');
-        $bar->setMessage("Application is now in maintenance mode.");
         $bar->advance();
 
-        $this->callSilent('up');
-        $bar->setMessage("Application is now live.");
+        $bar->setMessage("Stopping Supervisor.");
+        exec('supervisorctl stop all');
         $bar->advance();
 
+        $bar->setMessage("Pulling the Latest NOJ");
+        exec("sudo -u www git pull");
+        $bar->advance();
+
+        $bar->setMessage("Migrating Database.");
+        $this->callSilent('migrate');
+        $bar->advance();
+
+        $bar->setMessage("Installing Dependences");
+        exec('composer install');
+        $bar->advance();
+
+        $bar->setMessage("Reloading Supervisor.");
+        exec('supervisorctl relaod');
+        $bar->advance();
+
+        $bar->setMessage("Starting Supervisor.");
+        exec('supervisorctl start all');
+        $bar->advance();
+
+        $bar->setMessage("Disable Maintenance Mode.");
         $this->callSilent('up');
-        $bar->setMessage("Application is now live.");
         $bar->advance();
 
         $bar->finish();
