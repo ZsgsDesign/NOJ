@@ -481,9 +481,9 @@
                             @elseif($group_clearance==-1)
                                 <button type="button" id="joinGroup" class="btn btn-raised btn-success"><i class="MDI autorenew cm-refreshing d-none"></i> Accept Invitation</button>
                             @elseif($group_clearance==0)
-                                <button type="button" class="btn btn-raised btn-primary btn-disabled" disabled>Waiting</button>
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Waiting</button>
                             @elseif($group_clearance>0)
-                                <button type="button" class="btn btn-raised btn-primary btn-disabled" disabled>Joined</button>
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Joined</button>
                             @endif
                         @endif
                     </info-div>
@@ -654,10 +654,12 @@
                                         <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
                                         <p>
                                             <small><i class="MDI google-circles"></i> {{$m["sub_group"]}}</small>
-                                            @if($m["role"]>0 && $group_clearance>$m["role"])<small class="wemd-red-text cm-operation" onclick="kickMember({{$m['uid']}})"><i class="MDI account-off"></i> Kick</small>@endif
-                                            @if($m["role"]==0 && $group_clearance>1)<small class="wemd-green-text cm-operation" onclick="approveMember({{$m['uid']}})"><i class="MDI check"></i> Approve</small>@endif
-                                            @if($m["role"]==0 && $group_clearance>1)<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}})"><i class="MDI cancel"></i> Decline</small>@endif
-                                            @if($m["role"]==-1 && $group_clearance>1)<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}})"><i class="MDI account-minus"></i> Retrieve</small>@endif
+                                            <operation id="member_operate{{$m['uid']}}">
+                                                @if($m["role"]>0 && $group_clearance>$m["role"])<small class="wemd-red-text cm-operation" onclick="kickMember({{$m['uid']}})"><i class="MDI account-off"></i> Kick</small>@endif
+                                                @if($m["role"]==0 && $group_clearance>1)<small class="wemd-green-text cm-operation" onclick="approveMember({{$m['uid']}})"><i class="MDI check"></i> Approve</small>@endif
+                                                @if($m["role"]==0 && $group_clearance>1)<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}},'Declined')"><i class="MDI cancel"></i> Decline</small>@endif
+                                                @if($m["role"]==-1 && $group_clearance>1)<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}},'Retrieved')"><i class="MDI account-minus"></i> Retrieve</small>@endif
+                                            </operation>
                                         </p>
                                     </user-info>
                                 </user-card>
@@ -861,8 +863,8 @@
             });
         }
 
-        var approving=false;
-        var declining=false;
+        let approving=false;
+        let declining=false;
 
         function approveMember(uid){
             if(approving) return;
@@ -877,12 +879,12 @@
                 dataType: 'json',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }, success: function(ret){
-                    console.log(ret);
-                    if (ret.ret==200) {
-                        location.reload();
+                }, success: function(result){
+                    console.log(result);
+                    if (result.ret===200) {
+                        $('#member_operate'+uid).html("<span class=\"badge badge-pill badge-success\">Approved</span>");
                     } else {
-                        alert(ret.desc);
+                        alert(result.desc);
                     }
                     approving=false;
                 }, error: function(xhr, type){
@@ -897,11 +899,11 @@
             if(declining) return;
             confirm({content:'Are you sure you want to kick this member?',title:'Kick Member'},function (deny) {
                 if(!deny)
-                    removeMember(uid);
+                    removeMember(uid,'Kicked');
             });
         }
 
-        function removeMember(uid){
+        function removeMember(uid,operation){
             if(declining) return;
             declining=true;
             $.ajax({
@@ -914,12 +916,12 @@
                 dataType: 'json',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }, success: function(ret){
-                    console.log(ret);
-                    if (ret.ret===200) {
-                        location.reload();
+                }, success: function(result){
+                    console.log(result);
+                    if (result.ret===200) {
+                        $('#member_operate'+uid).html(`<span class=\"badge badge-pill badge-danger\">${operation}</span>`);
                     } else {
-                        alert(ret.desc);
+                        alert(result.desc);
                     }
                     declining=false;
                 }, error: function(xhr, type){
@@ -955,12 +957,12 @@
                 dataType: 'json',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }, success: function(ret){
-                    console.log(ret);
-                    if (ret.ret==200) {
-                        location.reload();
+                }, success: function(result){
+                    console.log(result);
+                    if (result.ret===200) {
+                        $('#joinGroup').html('Waiting').attr('disabled','true');
                     } else {
-                        alert(ret.desc);
+                        alert(result.desc);
                     }
                     joining=false;
                     $("#joinGroup > i").addClass("d-none");
