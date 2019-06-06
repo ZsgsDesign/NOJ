@@ -4,5 +4,6 @@ supervisorctl stop all
 sudo -u www git pull
 php artisan migrate
 composer install
-supervisorctl restart all
+supervisorctl reload
+supervisorctl start all
 php artisan up

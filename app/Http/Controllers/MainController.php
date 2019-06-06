@@ -17,6 +17,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use Log;
+use Redirect;
 
 /**
  * Main Controller of NOJ
@@ -50,5 +51,17 @@ class MainController extends Controller
                 'group_notice' => $group_notice,
                 'ojs' => $ojs
             ]);
+    }
+
+    public function oldRedirect(Request $request)
+    {
+        $all_data=$request->all();
+        $method=isset($all_data["method"])?$all_data["method"]:null;
+        $id=isset($all_data["id"])?$all_data["id"]:null;
+        if($method=="showdetail" && !is_null($id)){
+            $problemModel=new ProblemModel();
+            return ($problemModel->existPCode("NOJ$id"))?Redirect::route('problem_detail', ['pcode' => "NOJ$id"]):Redirect::route('problem_index');
+        }
+        return Redirect::route('home');
     }
 }

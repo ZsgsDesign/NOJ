@@ -377,7 +377,8 @@ class Judge extends Core
                     $sub = [];
                     $response = Requests::get("http://acm.hdu.edu.cn/status.php?first=".$row['remote_id']);
                     preg_match ('/<\/td><td>[\\s\\S]*?<\/td><td>[\\s\\S]*?<\/td><td>([\\s\\S]*?)<\/td><td>[\\s\\S]*?<\/td><td>(\\d*?)MS<\/td><td>(\\d*?)K<\/td>/', $response->body, $match);
-                    $sub['verdict'] = $hdu_v[trim(strip_tags($match[1]))];
+                    if(strpos(trim(strip_tags($match[1])), 'Runtime Error')!==false)  $sub['verdict'] = 'Runtime Error';
+                    else $sub['verdict'] = $hdu_v[trim(strip_tags($match[1]))];
                     preg_match ("/<td>(\\d*?)MS<\/td><td>(\\d*?)K<\/td>/", $response->body, $matches);
                     $sub['remote_id'] = $row['remote_id'];
                     $sub['time'] = intval($matches[1]);
