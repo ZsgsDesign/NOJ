@@ -106,8 +106,7 @@
         $(`#notice${id}`).modal('toggle');
     }
 
-    function confirm (content,title="Confirm",cbObj={},icon="information-outline",backdrop="static"){
-        const {done=function(){},deny=function(){},calcel=function(){}} = cbObj;// cancel估计用不上
+    function confirm ({content="content",title="Confirm",icon="information-outline",backdrop="static"}={},callback=function(deny){}){
         var id = new Date().getTime();
         if(backdrop !== "static") backdrop = backdrop?"true":"false";
         $('body').append(`
@@ -128,17 +127,19 @@
                 </div>
             </div>
         `);
-        $(`#confirmDone${id}`).on('click',done);
-        $(`#confirmDeny${id}`).on('click',deny);
+        $(`#confirmDone${id}`).on('click',function(){
+            callback(false);
+        });
+        $(`#confirmDeny${id}`).on('click',function(){
+            callback(true);
+        });
         $(`#notice${id}`).on('shown.bs.modal', function (e) {
             changeDepth();
         });
         $(`#notice${id}`).modal('toggle');
     }
 
-    function prompt (content,title="Prompt",cbObj={},inputConfig={},icon="information-outline",backdrop="static"){
-        let {done=function(text){},deny=function(text){},calcel=function(text){}} = cbObj;// cancel估计用不上
-        let {placeholder,value} = inputConfig;
+    function prompt ({content="content",title="Prompt",placeholder,value,icon="information-outline",backdrop="static"}={},callback=function(deny,text){}){
         var id = new Date().getTime();
         if(backdrop !== "static") backdrop = backdrop?"true":"false";
         placeholder = placeholder!==undefined ? ` placeholder=${placeholder} `:"";
@@ -165,10 +166,10 @@
             </div>
         `);
         $(`#promptDeny${id}`).on('click',function(){
-            deny($(`#noticeInput${id}`)[0].value);
+            callback(true,$(`#noticeInput${id}`)[0].value);
         });
         $(`#promptDone${id}`).on('click',function(){
-            done($(`#noticeInput${id}`)[0].value);
+            callback(false,$(`#noticeInput${id}`)[0].value);
         });
         $(`#notice${id}`).on('shown.bs.modal', function (e) {
             changeDepth();
