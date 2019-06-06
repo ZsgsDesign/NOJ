@@ -136,10 +136,13 @@
         $(`#notice${id}`).modal('toggle');
     }
 
-    function prompt (content,title="Prompt",cbObj={},icon="information-outline",backdrop="static"){
+    function prompt (content,title="Prompt",cbObj={},inputConfig={},icon="information-outline",backdrop="static"){
         let {done=function(text){},deny=function(text){},calcel=function(text){}} = cbObj;// cancel估计用不上
+        let {placeholder,value} = inputConfig;
         var id = new Date().getTime();
         if(backdrop !== "static") backdrop = backdrop?"true":"false";
+        placeholder = placeholder!==undefined ? ` placeholder=${placeholder} `:"";
+        value = value!==undefined ? ` value=${value} `:"";
         $('body').append(`
             <div class="modal fade" id="notice${id}" data-backdrop="${backdrop}" tabindex="-1" role="dialog">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-alert" role="document">
@@ -151,7 +154,7 @@
                             ${content}
                         </div>
                         <div class="modal-body">
-                            <input id="noticeInput${id}" type="text" class="form-control">
+                            <input id="noticeInput${id}" type="text" ${value} ${placeholder}  class="form-control">
                         </div>
                         <div class="modal-footer">
                             <button type="button" id="promptDeny${id}" class="btn btn-danger" data-dismiss="modal">DENY</button>
