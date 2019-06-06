@@ -654,7 +654,7 @@
                                         <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
                                         <p>
                                             <small><i class="MDI google-circles"></i> {{$m["sub_group"]}}</small>
-                                            @if($m["role"]>0 && $group_clearance>$m["role"])<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}})"><i class="MDI account-off"></i> Kick</small>@endif
+                                            @if($m["role"]>0 && $group_clearance>$m["role"])<small class="wemd-red-text cm-operation" onclick="kickMember({{$m['uid']}})"><i class="MDI account-off"></i> Kick</small>@endif
                                             @if($m["role"]==0 && $group_clearance>1)<small class="wemd-green-text cm-operation" onclick="approveMember({{$m['uid']}})"><i class="MDI check"></i> Approve</small>@endif
                                             @if($m["role"]==0 && $group_clearance>1)<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}})"><i class="MDI cancel"></i> Decline</small>@endif
                                             @if($m["role"]==-1 && $group_clearance>1)<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}})"><i class="MDI account-minus"></i> Retrieve</small>@endif
@@ -893,40 +893,44 @@
             });
         }
 
-        function removeMember(uid){
+        function kickMember(uid) {
             if(declining) return;
             confirm('Are you sure you want to kick this member?','Kick Member',{done:function () {
-                    declining=true;
-                    $.ajax({
-                        type: 'POST',
-                        url: '/ajax/group/removeMember',
-                        data: {
-                            gid: {{$basic_info["gid"]}},
-                            uid: uid
-                        },
-                        dataType: 'json',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }, success: function(ret){
-                            console.log(ret);
-                            if (ret.ret===200) {
-                                location.reload();
-                            } else {
-                                alert(ret.desc);
-                            }
-                            declining=false;
-                        }, error: function(xhr, type){
-                            console.log('Ajax error!');
-                            alert("Server Connection Error");
-                            declining=false;
-                        }
-                    });
-                }});
+                removeMember(uid);
+            }});
+        }
+
+        function removeMember(uid){
+            if(declining) return;
+            declining=true;
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/group/removeMember',
+                data: {
+                    gid: {{$basic_info["gid"]}},
+                    uid: uid
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if (ret.ret===200) {
+                        location.reload();
+                    } else {
+                        alert(ret.desc);
+                    }
+                    declining=false;
+                }, error: function(xhr, type){
+                    console.log('Ajax error!');
+                    alert("Server Connection Error");
+                    declining=false;
+                }
+            });
         }
 
         $('#problemCode').bind('keypress',function(event){
-            if(event.keyCode == "13")
-            {
+            if(event.keyCode == "13") {
                 addProblem();
             }
         });
