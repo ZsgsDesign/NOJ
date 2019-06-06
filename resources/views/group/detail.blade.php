@@ -895,31 +895,33 @@
 
         function removeMember(uid){
             if(declining) return;
-            declining=true;
-            $.ajax({
-                type: 'POST',
-                url: '/ajax/group/removeMember',
-                data: {
-                    gid: {{$basic_info["gid"]}},
-                    uid: uid
-                },
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }, success: function(ret){
-                    console.log(ret);
-                    if (ret.ret==200) {
-                        location.reload();
-                    } else {
-                        alert(ret.desc);
-                    }
-                    declining=false;
-                }, error: function(xhr, type){
-                    console.log('Ajax error!');
-                    alert("Server Connection Error");
-                    declining=false;
-                }
-            });
+            confirm('Are you sure you want to kick this member?','Kick Member',{done:function () {
+                    declining=true;
+                    $.ajax({
+                        type: 'POST',
+                        url: '/ajax/group/removeMember',
+                        data: {
+                            gid: {{$basic_info["gid"]}},
+                            uid: uid
+                        },
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }, success: function(ret){
+                            console.log(ret);
+                            if (ret.ret===200) {
+                                location.reload();
+                            } else {
+                                alert(ret.desc);
+                            }
+                            declining=false;
+                        }, error: function(xhr, type){
+                            console.log('Ajax error!');
+                            alert("Server Connection Error");
+                            declining=false;
+                        }
+                    });
+                }});
         }
 
         $('#problemCode').bind('keypress',function(event){
