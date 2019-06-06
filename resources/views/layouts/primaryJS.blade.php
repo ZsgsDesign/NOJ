@@ -105,6 +105,73 @@
         $(`#notice${id}`).modal('toggle');
     }
 
+    function confirm (content,title="Confirm",cbObj={},icon="information-outline",backdrop="static"){
+        const {done=function(){},deny=function(){},calcel=function(){}} = cbObj;// cancel估计用不上
+        var id = new Date().getTime();
+        if(backdrop !== "static") backdrop = backdrop?"true":"false";
+        $('body').append(`
+            <div class="modal fade" id="notice${id}" data-backdrop="${backdrop}" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-alert" role="document">
+                    <div class="modal-content sm-modal">
+                        <div class="modal-header">
+                            <h5 class="modal-title"><i class="MDI ${icon}"></i> ${title}</h5>
+                        </div>
+                        <div class="modal-body">
+                            ${content}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="confirmDeny${id}" class="btn btn-danger" data-dismiss="modal">DENY</button>
+                            <button type="button" id="confirmDone${id}" class="btn btn-primary" data-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `);
+        $(`#confirmDone${id}`).on('click',done);
+        $(`#confirmDeny${id}`).on('click',deny);
+        $(`#notice${id}`).on('shown.bs.modal', function (e) {
+            changeDepth();
+        });
+        $(`#notice${id}`).modal('toggle');
+    }
+
+    function prompt (content,title="Prompt",cbObj={},icon="information-outline",backdrop="static"){
+        let {done=function(text){},deny=function(text){},calcel=function(text){}} = cbObj;// cancel估计用不上
+        var id = new Date().getTime();
+        if(backdrop !== "static") backdrop = backdrop?"true":"false";
+        $('body').append(`
+            <div class="modal fade" id="notice${id}" data-backdrop="${backdrop}" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-alert" role="document">
+                    <div class="modal-content sm-modal">
+                        <div class="modal-header">
+                            <h5 class="modal-title"><i class="MDI ${icon}"></i> ${title}</h5>
+                        </div>
+                        <div class="modal-body">
+                            ${content}
+                        </div>
+                        <div class="modal-body">
+                            <input id="noticeInput${id}" type="text" class="form-control">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="promptDeny${id}" class="btn btn-danger" data-dismiss="modal">DENY</button>
+                            <button type="button" id="promptDone${id}" class="btn btn-primary" data-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `);
+        $(`#promptDeny${id}`).on('click',function(){
+            deny($(`#noticeInput${id}`)[0].value);
+        });
+        $(`#promptDone${id}`).on('click',function(){
+            done($(`#noticeInput${id}`)[0].value);
+        });
+        $(`#notice${id}`).on('shown.bs.modal', function (e) {
+            changeDepth();
+        });
+        $(`#notice${id}`).modal('toggle');
+    }
+
     function empty(test){
         return test.match(/^\s*$/);
     }
