@@ -177,6 +177,13 @@
         $(`#notice${id}`).modal('toggle');
     }
 
+    function changeText(selector,text,css,method){
+        $(selector).animate({opacity : 0},100,function(){
+            css['opacity'] = 1;
+            $(selector).text(text);
+            $(selector).animate(css,200);
+        })
+    }
     function empty(test){
         return test.match(/^\s*$/);
     }

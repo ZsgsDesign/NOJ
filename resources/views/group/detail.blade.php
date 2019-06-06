@@ -552,7 +552,7 @@
                                     <i class="MDI account-plus"></i>
                                     <p>Invite</p>
                                 </function-block>
-                                <function-block>
+                                <function-block onclick="$('#settingModal').modal({backdrop:'static'});">
                                     <i class="MDI settings"></i>
                                     <p>Setting</p>
                                 </function-block>
@@ -654,12 +654,12 @@
                                         <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
                                         <p>
                                             <small><i class="MDI google-circles"></i> {{$m["sub_group"]}}</small>
-                                            <operation id="member_operate{{$m['uid']}}">
+                                            <operation-list id="member_operate{{$m['uid']}}">
                                                 @if($m["role"]>0 && $group_clearance>$m["role"])<small class="wemd-red-text cm-operation" onclick="kickMember({{$m['uid']}})"><i class="MDI account-off"></i> Kick</small>@endif
                                                 @if($m["role"]==0 && $group_clearance>1)<small class="wemd-green-text cm-operation" onclick="approveMember({{$m['uid']}})"><i class="MDI check"></i> Approve</small>@endif
                                                 @if($m["role"]==0 && $group_clearance>1)<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}},'Declined')"><i class="MDI cancel"></i> Decline</small>@endif
                                                 @if($m["role"]==-1 && $group_clearance>1)<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}},'Retrieved')"><i class="MDI account-minus"></i> Retrieve</small>@endif
-                                            </operation>
+                                            </operation-list>
                                         </p>
                                     </user-info>
                                 </user-card>
@@ -739,6 +739,81 @@
     }
 
 </style>
+
+<div id="settingModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content sm-modal">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="MDI settings"></i> Group setting</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <group-name-setting>
+                            <div class="form-group">
+                                <label for="group-name" class="bmd-label-floating">Group Name</label>
+                                <input type="text" class="form-control" id="group-name" value="{{$basic_info['name']}}">
+                            </div>
+                            <small id="group-name-tip" class="text-center" style="display:block">PRESS ENTER TO APPLY THE CHANGES</small>
+                        </group-name-setting><br>
+                        <join-policy-setting style="display:block">
+                            <p>Join Policy</p>
+                            <div class="text-center">
+                                <div class="btn-group">
+                                    <button id="policy-choice-btn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        @if($basic_info['join_policy']==3)<span>Invitation & Application</span>@elseif(($basic_info['join_policy']==2))<span>Application</span>@else<span>Invitation</span>@endif
+                                    </button>
+                                    <div class="dropdown-menu text-center">
+                                        <a class="dropdown-item join-policy-choice" data-policy="3">Invitation & Application</a>
+                                        <a class="dropdown-item join-policy-choice" data-policy="2">Application only</a>
+                                        <a class="dropdown-item join-policy-choice" data-policy="1">Invitation only</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </join-policy-setting>
+                        <focus-images-setting style="display:block">
+                            <p>Change Group Image</p>
+                            <small id="change-image-tip" class="text-center" style="display:block">CLICK IMAGE TO CHOOSE A LOCAL IMAGE</small>
+                            <input id="image-file" type="file" style="display:none" accept=".jpg,.png,.jpeg,.gif" />
+                            <label for="image-file" style="display: inline-block; cursor: pointer;" class="text-center">
+                                <img class="group-image" style="max-width: 90%; height: auto;display:inline-block" src="{{$basic_info['img']}}">
+                            </label>
+                        </focus-images-setting>
+                    </div>
+                    <div class="col-md-6">
+                        <permission-setting>
+                            <p>Permission Setting</p>
+                            @foreach($member_list as $m)
+                                @if($m["role"]>0)
+                                <user-card id="user-permission-{{$m["uid"]}}">
+                                    <user-avatar>
+                                        <a href="/user/{{$m["uid"]}}"><img src="{{$m["avatar"]}}"></a>
+                                    </user-avatar>
+                                    <user-info>
+                                        <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
+                                        <p>
+                                            <small><i class="MDI google-circles"></i> {{$m["sub_group"]}}</small>
+                                            @if($group_clearance>$m["role"])
+                                                <small class="wemd-green-text cm-operation" onclick="promoteMember({{$m['uid']}})"><i class="MDI arrow-up-drop-circle-outline"></i> Promote</small>
+                                                <small class="wemd-red-text cm-operation" onclick="demoteMember({{$m['uid']}})"><i class="MDI arrow-down-drop-circle-outline"></i> Demote</small>
+                                            @endif
+                                        </p>
+                                    </user-info>
+                                </user-card>
+                                @endif
+                            @endforeach
+                        </permission-setting>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div id="contestModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -863,12 +938,11 @@
             });
         }
 
-        let approving=false;
-        let declining=false;
+        let ajaxing = false;
 
         function approveMember(uid){
-            if(approving) return;
-            approving=true;
+            if(ajaxing) return;
+            ajaxing=true;
             $.ajax({
                 type: 'POST',
                 url: '/ajax/group/approveMember',
@@ -886,17 +960,17 @@
                     } else {
                         alert(result.desc);
                     }
-                    approving=false;
+                    ajaxing=false;
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
                     alert("Server Connection Error");
-                    approving=false;
+                    ajaxing=false;
                 }
             });
         }
 
         function kickMember(uid) {
-            if(declining) return;
+            if(ajaxing) return;
             confirm({content:'Are you sure you want to kick this member?',title:'Kick Member'},function (deny) {
                 if(!deny)
                     removeMember(uid,'Kicked');
@@ -904,8 +978,8 @@
         }
 
         function removeMember(uid,operation){
-            if(declining) return;
-            declining=true;
+            if(ajaxing) return;
+            ajaxing=true;
             $.ajax({
                 type: 'POST',
                 url: '/ajax/group/removeMember',
@@ -923,13 +997,64 @@
                     } else {
                         alert(result.desc);
                     }
-                    declining=false;
+                    ajaxing=false;
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
                     alert("Server Connection Error");
-                    declining=false;
+                    ajaxing=false;
                 }
             });
+        }
+
+        $('.join-policy-choice').on('click',function(){
+            if($('#policy-choice-btn').text().trim() == $(this).text()) return;
+            var choice = $(this).attr('data-policy');
+            //todo: call api
+        });
+
+        $('#image-file').change(function(){
+            var file = $(this).get(0).files[0];
+
+            if(file == undefined){
+                changeText('#change-image-tip','PLEASE CHOOSE A LOCAL FILE',{color:'#f00'});
+                return;
+            }
+
+            if(file.size/1024 > 1024){
+                changeText('#change-image-tip','THE SELECTED FILE IS TOO LARGE',{color:'#f00'});
+                return;
+            }
+
+            $(this).addClass('updating');
+            var avatar_data = new FormData();
+            avatar_data.append('avatar',file);
+
+            //todo call api
+            changeText('#change-image-tip','GROUP IMAGE CHANGE SUCESSFUL',{color:'#0f0'})
+            //read the new url from json and replace the old
+
+
+        });
+
+        $('#group-name').keydown(function(e){
+            if(e.keyCode == '13'){
+                if($(this).val() == '')
+                    changeText('#group-name-tip','THE NAME OF THE GROUP CANNOT BE EMPTY',{color:'#f00'});
+
+                //todo call api
+            }
+        });
+
+        function promoteMember(uid){
+            if(ajaxing) return;
+            ajaxing=true;
+            //todo call api
+        }
+
+        function demoteMember(uid){
+            if(ajaxing) return;
+            ajaxing=true;
+            //todo call api
         }
 
         $('#problemCode').bind('keypress',function(event){
