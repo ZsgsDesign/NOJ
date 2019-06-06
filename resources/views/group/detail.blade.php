@@ -895,9 +895,10 @@
 
         function kickMember(uid) {
             if(declining) return;
-            confirm('Are you sure you want to kick this member?','Kick Member',{done:function () {
-                removeMember(uid);
-            }});
+            confirm({content:'Are you sure you want to kick this member?',title:'Kick Member'},function (deny) {
+                if(!deny)
+                    removeMember(uid);
+            });
         }
 
         function removeMember(uid){
