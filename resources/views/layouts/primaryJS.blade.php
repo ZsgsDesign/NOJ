@@ -106,7 +106,7 @@
         $(`#notice${id}`).modal('toggle');
     }
 
-    function confirm ({content="content",title="Confirm",icon="information-outline",backdrop="static"}={},callback=function(deny){}){
+    function confirm ({content="",title="Confirm",icon="information-outline",backdrop="static"}={},callback=function(deny){}){
         var id = new Date().getTime();
         if(backdrop !== "static") backdrop = backdrop?"true":"false";
         $('body').append(`
@@ -120,7 +120,7 @@
                             ${content}
                         </div>
                         <div class="modal-footer">
-                            <button type="button" id="confirmDeny${id}" class="btn btn-danger" data-dismiss="modal">DENY</button>
+                            <button type="button" id="confirmDeny${id}" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             <button type="button" id="confirmDone${id}" class="btn btn-primary" data-dismiss="modal">OK</button>
                         </div>
                     </div>
@@ -139,11 +139,11 @@
         $(`#notice${id}`).modal('toggle');
     }
 
-    function prompt ({content="content",title="Prompt",placeholder,value,icon="information-outline",backdrop="static"}={},callback=function(deny,text){}){
+    function prompt ({content="",title="Prompt",placeholder="Input Field",value,icon="information-outline",backdrop="static"}={},callback=function(deny,text){}){
         var id = new Date().getTime();
         if(backdrop !== "static") backdrop = backdrop?"true":"false";
-        placeholder = placeholder!==undefined ? ` placeholder=${placeholder} `:"";
-        value = value!==undefined ? ` value=${value} `:"";
+        // placeholder = placeholder!==undefined ? ` placeholder=${placeholder} `:"";
+        // value = value!==undefined ? ` value=${value} `:"";
         $('body').append(`
             <div class="modal fade" id="notice${id}" data-backdrop="${backdrop}" tabindex="-1" role="dialog">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-alert" role="document">
@@ -153,18 +153,21 @@
                         </div>
                         <div class="modal-body">
                             ${content}
-                        </div>
-                        <div class="modal-body">
-                            <input id="noticeInput${id}" type="text" ${value} ${placeholder}  class="form-control">
+                            <div class="form-group bmd-form-group">
+                                <label for="noticeInput${id}" class="bmd-label-floating">${placeholder}</label>
+                                <input id="noticeInput${id}" type="text" class="form-control" autocomplete="off">
+                            </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" id="promptDeny${id}" class="btn btn-danger" data-dismiss="modal">DENY</button>
+                            <button type="button" id="promptDeny${id}" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             <button type="button" id="promptDone${id}" class="btn btn-primary" data-dismiss="modal">OK</button>
                         </div>
                     </div>
                 </div>
             </div>
         `);
+        $(`#noticeInput${id}`).attr("value",value);
+        $(`#notice${id}`).bootstrapMaterialDesign();
         $(`#promptDeny${id}`).on('click',function(){
             callback(true,$(`#noticeInput${id}`)[0].value);
         });
