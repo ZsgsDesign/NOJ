@@ -473,7 +473,7 @@
                         <div class="mb-5">
                             <small>{{$basic_info['members']}} Members - @if($basic_info['public'])<span>Public</span>@else<span>Private</span>@endif Group</small>
                         </div>
-                        <h3>@if($basic_info['verified'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif <span>{{$basic_info['name']}}</span></h3>
+                        <h3>@if($basic_info['verified'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif <span id="group-name-display">{{$basic_info['name']}}</span></h3>
                         <p><i class="MDI tag-multiple"></i> Tags : @foreach($basic_info['tags'] as $t){{$t['tag']}}@unless($loop->last),@endif @endforeach</p>
                         @if($basic_info['join_policy']==3)
                             @if($group_clearance==-3)
@@ -507,7 +507,7 @@
                         <li class="list-group-item">
                             <i class="MDI email"></i>
                             <div class="bmd-list-group-col">
-                                <p class="list-group-item-heading">@if($basic_info['join_policy']==3)<span>Invitation & Application</span>@elseif(($basic_info['join_policy']==2))<span>Application</span>@else<span>Invitation</span>@endif</p>
+                                <p class="list-group-item-heading"><span id="join-policy-display">@if($basic_info['join_policy']==3)Invitation & Application @elseif(($basic_info['join_policy']==2))Application @else Invitation @endif</span></p>
                                 <p class="list-group-item-text">Join Policy</p>
                             </div>
                         </li>
@@ -1008,20 +1008,60 @@
 
         $('.join-policy-choice').on('click',function(){
             if($('#policy-choice-btn').text().trim() == $(this).text()) return;
+            var join_policy = $(this).text();
             var choice = $(this).attr('data-policy');
-            //todo: call api
+            $.ajax({
+                    type: 'POST',
+                    url: '/ajax/group/changeJoinPolicy',
+                    data: {
+                        gid: {{$basic_info["gid"]}},
+                        join_policy: choice
+                    },
+                    dataType: 'json',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }, success: function(result){
+                        if (result.ret===200) {
+                            $('#settingModal').modal('hide');
+                            setTimeout(function(){
+                                changeText('#join-policy-display',{
+                                    text : join_policy,
+                                });
+                            },200);
+                            setTimeout(function(){
+                                $('#settingModal').modal({backdrop:'static'});
+                                changeText('#policy-choice-btn',{
+                                    text : join_policy,
+                                });
+                            },1000);
+                        } else {
+                            alert(result.desc);
+                        }
+                        ajaxing=false;
+                    }, error: function(xhr, type){
+                        console.log('Ajax error while posting to joinGroup!');
+                        alert("Server Connection Error");
+                        ajaxing=false;
+                    }
+                });
         });
 
         $('#image-file').change(function(){
             var file = $(this).get(0).files[0];
 
             if(file == undefined){
-                changeText('#change-image-tip','PLEASE CHOOSE A LOCAL FILE',{color:'#f00'});
+                changeText('#change-image-tip',{
+                    text : 'PLEASE CHOOSE A LOCAL FILE',
+                    css : {color:'#f00'}
+                });
                 return;
             }
 
             if(file.size/1024 > 1024){
-                changeText('#change-image-tip','THE SELECTED FILE IS TOO LARGE',{color:'#f00'});
+                changeText('#change-image-tip',{
+                    text : 'THE SELECTED FILE IS TOO LARGE',
+                    css : {color:'#f00'}
+                });
                 return;
             }
 
@@ -1030,7 +1070,10 @@
             avatar_data.append('avatar',file);
 
             //todo call api
-            changeText('#change-image-tip','GROUP IMAGE CHANGE SUCESSFUL',{color:'#0f0'})
+            changeText('#change-image-tip',{
+                text : 'GROUP IMAGE CHANGE SUCESSFUL',
+                css : {color:'#0f0'}
+            });
             //read the new url from json and replace the old
 
 
@@ -1038,10 +1081,48 @@
 
         $('#group-name').keydown(function(e){
             if(e.keyCode == '13'){
-                if($(this).val() == '')
-                    changeText('#group-name-tip','THE NAME OF THE GROUP CANNOT BE EMPTY',{color:'#f00'});
-
-                //todo call api
+                var name = $(this).val();
+                if(name == ''){
+                    changeText('#group-name-tip',{
+                        text : 'THE NAME OF THE GROUP CANNOT BE EMPTY',
+                        css : {color:'#f00'}
+                    });
+                    return;
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '/ajax/group/changeGroupName',
+                    data: {
+                        gid: {{$basic_info["gid"]}},
+                        group_name: name
+                    },
+                    dataType: 'json',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }, success: function(result){
+                        if (result.ret===200) {
+                            $('#settingModal').modal('hide');
+                            setTimeout(function(){
+                                changeText('#group-name-display',{
+                                    text : name,
+                                });
+                            },200);
+                            setTimeout(function(){
+                                $('#settingModal').modal({backdrop:'static'});
+                            },1000);
+                        } else {
+                            changeText('#group-name-tip',{
+                                text : result.desc,
+                                color : '#f00',
+                            });
+                        }
+                        ajaxing=false;
+                    }, error: function(xhr, type){
+                        console.log('Ajax error while posting to joinGroup!');
+                        alert("Server Connection Error");
+                        ajaxing=false;
+                    }
+                });
             }
         });
 
@@ -1067,11 +1148,9 @@
             addProblem();
         });
 
-        var joining=false;
-
         $("#joinGroup").click(function() {
-            if(joining) return;
-            joining=true;
+            if(ajaxing) return;
+            ajaxing=true;
             $("#joinGroup > i").removeClass("d-none");
             $.ajax({
                 type: 'POST',
@@ -1089,12 +1168,12 @@
                     } else {
                         alert(result.desc);
                     }
-                    joining=false;
+                    ajaxing=false;
                     $("#joinGroup > i").addClass("d-none");
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to joinGroup!');
                     alert("Server Connection Error");
-                    joining=false;
+                    ajaxing=false;
                     $("#joinGroup > i").addClass("d-none");
                 }
             });
