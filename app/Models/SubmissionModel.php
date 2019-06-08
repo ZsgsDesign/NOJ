@@ -425,7 +425,18 @@ class SubmissionModel extends Model
         if (isset($sub['verdict'])) {
             $sub["color"]=$this->colorScheme[$sub['verdict']];
         }
-        return DB::table($this->tableName)->where(['sid'=>$sid])->update($sub);
+        $result = DB::table($this->tableName)->where(['sid'=>$sid])->update($sub);
+
+        //TODO
+        //dd($sub);
+        $contestModel = new ContestModel(); //注意每次都要重启评测队列
+        if ($sub['cid'] && $contestModel->isContestRunning($sub['cid'])){
+            $tmp = DB::table('submission')->where('sid','=',$sid)->get()->first();
+            $sub['pid'] = $tmp['pid'];
+            $sub['uid'] = $tmp['uid'];
+            $contestModel->updateContestRankTable($sub['cid'],$sub);
+        }
+        return $result;
     }
 
     public function formatSubmitTime($date)

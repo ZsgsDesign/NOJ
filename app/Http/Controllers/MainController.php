@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Log;
 use Redirect;
-
+use Cache;
 /**
  * Main Controller of NOJ
  *
@@ -39,6 +39,7 @@ class MainController extends Controller
      */
     public function home(Request $request)
     {
+        dd(Cache::tags(['contest', 'rank'])->get(17));
         $groupModel=new GroupModel();
         $group_notice=$groupModel->groupNotice(1);
         $problem=new ProblemModel();
@@ -52,6 +53,7 @@ class MainController extends Controller
                 'ojs' => $ojs
             ]);
     }
+
 
     public function oldRedirect(Request $request)
     {

@@ -1051,7 +1051,7 @@
                     console.log(ret);
                     if (ret.ret==200) {
                         alert(ret.desc);
-                        location.reload();
+                        //location.reload();
                     } else {
                         alert(ret.desc);
                     }
