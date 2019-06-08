@@ -10,6 +10,7 @@ use App\Http\Controllers\VirtualCrawler\Vijos\Vijos;
 use App\Http\Controllers\VirtualCrawler\UVa\UVa;
 use App\Http\Controllers\VirtualCrawler\HDU\HDU;
 use App\Http\Controllers\VirtualCrawler\UVaLive\UVaLive;
+use App\Http\Controllers\VirtualCrawler\SPOJ\SPOJ;
 use App\Models\ProblemModel;
 use Auth;
 
@@ -47,6 +48,9 @@ class Crawler
         }
         if ($name=="HDU") {
             $crawler=new HDU($action, $con, $cached);
+        }
+        if ($name=="SPOJ") {
+            $crawler=new SPOJ($action, $con, $cached);
         }
         if (isset($crawler)) {
             $this->data=$crawler->data;
