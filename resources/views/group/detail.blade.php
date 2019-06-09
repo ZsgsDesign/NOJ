@@ -552,7 +552,7 @@
                                     <i class="MDI account-plus"></i>
                                     <p>Invite</p>
                                 </function-block>
-                                <function-block onclick="$('#settingModal').modal({backdrop:'static'});">
+                                <function-block onclick="$('#settingModal').modal();">
                                     <i class="MDI settings"></i>
                                     <p>Setting</p>
                                 </function-block>
@@ -742,7 +742,7 @@
 
 <div id="settingModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content sm-modal">
+        <div class="modal-content sm-modal" style="width: 80%">
             <div class="modal-header">
                 <h5 class="modal-title"><i class="MDI settings"></i> Group setting</h5>
             </div>
@@ -777,8 +777,8 @@
                             <p>Change Group Image</p>
                             <small id="change-image-tip" class="text-center" style="display:block">CLICK IMAGE TO CHOOSE A LOCAL IMAGE</small>
                             <input id="image-file" type="file" style="display:none" accept=".jpg,.png,.jpeg,.gif" />
-                            <label for="image-file" style="display: inline-block; cursor: pointer;" class="text-center">
-                                <img class="group-image" style="max-width: 90%; height: auto;display:inline-block" src="{{$basic_info['img']}}">
+                            <label for="image-file" style="display: block; cursor: pointer;" class="text-center">
+                                <img class="group-image" style="width: 90%; height: auto;display:inline-block" src="{{$basic_info['img']}}">
                             </label>
                         </focus-images-setting>
                     </div>
@@ -791,13 +791,13 @@
                                     <user-avatar>
                                         <a href="/user/{{$m["uid"]}}"><img src="{{$m["avatar"]}}"></a>
                                     </user-avatar>
-                                    <user-info>
+                                    <user-info data-clearance="{{$m["role"]}}" data-rolecolor="{{$m["role_color"]}}">
                                         <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
                                         <p>
                                             <small><i class="MDI google-circles"></i> {{$m["sub_group"]}}</small>
                                             @if($group_clearance>$m["role"])
-                                                <small class="wemd-green-text cm-operation" onclick="promoteMember({{$m['uid']}})"><i class="MDI arrow-up-drop-circle-outline"></i> Promote</small>
-                                                <small class="wemd-red-text cm-operation" onclick="demoteMember({{$m['uid']}})"><i class="MDI arrow-down-drop-circle-outline"></i> Demote</small>
+                                                <small @if($group_clearance <= $m["role"] + 1) style="display:none" @endif class="wemd-green-text cm-operation clearance-up" onclick="changeMemberClearance({{$m['uid']}},'promote')"><i class="MDI arrow-up-drop-circle-outline"></i> Promote</small>
+                                                <small @if($m["role"] <= 1) style="display:none" @endif class="wemd-red-text cm-operation clearance-down" onclick="changeMemberClearance({{$m['uid']}},'demote')"><i class="MDI arrow-down-drop-circle-outline"></i> Demote</small>
                                             @endif
                                         </p>
                                     </user-info>
@@ -1006,44 +1006,91 @@
             });
         }
 
+        function changeMemberClearance(uid,action){
+            if(ajaxing) return;
+            var clearance = $('#user-permission-'+uid+' user-info').attr('data-clearance');
+            var role_color = $('#user-permission-'+uid+' user-info').attr('data-rolecolor');
+
+            if(action == 'promote'){
+                clearance ++;
+            }else if(action == 'demote'){
+                clearance --;
+            }
+
+            ajaxing=true;
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/group/changeMemberClearance',
+                data: {
+                    gid: {{$basic_info["gid"]}},
+                    uid: uid,
+                    permission: clearance
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(result){
+                    if (result.ret===200) {
+                        $('#user-permission-'+uid+' .badge-role').animate({opacity: 0},100,function(){
+                            $(this).removeClass(role_color);
+                            $(this).addClass(result.data.role_color);
+                            $(this).text(result.data.role_parsed);
+                            $(this).animate({opacity: 1},200);
+                            $('#user-permission-'+uid+' user-info').attr('data-clearance',clearance);
+                            $('#user-permission-'+uid+' user-info').attr('data-rolecolor',result.data.role_color);
+                            $('#user-permission-'+uid+' .clearance-up').show();
+                            $('#user-permission-'+uid+' .clearance-down').show();
+                            if(clearance + 1 >= {{$group_clearance}} && action == 'promote'){
+                                $('#user-permission-'+uid+' .clearance-up').hide();
+                            }
+                            if(clearance == 1 && action == 'demote'){
+                                $('#user-permission-'+uid+' .clearance-down').hide();
+                            }
+                        });
+                    } else {
+                        alert(result.desc);
+                    }
+                    ajaxing=false;
+                }, error: function(xhr, type){
+                    console.log('Ajax error while posting to joinGroup!');
+                    alert("Server Connection Error");
+                    ajaxing=false;
+                }
+            });
+        }
+
         $('.join-policy-choice').on('click',function(){
             if($('#policy-choice-btn').text().trim() == $(this).text()) return;
             var join_policy = $(this).text();
             var choice = $(this).attr('data-policy');
             $.ajax({
-                    type: 'POST',
-                    url: '/ajax/group/changeJoinPolicy',
-                    data: {
-                        gid: {{$basic_info["gid"]}},
-                        join_policy: choice
-                    },
-                    dataType: 'json',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }, success: function(result){
-                        if (result.ret===200) {
-                            $('#settingModal').modal('hide');
-                            setTimeout(function(){
-                                changeText('#join-policy-display',{
-                                    text : join_policy,
-                                });
-                            },200);
-                            setTimeout(function(){
-                                $('#settingModal').modal({backdrop:'static'});
-                                changeText('#policy-choice-btn',{
-                                    text : join_policy,
-                                });
-                            },1000);
-                        } else {
-                            alert(result.desc);
-                        }
-                        ajaxing=false;
-                    }, error: function(xhr, type){
-                        console.log('Ajax error while posting to joinGroup!');
-                        alert("Server Connection Error");
-                        ajaxing=false;
+                type: 'POST',
+                url: '/ajax/group/changeJoinPolicy',
+                data: {
+                    gid: {{$basic_info["gid"]}},
+                    join_policy: choice
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(result){
+                    if (result.ret===200) {
+                        changeText('#join-policy-display',{
+                            text : join_policy,
+                        });
+                        changeText('#policy-choice-btn',{
+                            text : join_policy,
+                        });
+                    } else {
+                        alert(result.desc);
                     }
-                });
+                    ajaxing=false;
+                }, error: function(xhr, type){
+                    console.log('Ajax error while posting to joinGroup!');
+                    alert("Server Connection Error");
+                    ajaxing=false;
+                }
+            });
         });
 
         $('#image-file').change(function(){
@@ -1066,14 +1113,42 @@
             }
 
             $(this).addClass('updating');
-            var avatar_data = new FormData();
-            avatar_data.append('avatar',file);
+            var data = new FormData();
+            data.append('img',file);
+            data.append('gid',{{$basic_info["gid"]}});
+
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/group/changeGroupImage',
+                data: data,
+                processData : false,
+                contentType : false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(result){
+                    if (result.ret===200) {
+                        changeText('#change-image-tip',{
+                            text : 'GROUP IMAGE CHANGE SUCESSFUL',
+                            css : {color:'#4caf50'}
+                        });
+                        $('group-image img').attr('src',result.data);
+                        $('.group-image').attr('src',result.data);
+                    } else {
+                        changeText('#change-image-tip',{
+                            text : result.desc,
+                            css : {color:'#4caf50'}
+                        });
+                    }
+                    ajaxing=false;
+                }, error: function(xhr, type){
+                    console.log('Ajax error while posting to joinGroup!');
+                    alert("Server Connection Error");
+                    ajaxing=false;
+                }
+            });
 
             //todo call api
-            changeText('#change-image-tip',{
-                text : 'GROUP IMAGE CHANGE SUCESSFUL',
-                css : {color:'#0f0'}
-            });
+
             //read the new url from json and replace the old
 
 
@@ -1101,15 +1176,13 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }, success: function(result){
                         if (result.ret===200) {
-                            $('#settingModal').modal('hide');
-                            setTimeout(function(){
-                                changeText('#group-name-display',{
-                                    text : name,
-                                });
-                            },200);
-                            setTimeout(function(){
-                                $('#settingModal').modal({backdrop:'static'});
-                            },1000);
+                            changeText('#group-name-display',{
+                                text : name,
+                            });
+                            changeText('#group-name-tip',{
+                                text : 'GROUP NAME CHANGE SUCESSFUL',
+                                css : {color:'#4caf50'}
+                            });
                         } else {
                             changeText('#group-name-tip',{
                                 text : result.desc,
@@ -1125,18 +1198,6 @@
                 });
             }
         });
-
-        function promoteMember(uid){
-            if(ajaxing) return;
-            ajaxing=true;
-            //todo call api
-        }
-
-        function demoteMember(uid){
-            if(ajaxing) return;
-            ajaxing=true;
-            //todo call api
-        }
 
         $('#problemCode').bind('keypress',function(event){
             if(event.keyCode == "13") {
@@ -1179,11 +1240,9 @@
             });
         });
 
-        var profiling=false;
-
         $("#changeProfileBtn").click(function() {
-            if(profiling) return;
-            profiling=true;
+            if(ajaxing) return;
+            ajaxing=true;
             $("#changeProfileBtn > i").removeClass("d-none");
             $.ajax({
                 type: 'POST',
@@ -1202,22 +1261,20 @@
                     } else {
                         alert(ret.desc);
                     }
-                    profiling=false;
+                    ajaxing=false;
                     $("#changeProfileBtn > i").addClass("d-none");
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to changeNickName!');
                     alert("Server Connection Error");
-                    profiling=false;
+                    ajaxing=false;
                     $("#changeProfileBtn > i").addClass("d-none");
                 }
             });
         });
 
-        var arranging=false;
-
         $("#arrangeBtn").click(function() {
-            if(arranging) return;
-            else arranging=true;
+            if(ajaxing) return;
+            else ajaxing=true;
             var contestName = $("#contestName").val();
             var contestBegin = $("#contestBegin").val();
             var contestEnd = $("#contestEnd").val();
@@ -1228,21 +1285,21 @@
             });
             console.log(contestDescription);
             if (contestName.replace(/(^s*)|(s*$)/g, "").length == 0) {
-                arranging=false;
+                ajaxing=false;
                 return alert("Contest Name Shoudn't be empty");
             }
             if (contestBegin.replace(/(^s*)|(s*$)/g, "").length == 0) {
-                arranging=false;
+                ajaxing=false;
                 return alert("Contest Begin Time Shoudn't be empty");
             }
             if (contestEnd.replace(/(^s*)|(s*$)/g, "").length == 0) {
-                arranging=false;
+                ajaxing=false;
                 return alert("Contest End Time Shoudn't be empty");
             }
             var beginTimeParsed=new Date(Date.parse(contestBegin)).getTime();
             var endTimeParsed=new Date(Date.parse(contestEnd)).getTime();
             if(endTimeParsed < beginTimeParsed+60000){
-                arranging=false;
+                ajaxing=false;
                 return alert("Contest length should be at least one minute.");
             }
             $("#arrangeBtn > i").removeClass("d-none");
@@ -1264,27 +1321,25 @@
                     console.log(ret);
                     if (ret.ret==200) {
                         alert(ret.desc);
-                        location.reload();
+                        //location.reload();
                     } else {
                         alert(ret.desc);
                     }
-                    arranging=false;
+                    ajaxing=false;
                     $("#arrangeBtn > i").addClass("d-none");
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to arrangeContest!');
                     alert("Server Connection Error");
-                    arranging=false;
+                    ajaxing=false;
                     $("#arrangeBtn > i").addClass("d-none");
                 }
             });
         });
 
-        var problemAdding=false;
-
         function addProblem(){
             // Add Problem
-            if(problemAdding) return;
-            else problemAdding=true;
+            if(ajaxing) return;
+            else ajaxing=true;
             $("#addProblemBtn > i").removeClass("d-none");
             $.ajax({
                 type: 'POST',
@@ -1303,7 +1358,7 @@
                             if(ret.data.pcode==$(this).text()){
                                 alert("Problem Already Exist");
                                 $('#addProblemModal').modal('toggle');
-                                problemAdding=false;
+                                ajaxing=false;
                                 $("#problemCode").val("");
                                 sameFlag=true;
                                 return;
@@ -1324,14 +1379,14 @@
                         alert("Problem Doesn't Exist");
                     }
                     $('#addProblemModal').modal('toggle');
-                    problemAdding=false;
+                    ajaxing=false;
                     $("#problemCode").val("");
                     $("#addProblemBtn > i").addClass("d-none");
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to problemExists!');
                     alert("Server Connection Error");
                     $('#addProblemModal').modal('toggle');
-                    problemAdding=false;
+                    ajaxing=false;
                     $("#problemCode").val("");
                     $("#addProblemBtn > i").addClass("d-none");
                 }

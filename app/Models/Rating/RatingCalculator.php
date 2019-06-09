@@ -29,7 +29,8 @@ class RatingCalculator extends Model
 
         if ($contestRankRaw==null) {
             $contestModel=new ContestModel();
-            $contestRankRaw=$contestModel->contestRankCache($this->cid);
+            $contestRankRaw=Chache::tags('contest','rank')->get($this->cid);
+            //$contestModel->contestRankCache($this->cid);//TODO:use realtimeContestRankCache
         }
 
         $this->totParticipants = count($contestRankRaw);
