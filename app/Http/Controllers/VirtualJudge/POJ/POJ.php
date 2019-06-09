@@ -11,25 +11,27 @@ class POJ extends Curl
 {
     protected $sub;
     public $post_data=[];
+    protected $selectedJudger;
 
     public function __construct(& $sub, $all_data)
     {
         $this->sub=& $sub;
         $this->post_data=$all_data;
+        $judger=new JudgerModel();
+        $judger_list=$judger->list(4);
+        $this->selectedJudger=$judger_list[array_rand($judger_list)];
     }
 
     private function pojLogin()
     {
-        $response=$this->grab_page('http://poj.org', 'poj');
+        $response=$this->grab_page('http://poj.org', 'poj', [], $this->selectedJudger["handle"]);
         if (strpos($response, 'Log Out')===false) {
-            $judger=new JudgerModel();
-            $judger_list=$judger->list(4);
             $params=[
-                'user_id1' => $judger_list[0]["handle"],
-                'password1' => $judger_list[0]["password"],
+                'user_id1' => $this->selectedJudger["handle"],
+                'password1' => $this->selectedJudger["password"],
                 'B1' => 'login',
             ];
-            $this->login('http://poj.org/login', http_build_query($params), 'poj');
+            $this->login('http://poj.org/login', http_build_query($params), 'poj', true, $this->selectedJudger["handle"]);
         }
     }
 
@@ -42,14 +44,12 @@ class POJ extends Curl
             'encoded' => 1, // Optional, but sometimes base64 seems smaller than url encode
         ];
 
-        $response=$this->post_data("http://poj.org/submit", http_build_query($params), "poj", true, false);
+        $response=$this->post_data("http://poj.org/submit", http_build_query($params), "poj", true, false, true, false, [], $this->selectedJudger["handle"]);
 
         if (!preg_match('/Location: .*\/status/', $response, $match)) {
             $this->sub['verdict']='Submission Error';
         } else {
-            $judger=new JudgerModel();
-            $judger_list=$judger->list(4);
-            $res=Requests::get('http://poj.org/status?problem_id='.$this->post_data['iid'].'&user_id='.urlencode($judger_list[0]["handle"]));
+            $res=Requests::get('http://poj.org/status?problem_id='.$this->post_data['iid'].'&user_id='.urlencode($this->selectedJudger["handle"]));
             if (!preg_match('/<tr align=center><td>(\d+)<\/td>/', $res->body, $match)) {
                 $this->sub['verdict']='Submission Error';
             } else {

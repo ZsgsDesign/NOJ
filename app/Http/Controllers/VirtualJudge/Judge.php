@@ -130,11 +130,13 @@ class Judge extends Core
         $uvalList=$this->get_last_uva($this->MODEL->getEarliestSubmission(9), 'icpcarchive.ecs.baylor.edu/uhunt', 'uvalive');
         $poj=[];
 
+        /* // I think this part is unnecessary
         $pojJudgerList=$judger->list(4);
         $pojJudgerName=urlencode($pojJudgerList[0]["handle"]);
-        if ($this->MODEL->countWaitingSubmission(5)) {
+        if ($this->MODEL->countWaitingSubmission(5)) { // I forgot why this is 5
             $this->appendPOJStatus($poj, $pojJudgerName);
         }
+        */
         // $uva=$this->get_last_uva($this->MODEL->countWaitingSubmission('Uva'));
         // $uval=$this->get_last_uvalive($this->MODEL->countWaitingSubmission('UvaLive'));
         // $sj=$this->get_last_spoj($this->MODEL->countWaitingSubmission('Spoj'));
@@ -240,7 +242,8 @@ class Judge extends Core
             } elseif ($row['oid']==4) {
                 $sub=[];
                 if (!isset($poj[$row['remote_id']])) {
-                    $this->appendPOJStatus($poj, $pojJudgerName, $row['remote_id']);
+                    $judgerDetail=$judger->detail($row['jid']);
+                    $this->appendPOJStatus($poj, $judgerDetail['handle'], $row['remote_id']);
                     if (!isset($poj[$row['remote_id']])) {
                         continue;
                     }
