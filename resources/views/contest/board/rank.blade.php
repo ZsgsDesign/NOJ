@@ -172,8 +172,12 @@
                                 <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
                                 <td>{{$r["score"]}}</td>
                                 <td>{{round($r["penalty"])}}</td>
-                                @foreach($r["problem_detail"] as $rp)
+                                @foreach($problem_set as $p)
+                                @if(isset($r["problem_detail"][$loop->index])&&$rp=$r["problem_detail"][$loop->index])
                                     <td class="{{$rp["color"]}}">@if(!empty($rp["solved_time_parsed"])){{$rp["solved_time_parsed"]}}<br>@endif @if(!empty($rp["wrong_doings"]))<span class="cm-subtext">(-{{$rp["wrong_doings"]}})</span>@endif</td>
+                                @else
+                                    <td></td>
+                                @endif
                                 @endforeach
                             </tr>
                             @endforeach

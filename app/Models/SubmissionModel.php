@@ -427,14 +427,13 @@ class SubmissionModel extends Model
         }
         $result = DB::table($this->tableName)->where(['sid'=>$sid])->update($sub);
 
-        //TODO
-        //dd($sub);
-        $contestModel = new ContestModel(); //注意每次都要重启评测队列
-        if ($sub['cid'] && $contestModel->isContestRunning($sub['cid'])){
-            $tmp = DB::table('submission')->where('sid','=',$sid)->get()->first();
-            $sub['pid'] = $tmp['pid'];
-            $sub['uid'] = $tmp['uid'];
-            $contestModel->updateContestRankTable($sub['cid'],$sub);
+        $contestModel = new ContestModel();
+        $submission_info = DB::table($this->tableName) -> where(['sid'=>$sid]) -> get() -> first();
+        if ($submission_info['cid'] && $contestModel->isContestRunning($submission_info['cid'])){
+            $sub['pid'] = $submission_info['pid'];
+            $sub['uid'] = $submission_info['uid'];
+            $sub['cid'] = $submission_info['cid'];
+            $contestModel->updateContestRankTable($submission_info['cid'],$sub);
         }
         return $result;
     }
