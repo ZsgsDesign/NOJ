@@ -70,6 +70,47 @@ class GroupController extends Controller
         return ResponseModel::success(200);
     }
 
+    public function changeGroupName(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|integer',
+            'group_name' => 'max:50',
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        if ($clearance < 2){
+            return ResponseModel::err(2001);
+        }
+
+        $groupModel->changeGroupName($all_data["gid"], $all_data["group_name"]);
+        return ResponseModel::success(200);
+    }
+
+    public function changeJoinPolicy(Request $request){
+        $request->validate([
+            'gid' => 'required|integer',
+            'join_policy' => 'required|integer',
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        if ($clearance < 2){
+            return ResponseModel::err(2001);
+        }
+
+        if ($all_data["join_policy"] < 1 || $all_data["join_policy"] > 3){
+            return ResponseModel::err(1007);
+        }
+
+        $groupModel->changeJoinPolicy($all_data["gid"], $all_data["join_policy"]);
+        return ResponseModel::success(200);
+    }
+
     public function generateContestAccount(Request $request)
     {
         $request->validate([

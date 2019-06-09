@@ -76,6 +76,19 @@ class GroupModel extends Model
         ]);
     }
 
+    public function changeGroupName($gid, $GroupName)
+    {
+        return DB::table("group")->where('gid',$gid)->update([
+            "name"=>$GroupName
+        ]);
+    }
+
+    public function changeJoinPolicy($gid, $JoinPolicy){
+        return DB::table("group")->where('gid',$gid)->update([
+            "join_policy"=>$JoinPolicy
+        ]);
+    }
+
     public function details($gcode)
     {
         $basic_info=DB::table($this->tableName)->where(["gcode"=>$gcode])->first();

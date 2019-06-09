@@ -106,6 +106,90 @@
         $(`#notice${id}`).modal('toggle');
     }
 
+    function confirm ({content="",title="Confirm",icon="information-outline",backdrop="static"}={},callback=function(deny){}){
+        var id = new Date().getTime();
+        if(backdrop !== "static") backdrop = backdrop?"true":"false";
+        $('body').append(`
+            <div class="modal fade" id="notice${id}" data-backdrop="${backdrop}" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-alert" role="document">
+                    <div class="modal-content sm-modal">
+                        <div class="modal-header">
+                            <h5 class="modal-title"><i class="MDI ${icon}"></i> ${title}</h5>
+                        </div>
+                        <div class="modal-body">
+                            ${content}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="confirmDeny${id}" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" id="confirmDone${id}" class="btn btn-primary" data-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `);
+        $(`#confirmDone${id}`).on('click',function(){
+            callback(false);
+        });
+        $(`#confirmDeny${id}`).on('click',function(){
+            callback(true);
+        });
+        $(`#notice${id}`).on('shown.bs.modal', function (e) {
+            changeDepth();
+        });
+        $(`#notice${id}`).modal('toggle');
+    }
+
+    function prompt ({content="",title="Prompt",placeholder="Input Field",value,icon="information-outline",backdrop="static"}={},callback=function(deny,text){}){
+        var id = new Date().getTime();
+        if(backdrop !== "static") backdrop = backdrop?"true":"false";
+        // placeholder = placeholder!==undefined ? ` placeholder=${placeholder} `:"";
+        // value = value!==undefined ? ` value=${value} `:"";
+        $('body').append(`
+            <div class="modal fade" id="notice${id}" data-backdrop="${backdrop}" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-alert" role="document">
+                    <div class="modal-content sm-modal">
+                        <div class="modal-header">
+                            <h5 class="modal-title"><i class="MDI ${icon}"></i> ${title}</h5>
+                        </div>
+                        <div class="modal-body">
+                            ${content}
+                            <div class="form-group bmd-form-group">
+                                <label for="noticeInput${id}" class="bmd-label-floating">${placeholder}</label>
+                                <input id="noticeInput${id}" type="text" class="form-control" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="promptDeny${id}" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" id="promptDone${id}" class="btn btn-primary" data-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `);
+        $(`#noticeInput${id}`).attr("value",value);
+        $(`#notice${id}`).bootstrapMaterialDesign();
+        $(`#promptDeny${id}`).on('click',function(){
+            callback(true,$(`#noticeInput${id}`)[0].value);
+        });
+        $(`#promptDone${id}`).on('click',function(){
+            callback(false,$(`#noticeInput${id}`)[0].value);
+        });
+        $(`#notice${id}`).on('shown.bs.modal', function (e) {
+            changeDepth();
+        });
+        $(`#notice${id}`).modal('toggle');
+    }
+
+    function changeText(selector,{text="",css={},fadeOutTime=100,fadeInTime=200} = {},callback=function(){}){
+        $(selector).animate({opacity : 0},100,function(){
+            css['opacity'] = 1;
+            $(selector).text(text);
+            $(selector).animate(css,200,function(){
+                callback();
+            });
+        })
+    }
+
     function empty(test){
         return test.match(/^\s*$/);
     }

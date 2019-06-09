@@ -473,7 +473,7 @@
                         <div class="mb-5">
                             <small>{{$basic_info['members']}} Members - @if($basic_info['public'])<span>Public</span>@else<span>Private</span>@endif Group</small>
                         </div>
-                        <h3>@if($basic_info['verified'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif <span>{{$basic_info['name']}}</span></h3>
+                        <h3>@if($basic_info['verified'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif <span id="group-name-display">{{$basic_info['name']}}</span></h3>
                         <p><i class="MDI tag-multiple"></i> Tags : @foreach($basic_info['tags'] as $t){{$t['tag']}}@unless($loop->last),@endif @endforeach</p>
                         @if($basic_info['join_policy']==3)
                             @if($group_clearance==-3)
@@ -481,9 +481,9 @@
                             @elseif($group_clearance==-1)
                                 <button type="button" id="joinGroup" class="btn btn-raised btn-success"><i class="MDI autorenew cm-refreshing d-none"></i> Accept Invitation</button>
                             @elseif($group_clearance==0)
-                                <button type="button" class="btn btn-raised btn-primary btn-disabled" disabled>Waiting</button>
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Waiting</button>
                             @elseif($group_clearance>0)
-                                <button type="button" class="btn btn-raised btn-primary btn-disabled" disabled>Joined</button>
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Joined</button>
                             @endif
                         @endif
                     </info-div>
@@ -507,7 +507,7 @@
                         <li class="list-group-item">
                             <i class="MDI email"></i>
                             <div class="bmd-list-group-col">
-                                <p class="list-group-item-heading">@if($basic_info['join_policy']==3)<span>Invitation & Application</span>@elseif(($basic_info['join_policy']==2))<span>Application</span>@else<span>Invitation</span>@endif</p>
+                                <p class="list-group-item-heading"><span id="join-policy-display">@if($basic_info['join_policy']==3)Invitation & Application @elseif(($basic_info['join_policy']==2))Application @else Invitation @endif</span></p>
                                 <p class="list-group-item-text">Join Policy</p>
                             </div>
                         </li>
@@ -552,7 +552,7 @@
                                     <i class="MDI account-plus"></i>
                                     <p>Invite</p>
                                 </function-block>
-                                <function-block>
+                                <function-block onclick="$('#settingModal').modal({backdrop:'static'});">
                                     <i class="MDI settings"></i>
                                     <p>Setting</p>
                                 </function-block>
@@ -654,10 +654,12 @@
                                         <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
                                         <p>
                                             <small><i class="MDI google-circles"></i> {{$m["sub_group"]}}</small>
-                                            @if($m["role"]>0 && $group_clearance>$m["role"])<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}})"><i class="MDI account-off"></i> Kick</small>@endif
-                                            @if($m["role"]==0 && $group_clearance>1)<small class="wemd-green-text cm-operation" onclick="approveMember({{$m['uid']}})"><i class="MDI check"></i> Approve</small>@endif
-                                            @if($m["role"]==0 && $group_clearance>1)<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}})"><i class="MDI cancel"></i> Decline</small>@endif
-                                            @if($m["role"]==-1 && $group_clearance>1)<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}})"><i class="MDI account-minus"></i> Retrieve</small>@endif
+                                            <operation-list id="member_operate{{$m['uid']}}">
+                                                @if($m["role"]>0 && $group_clearance>$m["role"])<small class="wemd-red-text cm-operation" onclick="kickMember({{$m['uid']}})"><i class="MDI account-off"></i> Kick</small>@endif
+                                                @if($m["role"]==0 && $group_clearance>1)<small class="wemd-green-text cm-operation" onclick="approveMember({{$m['uid']}})"><i class="MDI check"></i> Approve</small>@endif
+                                                @if($m["role"]==0 && $group_clearance>1)<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}},'Declined')"><i class="MDI cancel"></i> Decline</small>@endif
+                                                @if($m["role"]==-1 && $group_clearance>1)<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}},'Retrieved')"><i class="MDI account-minus"></i> Retrieve</small>@endif
+                                            </operation-list>
                                         </p>
                                     </user-info>
                                 </user-card>
@@ -737,6 +739,81 @@
     }
 
 </style>
+
+<div id="settingModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content sm-modal">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="MDI settings"></i> Group setting</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <group-name-setting>
+                            <div class="form-group">
+                                <label for="group-name" class="bmd-label-floating">Group Name</label>
+                                <input type="text" class="form-control" id="group-name" value="{{$basic_info['name']}}">
+                            </div>
+                            <small id="group-name-tip" class="text-center" style="display:block">PRESS ENTER TO APPLY THE CHANGES</small>
+                        </group-name-setting><br>
+                        <join-policy-setting style="display:block">
+                            <p>Join Policy</p>
+                            <div class="text-center">
+                                <div class="btn-group">
+                                    <button id="policy-choice-btn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        @if($basic_info['join_policy']==3)<span>Invitation & Application</span>@elseif(($basic_info['join_policy']==2))<span>Application</span>@else<span>Invitation</span>@endif
+                                    </button>
+                                    <div class="dropdown-menu text-center">
+                                        <a class="dropdown-item join-policy-choice" data-policy="3">Invitation & Application</a>
+                                        <a class="dropdown-item join-policy-choice" data-policy="2">Application only</a>
+                                        <a class="dropdown-item join-policy-choice" data-policy="1">Invitation only</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </join-policy-setting>
+                        <focus-images-setting style="display:block">
+                            <p>Change Group Image</p>
+                            <small id="change-image-tip" class="text-center" style="display:block">CLICK IMAGE TO CHOOSE A LOCAL IMAGE</small>
+                            <input id="image-file" type="file" style="display:none" accept=".jpg,.png,.jpeg,.gif" />
+                            <label for="image-file" style="display: inline-block; cursor: pointer;" class="text-center">
+                                <img class="group-image" style="max-width: 90%; height: auto;display:inline-block" src="{{$basic_info['img']}}">
+                            </label>
+                        </focus-images-setting>
+                    </div>
+                    <div class="col-md-6">
+                        <permission-setting>
+                            <p>Permission Setting</p>
+                            @foreach($member_list as $m)
+                                @if($m["role"]>0)
+                                <user-card id="user-permission-{{$m["uid"]}}">
+                                    <user-avatar>
+                                        <a href="/user/{{$m["uid"]}}"><img src="{{$m["avatar"]}}"></a>
+                                    </user-avatar>
+                                    <user-info>
+                                        <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
+                                        <p>
+                                            <small><i class="MDI google-circles"></i> {{$m["sub_group"]}}</small>
+                                            @if($group_clearance>$m["role"])
+                                                <small class="wemd-green-text cm-operation" onclick="promoteMember({{$m['uid']}})"><i class="MDI arrow-up-drop-circle-outline"></i> Promote</small>
+                                                <small class="wemd-red-text cm-operation" onclick="demoteMember({{$m['uid']}})"><i class="MDI arrow-down-drop-circle-outline"></i> Demote</small>
+                                            @endif
+                                        </p>
+                                    </user-info>
+                                </user-card>
+                                @endif
+                            @endforeach
+                        </permission-setting>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div id="contestModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -861,12 +938,11 @@
             });
         }
 
-        var approving=false;
-        var declining=false;
+        let ajaxing = false;
 
         function approveMember(uid){
-            if(approving) return;
-            approving=true;
+            if(ajaxing) return;
+            ajaxing=true;
             $.ajax({
                 type: 'POST',
                 url: '/ajax/group/approveMember',
@@ -877,25 +953,33 @@
                 dataType: 'json',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }, success: function(ret){
-                    console.log(ret);
-                    if (ret.ret==200) {
-                        location.reload();
+                }, success: function(result){
+                    console.log(result);
+                    if (result.ret===200) {
+                        $('#member_operate'+uid).html("<span class=\"badge badge-pill badge-success\">Approved</span>");
                     } else {
-                        alert(ret.desc);
+                        alert(result.desc);
                     }
-                    approving=false;
+                    ajaxing=false;
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
                     alert("Server Connection Error");
-                    approving=false;
+                    ajaxing=false;
                 }
             });
         }
 
-        function removeMember(uid){
-            if(declining) return;
-            declining=true;
+        function kickMember(uid) {
+            if(ajaxing) return;
+            confirm({content:'Are you sure you want to kick this member?',title:'Kick Member'},function (deny) {
+                if(!deny)
+                    removeMember(uid,'Kicked');
+            });
+        }
+
+        function removeMember(uid,operation){
+            if(ajaxing) return;
+            ajaxing=true;
             $.ajax({
                 type: 'POST',
                 url: '/ajax/group/removeMember',
@@ -906,25 +990,156 @@
                 dataType: 'json',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }, success: function(ret){
-                    console.log(ret);
-                    if (ret.ret==200) {
-                        location.reload();
+                }, success: function(result){
+                    console.log(result);
+                    if (result.ret===200) {
+                        $('#member_operate'+uid).html(`<span class=\"badge badge-pill badge-danger\">${operation}</span>`);
                     } else {
-                        alert(ret.desc);
+                        alert(result.desc);
                     }
-                    declining=false;
+                    ajaxing=false;
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
                     alert("Server Connection Error");
-                    declining=false;
+                    ajaxing=false;
                 }
             });
         }
 
+        $('.join-policy-choice').on('click',function(){
+            if($('#policy-choice-btn').text().trim() == $(this).text()) return;
+            var join_policy = $(this).text();
+            var choice = $(this).attr('data-policy');
+            $.ajax({
+                    type: 'POST',
+                    url: '/ajax/group/changeJoinPolicy',
+                    data: {
+                        gid: {{$basic_info["gid"]}},
+                        join_policy: choice
+                    },
+                    dataType: 'json',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }, success: function(result){
+                        if (result.ret===200) {
+                            $('#settingModal').modal('hide');
+                            setTimeout(function(){
+                                changeText('#join-policy-display',{
+                                    text : join_policy,
+                                });
+                            },200);
+                            setTimeout(function(){
+                                $('#settingModal').modal({backdrop:'static'});
+                                changeText('#policy-choice-btn',{
+                                    text : join_policy,
+                                });
+                            },1000);
+                        } else {
+                            alert(result.desc);
+                        }
+                        ajaxing=false;
+                    }, error: function(xhr, type){
+                        console.log('Ajax error while posting to joinGroup!');
+                        alert("Server Connection Error");
+                        ajaxing=false;
+                    }
+                });
+        });
+
+        $('#image-file').change(function(){
+            var file = $(this).get(0).files[0];
+
+            if(file == undefined){
+                changeText('#change-image-tip',{
+                    text : 'PLEASE CHOOSE A LOCAL FILE',
+                    css : {color:'#f00'}
+                });
+                return;
+            }
+
+            if(file.size/1024 > 1024){
+                changeText('#change-image-tip',{
+                    text : 'THE SELECTED FILE IS TOO LARGE',
+                    css : {color:'#f00'}
+                });
+                return;
+            }
+
+            $(this).addClass('updating');
+            var avatar_data = new FormData();
+            avatar_data.append('avatar',file);
+
+            //todo call api
+            changeText('#change-image-tip',{
+                text : 'GROUP IMAGE CHANGE SUCESSFUL',
+                css : {color:'#0f0'}
+            });
+            //read the new url from json and replace the old
+
+
+        });
+
+        $('#group-name').keydown(function(e){
+            if(e.keyCode == '13'){
+                var name = $(this).val();
+                if(name == ''){
+                    changeText('#group-name-tip',{
+                        text : 'THE NAME OF THE GROUP CANNOT BE EMPTY',
+                        css : {color:'#f00'}
+                    });
+                    return;
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '/ajax/group/changeGroupName',
+                    data: {
+                        gid: {{$basic_info["gid"]}},
+                        group_name: name
+                    },
+                    dataType: 'json',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }, success: function(result){
+                        if (result.ret===200) {
+                            $('#settingModal').modal('hide');
+                            setTimeout(function(){
+                                changeText('#group-name-display',{
+                                    text : name,
+                                });
+                            },200);
+                            setTimeout(function(){
+                                $('#settingModal').modal({backdrop:'static'});
+                            },1000);
+                        } else {
+                            changeText('#group-name-tip',{
+                                text : result.desc,
+                                color : '#f00',
+                            });
+                        }
+                        ajaxing=false;
+                    }, error: function(xhr, type){
+                        console.log('Ajax error while posting to joinGroup!');
+                        alert("Server Connection Error");
+                        ajaxing=false;
+                    }
+                });
+            }
+        });
+
+        function promoteMember(uid){
+            if(ajaxing) return;
+            ajaxing=true;
+            //todo call api
+        }
+
+        function demoteMember(uid){
+            if(ajaxing) return;
+            ajaxing=true;
+            //todo call api
+        }
+
         $('#problemCode').bind('keypress',function(event){
-            if(event.keyCode == "13")
-            {
+            if(event.keyCode == "13") {
                 addProblem();
             }
         });
@@ -933,11 +1148,9 @@
             addProblem();
         });
 
-        var joining=false;
-
         $("#joinGroup").click(function() {
-            if(joining) return;
-            joining=true;
+            if(ajaxing) return;
+            ajaxing=true;
             $("#joinGroup > i").removeClass("d-none");
             $.ajax({
                 type: 'POST',
@@ -948,19 +1161,19 @@
                 dataType: 'json',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }, success: function(ret){
-                    console.log(ret);
-                    if (ret.ret==200) {
-                        location.reload();
+                }, success: function(result){
+                    console.log(result);
+                    if (result.ret===200) {
+                        $('#joinGroup').html('Waiting').attr('disabled','true');
                     } else {
-                        alert(ret.desc);
+                        alert(result.desc);
                     }
-                    joining=false;
+                    ajaxing=false;
                     $("#joinGroup > i").addClass("d-none");
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to joinGroup!');
                     alert("Server Connection Error");
-                    joining=false;
+                    ajaxing=false;
                     $("#joinGroup > i").addClass("d-none");
                 }
             });

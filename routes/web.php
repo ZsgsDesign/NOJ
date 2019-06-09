@@ -94,6 +94,8 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('search', 'SearchController')->name('search');
 
     Route::group(['prefix' => 'group'], function () {
+        Route::post('changeJoinPolicy', 'GroupController@changeJoinPolicy')->middleware('auth');
+        Route::post('changeGroupName', 'GroupController@changeGroupName')->middleware('auth');
         Route::post('changeNickName', 'GroupController@changeNickName')->middleware('auth');
         Route::get('generateContestAccount', 'GroupController@generateContestAccount')->middleware('auth');
         Route::post('approveMember', 'GroupController@approveMember')->middleware('auth');
