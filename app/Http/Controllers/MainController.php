@@ -39,7 +39,6 @@ class MainController extends Controller
      */
     public function home(Request $request)
     {
-        dd(Cache::tags(['contest', 'rank'])->get(19));
         $groupModel=new GroupModel();
         $group_notice=$groupModel->groupNotice(1);
         $problem=new ProblemModel();
