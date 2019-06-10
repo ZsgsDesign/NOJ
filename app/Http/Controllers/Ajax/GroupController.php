@@ -9,6 +9,7 @@ use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use Auth;
 
 class GroupController extends Controller
@@ -89,7 +90,8 @@ class GroupController extends Controller
         return ResponseModel::success(200);
     }
 
-    public function changeJoinPolicy(Request $request){
+    public function changeJoinPolicy(Request $request)
+    {
         $request->validate([
             'gid' => 'required|integer',
             'join_policy' => 'required|integer',
@@ -109,6 +111,76 @@ class GroupController extends Controller
 
         $groupModel->changeJoinPolicy($all_data["gid"], $all_data["join_policy"]);
         return ResponseModel::success(200);
+    }
+
+    public function changeGroupImage(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|integer',
+        ]);
+
+        $all_data = $request->all();
+
+        if (!empty($request->file('img')) && $request->file('img')->isValid()) {
+            $extension=$request->file('img')->extension();
+        } else {
+            return ResponseModel::err(1005);
+        }
+
+        $allow_extension=['jpg', 'png', 'jpeg', 'gif', 'bmp'];
+
+        $groupModel=new GroupModel();
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        if ($clearance < 2){
+            return ResponseModel::err(2001);
+        }
+
+        if (!in_array($extension, $allow_extension)) {
+            return ResponseModel::err(1005);
+        }
+
+        $path=$request->file('img')->store('/static/img/group', 'NOJPublic');
+
+        $group=GroupModel::find($all_data["gid"]);
+        $old_path=$group->img;
+        if ($old_path!='/static/img/group/default.png' && $old_path!='/static/img/group/noj.png' && $old_path!='/static/img/group/icpc.png') {
+            Storage::disk('NOJPublic')->delete($old_path);
+        }
+
+        $group->img='/'.$path;
+        $group->save();
+
+        return ResponseModel::success(200, null, '/'.$path);
+
+    }
+
+    public function changeMemberClearance(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|integer',
+            'uid' => 'required|integer',
+            'permission' => 'required|integer|max:3|min:1',
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        $target_clearance=$groupModel->judgeClearance($all_data["gid"], $all_data['uid']);
+
+        if($target_clearance == -3){
+            return ResponseModel::err(7004);
+        }
+
+        if($target_clearance >= $clearance || $clearance < 2 || $all_data['permission'] >= $clearance){
+            return ResponseModel::err(2001);
+        }
+
+        $groupModel->changeClearance($all_data['uid'], $all_data["gid"], $all_data['permission']);
+
+        $result_info = $groupModel->userProfile($all_data['uid'],$all_data["gid"]);
+        return ResponseModel::success(200,null,$result_info);
     }
 
     public function generateContestAccount(Request $request)

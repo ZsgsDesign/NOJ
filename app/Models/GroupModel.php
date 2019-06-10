@@ -111,6 +111,7 @@ class GroupModel extends Model
         $info=DB::table("group_member")->where(["gid"=>$gid, "uid"=>$uid])->where("role", ">", 0)->first();
         if (!empty($info)) {
             $info["role_parsed"]=$this->role[$info["role"]];
+            $info["role_color"]=$this->role_color[$info["role"]];
         }
         return $info;
     }
