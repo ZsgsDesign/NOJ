@@ -30,8 +30,7 @@ class Judger extends Curl
         $curl=new Curl();
         $result=$submissionModel->getWaitingSubmission();
         foreach ($result as $row) {
-            $oid=$row["oid"];
-            $ocode=$oid;
+            $ocode=$row["ocode"];
             if(!isset($this->$judger[$ocode]) || is_null($this->$judger[$ocode])) {
                 $this->$judger[$ocode]=self::create($ocode);
             }
