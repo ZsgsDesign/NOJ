@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Babel\Judger;
+namespace App\Babel\Submit;
 
 use App\Models\SubmissionModel;
-use App\Http\Controllers\VirtualJudge\Core;
+use App\Babel\Submit\Core;
 use Illuminate\Support\Facades\Validator;
 use Auth;
 
-class Submit
+class Submitter
 {
     public $ret=[];
     public $post_data=[];

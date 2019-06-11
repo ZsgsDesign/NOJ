@@ -1,13 +1,13 @@
 <?php
 namespace App\Babel;
 
-use App\Babel\Submit\Submit;
+use App\Babel\Submit\Submitter;
 use App\Babel\Crawler\Crawler;
 
 class Bable {
     public function submit($conf)
     {
-        new Submit($conf);
+        new Submitter($conf);
     }
 
     public function crawl($conf)

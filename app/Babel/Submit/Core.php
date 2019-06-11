@@ -1,10 +1,10 @@
 <?php
-namespace App\Babel\Judger;
+namespace App\Babel\Submit;
 
 use App\Models\SubmissionModel;
 use App\Models\JudgerModel;
 use App\Models\ProblemModel;
-use App\Http\Controllers\VirtualJudge\Curl;
+use App\Babel\Submit\Curl;
 use App\Http\Controllers\VirtualJudge\NOJ\NOJ;
 use App\Http\Controllers\VirtualJudge\CodeForces\CodeForces;
 use App\Http\Controllers\VirtualJudge\ContestHunter\ContestHunter;
