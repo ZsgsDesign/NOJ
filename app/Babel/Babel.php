@@ -1,15 +1,18 @@
 <?php
 namespace App\Babel;
 
+use App\Babel\Judger\Submit;
+use App\Babel\Judger\Crawler;
+
 class Bable {
     public function submit($conf)
     {
-        new Judger\Submit($conf);
+        new Submit($conf);
     }
 
     public function crawl($conf)
     {
-        new Crawler\Crawler($conf["name"], $conf["action"], $conf["con"], $conf["cached"]=="true");
+        new Crawler($conf["name"], $conf["action"], $conf["con"], $conf["cached"]=="true");
     }
 
     public function judge($conf)
