@@ -1189,9 +1189,15 @@ class ContestModel extends Model
         }
         if ($contest_info["rule"]==1) {
             // ACM/ICPC Mode
-                $prob_detail = $ret[$id]['problem_detail'];
-                $totPen=$ret[$id]['penalty'];
-                $totScore=$ret[$id]['score'];
+                if($id == count($ret)){
+                    $prob_detail = [];
+                    $totPen = 0;
+                    $totScore = 0;
+                }else{
+                    $prob_detail = $ret[$id]['problem_detail'];
+                    $totPen=$ret[$id]['penalty'];
+                    $totScore=$ret[$id]['score'];
+                };
 
                 $prob_stat=$this->contestProblemInfoACM($cid, $problem["pid"], $uid);
 
@@ -1223,9 +1229,15 @@ class ContestModel extends Model
                 ];
         } elseif ($contest_info["rule"]==2) {
             // OI Mode
-            $prob_detail = $ret[$id]['problem_detail'];
-            $totScore=$ret[$id]['score'];
-            $totSolved=$ret[$id]['solved'];
+            if($id == count($ret)){
+                $prob_detail = [];
+                $totPen = 0;
+                $totScore = 0;
+            }else{
+                $prob_detail = $ret[$id]['problem_detail'];
+                $totPen=$ret[$id]['penalty'];
+                $totScore=$ret[$id]['score'];
+            };
 
             $prob_stat=$this->contestProblemInfoOI($cid, $problem["pid"], $uid);
             $prob_detail[$problem['cpid']]=[
