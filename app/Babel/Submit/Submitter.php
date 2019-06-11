@@ -32,7 +32,7 @@ class Submitter
             'compile_info'=>'',
         ];
 
-        $curl=new Core($sub, $this->post_data['oj'], $this->post_data);
+        new Core($sub, $this->post_data['oj'], $this->post_data);
 
         // insert submission
 
