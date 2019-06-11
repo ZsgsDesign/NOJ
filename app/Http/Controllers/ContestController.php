@@ -157,7 +157,7 @@ class ContestController extends Controller
             ];
         }
 
-        $editor_left_width = $accountModel->getExtraInfo(Auth::user()->id)['editor_left_width'] ?? '40';
+        $editor_left_width = $accountModel->getExtra(Auth::user()->id,'editor_left_width') ?? '40';
 
         return view('contest.board.editor', [
             'page_title'=>"Problem Detail",

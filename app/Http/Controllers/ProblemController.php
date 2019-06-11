@@ -131,7 +131,7 @@ class ProblemController extends Controller
             ];
         }
 
-        $editor_left_width = $account->getExtraInfo(Auth::user()->id)['editor_left_width'] ?? '40';
+        $editor_left_width = $account->getExtra(Auth::user()->id, 'editor_left_width') ?? '40';
 
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.editor', [
                                             'page_title'=>$prob_detail["title"],

@@ -108,9 +108,9 @@ class AccountController extends Controller
         $user_id = Auth::user()->id;
         foreach ($input as $key => $value) {
             if(strlen($value) != 0){
-                $account_model->setExtraInfo($user_id,$key,$value,0);
+                $account_model->setExtra($user_id,$key,$value,0);
             }else{
-                $account_model->unsetExtraInfoIfExist($user_id,$key);
+                $account_model->setExtra($user_id,$key,null);
             }
         }
         return ResponseModel::success();
@@ -128,9 +128,9 @@ class AccountController extends Controller
         $user_id = Auth::user()->id;
         foreach ($input as $key => $value) {
             if(strlen($value) != 0){
-                $account_model->setExtraInfo($user_id,$key,$value,0);
+                $account_model->setExtra($user_id,$key,$value,0);
             }else{
-                $account_model->unsetExtraInfoIfExist($user_id,$key);
+                $account_model->setExtra($user_id,$key,null);
             }
         }
         return ResponseModel::success();
