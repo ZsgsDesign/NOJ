@@ -1,7 +1,7 @@
 <?php
 namespace App\Babel;
 
-use App\Babel\Judger\Submit;
+use App\Babel\Submit\Submit;
 use App\Babel\Crawler\Crawler;
 
 class Bable {

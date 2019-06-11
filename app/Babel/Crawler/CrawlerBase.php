@@ -49,8 +49,17 @@ class CrawlerBase
         return ($a[1]>$b[1]) ?-1 : 1;
     }
 
-    public function process_and_get_image($ori, $path, $baseurl, $space_deli, $cookie)
+    public function cacheImage($data)
     {
+        if(!isset($data["ori"]) || !isset($data["path"]) || !isset($data["baseurl"]) || !isset($data["space_deli"]) || !isset($data["cookie"])){
+            throw new Exception("data is not completely exist in cacheImage");
+        }
+        $ori = $data["ori"];
+        $path = $data["path"];
+        $baseurl = $data["baseurl"];
+        $space_deli = $data["space_deli"];
+        $cookie = $data["cookie"];
+
         $para["path"]=$path;
         $para["base"]=$baseurl;
         $para["trans"]=!$space_deli;
@@ -92,15 +101,20 @@ class CrawlerBase
         }, $ori);
     }
 
-    public function pcrawler_process_info($path, $baseurl, $space_deli=true, $cookie="")
+    public function procInfo($data)
     {
-        $this->pro["description"]=$this->process_and_get_image($this->pro["description"], $path, $baseurl, $space_deli, $cookie);
-        $this->pro["input"]=$this->process_and_get_image($this->pro["input"], $path, $baseurl, $space_deli, $cookie);
-        $this->pro["output"]=$this->process_and_get_image($this->pro["output"], $path, $baseurl, $space_deli, $cookie);
-        $this->pro["note"]=$this->process_and_get_image($this->pro["note"], $path, $baseurl, $space_deli, $cookie);
+        if(isset($data["path"]))       $path = $data["path"];             else throw new Exception("path is not exist in data");
+        if(isset($data["baseurl"]))    $baseurl = $data["baseurl"];       else throw new Exception("baseurl is not exist in data");
+        if(isset($data["space_deli"])) $space_deli = $data["space_deli"]; else $space_deli = true;
+        if(isset($data["cookie"]))     $cookie = $data["cookie"];         else $cookie = "";
+
+        $this->pro["description"]=$this->cacheImage($this->pro["description"], $path, $baseurl, $space_deli, $cookie);
+        $this->pro["input"]=$this->cacheImage($this->pro["input"], $path, $baseurl, $space_deli, $cookie);
+        $this->pro["output"]=$this->cacheImage($this->pro["output"], $path, $baseurl, $space_deli, $cookie);
+        $this->pro["note"]=$this->cacheImage($this->pro["note"], $path, $baseurl, $space_deli, $cookie);
     }
 
-    public function get_url($url)
+    public function getUrl($url)
     {
         $ch=curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -113,13 +127,13 @@ class CrawlerBase
         return $content;
     }
 
-    public function insert_problem($oid=2)
+    public function insertProblem($oid=2)
     {
         $problemModel=new ProblemModel();
         return $problemModel->insertProblem($this->pro);
     }
 
-    public function update_problem($oid=2)
+    public function updateProblem($oid=2)
     {
         $problemModel=new ProblemModel();
         return $problemModel->updateProblem($this->pro);
