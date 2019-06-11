@@ -3,8 +3,10 @@ namespace App\Babel;
 
 use App\Babel\Submit\Submitter;
 use App\Babel\Crawler\Crawler;
+use App\Babel\Judge\Judger;
 
 class Bable {
+
     public function submit($conf)
     {
         new Submitter($conf);
@@ -17,6 +19,7 @@ class Bable {
 
     public function judge($conf)
     {
-        ;
+        new Judger($conf);
     }
+
 }
