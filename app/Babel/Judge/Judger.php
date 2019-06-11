@@ -2,13 +2,20 @@
 
 namespace App\Babel\Judger;
 
-use App\Models\ProblemModel;
+use App\Models\SubmissionModel;
+use App\Models\JudgerModel;
+use App\Models\ContestModel;
+use App\Babel\Judger\Curl;
 use Auth;
+use Requests;
+use Exception;
+use Log;
 
-class Judger extends VerdictInfo
+class Judger extends Curl
 {
     public $data=null;
     private $judger=[];
+    public $ret=[];
 
     /**
      * Initial
@@ -17,17 +24,26 @@ class Judger extends VerdictInfo
      */
     public function __construct($conf)
     {
-        if(!isset($this->$judger[$conf["name"]]) || is_null($this->$judger[$conf["name"]])) {
-            $this->$judger[$conf["name"]]=self::create($conf);
-            $this->$verdictInfo[$conf["name"]]=$this->$judger[$conf["name"]]->getVerdict();
+        $submissionModel=new SubmissionModel();
+        $judger=new JudgerModel();
+        $contestModel=new ContestModel();
+        $curl=new Curl();
+        $result=$submissionModel->getWaitingSubmission();
+        foreach ($result as $row) {
+            $oid=$row["oid"];
+            $ocode=$oid;
+            if(!isset($this->$judger[$ocode]) || is_null($this->$judger[$ocode])) {
+                $this->$judger[$ocode]=self::create($ocode);
+            }
+            $this->$judger[$ocode]->judge($row);
         }
     }
 
-    public static function create($conf) {
-        $name=$conf["name"];
+    public static function create($ocode) {
+        $name=$ocode;
         $className = "App\\Babel\\Extension\\$name\\Judger";
         if(class_exists($className)) {
-            return new $className($conf);
+            return new $className();
         } else {
             return null;
         }
