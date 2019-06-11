@@ -15,7 +15,7 @@ class Curl
         $datapost=curl_init();
         $headers=array("Expect:");
 
-        curl_setopt($datapost, CURLOPT_CAINFO, dirname(__FILE__)."/cookie/cacert.pem");
+        curl_setopt($datapost, CURLOPT_CAINFO, dirname(__FILE__)."/../Cookies/cacert.pem");
         curl_setopt($datapost, CURLOPT_URL, $url);
         curl_setopt($datapost, CURLOPT_HEADER, true); //
         curl_setopt($datapost, CURLOPT_HTTPHEADER, $headers); //
@@ -26,8 +26,8 @@ class Curl
         curl_setopt($datapost, CURLOPT_FOLLOWLOCATION, true);
 
         curl_setopt($datapost, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($datapost, CURLOPT_COOKIEFILE, dirname(__FILE__)."/cookie/{$oj}_{$handle}_cookie.txt");
-        curl_setopt($datapost, CURLOPT_COOKIEJAR, dirname(__FILE__)."/cookie/{$oj}_{$handle}_cookie.txt");
+        curl_setopt($datapost, CURLOPT_COOKIEFILE, dirname(__FILE__)."/../Cookies/{$oj}_{$handle}.cookie");
+        curl_setopt($datapost, CURLOPT_COOKIEJAR, dirname(__FILE__)."/../Cookies/{$oj}_{$handle}.cookie");
         ob_start();
         $response=curl_exec($datapost);
         if (curl_errno($datapost)) {
@@ -47,8 +47,8 @@ class Curl
         // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36");
-        curl_setopt($ch, CURLOPT_COOKIEFILE, dirname(__FILE__)."/cookie/{$oj}_{$handle}_cookie.txt");
-        curl_setopt($ch, CURLOPT_COOKIEJAR, dirname(__FILE__)."/cookie/{$oj}_{$handle}_cookie.txt");
+        curl_setopt($ch, CURLOPT_COOKIEFILE, dirname(__FILE__)."/../Cookies/{$oj}_{$handle}.cookie");
+        curl_setopt($ch, CURLOPT_COOKIEJAR, dirname(__FILE__)."/../Cookies/{$oj}_{$handle}.cookie");
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_URL, $site);
         ob_start();
@@ -80,8 +80,8 @@ class Curl
         curl_setopt($datapost, CURLOPT_FOLLOWLOCATION, $follow);
 
         curl_setopt($datapost, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($datapost, CURLOPT_COOKIEFILE, dirname(__FILE__)."/cookie/{$oj}_{$handle}_cookie.txt");
-        curl_setopt($datapost, CURLOPT_COOKIEJAR, dirname(__FILE__)."/cookie/{$oj}_{$handle}_cookie.txt");
+        curl_setopt($datapost, CURLOPT_COOKIEFILE, dirname(__FILE__)."/../Cookies/{$oj}_{$handle}.cookie");
+        curl_setopt($datapost, CURLOPT_COOKIEJAR, dirname(__FILE__)."/../Cookies/{$oj}_{$handle}.cookie");
         ob_start();
         $response=curl_exec($datapost);
         if (curl_errno($datapost)) {
