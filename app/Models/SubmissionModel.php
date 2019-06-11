@@ -407,10 +407,14 @@ class SubmissionModel extends Model
 
     public function getWaitingSubmission()
     {
-        return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
+        $ret=DB::table($this->tableName)    ->join('problem', 'problem.pid', '=', 'submission.pid')
                                             ->select("sid", "OJ as oid", "remote_id", "cid", "jid")
                                             ->where(['verdict'=>'Waiting'])
                                             ->get();
+        foreach($ret as &$r){
+            $r["ocode"]=DB::table("OJ")->where(["oid"=>$r["oid"]])->first()["ocode"];
+        }
+        return $ret;
     }
 
     public function countWaitingSubmission($oid)

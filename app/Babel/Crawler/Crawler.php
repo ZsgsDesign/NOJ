@@ -16,7 +16,6 @@ class Crawler
      */
     public function __construct($conf)
     {
-        $clsPath="App\\Babel\\Extension\\$name\\Crawler";
         $crawler=self::create($conf);
         if (!is_null($crawler) && isset($crawler)) $this->data=$crawler->data;
     }
