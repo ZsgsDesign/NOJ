@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Babel\Judger;
+namespace App\Babel\Judge;
 
 use App\Models\SubmissionModel;
 use App\Models\JudgerModel;
@@ -22,19 +22,17 @@ class Judger extends Curl
      *
      * @return Response
      */
-    public function __construct($conf)
+    public function __construct()
     {
         $submissionModel=new SubmissionModel();
-        $judger=new JudgerModel();
-        $contestModel=new ContestModel();
-        $curl=new Curl();
+
         $result=$submissionModel->getWaitingSubmission();
         foreach ($result as $row) {
             $ocode=$row["ocode"];
-            if(!isset($this->$judger[$ocode]) || is_null($this->$judger[$ocode])) {
-                $this->$judger[$ocode]=self::create($ocode);
+            if(!isset($this->judger[$ocode]) || is_null($this->judger[$ocode])) {
+                $this->judger[$ocode]=self::create($ocode);
             }
-            $this->$judger[$ocode]->judge($row);
+            $this->judger[$ocode]->judge($row);
         }
     }
 

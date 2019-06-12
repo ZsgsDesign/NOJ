@@ -48,7 +48,7 @@ class Curl
     protected function grab_page($site, $oj, $headers=[], $handle="default")
     {
         $ch=curl_init();
-        curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__)."/cookie/cacert.pem");
+        curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__)."/../Cookies/cacert.pem");
         // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -85,7 +85,7 @@ class Curl
             $data=$data ? json_encode($data) : '{}';
             array_push($headers, 'Content-Type: application/json', 'Content-Length: '.strlen($data));
         }
-        curl_setopt($datapost, CURLOPT_CAINFO, dirname(__FILE__)."/cookie/cacert.pem");
+        curl_setopt($datapost, CURLOPT_CAINFO, dirname(__FILE__)."/../Cookies/cacert.pem");
         curl_setopt($datapost, CURLOPT_URL, $site);
         curl_setopt($datapost, CURLOPT_HEADER, $returnHeader);
         curl_setopt($datapost, CURLOPT_HTTPHEADER, array_merge($headers, $extraHeaders));

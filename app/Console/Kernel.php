@@ -3,7 +3,7 @@
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
-use App\Http\Controllers\VirtualJudge\Judge;
+use App\Babel\Judge\Judger;
 use App\Models\RankModel;
 use App\Models\SiteMapModel;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function() {
             for ($i=1; $i<=12; $i++) {
-                new Judge();
+                // new Judger();
                 sleep(5);
             }
         })->everyMinute()->description("Sync Judger");
