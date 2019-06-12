@@ -9,8 +9,6 @@ use Auth;
 
 class Submitter
 {
-    private $sub;
-    // public $ret=[];
     public $post_data=[];
 
     /**
@@ -20,7 +18,6 @@ class Submitter
      */
     public function __construct($all_data)
     {
-        $this->sub=& $sub;
         $this->post_data=$all_data;
 
         set_time_limit(0);
