@@ -22,7 +22,7 @@ class Judger extends Curl
      *
      * @return Response
      */
-    public function __construct($conf)
+    public function __construct()
     {
         $submissionModel=new SubmissionModel();
 

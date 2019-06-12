@@ -17,9 +17,9 @@ class Bable {
         new Crawler($conf);
     }
 
-    public function judge($conf)
+    public function judge()
     {
-        new Judger($conf);
+        new Judger();
     }
 
 }
