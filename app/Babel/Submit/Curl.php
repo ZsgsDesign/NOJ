@@ -10,8 +10,14 @@ class Curl
         //
     }
 
-    protected function login($url, $data, $oj, $ret='false', $handle="default")
+    protected function login($all_data)
     {
+        if(isset($all_data["url"]))    $url = $all_data["url"];       else throw new Exception("url is not exist in all_data");
+        if(isset($all_data["data"]))   $data = $all_data["data"];     else throw new Exception("data is not exist in all_data");
+        if(isset($all_data["oj"]))     $oj = $all_data["oj"];         else throw new Exception("oj is not exist in all_data");
+        if(isset($all_data["ret"]))    $ret = $all_data["ret"];       else $ret = 'false';
+        if(isset($all_data["handle"])) $handle = $all_data["handle"]; else $handle = "default";
+
         $datapost=curl_init();
         $headers=array("Expect:");
 
@@ -39,8 +45,13 @@ class Curl
         return $response;
     }
 
-    protected function grab_page($site, $oj, $headers=[], $handle="default")
+    protected function grab_page($all_data)
     {
+        if(isset($all_data["site"]))    $site = $all_data["site"];          else throw new Exception("site is not exist in all_data");
+        if(isset($all_data["oj"]))      $oj = $all_data["oj"];              else throw new Exception("oj is not exist in all_data");
+        if(isset($all_data["headers"])) $headers = $all_data["headers"];    else $headers = [];
+        if(isset($all_data["handle"]))  $handle = $all_data["handle"];      else $handle = "default";
+
         $ch=curl_init();
         curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__)."/../Cookies/cacert.pem");
         // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -61,8 +72,18 @@ class Curl
         return $response;
     }
 
-    protected function post_data($site, $data, $oj, $ret=false, $follow=true, $returnHeader=true, $postJson=false, $extraHeaders=[], $handle="default")
+    protected function post_data($all_data)
     {
+        if(isset($all_data["site"]))         $site = $all_data["site"];                 else throw new Exception("site is not exist in all_data");
+        if(isset($all_data["data"]))         $data = $all_data["data"];                 else throw new Exception("data is not exist in all_data");
+        if(isset($all_data["oj"]))           $oj = $all_data["oj"];                     else throw new Exception("oj is not exist in all_data");
+        if(isset($all_data["ret"]))          $ret = $all_data["ret"];                   else $ret = false;
+        if(isset($all_data["follow"]))       $follow = $all_data["follow"];             else $follow = true;
+        if(isset($all_data["returnHeader"])) $returnHeader = $all_data["returnHeader"]; else $returnHeader = true;
+        if(isset($all_data["postJson"]))     $postJson = $all_data["postJson"];         else $postJson = false;
+        if(isset($all_data["extraHeaders"])) $extraHeaders = $all_data["extraHeaders"]; else $extraHeaders = [];
+        if(isset($all_data["handle"]))       $handle = $all_data["handle"];             else $handle = "default";
+
         $datapost=curl_init();
         $headers=array("Expect:");
         if ($postJson) {
