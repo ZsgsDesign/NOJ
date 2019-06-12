@@ -45,8 +45,13 @@ class Curl
         return $response;
     }
 
-    protected function grab_page($site, $oj, $headers=[], $handle="default")
+    protected function grab_page($all_data)
     {
+        if(isset($all_data["site"]))    $site = $all_data["site"];          else throw new Exception("site is not exist in all_data");
+        if(isset($all_data["oj"]))      $oj = $all_data["oj"];              else throw new Exception("oj is not exist in all_data");
+        if(isset($all_data["headers"])) $headers = $all_data["headers"];    else $headers = [];
+        if(isset($all_data["handle"]))  $handle = $all_data["handle"];      else $handle = "default";
+
         $ch=curl_init();
         curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__)."/../Cookies/cacert.pem");
         // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
