@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Babel\Crawler;
+namespace App\Babel\Crawl;
 
 use App\Models\ProblemModel;
 use Auth;

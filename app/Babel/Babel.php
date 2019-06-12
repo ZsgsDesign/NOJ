@@ -2,7 +2,7 @@
 namespace App\Babel;
 
 use App\Babel\Submit\Submitter;
-use App\Babel\Crawler\Crawler;
+use App\Babel\Crawl\Crawler;
 use App\Babel\Judge\Judger;
 
 class Bable {
