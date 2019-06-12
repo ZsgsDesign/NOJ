@@ -3,7 +3,7 @@
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
-use App\Babel\Judge\Judger;
+use App\Babel\Babel;
 use App\Models\RankModel;
 use App\Models\SiteMapModel;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -28,8 +28,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function() {
+            $babel=new Babel();
             for ($i=1; $i<=12; $i++) {
-                // new Judger();
+                $babel->judge();
                 sleep(5);
             }
         })->everyMinute()->description("Sync Judger");

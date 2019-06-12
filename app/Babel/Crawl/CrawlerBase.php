@@ -49,7 +49,7 @@ class CrawlerBase
         return ($a[1]>$b[1]) ?-1 : 1;
     }
 
-    public function cacheImage($data)
+    private function _cacheImage($data)
     {
         if(!isset($data["ori"]) || !isset($data["path"]) || !isset($data["baseurl"]) || !isset($data["space_deli"]) || !isset($data["cookie"])){
             throw new Exception("data is not completely exist in cacheImage");
@@ -108,10 +108,10 @@ class CrawlerBase
         if(isset($data["space_deli"])) $space_deli = $data["space_deli"]; else $space_deli = true;
         if(isset($data["cookie"]))     $cookie = $data["cookie"];         else $cookie = "";
 
-        $this->pro["description"]=$this->cacheImage($this->pro["description"], $path, $baseurl, $space_deli, $cookie);
-        $this->pro["input"]=$this->cacheImage($this->pro["input"], $path, $baseurl, $space_deli, $cookie);
-        $this->pro["output"]=$this->cacheImage($this->pro["output"], $path, $baseurl, $space_deli, $cookie);
-        $this->pro["note"]=$this->cacheImage($this->pro["note"], $path, $baseurl, $space_deli, $cookie);
+        $this->pro["description"]=$this->_cacheImage($this->pro["description"], $path, $baseurl, $space_deli, $cookie);
+        $this->pro["input"]=$this->_cacheImage($this->pro["input"], $path, $baseurl, $space_deli, $cookie);
+        $this->pro["output"]=$this->_cacheImage($this->pro["output"], $path, $baseurl, $space_deli, $cookie);
+        $this->pro["note"]=$this->_cacheImage($this->pro["note"], $path, $baseurl, $space_deli, $cookie);
     }
 
     public function getUrl($url)

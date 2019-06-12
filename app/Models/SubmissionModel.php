@@ -410,9 +410,10 @@ class SubmissionModel extends Model
         $ret=DB::table($this->tableName)    ->join('problem', 'problem.pid', '=', 'submission.pid')
                                             ->select("sid", "OJ as oid", "remote_id", "cid", "jid")
                                             ->where(['verdict'=>'Waiting'])
-                                            ->get();
+                                            ->get()
+                                            ->all();
         foreach($ret as &$r){
-            $r["ocode"]=DB::table("OJ")->where(["oid"=>$r["oid"]])->first()["ocode"];
+            $r["ocode"]=DB::table("oj")->where(["oid"=>$r["oid"]])->first()["ocode"];
         }
         return $ret;
     }
