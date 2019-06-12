@@ -17,7 +17,14 @@ class AccountModel extends Model
         'school',
         'country',
         'location',
-        'editor_left_width'
+        'editor_left_width',
+        'github_username',
+        'github_token',
+        'github_nickname',
+    ];
+
+    private $socialite_support = [
+        'github',
     ];
 
     public function generatePassword($length=8)
@@ -125,7 +132,7 @@ class AccountModel extends Model
      *
      * @param int $uid id of the user
      * @param string|array $need An array is returned when an array is passed in,Only one value is returned when a string is passed in.
-     * @return string $result
+     * @return string|array $result
      */
     public function getExtra($uid,$need, $secret_level = 0){
         $ret = DB::table('users_extra')->where('uid',$uid)->orderBy('key')->get()->all();
@@ -150,7 +157,6 @@ class AccountModel extends Model
                     }
                 }
             }
-
         }
         return $result;
     }
@@ -174,7 +180,7 @@ class AccountModel extends Model
             if(!is_null($value)){
                 $ret['value'] = $value;
             }else{
-                DB::table('users_extra')->where('uid',$uid)->where('key',$key)->delete($ret);
+                DB::table('users_extra')->where('uid',$uid)->where('key',$key)->delete();
                 return true;
             }
             if($secret_level != -1){
@@ -194,5 +200,24 @@ class AccountModel extends Model
                 ]
             );
         }
+    }
+
+    /**
+     * find a extra info key-value pair
+     * @param string $key_name the key
+     * @param string $value the value
+     * @return string $result
+     */
+    public function findExtra($key,$value){
+        $key = array_search($key,$this->user_extra);
+        return DB::table('users_extra')->where('key',$key)->where('value',$value)->first();
+    }
+
+    public function getSocialiteInfo($uid,$secret_level = -1){
+        $socialite_username = [];
+        foreach ($this->socialite_support as $value) {
+            array_push($socialite_username,$value.'_username');
+        }
+        return $this->getExtra($uid,$socialite_username,$secret_level);
     }
 }

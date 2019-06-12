@@ -23,10 +23,18 @@ Route::group(['prefix' => 'account'], function () {
     Route::get('/settings', 'AccountController@settings')->middleware('auth')->name('account_settings');
 });
 
+Route::group(['prefix' => 'oauth', 'namespace' => 'OAuth'], function () {
+    Route::get('/github', 'GithubController@redirectTo')->name('oauth_github');
+    Route::get('/github/unbind','GithubController@unbind')->name('oauth_github_unbind');
+    Route::get('/github/unbind/confirm','GithubController@confirmUnbind')->name('oauth_github_unbind_confirm');
+    Route::get('/github/callback', 'GithubController@handleCallback')->name('oauth_github_callback');
+});
+
 Route::group(['prefix' => 'user'], function () {
     Route::redirect('/', '/', 301);
     Route::get('/{uid}', 'UserController@view')->name('user_view');
 });
+
 Route::group(['prefix' => 'problem'], function () {
     Route::get('/', 'ProblemController@index')->middleware('contest_account')->name('problem_index');
     Route::get('/{pcode}', 'ProblemController@detail')->middleware('contest_account')->name('problem_detail');

@@ -119,7 +119,7 @@
         font-size: 0.85rem;
     }
 
-    user-card social-section{
+    user-card social-section,socialite-setting i{
         font-size: 2rem;
         color:#24292e;
     }
@@ -343,6 +343,23 @@
         background-color: transparent;
     }
 
+    account-bind{
+        cursor: pointer;
+        transition: background-color 400ms;
+        padding: 0 2rem;
+    }
+
+    account-bind span{
+        text-indent: 1rem;
+        vertical-align: text-bottom;
+        display: inline-block;
+        height: 2rem;
+        line-height: 2rem;
+    }
+
+    account-bind:hover{
+        background-color: #eee;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -556,6 +573,18 @@
                             </div>
                         </form>
                     </extra-section>
+                    <socialite-setting class="paper-card">
+                        <p>Socialite Account Binding</p>
+                        <div class="text-center">
+                            <account-bind class="github" style="display: inline-block; ">
+                                @if(empty($socialite_info['github_username']))
+                                    <i class="MDI github-circle"></i><span>Click to bind</span>
+                                @else
+                                    <i class="MDI github-circle"></i><span>{{$socialite_info['github_username']}}</span>
+                                @endif
+                            </account-bind>
+                        </div>
+                    </socialite-setting>
                     {{-- <style-section class="paper-card">
                         <p>Style settings</p>
                     </style-section> --}}
@@ -657,6 +686,10 @@
         $('#describes').bind('input',function(){
             var length = $(this).val().length;
             $('#describes-length').text(length);
+        });
+
+        $('account-bind.github').on('click',function(){
+            window.location= '{{ route('oauth_github') }}' ;
         });
 
         $('#basic-info-update').on('click',function(){

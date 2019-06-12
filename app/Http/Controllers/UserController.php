@@ -29,6 +29,7 @@ class UserController extends Controller
         $info=$accountModel->detail($uid);
         $feed=$accountModel->feed($uid);
         $extraInfo = $accountModel->getExtra($uid, ['gender', 'contanct', 'school', 'country', 'location'],0);
+        $socialiteInfo = $accountModel->getSocialiteInfo($uid,0);
         return view("account.dashboard", [
             'page_title'=>$info["name"],
             'site_title'=>"NOJ",
@@ -38,6 +39,7 @@ class UserController extends Controller
             'settingsView' => false,
             'feed'=>$feed,
             'extra_info' => $extraInfo,
+            'socialite_info' => $socialiteInfo,
         ]);
     }
 }
