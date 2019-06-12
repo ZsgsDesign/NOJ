@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Babel\Judger;
+namespace App\Babel\Judge;
 
 use App\Models\SubmissionModel;
 use App\Models\JudgerModel;
