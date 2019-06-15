@@ -40,4 +40,10 @@ return [
         ],
     ],
 
+    'github' => [
+        'client_id' => env('GITHUB_KEY'),
+        'client_secret' => env('GITHUB_SECRET'),
+        'redirect' => 'http://noj.test/oauth/github/callback',
+    ],
+
 ];

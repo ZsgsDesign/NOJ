@@ -83,6 +83,11 @@
     label[for="agreement"] {
         display: inline-block;
     }
+
+    .card-bottom{
+        background-color:rgb(244,244,244);
+        padding:10px;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row justify-content-sm-center">
@@ -138,6 +143,9 @@
                             </div>
                         </form>
                     </div>
+                </div>
+                <div class="text-center card-bottom">
+                <a href="{{route('oauth_github')}}"><button class="btn btn-dark bmd-btn-icon"><i class="MDI github-circle"></i></button></a>
                 </div>
             </div>
         </div>
