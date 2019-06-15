@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Oauth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountModel;
+use App\Models\UserModel;
 use Laravel\Socialite\Facades\Socialite;
 use Auth;
 
@@ -46,12 +47,13 @@ class GithubController extends Controller
             $user_id = Auth::user()->id;
             $ret = $accountModel->findExtra('github_username',$github_user->email);
             if(!empty($ret) && $ret['uid'] != $user_id){
+                $user = UserModel::find($ret['uid']);
                 return view('oauth.index',[
                     'page_title'=>"OAuth",
                     'site_title'=>"NOJ",
                     'navigation'=>"OAuth",
                     'platform' => 'Github',
-                    'display_html' => 'The github account is now tied to another NOJ account : <span class="text-danger">'.$accountModel->getExtra(Auth::user()->id ,'github_username').'</span><br />
+                    'display_html' => 'The github account is now tied to another NOJ account : <span class="text-danger">'.$user->email.'</span><br />
                     You can try logging in using github',
                     'buttons' => [
                         [
