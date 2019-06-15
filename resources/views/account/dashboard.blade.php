@@ -355,6 +355,7 @@
         display: inline-block;
         height: 2rem;
         line-height: 2rem;
+        padding-top: 0.05rem
     }
 
     account-bind:hover{
@@ -449,9 +450,13 @@
                     @endif
                 </solved-section>
                 <social-section>
-                    <i class="MDI github-circle"></i>
-                    <i class="MDI email"></i>
-                    <i class="MDI web"></i>
+                    @if(empty($socialite_info['github']))
+                        <i class="MDI github-circle" style="opacity: 0.5"></i>
+                    @else
+                        <a href="{{$socialite_info['github']['homepage']}}" target="_blank"><i class="MDI github-circle"></i></a>
+                    @endif
+                    <i class="MDI email" style="opacity: 0.5"></i>
+                    <i class="MDI web" style="opacity: 0.5"></i>
                 </social-section>
             </user-card>
         </div>
@@ -577,10 +582,10 @@
                         <p>Socialite Account Binding</p>
                         <div class="text-center">
                             <account-bind class="github" style="display: inline-block; ">
-                                @if(empty($socialite_info['github_username']))
+                                @if(empty($socialite_info['github']))
                                     <i class="MDI github-circle"></i><span>Click to bind</span>
                                 @else
-                                    <i class="MDI github-circle"></i><span>{{$socialite_info['github_username']}}</span>
+                                    <i class="MDI github-circle"></i><span>{{$socialite_info['github']['nickname'] ?? $socialite_info['github']['email']}}</span>
                                 @endif
                             </account-bind>
                         </div>

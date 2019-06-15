@@ -12,19 +12,26 @@ use Storage;
 class AccountModel extends Model
 {
     private $user_extra = [
-        'gender',
-        'contact',
-        'school',
-        'country',
-        'location',
-        'editor_left_width',
-        'github_username',
-        'github_token',
-        'github_nickname',
+        0     => 'gender',
+        1     => 'contact',
+        2     => 'school',
+        3     => 'country',
+        4     => 'location',
+        5     => 'editor_left_width',
+
+        1000  => 'github_id',
+        1001  => 'github_email',
+        1002  => 'github_nickname',
+        1003  => 'github_homepage',
+        1004  => 'github_token',
     ];
 
     private $socialite_support = [
-        'github',
+        //use the form "platform_id" for unique authentication
+        //such as github_id
+        'github' => [
+            'email','nickname','homepage','token'
+        ],
     ];
 
     public function generatePassword($length=8)
@@ -147,6 +154,7 @@ class AccountModel extends Model
                         }
                     }
                 }
+                return null;
             }else{
                 foreach ($ret as $value) {
                     if(empty($value['secret_level']) || $value['secret_level'] <= $secret_level){
@@ -214,10 +222,24 @@ class AccountModel extends Model
     }
 
     public function getSocialiteInfo($uid,$secret_level = -1){
-        $socialite_username = [];
-        foreach ($this->socialite_support as $value) {
-            array_push($socialite_username,$value.'_username');
+        $socialites = [];
+        foreach ($this->socialite_support as $key => $value) {
+            $id_keyname = $key.'_id';
+            $id = $this->getExtra($uid,$id_keyname);
+            if(!empty($id)){
+                $info = [
+                    'id' => $id,
+                ];
+                foreach ($value as $info_name) {
+                    $info_temp = $this->getExtra($uid,$key.'_'.$info_name);
+                    if($info_temp !== null){
+                        $info[$info_name] = $info_temp;
+                    }
+                }
+                $socialites[$key] = $info;
+            }
         }
-        return $this->getExtra($uid,$socialite_username,$secret_level);
+
+        return $socialites;
     }
 }

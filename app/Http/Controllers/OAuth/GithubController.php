@@ -14,13 +14,13 @@ class GithubController extends Controller
     public function redirectTo()
     {
         $accountModel = new AccountModel();
-        if(Auth::check() && $accountModel->getExtra(Auth::user()->id ,'github_username')){
+        if(Auth::check() && $accountModel->getExtra(Auth::user()->id ,'github_id')){
             return view('oauth.index',[
                 'page_title'=>"OAuth",
                 'site_title'=>"NOJ",
                 'navigation'=>"OAuth",
                 'platform' => 'Github',
-                'display_html' => 'You\'re already tied to the github account : <span class="text-info">'.$accountModel->getExtra(Auth::user()->id ,'github_username').'</span><br />
+                'display_html' => 'You\'re already tied to the github account : <span class="text-info">'.$accountModel->getExtra(Auth::user()->id ,'github_email').'</span><br />
                 You can choose to unbind or go back to the homepage',
                 'buttons' => [
                     [
@@ -45,7 +45,7 @@ class GithubController extends Controller
 
         if(Auth::check()){
             $user_id = Auth::user()->id;
-            $ret = $accountModel->findExtra('github_username',$github_user->email);
+            $ret = $accountModel->findExtra('github_id',$github_user->id);
             if(!empty($ret) && $ret['uid'] != $user_id){
                 $user = UserModel::find($ret['uid']);
                 return view('oauth.index',[
@@ -63,15 +63,17 @@ class GithubController extends Controller
                     ]
                 ]);
             }
-            $accountModel->setExtra($user_id,'github_username',$github_user->email);
+            $accountModel->setExtra($user_id,'github_id',$github_user->id);
+            $accountModel->setExtra($user_id,'github_email',$github_user->email);
             $accountModel->setExtra($user_id,'github_nickname',$github_user->nickname);
+            $accountModel->setExtra($user_id,'github_homepage',($github_user->user)['html_url']);
             $accountModel->setExtra($user_id,'github_token',$github_user->token,101);
             return view('oauth.index',[
                 'page_title'=>"OAuth",
                 'site_title'=>"NOJ",
                 'navigation'=>"OAuth",
                 'platform' => 'Github',
-                'display_html' => 'You have successfully tied up the github account : <span class="text-info">'.$accountModel->getExtra(Auth::user()->id ,'github_username').'</span><br />
+                'display_html' => 'You have successfully tied up the github account : <span class="text-info">'.$accountModel->getExtra(Auth::user()->id ,'github_email').'</span><br />
                 You can log in to NOJ later using this account',
                 'buttons' => [
                     [
@@ -81,9 +83,14 @@ class GithubController extends Controller
                 ]
             ]);
         }else{
-            $ret = $accountModel->findExtra('github_username',$github_user->email);
+            $ret = $accountModel->findExtra('github_id',$github_user->id);
             if(!empty($ret)){
+                $github_user = Socialite::driver('github')->user();
                 Auth::loginUsingId($ret['uid']);
+                $accountModel->setExtra($user_id,'github_email',$github_user->email);
+                $accountModel->setExtra($user_id,'github_nickname',$github_user->nickname);
+                $accountModel->setExtra($user_id,'github_homepage',($github_user->user)['html_url']);
+                $accountModel->setExtra($user_id,'github_token',$github_user->token,101);
                 return redirect('/');
             }else{
                 return view('oauth.index',[
@@ -110,7 +117,7 @@ class GithubController extends Controller
     public function unbind()
     {
         $accountModel = new AccountModel();
-        if($accountModel->getExtra(Auth::user()->id ,'github_username')){
+        if($accountModel->getExtra(Auth::user()->id ,'github_id')){
             return view('oauth.index',[
                 'page_title'=>"OAuth",
                 'site_title'=>"NOJ",
@@ -118,7 +125,7 @@ class GithubController extends Controller
                 'platform' => 'Github',
                 'display_html' => 'You are trying to unbind the following two : <br />
                 Your NOJ account : <span class="text-info">'.Auth::user()->email.'</span><br />
-                This Github account : <span class="text-info">'.$accountModel->getExtra(Auth::user()->id ,'github_username').'</span><br />
+                This Github account : <span class="text-info">'.$accountModel->getExtra(Auth::user()->id ,'github_email').'</span><br />
                 Make your decision carefully, although you can later establish the binding again',
                 'buttons' => [
                     [
@@ -153,9 +160,11 @@ class GithubController extends Controller
     {
         $accountModel = new AccountModel();
         $user_id = Auth::user()->id;
-        if($accountModel->getExtra(Auth::user()->id ,'github_username')){
-            $accountModel->setExtra($user_id,'github_username',null);
+        if($accountModel->getExtra($user_id ,'github_id')){
+            $accountModel->setExtra($user_id,'github_id',null);
+            $accountModel->setExtra($user_id,'github_email',null);
             $accountModel->setExtra($user_id,'github_nickname',null);
+            $accountModel->setExtra($user_id,'github_homepage',null);
             $accountModel->setExtra($user_id,'github_token',null);
             return view('oauth.index',[
                 'page_title'=>"OAuth",
