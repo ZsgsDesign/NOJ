@@ -37,7 +37,7 @@
         "npm-asset/jquery-ui": "^1.12",
         "npm-asset/marked": "^0.6.2",
         "npm-asset/mathjax": "^2.7",
-        "npm-asset/monaco-editor": "^0.16.2",
+        "npm-asset/monaco-editor": "^0.17.0",
         "npm-asset/popper.js": "^1.5",
         "npm-asset/simplemde": "^1.11",
         "oomphinc/composer-installers-extender": "^1.1",
