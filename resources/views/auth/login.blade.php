@@ -88,6 +88,10 @@
         background-color:rgb(244,244,244);
         padding:10px;
     }
+
+    .socialite-section a{
+        color: inherit;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row justify-content-sm-center">
@@ -144,7 +148,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="text-center card-bottom">
+                <div class="text-center card-bottom socialite-section">
                 <a href="{{route('oauth_github')}}"><button class="btn btn-dark bmd-btn-icon"><i class="MDI github-circle"></i></button></a>
                 </div>
             </div>
