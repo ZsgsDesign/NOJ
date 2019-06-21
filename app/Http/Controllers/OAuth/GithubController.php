@@ -40,9 +40,13 @@ class GithubController extends Controller
 
     public function handleCallback()
     {
-        $github_user = Socialite::driver('github')->user();
-        $accountModel = new AccountModel();
+        try{
+            $github_user = Socialite::driver('github')->user();
+        }catch(\Laravel\Socialite\Two\InvalidStateException $e){
+            return redirect('/');
+        }
 
+        $accountModel = new AccountModel();
         if(Auth::check()){
             $user_id = Auth::user()->id;
             $ret = $accountModel->findExtra('github_id',$github_user->id);
@@ -85,8 +89,8 @@ class GithubController extends Controller
         }else{
             $ret = $accountModel->findExtra('github_id',$github_user->id);
             if(!empty($ret)){
-                $github_user = Socialite::driver('github')->user();
                 Auth::loginUsingId($ret['uid']);
+                $user_id = Auth::user()->id;
                 $accountModel->setExtra($user_id,'github_email',$github_user->email);
                 $accountModel->setExtra($user_id,'github_nickname',$github_user->nickname);
                 $accountModel->setExtra($user_id,'github_homepage',($github_user->user)['html_url']);

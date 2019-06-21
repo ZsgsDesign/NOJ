@@ -218,7 +218,11 @@ class AccountModel extends Model
      */
     public function findExtra($key,$value){
         $key = array_search($key,$this->user_extra);
-        return DB::table('users_extra')->where('key',$key)->where('value',$value)->first();
+        if($key){
+            return DB::table('users_extra')->where('key',$key)->where('value',$value)->first();
+        }else{
+            return null;
+        }
     }
 
     public function getSocialiteInfo($uid,$secret_level = -1){
