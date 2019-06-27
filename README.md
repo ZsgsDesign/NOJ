@@ -70,6 +70,12 @@ cp .env.example .env
 vim .env
 ```
 
+After editing `.env`, use this to generate a new key:
+
+```
+php artisan key:generate
+```
+
 7. Now, we need to configure the database, thankfully Laravel have migration already;
 
 ```
