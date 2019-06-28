@@ -926,7 +926,7 @@
 
 @section('additionJS')
     <script src="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
-    <script src="/static/library/jquery-ui/ui/widgets/sortable.js"></script>
+    <script src="/static/js/jquery-ui-sortable.min.js"></script>
     <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
     <script src="/static/js/parazoom.min.js"></script>
     <script>
