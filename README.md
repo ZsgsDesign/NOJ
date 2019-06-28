@@ -222,7 +222,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hd
 
 [HTML Purifier](https://github.com/mewebstudio/Purifier)
 
-See `composer.json` or [Dependency List](https://s3.amazonaws.com/blob.fossa.io/FOSSA_BOMS/9088/REPORT_NOJ_1558024962658.html?AWSAccessKeyId=AKIAJEGBNPHNC7DM3S3A&Expires=1558111370&Signature=wsqlsiBOBFgEsZmGMDFu5RjKJ8k%3D) for more info.
+See `composer.json` or [Dependency List](https://app.fossa.com/attribution/263d9a48-87a3-4043-b6f4-42e0f5755351) for more info.
 
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster?ref=badge_large)
