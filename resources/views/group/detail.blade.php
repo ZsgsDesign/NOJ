@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template')
-<link rel="stylesheet" href="/static/css/jquery.datetimepicker.min.css">
+<link rel="stylesheet" href="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.min.css">
 <style>
     body{
         display: flex;
@@ -925,7 +925,7 @@
 @endsection
 
 @section('additionJS')
-    <script src="/static/js/jquery.datetimepicker.full.min.js"></script>
+    <script src="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
     <script src="/static/js/jquery-ui-sortable.min.js"></script>
     <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
     <script src="/static/js/parazoom.min.js"></script>
