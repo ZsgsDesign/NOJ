@@ -17,7 +17,7 @@ class CreateGroupProblemTagTable extends Migration
             $table->integer('gptid', true);
             $table->integer('gid');
             $table->integer('pid');
-            $table->integer('tag');
+            $table->string('tag');
             $table->timestamps();
         });
     }
