@@ -46,16 +46,17 @@ Route::get('/status', 'StatusController@index')->middleware('contest_account')->
 Route::get('/group', 'GroupController@index')->middleware('contest_account')->name('group_index');
 Route::get('/group/{gcode}', 'GroupController@detail')->middleware('auth', 'contest_account')->name('group_detail');
 
-Route::group(['prefix' => 'contest'], function () {
-    Route::get('/', 'ContestController@index')->middleware('contest_account')->name('contest_index');
-    Route::get('/{cid}', 'ContestController@detail')->middleware('contest_account')->name('contest_detail');
-    Route::get('/{cid}/board', 'ContestController@board')->middleware('auth', 'contest_account')->name('contest_board');
-    Route::get('/{cid}/board/challenge', 'ContestController@challenge')->middleware('auth', 'contest_account')->name('contest_challenge');
-    Route::get('/{cid}/board/challenge/{ncode}', 'ContestController@editor')->middleware('auth', 'contest_account')->name('contest_editor');
-    Route::get('/{cid}/board/rank', 'ContestController@rank')->middleware('auth', 'contest_account')->name('contest_rank');
-    Route::get('/{cid}/board/status', 'ContestController@status')->middleware('auth', 'contest_account')->name('contest_status');
-    Route::get('/{cid}/board/clarification', 'ContestController@clarification')->middleware('auth', 'contest_account')->name('contest_clarification');
-    Route::get('/{cid}/board/print', 'ContestController@print')->middleware('auth', 'contest_account')->name('contest_print');
+Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
+    Route::get('/', 'ContestController@index')->middleware('contest_account')->name('index');
+    Route::get('/{cid}', 'ContestController@detail')->middleware('contest_account')->name('detail');
+    Route::get('/{cid}/board', 'ContestController@board')->middleware('auth', 'contest_account')->name('board');
+    Route::get('/{cid}/board/challenge', 'ContestController@challenge')->middleware('auth', 'contest_account')->name('challenge');
+    Route::get('/{cid}/board/challenge/{ncode}', 'ContestController@editor')->middleware('auth', 'contest_account')->name('editor');
+    Route::get('/{cid}/board/rank', 'ContestController@rank')->middleware('auth', 'contest_account')->name('rank');
+    Route::get('/{cid}/board/status', 'ContestController@status')->middleware('auth', 'contest_account')->name('status');
+    Route::get('/{cid}/board/clarification', 'ContestController@clarification')->middleware('auth', 'contest_account')->name('clarification');
+    Route::get('/{cid}/board/print', 'ContestController@print')->middleware('auth', 'contest_account')->name('print');
+    Route::get('/{cid}/board/analysis', 'ContestController@analysis')->middleware('auth', 'contest_account')->name('analysis');
 });
 
 Route::group(['prefix' => 'system'], function () {

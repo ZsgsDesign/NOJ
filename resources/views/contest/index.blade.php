@@ -149,6 +149,7 @@
                                 @unless($c["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="left" title="This contest is under review"></i></span>@endif
                                 @unless($c["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="left" title="This is a private contest"></i></span>@endif
                                 @if($c['verified'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="left" title="This is a verified contest"></i>@endif
+                                @if($c['practice'])<i class="MDI sword wemd-green-text"  data-toggle="tooltip" data-placement="left" title="This is a contest for praticing"></i>@endif
                                 @if($c['rated'])<i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="left" title="This is a rated contest"></i>@endif
                                 @if($c['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="left" title="Anti-cheat enabled"></i>@endif
                                 {{$c['name']}}
@@ -182,8 +183,10 @@
                                 @unless($featured["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="left" title="This contest is under review"></i></span>@endif
                                 @unless($featured["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="left" title="This is a private contest"></i></span>@endif
                                 @if($featured['verified'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="left" title="This is a verified contest"></i>@endif
+                                @if($featured['practice'])<i class="MDI sword wemd-green-text"  data-toggle="tooltip" data-placement="left" title="This is a contest for praticing"></i>@endif
                                 @if($featured['rated'])<i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="left" title="This is a rated contest"></i>@endif
                                 @if($featured['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="left" title="Anti-cheat enabled"></i>@endif
+
                                 <span class="wemd-amber-text"><i class="MDI trophy"></i> {{$featured['rule_parsed']}}</span>
                             </h5>
                             <a href="/contest/{{$featured['cid']}}"><button type="button" class="btn btn-outline-primary mt-4">Know More</button></a>
