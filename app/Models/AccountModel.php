@@ -11,6 +11,29 @@ use Storage;
 
 class AccountModel extends Model
 {
+    private $user_extra = [
+        0     => 'gender',
+        1     => 'contact',
+        2     => 'school',
+        3     => 'country',
+        4     => 'location',
+        5     => 'editor_left_width',
+
+        1000  => 'github_id',
+        1001  => 'github_email',
+        1002  => 'github_nickname',
+        1003  => 'github_homepage',
+        1004  => 'github_token',
+    ];
+
+    private $socialite_support = [
+        //use the form "platform_id" for unique authentication
+        //such as github_id
+        'github' => [
+            'email','nickname','homepage','token'
+        ],
+    ];
+
     public function generatePassword($length=8)
     {
         $chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789';
@@ -111,50 +134,71 @@ class AccountModel extends Model
         return $ret;
     }
 
-    public function getExtraInfo($uid,$secret_level = 0){
-        $ret = DB::table('users_extra')->where('uid',$uid)->get()->all();
-        $key_meaning = [
-            0 => 'gender',
-            1 => 'contact',
-            2 => 'school',
-            3 => 'country',
-            4 => 'location',
-            5 => 'editor_left_width',
-        ];
+    /**
+     * To get some extra info of a user.
+     *
+     * @param int $uid id of the user
+     * @param string|array $need An array is returned when an array is passed in,Only one value is returned when a string is passed in.
+     * @return string|array $result
+     */
+    public function getExtra($uid,$need, $secret_level = 0){
+        $ret = DB::table('users_extra')->where('uid',$uid)->orderBy('key')->get()->all();
         $result = [];
         if(!empty($ret)){
-            foreach ($ret as $value) {
-                if(empty($value['secret_level']) || $value['secret_level'] <= $secret_level){
-                    $key_name = $key_meaning[$value['key']] ?? 'unknown';
-                    $result[$key_name] = $value['value'];
+            if(is_string($need)){
+                foreach ($ret as $value) {
+                    if(empty($value['secret_level']) || $value['secret_level'] <= $secret_level){
+                        $key_name = $this->user_extra[$value['key']] ?? 'unknown';
+                        if($key_name == $need){
+                            return $value['value'];
+                        }
+                    }
+                }
+                return null;
+            }else{
+                foreach ($ret as $value) {
+                    if(empty($value['secret_level']) || $value['secret_level'] <= $secret_level){
+                        $key_name = $this->user_extra[$value['key']] ?? 'unknown';
+                        if(in_array($key_name,$need)){
+                            $result[$key_name] = $value['value'];
+                        }
+                    }
                 }
             }
         }
         return $result;
     }
 
-    public function setExtraInfo($uid,$key_name,$value = null,$secret_level = -1){
-        $key_value = [
-            'gender'                    => 0,
-            'contact'                   => 1,
-            'school'                    => 2,
-            'country'                   => 3,
-            'location'                  => 4,
-            'editor_left_width'         => 5,
-            //TODO...
-        ];
-        $key = $key_value[$key_name];
+    /**
+     * To set some extra info of a user.
+     *
+     * @param int $uid id of the user
+     * @param string $key_name insert when key not found or update when key exists. Only values declared in the AccountModel are accepted
+     * @param string|null $value the extra info will be delete when value is null
+     * @return mixed $result
+     */
+    public function setExtra($uid,$key_name,$value = null,$secret_level = -1){
+        $key = array_search($key_name,$this->user_extra);
+        if($key === false){
+            return false;
+        }
         $ret = DB::table('users_extra')->where('uid',$uid)->where('key',$key)->first();
         if(!empty($ret)){
             unset($ret['id']);
             if(!is_null($value)){
                 $ret['value'] = $value;
+            }else{
+                DB::table('users_extra')->where('uid',$uid)->where('key',$key)->delete();
+                return true;
             }
             if($secret_level != -1){
                 $ret['secret_level'] = $secret_level;
             }
-            DB::table('users_extra')->where('uid',$uid)->where('key',$key)->update($ret);
+            return DB::table('users_extra')->where('uid',$uid)->where('key',$key)->update($ret);
         }else{
+            if($value === null){
+                return true;
+            }
             return DB::table('users_extra')->insertGetId(
                 [
                     'uid' => $uid,
@@ -166,17 +210,40 @@ class AccountModel extends Model
         }
     }
 
-    public function unsetExtraInfoIfExist($uid,$key_name){
-        $key_value = [
-            'gender'                    => 0,
-            'contact'                   => 1,
-            'school'                    => 2,
-            'country'                   => 3,
-            'location'                  => 4,
-            'editor_left_width'         => 5,
-            //TODO...
-        ];
-        $key = $key_value[$key_name];
-        $ret = DB::table('users_extra')->where('uid',$uid)->where('key',$key)->delete();
+    /**
+     * find a extra info key-value pair
+     * @param string $key_name the key
+     * @param string $value the value
+     * @return string $result
+     */
+    public function findExtra($key,$value){
+        $key = array_search($key,$this->user_extra);
+        if($key){
+            return DB::table('users_extra')->where('key',$key)->where('value',$value)->first();
+        }else{
+            return null;
+        }
+    }
+
+    public function getSocialiteInfo($uid,$secret_level = -1){
+        $socialites = [];
+        foreach ($this->socialite_support as $key => $value) {
+            $id_keyname = $key.'_id';
+            $id = $this->getExtra($uid,$id_keyname);
+            if(!empty($id)){
+                $info = [
+                    'id' => $id,
+                ];
+                foreach ($value as $info_name) {
+                    $info_temp = $this->getExtra($uid,$key.'_'.$info_name);
+                    if($info_temp !== null){
+                        $info[$info_name] = $info_temp;
+                    }
+                }
+                $socialites[$key] = $info;
+            }
+        }
+
+        return $socialites;
     }
 }

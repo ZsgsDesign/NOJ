@@ -44,7 +44,8 @@ class Kernel extends ConsoleKernel
             $siteMapModel=new SiteMapModel();
         })->daily()->description("Update SiteMap");
 
-        $schedule->command('backup:run')->daily()->description("BackUp Site");
+        $schedule->command('backup:run')->weekly()->description("BackUp Site");
+        $schedule->command('backup:run --only-db')->daily()->description("BackUp DataBase");
     }
 
     /**

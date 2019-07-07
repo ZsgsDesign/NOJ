@@ -323,3 +323,8 @@ body{
         text-align: center;
     }
 }
+
+input::-webkit-search-decoration,
+input::-webkit-search-cancel-button {
+    display: none;
+}

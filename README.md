@@ -13,6 +13,12 @@ NOJ's another online judge platform, stands for NJUPT Online Judge. It's written
 ![Stars](https://img.shields.io/github/stars/zsgsdesign/noj.svg?style=flat-square)
 ![Forks](https://img.shields.io/github/forks/zsgsdesign/noj.svg?style=flat-square)
 
+### Community Contributors
+
+| [<img src="https://github.com/ZsgsDesign.png?s=64" width="100px;"/><br /><sub><b>John Zhang</b></sub>](https://github.com/ZsgsDesign)<br />**Leader**   | [<img src="https://github.com/DavidDiao.png?s=64" width="100px;"/><br /><sub><b>David Diao</b></sub>](https://github.com/DavidDiao)<br />**Deaputy**<br />  | [<img src="https://github.com/pikanglong.png?s=64" width="100px;"/><br /><sub><b>Cone Pi</b></sub>](https://github.com/pikanglong)<br />**BackEnd**  | [<img src="https://github.com/X3ZvaWQ.png?s=64" width="100px;"/><br /><sub><b>X3ZvaWQ</b></sub>](https://github.com/X3ZvaWQ)<br />**BackEnd** | [<img src="https://github.com/Brethland.png?s=64" width="100px;"/><br /><sub><b>Brethland</b></sub>](https://github.com/Brethland)<br />**VirtualJudge** | [<img src="https://github.com/goufaan.png?s=64" width="100px;"/><br /><sub><b>goufaan</b></sub>](https://github.com/goufaan)<br />**FrontEnd**   |  [<img src="https://github.com/ChenKS12138.png?s=64" width="100px;"/><br /><sub><b>ChenKS12138</b></sub>](https://github.com/ChenKS12138)<br />**FrontEnd** |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| [<img src="https://github.com/Rp12138.png?s=64" width="100px;"/><br /><sub><b>Rp12138</b></sub>](https://github.com/Rp12138)<br />**BackEnd**   |
+
 ## Installation
 
 CentOS will be recommended for hosting NOJ, but all major operating systems are theoretically supported.
@@ -26,10 +32,10 @@ Till now, NOJ have been successfully deployed to the following systems:
 Here is detailed step about deploying NOJ:
 
 1. You need to have a server and installed the following:
-    - [PHP ^7.1.3(recommend 7.3.4)](http://php.net/downloads.php)
-    - [Composer ^1.8.5(recommend 1.8.5)](https://getcomposer.org)
-    - [MySQL ^5.5.3(recommend 8.0)](https://www.mysql.com/)
-    - [Redis ^3.2.1(recommend 5.0)](https://redis.io)
+    - [PHP 7.3(Recommend 7.3.4)](http://php.net/downloads.php)
+    - [Composer 1.8.5(Recommend 1.8.5)](https://getcomposer.org)
+    - [MySQL 5.5.3(Recommend 8.0)](https://www.mysql.com/)
+    - [Redis 3.2.1(Recommend 5.0)](https://redis.io)
 
 2. Clone NOJ to your website folder;
 
@@ -62,6 +68,12 @@ chmod -R 775 app/Http/Controllers/VirtualJudge/
 ```
 cp .env.example .env
 vim .env
+```
+
+After editing `.env`, use this to generate a new key:
+
+```
+php artisan key:generate
 ```
 
 7. Now, we need to configure the database, thankfully Laravel have migration already;
@@ -210,7 +222,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hd
 
 [HTML Purifier](https://github.com/mewebstudio/Purifier)
 
-See `composer.json` or [Dependency List](https://s3.amazonaws.com/blob.fossa.io/FOSSA_BOMS/9088/REPORT_NOJ_1558024962658.html?AWSAccessKeyId=AKIAJEGBNPHNC7DM3S3A&Expires=1558111370&Signature=wsqlsiBOBFgEsZmGMDFu5RjKJ8k%3D) for more info.
+See `composer.json` or [Dependency List](https://app.fossa.com/attribution/263d9a48-87a3-4043-b6f4-42e0f5755351) for more info.
 
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster?ref=badge_large)
