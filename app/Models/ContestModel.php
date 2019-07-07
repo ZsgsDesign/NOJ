@@ -275,14 +275,30 @@ class ContestModel extends Model
 
         $contest_rule=$this->contestRule($cid);
 
-        $problemSet=DB::table("contest_problem")->join("problem", "contest_problem.pid", "=", "problem.pid")->where([
-            "cid"=>$cid
-        ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title")->get()->all();
+        $problemSet=DB::table("contest_problem")
+        ->join("problem", "contest_problem.pid", "=", "problem.pid")
+        ->join("contest", "contest_problem.cid", "=", "contest.cid")
+        ->where([
+            "contest_problem.cid"=>$cid
+        ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title", "contest.gid as gid", "contest.practice as practice")->get()->all();
 
         $frozen_time=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
         $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
 
         foreach ($problemSet as &$p) {
+            if($p['practice']){
+                $tags = DB::table("group_problem_tag")
+                ->where('gid',$p['gid'])
+                ->where('pid',$p['pid'])
+                ->get()->all();
+                $tags_arr = [];
+                if(!empty($tags)){
+                    foreach ($tags as $value) {
+                        array_push($tags_arr,$value['tag']);
+                    }
+                }
+                $p['tags'] = $tags_arr;
+            }
             if ($contest_rule==1) {
                 $prob_stat=DB::table("submission")->select(
                     DB::raw("count(sid) as submission_count"),
@@ -319,6 +335,8 @@ class ContestModel extends Model
                     "color"=>$prob_status["color"]
                 ];
             }
+
+
         }
 
         return $problemSet;

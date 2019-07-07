@@ -318,8 +318,9 @@ class ContestController extends Controller
         }
         $contest_name=$contestModel->contestName($cid);
         $customInfo=$contestModel->getCustomInfo($cid);
-        return view('contest.board.print', [
-            'page_title'=>"Print",
+
+        return view('contest.board.analysis', [
+            'page_title'=>"Analysis",
             'navigation' => "Contest",
             'site_title'=>$contest_name,
             'contest_name'=>$contest_name,
