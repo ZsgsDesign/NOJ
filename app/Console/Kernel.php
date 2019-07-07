@@ -27,24 +27,29 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function() {
+        $schedule->call(function () {
             for ($i=1; $i<=12; $i++) {
                 new Judge();
                 sleep(5);
             }
         })->everyMinute()->description("Sync Judger");
 
-        $schedule->call(function() {
+        $schedule->call(function () {
             $rankModel=new RankModel();
             $rankModel->rankList();
         })->daily()->description("Update Rank");
 
-        $schedule->call(function() {
+        $schedule->call(function () {
             $siteMapModel=new SiteMapModel();
         })->daily()->description("Update SiteMap");
 
-        $schedule->command('backup:run')->weekly()->description("BackUp Site");
-        $schedule->command('backup:run --only-db')->daily()->description("BackUp DataBase");
+        if (!env("APP_DEBUG")) {
+            $schedule->command('backup:run')->weekly()->description("BackUp Site");
+        }
+
+        if (!env("APP_DEBUG")) {
+            $schedule->command('backup:run --only-db')->daily()->description("BackUp DataBase");
+        }
     }
 
     /**
