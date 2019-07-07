@@ -1141,6 +1141,7 @@ class ContestModel extends Model
                 "verified"=>0, //todo
                 "rated"=>0,
                 "anticheated"=>0,
+                "practice"=>$config["practice"],
                 "featured"=>0,
                 "description"=>$config["description"],
                 "rule"=>1, //todo

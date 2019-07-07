@@ -110,6 +110,8 @@
                                 ajaxing=false;
                             }
                         });
+                    }else{
+                        ajaxing = false;
                     }
                 })
             });
@@ -158,6 +160,8 @@
                             ajaxing=false;
                         }
                     });
+                }else{
+                    ajaxing = false;
                 }
             })
         });

@@ -66,6 +66,7 @@ class GroupController extends Controller
             "description"=>$all_data["description"],
             "begin_time"=>$all_data["begin_time"],
             "end_time"=>$all_data["end_time"],
+            "practice"=>$all_data["practice"] ?? 0,
         ], $problemSet);
 
         return ResponseModel::success(200);

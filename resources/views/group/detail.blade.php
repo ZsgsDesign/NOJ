@@ -851,6 +851,12 @@
                                 Public Contest
                             </label>
                         </div>
+                        <div class="switch">
+                            <label>
+                                <input id="switch-practice" type="checkbox">
+                                Practice Contest
+                            </label>
+                        </div>
                         <table class="table">
                             <thead>
                                 <tr>
@@ -1297,6 +1303,7 @@
             var contestName = $("#contestName").val();
             var contestBegin = $("#contestBegin").val();
             var contestEnd = $("#contestEnd").val();
+            var practiceContest = $("#switch-practice").prop("checked") == true ? 1 : 0;
             var problemSet = "";
             var contestDescription = editor.getValue();
             $("#contestProblemSet td:first-of-type").each(function(){
@@ -1331,6 +1338,7 @@
                     description: contestDescription,
                     begin_time: contestBegin,
                     end_time: contestEnd,
+                    practice : practiceContest,
                     gid: {{$basic_info["gid"]}}
                 },
                 dataType: 'json',
