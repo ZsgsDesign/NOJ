@@ -808,6 +808,7 @@ class ContestModel extends Model
     public function getContestRecord($cid)
     {
         $basicInfo=$this->basic($cid);
+        $userInfo=DB::table('group_member')->where('gid',$basicInfo["gid"])->where('uid',Auth::user()->id)->get()->first();
         $problemSet_temp=DB::table("contest_problem")->join("problem", "contest_problem.pid", "=", "problem.pid")->where([
             "cid"=>$cid
         ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title", "points", "tot_score")->get()->all();
@@ -820,80 +821,149 @@ class ContestModel extends Model
         $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
         $contestEnd=time()>$end_time;
 
-        if ($basicInfo["status_visibility"]==2) {
-            // View all
-            $paginator=DB::table("submission")->where([
-                'cid'=>$cid
-            ])->where(
-                "submission_date",
-                "<",
-                $end_time
-            )->join(
-                "users",
-                "users.id",
-                "=",
-                "submission.uid"
-            )->where(function ($query) use ($frozen_time) {
-                $query->where(
+        if($userInfo==null || $userInfo["role"]!=3){
+            if ($basicInfo["status_visibility"]==2) {
+                // View all
+                $paginator=DB::table("submission")->where([
+                    'cid'=>$cid
+                ])->where(
                     "submission_date",
                     "<",
-                    $frozen_time
-                )->orWhere(
-                    'uid',
-                    Auth::user()->id
-                );
-            })->select(
-                "sid",
-                "uid",
-                "pid",
-                "name",
-                "color",
-                "verdict",
-                "time",
-                "memory",
-                "language",
-                "score",
-                "submission_date",
-                "share"
-            )->orderBy(
-                'submission_date',
-                'desc'
-            )->paginate(50);
-        } elseif ($basicInfo["status_visibility"]==1) {
-            $paginator=DB::table("submission")->where([
-                'cid'=>$cid,
-                'uid'=>Auth::user()->id
-            ])->where(
-                "submission_date",
-                "<",
-                $end_time
-            )->join(
-                "users",
-                "users.id",
-                "=",
-                "submission.uid"
-            )->select(
-                "sid",
-                "uid",
-                "pid",
-                "name",
-                "color",
-                "verdict",
-                "time",
-                "memory",
-                "language",
-                "score",
-                "submission_date",
-                "share"
-            )->orderBy(
-                'submission_date',
-                'desc'
-            )->paginate(50);
-        } else {
-            return [
-                "paginator"=>null,
-                "records"=>[]
-            ];
+                    $end_time
+                )->join(
+                    "users",
+                    "users.id",
+                    "=",
+                    "submission.uid"
+                )->where(function ($query) use ($frozen_time) {
+                    $query->where(
+                        "submission_date",
+                        "<",
+                        $frozen_time
+                    )->orWhere(
+                        'uid',
+                        Auth::user()->id
+                    );
+                })->select(
+                    "sid",
+                    "uid",
+                    "pid",
+                    "name",
+                    "color",
+                    "verdict",
+                    "time",
+                    "memory",
+                    "language",
+                    "score",
+                    "submission_date",
+                    "share"
+                )->orderBy(
+                    'submission_date',
+                    'desc'
+                )->paginate(50);
+            } elseif ($basicInfo["status_visibility"]==1) {
+                $paginator=DB::table("submission")->where([
+                    'cid'=>$cid,
+                    'uid'=>Auth::user()->id
+                ])->where(
+                    "submission_date",
+                    "<",
+                    $end_time
+                )->join(
+                    "users",
+                    "users.id",
+                    "=",
+                    "submission.uid"
+                )->select(
+                    "sid",
+                    "uid",
+                    "pid",
+                    "name",
+                    "color",
+                    "verdict",
+                    "time",
+                    "memory",
+                    "language",
+                    "score",
+                    "submission_date",
+                    "share"
+                )->orderBy(
+                    'submission_date',
+                    'desc'
+                )->paginate(50);
+            } else {
+                return [
+                    "paginator"=>null,
+                    "records"=>[]
+                ];
+            }
+        }else{
+            if ($basicInfo["status_visibility"]==2) {
+                // View all
+                $paginator=DB::table("submission")->where([
+                    'cid'=>$cid
+                ])->where(
+                    "submission_date",
+                    "<",
+                    $end_time
+                )->join(
+                    "users",
+                    "users.id",
+                    "=",
+                    "submission.uid"
+                )->select(
+                    "sid",
+                    "uid",
+                    "pid",
+                    "name",
+                    "color",
+                    "verdict",
+                    "time",
+                    "memory",
+                    "language",
+                    "score",
+                    "submission_date",
+                    "share"
+                )->orderBy(
+                    'submission_date',
+                    'desc'
+                )->paginate(50);
+            } elseif ($basicInfo["status_visibility"]==1) {
+                $paginator=DB::table("submission")->where([
+                    'cid'=>$cid,
+                    'uid'=>Auth::user()->id
+                ])->where(
+                    "submission_date",
+                    "<",
+                    $end_time
+                )->join(
+                    "users",
+                    "users.id",
+                    "=",
+                    "submission.uid"
+                )->select(
+                    "sid",
+                    "uid",
+                    "pid",
+                    "name",
+                    "color",
+                    "verdict",
+                    "time",
+                    "memory",
+                    "language",
+                    "score",
+                    "submission_date",
+                    "share"
+                )->orderBy(
+                    'submission_date',
+                    'desc'
+                )->paginate(50);
+            } else {
+                return [
+                    "paginator"=>null,
+                    "records"=>[]
+                ];
+            }
         }
 
         $records=$paginator->all();
