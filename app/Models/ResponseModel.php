@@ -90,7 +90,7 @@ class ResponseModel extends Model
             '7002' => "Insufficient Clearance",
             '7003' => "No Need to Approve",
             '7004' => "Group Member Not Found",
-
+            '7005' => "Group Problem Tag Exist",
         ];
         return isset($errDesc[$errCode]) ? $errDesc[$errCode] : $errDesc['1000'];
     }

@@ -156,7 +156,7 @@
                             <div class="text-right tag-list" style="display: inline-block; width:auto">
                                 @if(!empty($p['tags']))
                                 @foreach($p['tags'] as $tag)
-                                    <span class="badge badge-tag" data-toggle="tooltip" data-placement="left" title="{{$tag}}">{{$tag}}</span>
+                                    <span class="badge badge-tag" data-toggle="tooltip" data-placement="top" title="{{$tag}}">{{$tag}}</span>
                                 @endforeach
                                 @endif
                             </div>

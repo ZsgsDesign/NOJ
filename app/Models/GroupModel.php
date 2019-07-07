@@ -195,6 +195,62 @@ class GroupModel extends Model
         ])->where("role", ">", 0)->count();
     }
 
+    public function problemTags($gid,$pid = -1){
+        if($pid == -1){
+            $tags =  DB::table('group_problem_tag')
+            ->select('tag')
+            ->where('gid',$gid)
+            ->distinct()
+            ->get()->all();
+        }else{
+            $tags =  DB::table('group_problem_tag')
+            ->select('tag')
+            ->where('gid', $gid)
+            ->where('pid', $pid)
+            ->distinct()
+            ->get()->all();
+        }
+
+        $tags_arr = [];
+        if(!empty($tags)){
+            foreach ($tags as $value) {
+                array_push($tags_arr,$value['tag']);
+            }
+        }
+        return $tags_arr;
+    }
+
+    public function problems($gid){
+        $problems = DB::table('contest_problem')
+        ->join('contest','contest_problem.cid', '=', 'contest.cid')
+        ->join('problem','contest_problem.pid', '=', 'problem.pid' )
+        ->select('problem.pid as pid', 'pcode', 'title')
+        ->where('contest.gid',$gid)
+        ->where('contest.practice',1)
+        ->distinct()
+        ->get()->all();
+        foreach($problems as &$value){
+            $value['tags'] = $this->problemTags($gid,$value['pid']);
+        }
+        return $problems;
+    }
+
+    public function problemAddTag($gid,$pid,$tag){
+        return DB::table("group_problem_tag")->insert([
+            "gid"=>$gid,
+            "pid"=>$pid,
+            "tag"=>$tag,
+        ]);
+    }
+
+    public function problemRemoveTag($gid,$pid,$tag){
+        return DB::table("group_problem_tag")->where([
+            "gid"=>$gid,
+            "pid"=>$pid,
+            "tag"=>$tag
+        ])->delete();
+    }
+
     public function formatPostTime($date)
     {
         $periods=["second", "minute", "hour", "day", "week", "month", "year", "decade"];

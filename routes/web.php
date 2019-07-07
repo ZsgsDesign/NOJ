@@ -43,8 +43,12 @@ Route::group(['prefix' => 'problem'], function () {
 });
 Route::get('/status', 'StatusController@index')->middleware('contest_account')->name('status_index');
 
-Route::get('/group', 'GroupController@index')->middleware('contest_account')->name('group_index');
-Route::get('/group/{gcode}', 'GroupController@detail')->middleware('auth', 'contest_account')->name('group_detail');
+Route::group(['prefix' => 'group','as' => 'group.'], function (){
+    Route::get('/', 'GroupController@index')->middleware('contest_account')->name('index');
+    Route::get('/{gcode}', 'GroupController@detail')->middleware('auth', 'contest_account')->name('detail');
+    Route::get('/{gcode}/problems', 'GroupController@problems')->middleware('auth', 'contest_account')->name('problems');
+    Route::get('/{gcode}/analysis', 'GroupController@analysis')->middleware('auth', 'contest_account')->name('analysis');
+});
 
 Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
     Route::get('/', 'ContestController@index')->middleware('contest_account')->name('index');
@@ -111,6 +115,9 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
         Route::get('generateContestAccount', 'GroupController@generateContestAccount')->middleware('auth');
         Route::post('approveMember', 'GroupController@approveMember')->middleware('auth');
         Route::post('removeMember', 'GroupController@removeMember')->middleware('auth');
+        Route::post('addProblemTag', 'GroupController@addProblemTag')->middleware('auth');
+        Route::post('removeProblemTag', 'GroupController@removeProblemTag')->middleware('auth');
+
     });
 
     Route::group(['prefix' => 'contest'], function () {
