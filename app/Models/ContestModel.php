@@ -1009,10 +1009,15 @@ class ContestModel extends Model
         $contest_started=DB::table("contest")->where("cid", $cid)->where("begin_time", "<", date("Y-m-d H:i:s"))->count();
         $contest_ended=DB::table("contest")->where("cid", $cid)->where("end_time", "<", date("Y-m-d H:i:s"))->count();
         $contest_info=DB::table("contest")->where("cid", $cid)->first();
+        $userInfo=DB::table('group_member')->where('gid',$contest_info["gid"])->where('uid',$uid)->get()->first();
 
         if (!$contest_started) {
             // not started or do not exist
             return 0;
+        }
+
+        if ($userInfo["role"]==3) {
+            return 3;
         }
 
         if ($contest_info["public"]) {
