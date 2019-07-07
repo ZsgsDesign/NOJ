@@ -18,7 +18,7 @@ class RankController extends Controller
     public function index(Request $request)
     {
         $rankModel=new RankModel();
-        $rankingList=$rankModel->list();
+        $rankingList=$rankModel->list(100);
         return view('rank.index', [
                 'page_title'=>"Rank",
                 'site_title'=>"NOJ",
