@@ -43,8 +43,11 @@ Route::group(['prefix' => 'problem'], function () {
 });
 Route::get('/status', 'StatusController@index')->middleware('contest_account')->name('status_index');
 
-Route::get('/group', 'GroupController@index')->middleware('contest_account')->name('group_index');
-Route::get('/group/{gcode}', 'GroupController@detail')->middleware('auth', 'contest_account')->name('group_detail');
+Route::group(['prefix' => 'group'], function () {
+    Route::get('/', 'GroupController@index')->middleware('contest_account')->name('group_index');
+    Route::get('/create', 'GroupController@create')->middleware('contest_account')->name('group.create');
+    Route::get('/{gcode}', 'GroupController@detail')->middleware('auth', 'contest_account')->name('group_detail');
+});
 
 Route::group(['prefix' => 'contest'], function () {
     Route::get('/', 'ContestController@index')->middleware('contest_account')->name('contest_index');
