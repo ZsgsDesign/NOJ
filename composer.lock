@@ -2771,10 +2771,10 @@
         },
         {
             "name": "npm-asset/marked",
-            "version": "0.6.2",
+            "version": "0.6.3",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/marked/-/marked-0.6.2.tgz"
+                "url": "https://registry.npmjs.org/marked/-/marked-0.6.3.tgz"
             },
             "type": "npm-asset",
             "license": [
