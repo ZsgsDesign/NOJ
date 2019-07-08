@@ -98,13 +98,15 @@ paper-card:hover {
                 <p id="sys_subtitle">Hereby is a list of all the judge servers of NOJ.</p>
             </div>
             <div class="row justify-content-center">
+                @foreach($judgeServer as $j)
                 <div class="col-sm-12 col-md-6 mb-5">
                     <paper-card type="server">
-                        <h1>TankMan</h1>
-                        <p><small>Last Update: GMT 02:10 8 Jul 2019</small></p>
-                        <p class="wemd-teal-text"><i class="MDI check-circle"></i> Operational</p>
+                        <h1>{{$j["name"]}}</h1>
+                        <p><small>Last Update: {{$j["status_update_at"]}}</small></p>
+                        <p class="{{$j["status_parsed"]["color"]}}"><i class="MDI {{$j["status_parsed"]["icon"]}}"></i> {{$j["status_parsed"]["text"]}}</p>
                     </paper-card>
                 </div>
+                @endforeach
             </div>
         </div>
     </system-info>
