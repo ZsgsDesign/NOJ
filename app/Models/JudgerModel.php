@@ -83,10 +83,49 @@ class JudgerModel extends Model
     {
         $serverList=DB::table("judge_server")->where(["oid"=>$oid])->get()->all();
         foreach ($serverList as &$server) {
-            if($server["available"]==0) $server["status"]="-2";
             $server["status_parsed"]=is_null($server["status"])?self::$status["-1"]:self::$status[$server["status"]];
         }
         return $serverList;
+    }
+
+    public function updateServerStatus($oid=1)
+    {
+        $serverList=DB::table("judge_server")->where(["oid"=>$oid])->get()->all();
+        foreach ($serverList as $server) {
+            if($server["available"]==0){
+                DB::table("judge_server")->where(["jsid"=>$server["jsid"]])->update([
+                    "status"=>-2,
+                    "status_update_at"=>date("Y-m-d H:i:s")
+                ]);
+                continue;
+            }
+
+            $serverURL="http://".$server["host"].":".$server["port"];
+            try {
+                $pong=$this->ping($serverURL.'/ping', $server["port"], hash('sha256', $server["token"]));
+            } catch (Exception $exception) {
+                DB::table("judge_server")->where(["jsid"=>$server["jsid"]])->update([
+                    "status"=>1,
+                    "status_update_at"=>date("Y-m-d H:i:s")
+                ]);
+                continue;
+            }
+
+            if (empty($pong)) {
+                DB::table("judge_server")->where(["jsid"=>$server["jsid"]])->update([
+                    "status"=>1,
+                    "status_update_at"=>date("Y-m-d H:i:s")
+                ]);
+                continue;
+            }
+
+            if ($pong["status_code"]==200) {
+                DB::table("judge_server")->where(["jsid"=>$server["jsid"]])->update([
+                    "status"=>0,
+                    "status_update_at"=>date("Y-m-d H:i:s")
+                ]);
+            }
+        }
     }
 
     public function ping($url, $port, $token)

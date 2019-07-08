@@ -100,7 +100,7 @@ paper-card:hover {
             </div>
             <div class="row justify-content-center">
                 @foreach($judgeServer as $j)
-                <div class="col-sm-12 col-md-6 mb-5">
+                <div class="col-sm-12 col-md-6">
                     <paper-card type="server">
                         <h1>{{$j["name"]}}</h1>
                         <p><small>Last Update: {{$j["status_update_at"]}}</small></p>
