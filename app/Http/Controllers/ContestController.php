@@ -26,7 +26,7 @@ class ContestController extends Controller
         $featured=$contestModel->featured();
         return view('contest.index', [
             'page_title'=>"Contest",
-            'site_title'=>"NOJ",
+            'site_title'=>config("app.name"),
             'navigation' => "Contest",
             'contest_list'=>$return_list['contents'],
             'paginator' => $return_list['paginator'],
@@ -58,7 +58,7 @@ class ContestController extends Controller
         }
         return view('contest.detail', [
             'page_title'=>"Contest",
-            'site_title'=>"NOJ",
+            'site_title'=>config("app.name"),
             'navigation' => "Contest",
             'detail'=>$contest_detail["data"]["contest_detail"],
             'clearance' => $clearance,

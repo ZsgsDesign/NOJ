@@ -21,7 +21,7 @@ class RankController extends Controller
         $rankingList=$rankModel->list(100);
         return view('rank.index', [
                 'page_title'=>"Rank",
-                'site_title'=>"NOJ",
+                'site_title'=>config("app.name"),
                 'navigation' => "Rank",
                 'rankingList' => $rankingList
             ]);

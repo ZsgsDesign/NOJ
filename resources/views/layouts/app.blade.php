@@ -35,7 +35,7 @@
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="alternate icon" type="image/png" href="/favicon.png">
     <!-- OpenSearch -->
-    {{-- <link rel="search" type="application/opensearchdescription+xml" title="NOJ" href="/opensearch.xml"> --}}
+    {{-- <link rel="search" type="application/opensearchdescription+xml" title="{{config("app.name")}}" href="/opensearch.xml"> --}}
     <!-- Third-Party Declarations -->
     <meta name="google-site-verification" content="{{ env("GOOGLE_SITE_VERIFICATION") }}" />
     <meta name="baidu-site-verification" content="{{ env("BAIDU_SITE_VERIFICATION") }}" />
@@ -140,7 +140,7 @@
                 <div></div>
                 <div></div>
             </div>
-            <p>Preparing NOJ</p>
+            <p>Preparing {{config("app.name")}}</p>
         </div>
     </loading>
     <!-- Style -->
@@ -168,7 +168,7 @@
             @else
 
                 <a class="navbar-brand" href="/">
-                    <img src="/static/img/njupt.png" height="30"> NJUPT Online Judge
+                    <img src="/static/img/njupt.png" height="30"> {{config("app.displayName")}}
                 </a>
 
             @endif
@@ -293,8 +293,8 @@
                 <div class="row">
 
                     <div class="col-md-4">
-                        <h5 class="cm-footer-title mb-4 mt-3 font-bold">NOJ</h5>
-                        <p>NOJ is an online judge developed by ICPC Team of Nanjing Universify of Posts and Telecommunications.</p>
+                        <h5 class="cm-footer-title mb-4 mt-3 font-bold">{{config("app.name")}}</h5>
+                        <p>{{config("app.name")}} is an online judge developed by ICPC Team of Nanjing Universify of Posts and Telecommunications.</p>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">
@@ -323,7 +323,7 @@
                 </div>
             </div>
         </div>
-        <div class="mundb-footer mundb-copyright">&copy; 2018-{{date('Y')}}, NOJ. <a href="https://github.com/ZsgsDesign/NOJ" target="_blank"><i class="MDI github-circle"></i></a></div>
+        <div class="mundb-footer mundb-copyright">&copy; 2018-{{date('Y')}}, {{config("app.name")}}. <a href="https://github.com/ZsgsDesign/NOJ" target="_blank"><i class="MDI github-circle"></i></a></div>
     </footer>
     <script src="/static/library/jquery/dist/jquery.min.js"></script>
     <script src="/static/library/popper.js/dist/umd/popper.min.js"></script>

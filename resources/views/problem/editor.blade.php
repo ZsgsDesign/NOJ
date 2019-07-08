@@ -120,7 +120,7 @@
                 <div></div>
                 <div></div>
             </div>
-            <p>Preparing NOJ</p>
+            <p>Preparing {{config("app.name")}}</p>
         </div>
     </loading>
     <!-- Style -->

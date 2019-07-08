@@ -20,7 +20,7 @@ class SystemController extends Controller
         $judgeServer=$judgerModel->fetchServer(1);
         return view('system.info', [
             'page_title' => "System Info",
-            'site_title' => "NOJ",
+            'site_title' => config("app.name"),
             'navigation' => "System",
             'judgeServer' => $judgeServer
         ]);

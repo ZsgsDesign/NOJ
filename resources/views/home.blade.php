@@ -81,13 +81,13 @@
     <div class="row">
         <div class="col-sm-12 col-lg-8">
             <div class="cm-title-section">
-                <h1>Welcome to NOJ!</h1>
+                <h1>Welcome to {{config("app.name")}}!</h1>
                 <version-badge class="mb-5">
                     <inline-div>Version</inline-div><inline-div>{{version()}}</inline-div>
                 </version-badge>
 
 
-                <p class="mb-5">NOJ is an Online Judge, and yet have features of Virtual Judges as well as an perspective to hold contests over several OJs without knowing the tests and outcomes dataset to enable multiple possibilities like ICPC team routine training and internal contest holding and so on.</p>
+                <p class="mb-5">{{config("app.name")}} is an Online Judge, and yet have features of Virtual Judges as well as an perspective to hold contests over several OJs without knowing the tests and outcomes dataset to enable multiple possibilities like ICPC team routine training and internal contest holding and so on.</p>
                 <p>We've currently support those OJs:</p>
             </div>
             <div class="row">
@@ -126,7 +126,7 @@
 </div>
 <script>
     window.addEventListener("load",function() {
-        notify("Welcome",'Hi, welcome back to the Fully new NOJ',"/static/img/notify/njupt.png",'welcome');
+        notify("Welcome",'Hi, welcome back to the Fully new {{config("app.name")}}',"/static/img/notify/njupt.png",'welcome');
     }, false);
 </script>
 @endsection

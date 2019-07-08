@@ -13,7 +13,8 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'NOJ'),
+    'displayName' => env("APP_DISPLAY_NAME", "NJUPT Online Judge"),
 
     /*
     |--------------------------------------------------------------------------

@@ -96,7 +96,7 @@ paper-card:hover {
         <div style="width:100%;">
             <div class="mb-5">
                 <h1 id="sys_title" class="wemd-grey-text wemd-text-darken-3">Server Status</h1>
-                <p id="sys_subtitle">Hereby is a list of all the judge servers of NOJ.</p>
+                <p id="sys_subtitle">Hereby is a list of all the judge servers of {{config("app.name")}}.</p>
             </div>
             <div class="row justify-content-center">
                 @foreach($judgeServer as $j)
