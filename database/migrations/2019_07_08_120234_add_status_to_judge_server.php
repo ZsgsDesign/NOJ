@@ -14,7 +14,7 @@ class AddStatusToJudgeServer extends Migration
     public function up()
     {
         Schema::table('judge_server', function (Blueprint $table) {
-            $table->string('status')->nullable();
+            $table->integer('status')->nullable();
         });
     }
 
