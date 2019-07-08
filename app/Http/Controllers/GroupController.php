@@ -59,4 +59,20 @@ class GroupController extends Controller
             'group_clearance'=>$clearance
         ]);
     }
+
+    /**
+     * Show the Group Create Page.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        $groupModel=new GroupModel();
+
+        return view('group.create', [
+            'page_title'=>"Group Create",
+            'site_title'=>"NOJ",
+            'navigation'=>"Group"
+        ]);
+    }
 }
