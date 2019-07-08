@@ -287,4 +287,22 @@ class GroupController extends Controller
         }
         return ResponseModel::err(7002);
     }
+
+    public function inviteMember(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|integar',
+            'email' => 'required|email',
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        if($clearance<2) return ResponseModel::err(7002);
+        $targetClearance=$groupModel->judgeClearance($all_data["gid"], $all_data["email"]);
+        if($targetClearance!=-3) return ResponseModel::err(7002);
+        inviteMember($gid, $email);
+        return ResponseModel::success(200);
+    }
 }

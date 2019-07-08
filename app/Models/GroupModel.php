@@ -227,4 +227,34 @@ class GroupModel extends Model
 
         return "$difference $periods[$j] {$tense}";
     }
+
+        
+    public function judgeEmailClearance($gid, $email)
+    {
+        $uid=DB::table("users")-where(["email"=>$email])->first();
+        if(empty($uid)) return -4;
+        $ret=DB::table("group_member")->where(["gid"=>$gid, "uid"=>$uid["uid"]])->first();
+        return empty($ret) ? -3 : $ret["role"];
+    }
+
+    public function inviteClearance($gid, $email)
+    {
+        $uid=DB::table("users")-where(["email"=>$email])->first();
+        return DB::table("group_member")->insert([
+            "uid"=>$uid["uid"],
+            "gid"=>$gid,
+            "role"=>$clearance,
+            "join_time"=>date("Y-m-d H:i:s")
+        ]);
+    }
+
+    public function createGroup()
+    {
+        /*DB::table("group_member")->insert([
+
+        ])
+        DB::table("group")->insert([
+
+        ])*/
+    }
 }
