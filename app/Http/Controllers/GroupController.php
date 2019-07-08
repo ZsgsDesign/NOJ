@@ -68,11 +68,12 @@ class GroupController extends Controller
     public function create()
     {
         $groupModel=new GroupModel();
-
+        $basic_info=$groupModel->details($gcode);
         return view('group.create', [
             'page_title'=>"Group Create",
             'site_title'=>config("app.name"),
-            'navigation'=>"Group"
+            'navigation'=>"Group",
+            "basic_info"=>$basic_info,
         ]);
     }
 }

@@ -305,4 +305,22 @@ class GroupController extends Controller
         inviteMember($gid, $email);
         return ResponseModel::success(200);
     }
+
+    public function createGroup(Request $request)
+    {
+        $request->validate([
+            'uid' => 'required|integar',
+            'gcode' => 'required',
+            'img' => 'required',
+            'name' => 'required',
+            'public' => 'required',
+            'description' => 'required',
+            'join_policy'  => 'required'
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        
+    }
 }

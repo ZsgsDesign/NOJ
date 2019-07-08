@@ -248,13 +248,25 @@ class GroupModel extends Model
         ]);
     }
 
-    public function createGroup()
+    public function createGroup($uid, $gcode, $img, $name, $public, $description, $join_policy)
     {
-        /*DB::table("group_member")->insert([
-
-        ])
-        DB::table("group")->insert([
-
-        ])*/
+        $new_group=DB::table("group")->insert([
+            "gcode"=>$gcode,
+            "img"=>$img,
+            "name"=>$name,
+            "public"=>$public,
+            "verified"=>0,
+            "description"=>$description,
+            "jion_policy"=>$join_policy,
+            "custom_icon"=>null,
+            "custom_title"=>null,
+            "create_time"=>date("Y-m-d H:i:s")
+        ]);
+        return DB::table("group_member")->insert([
+            "uid"=>$uid,
+            "gid"=>$new_group['gid'],
+            "role"=>3,
+            "join_time"=>date("Y-m-d H:i:s")
+        ]);
     }
 }
