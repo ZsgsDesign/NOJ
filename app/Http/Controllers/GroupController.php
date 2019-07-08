@@ -30,20 +30,6 @@ class GroupController extends Controller
     }
 
     /**
-     * Show the Group Create Page.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        return view('group.create', [
-            'page_title' => "Group Create",
-            'site_title' => config("app.name"),
-            'navigation' => "Group",
-        ]);
-    }
-
-    /**
      * Show the Group Detail Page.
      *
      * @return Response
@@ -85,7 +71,7 @@ class GroupController extends Controller
 
         return view('group.create', [
             'page_title'=>"Group Create",
-            'site_title'=>"NOJ",
+            'site_title'=>config("app.name"),
             'navigation'=>"Group"
         ]);
     }
