@@ -91,6 +91,7 @@ paper-card:hover {
             </div>
         </div>
     </system-info>
+    @unless(empty($judgeServer))
     <system-info data-catg="judgeServer">
         <div style="width:100%;">
             <div class="mb-5">
@@ -110,5 +111,6 @@ paper-card:hover {
             </div>
         </div>
     </system-info>
+    @endunless
 </div>
 @endsection

@@ -10,6 +10,28 @@ use Exception;
 class JudgerModel extends Model
 {
     protected $tableName='judger';
+    public static $status=[
+        "-2"=>[
+            "text"=>"Unavailable",
+            "icon"=>"close-circle",
+            "color"=>"wemd-pink-text",
+        ],
+        "-1"=>[
+            "text"=>"Unknown",
+            "icon"=>"help-circle",
+            "color"=>"wemd-grey-text",
+        ],
+        "0"=>[
+            "text"=>"Operational",
+            "icon"=>"check-circle",
+            "color"=>"wemd-teal-text",
+        ],
+        "1"=>[
+            "text"=>"Critical",
+            "icon"=>"alert-circle",
+            "color"=>"wemd-amber-text",
+        ],
+    ];
 
     public function list($oid=2)
     {
@@ -55,6 +77,16 @@ class JudgerModel extends Model
             }
         }
         return $bestServer["server"];
+    }
+
+    public function fetchServer($oid=1)
+    {
+        $serverList=DB::table("judge_server")->where(["oid"=>$oid])->get()->all();
+        foreach ($serverList as &$server) {
+            if($server["available"]==0) $server["status"]="-2";
+            $server["status_parsed"]=is_null($server["status"])?self::$status["-1"]:self::$status[$server["status"]];
+        }
+        return $serverList;
     }
 
     public function ping($url, $port, $token)
