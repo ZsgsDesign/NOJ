@@ -9,6 +9,7 @@ use App\Models\CompilerModel;
 use App\Models\SubmissionModel;
 use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Auth;
 use Redirect;
 
@@ -19,19 +20,41 @@ class ContestController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $all_data=$request->all();
         $contestModel=new ContestModel();
-        $return_list=$contestModel->list(Auth::check()?Auth::user()->id:0);
+        $filter["rule"]=isset($all_data["rule"]) ? $all_data["rule"] : null;
+        $filter["verified"]=isset($all_data["verified"]) ? $all_data["verified"] : null;
+        $filter["rated"]=isset($all_data["rated"]) ? $all_data["rated"] : null;
+        $filter["anticheated"]=isset($all_data["anticheated"]) ? $all_data["anticheated"] : null;
+        $return_list=$contestModel->list($filter,Auth::check()?Auth::user()->id:0);
         $featured=$contestModel->featured();
-        return view('contest.index', [
-            'page_title'=>"Contest",
-            'site_title'=>config("app.name"),
-            'navigation' => "Contest",
-            'contest_list'=>$return_list['contents'],
-            'paginator' => $return_list['paginator'],
-            'featured'=>$featured
-        ]);
+        if (is_null($return_list)) {
+            if (isset($all_data["page"]) && $all_data["page"]>1) {
+                return redirect("/contest");
+            } else {
+                return view('contest.index', [
+                    'page_title'=>"Contest",
+                    'site_title'=>config("app.name"),
+                    'navigation' => "Contest",
+                    'contest_list'=> null,
+                    'paginator' => null,
+                    'featured'=>$featured,
+                    'filter' => $filter
+                ]);
+            }
+        } else {
+            return view('contest.index', [
+                'page_title'=>"Contest",
+                'site_title'=>config("app.name"),
+                'navigation' => "Contest",
+                'contest_list'=>$return_list['contents'],
+                'paginator' => $return_list['paginator'],
+                'featured'=>$featured,
+                'filter' => $filter
+            ]);
+        }
     }
 
     /**

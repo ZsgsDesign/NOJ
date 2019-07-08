@@ -132,6 +132,32 @@
         color:rgba(0,0,0,0.54);
     }
 
+    .badge-rule {
+        color: #03a9f4;
+        border: 1px solid #03a9f4;
+        cursor: pointer;
+    }
+
+    .badge-rule.selected {
+        color: white;
+        background-color: #03a9f4;
+    }
+
+    .badge-feature{
+        color: #6c757d;
+        background-color: transparent;
+        max-width: 7rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border: 1px solid #6c757d;
+        cursor: pointer;
+    }
+
+    .badge-feature.selected {
+        color: white;
+        background-color: #6c757d;
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -163,7 +189,7 @@
                 </a>
                 @endforeach
 
-                {{$paginator->links()}}
+                {{$paginator->appends($filter)->links()}}
             @else
                 <empty-container>
                     <i class="MDI package-variant"></i>
@@ -172,6 +198,18 @@
             @endif
         </div>
         <div class="col-sm-12 col-md-4">
+        <paper-card class="animated bounceInRight">
+            <p>Filter</p>
+            <div class="mb-3">
+                <span class="badge badge-rule @if($filter['rule']==1) selected @endif" onclick="applyFilter(rule,this)" data-rule="1">ICPC</span>
+                <span class="badge badge-rule @if($filter['rule']==2) selected @endif" onclick="applyFilter(rule,this)" data-rule="2">OI</span>
+            </div>
+            <div>
+                <span class="badge badge-feature @if($filter['verified']==1) selected @endif" onclick="applyFilter(verified,this)" data-verified="1">Verified</span>
+                <span class="badge badge-feature @if($filter['rated']==1) selected @endif" onclick="applyFilter(rated,this)" data-rated="1">Rated</span>
+                <span class="badge badge-feature @if($filter['anticheated']==1) selected @endif" onclick="applyFilter(anticheated,this)" data-anticheated="1">Anticheated</span>
+            </div>
+        </paper-card>
             <div class="animated jackInTheBox">
                 <p class="cm-tending"><i class="MDI star wemd-amber-text"></i> Featured Contest</p>
                     <paper-card style="text-align:center;">
@@ -200,6 +238,28 @@
     window.addEventListener("load",function() {
 
     }, false);
+
+    function applyFilter(key,value) {//TODO:This Javascript code doesn't work, the href should be like "/contest?rule=1&verified=1&rated=1&anticheated=1"
+        var tempNav="";
+        if(value==filterVal[key]) return;
+        filterVal[key]=value;
+        Object.keys(filterVal).forEach((_key)=>{
+            let _value=filterVal[_key];
+            if(_value===null || _value==="") return;
+            tempNav+=`${_key}=${encodeURIComponent(_value)}&`;
+        });
+        if(tempNav.endsWith('&')) tempNav=tempNav.substring(0,tempNav.length-1);
+        if(tempNav==="") location.href="/contest";
+        else location.href="/contest?"+tempNav;
+    }
+
+    var filterVal=[];
+
+    @foreach($filter as $key=>$value)
+
+        filterVal["{{$key}}"]="{{$value}}";
+
+    @endforeach
 
 </script>
 @endsection
