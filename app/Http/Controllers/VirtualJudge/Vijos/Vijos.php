@@ -46,7 +46,7 @@ class Vijos extends Curl
             'code' => $this->post_data["solution"],
             'csrf_token' => $match[1],
         ];
-        $response=$this->post_data("https://vijos.org/p/{$pid}/submit", http_build_query($params), "vijos", true, false, true, false, [], $this->selectedJudger);
+        $response=$this->post_data("https://vijos.org/p/{$pid}/submit", http_build_query($params), "vijos", true, false, true, false, [], $this->selectedJudger["handle"]);
         if (preg_match('/\nLocation: \/records\/(.+)/i', $response, $match)) {
             $this->sub['remote_id']=$match[1];
         } else {
