@@ -76,4 +76,21 @@ class GroupController extends Controller
             //"basic_info"=>$basic_info,
         ]);
     }
+
+    /**
+     * Show the Group Setting Page.
+     *
+     * @return Response
+     */
+    public function setting()
+    {
+        $groupModel=new GroupModel();
+        //$basic_info=$groupModel->details($gcode);
+        return view('group.setting', [
+            'page_title'=>"Group Setting",
+            'site_title'=>config("app.name"),
+            'navigation'=>"Group",
+            //"basic_info"=>$basic_info,
+        ]);
+    }
 }

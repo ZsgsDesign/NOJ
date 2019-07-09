@@ -110,7 +110,7 @@
             </a>
         </div>
     </div>
-    @endif
+    
 </div>
 <script>
 

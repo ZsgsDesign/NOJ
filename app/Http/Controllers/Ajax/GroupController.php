@@ -322,7 +322,7 @@ class GroupController extends Controller
         $all_data=$request->all();
 
         $groupModel=new GroupModel();
-        if($all_data["gcode"]=="create") return ResponseModel::err(7005);
+        if($all_data["gcode"]=="create"||$all_data["gcode"]=="setting") return ResponseModel::err(7005);
         $is_group=$groupModel->isGroup($all_data["gcode"]);
         if($is_group) return ResponseModel::err(7006);
         $groupModel->createGroup(Auth::user()->id, $all_data["gcode"], $all_data["img"], $all_data["name"], $all_data["public"], $all_data["description"], $all_data["jion_policy"]);
