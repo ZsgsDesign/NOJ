@@ -239,27 +239,9 @@
 
     }, false);
 
-    function applyFilter(key,value) {//TODO:This Javascript code doesn't work, the href should be like "/contest?rule=1&verified=1&rated=1&anticheated=1"
-        var tempNav="";
-        if(value==filterVal[key]) return;
-        filterVal[key]=value;
-        Object.keys(filterVal).forEach((_key)=>{
-            let _value=filterVal[_key];
-            if(_value===null || _value==="") return;
-            tempNav+=`${_key}=${encodeURIComponent(_value)}&`;
-        });
-        if(tempNav.endsWith('&')) tempNav=tempNav.substring(0,tempNav.length-1);
-        if(tempNav==="") location.href="/contest";
-        else location.href="/contest?"+tempNav;
+    function applyFilter(key,value) {
+        //TODO:the href should be like "/contest?rule=1&verified=1&rated=1&anticheated=1"
     }
-
-    var filterVal=[];
-
-    @foreach($filter as $key=>$value)
-
-        filterVal["{{$key}}"]="{{$value}}";
-
-    @endforeach
 
 </script>
 @endsection
