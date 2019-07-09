@@ -586,7 +586,7 @@
     var simplemde = new SimpleMDE({
         autosave: {
             enabled: true,
-            uniqueId: "problemSolutionDiscussion{{$detail["pid"]}}",
+            uniqueId: "problemSolutionDiscussion_{{Auth::user()->id}}_{{$detail["pid"]}}",
             delay: 1000,
         },
         element: $("#solution_editor")[0],
