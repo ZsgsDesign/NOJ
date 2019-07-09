@@ -55,68 +55,127 @@
     group-card > div:last-of-type{
         padding:1rem;
     }
-
-    .cm-fw{
-        white-space: nowrap;
-        width:1px;
+    .my-card{
+        margin-bottom: 100px;
     }
-
-    .pagination .page-item > a.page-link{
-        border-radius: 4px;
-        transition: .2s ease-out .0s;
+    .avatar-input{
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        transform: translateY(-40px);
+        cursor: pointer;
     }
-
-    .cm-group-name{
-        color:#333;
-        margin-bottom: 0;
+    .avatar-div{
+        width: 70px;
+        height: 40px;
+        background-color: teal;
+        text-align: center;
+        line-height: 40px;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 200px;
     }
-
-    .cm-tending,
-    .cm-mine-group{
-        color:rgba(0,0,0,0.54);
-        margin-bottom: 1.5rem;
-        font-weight: 500;
-    }
-
-    .cm-group-action{
-        height: 4rem;
+    .gender-select{
+        cursor: pointer;
     }
 
 </style>
 <div class="container mundb-standard-container">
-    <div>
-        <p class="cm-tending"><i class="MDI fire wemd-red-text"></i>Group Setting</p>
-    </div>
-    <div>
-        <p class="cm-mine-group">My Groups</p>
-    </div>
     <div class="row">
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <a disable-href="/group/create">
-                <group-card style="border-style: dashed;">
-                    <div>
-                        <shadow-div>
-                            <img src="/static/img/group/addphoto.jpg">
-                        </shadow-div>
+    </div>
+    <div class="card my-card">
+        <div class="card-body ">
+            <h4 class="card-title"><a>Setting My Group</a></h4>
+            <div class="paper-card">
+                <form class="extra-info-form md-form" id="create" action="/">
+                    <div class="form-group">
+                        <label for="contact" class="bmd-label-floating">Group Name</label>
+                        <input id="groupName" type="text" name="name" class="form-control" id="contact" autocomplete="off" />
                     </div>
-                    <div>
-                        <p class="cm-group-name">Group Setting</p>
-                        <small class="cm-group-info">Click here to create your own group!</small>
-                        <div class="cm-group-action">
-
+                    <div class="form-group">
+                        <label for="school" class="bmd-label-floating">Group Site</label>
+                        <input id="groupSite" type="text" name="gcode" class="form-control"  id="school" autocomplete="off" />
+                    </div>
+                    <div class="form-group" style="display:flex;align-items:flex-end">
+                        <label for="avatar" style="color:grey">Group Avatar</label>
+                        <div class="avatar-div" id="avatar">
+                            Chose
+                            <input id="groupAvatar" name="img" class="avatar-input" type="file" accept="image/" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="location" class="bmd-label-floating">Group Description</label>
+                        <input id="groupDescription" type="text" name="description" class="form-control"  id="location" autocomplete="off" />
+                    </div>
+                    <div class="form-group">
+                        <label for="location" class="bmd-label-floating">Join Policy</label>
+                        <div class="input-group text-center" style="display: flex;justify-content: center; align-items: center;">
+                            <div class="input-group-prepend">
+                                <button id="gender-btn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                   Default
+                                </button>
+                                <div class="dropdown-menu" style="font-size: .75rem">
+                                    <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('Invite Only');$('#gender').val(1);$('#gender-input').fadeOut(200);">Invite Only</a>
+                                    <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('Apply Only');$('#gender').val(2);$('#gender-input').fadeOut(200);">Apply Only</a>
+                                    <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('Both');$('#gender').val(3);$('#gender-input').fadeOut(200);">Both</a>
+                                </div>
                             </div>
+                            <input style="display:none;" id="gender" name="gender" type="text" class="form-control" value="@if(!empty($extra_info['gender'])){{$extra_info['gender']}}@endif" aria-label="gender input box">
+                        </div>
                     </div>
-                </group-card>
-            </a>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="location" class="bmd-label-floating">Is Public</label>
+                            <div class="switch">
+                                <label>
+                                    Off
+                                    <input name="public" id="groupPublic" type="checkbox">
+                                    <span class="lever"></span> On
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <a href="#" class="btn btn-primary" id="submit" style="margin-top:30px">Submit</a>
         </div>
     </div>
-    
 </div>
+
+
 <script>
 
-    window.addEventListener("load",function() {
-
-    }, false);
-
+document.querySelector('#submit').addEventListener('click',() => {
+    const name = document.querySelector('#groupName').value;
+    const gcode = document.querySelector('#groupSite').value;
+    const img = document.querySelector('#groupAvatar').files[0];
+    const Public = document.querySelector('#groupPublic').checked === true ? 1 : 2;
+    const description = document.querySelector("#groupDescription").value;
+    const joinPolicy = document.querySelector("#gender").value;
+    const data = new FormData();
+    data.append('name',name);
+    data.append('gcode',gcode);
+    data.append('img',img);
+    data.append('public',Public);
+    data.append('description',description);
+    data.append('join_policy',joinPolicy);
+    // $.ajax({
+    //     url:"/ajax/group/createGroup",
+    //     method: 'POST',
+    //     data: data,
+    //     contentType: false, // 注意这里应设为false
+    //     processData: false,
+    //     cache: false,
+    //     success: function(data) {
+    //         console.log(data);
+    //     },
+    //     error: function (jqXHR) {
+    //         console.log(jqXHR);
+    //     }
+    // })
+})
 </script>
+
+
 @endsection
