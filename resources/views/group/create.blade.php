@@ -55,45 +55,72 @@
     group-card > div:last-of-type{
         padding:1rem;
     }
-
-    .cm-fw{
-        white-space: nowrap;
-        width:1px;
+    .my-card{
+        margin-bottom: 100px;
     }
-
-    .pagination .page-item > a.page-link{
-        border-radius: 4px;
-        transition: .2s ease-out .0s;
+    .avatar-input{
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        transform: translateY(-40px);
+        cursor: pointer;
     }
-
-    .cm-group-name{
-        color:#333;
-        margin-bottom: 0;
-    }
-
-    .cm-tending,
-    .cm-mine-group{
-        color:rgba(0,0,0,0.54);
-        margin-bottom: 1.5rem;
-        font-weight: 500;
-    }
-
-    .cm-group-action{
-        height: 4rem;
+    .avatar-div{
+        width: 70px;
+        height: 40px;
+        background-color: teal;
+        text-align: center;
+        line-height: 40px;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 200px;
     }
 
 </style>
 <div class="container mundb-standard-container">
-    <div>
-        <p class="cm-tending"><i class="MDI fire wemd-red-text"></i> Tending Groups</p>
-    </div>
     <div class="row">
     </div>
-    <div>
-        <p class="cm-mine-group">My Groups</p>
-    </div>
-    <div class="row">
-        hello
+    <div class="card my-card">
+        <div class="card-body ">
+            <h4 class="card-title"><a>Create a New Group</a></h4>
+            <div class="paper-card">
+                <form id="extra-info-form md-form">
+                    <div class="form-group">
+                        <label for="contact" class="bmd-label-floating">Group Name</label>
+                        <input type="text" name="contact" class="form-control" id="contact" autocomplete="off" />
+                    </div>
+                    <div class="form-group">
+                        <label for="school" class="bmd-label-floating">Group Site</label>
+                        <input type="text" name="school" class="form-control"  id="school" autocomplete="off" />
+                    </div>
+                    <div class="form-group" style="display:flex;align-items:flex-end">
+                        <label for="avatar" style="color:grey">Group Avatar</label>
+                        <div class="avatar-div" id="avatar">
+                            Chose
+                            <input class="avatar-input" type="file" accept="image/" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="location" class="bmd-label-floating">Is Public</label>
+                        <input type="text" name="location" class="form-control"  id="location" autocomplete="off" />
+                    </div>
+                    <div class="form-group">
+                        <label for="location" class="bmd-label-floating">Group Description</label>
+                        <input type="text" name="location" class="form-control"  id="location" autocomplete="off" />
+                    </div>
+                    <div class="form-group">
+                        <label for="location" class="bmd-label-floating">Join Policy</label>
+                        <input type="text" name="location" class="form-control"  id="location" autocomplete="off" />
+                    </div>
+
+                </form>
+            </div>
+            <a href="#" class="btn btn-primary">Submit</a>
+        </div>
     </div>
 </div>
+
+
+
 @endsection
