@@ -115,6 +115,8 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
         Route::get('generateContestAccount', 'GroupController@generateContestAccount')->middleware('auth');
         Route::post('approveMember', 'GroupController@approveMember')->middleware('auth');
         Route::post('removeMember', 'GroupController@removeMember')->middleware('auth');
+        Route::post('createGroup', 'GroupController@createGroup')->middleware('auth');
+        Route::post('inviteMember', 'GroupController@inviteMember')->middleware('auth');
     });
 
     Route::group(['prefix' => 'contest'], function () {
