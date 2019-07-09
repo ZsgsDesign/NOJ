@@ -298,29 +298,34 @@ class GroupController extends Controller
         $all_data=$request->all();
 
         $groupModel=new GroupModel();
+        $is_user=$groupModel->isUser($all_date["email"]);
+        if(!$is_user) return ResponseModel::err(2006);
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         if($clearance<2) return ResponseModel::err(7002);
         $targetClearance=$groupModel->judgeClearance($all_data["gid"], $all_data["email"]);
-        if($targetClearance!=-3) return ResponseModel::err(7002);
-        inviteMember($gid, $email);
+        if($targetClearance!=-3) return ResponseModel::err(7003);
+        $groupModel->inviteMember($all_data["gid"], $all_data["email"]);
         return ResponseModel::success(200);
     }
 
     public function createGroup(Request $request)
     {
         $request->validate([
-            'uid' => 'required|integar',
-            'gcode' => 'required',
-            'img' => 'required',
-            'name' => 'required',
-            'public' => 'required',
-            'description' => 'required',
-            'join_policy'  => 'required'
+            'gcode' => 'required|String|min:3|max:50',
+            'img' => 'required|String',
+            'name' => 'required|String|min:3|max:50',
+            'public' => 'required|integar|min:1|max:2',
+            'description' => 'required|String|max:100',
+            'join_policy'  => 'required|integar|min:1|max:3'
         ]);
 
         $all_data=$request->all();
 
         $groupModel=new GroupModel();
-        
+        if($all_data["gcode"]=="create") return ResponseModel::err(7005);
+        $is_group=$groupModel->isGroup($all_data["gcode"]);
+        if($is_group) return ResponseModel::err(7006);
+        $groupModel->createGroup(Auth::user()->id, $all_data["gcode"], $all_data["img"], $all_data["name"], $all_data["public"], $all_data["description"], $all_data["jion_policy"]);
+        return ResponseModel::success(200);
     }
 }

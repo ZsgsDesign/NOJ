@@ -15,6 +15,12 @@ class GroupModel extends Model
     const UPDATED_AT=null;
     const CREATED_AT=null;
 
+    /*
+        join_policy:
+            1:只能通过邀请加入 
+            2:只能通过申请加入 
+            3:申请与邀请均可加入
+    */
     public $role=[
         "-3"=>"None",
         "-1"=>"Invited",
@@ -237,15 +243,29 @@ class GroupModel extends Model
         return empty($ret) ? -3 : $ret["role"];
     }
 
-    public function inviteClearance($gid, $email)
+    public function inviteMember($gid, $email)
     {
         $uid=DB::table("users")-where(["email"=>$email])->first();
         return DB::table("group_member")->insert([
             "uid"=>$uid["uid"],
             "gid"=>$gid,
-            "role"=>$clearance,
+            "role"=>-1,
             "join_time"=>date("Y-m-d H:i:s")
         ]);
+    }
+    
+    public function isUser($email)
+    {
+        return DB::table("users")->where([
+            "email"=>$email
+        ])->count();
+    }
+
+    public function isGroup($gcode)
+    {
+        return DB::table("group")->where([
+            "gcode"=>$gcode,
+        ])->count();
     }
 
     public function createGroup($uid, $gcode, $img, $name, $public, $description, $join_policy)
