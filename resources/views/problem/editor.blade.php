@@ -572,7 +572,7 @@
         }
     </style>
 
-    <div class="immersive-container">
+    <div id="editor-container" class="immersive-container">
         <top-side>
             <left-side>
                 <div class="prob-header animated pre-animated cm-performance-optimistic">
@@ -794,6 +794,11 @@
     <script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     @include('layouts.primaryJS')
     @include('js.submission.detail')
+
+    @if(!$contest_mode)
+    @include('components.congratulation')
+    @endif
+
     <script>
         var historyOpen=false;
         var submission_processing=false;
@@ -1022,6 +1027,13 @@
                                         if(ret.data.verdict!="Pending" && ret.data.verdict!="Waiting" && ret.data.verdict!="Judging") {
                                             clearInterval(tempInterval);
                                             notify(ret.data.verdict, 'Your submission to problem {{$detail["title"]}} has been proceed.',(ret.data.verdict=="Partially Accepted"||ret.data.verdict=="Accepted")?"/static/img/notify/checked.png":"/static/img/notify/cancel.png",'{{$detail["pid"]}}');
+                                            @if(!$contest_mode)
+                                                if (ret.data.verdict=="Accepted"){
+                                                    Congratulation('editor-container',function(){
+                                                        location.href = '/problem/{{$detail["pcode"]}}/solution';
+                                                    });
+                                                }
+                                            @endif
                                         }
                                     }
                                 }, error: function(xhr, type){
