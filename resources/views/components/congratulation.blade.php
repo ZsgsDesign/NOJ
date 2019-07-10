@@ -228,8 +228,8 @@
 </div>
 
 <script>
-    function Congratulation(containerid, ok){
-        $('#'+containerid).addClass('animation-playing-background');
+    function playCongratulation(background){
+        $('#'+background).addClass('animation-playing-background');
         $('#congration-animation').html(`
     <div class="fireworks">
         <div class="firework">
@@ -416,16 +416,10 @@
         </div>
     </div>
         `);
-        setTimeout(function(){
-            confirm({content:"You have got an Accepted! Why not submit this solution?",
-            title:"Congratulation 🎉 " },function(deny){
-                if (!deny){
-                    ok();
-                }else{
-                    $('#'+containerid).removeClass('animation-playing-background');
-                    $('#congration-animation').html('');
-                }
-        })
-        },3500);
-}
+    }
+
+    function cleanAnimation(background){
+        $('#'+background).removeClass('animation-playing-background');
+        $('#congration-animation').html('');
+    }
 </script>
