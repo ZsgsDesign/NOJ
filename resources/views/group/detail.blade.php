@@ -329,6 +329,12 @@
         margin-bottom: 2rem;
     }
 
+    function-container > div{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
     function-block{
         display: inline-block;
         text-align: center;
