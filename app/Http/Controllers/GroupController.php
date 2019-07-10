@@ -87,10 +87,18 @@ class GroupController extends Controller
      * @return Response
      */
     public function analysis($gcode){
+        $groupModel = new GroupModel();
+        $group_info = $groupModel->details($gcode);
+        $ret = $groupModel->groupMemberPracticeContestStat($group_info['gid']);
+        $contest_list = $ret['contest_list'];
+        $member_data = $ret['member_data'];
+
         return view('group.analysis', [
             'page_title'=>"Group Analysis",
             'site_title'=>"NOJ",
             'navigation'=>"Group",
+            'contest_list'=>$contest_list,
+            'member_data'=>$member_data,
         ]);
     }
 }
