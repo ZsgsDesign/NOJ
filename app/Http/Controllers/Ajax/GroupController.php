@@ -311,18 +311,18 @@ class GroupController extends Controller
     public function createGroup(Request $request)
     {
         $request->validate([
-            'gcode' => 'required|String|min:3|max:50',
-            'img' => 'required|String',
-            'name' => 'required|String|min:3|max:50',
+            'gcode' => 'required|min:3|max:50',
+            'img' => 'nullable',
+            'name' => 'required|min:3|max:50',
             'public' => 'required|integar|min:1|max:2',
-            'description' => 'required|String|max:100',
+            'description' => 'nullable|max:100',
             'join_policy'  => 'required|integar|min:1|max:3'
         ]);
 
         $all_data=$request->all();
 
         $groupModel=new GroupModel();
-        if($all_data["gcode"]=="create"||$all_data["gcode"]=="setting") return ResponseModel::err(7005);
+        if($all_data["gcode"]=="create") return ResponseModel::err(7005);
         $is_group=$groupModel->isGroup($all_data["gcode"]);
         if($is_group) return ResponseModel::err(7006);
         $groupModel->createGroup(Auth::user()->id, $all_data["gcode"], $all_data["img"], $all_data["name"], $all_data["public"], $all_data["description"], $all_data["jion_policy"]);
