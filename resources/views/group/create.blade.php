@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('template')
+
 <style>
     group-card {
         display: block;
@@ -89,6 +90,7 @@
             <h4 class="card-title"><a>Create a New Group</a></h4>
             <div class="paper-card">
                 <form class="extra-info-form md-form" id="create" action="/">
+                    @csrf
                     <div class="form-group">
                         <label for="contact" class="bmd-label-floating">Group Name</label>
                         <input id="groupName" type="text" name="name" class="form-control" id="contact" autocomplete="off" />
@@ -164,14 +166,16 @@ document.querySelector('#submit').addEventListener('click',() => {
         url:"/ajax/group/createGroup",
         method: 'POST',
         data: data,
-        contentType: false, // 注意这里应设为false
+        contentType: false,
         processData: false,
         cache: false,
-        success: function(data) {
-            console.log(data);
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }, success: function(data) {
+            alert(data.desc,'New Group');
         },
         error: function (jqXHR) {
-            console.log(jqXHR);
+            alert(jqXHR.responseJSON.message,"New Group");
         }
     })
 })

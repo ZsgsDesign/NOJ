@@ -277,16 +277,32 @@ class GroupModel extends Model
             "public"=>$public,
             "verified"=>0,
             "description"=>$description,
-            "jion_policy"=>$join_policy,
+            "join_policy"=>$join_policy,
             "custom_icon"=>null,
             "custom_title"=>null,
             "create_time"=>date("Y-m-d H:i:s")
         ]);
         return DB::table("group_member")->insert([
             "uid"=>$uid,
-            "gid"=>$new_group['gid'],
+            "gid"=>$new_group,
             "role"=>3,
             "join_time"=>date("Y-m-d H:i:s")
+        ]);
+    }
+
+    public function createGroup1($uid, $gcode, $img, $name)
+    {
+        return DB::table("group")->insert([
+            "gcode"=>$gcode,
+            "img"=>$img,
+            "name"=>$name,
+            "public"=>1,
+            "verified"=>0,
+            "description"=>'nothing',
+            "join_policy"=>3,
+            "custom_icon"=>null,
+            "custom_title"=>null,
+            "create_time"=>date("Y-m-d H:i:s")
         ]);
     }
 }
