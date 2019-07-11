@@ -138,4 +138,8 @@ class ContestController extends Controller
             ]);
         }
     }
+
+    public function replyClarification(Request $request){
+        //TODO
+    }
 }

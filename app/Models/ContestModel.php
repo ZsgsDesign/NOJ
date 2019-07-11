@@ -717,15 +717,23 @@ class ContestModel extends Model
 
     public function getClarificationList($cid)
     {
-        return DB::table("contest_clarification")->where([
-            "cid"=>$cid
-        ])->where(function ($query) {
-            $query->where([
-                "public"=>1
-            ])->orWhere([
-                "uid" => Auth::user()->id
-            ]);
-        })->orderBy('create_time', 'desc')->get()->all();
+        $uid = Auth::user()->id;
+        $clearance = $this -> judgeClearance($cid, $uid);
+        if($clearance == 3){
+            return DB::table("contest_clarification")->where([
+                "cid"=>$cid
+            ])->orderBy('create_time', 'desc')->get()->all();
+        }else{
+            return DB::table("contest_clarification")->where([
+                "cid"=>$cid
+            ])->where(function ($query) {
+                $query->where([
+                    "public"=>1
+                ])->orWhere([
+                    "uid" => Auth::user()->id
+                ]);
+            })->orderBy('create_time', 'desc')->get()->all();
+        }
     }
 
     public function fetchClarification($cid)
