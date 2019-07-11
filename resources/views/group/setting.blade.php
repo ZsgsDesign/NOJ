@@ -328,9 +328,146 @@ $('#avatar-submit').on('click',function(){
     $('#update-avatar-modal').modal('hide');
 });
 
+</script>
 
+@endsection
 
-$('.join-policy-choice').on('click',function(){
+@section('additionJS')
+    <script src="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
+    <script src="/static/js/jquery-ui-sortable.min.js"></script>
+    <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
+    <script src="/static/js/parazoom.min.js"></script>
+    <script>
+        function sortableInit(){
+            $("#contestModal tbody").sortable({
+                items: "> tr",
+                appendTo: "parent",
+                helper: "clone"
+            });
+        }
+
+        let ajaxing = false;
+
+        function approveMember(uid){
+            if(ajaxing) return;
+            ajaxing=true;
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/group/approveMember',
+                data: {
+                    gid: {{$basic_info["gid"]}},
+                    uid: uid
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(result){
+                    console.log(result);
+                    if (result.ret===200) {
+                        $('#member_operate'+uid).html("<span class=\"badge badge-pill badge-success\">Approved</span>");
+                    } else {
+                        alert(result.desc);
+                    }
+                    ajaxing=false;
+                }, error: function(xhr, type){
+                    console.log('Ajax error!');
+                    alert("Server Connection Error");
+                    ajaxing=false;
+                }
+            });
+        }
+
+        function kickMember(uid) {
+            if(ajaxing) return;
+            confirm({content:'Are you sure you want to kick this member?',title:'Kick Member'},function (deny) {
+                if(!deny)
+                    removeMember(uid,'Kicked');
+            });
+        }
+
+        function removeMember(uid,operation){
+            if(ajaxing) return;
+            ajaxing=true;
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/group/removeMember',
+                data: {
+                    gid: {{$basic_info["gid"]}},
+                    uid: uid
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(result){
+                    console.log(result);
+                    if (result.ret===200) {
+                        $('#member_operate'+uid).html(`<span class=\"badge badge-pill badge-danger\">${operation}</span>`);
+                    } else {
+                        alert(result.desc);
+                    }
+                    ajaxing=false;
+                }, error: function(xhr, type){
+                    console.log('Ajax error!');
+                    alert("Server Connection Error");
+                    ajaxing=false;
+                }
+            });
+        }
+
+        function changeMemberClearance(uid,action){
+            if(ajaxing) return;
+            var clearance = $('#user-permission-'+uid+' user-info').attr('data-clearance');
+            var role_color = $('#user-permission-'+uid+' user-info').attr('data-rolecolor');
+
+            if(action == 'promote'){
+                clearance ++;
+            }else if(action == 'demote'){
+                clearance --;
+            }
+
+            ajaxing=true;
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/group/changeMemberClearance',
+                data: {
+                    gid: {{$basic_info["gid"]}},
+                    uid: uid,
+                    permission: clearance
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(result){
+                    if (result.ret===200) {
+                        $('#user-permission-'+uid+' .badge-role').animate({opacity: 0},100,function(){
+                            $(this).removeClass(role_color);
+                            $(this).addClass(result.data.role_color);
+                            $(this).text(result.data.role_parsed);
+                            $(this).animate({opacity: 1},200);
+                            $('#user-permission-'+uid+' user-info').attr('data-clearance',clearance);
+                            $('#user-permission-'+uid+' user-info').attr('data-rolecolor',result.data.role_color);
+                            $('#user-permission-'+uid+' .clearance-up').show();
+                            $('#user-permission-'+uid+' .clearance-down').show();
+                            if(clearance + 1 >= {{$group_clearance}} && action == 'promote'){
+                                $('#user-permission-'+uid+' .clearance-up').hide();
+                            }
+                            if(clearance == 1 && action == 'demote'){
+                                $('#user-permission-'+uid+' .clearance-down').hide();
+                            }
+                        });
+                    } else {
+                        alert(result.desc);
+                    }
+                    ajaxing=false;
+                }, error: function(xhr, type){
+                    console.log('Ajax error while posting to joinGroup!');
+                    alert("Server Connection Error");
+                    ajaxing=false;
+                }
+            });
+        }
+
+        $('.join-policy-choice').on('click',function(){
             if($('#policy-choice-btn').text().trim() == $(this).text()) return;
             var join_policy = $(this).text();
             var choice = $(this).attr('data-policy');
@@ -543,71 +680,38 @@ $('.join-policy-choice').on('click',function(){
             });
         });
 
-        $("#arrangeBtn").click(function() {
-            if(ajaxing) return;
-            else ajaxing=true;
-            var contestName = $("#contestName").val();
-            var contestBegin = $("#contestBegin").val();
-            var contestEnd = $("#contestEnd").val();
-            var problemSet = "";
-            var contestDescription = editor.getValue();
-            $("#contestProblemSet td:first-of-type").each(function(){
-                problemSet+=""+$(this).text()+",";
+
+
+        require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});
+
+        // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
+        // the default worker url location (used when creating WebWorkers). The problem here is that
+        // HTML5 does not allow cross-domain web workers, so we need to proxy the instantiation of
+        // a web worker through a same-domain script
+
+        window.MonacoEnvironment = {
+            getWorkerUrl: function(workerId, label) {
+                return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
+                self.MonacoEnvironment = {
+                    baseUrl: '{{env('APP_URL')}}/static/library/monaco-editor/min/'
+                };
+                importScripts('{{env('APP_URL')}}/static/library/monaco-editor/min/vs/base/worker/workerMain.js');`
+                )}`;
+            }
+        };
+
+        require(["vs/editor/editor.main"], function () {
+            editor = monaco.editor.create(document.getElementById('vscode'), {
+                value: "",
+                language: "markdown",
+                theme: "vs-light",
+                fontSize: 16,
+                formatOnPaste: true,
+                formatOnType: true,
+                automaticLayout: true,
+                lineNumbers: "off"
             });
-            console.log(contestDescription);
-            if (contestName.replace(/(^s*)|(s*$)/g, "").length == 0) {
-                ajaxing=false;
-                return alert("Contest Name Shoudn't be empty");
-            }
-            if (contestBegin.replace(/(^s*)|(s*$)/g, "").length == 0) {
-                ajaxing=false;
-                return alert("Contest Begin Time Shoudn't be empty");
-            }
-            if (contestEnd.replace(/(^s*)|(s*$)/g, "").length == 0) {
-                ajaxing=false;
-                return alert("Contest End Time Shoudn't be empty");
-            }
-            var beginTimeParsed=new Date(Date.parse(contestBegin)).getTime();
-            var endTimeParsed=new Date(Date.parse(contestEnd)).getTime();
-            if(endTimeParsed < beginTimeParsed+60000){
-                ajaxing=false;
-                return alert("Contest length should be at least one minute.");
-            }
-            $("#arrangeBtn > i").removeClass("d-none");
-            $.ajax({
-                type: 'POST',
-                url: '/ajax/arrangeContest',
-                data: {
-                    problems: problemSet,
-                    name: contestName,
-                    description: contestDescription,
-                    begin_time: contestBegin,
-                    end_time: contestEnd,
-                    gid: {{$basic_info["gid"]}}
-                },
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }, success: function(ret){
-                    console.log(ret);
-                    if (ret.ret==200) {
-                        alert(ret.desc);
-                        //location.reload();
-                    } else {
-                        alert(ret.desc);
-                    }
-                    ajaxing=false;
-                    $("#arrangeBtn > i").addClass("d-none");
-                }, error: function(xhr, type){
-                    console.log('Ajax error while posting to arrangeContest!');
-                    alert("Server Connection Error");
-                    ajaxing=false;
-                    $("#arrangeBtn > i").addClass("d-none");
-                }
-            });
+            $("#vscode_container").css("opacity",1);
         });
-})
-</script>
-
-
+    </script>
 @endsection
