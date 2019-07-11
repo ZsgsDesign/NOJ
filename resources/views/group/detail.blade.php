@@ -548,7 +548,7 @@
                                     <i class="MDI trophy-variant"></i>
                                     <p>Contest</p>
                                 </function-block>
-                                <function-block>
+                                <function-block onclick="$('#inviteModal').modal({backdrop:'static'});">
                                     <i class="MDI account-plus"></i>
                                     <p>Invite</p>
                                 </function-block>
@@ -870,6 +870,27 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="arrangeBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Arrange</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="inviteModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content sm-modal">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="MDI trophy"></i> Invite Member</h5>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label for="contestName" class="bmd-label-floating">E-mail</label>
+                    <input type="text" class="form-control" id="Email">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="InviteBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Invite</button>
             </div>
         </div>
     </div>
@@ -1332,6 +1353,42 @@
                     alert("Server Connection Error");
                     ajaxing=false;
                     $("#arrangeBtn > i").addClass("d-none");
+                }
+            });
+        });
+
+
+        $("#InviteBtn").click(function() {
+            if(ajaxing) return;
+            else ajaxing=true;
+            var email = $("#Email").val();
+            $("#arrangeBtn > i").removeClass("d-none");
+            console.log(email);
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/group/inviteMember',
+                data: {
+                    gid:undefined,
+                    email:email
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if (ret.ret==200) {
+                        alert(ret.desc);
+                        //location.reload();
+                    } else {
+                        alert(ret.desc);
+                    }
+                    ajaxing=false;
+                    $("#InviteBtn > i").addClass("d-none");
+                }, error: function(xhr, type){
+                    console.log('Ajax error while posting to arrangeContest!');
+                    alert("Server Connection Error");
+                    ajaxing=false;
+                    $("#InviteBtn > i").addClass("d-none");
                 }
             });
         });
