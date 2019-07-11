@@ -273,7 +273,7 @@ class GroupModel extends Model
 
     public function createGroup($uid, $gcode, $img, $name, $public, $description, $join_policy)
     {
-        $new_group=DB::table("group")->insert([
+        $gid=DB::table("group")->insertGetId([
             "gcode"=>$gcode,
             "img"=>$img,
             "name"=>$name,
@@ -287,7 +287,7 @@ class GroupModel extends Model
         ]);
         return DB::table("group_member")->insert([
             "uid"=>$uid,
-            "gid"=>$new_group,
+            "gid"=>$gid,
             "role"=>3,
             "join_time"=>date("Y-m-d H:i:s")
         ]);

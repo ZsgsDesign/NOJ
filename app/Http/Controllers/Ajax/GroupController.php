@@ -311,7 +311,7 @@ class GroupController extends Controller
     public function createGroup(Request $request)
     {
         $request->validate([
-            'gcode' => 'required|min:3|max:50',
+            'gcode' => 'required|alpha_dash|min:3|max:50',
             'name' => 'required|min:3|max:50',
             'public' => 'required|integer|min:1|max:2',
             'description' => 'nullable|max:100',
@@ -336,7 +336,8 @@ class GroupController extends Controller
             return ResponseModel::err(1005);
         }
         $path=$request->file('img')->store('/static/img/group', 'NOJPublic');
-        $groupModel->createGroup(Auth::user()->id, $all_data["gcode"], $all_data["img"], $all_data["name"], $all_data["public"], $all_data["description"], $all_data["join_policy"]);
+        $img='/'.$path;
+        $groupModel->createGroup(Auth::user()->id, $all_data["gcode"], $img, $all_data["name"], $all_data["public"], $all_data["description"], $all_data["join_policy"]);
         return ResponseModel::success(200);
     }
 }
