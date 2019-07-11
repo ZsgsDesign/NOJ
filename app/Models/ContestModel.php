@@ -730,8 +730,6 @@ class ContestModel extends Model
 
     public function fetchClarification($cid)
     {
-        $uid = Auth::user()->id;
-        $clearance = judgeClearance($cid,$uid);
         return DB::table("contest_clarification")->where([
             "cid"=>$cid,
             "type"=>0,
@@ -1364,11 +1362,11 @@ class ContestModel extends Model
             // OI Mode
             if($id == count($ret)){
                 $prob_detail = [];
-                $totPen = 0;
+                $totSolved = 0;
                 $totScore = 0;
             }else{
                 $prob_detail = $ret[$id]['problem_detail'];
-                $totPen=$ret[$id]['penalty'];
+                $totSolved=$ret[$id]['solved'];
                 $totScore=$ret[$id]['score'];
             };
 
