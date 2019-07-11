@@ -717,15 +717,23 @@ class ContestModel extends Model
 
     public function getClarificationList($cid)
     {
-        return DB::table("contest_clarification")->where([
-            "cid"=>$cid
-        ])->where(function ($query) {
-            $query->where([
-                "public"=>1
-            ])->orWhere([
-                "uid" => Auth::user()->id
-            ]);
-        })->orderBy('create_time', 'desc')->get()->all();
+        $uid = Auth::user()->id;
+        $clearance = $this -> judgeClearance($cid, $uid);
+        if($clearance == 3){
+            return DB::table("contest_clarification")->where([
+                "cid"=>$cid
+            ])->orderBy('create_time', 'desc')->get()->all();
+        }else{
+            return DB::table("contest_clarification")->where([
+                "cid"=>$cid
+            ])->where(function ($query) {
+                $query->where([
+                    "public"=>1
+                ])->orWhere([
+                    "uid" => Auth::user()->id
+                ]);
+            })->orderBy('create_time', 'desc')->get()->all();
+        }
     }
 
     public function fetchClarification($cid)
@@ -768,6 +776,19 @@ class ContestModel extends Model
             "title"=>$title,
             "content"=>$content,
             "public"=>"0",
+            "uid"=>$uid,
+            "create_time"=>date("Y-m-d H:i:s")
+        ]);
+    }
+
+    public function issueAnnouncement($cid, $title, $content, $uid)
+    {
+        return DB::table("contest_clarification")->insertGetId([
+            "cid"=>$cid,
+            "type"=>0,
+            "title"=>$title,
+            "content"=>$content,
+            "public"=>"1",
             "uid"=>$uid,
             "create_time"=>date("Y-m-d H:i:s")
         ]);
@@ -1041,6 +1062,10 @@ class ContestModel extends Model
 
     public function judgeClearance($cid, $uid=0)
     {
+        /***************************
+         * 2 stands for participant*
+         * 3 stands for admin      *
+         ***************************/
         if ($uid==0) {
             return 0;
         }
@@ -1345,11 +1370,11 @@ class ContestModel extends Model
             // OI Mode
             if($id == count($ret)){
                 $prob_detail = [];
-                $totPen = 0;
+                $totSolved = 0;
                 $totScore = 0;
             }else{
                 $prob_detail = $ret[$id]['problem_detail'];
-                $totPen=$ret[$id]['penalty'];
+                $totSolved=$ret[$id]['solved'];
                 $totScore=$ret[$id]['score'];
             };
 
@@ -1379,5 +1404,28 @@ class ContestModel extends Model
             ];
         }
         return $ret;
+    }
+
+    public function replyClarification($ccid, $content)
+    {
+        return DB::table("contest_clarification")->where('ccid','=',$ccid)->update([
+            "reply"=>$content
+        ]);
+    }
+
+    public function setClarificationPublic($ccid, $public)
+    {
+        if($public)
+        {
+            return DB::table("contest_clarification")->where('ccid','=',$ccid)->update([
+                "public"=>1
+            ]);
+        }
+        else
+        {
+            return DB::table("contest_clarification")->where('ccid','=',$ccid)->update([
+                "public"=>0
+            ]);
+        }
     }
 }

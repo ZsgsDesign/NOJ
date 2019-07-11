@@ -188,10 +188,10 @@
                 <div class="col-4 cm-msg-list">
                     <div class="p-3">
                         <div style="text-align: center;">
-                            @if($contest_ended || $clearance<2)
+                            @if($clearance<=2)
                                 <button class="btn btn-outline-warning btn-rounded" data-toggle="modal"
                                 data-target="#issueModel" data-backdrop="static"><i class="MDI comment-question-outline"></i> Request Clarification</button>
-                            @elseif($clearance>2)
+                            @else
                                 <button class="btn btn-outline-warning btn-rounded" data-toggle="modal"
                                 data-target="#issueModel" data-backdrop="static"><i class="MDI comment-plus-outline"></i> Issue Announcement</button>
                             @endif
@@ -214,8 +214,17 @@
                         @foreach($clarification_list as $c)
                         <msg-container class="d-none" id="{{$c["ccid"]}}">
                             <fresh-container>
-                                @if($clearance>2 && $c["type"] && (is_null($c["reply"]) || trim($c["reply"])==""))
+                                @if($clearance>2 && $c["type"])
+                                    @if((is_null($c["reply"]) || trim($c["reply"])==""))
                                     <button class="btn btn-primary btn-raised float-right" onclick="replyClarification({{$c['ccid']}})">Reply</button>
+                                    @else
+                                    <div class="switch float-right">
+                                        <label class="text-dark">
+                                        <input id="public_{{$c['ccid']}}" type="checkbox" @if($c['public']) checked @endif
+                                        onchange="setToPublic({{$c['ccid']}})">Public
+                                        </label>
+                                    </div>
+                                    @endif
                                 @endif
                                 <h1 class="m-0"> {{$c["title"]}}</h1>
                                 <p class="@if($c["type"]) wemd-amber-text @else wemd-pink-text @endif"><i class="MDI checkbox-blank-circle"></i> @if($c["type"]) Clarification @else Announcement @endif</p>
@@ -430,6 +439,47 @@
                 }
             });
         })
+    }
+
+    function setToPublic(ccid){
+        if(sending) return;
+        sending=true;
+        $.ajax({
+            type: 'POST',
+            url: '/ajax/contest/setClarificationPublic',
+            data: {
+                cid: {{$cid}},
+                ccid: ccid,
+                public: $("#public_" + ccid).is(':checked')
+            },
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }, success: function(ret){
+                console.log(ret);
+                if (ret.ret==200) {
+                    alert("Success!");
+                } else {
+                    alert(ret.desc);
+                }
+                sending=false;
+            }, error: function(xhr, type){
+                console.log(xhr);
+                switch(xhr.status) {
+                    case 422:
+                        alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                        break;
+                    case 429:
+                        alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                        break;
+
+                    default:
+                        alert("Server Connection Error");
+                }
+                console.log('Ajax error while posting to ' + type);
+                sending=false;
+            }
+        });
     }
 
 </script>

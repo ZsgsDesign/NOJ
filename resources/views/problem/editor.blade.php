@@ -1031,7 +1031,7 @@
                                             notify(ret.data.verdict, 'Your submission to problem {{$detail["title"]}} has been proceed.',(ret.data.verdict=="Partially Accepted"||ret.data.verdict=="Accepted")?"/static/img/notify/checked.png":"/static/img/notify/cancel.png",'{{$detail["pid"]}}');
                                             @if(!$contest_mode)
                                                 if (ret.data.verdict=="Accepted"){
-                                                    localStorage.setItem('{{$detail["pcode"]}}',editor.getValue())
+                                                    localStorage.setItem('{{$detail["pcode"]}}','```\n' + editor.getValue() + '\n```')
                                                     playCongratulation('editor-container');
                                                     setTimeout(function(){
                                                         confirm({content:"You have got an Accepted! Why not submit this solution?",
