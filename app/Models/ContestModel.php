@@ -730,6 +730,8 @@ class ContestModel extends Model
 
     public function fetchClarification($cid)
     {
+        $uid = Auth::user()->id;
+        $clearance = judgeClearance($cid,$uid);
         return DB::table("contest_clarification")->where([
             "cid"=>$cid,
             "type"=>0,
@@ -768,6 +770,19 @@ class ContestModel extends Model
             "title"=>$title,
             "content"=>$content,
             "public"=>"0",
+            "uid"=>$uid,
+            "create_time"=>date("Y-m-d H:i:s")
+        ]);
+    }
+
+    public function issueAnnouncement($cid, $title, $content, $uid)
+    {
+        return DB::table("contest_clarification")->insertGetId([
+            "cid"=>$cid,
+            "type"=>0,
+            "title"=>$title,
+            "content"=>$content,
+            "public"=>"1",
             "uid"=>$uid,
             "create_time"=>date("Y-m-d H:i:s")
         ]);
@@ -1041,6 +1056,10 @@ class ContestModel extends Model
 
     public function judgeClearance($cid, $uid=0)
     {
+        /***************************
+         * 2 stands for participant*
+         * 3 stands for admin      *
+         ***************************/
         if ($uid==0) {
             return 0;
         }

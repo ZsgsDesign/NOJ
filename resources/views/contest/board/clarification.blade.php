@@ -188,10 +188,10 @@
                 <div class="col-4 cm-msg-list">
                     <div class="p-3">
                         <div style="text-align: center;">
-                            @if($contest_ended || $clearance<2)
+                            @if($clearance<=2)
                                 <button class="btn btn-outline-warning btn-rounded" data-toggle="modal"
                                 data-target="#issueModel" data-backdrop="static"><i class="MDI comment-question-outline"></i> Request Clarification</button>
-                            @elseif($clearance>2)
+                            @else
                                 <button class="btn btn-outline-warning btn-rounded" data-toggle="modal"
                                 data-target="#issueModel" data-backdrop="static"><i class="MDI comment-plus-outline"></i> Issue Announcement</button>
                             @endif

@@ -118,4 +118,24 @@ class ContestController extends Controller
 
         return $ret ? ResponseModel::success(200) : ResponseModel::err(4006);
     }
+
+    public function issueAnnouncement(Request $request){
+        $request->validate([
+            'cid' => 'required|integer',
+            'title' => 'required|string|max:250',
+            'content' => 'required|string|max:65536',
+        ]);
+
+        $all_data=$request->all();
+
+        $contestModel=new ContestModel();
+        $clearance=$contestModel->judgeClearance($all_data["cid"], Auth::user()->id);
+        if ($clearance<3) {
+            return ResponseModel::err(2001);
+        } else {
+            return ResponseModel::success(200, null, [
+                "ccid" => $contestModel->issueAnnouncement($all_data["cid"], $all_data["title"], $all_data["content"], Auth::user()->id)
+            ]);
+        }
+    }
 }
