@@ -294,6 +294,8 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            filter: blur(0px);
+            transition: filter .2s ease-out .0s;
         }
 
         left-side{
