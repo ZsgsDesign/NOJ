@@ -85,136 +85,77 @@
 <div class="container mundb-standard-container">
     <div class="row">
     </div>
-            {{-- <h4 class="card-title"><a>Setting My Group</a></h4>
-            <div class="paper-card">
-                <form class="extra-info-form md-form" id="create" action="/">
-                    @csrf
-                    <div class="form-group">
-                        <label for="contact" class="bmd-label-floating">Group Name</label>
-                        <input id="groupName" type="text" name="name" class="form-control" id="contact" autocomplete="off" />
-                    </div>
-                    <div class="form-group">
-                        <label for="school" class="bmd-label-floating">Group Site</label>
-                        <input id="groupSite" type="text" name="gcode" class="form-control"  id="school" autocomplete="off" />
-                    </div>
-                    <div>
-                        <avatar-section>
-                            <label for="avatar" style="color:grey">Group Avatar</label>
-                            <div class="avatar-div" id="avatar">
-                                Chose
-                        </div>
-                        </avatar-section>
-                    </div>
-                    <div class="form-group">
-                        <label for="location" class="bmd-label-floating">Group Description</label>
-                        <input id="groupDescription" type="text" name="description" class="form-control"  id="location" autocomplete="off" />
-                    </div>
-                    <div class="form-group">
-                        <label for="location" class="bmd-label-floating">Join Policy</label>
-                        <div class="input-group text-center" style="display: flex;justify-content: center; align-items: center;">
-                            <div class="input-group-prepend">
-                                <button id="gender-btn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                   Default
-                                </button>
-                                <div class="dropdown-menu" style="font-size: .75rem">
-                                    <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('Invite Only');$('#gender').val(1);$('#gender-input').fadeOut(200);">Invite Only</a>
-                                    <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('Apply Only');$('#gender').val(2);$('#gender-input').fadeOut(200);">Apply Only</a>
-                                    <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('Both');$('#gender').val(3);$('#gender-input').fadeOut(200);">Both</a>
+    <div id="settingModal" class="" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content sm-modal" style="width: 80%">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="MDI settings"></i> Group setting</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm">
+                            <group-name-setting>
+                                <div class="form-group">
+                                    <label for="group-name" class="bmd-label-floating">Group Name</label>
+                                    <input type="text" class="form-control" id="group-name" value="{{$basic_info['name']}}">
                                 </div>
-                            </div>
-                            <input style="display:none;" id="gender" name="gender" type="text" class="form-control" value="@if(!empty($extra_info['gender'])){{$extra_info['gender']}}@endif" aria-label="gender input box">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-group">
-                            <label for="location" class="bmd-label-floating">Is Public</label>
-                            <div class="switch">
-                                <label>
-                                    Off
-                                    <input name="public" id="groupPublic" type="checkbox">
-                                    <span class="lever"></span> On
+                                <small id="group-name-tip" class="text-center" style="display:block">PRESS ENTER TO APPLY THE CHANGES</small>
+                            </group-name-setting><br>
+                            <join-policy-setting style="display:block">
+                                <p>Join Policy</p>
+                                <div class="text-center">
+                                    <div class="btn-group">
+                                        <button id="policy-choice-btn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            @if($basic_info['join_policy']==3)<span>Invitation & Application</span>@elseif(($basic_info['join_policy']==2))<span>Application</span>@else<span>Invitation</span>@endif
+                                        </button>
+                                        <div class="dropdown-menu text-center">
+                                            <a class="dropdown-item join-policy-choice" data-policy="3">Invitation & Application</a>
+                                            <a class="dropdown-item join-policy-choice" data-policy="2">Application only</a>
+                                            <a class="dropdown-item join-policy-choice" data-policy="1">Invitation only</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </join-policy-setting>
+                            <focus-images-setting style="display:block">
+                                <p>Change Group Image</p>
+                                <small id="change-image-tip" class="text-center" style="display:block">CLICK IMAGE TO CHOOSE A LOCAL IMAGE</small>
+                                <input id="image-file" type="file" style="display:none" accept=".jpg,.png,.jpeg,.gif" />
+                                <label for="image-file" style="display: block; cursor: pointer;" class="text-center">
+                                    <img class="group-image" style="width: 90%; height: auto;display:inline-block" src="{{$basic_info['img']}}">
                                 </label>
-                            </div>
+                            </focus-images-setting>
                         </div>
                     </div>
-                </form>
-            </div>
-            <a href="#" class="btn btn-primary" id="submit" style="margin-top:30px">Submit</a> --}}
-
-
-            <div id="settingModal" class="" tabindex="-1" role="dialog">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content sm-modal" style="width: 80%">
-                        <div class="modal-header">
-                            <h5 class="modal-title"><i class="MDI settings"></i> Group setting</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <group-name-setting>
-                                        <div class="form-group">
-                                            <label for="group-name" class="bmd-label-floating">Group Name</label>
-                                            <input type="text" class="form-control" id="group-name" value="{{$basic_info['name']}}">
-                                        </div>
-                                        <small id="group-name-tip" class="text-center" style="display:block">PRESS ENTER TO APPLY THE CHANGES</small>
-                                    </group-name-setting><br>
-                                    <join-policy-setting style="display:block">
-                                        <p>Join Policy</p>
-                                        <div class="text-center">
-                                            <div class="btn-group">
-                                                <button id="policy-choice-btn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false">
-                                                    @if($basic_info['join_policy']==3)<span>Invitation & Application</span>@elseif(($basic_info['join_policy']==2))<span>Application</span>@else<span>Invitation</span>@endif
-                                                </button>
-                                                <div class="dropdown-menu text-center">
-                                                    <a class="dropdown-item join-policy-choice" data-policy="3">Invitation & Application</a>
-                                                    <a class="dropdown-item join-policy-choice" data-policy="2">Application only</a>
-                                                    <a class="dropdown-item join-policy-choice" data-policy="1">Invitation only</a>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </join-policy-setting>
-                                    <focus-images-setting style="display:block">
-                                        <p>Change Group Image</p>
-                                        <small id="change-image-tip" class="text-center" style="display:block">CLICK IMAGE TO CHOOSE A LOCAL IMAGE</small>
-                                        <input id="image-file" type="file" style="display:none" accept=".jpg,.png,.jpeg,.gif" />
-                                        <label for="image-file" style="display: block; cursor: pointer;" class="text-center">
-                                            <img class="group-image" style="width: 90%; height: auto;display:inline-block" src="{{$basic_info['img']}}">
-                                        </label>
-                                    </focus-images-setting>
-                                </div>
-                                <div class="col-md-6">
-                                    <permission-setting>
-                                        <p>Permission Setting</p>
-                                        @foreach($member_list as $m)
-                                            @if($m["role"]>0)
-                                            <user-card id="user-permission-{{$m["uid"]}}">
-                                                <user-avatar>
-                                                    <a href="/user/{{$m["uid"]}}"><img src="{{$m["avatar"]}}"></a>
-                                                </user-avatar>
-                                                <user-info data-clearance="{{$m["role"]}}" data-rolecolor="{{$m["role_color"]}}">
-                                                    <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
-                                                    <p>
-                                                        <small><i class="MDI google-circles"></i> {{$m["sub_group"]}}</small>
-                                                        @if($group_clearance>$m["role"])
-                                                            <small @if($group_clearance <= $m["role"] + 1) style="display:none" @endif class="wemd-green-text cm-operation clearance-up" onclick="changeMemberClearance({{$m['uid']}},'promote')"><i class="MDI arrow-up-drop-circle-outline"></i> Promote</small>
-                                                            <small @if($m["role"] <= 1) style="display:none" @endif class="wemd-red-text cm-operation clearance-down" onclick="changeMemberClearance({{$m['uid']}},'demote')"><i class="MDI arrow-down-drop-circle-outline"></i> Demote</small>
-                                                        @endif
-                                                    </p>
-                                                </user-info>
-                                            </user-card>
-                                            @endif
-                                        @endforeach
-                                    </permission-setting>
-                                </div>
+                    <div class="row">
+                        <permission-setting style="width:100%;">
+                            <p>Permission Setting</p>
+                            <div style="display:flex;justify-content:space-around;width:100%;flex-wrap:wrap;">
+                                @foreach($member_list as $m)
+                                    @if($m["role"]>0)
+                                    <user-card id="user-permission-{{$m["uid"]}}">
+                                        <user-avatar>
+                                            <a href="/user/{{$m["uid"]}}"><img src="{{$m["avatar"]}}"></a>
+                                        </user-avatar>
+                                        <user-info data-clearance="{{$m["role"]}}" data-rolecolor="{{$m["role_color"]}}">
+                                            <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
+                                            <p>
+                                                <small><i class="MDI google-circles"></i> {{$m["sub_group"]}}</small>
+                                                @if($group_clearance>$m["role"])
+                                                    <small @if($group_clearance <= $m["role"] + 1) style="display:none" @endif class="wemd-green-text cm-operation clearance-up" onclick="changeMemberClearance({{$m['uid']}},'promote')"><i class="MDI arrow-up-drop-circle-outline"></i> Promote</small>
+                                                    <small @if($m["role"] <= 1) style="display:none" @endif class="wemd-red-text cm-operation clearance-down" onclick="changeMemberClearance({{$m['uid']}},'demote')"><i class="MDI arrow-down-drop-circle-outline"></i> Demote</small>
+                                                @endif
+                                            </p>
+                                        </user-info>
+                                    </user-card>
+                                    @endif
+                                @endforeach
                             </div>
-                        </div>
-                        {{-- <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                        </div> --}}
+                        </permission-setting>
                     </div>
                 </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="modal fade" id="update-avatar-modal" tabindex="-1" role="dialog">
