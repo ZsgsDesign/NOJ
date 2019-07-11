@@ -140,6 +140,42 @@ class ContestController extends Controller
     }
 
     public function replyClarification(Request $request){
-        //TODO
+        $request->validate([
+            'cid' => 'required|integer',
+            'ccid' => 'required|integer',
+            'content' => 'required|string|max:65536',
+        ]);
+
+        $all_data=$request->all();
+
+        $contestModel=new ContestModel();
+        $clearance=$contestModel->judgeClearance($all_data["cid"], Auth::user()->id);
+        if ($clearance<3) {
+            return ResponseModel::err(2001);
+        } else {
+            return ResponseModel::success(200, null, [
+                "line" => $contestModel->replyClarification($all_data["ccid"], $all_data["content"])
+            ]);
+        }
+    }
+
+    public function setClarificationPublic(Request $request){
+        $request->validate([
+            'cid' => 'required|integer',
+            'ccid' => 'required|integer',
+            'public' => 'required',
+        ]);
+
+        $all_data=$request->all();
+
+        $contestModel=new ContestModel();
+        $clearance=$contestModel->judgeClearance($all_data["cid"], Auth::user()->id);
+        if ($clearance<3) {
+            return ResponseModel::err(2001);
+        } else {
+            return ResponseModel::success(200, null, [
+                "line" => $contestModel->setClarificationPublic($all_data["ccid"], $all_data["public"])
+            ]);
+        }
     }
 }

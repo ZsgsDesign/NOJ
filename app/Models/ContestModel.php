@@ -1405,4 +1405,27 @@ class ContestModel extends Model
         }
         return $ret;
     }
+
+    public function replyClarification($ccid, $content)
+    {
+        return DB::table("contest_clarification")->where('ccid','=',$ccid)->update([
+            "reply"=>$content
+        ]);
+    }
+
+    public function setClarificationPublic($ccid, $public)
+    {
+        if($public)
+        {
+            return DB::table("contest_clarification")->where('ccid','=',$ccid)->update([
+                "public"=>1
+            ]);
+        }
+        else
+        {
+            return DB::table("contest_clarification")->where('ccid','=',$ccid)->update([
+                "public"=>0
+            ]);
+        }
+    }
 }
