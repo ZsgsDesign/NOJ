@@ -82,15 +82,15 @@ class GroupController extends Controller
      *
      * @return Response
      */
-    public function setting()
+    public function setting($gcode)
     {
         $groupModel=new GroupModel();
-        //$basic_info=$groupModel->details($gcode);
+        $basic_info=$groupModel->details($gcode);
         return view('group.setting', [
             'page_title'=>"Group Setting",
             'site_title'=>config("app.name"),
             'navigation'=>"Group",
-            //"basic_info"=>$basic_info,
+            "basic_info"=>$basic_info,
         ]);
     }
 }
