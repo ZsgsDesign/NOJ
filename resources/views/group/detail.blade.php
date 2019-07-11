@@ -1368,7 +1368,7 @@
                 type: 'POST',
                 url: '/ajax/group/inviteMember',
                 data: {
-                    gid:undefined,
+                    gid:{{$basic_info["gid"]}},
                     email:email
                 },
                 dataType: 'json',
