@@ -552,7 +552,7 @@
                                     <i class="MDI account-plus"></i>
                                     <p>Invite</p>
                                 </function-block>
-                                <function-block onclick="$('#settingModal').modal();">
+                                <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/setting'">
                                     <i class="MDI settings"></i>
                                     <p>Setting</p>
                                 </function-block>
