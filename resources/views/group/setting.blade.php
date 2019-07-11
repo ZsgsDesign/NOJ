@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('template')
+
 <style>
     group-card {
         display: block;
@@ -89,6 +90,7 @@
             <h4 class="card-title"><a>Setting My Group</a></h4>
             <div class="paper-card">
                 <form class="extra-info-form md-form" id="create" action="/">
+                    @csrf
                     <div class="form-group">
                         <label for="contact" class="bmd-label-floating">Group Name</label>
                         <input id="groupName" type="text" name="name" class="form-control" id="contact" autocomplete="off" />
@@ -97,12 +99,21 @@
                         <label for="school" class="bmd-label-floating">Group Site</label>
                         <input id="groupSite" type="text" name="gcode" class="form-control"  id="school" autocomplete="off" />
                     </div>
-                    <div class="form-group" style="display:flex;align-items:flex-end">
+                    {{-- <div class="form-group" style="display:flex;align-items:flex-end">
                         <label for="avatar" style="color:grey">Group Avatar</label>
                         <div class="avatar-div" id="avatar">
                             Chose
                             <input id="groupAvatar" name="img" class="avatar-input" type="file" accept="image/" value="">
                         </div>
+                    </div> --}}
+                    <div>
+                        <avatar-section>
+                            <label for="avatar" style="color:grey">Group Avatar</label>
+                            <div class="avatar-div" id="avatar">
+                                Chose
+                            {{-- <input id="groupAvatar" name="img" class="avatar-input" type="file" accept="image/" value=""> --}}
+                        </div>
+                        </avatar-section>
                     </div>
                     <div class="form-group">
                         <label for="location" class="bmd-label-floating">Group Description</label>
@@ -142,38 +153,116 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="update-avatar-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-alert" role="document">
+        <div class="modal-content sm-modal">
+            <div class="modal-header">
+                <h5 class="modal-title">Update your avatar</h5>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid text-center">
+                    <avatar-section>
+                        <img id="avatar-preview" src="" alt="avatar">
+                        {{-- src="{{$info["avatar"]}}" --}}
+                    </avatar-section>
+                    <br />
+                    <input type="file" style="display:none" id="avatar-file" accept=".jpg,.png,.jpeg,.gif">
+                    <label for="avatar-file" id="choose-avatar" class="btn btn-primary" role="button"><i class="MDI upload"></i> select local file</label>
+                </div>
+                <div id="avatar-error-tip" style="opacity:0" class="text-center">
+                    <small id="tip-text" class="text-danger font-weight-bold">PLEASE CHOOSE A LOCAL FILE</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="avatar-submit" type="button" class="btn btn-danger">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <script>
-
-document.querySelector('#submit').addEventListener('click',() => {
+window.addEventListener('load',function(){
+    document.querySelector('#submit').addEventListener('click',() => {
     const name = document.querySelector('#groupName').value;
     const gcode = document.querySelector('#groupSite').value;
-    const img = document.querySelector('#groupAvatar').files[0];
+    const img = document.querySelector('#avatar-file').files[0];
     const Public = document.querySelector('#groupPublic').checked === true ? 1 : 2;
     const description = document.querySelector("#groupDescription").value;
     const joinPolicy = document.querySelector("#gender").value;
     const data = new FormData();
+    console.log(name,gcode,Public,description,joinPolicy);
     data.append('name',name);
     data.append('gcode',gcode);
     data.append('img',img);
     data.append('public',Public);
     data.append('description',description);
     data.append('join_policy',joinPolicy);
-    // $.ajax({
-    //     url:"/ajax/group/createGroup",
-    //     method: 'POST',
-    //     data: data,
-    //     contentType: false, // 注意这里应设为false
-    //     processData: false,
-    //     cache: false,
-    //     success: function(data) {
-    //         console.log(data);
-    //     },
-    //     error: function (jqXHR) {
-    //         console.log(jqXHR);
-    //     }
-    // })
+    $.ajax({
+        url:"/ajax/group/createGroup",
+        method: 'POST',
+        data: data,
+        contentType: false,
+        processData: false,
+        cache: false,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }, success: function(data) {
+            alert(data.desc,'New Group');
+            location.reload();
+        },
+        error: function (jqXHR) {
+            alert(jqXHR.responseJSON.message,"New Group");
+        }
+    })
+})
+
+
+$('#avatar').on('click',function(){
+    $('#update-avatar-modal').modal();
+});
+
+$('#avatar-file').on('change',function(){
+    var file = $(this).get(0).files[0];
+
+    var reader = new FileReader();
+    reader.onload = function(e){
+        $('#avatar-preview').attr('src',e.target.result);
+    };
+    reader.readAsDataURL(file);
+});
+
+$('#avatar-submit').on('click',function(){
+    if($(this).is('.updating')){
+        $('#tip-text').text('SLOW DOWN');
+        $('#tip-text').addClass('text-danger');
+        $('#tip-text').removeClass('text-success');
+        $('#avatar-error-tip').animate({opacity:'1'},200);
+        return ;
+    }
+
+    var file = $('#avatar-file').get(0).files[0];
+    if(file == undefined){
+        $('#tip-text').text('PLEASE CHOOSE A LOCAL FILE');
+        $('#tip-text').addClass('text-danger');
+        $('#tip-text').removeClass('text-success');
+        $('#avatar-error-tip').animate({opacity:'1'},200);
+        return;
+    }else{
+        $('#avatar-error-tip').css({opacity:'0'});
+    }
+
+    if(file.size/1024 > 1024){
+        $('#tip-text').text('THE SELECTED FILE IS TOO LARGE');
+        $('#tip-text').addClass('text-danger');
+        $('#tip-text').removeClass('text-success');
+        $('#avatar-error-tip').animate({opacity:'1'},200);
+        return;
+    }else{
+        $('#avatar-error-tip').css({opacity:'0'});
+    }
+    $('#update-avatar-modal').modal('hide');
+});
 })
 </script>
 
