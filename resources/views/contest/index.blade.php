@@ -19,6 +19,24 @@
         box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
     }
 
+    paper-card[type="flat"]{
+        box-shadow: none;
+    }
+
+    paper-card[type="flat"]:hover{
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
+    }
+
+    paper-card[type="none"]{
+        box-shadow: none;
+        background: none;
+        border: none;
+    }
+
+    paper-card[type="none"]:hover{
+        box-shadow: none;
+    }
+
     contest-card {
         display: flex;
         justify-content: flex-start;
@@ -132,36 +150,72 @@
         color:rgba(0,0,0,0.54);
     }
 
-    .badge-rule {
-        color: #03a9f4;
-        border: 1px solid #03a9f4;
-        cursor: pointer;
-    }
-
-    .badge-rule.selected {
-        color: white;
-        background-color: #03a9f4;
-    }
-
-    .badge-feature{
-        color: #6c757d;
+    .badge-rule,
+    .badge-verified,
+    .badge-rated,
+    .badge-anticheated{
         background-color: transparent;
         max-width: 7rem;
         overflow: hidden;
         text-overflow: ellipsis;
-        border: 1px solid #6c757d;
         cursor: pointer;
+        padding: .3rem .6rem;
     }
 
-    .badge-feature.selected {
+    .badge-rule {
+        color: #ffc107;
+        border: 1px solid #ffc107;
+    }
+
+    .badge-rule.selected {
         color: white;
-        background-color: #6c757d;
+        background-color: #ffc107;
+    }
+
+    .badge-verified{
+        color: #03a9f4;
+        border: 1px solid #03a9f4;
+    }
+
+    .badge-verified.selected {
+        color: white;
+        background-color: #03a9f4;
+    }
+
+    .badge-rated{
+        color: #9c27b0;
+        border: 1px solid #9c27b0;
+    }
+
+    .badge-rated.selected {
+        color: white;
+        background-color: #9c27b0;
+    }
+
+    .badge-anticheated{
+        color: #009688;
+        border: 1px solid #009688;
+    }
+
+    .badge-anticheated.selected {
+        color: white;
+        background-color: #009688;
     }
 
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
         <div class="col-sm-12 col-md-8">
+            <paper-card class="animated bounceInRight p-0" type="none">
+                <p class="cm-tending mb-3"><i class="MDI filter"></i> Filter</p>
+                <div>
+                    <span class="badge badge-rule @if($filter['rule']==1) selected @endif" onclick="applyFilter('rule',this)" data-rule="1">ICPC</span>
+                    <span class="badge badge-rule @if($filter['rule']==2) selected @endif" onclick="applyFilter('rule',this)" data-rule="2">OI</span>
+                    <span class="badge badge-verified @if($filter['verified']==1) selected @endif" onclick="applyFilter('verified',this)" data-verified="1">Verified</span>
+                    <span class="badge badge-rated @if($filter['rated']==1) selected @endif" onclick="applyFilter('rated',this)" data-rated="1">Rated</span>
+                    <span class="badge badge-anticheated @if($filter['anticheated']==1) selected @endif" onclick="applyFilter('anticheated',this)" data-anticheated="1">Anticheated</span>
+                </div>
+            </paper-card>
             @if(!empty($contest_list))
                 @foreach($contest_list as $c)
                 <a href="/contest/{{$c['cid']}}">
@@ -198,18 +252,6 @@
             @endif
         </div>
         <div class="col-sm-12 col-md-4">
-        <paper-card class="animated bounceInRight">
-            <p>Filter</p>
-            <div class="mb-3">
-                <span class="badge badge-rule @if($filter['rule']==1) selected @endif" onclick="applyFilter('rule',this)" data-rule="1">ICPC</span>
-                <span class="badge badge-rule @if($filter['rule']==2) selected @endif" onclick="applyFilter('rule',this)" data-rule="2">OI</span>
-            </div>
-            <div>
-                <span class="badge badge-feature @if($filter['verified']==1) selected @endif" onclick="applyFilter('verified',this)" data-verified="1">Verified</span>
-                <span class="badge badge-feature @if($filter['rated']==1) selected @endif" onclick="applyFilter('rated',this)" data-rated="1">Rated</span>
-                <span class="badge badge-feature @if($filter['anticheated']==1) selected @endif" onclick="applyFilter('anticheated',this)" data-anticheated="1">Anticheated</span>
-            </div>
-        </paper-card>
             <div class="animated jackInTheBox">
                 <p class="cm-tending"><i class="MDI star wemd-amber-text"></i> Featured Contest</p>
                     <paper-card style="text-align:center;">
