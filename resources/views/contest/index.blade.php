@@ -201,13 +201,13 @@
         <paper-card class="animated bounceInRight">
             <p>Filter</p>
             <div class="mb-3">
-                <span class="badge badge-rule @if($filter['rule']==1) selected @endif" onclick="applyFilter(rule,this)" data-rule="1">ICPC</span>
-                <span class="badge badge-rule @if($filter['rule']==2) selected @endif" onclick="applyFilter(rule,this)" data-rule="2">OI</span>
+                <span class="badge badge-rule @if($filter['rule']==1) selected @endif" onclick="applyFilter('rule',this)" data-rule="1">ICPC</span>
+                <span class="badge badge-rule @if($filter['rule']==2) selected @endif" onclick="applyFilter('rule',this)" data-rule="2">OI</span>
             </div>
             <div>
-                <span class="badge badge-feature @if($filter['verified']==1) selected @endif" onclick="applyFilter(verified,this)" data-verified="1">Verified</span>
-                <span class="badge badge-feature @if($filter['rated']==1) selected @endif" onclick="applyFilter(rated,this)" data-rated="1">Rated</span>
-                <span class="badge badge-feature @if($filter['anticheated']==1) selected @endif" onclick="applyFilter(anticheated,this)" data-anticheated="1">Anticheated</span>
+                <span class="badge badge-feature @if($filter['verified']==1) selected @endif" onclick="applyFilter('verified',this)" data-verified="1">Verified</span>
+                <span class="badge badge-feature @if($filter['rated']==1) selected @endif" onclick="applyFilter('rated',this)" data-rated="1">Rated</span>
+                <span class="badge badge-feature @if($filter['anticheated']==1) selected @endif" onclick="applyFilter('anticheated',this)" data-anticheated="1">Anticheated</span>
             </div>
         </paper-card>
             <div class="animated jackInTheBox">
@@ -239,9 +239,41 @@
 
     }, false);
 
-    function applyFilter(key,value) {
-        //TODO:the href should be like "/contest?rule=1&verified=1&rated=1&anticheated=1"
+    function applyFilter(key,e) {
+        if($(e).hasClass("selected")) {
+            delete filterVal[key];
+            _activateFilter();
+        }else{
+            if(key!="rule") _applyFilter(key,1);
+            else _applyFilter(key,$(e).attr("data-rule"));
+        }
     }
+
+    function _applyFilter(key,value) {
+        if(value==filterVal[key]) return;
+        filterVal[key]=value;
+        _activateFilter();
+    }
+
+    function _activateFilter(){
+        var tempNav="";
+        Object.keys(filterVal).forEach((_key)=>{
+            let _value=filterVal[_key];
+            if(_value===null || _value==="") return;
+            tempNav+=`${_key}=${encodeURIComponent(_value)}&`;
+        });
+        if(tempNav.endsWith('&')) tempNav=tempNav.substring(0,tempNav.length-1);
+        if(tempNav==="") location.href="/contest";
+        else location.href="/contest?"+tempNav;
+    }
+
+    var filterVal=[];
+
+    @foreach($filter as $key=>$value)
+
+        filterVal["{{$key}}"]="{{$value}}";
+
+    @endforeach
 
 </script>
 @endsection
