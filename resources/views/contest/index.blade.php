@@ -162,6 +162,13 @@
         padding: .3rem .6rem;
     }
 
+    .badge-rule > i,
+    .badge-verified > i,
+    .badge-rated > i,
+    .badge-anticheated > i{
+        font-weight: normal;
+    }
+
     .badge-rule {
         color: #ffc107;
         border: 1px solid #ffc107;
@@ -209,11 +216,11 @@
             <paper-card class="animated bounceInRight p-0" type="none">
                 <p class="cm-tending mb-3"><i class="MDI filter"></i> Filter</p>
                 <div>
-                    <span class="badge badge-rule @if($filter['rule']==1) selected @endif" onclick="applyFilter('rule',this)" data-rule="1">ICPC</span>
-                    <span class="badge badge-rule @if($filter['rule']==2) selected @endif" onclick="applyFilter('rule',this)" data-rule="2">OI</span>
-                    <span class="badge badge-verified @if($filter['verified']==1) selected @endif" onclick="applyFilter('verified',this)" data-verified="1">Verified</span>
-                    <span class="badge badge-rated @if($filter['rated']==1) selected @endif" onclick="applyFilter('rated',this)" data-rated="1">Rated</span>
-                    <span class="badge badge-anticheated @if($filter['anticheated']==1) selected @endif" onclick="applyFilter('anticheated',this)" data-anticheated="1">Anticheated</span>
+                    <span class="badge badge-rule @if($filter['rule']==1) selected @endif" onclick="applyFilter('rule',this)" data-rule="1"><i class="MDI trophy"></i> ICPC</span>
+                    <span class="badge badge-rule @if($filter['rule']==2) selected @endif" onclick="applyFilter('rule',this)" data-rule="2"><i class="MDI trophy"></i> OI</span>
+                    <span class="badge badge-verified @if($filter['verified']==1) selected @endif" onclick="applyFilter('verified',this)" data-verified="1"><i class="MDI marker-check"></i> Verified</span>
+                    <span class="badge badge-rated @if($filter['rated']==1) selected @endif" onclick="applyFilter('rated',this)" data-rated="1"><i class="MDI seal"></i> Rated</span>
+                    <span class="badge badge-anticheated @if($filter['anticheated']==1) selected @endif" onclick="applyFilter('anticheated',this)" data-anticheated="1"><i class="MDI do-not-disturb-off"></i> Anticheated</span>
                 </div>
             </paper-card>
             @if(!empty($contest_list))
