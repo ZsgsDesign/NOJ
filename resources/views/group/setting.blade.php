@@ -89,7 +89,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content sm-modal" style="width: 80%">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="MDI settings"></i> Group setting</h5>
+                    <h5 class="modal-title"><i class="MDI settings"></i> Group Settings</h5>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -129,7 +129,7 @@
                     </div>
                     <div class="row">
                         <permission-setting style="width:100%;">
-                            <p>Permission Setting</p>
+                            <p>Permission Settings</p>
                             <div style="display:flex;justify-content:space-around;width:100%;flex-wrap:wrap;">
                                 @foreach($member_list as $m)
                                     @if($m["role"]>0)
@@ -154,32 +154,6 @@
                         </permission-setting>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="update-avatar-modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-alert" role="document">
-        <div class="modal-content sm-modal">
-            <div class="modal-header">
-                <h5 class="modal-title">Update your avatar</h5>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid text-center">
-                    <avatar-section>
-                        <img id="avatar-preview" src="" alt="avatar">
-                        {{-- src="{{$info["avatar"]}}" --}}
-                    </avatar-section>
-                    <br />
-                    <input type="file" style="display:none" id="avatar-file" accept=".jpg,.png,.jpeg,.gif">
-                    <label for="avatar-file" id="choose-avatar" class="btn btn-primary" role="button"><i class="MDI upload"></i> select local file</label>
-                </div>
-                <div id="avatar-error-tip" style="opacity:0" class="text-center">
-                    <small id="tip-text" class="text-danger font-weight-bold">PLEASE CHOOSE A LOCAL FILE</small>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="avatar-submit" type="button" class="btn btn-danger">Update</button>
             </div>
         </div>
     </div>

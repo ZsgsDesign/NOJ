@@ -552,9 +552,9 @@
                                     <i class="MDI account-plus"></i>
                                     <p>Invite</p>
                                 </function-block>
-                                <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/setting'">
+                                <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings'">
                                     <i class="MDI settings"></i>
-                                    <p>Setting</p>
+                                    <p>Settings</p>
                                 </function-block>
                             </div>
                         </function-container>
