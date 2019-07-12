@@ -29,12 +29,12 @@ class RatingCalculator extends Model
 
         if ($contestRankRaw==null) {
             $contestModel=new ContestModel();
-            $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
-            if(time() > $end_time && !Cache::has($cid)){
+            $end_time=strtotime(DB::table("contest")->where(["cid"=>$this->cid])->select("end_time")->first()["end_time"]);
+            if(time() > $end_time && !Cache::has($this->cid)){
                 $contestRankRaw=$contestModel->contestRankCache($this->cid);
-                Cache::forever($cid, $contestRankRaw);
+                Cache::forever($this->cid, $contestRankRaw);
             }else{
-                $contestRankRaw=Chache::tags('contest','rank')->get($this->cid);
+                $contestRankRaw=Cache::tags('contest','rank')->get($this->cid);
             }
         }
 
