@@ -178,4 +178,26 @@ class ContestController extends Controller
             ]);
         }
     }
+
+    public function generateContestAccount(Request $request)
+    {
+        $request->validate([
+            'cid' => 'required|integer',
+            'ccode' => 'required|min:3|max:10',
+            'num' => 'required|integer'
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        $contestModel=new ContestModel();
+        $gid=$contestModel->gid($all_data["cid"]);
+        $clearance=$groupModel->judgeClearance($gid, Auth::user()->id);
+        if ($clearance<3) {
+            return ResponseModel::err(2001);
+        }
+        $accountModel=new AccountModel();
+        $ret=$accountModel->generateContestAccount($all_data["cid"], $all_data["ccode"], $all_data["num"]);
+        return ResponseModel::success(200, null, $ret);
+    }
 }
