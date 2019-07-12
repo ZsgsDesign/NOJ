@@ -19,6 +19,19 @@
     .paper-card:hover {
         box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
     }
+
+    .mundb-standard-container ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    .mundb-standard-container ::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .mundb-standard-container td:first-of-type,
+    .mundb-standard-container th:first-of-type{
+        border-right: 1px solid rgb(241, 241, 241);
+    }
 </style>
 <div class="container mundb-standard-container paper-card">
     <p>Group Member Practice Contest Analysis</p>
