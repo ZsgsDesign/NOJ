@@ -43,6 +43,7 @@ class InstallerBase
             }
         } catch(InvalidVersionException $e) {
             $this->command->line("\n  <bg=red;fg=white> Illegal Compability Info, aborting. </>\n");
+            return;
         }
 
         // get current installed version info
@@ -59,33 +60,42 @@ class InstallerBase
                 "version"=>"",
                 "compiler_timestamp"=>"",
             ]);
-        }
-
-        // check legal version format
-        try {
-            $currentVersion=new Version($babelConfig["version"]);
-            $installedVersion=new Version($info["version"]);
-        } catch(InvalidVersionException $e) {
-            $this->command->line("\n  <bg=red;fg=white> Illegal Version Info, aborting. </>\n");
-        }
-
-        // check there is a not null version
-        if(isset($info["version"]) && !is_null($info["version"]) && trim($info["version"])!=""){
-            if (!($currentVersion->isGreaterThan($installedVersion))) {
-                // lower version or even
-                $this->command->line("Nothing to install or update");
+        } else {
+            // check legal version format
+            try {
+                $currentVersion=new Version($babelConfig["version"]);
+                $installedVersion=new Version($info["version"]);
+            } catch(InvalidVersionException $e) {
+                $this->command->line("\n  <bg=red;fg=white> Illegal Version Info, aborting. </>\n");
                 return;
             }
+
+            // check there is a not null version
+            if(isset($info["version"]) && !is_null($info["version"]) && trim($info["version"])!=""){
+                if (!($currentVersion->isGreaterThan($installedVersion))) {
+                    // lower version or even
+                    $this->command->line("Nothing to install or update");
+                    return;
+                }
+            }
+
+            $oid=$info["oid"];
         }
 
         // retrieve compiler config and then import it
+        $installed_timestamp=0;
+        if(isset($info["compiler_timestamp"]) && !is_null($info["compiler_timestamp"]) && trim($info["compiler_timestamp"])!=""){
+            $installed_timestamp=intval($info["compiler_timestamp"]);
+        }
         $ConpilerConfig = glob(babel_path("Extension/$ocode/compiler/*.*"));
         foreach($ConpilerConfig as $file) {
-            try{
-                $this->commitCompiler(json_decode(file_get_contents($file),true));
-            }catch(Exception $e){
-                $this->command->line("\n  <bg=red;fg=white> Compiler info import failure, aborting. </>\n");
-                return;
+            if(intval(basename($file)) > $installed_timestamp) {
+                try {
+                    $this->commitCompiler(json_decode(file_get_contents($file), true));
+                } catch (Exception $e) {
+                    $this->command->line("\n  <bg=red;fg=white> Compiler info import failure, aborting. </>\n");
+                    return;
+                }
             }
         }
 
