@@ -5,8 +5,7 @@ use App\Babel\Install\InstallerBase;
 use Exception;
 
 class Installer extends InstallerBase
-{
-    public function install()
+{    public function install()
     {
         throw new Exception("No Install Method Provided");
     }
