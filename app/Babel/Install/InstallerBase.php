@@ -102,6 +102,7 @@ class InstallerBase
                 try {
                     $this->commitCompiler($file,json_decode(file_get_contents($file), true));
                 } catch (Exception $e) {
+                    $this->command->line("<fg=red>Error:     ".$e->getMessage()."</>");
                     $this->command->line("\n  <bg=red;fg=white> Compiler info import failure, aborting. </>\n");
                     return;
                 }
