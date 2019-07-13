@@ -1,6 +1,7 @@
 {
     "name":"NOJ",
     "code":"noj",
+    "icon":"resources/noj@2x.png",
     "type":"online-judge",
     "description": "Official Online Judge Interface for NOJ",
     "license": "MIT",
