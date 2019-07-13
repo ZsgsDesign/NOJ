@@ -25,4 +25,9 @@ class OJModel extends Model
     {
         return DB::table('oj')->where(["oid"=>$oid])->first();
     }
+
+    public static function insert($row)
+    {
+        return DB::table('oj')->insertGetId($row);
+    }
 }
