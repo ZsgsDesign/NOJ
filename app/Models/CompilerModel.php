@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use League\Flysystem\Exception;
 
 class CompilerModel extends Model
 {
@@ -98,6 +99,12 @@ class CompilerModel extends Model
 
     public static function add($row)
     {
+        if(self::checkExist([
+            "oid"=>$row["oid"],
+            "lcode"=>$row["lcode"]
+        ])){
+            throw new Exception("Duplicate Language Code");
+        }
         return DB::table('compiler')->insert($row);
     }
 
@@ -111,5 +118,10 @@ class CompilerModel extends Model
     public static function modify($filter, $row)
     {
         return DB::table('compiler')->where($filter)->update($row);
+    }
+
+    public static function checkExist($filter)
+    {
+        return boolval(DB::table('compiler')->where($filter));
     }
 }
