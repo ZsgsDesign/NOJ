@@ -48,6 +48,19 @@ class InstallerBase
         // get current installed version info
         $info=OJModel::basic(OJModel::oid($ocode));
 
+        // if there isn't, create one
+        if(empty($info)){
+            $oid=OJModel::insert([
+                "ocode"=>$babelConfig["code"],
+                "name"=>$babelConfig["name"],
+                "home_page"=>$babelConfig["website"],
+                "logo"=>"/static/img/oj/default.png",
+                "status"=>1,
+                "version"=>"",
+                "compiler_timestamp"=>"",
+            ]);
+        }
+
         // check legal version format
         try {
             $currentVersion=new Version($babelConfig["version"]);
