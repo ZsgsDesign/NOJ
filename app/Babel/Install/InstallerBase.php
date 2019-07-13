@@ -56,6 +56,7 @@ class InstallerBase
             $this->command->line("\n  <bg=red;fg=white> Illegal Version Info, aborting. </>\n");
         }
 
+        // check there is a not null version
         if(isset($info["version"]) && !is_null($info["version"]) && trim($info["version"])!=""){
             if (!($currentVersion->isGreaterThan($installedVersion))) {
                 // lower version or even
@@ -63,14 +64,19 @@ class InstallerBase
                 return;
             }
         }
+
+        // retrieve compiler config and then import it
         $ConpilerConfig = glob(babel_path("Extension/$ocode/compiler/*.*"));
         foreach($ConpilerConfig as $file) {
             try{
                 $this->commitCompiler(json_decode(file_get_contents($file),true));
             }catch(Exception $e){
-
+                $this->command->line("\n  <bg=red;fg=white> Compiler info import failure, aborting. </>\n");
+                return;
             }
         }
+
+        // import icon
         try{
             $imgPath=babel_path("Extension/$ocode/".$babelConfig["icon"]);
             $this->applyIcon($ocode, $imgPath);
