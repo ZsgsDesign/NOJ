@@ -1,0 +1,35 @@
+{
+    "add": [{
+        "code":"c",
+        "compability":"c",
+        "language":"c",
+        "icon":"devicon-c-plain",
+        "display":"C"
+    },{
+        "code":"cpp",
+        "compability":"c",
+        "language":"cpp",
+        "icon":"devicon-cplusplus-plain",
+        "display":"C++"
+    },{
+        "code":"java",
+        "compability":"java",
+        "language":"java",
+        "icon":"devicon-java-plain",
+        "display":"Java"
+    },{
+        "code":"py2",
+        "compability":"python",
+        "language":"python",
+        "icon":"devicon-python-plain",
+        "display":"Python 2.7"
+    },{
+        "code":"py3",
+        "compability":"python",
+        "language":"python",
+        "icon":"devicon-python-plain",
+        "display":"Python 3.5"
+    }],
+    "delete":[],
+    "modify":[]
+}
