@@ -60,3 +60,16 @@ if (!function_exists('emailVerified')) {
         return null;
     }
 }
+
+if (! function_exists('babel_path')) {
+    /**
+     * Get the path to the application folder.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    function babel_path($path = '')
+    {
+        return app('path').DIRECTORY_SEPARATOR.'Babel'.($path ? DIRECTORY_SEPARATOR.$path : $path);
+    }
+}
