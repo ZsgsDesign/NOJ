@@ -25,6 +25,7 @@ class ContestController extends Controller
         $all_data=$request->all();
         $contestModel=new ContestModel();
         $filter["rule"]=isset($all_data["rule"]) ? $all_data["rule"] : null;
+        $filter["public"]=isset($all_data["public"]) ? $all_data["public"] : null;
         $filter["verified"]=isset($all_data["verified"]) ? $all_data["verified"] : null;
         $filter["rated"]=isset($all_data["rated"]) ? $all_data["rated"] : null;
         $filter["anticheated"]=isset($all_data["anticheated"]) ? $all_data["anticheated"] : null;

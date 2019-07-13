@@ -151,6 +151,7 @@
     }
 
     .badge-rule,
+    .badge-public,
     .badge-verified,
     .badge-rated,
     .badge-anticheated{
@@ -163,6 +164,7 @@
     }
 
     .badge-rule > i,
+    .badge-public > i,
     .badge-verified > i,
     .badge-rated > i,
     .badge-anticheated > i{
@@ -179,6 +181,15 @@
         background-color: #ffc107;
     }
 
+    .badge-public {
+        color: #F44336;
+        border: 1px solid #F44336;
+    }
+
+    .badge-public.selected {
+        color: white;
+        background-color: #F44336;
+    }
     .badge-verified{
         color: #03a9f4;
         border: 1px solid #03a9f4;
@@ -218,6 +229,8 @@
                 <div>
                     <span class="badge badge-rule @if($filter['rule']==1) selected @endif" onclick="applyFilter('rule',this)" data-rule="1"><i class="MDI trophy"></i> ICPC</span>
                     <span class="badge badge-rule @if($filter['rule']==2) selected @endif" onclick="applyFilter('rule',this)" data-rule="2"><i class="MDI trophy"></i> OI</span>
+                    @if(Auth::check())<span class="badge badge-public @if($filter['public']=='1') selected @endif" onclick="applyFilter('public',this)" data-public="1"><i class="MDI incognito"></i> Public</span>@endif
+                    @if(Auth::check())<span class="badge badge-public @if($filter['public']=='0') selected @endif" onclick="applyFilter('public',this)" data-public="0"><i class="MDI incognito"></i> Private</span>@endif
                     <span class="badge badge-verified @if($filter['verified']==1) selected @endif" onclick="applyFilter('verified',this)" data-verified="1"><i class="MDI marker-check"></i> Verified</span>
                     <span class="badge badge-rated @if($filter['rated']==1) selected @endif" onclick="applyFilter('rated',this)" data-rated="1"><i class="MDI seal"></i> Rated</span>
                     <span class="badge badge-anticheated @if($filter['anticheated']==1) selected @endif" onclick="applyFilter('anticheated',this)" data-anticheated="1"><i class="MDI do-not-disturb-off"></i> Anticheated</span>
@@ -293,8 +306,9 @@
             delete filterVal[key];
             _activateFilter();
         }else{
-            if(key!="rule") _applyFilter(key,1);
-            else _applyFilter(key,$(e).attr("data-rule"));
+            if(key!="rule"&&key!="public") _applyFilter(key,1);
+            else if(key!="public") _applyFilter(key,$(e).attr("data-rule"));
+            else _applyFilter(key,$(e).attr("data-public"));
         }
     }
 

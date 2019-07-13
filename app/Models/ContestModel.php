@@ -155,7 +155,53 @@ class ContestModel extends Model
     {
         if ($uid) {
             //$paginator=DB::select('SELECT DISTINCT contest.* FROM group_member inner join contest on group_member.gid=contest.gid left join contest_participant on contest.cid=contest_participant.cid where (public=1 and audit=1) or (group_member.uid=:uid and group_member.role>0 and (contest_participant.uid=:uidd or ISNULL(contest_participant.uid)) and (registration=0 or (registration=1 and not ISNULL(contest_participant.uid))))',["uid"=>$uid,"uidd"=>$uid])->paginate(10);
-            $paginator=DB::table('group_member')
+            if ($filter['public']=='1') {
+                $paginator=DB::table($this->tableName)->where([
+                    "public"=>1,
+                    "audit_status"=>1
+                ])->orderBy('begin_time', 'desc');
+                if ($filter['rule']) {
+                    $paginator=$paginator->where(["rule"=>$filter['rule']]);
+                }
+                if ($filter['verified']) {
+                    $paginator=$paginator->where(["verified"=>$filter['verified']]);
+                }
+                if ($filter['rated']) {
+                    $paginator=$paginator->where(["rated"=>$filter['rated']]);
+                }
+                if ($filter['anticheated']) {
+                    $paginator=$paginator->where(["anticheated"=>$filter['anticheated']]);
+                }
+                $paginator = $paginator ->paginate(10);
+            }elseif($filter['public']=='0'){
+                $paginator=DB::table('group_member')
+                ->distinct()
+                ->select('contest.*')
+                ->join('contest', 'group_member.gid', '=', 'contest.gid')
+                ->leftJoin('contest_participant', 'contest.cid', '=', 'contest_participant.cid')
+                ->where(
+                    function ($query) use ($filter,$uid) {
+                        if ($filter['rule']) {
+                            $query=$query->where(["rule"=>$filter['rule']]);
+                        }
+                        if ($filter['verified']) {
+                            $query=$query->where(["verified"=>$filter['verified']]);
+                        }
+                        if ($filter['rated']) {
+                            $query=$query->where(["rated"=>$filter['rated']]);
+                        }
+                        if ($filter['anticheated']) {
+                            $query=$query->where(["anticheated"=>$filter['anticheated']]);
+                        }
+                        $query->where('group_member.uid', $uid)
+                                ->where('group_member.role', '>', 0)
+                                ->where(["public"=>0]);
+                    }
+                )
+                ->orderBy('contest.begin_time', 'desc')
+                ->paginate(10, ['contest.cid']);
+            }else{
+                $paginator=DB::table('group_member')
                 ->distinct()
                 ->select('contest.*')
                 ->join('contest', 'group_member.gid', '=', 'contest.gid')
@@ -183,6 +229,9 @@ class ContestModel extends Model
                         if ($filter['rule']) {
                             $query=$query->where(["rule"=>$filter['rule']]);
                         }
+                        if ($filter['public']) {
+                            $query=$query->where(["public"=>$filter['public']]);
+                        }
                         if ($filter['verified']) {
                             $query=$query->where(["verified"=>$filter['verified']]);
                         }
@@ -194,26 +243,11 @@ class ContestModel extends Model
                         }
                         $query->where('group_member.uid', $uid)
                                 ->where('group_member.role', '>', 0);
-                            //     ->where(function ($query) use ($uid) {
-                            //         $query->where('contest_participant.uid', $uid)
-                            //               ->orWhereNull('contest_participant.uid');
-                            //     })
-                            //   ->where(function ($query) {
-                            //       $query->where('registration', 0)
-                            //                     ->orWhere(function ($query) {
-                            //                         $query->where('registration', 1)
-                            //                               ->whereNotNull('contest_participant.uid');
-                            //                     });
-                            //   });
                     }
                 )
                 ->orderBy('contest.begin_time', 'desc')
                 ->paginate(10, ['contest.cid']);
-
-        /*  $paginator=DB::table($this->tableName)->where([
-             "public"=>1,
-             "audit_status"=>1
-         ])->orderBy('begin_time', 'desc')->paginate(10); */
+            }
         } else {
             $paginator=DB::table($this->tableName)->where([
                 "public"=>1,
@@ -233,8 +267,6 @@ class ContestModel extends Model
             }
             $paginator = $paginator ->paginate(10);
         }
-
-        // dd($paginator);
         $contest_list=$paginator->all();
         foreach ($contest_list as &$c) {
             $c["rule_parsed"]=$this->rule[$c["rule"]];
