@@ -6,16 +6,17 @@ use Exception;
 
 class Installer extends InstallerBase
 {
+    public $ocode="noj";
+
     public function install()
     {
         // throw new Exception("No Install Method Provided");
-        // file_get_contents('CompilerConfig/1563011654.json');
-        $this->commitCompiler();
-        $this->applyIcon();
+        $this->_install($this->ocode);
     }
 
     public function uninstall()
     {
         throw new Exception("No Uninstall Method Provided");
+        // $this->_uninstall($this->ocode);
     }
 }

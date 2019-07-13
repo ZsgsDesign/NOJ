@@ -39,15 +39,15 @@ class Install extends Command
     public function handle()
     {
         $extension = $this->argument('extension');
-        $submitter=self::create($extension);
+        $submitter=self::create($extension,$this);
         if(!is_null($submitter)) $submitter->install();
         else throw new Exception("Installer Not Provided");
     }
 
-    public static function create($oj) {
+    public static function create($oj,$class) {
         $className = "App\\Babel\\Extension\\$oj\\Installer";
         if(class_exists($className)) {
-            return new $className();
+            return new $className($class);
         } else {
             return null;
         }
