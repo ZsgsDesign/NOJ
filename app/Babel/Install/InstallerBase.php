@@ -7,6 +7,7 @@ use App\Models\CompilerModel;
 use PharIo\Version\Version;
 use PharIo\Version\VersionConstraintParser;
 use PharIo\Version\InvalidVersionException;
+use Exception;
 
 class InstallerBase
 {
@@ -111,7 +112,7 @@ class InstallerBase
         try{
             $imgPath=babel_path("Extension/$ocode/".$babelConfig["icon"]);
             $storePath=$this->applyIcon($ocode, $imgPath);
-            OJModel::updateOJ($oid,["logo"=>$storePath]);
+            OJModel::updateOJ($this->oid,["logo"=>$storePath]);
         }catch(Exception $e){
             $this->command->line("\n  <bg=red;fg=white> Unable to add an icon for this extension. </>\n");
         }
