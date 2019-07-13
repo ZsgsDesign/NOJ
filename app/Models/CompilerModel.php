@@ -95,4 +95,21 @@ class CompilerModel extends Model
     {
         return DB::table($this->tableName)->where(["coid"=>$coid])->first();
     }
+
+    public static function add($row)
+    {
+        return DB::table('compiler')->insert($row);
+    }
+
+    public static function remove($filter)
+    {
+        return DB::table('compiler')->where($filter)->update([
+            "delete"=>1
+        ]);
+    }
+
+    public static function modify($filter, $row)
+    {
+        return DB::table('compiler')->where($filter)->update($row);
+    }
 }

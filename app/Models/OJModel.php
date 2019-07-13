@@ -26,12 +26,12 @@ class OJModel extends Model
         return DB::table('oj')->where(["oid"=>$oid])->first();
     }
 
-    public static function insert($row)
+    public static function insertOJ($row)
     {
         return DB::table('oj')->insertGetId($row);
     }
 
-    public static function update($oid, $row)
+    public static function updateOJ($oid, $row)
     {
         return DB::table('oj')->where(["oid"=>$oid])->update($row);
     }

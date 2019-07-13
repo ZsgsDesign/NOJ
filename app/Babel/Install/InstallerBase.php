@@ -3,6 +3,7 @@
 namespace App\Babel\Install;
 
 use App\Models\OJModel;
+use App\Models\CompilerModel;
 use PharIo\Version\Version;
 use PharIo\Version\VersionConstraintParser;
 use PharIo\Version\InvalidVersionException;
@@ -11,6 +12,7 @@ class InstallerBase
 {
     protected $command;
     protected $versionParser;
+    protected $oid=0;
 
     protected function _install($ocode)
     {
@@ -51,7 +53,7 @@ class InstallerBase
 
         // if there isn't, create one
         if(empty($info)){
-            $oid=OJModel::insert([
+            $this->oid=OJModel::insertOJ([
                 "ocode"=>$babelConfig["code"],
                 "name"=>$babelConfig["name"],
                 "home_page"=>$babelConfig["website"],
@@ -64,7 +66,6 @@ class InstallerBase
             // check legal version format
             try {
                 $currentVersion=new Version($babelConfig["version"]);
-                $installedVersion=new Version($info["version"]);
             } catch(InvalidVersionException $e) {
                 $this->command->line("\n  <bg=red;fg=white> Illegal Version Info, aborting. </>\n");
                 return;
@@ -72,6 +73,13 @@ class InstallerBase
 
             // check there is a not null version
             if(isset($info["version"]) && !is_null($info["version"]) && trim($info["version"])!=""){
+                try {
+                    $installedVersion=new Version($info["version"]);
+                } catch(InvalidVersionException $e) {
+                    $this->command->line("\n  <bg=red;fg=white> Illegal Version Info, aborting. </>\n");
+                    return;
+                }
+
                 if (!($currentVersion->isGreaterThan($installedVersion))) {
                     // lower version or even
                     $this->command->line("Nothing to install or update");
@@ -79,7 +87,7 @@ class InstallerBase
                 }
             }
 
-            $oid=$info["oid"];
+            $this->oid=$info["oid"];
         }
 
         // retrieve compiler config and then import it
@@ -91,7 +99,7 @@ class InstallerBase
         foreach($ConpilerConfig as $file) {
             if(intval(basename($file)) > $installed_timestamp) {
                 try {
-                    $this->commitCompiler(json_decode(file_get_contents($file), true));
+                    $this->commitCompiler($file,json_decode(file_get_contents($file), true));
                 } catch (Exception $e) {
                     $this->command->line("\n  <bg=red;fg=white> Compiler info import failure, aborting. </>\n");
                     return;
@@ -103,7 +111,7 @@ class InstallerBase
         try{
             $imgPath=babel_path("Extension/$ocode/".$babelConfig["icon"]);
             $storePath=$this->applyIcon($ocode, $imgPath);
-            OJModel::update($oid,["logo"=>$storePath]);
+            OJModel::updateOJ($oid,["logo"=>$storePath]);
         }catch(Exception $e){
             $this->command->line("\n  <bg=red;fg=white> Unable to add an icon for this extension. </>\n");
         }
@@ -121,9 +129,42 @@ class InstallerBase
     }
 
 
-    protected function commitCompiler($json)
+    protected function commitCompiler($path,$json)
     {
-
+        $this->command->line("<fg=yellow>Migrating: </>$path");
+        $modifications=$json["modifications"];
+        foreach($modifications as $m){
+            if($m["method"]=="add"){
+                CompilerModel::add([
+                    "oid"=>$this->oid,
+                    "comp"=>$m["compability"],
+                    "lang"=>$m["language"],
+                    "lcode"=>$m["code"],
+                    "icon"=>$m["icon"],
+                    "display_name"=>$m["display"],
+                    "available"=>1,
+                ]);
+            }elseif($m["method"]=="modify"){
+                $modifyItem=[];
+                if(isset($m["compability"])) $modifyItem["comp"]=$m["compability"];
+                if(isset($m["language"])) $modifyItem["lang"]=$m["language"];
+                if(isset($m["code"])) $modifyItem["lcode"]=$m["code"];
+                if(isset($m["icon"])) $modifyItem["icon"]=$m["icon"];
+                if(isset($m["display"])) $modifyItem["display_name"]=$m["display"];
+                CompilerModel::modify([
+                    "oid"=>$this->oid,
+                    "lcode"=>$m["code"],
+                ], $modifyItem);
+            }elseif($m["method"]=="remove"){
+                CompilerModel::remove([
+                    "oid"=>$this->oid,
+                    "lcode"=>$m["code"],
+                ]);
+            }else{
+                continue;
+            }
+        }
+        $this->command->line("<fg=green>Migrated:  </>$path");
     }
 
     protected function applyIcon($ocode, $imgPath)
