@@ -5,6 +5,7 @@ namespace App\Babel\Install;
 use App\Models\OJModel;
 use PharIo\Version\Version;
 use PharIo\Version\VersionConstraintParser;
+use PharIo\Version\InvalidVersionException;
 
 class InstallerBase
 {
@@ -16,27 +17,31 @@ class InstallerBase
         $this->command->line("Installing <fg=green>$ocode</>");
 
         $babelConfig=json_decode(file_get_contents(babel_path("Extension/$ocode/babel.json")),true);
+
         // support __cur__ variables
         if($babelConfig["version"]=="__cur__") $babelConfig["version"]=explode("-",version())[0];
         if($babelConfig["require"]["NOJ"]=="__cur__") $babelConfig["require"]["NOJ"]=explode("-",version())[0];
+
         // check version info
         if(!isset($babelConfig["version"]) || is_null($babelConfig["version"]) || trim($babelConfig["version"])==""){
             $this->command->line("\n  <bg=red;fg=white> Lack version info, aborting. </>\n");
             return;
         }
+
         // check require info
         if(!isset($babelConfig["require"]["NOJ"]) || is_null($babelConfig["require"]["NOJ"]) || trim($babelConfig["require"]["NOJ"])==""){
             $this->command->line("\n  <bg=red;fg=white> Lack NOJ compability info, aborting. </>\n");
             return;
         }
 
+        // check requirement
         try {
             if(!($this->versionParser->parse($babelConfig["require"]["NOJ"])->complies(new Version(explode("-",version())[0])))){
                 $this->command->line("Your Current NOJ Version <fg=yellow>".version()."</> doesn't support the following extension: ");
                 $this->command->line("  - <fg=green>$ocode</> requires NOJ version <fg=yellow>{$babelConfig['require']['NOJ']}</>");
                 return;
             }
-        }catch(Exception $e){
+        } catch(InvalidVersionException $e) {
             $this->command->line("\n  <bg=red;fg=white> Illegal Compability Info, aborting. </>\n");
         }
 
@@ -47,7 +52,7 @@ class InstallerBase
         try {
             $currentVersion=new Version($babelConfig["version"]);
             $installedVersion=new Version($info["version"]);
-        }catch(Exception $e){
+        } catch(InvalidVersionException $e) {
             $this->command->line("\n  <bg=red;fg=white> Illegal Version Info, aborting. </>\n");
         }
 
