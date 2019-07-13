@@ -7,6 +7,7 @@ use App\Models\CompilerModel;
 use PharIo\Version\Version;
 use PharIo\Version\VersionConstraintParser;
 use PharIo\Version\InvalidVersionException;
+use Illuminate\Support\Facades\DB;
 use Exception;
 
 class InstallerBase
@@ -49,74 +50,77 @@ class InstallerBase
             return;
         }
 
-        // get current installed version info
-        $info=OJModel::basic(OJModel::oid($ocode));
+        DB::transaction(function () use ($ocode,$babelConfig) {
+            // get current installed version info
+            $info=OJModel::basic(OJModel::oid($ocode));
 
-        // if there isn't, create one
-        if(empty($info)){
-            $this->oid=OJModel::insertOJ([
-                "ocode"=>$babelConfig["code"],
-                "name"=>$babelConfig["name"],
-                "home_page"=>$babelConfig["website"],
-                "logo"=>"/static/img/oj/default.png",
-                "status"=>1,
-                "version"=>"",
-                "compiler_timestamp"=>"",
-            ]);
-        } else {
-            // check legal version format
-            try {
-                $currentVersion=new Version($babelConfig["version"]);
-            } catch(InvalidVersionException $e) {
-                $this->command->line("\n  <bg=red;fg=white> Illegal Version Info, aborting. </>\n");
-                return;
-            }
-
-            // check there is a not null version
-            if(isset($info["version"]) && !is_null($info["version"]) && trim($info["version"])!=""){
+            // if there isn't, create one
+            if(empty($info)){
+                $this->oid=OJModel::insertOJ([
+                    "ocode"=>$babelConfig["code"],
+                    "name"=>$babelConfig["name"],
+                    "home_page"=>$babelConfig["website"],
+                    "logo"=>"/static/img/oj/default.png",
+                    "status"=>1,
+                    "version"=>"",
+                    "compiler_timestamp"=>"",
+                ]);
+            } else {
+                // check legal version format
                 try {
-                    $installedVersion=new Version($info["version"]);
+                    $currentVersion=new Version($babelConfig["version"]);
                 } catch(InvalidVersionException $e) {
                     $this->command->line("\n  <bg=red;fg=white> Illegal Version Info, aborting. </>\n");
                     return;
                 }
 
-                if (!($currentVersion->isGreaterThan($installedVersion))) {
-                    // lower version or even
-                    $this->command->line("Nothing to install or update");
-                    return;
+                // check there is a not null version
+                if(isset($info["version"]) && !is_null($info["version"]) && trim($info["version"])!=""){
+                    try {
+                        $installedVersion=new Version($info["version"]);
+                    } catch(InvalidVersionException $e) {
+                        $this->command->line("\n  <bg=red;fg=white> Illegal Version Info, aborting. </>\n");
+                        return;
+                    }
+
+                    if (!($currentVersion->isGreaterThan($installedVersion))) {
+                        // lower version or even
+                        $this->command->line("Nothing to install or update");
+                        return;
+                    }
+                }
+
+                $this->oid=$info["oid"];
+            }
+
+            // retrieve compiler config and then import it
+            $installed_timestamp=0;
+            if(isset($info["compiler_timestamp"]) && !is_null($info["compiler_timestamp"]) && trim($info["compiler_timestamp"])!=""){
+                $installed_timestamp=intval($info["compiler_timestamp"]);
+            }
+            $ConpilerConfig = glob(babel_path("Extension/$ocode/compiler/*.*"));
+            foreach($ConpilerConfig as $file) {
+                if(intval(basename($file)) > $installed_timestamp) {
+                    try {
+                        $this->commitCompiler($file,json_decode(file_get_contents($file), true));
+                    } catch (Exception $e) {
+                        $this->command->line("<fg=red>Error:     ".$e->getMessage()."</>");
+                        $this->command->line("\n  <bg=red;fg=white> Compiler info import failure, aborting. </>\n");
+                        return;
+                    }
                 }
             }
 
-            $this->oid=$info["oid"];
-        }
-
-        // retrieve compiler config and then import it
-        $installed_timestamp=0;
-        if(isset($info["compiler_timestamp"]) && !is_null($info["compiler_timestamp"]) && trim($info["compiler_timestamp"])!=""){
-            $installed_timestamp=intval($info["compiler_timestamp"]);
-        }
-        $ConpilerConfig = glob(babel_path("Extension/$ocode/compiler/*.*"));
-        foreach($ConpilerConfig as $file) {
-            if(intval(basename($file)) > $installed_timestamp) {
-                try {
-                    $this->commitCompiler($file,json_decode(file_get_contents($file), true));
-                } catch (Exception $e) {
-                    $this->command->line("<fg=red>Error:     ".$e->getMessage()."</>");
-                    $this->command->line("\n  <bg=red;fg=white> Compiler info import failure, aborting. </>\n");
-                    return;
-                }
+            // import icon
+            try{
+                $imgPath=babel_path("Extension/$ocode/".$babelConfig["icon"]);
+                $storePath=$this->applyIcon($ocode, $imgPath);
+                OJModel::updateOJ($this->oid,["logo"=>$storePath]);
+            }catch(Exception $e){
+                $this->command->line("\n  <bg=red;fg=white> Unable to add an icon for this extension. </>\n");
             }
-        }
 
-        // import icon
-        try{
-            $imgPath=babel_path("Extension/$ocode/".$babelConfig["icon"]);
-            $storePath=$this->applyIcon($ocode, $imgPath);
-            OJModel::updateOJ($this->oid,["logo"=>$storePath]);
-        }catch(Exception $e){
-            $this->command->line("\n  <bg=red;fg=white> Unable to add an icon for this extension. </>\n");
-        }
+        }, 5);
     }
 
     protected function _uninstall($ocode)
