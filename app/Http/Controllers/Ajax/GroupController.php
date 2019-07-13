@@ -340,4 +340,23 @@ class GroupController extends Controller
         $groupModel->createGroup(Auth::user()->id, $all_data["gcode"], $img, $all_data["name"], $all_data["public"], $all_data["description"], $all_data["join_policy"]);
         return ResponseModel::success(200);
     }
+
+    public function createNotice(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|integer',
+            'title' => 'required|min:3|max:50',
+            'content' => 'required|min:3|max:100',
+        ]);
+        
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        if ($clearance < 2){
+            return ResponseModel::err(2001);
+        }
+        $groupModel->createNotice($all_data["gid"], Auth::user()->id, $all_data["title"], $all_data["content"]);
+        return ResponseModel::success(200);
+    }
 }
