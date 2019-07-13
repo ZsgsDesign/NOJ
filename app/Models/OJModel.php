@@ -30,4 +30,9 @@ class OJModel extends Model
     {
         return DB::table('oj')->insertGetId($row);
     }
+
+    public static function update($oid, $row)
+    {
+        return DB::table('oj')->where(["oid"=>$oid])->update($row);
+    }
 }

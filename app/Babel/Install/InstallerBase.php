@@ -102,7 +102,8 @@ class InstallerBase
         // import icon
         try{
             $imgPath=babel_path("Extension/$ocode/".$babelConfig["icon"]);
-            $this->applyIcon($ocode, $imgPath);
+            $storePath=$this->applyIcon($ocode, $imgPath);
+            OJModel::update($oid,["logo"=>$storePath]);
         }catch(Exception $e){
             $this->command->line("\n  <bg=red;fg=white> Unable to add an icon for this extension. </>\n");
         }
@@ -110,7 +111,7 @@ class InstallerBase
 
     protected function _uninstall($ocode)
     {
-
+        return false;
     }
 
     public function __construct($class)
@@ -120,7 +121,7 @@ class InstallerBase
     }
 
 
-    protected function commitCompiler()
+    protected function commitCompiler($json)
     {
 
     }
@@ -134,6 +135,7 @@ class InstallerBase
             mkdir($storePath);
         }
         file_put_contents($storePath.basename($imgPath),file_get_contents($imgPath));
+        return "/static/img/oj/$ocode/".basename($imgPath);
     }
 
     private function delFile($dirName){
