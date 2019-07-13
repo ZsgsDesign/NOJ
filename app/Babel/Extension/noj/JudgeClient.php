@@ -1,6 +1,6 @@
 <?php
-namespace App\Http\Controllers\VirtualJudge\NOJ;
-use App\Http\Controllers\VirtualJudge\NOJ\Languages;
+namespace App\Babel\Extension\noj;
+
 class JudgeClient
 {
     private $ch=null;

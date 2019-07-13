@@ -5,11 +5,11 @@
     "description": "Official Online Judge Interface for NOJ",
     "license": "MIT",
     "repository":"https://github.com/ZsgsDesign/NOJ",
-    "version":"0.3.0",
+    "version":"__cur__",
     "provider":{
         "submitter":"Submitter"
     },
     "require":{
-        "NOJ":"0.3.0"
+        "NOJ":"__cur__"
     }
 }

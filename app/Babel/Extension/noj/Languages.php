@@ -1,5 +1,6 @@
 <?php
-namespace App\Http\Controllers\VirtualJudge\NOJ;
+namespace App\Babel\Extension\noj;
+
 class Languages
 {
     public static function get()

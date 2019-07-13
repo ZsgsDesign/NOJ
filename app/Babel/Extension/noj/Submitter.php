@@ -1,15 +1,18 @@
 <?php
-namespace App\Babel\Extension\poj;
+namespace App\Babel\Extension\noj;
 
 use App\Babel\Submit\Curl;
-use App\Models\CompilerModel;
+use App\Models\OJModel;
 use App\Models\JudgerModel;
+use App\Models\ProblemModel;
+use App\Models\ContestModel;
 use Illuminate\Support\Facades\Validator;
 use Requests;
 
 class Submitter extends Curl
 {
     protected $sub;
+    public $oid=null;
     public $post_data=[];
     public $verdictDict=[
         -2 => "Compile Error",
@@ -28,6 +31,7 @@ class Submitter extends Curl
     {
         $this->sub=& $sub;
         $this->post_data=$all_data;
+        $this->oid=OJModel::oid('noj');
     }
     public function submitJudger($submitURL, $data)
     {
