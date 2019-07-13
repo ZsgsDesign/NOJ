@@ -1255,8 +1255,6 @@ class ContestModel extends Model
                 if(Cache::tags(['contest','rank'])->get($cid) != null){
                     $chache = Cache::tags(['contest','data'])->get($cid);
                     $ret = Cache::tags(['contest','rank'])->get($cid);
-                    if (time() > $chache['frozen_time'])
-                        return;
 
                     $id = 0;
 
@@ -1270,7 +1268,10 @@ class ContestModel extends Model
                     $ret = $this->updateContestRankDetail($chache['contest_info'],$chache['problemSet'][$id],$cid,$sub['uid'],$ret);
                     $ret = $this->sortContestRankTable($chache['contest_info'],$cid,$ret);
 
-                    Cache::tags(['contest', 'rank'])->put($cid, $ret);
+                    if (time() < $chache['frozen_time']){
+                        Cache::tags(['contest', 'rank'])->put($cid, $ret);
+                    }
+                    Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $ret);
                 }
                 else{
                     $ret=[];
@@ -1297,7 +1298,13 @@ class ContestModel extends Model
                             "<",
                             $chache['frozen_time']
                         )->select('uid')->groupBy('uid')->get()->all();
+                        $submissionUsersAdmin=DB::table("submission")->where([
+                            "cid"=>$cid
+                        ])->select('uid')->groupBy('uid')->get()->all();
                     }
+
+                    $chacheAdmin = $chache;
+
                     foreach ($submissionUsers as $s) {
                         foreach ($chache['problemSet'] as $key => $p) {
                             $p['cpid'] = $key;
@@ -1306,6 +1313,16 @@ class ContestModel extends Model
                     }
                     $ret = $this->sortContestRankTable($chache['contest_info'],$cid,$ret);
                     Cache::tags(['contest', 'rank'])->put($cid, $ret);
+
+                    $retAdmin=[];
+                    foreach ($submissionUsersAdmin as $s) {
+                        foreach ($chacheAdmin['problemSet'] as $key => $p) {
+                            $p['cpid'] = $key;
+                            $retAdmin = $this->updateContestRankDetail($chacheAdmin['contest_info'],$p,$cid,$s['uid'],$retAdmin);
+                        }
+                    }
+                    $retAdmin = $this->sortContestRankTable($chacheAdmin['contest_info'],$cid,$retAdmin);
+                    Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $retAdmin);
                 }
             }
         }catch(LockTimeoutException $e){
