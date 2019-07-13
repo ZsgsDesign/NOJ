@@ -2,13 +2,18 @@
 
 namespace App\Babel\Install;
 
+use App\Models\OJModel;
+
 class InstallerBase
 {
     private $command;
 
     protected function _install($ocode)
     {
+        $babelConfig=json_decode(file_get_contents(babel_path("Extension/$ocode/babel.json")),true);
         $this->command->info("Installing $ocode");
+        $info=OJModel::basic(OJModel::oid($ocode));
+        if($info["version"]!=$babelConfig["version"]);
         $ConpilerConfig = glob(babel_path("Extension/$ocode/compiler/*.*"));
         foreach($ConpilerConfig as $file) {
             try{
@@ -18,7 +23,7 @@ class InstallerBase
             }
         }
         try{
-            $imgPath=babel_path("Extension/$ocode/".json_decode(file_get_contents(babel_path("Extension/$ocode/babel.json")), true)["icon"]);
+            $imgPath=babel_path("Extension/$ocode/".$babelConfig["icon"]);
             $this->applyIcon($ocode, $imgPath);
         }catch(Exception $e){
             $this->command->error('Unable to add an icon for this extension');

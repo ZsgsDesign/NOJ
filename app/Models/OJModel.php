@@ -18,6 +18,11 @@ class OJModel extends Model
 
     public static function ocode($oid)
     {
-        return DB::table('oj')->where(["oid"=>$oid])->first()["ocode"];
+        return self::basic($oid)["ocode"];
+    }
+
+    public static function basic($oid)
+    {
+        return DB::table('oj')->where(["oid"=>$oid])->first();
     }
 }
