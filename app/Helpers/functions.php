@@ -73,3 +73,21 @@ if (! function_exists('babel_path')) {
         return app('path').DIRECTORY_SEPARATOR.'Babel'.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 }
+
+if (! function_exists('glob_recursive')) {
+    /**
+     * Find pathnames matching a pattern recursively.
+     *
+     * @param  string  $pattern The pattern. No tilde expansion or parameter substitution is done.
+     * @param  int     $flags   Valid flags: GLOB_MARK
+     * @return array|false      an array containing the matched files/directories, an empty array if no file matched or false on error.
+     */
+    function glob_recursive($pattern, $flags = 0)
+    {
+        $files = glob($pattern, $flags);
+        foreach (glob(dirname($pattern).'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir) {
+            $files = array_merge($files, glob_recursive($dir.'/'.basename($pattern), $flags));
+        }
+        return $files;
+    }
+}
