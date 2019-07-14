@@ -220,6 +220,7 @@
 
     .animation-playing-background {
         filter: blur(4px);
+        transition-duration: 4s;
     }
 </style>
 

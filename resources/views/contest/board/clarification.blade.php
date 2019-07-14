@@ -449,6 +449,7 @@
             url: '/ajax/contest/setClarificationPublic',
             data: {
                 cid: {{$cid}},
+                ccid: ccid,
                 public: $("#public_" + ccid).is(':checked')
             },
             dataType: 'json',
