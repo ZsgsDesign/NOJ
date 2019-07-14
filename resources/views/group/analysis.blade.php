@@ -95,6 +95,16 @@
         <a id="tab-tag" class="nav-link" href="#">Tags</a>
         <a class="nav-link disabled" href="#">Developing...</a>
     </nav>
+    <div class="switch text-right">
+        <label>
+            <input id="switch-percent" type="checkbox">
+            Show By Percent
+        </label>&nbsp;&nbsp;&nbsp;&nbsp;
+        <label>
+            <input id="switch-max" type="checkbox">
+            Hide Maximum
+        </label>
+    </div>
     <div id="panels">
         <div id="contest-panel"  style="display: none">
         </div>
@@ -144,10 +154,10 @@
             </table>
         </div>
     </div> --}}
+
 </div>
 <script>
     let ajaxing = true;
-    let data_loaded = false;
 
     let data_contest = null;
     let member_data = [];
@@ -158,11 +168,17 @@
     let sort_by_contest = 0;
     let sort_by_tag = '';
 
+    let contest_showPercent = false;
+    let contest_hideMax = false;
+
+    let displaying = 'contest';
+
     window.addEventListener("load",function() {
         $('#tab-contest').on('click',function(){
             $('#panels').children().hide();
             $('#contest-panel').fadeIn();
             $('#mode-list').children().removeClass('active');
+            displaying = 'contest';
             if(data_contest != null){
                 displayTable({
                     mode : 'contest',
@@ -178,6 +194,7 @@
             $('#panels').children().hide();
             $('#tag-panel').fadeIn();
             $('#mode-list').children().removeClass('active');
+            displaying = 'tag';
             if(data_tag != null){
                 displayTable({
                     mode : 'tag',
@@ -189,7 +206,26 @@
             $(this).addClass('active')
         });
 
-        $('#tab-contest').click();
+        $('#switch-percent').on('click',function(){
+            contest_showPercent = $(this).prop('checked');
+            displayTable({
+                mode : displaying,
+                selector : '#' + displaying + '-panel'
+            });
+        });
+
+        $('#switch-max').on('click',function(){
+            contest_hideMax = $(this).prop('checked');
+            displayTable({
+                mode : displaying,
+                selector : '#' + displaying + '-panel'
+            });
+        });
+
+        $('#contest-contest').click();
+
+        loadContestsData();
+        $('#contest-panel').fadeIn();
 
         function loadContestsData(){
             ajaxing = true;
@@ -207,7 +243,6 @@
                     console.log(ret);
                     if(ret.ret == '200'){
                         data_contest = ret.data;
-                        data_loaded = true;
                         ajaxing = false;
                         displayTable({
                             mode : 'contest',
@@ -248,7 +283,6 @@
                     console.log(ret);
                     if(ret.ret == '200'){
                         data_tag = ret.data;
-                        data_loaded = true;
                         ajaxing = false;
                         displayTable({
                             mode : 'tag',
@@ -273,7 +307,7 @@
             });
         }
 
-        function displayTable({mode = 'contest',selector = '#contest-panel',showAverage = false,showPercentage = false}){
+        function displayTable({mode = 'contest',selector = '#contest-panel'}){
             if(mode == 'contest'){
                 var contest_list = data_contest.contest_list;
                 var member_data = data_contest.member_data;
@@ -313,21 +347,39 @@
                 }
                 for(let member_index in member_data){
                     let member = member_data[member_index];
-                    $(selector + ' tbody').append(`
-                    <tr id="uid-${member['uid']}">
-                        <td class="member-name" style="text-align: left;">${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}</span></td>
-                        <td>${member['solved_all']}<span class="problem-maximum"> / ${member['problem_all']}</span></td>
-                        <td>${Math.round(member['penalty'])}</td>
-                    </tr>
-                    `);
+                    if(!contest_showPercent){
+                        $(selector + ' tbody').append(`
+                        <tr id="uid-${member['uid']}">
+                            <td class="member-name" style="text-align: left;">${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}</span></td>
+                            <td>${member['solved_all']}<span class="problem-maximum"> / ${member['problem_all']}</span></td>
+                            <td>${Math.round(member['penalty'])}</td>
+                        </tr>
+                        `);
+                    }else{
+                        $(selector + ' tbody').append(`
+                        <tr id="uid-${member['uid']}">
+                            <td class="member-name" style="text-align: left;">${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}</span></td>
+                            <td>${member['problem_all'] != 0 ? Math.round(member['solved_all'] / member['problem_all'] * 100) : '-'} %</td>
+                            <td>${Math.round(member['penalty'])}</td>
+                        </tr>
+                        `);
+                    }
                     for(contest_index in contest_list){
                         let contest_id = contest_list[contest_index]['cid'];
                         if(Object.keys(member['contest_detial']).indexOf(`${contest_id}`) != -1){
-                            $(selector + ' #uid-'+member['uid']).append(`
-                            <td>${member['contest_detial'][contest_id]['solved']} <span class="problem-maximum"> / ${member['contest_detial'][contest_id]['problems']}</span></td>
-                            <td>${Math.round(member['contest_detial'][contest_id]['penalty'])}</td>
-                            `
-                            );
+                            if(contest_showPercent){
+                                $(selector + ' #uid-'+member['uid']).append(`
+                                <td>${Math.round(1.0*member['contest_detial'][contest_id]['solved'] / member['contest_detial'][contest_id]['problems'] * 100)} %</td>
+                                <td>${Math.round(member['contest_detial'][contest_id]['penalty'])}</td>
+                                `
+                                );
+                            }else{
+                                $(selector + ' #uid-'+member['uid']).append(`
+                                <td>${member['contest_detial'][contest_id]['solved']} <span class="problem-maximum"> / ${member['contest_detial'][contest_id]['problems']}</span></td>
+                                <td>${Math.round(member['contest_detial'][contest_id]['penalty'])}</td>
+                                `
+                                );
+                            }
                         }else{
                             $(selector + ' #uid-'+member['uid']).append(`
                             <td>- <span class="problem-maximum"> / -</span></td>
@@ -340,6 +392,9 @@
                         var uid = member_ingore[mi];
                         $(selector + ' tbody').append($(selector + ' #uid-'+uid));
                         $(selector + ' #uid-'+uid).css({opacity : 0.3})
+                    }
+                    if(contest_hideMax){
+                        $('.problem-maximum').hide();
                     }
                     registerContestOpr()
                 }
@@ -396,6 +451,9 @@
                     $(selector + ' tbody').append($(selector + ' #uid-'+uid));
                     $(selector + ' #uid-'+uid).css({opacity : 0.3})
                 }
+                if(contest_hideMax){
+                    $('.problem-maximum').hide();
+                }
                 registerTagOpr()
             }
         }
@@ -410,8 +468,13 @@
                             var compare_b = b['penalty'];
                             return desc * (compare_a - compare_b);
                         }else if(by == 'solved'){
-                            var compare_a = a['solved_all'];
-                            var compare_b = b['solved_all'];
+                            if(contest_showPercent){
+                                var compare_a = a['solved_all'] / a['problem_all'];
+                                var compare_b = b['solved_all'] / b['problem_all'];
+                            }else{
+                                var compare_a = a['solved_all'];
+                                var compare_b = b['solved_all'];
+                            }
                             return desc * (compare_a - compare_b);
                         }
                     }else{
@@ -531,8 +594,8 @@
                     member_ingore.splice(member_ingore.indexOf(uid),1);
                 }
                 displayTable({
-                    mode : 'tag',
-                    selector : '#tag-panel'
+                    mode : displaying,
+                    selector : '#' + displaying + '-panel'
                 });
             });
 
@@ -548,8 +611,8 @@
                     desc : sort_desc
                 });
                 displayTable({
-                    mode : 'tag',
-                    selector : '#tag-panel'
+                    mode : displaying,
+                    selector : '#' + displaying + '-panel'
                 });
             });
         }
