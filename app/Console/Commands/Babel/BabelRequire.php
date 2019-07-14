@@ -40,6 +40,10 @@ class BabelRequire extends Command
     public function handle()
     {
         $extension = $this->argument('extension');
+        if(is_dir(babel_path("Extension/$extension/"))) {
+            $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>An extension named <fg=green>$extension</> already took place, did you mean <fg=green>php artisan bable:update $extension</>?</>\n");
+            return;
+        }
         $marketspaceRaw=json_decode(file_get_contents(env("BABEL_MIRROR","https://acm.njupt.edu.cn/babel")."/babel.json"),true);
         $marketspacePackages=$marketspaceRaw["packages"];
         $marketspaceHash=$marketspaceRaw["content-hash"];
@@ -65,10 +69,6 @@ class BabelRequire extends Command
                 // if(is_dir(babel_path("Extension/$extension/"))) mkdir(babel_path("Extension/$extension/"));
                 rename($babelPath,babel_path("Extension/$extension/"));
             }
-            // √ download to temp folder
-            // √ extract to temp folder
-            // √ find inside the extract folder
-            // move the folder that found babel.json to extension
         } catch(\PhpZip\Exception\ZipException $e) {
             $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>An error occoured when extract <fg=green>$extension</>.</>\n");
             // $this->delDir(babel_path("Extension/$extension/"));
