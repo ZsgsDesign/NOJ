@@ -35,4 +35,9 @@ class OJModel extends Model
     {
         return DB::table('oj')->where(["oid"=>$oid])->update($row);
     }
+
+    public static function removeOJ($filter)
+    {
+        return DB::table('oj')->where($filter)->delete();
+    }
 }

@@ -135,6 +135,8 @@ class InstallerBase
         $this->command->line("<fg=red>Warning: Removing an installed and already-used extension may cause severe consequences, including lossing user submission, problem data and contests regaring or involving the usage of this extension. </>");
         if ($this->command->confirm("Are you sure you want to uninstall $ocode?")){
             //uninstall
+            OJModel::removeOJ(["ocode"=>$ocode]);
+            $this->command->line("Already removed <fg=green>$ocode</>");
         }
     }
 
