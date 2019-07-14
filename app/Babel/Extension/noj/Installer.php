@@ -16,7 +16,7 @@ class Installer extends InstallerBase
 
     public function uninstall()
     {
-        throw new Exception("No Uninstall Method Provided");
-        // $this->_uninstall($this->ocode);
+        // throw new Exception("No Uninstall Method Provided");
+        $this->_uninstall($this->ocode);
     }
 }
