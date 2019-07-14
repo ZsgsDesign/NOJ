@@ -125,6 +125,6 @@ class CompilerModel extends Model
 
     public static function checkExist($filter)
     {
-        return boolval(DB::table('compiler')->where($filter));
+        return boolval(DB::table('compiler')->where($filter)->count());
     }
 }
