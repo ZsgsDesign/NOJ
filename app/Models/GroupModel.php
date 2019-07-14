@@ -334,9 +334,15 @@ class GroupModel extends Model
                 }
             }
         }
+        $new_memberData = [];
+        foreach ($memberData as $key => $value) {
+            $temp = $value;
+            $temp['uid'] = $key;
+            array_push($new_memberData,$temp);
+        }
         $ret = [
             'contest_list' => $allPracticeContest,
-            'member_data' => $memberData
+            'member_data' => $new_memberData
         ];
         return $ret;
     }

@@ -80,7 +80,11 @@
         white-space: nowrap;
     }
 
-    .member-name,.contest-name{
+    .member-name,
+    .contest-name,
+    .contest-penalty,
+    .contest-solved,
+    .tag-solved{
         cursor: pointer;
     }
 </style>
@@ -93,10 +97,8 @@
     </nav>
     <div id="panels">
         <div id="contest-panel"  style="display: none">
-            contest
         </div>
         <div id="tag-panel" style="display: none">
-            tag
         </div>
     </div>
 
@@ -154,6 +156,7 @@
     let member_ingore = [];
     let sort_desc = false;
     let sort_by_contest = 0;
+    let sort_by_tag = '';
 
     window.addEventListener("load",function() {
         $('#tab-contest').on('click',function(){
@@ -311,7 +314,7 @@
                 for(let member_index in member_data){
                     let member = member_data[member_index];
                     $(selector + ' tbody').append(`
-                    <tr id="uid-${member_index}">
+                    <tr id="uid-${member['uid']}">
                         <td class="member-name" style="text-align: left;">${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}</span></td>
                         <td>${member['solved_all']}<span class="problem-maximum"> / ${member['problem_all']}</span></td>
                         <td>${Math.round(member['penalty'])}</td>
@@ -320,13 +323,13 @@
                     for(contest_index in contest_list){
                         let contest_id = contest_list[contest_index]['cid'];
                         if(Object.keys(member['contest_detial']).indexOf(`${contest_id}`) != -1){
-                            $(selector + ' #uid-'+member_index).append(`
+                            $(selector + ' #uid-'+member['uid']).append(`
                             <td>${member['contest_detial'][contest_id]['solved']} <span class="problem-maximum"> / ${member['contest_detial'][contest_id]['problems']}</span></td>
                             <td>${Math.round(member['contest_detial'][contest_id]['penalty'])}</td>
                             `
                             );
                         }else{
-                            $(selector + ' #uid-'+member_index).append(`
+                            $(selector + ' #uid-'+member['uid']).append(`
                             <td>- <span class="problem-maximum"> / -</span></td>
                             <td>-</td>
                             `
@@ -369,7 +372,7 @@
                         <th scope="col" style="max-width: 6rem; text-overflow: ellipsis; overflow: hidden; white-space:nowrap" title="${tag}">${tag}</th>
                     `);
                     $(selector + ' #tr-2').append(`
-                        <th scope="col">Solved</th>
+                        <th scope="col" class="tag-solved" data-tag="${tag}">Solved</th>
                     `);
                 }
                 for(let member_index in member_data){
@@ -402,9 +405,15 @@
                 desc = desc ? 1 : -1;
                 data_contest.member_data = data_contest.member_data.sort(function(a,b){
                     if(byContest == 0){
-                        var compare_a = a['solved_all'];
-                        var compare_b = b['solved_all'];
-                        return desc * (compare_a - compare_b);
+                        if(by == 'penalty'){
+                            var compare_a = a['penalty'];
+                            var compare_b = b['penalty'];
+                            return desc * (compare_a - compare_b);
+                        }else if(by == 'solved'){
+                            var compare_a = a['solved_all'];
+                            var compare_b = b['solved_all'];
+                            return desc * (compare_a - compare_b);
+                        }
                     }else{
                         if(by == 'rank'){
                             if(a['contest_detial'][byContest] == undefined) compare_a = 1000000000;
@@ -427,12 +436,14 @@
                         }
                     }
                 });
+                console.log(data_contest.member_data);
             }
         }
 
         function sortTagData({byTag = null,desc = false}){
             if(data_tag != null && byTag != null){
-                data_contest.member_data = data_contest.member_data.sort(function(a,b){
+                desc = desc ? 1 : -1;
+                data_tag.member_data = data_tag.member_data.sort(function(a,b){
                     var compare_a = eval(Object.values(a['completion'][byTag]).join('+'));
                     var compare_b = eval(Object.values(b['completion'][byTag]).join('+'));
                     return desc * (compare_a - compare_b);
@@ -444,7 +455,6 @@
             $('.member-name').unbind();
             $('.member-name').on('click',function(){
                 var uid = parseInt($(this).parent().attr('id').split('-')[1]);
-                console.log(uid)
                 if(member_ingore.indexOf(uid) == -1){
                     member_ingore.push(uid);
                 }else{
@@ -462,10 +472,47 @@
                 if(cid == sort_by_contest){
                     sort_desc = !sort_desc;
                 }
+                sort_by_contest = cid;
                 sortContestData({
-                    byContest : cid,
+                    byContest : sort_by_contest,
                     desc : sort_desc,
                     by : 'rank'
+                })
+                displayTable({
+                    mode : 'contest',
+                    selector : '#contest-panel'
+                });
+            });
+
+            $('.contest-solved').unbind();
+            $('.contest-solved').on('click',function(){
+                var cid = $(this).attr('data-cid');
+                if(cid == sort_by_contest){
+                    sort_desc = !sort_desc;
+                }
+                sort_by_contest = cid;
+                sortContestData({
+                    byContest : sort_by_contest,
+                    desc : sort_desc,
+                    by : 'solved'
+                })
+                displayTable({
+                    mode : 'contest',
+                    selector : '#contest-panel'
+                });
+            });
+
+            $('.contest-penalty').unbind();
+            $('.contest-penalty').on('click',function(){
+                var cid = $(this).attr('data-cid');
+                if(cid == sort_by_contest){
+                    sort_desc = !sort_desc;
+                }
+                sort_by_contest = cid;
+                sortContestData({
+                    byContest : sort_by_contest,
+                    desc : sort_desc,
+                    by : 'penalty'
                 })
                 displayTable({
                     mode : 'contest',
@@ -475,7 +522,36 @@
         }
 
         function registerTagOpr(){
+            $('.member-name').unbind();
+            $('.member-name').on('click',function(){
+                var uid = parseInt($(this).parent().attr('id').split('-')[1]);
+                if(member_ingore.indexOf(uid) == -1){
+                    member_ingore.push(uid);
+                }else{
+                    member_ingore.splice(member_ingore.indexOf(uid),1);
+                }
+                displayTable({
+                    mode : 'tag',
+                    selector : '#tag-panel'
+                });
+            });
 
+            $('.tag-solved').unbind();
+            $('.tag-solved').on('click',function(){
+                var tag = $(this).attr('data-tag');
+                if(tag == sort_by_tag){
+                    sort_desc = !sort_desc;
+                }
+                sort_by_tag = tag;
+                sortTagData({
+                    byTag : tag,
+                    desc : sort_desc
+                });
+                displayTable({
+                    mode : 'tag',
+                    selector : '#tag-panel'
+                });
+            });
         }
     }, false);
 
