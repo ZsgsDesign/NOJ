@@ -341,7 +341,8 @@ class GroupModel extends Model
         return $ret;
     }
 
-    public function groupMemberPracticeTagStat($gid){
+    public function groupMemberPracticeTagStat($gid)
+    {
         $tags = $this->problemTags($gid);
         $tag_problems = [];
 
@@ -357,24 +358,46 @@ class GroupModel extends Model
                 ->get()->all();
         }
         $all_problems = [];
-        foreach ($tag_problems as $tag_problem_set) {
+        foreach ($tag_problems as &$tag_problem_set) {
             foreach ($tag_problem_set as $problem) {
-                if(!in_array($problem,$all_problems)){
-                    array_push($all_problems,$problem);
-                }
+                $all_problems[$problem['pid']] = $problem;
             }
+            $tag_problem_set = array_column($tag_problem_set,'pid');
         }
         $submission_data =  DB::table('submission')
-            ->whereIn('pid',array_column($all_problems,'pid'))
+            ->whereIn('pid',array_keys($all_problems))
             ->whereIn('uid',array_column($user_list,'uid'))
             ->where('verdict','Accepted')
             ->select('pid','uid')
             ->get()->all();
 
+        $memberData = [];
+        foreach ($user_list as $member) {
+            $completion = [];
+            foreach($tag_problems as $tag => $problems) {
+                $completion[$tag] = [];
+                foreach ($problems as $problem) {
+                    $is_accepted = 0;
+                    foreach ($submission_data as $sd) {
+                        if($sd['pid'] == $problem && $sd['uid'] == $member['uid']){
+                            $is_accepted = 1;
+                            break;
+                        }
+                    }
+                    $completion[$tag][$problem] = $is_accepted;
+                }
+            }
+            array_push($memberData,[
+                'uid' => $member['uid'],
+                'name' => $member['name'],
+                'nick_name' => $member['nick_name'],
+                'completion' => $completion,
+            ]);
+        }
         $ret = [
-            'user_list' => $user_list,
+            'all_problems' => $all_problems,
             'tag_problems' => $tag_problems,
-            'submission_data' => $submission_data
+            'member_data' => $memberData
         ];
         return $ret;
     }
