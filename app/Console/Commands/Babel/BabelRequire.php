@@ -4,6 +4,7 @@ namespace App\Console\Commands\Babel;
 
 use Illuminate\Console\Command;
 use Exception;
+use PhpZip\ZipFile;
 
 class BabelRequire extends Command
 {
@@ -51,5 +52,14 @@ class BabelRequire extends Command
         $this->line("Downloading <fg=green>$extension</>(<fg=yellow>{$targetPackage['version']}</>)");
         $filename=basename($targetPackage["downloadURL"]);
         file_put_contents(babel_path("Extension/$filename"),file_get_contents($targetPackage["downloadURL"]));
+        // unzip
+        if(!is_dir(babel_path("Extension/$extension/"))) mkdir(babel_path("Extension/$extension/"));
+        try {
+            $zipFile = new ZipFile();
+            $zipFile->openFile(babel_path("Extension/$filename"))->extractTo(babel_path("Extension/$extension/"));
+        } catch(\PhpZip\Exception\ZipException $e){
+            $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>An error occoured when extract the extension.</>\n");
+            return;
+        }
     }
 }
