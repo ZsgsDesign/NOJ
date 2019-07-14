@@ -4,6 +4,7 @@ namespace App\Babel;
 use App\Babel\Submit\Submitter;
 use App\Babel\Crawl\Crawler;
 use App\Babel\Judge\Judger;
+use App\Babel\Synchronize\Synchronizer;
 
 class Babel
 {
@@ -21,6 +22,11 @@ class Babel
     public function judge()
     {
         return new Judger();
+    }
+
+    public function synchronize($conf)
+    {
+        return new Synchronizer($conf);
     }
 
 }
