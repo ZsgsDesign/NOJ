@@ -4,6 +4,8 @@ namespace App\Console\Commands\Babel;
 
 use Illuminate\Console\Command;
 use Exception;
+use function GuzzleHttp\json_decode;
+use Artisan;
 
 class Install extends Command
 {
@@ -39,13 +41,28 @@ class Install extends Command
     public function handle()
     {
         $extension = $this->argument('extension');
-        $submitter=self::create($extension,$this);
+        $installerProvider="Installer";
+        try {
+            $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$extension/babel.json")), true);
+        }catch(Exception $e){
+            $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>babel.json parse error, The extension may not exist.</>\n");
+            if($this->confirm("Would you like to download it from the marketspace first?")){
+                Artisan::call("babel:require", ['extension' => $extension]);
+            }
+            return;
+        }
+        if(!isset($BabelConfig["provider"]["installer"]) || trim($BabelConfig["provider"]["installer"])=="" || is_null($BabelConfig["provider"]["installer"])){
+            $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>Installer not provided.</>\n");
+            return;
+        }
+        $installerProvider=$BabelConfig["provider"]["installer"];
+        $submitter=self::create($extension,$installerProvider,$this);
         if(!is_null($submitter)) $submitter->install();
-        else throw new Exception("Installer Not Provided");
+        else $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>Installer initiation error.</>\n");
     }
 
-    public static function create($oj,$class) {
-        $className = "App\\Babel\\Extension\\$oj\\Installer";
+    public static function create($oj,$installerProvider,$class) {
+        $className = "App\\Babel\\Extension\\$oj\\$installerProvider";
         if(class_exists($className)) {
             return new $className($class);
         } else {
