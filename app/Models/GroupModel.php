@@ -288,54 +288,94 @@ class GroupModel extends Model
         return "$difference $periods[$j] {$tense}";
     }
 
-    public function groupMemberPracticeContestStat($gid,$uid = -1){
-        if($uid == -1){
-            $contestModel = new ContestModel();
+    public function groupMemberPracticeContestStat($gid)
+    {
+        $contestModel = new ContestModel();
 
-            $allPracticeContest = DB::table('contest')
-                ->where([
-                    'gid' => $gid,
-                    'practice' => 1,
-                ])
-                ->select('cid','name')
-                ->get()->all();
-            $user_list = $this->userList($gid);
+        $allPracticeContest = DB::table('contest')
+            ->where([
+                'gid' => $gid,
+                'practice' => 1,
+            ])
+            ->select('cid','name')
+            ->get()->all();
+        $user_list = $this->userList($gid);
 
-            $memberData = [];
-            foreach ($user_list as $u) {
-                $memberData[$u['uid']] = [
-                    'name' => $u['name'],
-                    'nick_name' => $u['nick_name'],
-                    'solved_all' => 0,
-                    'problem_all' => 0,
-                    'penalty' => 0,
-                    'contest_detial' => []
-                ];
+        $memberData = [];
+        foreach ($user_list as $u) {
+            $memberData[$u['uid']] = [
+                'name' => $u['name'],
+                'nick_name' => $u['nick_name'],
+                'solved_all' => 0,
+                'problem_all' => 0,
+                'penalty' => 0,
+                'contest_detial' => []
+            ];
 
-            }
-            foreach ($allPracticeContest as $c) {
-                $contestRank = $contestModel->contestRank($c['cid'],0);
-                $problemsCount = DB::table('contest_problem')
-                    ->where('cid',$c['cid'])
-                    ->count();
-                foreach ($contestRank as $cr) {
-                    if(in_array($cr['uid'],array_keys($memberData))) {
-                        $memberData[$cr['uid']]['solved_all'] += $cr['solved'];
-                        $memberData[$cr['uid']]['problem_all'] += $problemsCount;
-                        $memberData[$cr['uid']]['penalty'] += $cr['penalty'];
-                        $memberData[$cr['uid']]['contest_detial'][$c['cid']] = [
-                            'solved' => $cr['solved'],
-                            'problems' => $problemsCount,
-                            'penalty' => $cr['penalty']
-                        ];
-                    }
+        }
+        foreach ($allPracticeContest as $c) {
+            $contestRank = $contestModel->contestRank($c['cid'],0);
+            $problemsCount = DB::table('contest_problem')
+                ->where('cid',$c['cid'])
+                ->count();
+            $rank = 0;
+            foreach ($contestRank as $cr) {
+                $rank++;
+                if(in_array($cr['uid'],array_keys($memberData))) {
+                    $memberData[$cr['uid']]['solved_all'] += $cr['solved'];
+                    $memberData[$cr['uid']]['problem_all'] += $problemsCount;
+                    $memberData[$cr['uid']]['penalty'] += $cr['penalty'];
+                    $memberData[$cr['uid']]['contest_detial'][$c['cid']] = [
+                        'rank' => $rank,
+                        'solved' => $cr['solved'],
+                        'problems' => $problemsCount,
+                        'penalty' => $cr['penalty']
+                    ];
                 }
             }
-            $ret = [
-                'contest_list' => $allPracticeContest,
-                'member_data' => $memberData
-            ];
-            return $ret;
         }
+        $ret = [
+            'contest_list' => $allPracticeContest,
+            'member_data' => $memberData
+        ];
+        return $ret;
+    }
+
+    public function groupMemberPracticeTagStat($gid){
+        $tags = $this->problemTags($gid);
+        $tag_problems = [];
+
+        $user_list = $this->userList($gid);
+        foreach ($tags as $tag) {
+            $tag_problems[$tag] = DB::table('problem')
+                ->join('group_problem_tag','problem.pid','=','group_problem_tag.pid')
+                ->where([
+                    'group_problem_tag.gid' => $gid,
+                    'tag' => $tag
+                ])
+                ->select('group_problem_tag.pid as pid','pcode','title')
+                ->get()->all();
+        }
+        $all_problems = [];
+        foreach ($tag_problems as $tag_problem_set) {
+            foreach ($tag_problem_set as $problem) {
+                if(!in_array($problem,$all_problems)){
+                    array_push($all_problems,$problem);
+                }
+            }
+        }
+        $submission_data =  DB::table('submission')
+            ->whereIn('pid',array_column($all_problems,'pid'))
+            ->whereIn('uid',array_column($user_list,'uid'))
+            ->where('verdict','Accepted')
+            ->select('pid','uid')
+            ->get()->all();
+
+        $ret = [
+            'user_list' => $user_list,
+            'tag_problems' => $tag_problems,
+            'submission_data' => $submission_data
+        ];
+        return $ret;
     }
 }

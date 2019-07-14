@@ -35,7 +35,21 @@
 </style>
 <div class="container mundb-standard-container paper-card">
     <p>Group Member Practice Contest Analysis</p>
-    <div class="text-center">
+    <nav id="mode-list" class="nav nav-tabs nav-stacked">
+        <a id="tab-contest" class="nav-link active" href="#">Contests</a>
+        <a id="tab-tag" class="nav-link" href="#">Tags</a>
+        <a class="nav-link disabled" href="#">Developing...</a>
+    </nav>
+    <div id="panels">
+        <div id="contest-panel"  style="display: none">
+            contest
+        </div>
+        <div id="tag-panel" style="display: none">
+            tag
+        </div>
+    </div>
+
+    {{-- <div class="text-center">
         <div style="overflow-x: auto">
             <table class="table">
                 <thead>
@@ -55,9 +69,9 @@
                         @endforeach
                     </tr>
                 </thead>
-                <tbody>
+                <tbody> --}}
                     {{-- ACM/ICPC Mode --}}
-                    @foreach($member_data as $m)
+                    {{-- @foreach($member_data as $m)
                     <tr>
                         <td style="text-align: left;">{{$m["name"]}} @if($m["nick_name"])<span class="cm-subtext">({{$m["nick_name"]}})</span>@endif</td>
                         <td>{{$m["solved_all"]}} / {{$m["problem_all"]}} </td>
@@ -76,10 +90,97 @@
                 </tbody>
             </table>
         </div>
-    </div>
+    </div> --}}
 </div>
 <script>
     window.addEventListener("load",function() {
+        let ajaxing = true;
+        let data_loaded = false;
+        let data_contest = null;
+        let data_tag = null;
+
+        $('#tab-tag').on('click',function(){
+            $('#panels').children().hide();
+            $('#tag-panel').fadeIn();
+            $('#mode-list').children().removeClass('active');
+            $(this).addClass('active')
+        });
+
+        $('#tab-contest').on('click',function(){
+            $('#panels').children().hide();
+            $('#contest-panel').fadeIn();
+            $('#mode-list').children().removeClass('active');
+            $(this).addClass('active')
+        });
+
+        $('#tab-contest').click();
+        loadTagsData();
+
+        function loadContestsData(){
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/group/getPracticeStat',
+                data: {
+                    gid: {{ $group_info['gid'] }},
+                    mode: 'contest'
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+
+                    ajaxing = false;
+                }, error: function(xhr, type){
+                    console.log(xhr);
+                    switch(xhr.status) {
+                        case 422:
+                            alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                            break;
+                        case 429:
+                            alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                            break;
+                        default:
+                            alert("Server Connection Error");
+                    }
+                    console.log('Ajax error while posting to ' + type);
+                    ajaxing = false;
+                }
+            });
+        }
+
+        function loadTagsData(){
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/group/getPracticeStat',
+                data: {
+                    gid: {{ $group_info['gid'] }},
+                    mode: 'tag'
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+
+                    ajaxing = false;
+                }, error: function(xhr, type){
+                    console.log(xhr);
+                    switch(xhr.status) {
+                        case 422:
+                            alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                            break;
+                        case 429:
+                            alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                            break;
+                        default:
+                            alert("Server Connection Error");
+                    }
+                    console.log('Ajax error while posting to ' + type);
+                    ajaxing = false;
+                }
+            });
+        }
 
     }, false);
 

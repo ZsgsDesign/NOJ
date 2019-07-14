@@ -289,7 +289,8 @@ class GroupController extends Controller
         return ResponseModel::err(7002);
     }
 
-    public function addProblemTag(Request $request){
+    public function addProblemTag(Request $request)
+    {
         $request->validate([
             'gid' => 'required|integer',
             'pid' => 'required|integer',
@@ -312,7 +313,8 @@ class GroupController extends Controller
         return ResponseModel::success(200);
     }
 
-    public function removeProblemTag(Request $request){
+    public function removeProblemTag(Request $request)
+    {
         $request->validate([
             'gid' => 'required|integer',
             'pid' => 'required|integer',
@@ -326,6 +328,35 @@ class GroupController extends Controller
         if ($clearance>1) {
             $groupModel->problemRemoveTag($all_data["gid"], $all_data["pid"], $all_data["tag"]);
             return ResponseModel::success(200);
+        }
+        return ResponseModel::err(7002);
+    }
+
+    public function getPracticeStat(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|string',
+            'mode' => 'required'
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        if ($clearance>2) {
+            switch($all_data['mode']){
+                case 'contest':
+                    $ret = $groupModel->groupMemberPracticeContestStat($all_data["gid"]);
+                break;
+                case 'tag':
+                    $ret = $groupModel->groupMemberPracticeTagStat($all_data["gid"]);
+                break;
+                default:
+                    return ResponseModel::err(1007);
+                break;
+            }
+
+            return ResponseModel::success(200,null,$ret);
         }
         return ResponseModel::err(7002);
     }
