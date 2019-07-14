@@ -112,7 +112,7 @@ class CompilerModel extends Model
     public static function remove($filter)
     {
         return DB::table('compiler')->where($filter)->update([
-            "delete"=>1
+            "deleted"=>1
         ]);
     }
 
