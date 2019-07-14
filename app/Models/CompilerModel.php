@@ -17,7 +17,7 @@ class CompilerModel extends Model
         if ($pid) {
             $special=DB::table("problem")->where(['pid'=>$pid])->select(['special_compiler'])->first();
         }
-        $t=DB::table($this->tableName)->where(["oid"=>$oid, "available"=>1]);
+        $t=DB::table($this->tableName)->where(["oid"=>$oid, "available"=>1, "deleted"=>0]);
         if ($special && $special['special_compiler']) {
             $t=$t->whereIn('coid', explode(',', $special['special_compiler']));
         }
@@ -102,7 +102,8 @@ class CompilerModel extends Model
     {
         if(self::checkExist([
             "oid"=>$row["oid"],
-            "lcode"=>$row["lcode"]
+            "lcode"=>$row["lcode"],
+            "deleted"=>0
         ])){
             throw new Exception("Duplicate Language Code");
         }

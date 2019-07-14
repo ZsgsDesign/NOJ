@@ -156,12 +156,12 @@ class InstallerBase
                     "icon"=>$m["icon"],
                     "display_name"=>$m["display"],
                     "available"=>1,
+                    "deleted"=>0
                 ]);
             }elseif($m["method"]=="modify"){
                 $modifyItem=[];
                 if(isset($m["compability"])) $modifyItem["comp"]=$m["compability"];
                 if(isset($m["language"])) $modifyItem["lang"]=$m["language"];
-                if(isset($m["code"])) $modifyItem["lcode"]=$m["code"];
                 if(isset($m["icon"])) $modifyItem["icon"]=$m["icon"];
                 if(isset($m["display"])) $modifyItem["display_name"]=$m["display"];
                 CompilerModel::modify([
