@@ -50,16 +50,47 @@ class BabelRequire extends Command
         }
         //todo: check requirements
         $this->line("Downloading <fg=green>$extension</>(<fg=yellow>{$targetPackage['version']}</>)");
-        $filename=basename($targetPackage["downloadURL"]);
-        file_put_contents(babel_path("Extension/$filename"),file_get_contents($targetPackage["downloadURL"]));
+        $filename="$extension-".basename($targetPackage["downloadURL"]);
+        file_put_contents(babel_path("Tmp/$filename"),file_get_contents($targetPackage["downloadURL"]));
         // unzip
-        if(!is_dir(babel_path("Extension/$extension/"))) mkdir(babel_path("Extension/$extension/"));
+        if(!is_dir(babel_path("Tmp/$extension/"))) mkdir(babel_path("Tmp/$extension/"));
         try {
             $zipFile = new ZipFile();
-            $zipFile->openFile(babel_path("Extension/$filename"))->extractTo(babel_path("Extension/$extension/"));
+            $zipFile->openFile(babel_path("Tmp/$filename"))->extractTo(babel_path("Tmp/$extension/"))->close();
+            $babelPath=glob_recursive(babel_path("Tmp/$extension/babel.json"));
+            if(empty($babelPath)){
+                $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>There exists no <fg=green>babel.json</> files.</>\n");
+            } else {
+                $babelPath=dirname($babelPath[0]);
+                // if(is_dir(babel_path("Extension/$extension/"))) mkdir(babel_path("Extension/$extension/"));
+                rename($babelPath,babel_path("Extension/$extension/"));
+            }
+            // √ download to temp folder
+            // √ extract to temp folder
+            // √ find inside the extract folder
+            // move the folder that found babel.json to extension
         } catch(\PhpZip\Exception\ZipException $e) {
             $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>An error occoured when extract <fg=green>$extension</>.</>\n");
-            return;
+            // $this->delDir(babel_path("Extension/$extension/"));
+        } catch(Exception $e){
+            $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>An error occoured when extract <fg=green>$extension</>.</>\n");
+            // $this->delDir(babel_path("Extension/$extension/"));
         }
+        unlink(babel_path("Tmp/$filename"));
+        $this->delDir(babel_path("Tmp/$extension/"));
+        $this->line("Downloaded <fg=green>$extension</>(<fg=yellow>{$targetPackage['version']}</>)");
+    }
+
+    private function delDir($dir){
+        $it = new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS);
+        $files = new \RecursiveIteratorIterator($it, \RecursiveIteratorIterator::CHILD_FIRST);
+        foreach($files as $file) {
+            if ($file->isDir()){
+                rmdir($file->getRealPath());
+            } else {
+                unlink($file->getRealPath());
+            }
+        }
+        rmdir($dir);
     }
 }
