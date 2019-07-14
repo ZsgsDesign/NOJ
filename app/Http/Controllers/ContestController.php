@@ -327,4 +327,29 @@ class ContestController extends Controller
             'clearance'=> $clearance
         ]);
     }
+
+    /**
+     * Show the Contest Admin Page.
+     *
+     * @return Response
+     */
+    public function admin($cid)
+    {
+        $contestModel=new ContestModel();
+        $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
+        if ($clearance <= 2) {
+            return Redirect::route('contest_detail', ['cid' => $cid]);
+        }
+        $contest_name=$contestModel->contestName($cid);
+        $customInfo=$contestModel->getCustomInfo($cid);
+        return view('contest.board.admin', [
+            'page_title'=>"Admin",
+            'navigation' => "Contest",
+            'site_title'=>$contest_name,
+            'contest_name'=>$contest_name,
+            'cid'=>$cid,
+            'custom_info' => $customInfo,
+            'clearance'=> $clearance
+        ]);
+    }
 }
