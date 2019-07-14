@@ -335,9 +335,18 @@ class GroupModel extends Model
             }
         }
         $new_memberData = [];
-        foreach ($memberData as $key => $value) {
-            $temp = $value;
-            $temp['uid'] = $key;
+        foreach ($memberData as $uid => $data) {
+            $contest_count = 0;
+            $rank_sum = 0;
+            foreach ($data['contest_detial'] as $cid => $c) {
+                $rank_sum += $c['rank'];
+                $contest_count += 1;
+            }
+            $temp = $data;
+            $temp['uid'] = $uid;
+            if($contest_count != 0){
+                $temp['rank_ave'] = $rank_sum/$contest_count;
+            }
             array_push($new_memberData,$temp);
         }
         $ret = [

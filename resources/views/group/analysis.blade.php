@@ -84,7 +84,8 @@
     .contest-name,
     .contest-penalty,
     .contest-solved,
-    .tag-solved{
+    .tag-solved,
+    .contest-rank{
         cursor: pointer;
     }
 </style>
@@ -240,7 +241,6 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
                     if(ret.ret == '200'){
                         data_contest = ret.data;
                         ajaxing = false;
@@ -280,7 +280,6 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
                     if(ret.ret == '200'){
                         data_tag = ret.data;
                         ajaxing = false;
@@ -318,10 +317,11 @@
                             <thead>
                                 <tr id="tr-1">
                                     <th scope="col" rowspan="2" style="text-align: left;">Member</th>
-                                    <th scope="col" colspan="2" style="text-align: middle;">Total</th>
+                                    <th scope="col" colspan="3" style="text-align: middle;">Total</th>
                                     <!-- here is contests -->
                                 </tr>
                                 <tr id="tr-2">
+                                    <th scope="col" class="contest-rank" data-cid="0">Rank</th>
                                     <th scope="col" class="contest-solved" data-cid="0">Solved</th>
                                     <th scope="col" class="contest-penalty" data-cid="0">Penalty</th>
                                     <!-- here is the column of the contests -->
@@ -351,6 +351,7 @@
                         $(selector + ' tbody').append(`
                         <tr id="uid-${member['uid']}">
                             <td class="member-name" style="text-align: left;">${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}</span></td>
+                            <td>${member['rank_ave'] == undefined ? '-' : parseFloat(member['rank_ave']).toFixed(1)}</span></td>
                             <td>${member['solved_all']}<span class="problem-maximum"> / ${member['problem_all']}</span></td>
                             <td>${Math.round(member['penalty'])}</td>
                         </tr>
@@ -359,6 +360,7 @@
                         $(selector + ' tbody').append(`
                         <tr id="uid-${member['uid']}">
                             <td class="member-name" style="text-align: left;">${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}</span></td>
+                            <td>${member['rank_ave'] == undefined ? '-' : parseFloat(member['rank_ave']).toFixed(1)}</span></td>
                             <td>${member['problem_all'] != 0 ? Math.round(member['solved_all'] / member['problem_all'] * 100) : '-'} %</td>
                             <td>${Math.round(member['penalty'])}</td>
                         </tr>
@@ -476,6 +478,12 @@
                                 var compare_b = b['solved_all'];
                             }
                             return desc * (compare_a - compare_b);
+                        }else if(by == 'rank'){
+                            if(a['rank_ave'] == undefined) compare_a = 1000000000;
+                            else var compare_a = a['rank_ave'];
+                            if(b['rank_ave'] == undefined) compare_b = 1000000000;
+                            else var compare_b = b['rank_ave'];
+                            return desc * (compare_a - compare_b);
                         }
                     }else{
                         if(by == 'rank'){
@@ -499,7 +507,6 @@
                         }
                     }
                 });
-                console.log(data_contest.member_data);
             }
         }
 
@@ -558,6 +565,24 @@
                     byContest : sort_by_contest,
                     desc : sort_desc,
                     by : 'solved'
+                })
+                displayTable({
+                    mode : 'contest',
+                    selector : '#contest-panel'
+                });
+            });
+
+            $('.contest-rank').unbind();
+            $('.contest-rank').on('click',function(){
+                var cid = $(this).attr('data-cid');
+                if(cid == sort_by_contest){
+                    sort_desc = !sort_desc;
+                }
+                sort_by_contest = cid;
+                sortContestData({
+                    byContest : sort_by_contest,
+                    desc : sort_desc,
+                    by : 'rank'
                 })
                 displayTable({
                     mode : 'contest',
