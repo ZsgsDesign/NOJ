@@ -119,6 +119,7 @@ class CompilerModel extends Model
 
     public static function modify($filter, $row)
     {
+        $filter["deleted"]=0;
         return DB::table('compiler')->where($filter)->update($row);
     }
 
