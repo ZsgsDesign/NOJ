@@ -57,7 +57,7 @@ class BabelRequire extends Command
         try {
             $zipFile = new ZipFile();
             $zipFile->openFile(babel_path("Extension/$filename"))->extractTo(babel_path("Extension/$extension/"));
-        } catch(\PhpZip\Exception\ZipException $e){
+        } catch(\PhpZip\Exception\ZipException $e) {
             $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>An error occoured when extract <fg=green>$extension</>.</>\n");
             return;
         }
