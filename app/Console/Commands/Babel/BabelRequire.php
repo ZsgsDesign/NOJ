@@ -39,6 +39,17 @@ class BabelRequire extends Command
     public function handle()
     {
         $extension = $this->argument('extension');
-        echo $extension;
+        $marketspaceRaw=json_decode(file_get_contents(env("BABEL_MIRROR","https://acm.njupt.edu.cn/babel")."/babel.json"),true);
+        $marketspacePackages=$marketspaceRaw["packages"];
+        $marketspaceHash=$marketspaceRaw["content-hash"];
+        $packageCodeColumn=array_column($marketspacePackages, 'code');
+        $targetPackage=$marketspacePackages[array_search($extension, $packageCodeColumn)];
+        if(!isset($targetPackage["downloadURL"]) || trim($targetPackage["downloadURL"])=="" || is_null($targetPackage["downloadURL"])){
+            $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>No available download link.</>\n");
+        }
+        //todo: check requirements
+        $this->line("Downloading <fg=green>$extension</>(<fg=yellow>{$targetPackage['version']}</>)");
+        $filename=basename($targetPackage["downloadURL"]);
+        file_put_contents(babel_path("Extension/$filename"),file_get_contents($targetPackage["downloadURL"]));
     }
 }
