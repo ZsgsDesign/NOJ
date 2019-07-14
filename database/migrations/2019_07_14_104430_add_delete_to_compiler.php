@@ -14,7 +14,7 @@ class AddDeleteToCompiler extends Migration
     public function up()
     {
         Schema::table('compiler', function (Blueprint $table) {
-            $table->boolean('deleted')->nullable();
+            $table->boolean('deleted')->default(0);
         });
     }
 
