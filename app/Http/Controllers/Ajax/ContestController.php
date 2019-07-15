@@ -11,8 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Jobs\ProcessSubmission;
 use Auth;
-use App\excelExport;
-use Excel;
 
 class ContestController extends Controller
 {
@@ -201,7 +199,6 @@ class ContestController extends Controller
         $accountModel=new AccountModel();
         $ret=$accountModel->generateContestAccount($all_data["cid"], $all_data["ccode"], $all_data["num"]);
         $filename = "contest".$all_data["cid"]."account";
-        $accountModel->downloadContestAccountByArray($ret, $filename);
         return ResponseModel::success(200, null, $ret);
     }
 }

@@ -9,8 +9,6 @@ use App\Models\Rating\RatingCalculator;
 use Auth;
 use Cache;
 use Log;
-use App\excelExport;
-use Excel;
 
 class ContestModel extends Model
 {
@@ -1478,10 +1476,5 @@ class ContestModel extends Model
                 "public"=>0
             ]);
         }
-    }
-
-    public function downloadContestAccountByArray($ret, $filename)
-    {
-        return Excel::download(new excelExport($ret), $filename.'.xlsx');
     }
 }
