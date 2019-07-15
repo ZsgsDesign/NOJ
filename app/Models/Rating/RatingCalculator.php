@@ -22,7 +22,6 @@ class RatingCalculator extends Model
 
         // get rank
         $this->getRecord();
-        $this->getRecordAdmin();//Not frozen
     }
 
     private function getRecord(){
@@ -30,37 +29,7 @@ class RatingCalculator extends Model
 
         if ($contestRankRaw==null) {
             $contestModel=new ContestModel();
-            $end_time=strtotime(DB::table("contest")->where(["cid"=>$this->cid])->select("end_time")->first()["end_time"]);
-            if(time() > $end_time && !Cache::has($this->cid)){
-                $contestRankRaw=$contestModel->contestRankCache($this->cid);
-                Cache::forever($this->cid, $contestRankRaw);
-            }else{
-                $contestRankRaw=Cache::tags('contest','rank')->get($this->cid);
-            }
-        }
-
-        $this->totParticipants = count($contestRankRaw);
-        foreach($contestRankRaw as $c){
-            $this->contestants[]=[
-                "uid"=>$c["uid"],
-                "points"=>$c["score"],
-                "rating"=>DB::table("users")->where(["id"=>$c["uid"]])->first()["professional_rate"]
-            ];
-        }
-    }
-
-    private function getRecordAdmin(){
-        $contestRankRaw=Cache::tags(['contest', 'rank'])->get("contestAdmin$this->cid");
-
-        if ($contestRankRaw==null) {
-            $contestModel=new ContestModel();
-            $end_time=strtotime(DB::table("contest")->where(["cid"=>$this->cid])->select("end_time")->first()["end_time"]);
-            if(time() > $end_time && !Cache::has($this->cid)){
-                $contestRankRaw=$contestModel->contestRankCache($this->cid);
-                Cache::forever($this->cid, $contestRankRaw);
-            }else{
-                $contestRankRaw=Cache::tags('contest','rank')->get($this->cid);
-            }
+            $contestRankRaw=$contestModel->contestRankCache($this->cid);
         }
 
         $this->totParticipants = count($contestRankRaw);

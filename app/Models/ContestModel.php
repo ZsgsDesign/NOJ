@@ -701,7 +701,11 @@ class ContestModel extends Model
         $contestRankRaw=Cache::tags(['contest', 'rank'])->get($cid);
 
         if ($contestRankRaw==null) {
-            $contestRankRaw=$this->contestRankCache($cid);
+            $end_time=strtotime(DB::table("contest")->where(["cid"=>$this->cid])->select("end_time")->first()["end_time"]);
+            if(time() > $end_time && !Cache::has($this->cid)){
+                $contestRankRaw=$this->contestRankCache($this->cid);
+                Cache::forever($this->cid, $contestRankRaw);
+            }
         }
 
         $ret=$contestRankRaw;
