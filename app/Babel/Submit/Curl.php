@@ -3,6 +3,11 @@ namespace App\Babel\Submit;
 
 use App\Models\SubmissionModel;
 
+interface CurlInterface {
+    function login($all_data);
+    function grab_page($all_data);
+    function post_data($all_data);
+}
 class Curl
 {
     public function __construct()
