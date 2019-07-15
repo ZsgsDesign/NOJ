@@ -342,6 +342,8 @@ class ContestController extends Controller
         }
         $contest_name=$contestModel->contestName($cid);
         $customInfo=$contestModel->getCustomInfo($cid);
+        $accountModel=new AccountModel();
+        $contest_accounts=$accountModel->getContestAccount($cid);
         return view('contest.board.admin', [
             'page_title'=>"Admin",
             'navigation' => "Contest",
@@ -349,7 +351,8 @@ class ContestController extends Controller
             'contest_name'=>$contest_name,
             'cid'=>$cid,
             'custom_info' => $customInfo,
-            'clearance'=> $clearance
+            'clearance'=> $clearance,
+            'contest_accounts'=>$contest_accounts
         ]);
     }
 }

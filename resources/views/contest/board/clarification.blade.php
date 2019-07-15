@@ -302,51 +302,6 @@
 
     var sending = false;
 
-    // $("#clarificationBtn").click(function() {
-    //     if(sending) return;
-    //     sending=true;
-    //     $("#clarificationBtn > i").removeClass("d-none");
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: '/ajax/contest/requestClarification',
-    //         data: {
-    //             cid: {{$cid}},
-    //             title: $("#clarification_title").val(),
-    //             content: $("#clarification_content").val(),
-    //         },
-    //         dataType: 'json',
-    //         headers: {
-    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //         }, success: function(ret){
-    //             console.log(ret);
-    //             if (ret.ret==200) {
-    //                 alert("Successfully Requested.");
-    //                 location.reload();
-    //             } else {
-    //                 alert(ret.desc);
-    //             }
-    //             sending=false;
-    //             $("#clarificationBtn > i").addClass("d-none");
-    //         }, error: function(xhr, type){
-    //             console.log(xhr);
-    //             switch(xhr.status) {
-    //                 case 422:
-    //                     alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
-    //                     break;
-    //                 case 429:
-    //                     alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
-    //                     break;
-
-    //                 default:
-    //                     alert("Server Connection Error");
-    //             }
-    //             console.log('Ajax error while posting to requestClarification!');
-    //             sending=false;
-    //             $("#clarificationBtn > i").addClass("d-none");
-    //         }
-    //     });
-    // });
-
     function post(type){
         if(sending) return;
         sending=true;
@@ -458,7 +413,7 @@
             }, success: function(ret){
                 console.log(ret);
                 if (ret.ret==200) {
-                    alert("Success!");
+                    //alert("Success!");
                 } else {
                     alert(ret.desc);
                 }
