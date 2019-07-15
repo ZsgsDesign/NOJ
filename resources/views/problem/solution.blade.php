@@ -844,8 +844,12 @@
 
         @else
         window.addEventListener('load', function(){
-            if(localStorage.getItem('{{$detail["pcode"]}}'))
+            if(localStorage.getItem('{{$detail["pcode"]}}')){
                 simplemde.value(localStorage.getItem('{{$detail["pcode"]}}'));
+            }
+            else{
+                simplemde.value('```\n//input code here\n```');
+            }
         })
         @endif
 
