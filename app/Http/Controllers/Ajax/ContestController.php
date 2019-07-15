@@ -198,7 +198,6 @@ class ContestController extends Controller
         }
         $accountModel=new AccountModel();
         $ret=$accountModel->generateContestAccount($all_data["cid"], $all_data["ccode"], $all_data["num"]);
-        $filename = "contest".$all_data["cid"]."account";
         return ResponseModel::success(200, null, $ret);
     }
 }
