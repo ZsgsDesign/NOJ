@@ -86,6 +86,7 @@
         margin: 0.5rem 0;
         border-bottom: 2px solid rgba(0, 0, 0, 0.15);
         height:0;
+        pointer-events: none;
     }
 </style>
 <settings-layout>
@@ -101,6 +102,12 @@
             <script>
                 let selectedTab=document.querySelector(`menu-item[type="item"][data-name="{{$selectedTab}}"]`);
                 if(selectedTab) selectedTab.className="active";
+
+                document.querySelectorAll(`menu-item[data-name]`).forEach((ele)=>{
+                    ele.addEventListener('click', function(event) {
+                        location.href=`{{route('group.settings',['gcode'=>$basic_info['gcode']])}}/${this.getAttribute('data-name')}`;
+                    });
+                });
             </script>
         </div>
         <div class="col-12 col-md-9 col-xl-10">
