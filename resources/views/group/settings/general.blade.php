@@ -1,4 +1,4 @@
-@extends('group.settings.common')
+@extends('group.settings.common', ['selectedTab' => "general"])
 
 @section('settingsTab')
 
