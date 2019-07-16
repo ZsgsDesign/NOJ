@@ -50,6 +50,8 @@ Route::group(['prefix' => 'group'], function () {
     Route::get('/{gcode}/settings', 'GroupController@settings')->middleware('auth', 'contest_account')->name('group.settings');
     Route::get('/{gcode}/settings/general', 'GroupController@settingsGeneral')->middleware('auth', 'contest_account')->name('group.settings.general');
     Route::get('/{gcode}/settings/return', 'GroupController@settingsReturn')->middleware('auth', 'contest_account')->name('group.settings.return');
+    Route::get('/{gcode}/settings/danger', 'GroupController@settingsDanger')->middleware('auth', 'contest_account')->name('group.settings.danger');
+    Route::get('/{gcode}/settings/some', 'GroupController@settingsSome')->middleware('auth', 'contest_account')->name('group.settings.some');
 });
 
 Route::group(['prefix' => 'contest'], function () {

@@ -119,4 +119,48 @@ class GroupController extends Controller
             'group_clearance'=>$clearance
         ]);
     }
+    
+    /**
+     * Show the Group Settings General Section.
+     *
+     * @return Response
+     */
+    public function settingsDanger($gcode)
+    {
+        $groupModel=new GroupModel();
+        $contestModel=new ContestModel();
+        $basic_info=$groupModel->details($gcode);
+        if(empty($basic_info)) return Redirect::route('group_index');
+        $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
+        $member_list=$groupModel->userList($basic_info["gid"]);
+        return view('group.settings.general', [
+            'page_title'=>"Group Setting",
+            'site_title'=>config("app.name"),
+            'navigation'=>"Group",
+            "basic_info"=>$basic_info,
+        ]);
+    }
+    
+    /**
+     * Show the Group Settings General Section.
+     *
+     * @return Response
+     */
+    public function settingsSome($gcode)
+    {
+        $groupModel=new GroupModel();
+        $contestModel=new ContestModel();
+        $basic_info=$groupModel->details($gcode);
+        if(empty($basic_info)) return Redirect::route('group_index');
+        $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
+        $member_list=$groupModel->userList($basic_info["gid"]);
+        return view('group.settings.general', [
+            'page_title'=>"Group Setting",
+            'site_title'=>config("app.name"),
+            'navigation'=>"Group",
+            "basic_info"=>$basic_info,
+            'member_list'=>$member_list,
+            'group_clearance'=>$clearance,
+        ]);
+    }
 }
