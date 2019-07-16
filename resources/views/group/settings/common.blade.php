@@ -69,6 +69,7 @@
     menu-item{
         display: block;
         padding: 1rem 1.5rem;
+        cursor: pointer;
     }
 
     menu-item.active{
@@ -87,6 +88,7 @@
         border-bottom: 2px solid rgba(0, 0, 0, 0.15);
         height:0;
         pointer-events: none;
+        cursor: auto;
     }
 </style>
 <settings-layout>
