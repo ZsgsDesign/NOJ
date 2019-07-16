@@ -295,12 +295,15 @@ class GroupModel extends Model
 
     public function createNotice($gid, $uid, $title, $content)
     {
-        return DB::table("group_notice")->insert([
-            "gid"=>$gid,
-            "uid"=>$uid,
-            "title"=>$title,
-            "content"=>$content,
-            "post_date"=>date("Y-m-d H:i:s"),
-        ]);
+        return DB::table("group_notice")->updateOrInsert(
+            [
+                "gid"=>$gid
+            ],
+            [
+                "uid"=>$uid,
+                "title"=>$title,
+                "content"=>$content,
+                "post_date"=>date("Y-m-d H:i:s"),
+            ]);
     }
 }
