@@ -11,6 +11,8 @@ use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Auth;
 use Redirect;
+use App\Exports\AccountExport;
+use Excel;
 
 class ContestController extends Controller
 {
@@ -327,5 +329,22 @@ class ContestController extends Controller
             'custom_info' => $customInfo,
             'clearance'=> $clearance,
         ]);
+    }
+
+    public function downloadContestAccountXlsx($cid)
+    {
+        $contestModel=new ContestModel();
+        $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
+        if ($clearance <= 2) {
+            return Redirect::route('contest_detail', ['cid' => $cid]);
+        }
+        $account=$contestModel->getContestAccount($cid);
+        if($account==null){
+            return ;
+        }else{
+            $AccountExport=new AccountExport($account);
+            $filename="ContestAccount$cid";
+            return Excel::download($AccountExport, $filename.'.xlsx');
+        }
     }
 }

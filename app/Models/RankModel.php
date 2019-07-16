@@ -141,7 +141,7 @@ class RankModel extends Model
                 "titleColor"=>$titleColor
             ];
         }
-        return $rankList;
+        return $professionalRankList;
     }
 
     private function procRankingPer()

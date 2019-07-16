@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Jobs\ProcessSubmission;
 use Auth;
+use Cache;
 
 class ContestController extends Controller
 {
@@ -117,6 +118,29 @@ class ContestController extends Controller
         $ret=$contestModel->registContest($all_data["cid"], Auth::user()->id);
 
         return $ret ? ResponseModel::success(200) : ResponseModel::err(4006);
+    }
+
+    public function generateContestAccount(Request $request)
+    {
+        $request->validate([
+            'cid' => 'required|integer',
+            'ccode' => 'required|min:3|max:10',
+            'num' => 'required|integer'
+        ]);
+        $all_data=$request->all();
+        $groupModel=new GroupModel();
+        $contestModel=new ContestModel();
+        $gid=$contestModel->gid($all_data["cid"]);
+        $clearance=$groupModel->judgeClearance($gid, Auth::user()->id);
+        if ($clearance<3) {
+            return ResponseModel::err(2001);
+        }
+        $accountModel=new AccountModel();
+        $ret=$accountModel->generateContestAccount($all_data["cid"], $all_data["ccode"], $all_data["num"]);
+        $cache_data=Cache::tags(['contest', 'account'])->get($all_data["cid"]);
+        $cache_data[]=$ret;
+        Cache::tags(['contest', 'account'])->put($all_data["cid"], $cache_data);
+        return ResponseModel::success(200, null, $ret);
     }
 
     public function getAnalysisData(Request $request)
