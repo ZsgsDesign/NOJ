@@ -133,7 +133,7 @@ class GroupController extends Controller
         if(empty($basic_info)) return Redirect::route('group_index');
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
         $member_list=$groupModel->userList($basic_info["gid"]);
-        return view('group.settings.general', [
+        return view('group.settings.danger', [
             'page_title'=>"Group Setting",
             'site_title'=>config("app.name"),
             'navigation'=>"Group",
@@ -154,7 +154,7 @@ class GroupController extends Controller
         if(empty($basic_info)) return Redirect::route('group_index');
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
         $member_list=$groupModel->userList($basic_info["gid"]);
-        return view('group.settings.general', [
+        return view('group.settings.some', [
             'page_title'=>"Group Setting",
             'site_title'=>config("app.name"),
             'navigation'=>"Group",
