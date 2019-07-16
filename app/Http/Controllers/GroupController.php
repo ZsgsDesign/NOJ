@@ -78,11 +78,21 @@ class GroupController extends Controller
     }
 
     /**
-     * Show the Group Setting Page.
+     * Redirect to the Group Settings General Section.
      *
      * @return Response
      */
-    public function setting($gcode)
+    public function settings($gcode)
+    {
+        return Redirect::route('group.settings.general', ['gcode' => $gcode]);;
+    }
+
+    /**
+     * Show the Group Settings General Section.
+     *
+     * @return Response
+     */
+    public function settingsGeneral($gcode)
     {
         $groupModel=new GroupModel();
         $contestModel=new ContestModel();
@@ -90,7 +100,7 @@ class GroupController extends Controller
         if(empty($basic_info)) return Redirect::route('group_index');
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
         $member_list=$groupModel->userList($basic_info["gid"]);
-        return view('group.setting', [
+        return view('group.settings.general', [
             'page_title'=>"Group Setting",
             'site_title'=>config("app.name"),
             'navigation'=>"Group",

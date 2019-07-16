@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('group.settings.common')
 
-@section('template')
+@section('settingsTab')
 
 <style>
     group-card {
@@ -82,9 +82,7 @@
     }
 
 </style>
-<div class="container mundb-standard-container">
-    <div class="row">
-    </div>
+
     <div id="settingModal" class="" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content sm-modal" style="width: 80%">
@@ -157,7 +155,7 @@
             </div>
         </div>
     </div>
-</div>
+
 @endsection
 
 @section('additionJS')
