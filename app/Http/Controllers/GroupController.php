@@ -88,6 +88,16 @@ class GroupController extends Controller
     }
 
     /**
+     * Redirect to the Group Detail Page.
+     *
+     * @return Response
+     */
+    public function settingsReturn($gcode)
+    {
+        return Redirect::route('group.detail', ['gcode' => $gcode]);;
+    }
+
+    /**
      * Show the Group Settings General Section.
      *
      * @return Response
