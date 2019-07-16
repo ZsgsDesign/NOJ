@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a60a25a293ba9e7a2aae49b8d3ad36ee",
+    "content-hash": "268e263d6387df42b507cc43fe0c9d1b",
     "packages": [
         {
             "name": "composer/installers",
@@ -1002,29 +1002,7 @@
                     "GuzzleHttp\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Michael Dowling",
-                    "email": "mtdowling@gmail.com",
-                    "homepage": "https://github.com/mtdowling"
-                }
-            ],
-            "description": "Guzzle is a PHP HTTP client library",
-            "homepage": "http://guzzlephp.org/",
-            "keywords": [
-                "client",
-                "curl",
-                "framework",
-                "http",
-                "http client",
-                "rest",
-                "web service"
-            ],
-            "time": "2018-04-22T15:46:56+00:00"
+            "notification-url": "https://packagist.org/downloads/"
         },
         {
             "name": "guzzlehttp/promises",
@@ -1607,16 +1585,16 @@
         },
         {
             "name": "laravel-admin-ext/redis-manager",
-            "version": "v1.1",
+            "version": "v1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-admin-extensions/redis-manager.git",
-                "reference": "b8cd06887229645b05cc0a3dab85ba30bf25207d"
+                "reference": "ef2bee838e8c6b8744ce9cfa6308958f726e5061"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-admin-extensions/redis-manager/zipball/b8cd06887229645b05cc0a3dab85ba30bf25207d",
-                "reference": "b8cd06887229645b05cc0a3dab85ba30bf25207d",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/redis-manager/zipball/ef2bee838e8c6b8744ce9cfa6308958f726e5061",
+                "reference": "ef2bee838e8c6b8744ce9cfa6308958f726e5061",
                 "shasum": ""
             },
             "require": {
@@ -1659,7 +1637,7 @@
                 "manager",
                 "redis"
             ],
-            "time": "2019-07-10T10:32:29+00:00"
+            "time": "2019-04-02T06:11:32+00:00"
         },
         {
             "name": "laravel-admin-ext/scheduling",
@@ -1718,16 +1696,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.8.28",
+            "version": "v5.8.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "341fb54bea9693cada2a5b8d398621a57f82862d"
+                "reference": "f1dccffb96f614895393e27e4667105a05407af5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/341fb54bea9693cada2a5b8d398621a57f82862d",
-                "reference": "341fb54bea9693cada2a5b8d398621a57f82862d",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/f1dccffb96f614895393e27e4667105a05407af5",
+                "reference": "f1dccffb96f614895393e27e4667105a05407af5",
                 "shasum": ""
             },
             "require": {
@@ -1861,7 +1839,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-07-09T14:00:02+00:00"
+            "time": "2019-07-02T13:43:47+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -3004,10 +2982,10 @@
         },
         {
             "name": "npm-asset/marked",
-            "version": "0.6.3",
+            "version": "0.6.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/marked/-/marked-0.6.3.tgz"
+                "url": "https://registry.npmjs.org/marked/-/marked-0.6.2.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -3658,27 +3636,7 @@
                     "Psr\\Http\\Message\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
-                }
-            ],
-            "description": "Common interface for HTTP messages",
-            "homepage": "https://github.com/php-fig/http-message",
-            "keywords": [
-                "http",
-                "http-message",
-                "psr",
-                "psr-7",
-                "request",
-                "response"
-            ],
-            "time": "2016-08-06T14:39:51+00:00"
+            "notification-url": "https://packagist.org/downloads/"
         },
         {
             "name": "psr/log",
@@ -3876,18 +3834,7 @@
                     "src/getallheaders.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ralph Khattar",
-                    "email": "ralph.khattar@gmail.com"
-                }
-            ],
-            "description": "A polyfill for getallheaders.",
-            "time": "2016-02-11T07:05:27+00:00"
+            "notification-url": "https://packagist.org/downloads/"
         },
         {
             "name": "ramsey/uuid",
@@ -6275,6 +6222,53 @@
             "time": "2018-07-08T19:23:20+00:00"
         },
         {
+            "name": "phar-io/version",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phar-io/version.git",
+                "reference": "45a2ec53a73c70ce41d55cedef9063630abaf1b6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phar-io/version/zipball/45a2ec53a73c70ce41d55cedef9063630abaf1b6",
+                "reference": "45a2ec53a73c70ce41d55cedef9063630abaf1b6",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Arne Blankerts",
+                    "email": "arne@blankerts.de",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Sebastian Heuer",
+                    "email": "sebastian@phpeople.de",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sebastian@phpunit.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Library for handling version information and constraints",
+            "time": "2018-07-08T19:19:57+00:00"
+        },
+        {
             "name": "phpdocumentor/reflection-common",
             "version": "1.0.1",
             "source": {
@@ -6702,8 +6696,8 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/c4a66b97f040e3e20b3aa2a243230a1c3a9f7c8c",
-                "reference": "c4a66b97f040e3e20b3aa2a243230a1c3a9f7c8c",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/c99e3be9d3e85f60646f152f9002d46ed7770d18",
+                "reference": "c99e3be9d3e85f60646f152f9002d46ed7770d18",
                 "shasum": ""
             },
             "require": {
@@ -6751,8 +6745,8 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2834789aeb9ac182ad69bfdf9ae91856a59945ff",
-                "reference": "2834789aeb9ac182ad69bfdf9ae91856a59945ff",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b9278591caa8630127f96c63b598712b699e671c",
+                "reference": "b9278591caa8630127f96c63b598712b699e671c",
                 "shasum": ""
             },
             "require": {

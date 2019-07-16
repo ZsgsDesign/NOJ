@@ -14,7 +14,7 @@ class HomeController extends Controller
     {
         return $content
             ->header('Dashboard')
-            ->description('the general status of '.config("app.name"))
+            ->description('the general status of NOJ')
             ->row(function(Row $row) {
 
                 $row->column(4, function(Column $column) {

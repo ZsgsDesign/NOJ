@@ -48,6 +48,7 @@ Route::group(['prefix' => 'group','as' => 'group.'], function (){
     Route::get('/{gcode}', 'GroupController@detail')->middleware('auth', 'contest_account')->name('detail');
     Route::get('/{gcode}/problems', 'GroupController@problems')->middleware('auth', 'contest_account')->name('problems');
     Route::get('/{gcode}/analysis', 'GroupController@analysis')->middleware('auth', 'contest_account')->name('analysis');
+    Route::get('/{gcode}/analysisDownload', 'GroupController@analysisDownload')->middleware('auth', 'contest_account')->name('analysis.download');
 });
 
 Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
@@ -60,7 +61,6 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
     Route::get('/{cid}/board/status', 'ContestController@status')->middleware('auth', 'contest_account')->name('status');
     Route::get('/{cid}/board/clarification', 'ContestController@clarification')->middleware('auth', 'contest_account')->name('clarification');
     Route::get('/{cid}/board/print', 'ContestController@print')->middleware('auth', 'contest_account')->name('print');
-    Route::get('/{cid}/board/admin', 'ContestController@admin')->middleware('auth', 'contest_account')->name('admin');
     Route::get('/{cid}/board/analysis', 'ContestController@analysis')->middleware('auth', 'contest_account')->name('analysis');
     Route::get('/{cid}/admin/downloadContestAccountXlsx', 'ContestController@downloadContestAccountXlsx')->middleware('auth', 'contest_account')->name('downloadContestAccountXlsx');
 });
@@ -128,10 +128,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
         Route::get('rejudge', 'ContestController@rejudge')->middleware('auth');
         Route::get('updateProfessionalRate', 'ContestController@updateProfessionalRate')->middleware('auth');
         Route::post('registContest', 'ContestController@registContest')->middleware('auth')->name('ajax.contest.registContest');
-        Route::post('issueAnnouncement', 'ContestController@issueAnnouncement')->middleware('auth');
-        Route::post('replyClarification', 'ContestController@replyClarification')->middleware('auth');
-        Route::post('setClarificationPublic', 'ContestController@setClarificationPublic')->middleware('auth');
-        Route::post('generateContestAccount', 'ContestController@generateContestAccount')->middleware('auth');
+        Route::post('getAnalysisData', 'ContestController@getAnalysisData')->middleware('auth')->name('ajax.contest.getAnalysisData');
     });
 
     Route::group(['prefix' => 'submission'], function () {

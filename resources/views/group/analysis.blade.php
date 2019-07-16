@@ -97,6 +97,7 @@
         <a class="nav-link disabled" href="#">Developing...</a>
     </nav>
     <div class="switch text-right">
+        <a id="xlsx-download" class="btn btn-primary" href="" role="button">download .xlsx</a>
         <label>
             <input id="switch-percent" type="checkbox">
             Show By Percent
@@ -112,50 +113,6 @@
         <div id="tag-panel" style="display: none">
         </div>
     </div>
-
-    {{-- <div class="text-center">
-        <div style="overflow-x: auto">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col" rowspan="2" style="text-align: left;">Member</th>
-                        <th scope="col" colspan="2" style="text-align: middle;">Total</th>
-                        @foreach($contest_list as $c)
-                            <th scope="col" colspan="2" style="max-width: 6rem; text-overflow: ellipsis; overflow: hidden; white-space:nowrap" title="{{$c['name']}}">{{$c['name']}}</th>
-                        @endforeach
-                    </tr>
-                    <tr>
-                        <th scope="col">Solved</th>
-                        <th scope="col">Penalty</th>
-                        @foreach($contest_list as $c)
-                            <th scope="col">Solved</th>
-                            <th scope="col">Penalty</th>
-                        @endforeach
-                    </tr>
-                </thead>
-                <tbody> --}}
-                    {{-- ACM/ICPC Mode --}}
-                    {{-- @foreach($member_data as $m)
-                    <tr>
-                        <td style="text-align: left;">{{$m["name"]}} @if($m["nick_name"])<span class="cm-subtext">({{$m["nick_name"]}})</span>@endif</td>
-                        <td>{{$m["solved_all"]}} / {{$m["problem_all"]}} </td>
-                        <td>{{round($m["penalty"])}}</td>
-                        @foreach($contest_list as $c)
-                            @if(in_array($c['cid'],array_keys($m['contest_detial'])))
-                                <td>{{$m['contest_detial'][$c['cid']]['solved']}} / {{$m['contest_detial'][$c['cid']]["problems"]}} </td>
-                                <td>{{round($m['contest_detial'][$c['cid']]["penalty"])}}</td>
-                            @else
-                            <td>- / -</td>
-                            <td>-</td>
-                            @endif
-                        @endforeach
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div> --}}
-
 </div>
 <script>
     let ajaxing = true;
@@ -188,6 +145,7 @@
             }else{
                 loadContestsData();
             }
+            updateDownloadurl();
             $(this).addClass('active')
         });
 
@@ -204,7 +162,8 @@
             }else{
                 loadTagsData();
             }
-            $(this).addClass('active')
+            $(this).addClass('active');
+            updateDownloadurl();
         });
 
         $('#switch-percent').on('click',function(){
@@ -213,6 +172,7 @@
                 mode : displaying,
                 selector : '#' + displaying + '-panel'
             });
+            updateDownloadurl();
         });
 
         $('#switch-max').on('click',function(){
@@ -221,12 +181,17 @@
                 mode : displaying,
                 selector : '#' + displaying + '-panel'
             });
+            updateDownloadurl();
         });
 
         $('#contest-contest').click();
-
+        updateDownloadurl();
         loadContestsData();
         $('#contest-panel').fadeIn();
+
+        function updateDownloadurl(){
+            $('#xlsx-download').attr('href','{{route('group.analysis.download',['gocde' => $group_info['gcode']])}}' + '?maxium=' + !contest_hideMax + '&percent=' + contest_showPercent + '&mode=' + displaying);
+        }
 
         function loadContestsData(){
             ajaxing = true;
@@ -281,6 +246,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
                     if(ret.ret == '200'){
+                        console.log(ret);
                         data_tag = ret.data;
                         ajaxing = false;
                         displayTable({

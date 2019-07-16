@@ -33,7 +33,7 @@ class ProblemController extends Controller
             } else {
                 return view('problem.index', [
                     'page_title' => "Problem",
-                    'site_title' => config("app.name"),
+                    'site_title' => "NOJ",
                     'navigation' => "Problem",
                     'prob_list' => null,
                     'prob_paginate' => null,
@@ -45,7 +45,7 @@ class ProblemController extends Controller
         } else {
             return view('problem.index', [
                 'page_title' => "Problem",
-                'site_title' => config("app.name"),
+                'site_title' => "NOJ",
                 'navigation' => "Problem",
                 'prob_list' => $list_return['problems'],
                 'paginator' => $list_return['paginator'],
@@ -69,7 +69,7 @@ class ProblemController extends Controller
         }
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.detail', [
                                             'page_title'=>$prob_detail["title"],
-                                            'site_title'=>config("app.name"),
+                                            'site_title'=>"NOJ",
                                             'navigation' => "Problem",
                                             'detail' => $prob_detail
                                         ]);
@@ -91,7 +91,7 @@ class ProblemController extends Controller
         $submitted=Auth::check() ? $problem->solution($prob_detail["pid"], Auth::user()->id) : [];
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.solution', [
                                             'page_title'=> "Solution",
-                                            'site_title'=>config("app.name"),
+                                            'site_title'=>"NOJ",
                                             'navigation' => $prob_detail["title"],
                                             'detail' => $prob_detail,
                                             'solution'=>$solution,
@@ -136,7 +136,7 @@ class ProblemController extends Controller
 
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.editor', [
                                             'page_title'=>$prob_detail["title"],
-                                            'site_title'=>config("app.name"),
+                                            'site_title'=>"NOJ",
                                             'navigation' => "Problem",
                                             'detail' => $prob_detail,
                                             'compiler_list' => $compiler_list,

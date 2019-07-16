@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use App\Exports\GroupAnalysisExport;
 use App\Models\GroupModel;
 use App\Models\ContestModel;
 use App\Http\Controllers\Controller;
+use Excel;
 use Auth;
 use Redirect;
 
@@ -22,7 +25,7 @@ class GroupController extends Controller
         $user_groups=Auth::check() ? $groupModel->userGroups(Auth::user()->id) : [];
         return view('group.index', [
             'page_title' => "Group",
-            'site_title' => config("app.name"),
+            'site_title' => "NOJ",
             'navigation' => "Group",
             'tending' => $tending_groups,
             'mine' => $user_groups
@@ -48,7 +51,7 @@ class GroupController extends Controller
         $paginator=$contestModel->listByGroup($basic_info["gid"])['paginator'];
         return view('group.detail', [
             'page_title'=>"Group Detail",
-            'site_title'=>config("app.name"),
+            'site_title'=>"NOJ",
             'navigation'=>"Group",
             "basic_info"=>$basic_info,
             'my_profile'=>$my_profile,
@@ -95,5 +98,52 @@ class GroupController extends Controller
             'navigation'=>"Group",
             'group_info'=>$group_info,
         ]);
+    }
+
+     /**
+     * Download the Contest Analysis with xlsx.
+     *
+     * @return Response
+     */
+    public function analysisDownload($gcode,Request $request){
+        $all_data = $all_data=$request->all();
+        $groupModel = new GroupModel();
+        $group_info = $groupModel->details($gcode);
+
+        $mode = $all_data['mode'] ?? 'contest';
+        if($mode == 'contest'){
+            $data = $groupModel->groupMemberPracticeContestStat($group_info['gid']);
+            return Excel::download(
+                new GroupAnalysisExport(
+                    [
+                        'contest_data' => $data['contest_list'],
+                        'member_data' => $data['member_data'],
+                    ],
+                    [
+                        'mode' => $all_data['mode'] ?? 'contest',
+                        'maxium' => $all_data['maxium'] ?? true,
+                        'percent' => $all_data['percent'] ?? false,
+                    ]
+                ),
+                $gcode . '_Group_Contest_Analysis.xlsx'
+            );
+        }else{
+            $data = $groupModel->groupMemberPracticeTagStat($group_info['gid']);
+            return Excel::download(
+                new GroupAnalysisExport(
+                    [
+                        'tag_problems' => $data['tag_problems'],
+                        'member_data' => $data['member_data'],
+                    ],
+                    [
+                        'mode' => $all_data['mode'] ?? 'tag',
+                        'maxium' => $all_data['maxium'] ?? true,
+                        'percent' => $all_data['percent'] ?? false,
+                    ]
+                ),
+                $gcode . '_Group_Tag_Analysis.xlsx'
+            );
+        }
+
     }
 }

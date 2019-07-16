@@ -17,7 +17,7 @@ class GithubController extends Controller
         if(Auth::check() && $accountModel->getExtra(Auth::user()->id ,'github_id')){
             return view('oauth.index',[
                 'page_title'=>"OAuth",
-                'site_title'=>config("app.name"),
+                'site_title'=>"NOJ",
                 'navigation'=>"OAuth",
                 'platform' => 'Github',
                 'display_html' => 'You\'re already tied to the github account : <span class="text-info">'.$accountModel->getExtra(Auth::user()->id ,'github_email').'</span><br />
@@ -54,10 +54,10 @@ class GithubController extends Controller
                 $user = UserModel::find($ret['uid']);
                 return view('oauth.index',[
                     'page_title'=>"OAuth",
-                    'site_title'=>config("app.name"),
+                    'site_title'=>"NOJ",
                     'navigation'=>"OAuth",
                     'platform' => 'Github',
-                    'display_html' => 'The github account is now tied to another '.config("app.name").' account : <span class="text-danger">'.$user->email.'</span><br />
+                    'display_html' => 'The github account is now tied to another NOJ account : <span class="text-danger">'.$user->email.'</span><br />
                     You can try logging in using github',
                     'buttons' => [
                         [
@@ -74,11 +74,11 @@ class GithubController extends Controller
             $accountModel->setExtra($user_id,'github_token',$github_user->token,101);
             return view('oauth.index',[
                 'page_title'=>"OAuth",
-                'site_title'=>config("app.name"),
+                'site_title'=>"NOJ",
                 'navigation'=>"OAuth",
                 'platform' => 'Github',
                 'display_html' => 'You have successfully tied up the github account : <span class="text-info">'.$accountModel->getExtra(Auth::user()->id ,'github_email').'</span><br />
-                You can log in to '.config("app.name").' later using this account',
+                You can log in to NOJ later using this account',
                 'buttons' => [
                     [
                         'text' => 'home',
@@ -99,10 +99,10 @@ class GithubController extends Controller
             }else{
                 return view('oauth.index',[
                     'page_title'=>"OAuth",
-                    'site_title'=>config("app.name"),
+                    'site_title'=>"NOJ",
                     'navigation'=>"OAuth",
                     'platform' => 'Github',
-                    'display_text' => 'This github account doesn\'t seem to have a '.config("app.name").' account, please register or log in first',
+                    'display_text' => 'This github account doesn\'t seem to have a NOJ account, please register or log in first',
                     'buttons' => [
                         [
                             'text' => 'login',
@@ -124,11 +124,11 @@ class GithubController extends Controller
         if($accountModel->getExtra(Auth::user()->id ,'github_id')){
             return view('oauth.index',[
                 'page_title'=>"OAuth",
-                'site_title'=>config("app.name"),
+                'site_title'=>"NOJ",
                 'navigation'=>"OAuth",
                 'platform' => 'Github',
                 'display_html' => 'You are trying to unbind the following two : <br />
-                Your '.config("app.name").' account : <span class="text-info">'.Auth::user()->email.'</span><br />
+                Your NOJ account : <span class="text-info">'.Auth::user()->email.'</span><br />
                 This Github account : <span class="text-info">'.$accountModel->getExtra(Auth::user()->id ,'github_email').'</span><br />
                 Make your decision carefully, although you can later establish the binding again',
                 'buttons' => [
@@ -146,7 +146,7 @@ class GithubController extends Controller
         }else{
             return view('oauth.index',[
                 'page_title'=>"OAuth",
-                'site_title'=>config("app.name"),
+                'site_title'=>"NOJ",
                 'navigation'=>"OAuth",
                 'platform' => 'Github',
                 'display_html' => 'You\'re not tied to github',
@@ -172,10 +172,10 @@ class GithubController extends Controller
             $accountModel->setExtra($user_id,'github_token',null);
             return view('oauth.index',[
                 'page_title'=>"OAuth",
-                'site_title'=>config("app.name"),
+                'site_title'=>"NOJ",
                 'navigation'=>"OAuth",
                 'platform' => 'Github',
-                'display_html' => 'You have successfully unbound your Github account from your '.config("app.name").' account',
+                'display_html' => 'You have successfully unbound your Github account from your NOJ account',
                 'buttons' => [
                     [
                         'text' => 'home',
@@ -186,7 +186,7 @@ class GithubController extends Controller
         }else{
             return view('oauth.index',[
                 'page_title'=>"OAuth",
-                'site_title'=>config("app.name"),
+                'site_title'=>"NOJ",
                 'navigation'=>"OAuth",
                 'platform' => 'Github',
                 'display_html' => 'You\'re not tied to github',
