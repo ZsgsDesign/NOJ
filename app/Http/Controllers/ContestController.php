@@ -366,8 +366,12 @@ class ContestController extends Controller
             return Redirect::route('contest_detail', ['cid' => $cid]);
         }
         $account=$contestModel->getContestAccount($cid);
-        $AccountExport=new AccountExport($account);
-        $filename="ContestAccount$cid";
-        return Excel::download($AccountExport, $filename.'.xlsx');
+        if($account==null){
+            return ;
+        }else{
+            $AccountExport=new AccountExport($account);
+            $filename="ContestAccount$cid";
+            return Excel::download($AccountExport, $filename.'.xlsx');
+        }
     }
 }
