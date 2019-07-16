@@ -536,7 +536,7 @@
                         @if($group_clearance>=2)
                         <function-container>
                             <div>
-                                <function-block>
+                                <function-block onclick="$('#noticeModal').modal({backdrop:'static'});">
                                     <i class="MDI bullhorn"></i>
                                     <p>Notice</p>
                                 </function-block>
@@ -672,6 +672,9 @@
         </div>
     </div>
 </group-container>
+
+
+
 <style>
     .sm-modal{
         display: block;
@@ -870,6 +873,30 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="arrangeBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Arrange</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="noticeModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content sm-modal">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="MDI trophy"></i> Notice Announcement</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="noticeTitle" class="bmd-label-floating">Title</label>
+                    <input type="text" class="form-control" id="noticeTitle">
+                </div>
+                <div class="form-group">
+                    <label for="noticeContent" class="bmd-label-floating">Content</label>
+                    <textarea type="text" class="form-control" id="noticeContent"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="noticeBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Submit</button>
             </div>
         </div>
     </div>
@@ -1389,6 +1416,44 @@
                     alert("Server Connection Error");
                     ajaxing=false;
                     $("#InviteBtn > i").addClass("d-none");
+                }
+            });
+        });
+
+        $("#noticeBtn").click(function() {
+            if(ajaxing) return;
+            else ajaxing=true;
+            var noticeTitle = $("#noticeTitle").val();
+            var noticeContent = $("#noticeContent").val();
+            $("#noticeBtn > i").removeClass("d-none");
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/group/createNotice',
+                data: {
+                    gid:{{$basic_info["gid"]}},
+                    title:noticeTitle,
+                    content:noticeContent
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if (ret.ret==200) {
+                        alert(ret.desc);
+                        setTimeout(function(){
+                            location.reload();
+                        },800)
+                    } else {
+                        alert(ret.desc);
+                    }
+                    ajaxing=false;
+                    $("#noticeBtn > i").addClass("d-none");
+                }, error: function(xhr, type){
+                    console.log('Ajax error while posting to arrangeContest!');
+                    alert("Server Connection Error");
+                    ajaxing=false;
+                    $("#noticeBtn > i").addClass("d-none");
                 }
             });
         });
