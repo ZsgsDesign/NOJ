@@ -199,7 +199,9 @@ class ContestController extends Controller
         }
         $accountModel=new AccountModel();
         $ret=$accountModel->generateContestAccount($all_data["cid"], $all_data["ccode"], $all_data["num"]);
-        Cache::tags(['contest', 'account'])->put($all_data["cid"], $ret, 300);
+        $cache_data=Cache::tags(['contest', 'account'])->get($all_data["cid"]);
+        $cache_data[]=$ret;
+        Cache::tags(['contest', 'account'])->put($all_data["cid"], $cache_data);
         return ResponseModel::success(200, null, $ret);
     }
 }
