@@ -25,27 +25,9 @@ system-info{
 #sys_subtitle > a:hover{
     text-decoration: none;
 }
-
-paper-card[type="server"]{
-    display: block;
-    /* box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px; */
-    border-radius: 4px;
-    transition: .2s ease-out .0s;
-    color: rgba(0, 0, 0, 0.63);
-    background-image: linear-gradient(180deg,hsla(0,0%,100%,0) 30%,#fff),linear-gradient(70deg,#e0f1ff 32%,#fffae3);
-    padding: 1rem;
-    position: relative;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    margin-bottom: 2rem;
-}
-
-paper-card:hover {
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
-}
-
 </style>
 <div class="container mundb-standard-container">
-    <system-info data-catg="general">
+    <system-info>
         <div style="width:100%;">
             <div id="sys_logo"><img src="/favicon.png"></div>
             <h1 id="sys_title" class="wemd-grey-text wemd-text-darken-3">NOJ</h1>
@@ -91,26 +73,5 @@ paper-card:hover {
             </div>
         </div>
     </system-info>
-    @unless(empty($judgeServer))
-    <system-info data-catg="judgeServer">
-        <div style="width:100%;">
-            <div class="mb-5">
-                <h1 id="sys_title" class="wemd-grey-text wemd-text-darken-3">Server Status</h1>
-                <p id="sys_subtitle">Hereby is a list of all the judge servers of {{config("app.name")}}.</p>
-            </div>
-            <div class="row justify-content-center">
-                @foreach($judgeServer as $j)
-                <div class="col-sm-12 col-md-6">
-                    <paper-card type="server">
-                        <h1>{{$j["name"]}}</h1>
-                        <p><small>Last Update: {{$j["status_update_at"]}}</small></p>
-                        <p class="{{$j["status_parsed"]["color"]}}"><i class="MDI {{$j["status_parsed"]["icon"]}}"></i> {{$j["status_parsed"]["text"]}}</p>
-                    </paper-card>
-                </div>
-                @endforeach
-            </div>
-        </div>
-    </system-info>
-    @endunless
 </div>
 @endsection

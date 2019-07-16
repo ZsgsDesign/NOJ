@@ -120,7 +120,7 @@
                 <div></div>
                 <div></div>
             </div>
-            <p>Preparing {{config("app.name")}}</p>
+            <p>Preparing NOJ</p>
         </div>
     </loading>
     <!-- Style -->
@@ -294,8 +294,6 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            filter: blur(0px);
-            transition: filter .2s ease-out .0s;
         }
 
         left-side{
@@ -574,7 +572,7 @@
         }
     </style>
 
-    <div id="editor-container" class="immersive-container">
+    <div class="immersive-container">
         <top-side>
             <left-side>
                 <div class="prob-header animated pre-animated cm-performance-optimistic">
@@ -796,11 +794,6 @@
     <script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     @include('layouts.primaryJS')
     @include('js.submission.detail')
-
-    @if(!$contest_mode)
-    @include('components.congratulation')
-    @endif
-
     <script>
         var historyOpen=false;
         var submission_processing=false;
@@ -1029,22 +1022,6 @@
                                         if(ret.data.verdict!="Pending" && ret.data.verdict!="Waiting" && ret.data.verdict!="Judging") {
                                             clearInterval(tempInterval);
                                             notify(ret.data.verdict, 'Your submission to problem {{$detail["title"]}} has been proceed.',(ret.data.verdict=="Partially Accepted"||ret.data.verdict=="Accepted")?"/static/img/notify/checked.png":"/static/img/notify/cancel.png",'{{$detail["pid"]}}');
-                                            @if(!$contest_mode)
-                                                if (ret.data.verdict=="Accepted"){
-                                                    localStorage.setItem('{{$detail["pcode"]}}','```\n' + editor.getValue() + '\n```')
-                                                    playCongratulation('editor-container');
-                                                    setTimeout(function(){
-                                                        confirm({content:"You have got an Accepted! Why not submit this solution?",
-                                                        title:"Congratulation \ud83c\udf89" },function(deny){
-                                                            if (!deny){
-                                                                location.href = '/problem/{{$detail["pcode"]}}/solution';
-                                                            }else{
-                                                                cleanAnimation('editor-container');
-                                                            }
-                                                        });
-                                                    },3500);
-                                                }
-                                            @endif
                                         }
                                     }
                                 }, error: function(xhr, type){
