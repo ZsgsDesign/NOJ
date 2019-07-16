@@ -109,17 +109,41 @@ class GroupController extends Controller
         $all_data = $all_data=$request->all();
         $groupModel = new GroupModel();
         $group_info = $groupModel->details($gcode);
-        $data = $groupModel->groupMemberPracticeContestStat($group_info['gid']);
-        return Excel::download(
-            new GroupAnalysisExport(
-                $data['contest_list'],
-                $data['member_data'],
-                [
-                    'maxium' => $all_data['maxium'] ?? true,
-                    'percent' => $all_data['percent'] ?? false,
-                ]
-            ),
-            $gcode . ' Group Analysis.xlsx'
-        );
+
+        $mode = $all_data['mode'] ?? 'contest';
+        if($mode == 'contest'){
+            $data = $groupModel->groupMemberPracticeContestStat($group_info['gid']);
+            return Excel::download(
+                new GroupAnalysisExport(
+                    [
+                        'contest_data' => $data['contest_list'],
+                        'member_data' => $data['member_data'],
+                    ],
+                    [
+                        'mode' => $all_data['mode'] ?? 'contest',
+                        'maxium' => $all_data['maxium'] ?? true,
+                        'percent' => $all_data['percent'] ?? false,
+                    ]
+                ),
+                $gcode . '_Group_Contest_Analysis.xlsx'
+            );
+        }else{
+            $data = $groupModel->groupMemberPracticeTagStat($group_info['gid']);
+            return Excel::download(
+                new GroupAnalysisExport(
+                    [
+                        'tag_problems' => $data['tag_problems'],
+                        'member_data' => $data['member_data'],
+                    ],
+                    [
+                        'mode' => $all_data['mode'] ?? 'tag',
+                        'maxium' => $all_data['maxium'] ?? true,
+                        'percent' => $all_data['percent'] ?? false,
+                    ]
+                ),
+                $gcode . '_Group_Tag_Analysis.xlsx'
+            );
+        }
+
     }
 }

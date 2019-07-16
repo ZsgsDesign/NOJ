@@ -145,6 +145,7 @@
             }else{
                 loadContestsData();
             }
+            updateDownloadurl();
             $(this).addClass('active')
         });
 
@@ -161,7 +162,8 @@
             }else{
                 loadTagsData();
             }
-            $(this).addClass('active')
+            $(this).addClass('active');
+            updateDownloadurl();
         });
 
         $('#switch-percent').on('click',function(){
@@ -188,7 +190,7 @@
         $('#contest-panel').fadeIn();
 
         function updateDownloadurl(){
-            $('#xlsx-download').attr('href','{{route('group.analysis.download',['gocde' => $group_info['gcode']])}}' + '?maxium=' + !contest_hideMax + '&percent=' + contest_showPercent);
+            $('#xlsx-download').attr('href','{{route('group.analysis.download',['gocde' => $group_info['gcode']])}}' + '?maxium=' + !contest_hideMax + '&percent=' + contest_showPercent + '&mode=' + displaying);
         }
 
         function loadContestsData(){
@@ -244,6 +246,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
                     if(ret.ret == '200'){
+                        console.log(ret);
                         data_tag = ret.data;
                         ajaxing = false;
                         displayTable({
