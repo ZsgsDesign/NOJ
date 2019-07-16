@@ -536,7 +536,7 @@
                         @if($group_clearance>=2)
                         <function-container>
                             <div>
-                                <function-block onclick="$('#noticeModal').modal({backdrop:'static'});">
+                                <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings/member'">
                                     <i class="MDI bullhorn"></i>
                                     <p>Notice</p>
                                 </function-block>

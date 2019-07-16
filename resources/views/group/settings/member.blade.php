@@ -475,7 +475,7 @@
             if(ajaxing) return;
             else ajaxing=true;
             var noticeTitle = $("#noticeTitle").val();
-            var noticeContent = $("#notice_editor").val();
+            var noticeContent = simplemde.value();
             $("#noticeBtn > i").removeClass("d-none");
             $.ajax({
                 type: 'POST',
