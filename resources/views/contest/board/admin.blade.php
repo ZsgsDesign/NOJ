@@ -121,7 +121,7 @@
                 </form>
                 <button id="generateAccountBtn" class="btn btn-warning float-right" onclick="generateAccount()"><i class="MDI autorenew cm-refreshing d-none"></i>Generate</button>
                 <div class="pt-2">
-                    <a href="/{{$cid}}/admin/downloadContestAccountXlsx">Download as xlsx...</a>
+                    <a href="/contest/{{$cid}}/admin/downloadContestAccountXlsx">Download as xlsx...</a>
                 </div>
                 <table class="table">
                     <thead>
