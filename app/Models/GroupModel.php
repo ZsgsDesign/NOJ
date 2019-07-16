@@ -416,4 +416,49 @@ class GroupModel extends Model
         ];
         return $ret;
     }
+
+    public function canUpdateContestTime($cid,$time = [])
+    {
+        $begin_time_new = $time['begin'] ?? null;
+        $end_time_new = $time['end'] ?? null;
+
+        $hold_time = DB::table('contest')
+            ->where('cid',$cid)
+            ->select('begin_time','end_time')
+            ->first();
+        $begin_stamps = strtotime($hold_time['begin_time']);
+        $end_stamps = strtotime($hold_time['end_time']);
+        /*
+        -1 : have not begun
+         0 : ing
+         1 : end
+        */
+        $status = time() >= $end_stamps ? 1
+                : (time() <= $begin_stamps ? -1 : 0);
+        if($status === -1){
+            return true;
+        }else if($status === 0){
+            if($begin_time_new !== null){
+                return false;
+            }
+            if($end_time_new !== null){
+                if(strtotime($end_time_new) <= time()){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+        }else{
+            return false;
+        }
+
+        return true;
+    }
+
+    public function updateContestInfo($cid,$data)
+    {
+        return DB::table("contest")->where([
+            "cid"=>$cid,
+        ])->update($data);
+    }
 }
