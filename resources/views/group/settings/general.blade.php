@@ -136,13 +136,13 @@
                         <div class="col-sm">
                             <group-name-setting>
                                 <div class="form-group">
-                                    <label for="group-name" class="bmd-label-floating">Group Name</label>
+                                    <p >Group Name</p>
+                                    <small id="group-name-tip" style="display:block;text-indent:20px;">PRESS ENTER TO APPLY THE CHANGES</small>
                                     <input type="text" class="form-control" id="group-name" value="{{$basic_info['name']}}">
                                 </div>
-                                <small id="group-name-tip" class="text-center" style="display:block">PRESS ENTER TO APPLY THE CHANGES</small>
                             </group-name-setting><br>
                             <join-policy-setting style="display:block">
-                                <p>Join Policy</p>
+                                <p style="margin-bottom:0px;">Join Policy</p>
                                 <div class="text-center">
                                     <div class="btn-group">
                                         <button id="policy-choice-btn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
@@ -159,10 +159,10 @@
                             </join-policy-setting>
                             <focus-images-setting style="display:block">
                                 <p>Change Group Image</p>
-                                <small id="change-image-tip" class="text-center" style="display:block">CLICK IMAGE TO CHOOSE A LOCAL IMAGE</small>
+                                <small id="change-image-tip" style="display:block;text-align:left;width:100%;text-indent:20px;">CLICK IMAGE TO CHOOSE A LOCAL IMAGE</small>
                                 <input id="image-file" type="file" style="display:none" accept=".jpg,.png,.jpeg,.gif" />
-                                <label for="image-file" style="display: block; cursor: pointer;" class="text-center">
-                                    <img class="group-image" style="max-height:80vw;max-width: 90%; height: auto;display:inline-block" src="{{$basic_info['img']}}">
+                                <label for="image-file" style="display: block;" class="text-center">
+                                    <img class="group-image" style="max-height:250px;max-width: 90%; height: auto;display:inline-block;cursor: pointer;" src="{{$basic_info['img']}}">
                                 </label>
                             </focus-images-setting>
                         </div>

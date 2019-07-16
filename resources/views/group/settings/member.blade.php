@@ -33,6 +33,39 @@
         margin-bottom: 0;
     }
 
+
+    .badge-role{
+        color:#fff;
+        vertical-align: text-bottom;
+    }
+
+    .cm-user-name{
+        color:rgba(0,0,0,0.93);
+    }
+
+    .cm-nick-name{
+        color:rgba(0,0,0,0.42);
+    }
+
+    empty-container{
+        display:block;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    empty-container i{
+        font-size:5rem;
+        color:rgba(0,0,0,0.42);
+    }
+
+    empty-container p{
+        font-size: 1rem;
+        color:rgba(0,0,0,0.54);
+    }
+    .cm-operation{
+        cursor: pointer;
+    }
+
 </style>
 
     <div id="settingModal" class="" tabindex="-1" role="dialog">
