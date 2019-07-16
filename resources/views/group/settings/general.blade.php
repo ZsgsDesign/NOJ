@@ -127,7 +127,7 @@
 
     <div id="settingModal" class="" tabindex="-1" role="dialog">
         <div class="paper-card modal-dialog-centered" role="document">
-            <div class="modal-content sm-modal" style="width: 80%">
+            <div class="modal-content sm-modal" style="width: 100%">
                 <div class="modal-header">
                     <h5 class="modal-title"><i class="MDI settings"></i>General Group Settings</h5>
                 </div>
@@ -136,13 +136,13 @@
                         <div class="col-sm">
                             <group-name-setting>
                                 <div class="form-group">
-                                    <p >Group Name</p>
+                                    <p style="font-weight:500;">Group Name</p>
                                     <small id="group-name-tip" style="display:block;text-indent:20px;">PRESS ENTER TO APPLY THE CHANGES</small>
                                     <input type="text" class="form-control" id="group-name" value="{{$basic_info['name']}}">
                                 </div>
                             </group-name-setting><br>
                             <join-policy-setting style="display:block">
-                                <p style="margin-bottom:0px;">Join Policy</p>
+                                <p style="margin-bottom:0px;font-weight:500;">Join Policy</p>
                                 <div class="text-center">
                                     <div class="btn-group">
                                         <button id="policy-choice-btn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
@@ -158,7 +158,7 @@
                                 </div>
                             </join-policy-setting>
                             <focus-images-setting style="display:block">
-                                <p>Change Group Image</p>
+                                <p style="font-weight:500;">Change Group Image</p>
                                 <small id="change-image-tip" style="display:block;text-align:left;width:100%;text-indent:20px;">CLICK IMAGE TO CHOOSE A LOCAL IMAGE</small>
                                 <input id="image-file" type="file" style="display:none" accept=".jpg,.png,.jpeg,.gif" />
                                 <label for="image-file" style="display: block;" class="text-center">

@@ -66,11 +66,31 @@
         cursor: pointer;
     }
 
+    markdown-editor{
+        display: block;
+    }
+
+    markdown-editor .CodeMirror {
+        height: 20rem;
+    }
+
+    markdown-editor ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    markdown-editor ::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    markdown-editor .editor-toolbar.disabled-for-preview a:not(.no-disable){
+        opacity: 0.5;
+    }
+
 </style>
 
     <div id="settingModal" class="" tabindex="-1" role="dialog">
         <div class="paper-card" role="document">
-            <div class="modal-content sm-modal" style="width: 80%">
+            <div class="modal-content sm-modal" style="width: 100%">
                 <div class="modal-header">
                     <h5 class="modal-title"><i class="MDI settings"></i> member Group Settings</h5>
                 </div>
@@ -78,7 +98,7 @@
                     <div class="row">
                         <permission-setting style="width:100%;">
                             <p>Permission Settings</p>
-                            <div style="display:flex;justify-content:space-around;width:100%;flex-wrap:wrap;">
+                            <div style="display:flex;justify-content:space-around;width:100%;flex-wrap:wrap;align-items:baseline">
                                 @foreach($member_list as $m)
                                     @if($m["role"]>0)
                                     <user-card id="user-permission-{{$m["uid"]}}">
@@ -105,15 +125,128 @@
             </div>
         </div>
     </div>
+    <div id="noticeModal" class="" tabindex="-1" role="dialog">
+        <div class="paper-card" role="document">
+            <div class="modal-content sm-modal" style="width:100%">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="MDI trophy"></i> Notice Announcement</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="noticeTitle" class="bmd-label-floating">Title</label>
+                        <input type="text" class="form-control" id="noticeTitle">
+                    </div>
+                    <div class="form-group">
+                        <small class="" style="margin-bottom:10px;font-size:17px;">Content</small>
+                        <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
+                        <markdown-editor class="mt-3 mb-3">
+                            <textarea id="notice_editor"></textarea>
+                        </markdown-editor>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="noticeBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection
 
 @section('additionJS')
+@include("js.common.hljsLight")
     <script src="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
     <script src="/static/js/jquery-ui-sortable.min.js"></script>
-    <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
-    <script src="/static/js/parazoom.min.js"></script>
+    <script type="text/javascript" src="/static/library/simplemde/dist/simplemde.min.js"></script>
+    <script type="text/javascript" src="/static/library/marked/marked.min.js"></script>
+    <script type="text/javascript" src="/static/library/dompurify/dist/purify.min.js"></script>
     <script>
+
+    var simplemde = new SimpleMDE({
+            autosave: {
+                enabled: true,
+                uniqueId: "notice{{$basic_info["gid"]}}",
+                delay: 1000,
+            },
+            element: $("#notice_editor")[0],
+            hideIcons: ["guide", "heading","side-by-side","fullscreen"],
+            spellChecker: false,
+            tabSize: 4,
+            renderingConfig: {
+                codeSyntaxHighlighting: true
+            },
+            previewRender: function (plainText) {
+                return marked(plainText, {
+                    sanitize: true,
+                    sanitizer: DOMPurify.sanitize,
+                    highlight: function (code) {
+                        return hljs.highlightAuto(code).value;
+                    }
+                });
+            },
+            status:false,
+            toolbar: [{
+                    name: "bold",
+                    action: SimpleMDE.toggleBold,
+                    className: "MDI format-bold",
+                    title: "Bold",
+                },
+                {
+                    name: "italic",
+                    action: SimpleMDE.toggleItalic,
+                    className: "MDI format-italic",
+                    title: "Italic",
+                },
+                "|",
+                {
+                    name: "quote",
+                    action: SimpleMDE.toggleBlockquote,
+                    className: "MDI format-quote",
+                    title: "Quote",
+                },
+                {
+                    name: "unordered-list",
+                    action: SimpleMDE.toggleUnorderedList,
+                    className: "MDI format-list-bulleted",
+                    title: "Generic List",
+                },
+                {
+                    name: "ordered-list",
+                    action: SimpleMDE.toggleOrderedList,
+                    className: "MDI format-list-numbers",
+                    title: "Numbered List",
+                },
+                "|",
+                {
+                    name: "code",
+                    action: SimpleMDE.toggleCodeBlock,
+                    className: "MDI code-tags",
+                    title: "Create Code",
+                },
+                {
+                    name: "link",
+                    action: SimpleMDE.drawLink,
+                    className: "MDI link-variant",
+                    title: "Insert Link",
+                },
+                {
+                    name: "image",
+                    action: SimpleMDE.drawImage,
+                    className: "MDI image-area",
+                    title: "Insert Image",
+                },
+                "|",
+                {
+                    name: "preview",
+                    action: SimpleMDE.togglePreview,
+                    className: "MDI eye no-disable",
+                    title: "Toggle Preview",
+                },
+            ],
+        });
+
+        hljs.initHighlighting();
+
         function sortableInit(){
             $("#contestModal tbody").sortable({
                 items: "> tr",
@@ -338,6 +471,44 @@
 
         });
 
+        $("#noticeBtn").click(function() {
+            if(ajaxing) return;
+            else ajaxing=true;
+            var noticeTitle = $("#noticeTitle").val();
+            var noticeContent = $("#notice_editor").val();
+            $("#noticeBtn > i").removeClass("d-none");
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/group/createNotice',
+                data: {
+                    gid:{{$basic_info["gid"]}},
+                    title:noticeTitle,
+                    content:noticeContent
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if (ret.ret==200) {
+                        alert(ret.desc);
+                        setTimeout(function(){
+                            location.reload();
+                        },800)
+                    } else {
+                        alert(ret.desc);
+                    }
+                    ajaxing=false;
+                    $("#noticeBtn > i").addClass("d-none");
+                }, error: function(xhr, type){
+                    console.log('Ajax error while posting to arrangeContest!');
+                    alert("Server Connection Error");
+                    ajaxing=false;
+                    $("#noticeBtn > i").addClass("d-none");
+                }
+            });
+        });
+
         $('#group-name').keydown(function(e){
             if(e.keyCode == '13'){
                 var name = $(this).val();
@@ -457,37 +628,5 @@
         });
 
 
-
-        require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});
-
-        // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
-        // the default worker url location (used when creating WebWorkers). The problem here is that
-        // HTML5 does not allow cross-domain web workers, so we need to proxy the instantiation of
-        // a web worker through a same-domain script
-
-        window.MonacoEnvironment = {
-            getWorkerUrl: function(workerId, label) {
-                return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
-                self.MonacoEnvironment = {
-                    baseUrl: '{{env('APP_URL')}}/static/library/monaco-editor/min/'
-                };
-                importScripts('{{env('APP_URL')}}/static/library/monaco-editor/min/vs/base/worker/workerMain.js');`
-                )}`;
-            }
-        };
-
-        require(["vs/editor/editor.main"], function () {
-            editor = monaco.editor.create(document.getElementById('vscode'), {
-                value: "",
-                language: "markdown",
-                theme: "vs-light",
-                fontSize: 16,
-                formatOnPaste: true,
-                formatOnType: true,
-                automaticLayout: true,
-                lineNumbers: "off"
-            });
-            $("#vscode_container").css("opacity",1);
-        });
     </script>
 @endsection
