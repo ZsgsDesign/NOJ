@@ -98,9 +98,9 @@
             <left-side>
                 <menu-item type="return" data-name="return"> <i class="MDI undo"></i> Back to Group Page </menu-item>
                 <menu-item type="item" data-name="general"> <i class="MDI settings"></i> General Settings </menu-item>
-                <menu-item type="item" data-name="xxxxxxxxxxx"> <i class="MDI tune"></i> Some Settings </menu-item>
+                <menu-item type="item" data-name="some"> <i class="MDI tune"></i> Some Settings </menu-item>
                 <menu-item type="separate"></menu-item>
-                <menu-item type="item" data-name="xxxxxxxxxxx"> <i class="MDI vector-curve"></i> Danger Field </menu-item>
+                <menu-item type="item" data-name="danger"> <i class="MDI vector-curve"></i> Danger Field </menu-item>
             </left-side>
             <script>
                 let selectedTab=document.querySelector(`menu-item[type="item"][data-name="{{$selectedTab}}"]`);

@@ -3,124 +3,6 @@
 @section('settingsTab')
 
 <style>
-    group-card {
-        display: block;
-        /* box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px; */
-        border-radius: 4px;
-        transition: .2s ease-out .0s;
-        color: #7a8e97;
-        background: #fff;
-        /* padding: 1rem; */
-        position: relative;
-        border: 1px solid rgba(0, 0, 0, 0.15);
-        margin-bottom: 2rem;
-        overflow:hidden;
-    }
-
-    a:hover{
-        text-decoration: none;
-    }
-
-    group-card:hover {
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
-    }
-
-    group-card > div:first-of-type {
-        position: relative;
-        width: 100%;
-        height: 0;
-        padding-bottom: 61.8%;
-    }
-
-    group-card > div:first-of-type > shadow-div {
-        display: block;
-        position: absolute;
-        overflow: hidden;
-        top:0;
-        bottom:0;
-        right:0;
-        left:0;
-    }
-
-    group-card > div:first-of-type > shadow-div > img{
-        object-fit: cover;
-        width:100%;
-        height: 100%;
-        transition: .2s ease-out .0s;
-    }
-
-    group-card > div:first-of-type > shadow-div > img:hover{
-        transform: scale(1.2);
-    }
-
-    group-card > div:last-of-type{
-        padding:1rem;
-    }
-    .my-card{
-        margin-bottom: 100px;
-    }
-    .avatar-input{
-        opacity: 0;
-        width: 100%;
-        height: 100%;
-        transform: translateY(-40px);
-        cursor: pointer;
-    }
-    .avatar-div{
-        width: 70px;
-        height: 40px;
-        background-color: teal;
-        text-align: center;
-        line-height: 40px;
-        color: white;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-left: 200px;
-    }
-    .gender-select{
-        cursor: pointer;
-    }
-
-    group-image {
-        display: block;
-        position: relative;
-        width: 100%;
-        height: 0;
-        padding-bottom: 61.8%;
-    }
-
-    group-image > shadow-div {
-        display: block;
-        position: absolute;
-        overflow: hidden;
-        top:0;
-        bottom:0;
-        right:0;
-        left:0;
-    }
-
-    group-image > shadow-layer{
-        position: absolute;
-        top:0;
-        left:0;
-        right:0;
-        display: block;
-        height:3rem;
-        background-image: linear-gradient(to bottom,rgba(0,0,0,.5),rgba(0,0,0,0));
-        z-index: 1;
-        pointer-events: none;
-    }
-
-    group-image > shadow-div > img{
-        object-fit: cover;
-        width:100%;
-        height: 100%;
-        transition: .2s ease-out .0s;
-    }
-
-    group-image > shadow-div > img:hover{
-        transform: scale(1.2);
-    }
 
     user-card{
         display: flex;
@@ -154,47 +36,12 @@
 </style>
 
     <div id="settingModal" class="" tabindex="-1" role="dialog">
-        <div class="paper-card modal-dialog-centered" role="document">
+        <div class="paper-card" role="document">
             <div class="modal-content sm-modal" style="width: 80%">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="MDI settings"></i> Group Settings</h5>
+                    <h5 class="modal-title"><i class="MDI settings"></i> Some Group Settings</h5>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm">
-                            <group-name-setting>
-                                <div class="form-group">
-                                    <label for="group-name" class="bmd-label-floating">Group Name</label>
-                                    <input type="text" class="form-control" id="group-name" value="{{$basic_info['name']}}">
-                                </div>
-                                <small id="group-name-tip" class="text-center" style="display:block">PRESS ENTER TO APPLY THE CHANGES</small>
-                            </group-name-setting><br>
-                            <join-policy-setting style="display:block">
-                                <p>Join Policy</p>
-                                <div class="text-center">
-                                    <div class="btn-group">
-                                        <button id="policy-choice-btn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            @if($basic_info['join_policy']==3)<span>Invitation & Application</span>@elseif(($basic_info['join_policy']==2))<span>Application</span>@else<span>Invitation</span>@endif
-                                        </button>
-                                        <div class="dropdown-menu text-center">
-                                            <a class="dropdown-item join-policy-choice" data-policy="3">Invitation & Application</a>
-                                            <a class="dropdown-item join-policy-choice" data-policy="2">Application only</a>
-                                            <a class="dropdown-item join-policy-choice" data-policy="1">Invitation only</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </join-policy-setting>
-                            <focus-images-setting style="display:block">
-                                <p>Change Group Image</p>
-                                <small id="change-image-tip" class="text-center" style="display:block">CLICK IMAGE TO CHOOSE A LOCAL IMAGE</small>
-                                <input id="image-file" type="file" style="display:none" accept=".jpg,.png,.jpeg,.gif" />
-                                <label for="image-file" style="display: block; cursor: pointer;" class="text-center">
-                                    <img class="group-image" style="max-height:80vw;max-width: 90%; height: auto;display:inline-block" src="{{$basic_info['img']}}">
-                                </label>
-                            </focus-images-setting>
-                        </div>
-                    </div>
                     <div class="row">
                         <permission-setting style="width:100%;">
                             <p>Permission Settings</p>
@@ -233,55 +80,6 @@
     <script src="/static/js/jquery-ui-sortable.min.js"></script>
     <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
     <script src="/static/js/parazoom.min.js"></script>
-    <script>
-        window.addEventListener('load',function(){
-
-        $('#avatar').on('click',function(){
-            $('#update-avatar-modal').modal();
-        });
-
-        $('#avatar-file').on('change',function(){
-            var file = $(this).get(0).files[0];
-            var reader = new FileReader();
-            reader.onload = function(e){
-                $('#avatar-preview').attr('src',e.target.result);
-            };
-            reader.readAsDataURL(file);
-        });
-
-        $('#avatar-submit').on('click',function(){
-            if($(this).is('.updating')){
-                $('#tip-text').text('SLOW DOWN');
-                $('#tip-text').addClass('text-danger');
-                $('#tip-text').removeClass('text-success');
-                $('#avatar-error-tip').animate({opacity:'1'},200);
-                return ;
-            }
-
-            var file = $('#avatar-file').get(0).files[0];
-            if(file == undefined){
-                $('#tip-text').text('PLEASE CHOOSE A LOCAL FILE');
-                $('#tip-text').addClass('text-danger');
-                $('#tip-text').removeClass('text-success');
-                $('#avatar-error-tip').animate({opacity:'1'},200);
-                return;
-            }else{
-                $('#avatar-error-tip').css({opacity:'0'});
-            }
-
-            if(file.size/1024 > 1024){
-                $('#tip-text').text('THE SELECTED FILE IS TOO LARGE');
-                $('#tip-text').addClass('text-danger');
-                $('#tip-text').removeClass('text-success');
-                $('#avatar-error-tip').animate({opacity:'1'},200);
-                return;
-            }else{
-                $('#avatar-error-tip').css({opacity:'0'});
-            }
-            $('#update-avatar-modal').modal('hide');
-        });
-
-    </script>
     <script>
         function sortableInit(){
             $("#contestModal tbody").sortable({
