@@ -158,93 +158,6 @@
         </div>
     </div>
 </div>
-
-
-<script>
-window.addEventListener('load',function(){
-    document.querySelector('#submit').addEventListener('click',() => {
-    const name = document.querySelector('#groupName').value;
-    const gcode = document.querySelector('#groupSite').value;
-    const img = document.querySelector('#avatar-file').files[0];
-    const Public = document.querySelector('#groupPublic').checked === true ? 1 : 2;
-    const description = document.querySelector("#groupDescription").value;
-    const joinPolicy = document.querySelector("#gender").value;
-    const data = new FormData();
-    console.log(name,gcode,Public,description,joinPolicy);
-    data.append('name',name);
-    data.append('gcode',gcode);
-    data.append('img',img);
-    data.append('public',Public);
-    data.append('description',description);
-    data.append('join_policy',joinPolicy);
-    $.ajax({
-        url:"/ajax/group/createGroup",
-        method: 'POST',
-        data: data,
-        contentType: false,
-        processData: false,
-        cache: false,
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }, success: function(data) {
-            alert(data.desc,'New Group');
-            location.reload();
-        },
-        error: function (jqXHR) {
-            alert(jqXHR.responseJSON.message,"New Group");
-        }
-    })
-})
-
-
-$('#avatar').on('click',function(){
-    $('#update-avatar-modal').modal();
-});
-
-$('#avatar-file').on('change',function(){
-    var file = $(this).get(0).files[0];
-
-    var reader = new FileReader();
-    reader.onload = function(e){
-        $('#avatar-preview').attr('src',e.target.result);
-    };
-    reader.readAsDataURL(file);
-});
-
-$('#avatar-submit').on('click',function(){
-    if($(this).is('.updating')){
-        $('#tip-text').text('SLOW DOWN');
-        $('#tip-text').addClass('text-danger');
-        $('#tip-text').removeClass('text-success');
-        $('#avatar-error-tip').animate({opacity:'1'},200);
-        return ;
-    }
-
-    var file = $('#avatar-file').get(0).files[0];
-    if(file == undefined){
-        $('#tip-text').text('PLEASE CHOOSE A LOCAL FILE');
-        $('#tip-text').addClass('text-danger');
-        $('#tip-text').removeClass('text-success');
-        $('#avatar-error-tip').animate({opacity:'1'},200);
-        return;
-    }else{
-        $('#avatar-error-tip').css({opacity:'0'});
-    }
-
-    if(file.size/1024 > 1024){
-        $('#tip-text').text('THE SELECTED FILE IS TOO LARGE');
-        $('#tip-text').addClass('text-danger');
-        $('#tip-text').removeClass('text-success');
-        $('#avatar-error-tip').animate({opacity:'1'},200);
-        return;
-    }else{
-        $('#avatar-error-tip').css({opacity:'0'});
-    }
-    $('#update-avatar-modal').modal('hide');
-});
-
-</script>
-
 @endsection
 
 @section('additionJS')
@@ -252,6 +165,91 @@ $('#avatar-submit').on('click',function(){
     <script src="/static/js/jquery-ui-sortable.min.js"></script>
     <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
     <script src="/static/js/parazoom.min.js"></script>
+    <script>
+        window.addEventListener('load',function(){
+            document.querySelector('#submit').addEventListener('click',() => {
+                const name = document.querySelector('#groupName').value;
+                const gcode = document.querySelector('#groupSite').value;
+                const img = document.querySelector('#avatar-file').files[0];
+                const Public = document.querySelector('#groupPublic').checked === true ? 1 : 2;
+                const description = document.querySelector("#groupDescription").value;
+                const joinPolicy = document.querySelector("#gender").value;
+                const data = new FormData();
+                console.log(name,gcode,Public,description,joinPolicy);
+                data.append('name',name);
+                data.append('gcode',gcode);
+                data.append('img',img);
+                data.append('public',Public);
+                data.append('description',description);
+                data.append('join_policy',joinPolicy);
+                $.ajax({
+                    url:"/ajax/group/createGroup",
+                    method: 'POST',
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }, success: function(data) {
+                        alert(data.desc,'New Group');
+                        location.reload();
+                    },
+                    error: function (jqXHR) {
+                        alert(jqXHR.responseJSON.message,"New Group");
+                    }
+                })
+            })
+        })
+
+
+        $('#avatar').on('click',function(){
+            $('#update-avatar-modal').modal();
+        });
+
+        $('#avatar-file').on('change',function(){
+            var file = $(this).get(0).files[0];
+
+            var reader = new FileReader();
+            reader.onload = function(e){
+                $('#avatar-preview').attr('src',e.target.result);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        $('#avatar-submit').on('click',function(){
+            if($(this).is('.updating')){
+                $('#tip-text').text('SLOW DOWN');
+                $('#tip-text').addClass('text-danger');
+                $('#tip-text').removeClass('text-success');
+                $('#avatar-error-tip').animate({opacity:'1'},200);
+                return ;
+            }
+
+            var file = $('#avatar-file').get(0).files[0];
+            if(file == undefined){
+                $('#tip-text').text('PLEASE CHOOSE A LOCAL FILE');
+                $('#tip-text').addClass('text-danger');
+                $('#tip-text').removeClass('text-success');
+                $('#avatar-error-tip').animate({opacity:'1'},200);
+                return;
+            }else{
+                $('#avatar-error-tip').css({opacity:'0'});
+            }
+
+            if(file.size/1024 > 1024){
+                $('#tip-text').text('THE SELECTED FILE IS TOO LARGE');
+                $('#tip-text').addClass('text-danger');
+                $('#tip-text').removeClass('text-success');
+                $('#avatar-error-tip').animate({opacity:'1'},200);
+                return;
+            }else{
+                $('#avatar-error-tip').css({opacity:'0'});
+            }
+            $('#update-avatar-modal').modal('hide');
+        });
+
+    </script>
     <script>
         function sortableInit(){
             $("#contestModal tbody").sortable({
