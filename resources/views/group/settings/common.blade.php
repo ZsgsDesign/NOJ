@@ -38,7 +38,7 @@
     left-side{
         display: flex;
         flex-direction: column;
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
+        /* box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px; */
         transition: .2s ease-out .0s;
         color: #7a8e97;
         background: #fff;
