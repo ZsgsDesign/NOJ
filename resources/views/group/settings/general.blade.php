@@ -120,7 +120,7 @@
                                 <small id="change-image-tip" class="text-center" style="display:block">CLICK IMAGE TO CHOOSE A LOCAL IMAGE</small>
                                 <input id="image-file" type="file" style="display:none" accept=".jpg,.png,.jpeg,.gif" />
                                 <label for="image-file" style="display: block; cursor: pointer;" class="text-center">
-                                    <img class="group-image" style="width: 90%; height: auto;display:inline-block" src="{{$basic_info['img']}}">
+                                    <img class="group-image" style="max-height:80vw;max-width: 90%; height: auto;display:inline-block" src="{{$basic_info['img']}}">
                                 </label>
                             </focus-images-setting>
                         </div>
@@ -165,41 +165,6 @@
     <script src="/static/js/parazoom.min.js"></script>
     <script>
         window.addEventListener('load',function(){
-            document.querySelector('#submit').addEventListener('click',() => {
-                const name = document.querySelector('#groupName').value;
-                const gcode = document.querySelector('#groupSite').value;
-                const img = document.querySelector('#avatar-file').files[0];
-                const Public = document.querySelector('#groupPublic').checked === true ? 1 : 2;
-                const description = document.querySelector("#groupDescription").value;
-                const joinPolicy = document.querySelector("#gender").value;
-                const data = new FormData();
-                console.log(name,gcode,Public,description,joinPolicy);
-                data.append('name',name);
-                data.append('gcode',gcode);
-                data.append('img',img);
-                data.append('public',Public);
-                data.append('description',description);
-                data.append('join_policy',joinPolicy);
-                $.ajax({
-                    url:"/ajax/group/createGroup",
-                    method: 'POST',
-                    data: data,
-                    contentType: false,
-                    processData: false,
-                    cache: false,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }, success: function(data) {
-                        alert(data.desc,'New Group');
-                        location.reload();
-                    },
-                    error: function (jqXHR) {
-                        alert(jqXHR.responseJSON.message,"New Group");
-                    }
-                })
-            })
-        })
-
 
         $('#avatar').on('click',function(){
             $('#update-avatar-modal').modal();
@@ -207,7 +172,6 @@
 
         $('#avatar-file').on('change',function(){
             var file = $(this).get(0).files[0];
-
             var reader = new FileReader();
             reader.onload = function(e){
                 $('#avatar-preview').attr('src',e.target.result);
