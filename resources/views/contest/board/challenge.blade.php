@@ -111,6 +111,15 @@
         color: rgba(0, 0, 0, 0.42);
     }
 
+    .badge-tag{
+        color: #6c757d;
+        background-color: transparent;
+        max-width: 6rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border: 1px solid #6c757d;
+        cursor: pointer;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -123,7 +132,10 @@
                     <a href="/contest/{{$cid}}/board/status"><nav-item>Status</nav-item></a>
                     <a href="/contest/{{$cid}}/board/clarification"><nav-item>Clarification</nav-item></a>
                     <a href="/contest/{{$cid}}/board/print"><nav-item>Print</nav-item></a>
-                    @if($clearance>2)<a href="/contest/{{$cid}}/board/admin"><nav-item>Admin</nav-item></a>@endif
+                    @if($clearance>2)
+                    <a href="/contest/{{$cid}}/board/analysis"><nav-item>Analysis</nav-item></a>
+                    <a href="/contest/{{$cid}}/board/admin"><nav-item>Admin</nav-item></a>
+                    @endif
                 </nav-div>
                 <challenge-container>
 
@@ -133,12 +145,19 @@
                             <div>
                                 <i class="MDI {{$p["prob_status"]["icon"]}} {{$p["prob_status"]["color"]}}"></i>
                             </div>
-                            <div>
+                            <div style="display: inline-block">
                                 <p class="mb-0"><span>{{$p["ncode"]}}.</span> {{$p["title"]}}</p>
                                 @if($contest_rule==1)
                                     <small>{{$p["passed_count"]}} / {{$p["submission_count"]}}</small>
                                 @else
                                     <small>{{$p["score"]}} / {{$p["points"]}} Points</small>
+                                @endif
+                            </div>
+                            <div class="text-right tag-list" style="display: inline-block; width:auto">
+                                @if(!empty($p['tags']))
+                                @foreach($p['tags'] as $tag)
+                                    <span class="badge badge-tag" data-toggle="tooltip" data-placement="top" title="{{$tag}}">{{$tag}}</span>
+                                @endforeach
                                 @endif
                             </div>
                         </challenge-item>
@@ -176,31 +195,33 @@
 </div>
 <script>
 
-    var remaining_time = {{$remaining_time}};
-    updateCountDown();
-
-    var countDownTimer = setInterval(function(){
-        remaining_time--;
-        if(remaining_time<=0){
-            remaining_time=0;
-            clearInterval(countDownTimer);
-            $("#contest_status").text("Contest End");
-        }
-        updateCountDown();
-    }, 1000);
-
-    function updateCountDown(){
-        remaining_hour = parseInt(remaining_time/3600);
-        remaining_min  = parseInt((remaining_time-remaining_hour*3600)/60);
-        remaining_sec  = parseInt((remaining_time-remaining_hour*3600-remaining_min*60));
-        remaining_hour = (remaining_hour<10?'0':'')+remaining_hour;
-        remaining_min  = (remaining_min<10?'0':'')+remaining_min;
-        remaining_sec  = (remaining_sec<10?'0':'')+remaining_sec;
-        document.getElementById("countdown").innerText=remaining_hour+":"+remaining_min+":"+remaining_sec;
-    }
-
     window.addEventListener("load",function() {
+        var remaining_time = {{$remaining_time}};
+        updateCountDown();
 
+        var countDownTimer = setInterval(function(){
+            remaining_time--;
+            if(remaining_time<=0){
+                remaining_time=0;
+                clearInterval(countDownTimer);
+                $("#contest_status").text("Contest End");
+            }
+            updateCountDown();
+        }, 1000);
+
+        function updateCountDown(){
+            remaining_hour = parseInt(remaining_time/3600);
+            remaining_min  = parseInt((remaining_time-remaining_hour*3600)/60);
+            remaining_sec  = parseInt((remaining_time-remaining_hour*3600-remaining_min*60));
+            remaining_hour = (remaining_hour<10?'0':'')+remaining_hour;
+            remaining_min  = (remaining_min<10?'0':'')+remaining_min;
+            remaining_sec  = (remaining_sec<10?'0':'')+remaining_sec;
+            document.getElementById("countdown").innerText=remaining_hour+":"+remaining_min+":"+remaining_sec;
+        }
+
+        $('.tag-list').each(function(){
+            $(this).css('width',$(this).css('width'));
+        })
     }, false);
 
 </script>

@@ -39,7 +39,7 @@ class GroupController extends Controller
         $groupModel=new GroupModel();
         $contestModel=new ContestModel();
         $basic_info=$groupModel->details($gcode);
-        if(empty($basic_info)) return Redirect::route('group_index');
+        if(empty($basic_info)) return Redirect::route('group.index');
         $my_profile=$groupModel->userProfile(Auth::user()->id, $basic_info["gid"]);
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
         $member_list=$groupModel->userList($basic_info["gid"]);
@@ -57,6 +57,43 @@ class GroupController extends Controller
             'contest_list'=>$contest_list,
             'paginator'=>$paginator,
             'group_clearance'=>$clearance
+        ]);
+    }
+
+    /**
+     * Show the Group's Problems in Practice Contest or other Contest.
+     *
+     * @return Response
+     */
+    public function problems($gcode){
+        $groupModel = new GroupModel();
+        $group_info = $groupModel->details($gcode);
+        $problems = $groupModel->problems($group_info['gid']);
+        $allTags = $groupModel->problemTags($group_info['gid'],-1);
+
+        return view('group.problems', [
+            'page_title'=>"Group Problems",
+            'site_title'=>"NOJ",
+            'navigation'=>"Group",
+            'group_info'=>$group_info,
+            'problems'=>$problems,
+            'all_tags'=>$allTags
+        ]);
+    }
+
+    /**
+     * Show the Contest Analysis Tab.
+     *
+     * @return Response
+     */
+    public function analysis($gcode){
+        $groupModel = new GroupModel();
+        $group_info = $groupModel->details($gcode);
+        return view('group.analysis', [
+            'page_title'=>"Group Analysis",
+            'site_title'=>"NOJ",
+            'navigation'=>"Group",
+            'group_info'=>$group_info,
         ]);
     }
 }

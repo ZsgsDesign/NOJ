@@ -329,6 +329,12 @@
         margin-bottom: 2rem;
     }
 
+    function-container > div{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
     function-block{
         display: inline-block;
         text-align: center;
@@ -548,6 +554,14 @@
                                     <i class="MDI trophy-variant"></i>
                                     <p>Contest</p>
                                 </function-block>
+                                <function-block onclick="window.location='{{route('group.problems',$basic_info['gcode'])}}'">
+                                    <i class="MDI script"></i>
+                                    <p>Problems</p>
+                                </function-block>
+                                <function-block onclick="window.location='{{route('group.analysis',$basic_info['gcode'])}}'">
+                                    <i class="MDI chart-line"></i>
+                                    <p>Analysis</p>
+                                </function-block>
                                 <function-block>
                                     <i class="MDI account-plus"></i>
                                     <p>Invite</p>
@@ -595,6 +609,7 @@
                                                 @unless($c["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="top" title="This contest is under review"></i></span>@endif
                                                 @unless($c["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="top" title="This is a private contest"></i></span>@endif
                                                 @if($c['verified'])<span><i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a verified contest"></i></span>@endif
+                                                @if($c['practice'])<span><i class="MDI sword wemd-green-text"  data-toggle="tooltip" data-placement="left" title="This is a contest for praticing"></i></span>@endif
                                                 @if($c['rated'])<span><i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="top" title="This is a rated contest"></i></span>@endif
                                                 @if($c['anticheated'])<span><i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="top" title="Anti-cheat enabled"></i></span>@endif
                                             </badge-div>
@@ -840,6 +855,12 @@
                             <label>
                                 <input type="checkbox" disabled>
                                 Public Contest
+                            </label>
+                        </div>
+                        <div class="switch">
+                            <label>
+                                <input id="switch-practice" type="checkbox">
+                                Practice Contest
                             </label>
                         </div>
                         <table class="table">
@@ -1288,6 +1309,7 @@
             var contestName = $("#contestName").val();
             var contestBegin = $("#contestBegin").val();
             var contestEnd = $("#contestEnd").val();
+            var practiceContest = $("#switch-practice").prop("checked") == true ? 1 : 0;
             var problemSet = "";
             var contestDescription = editor.getValue();
             $("#contestProblemSet td:first-of-type").each(function(){
@@ -1322,6 +1344,7 @@
                     description: contestDescription,
                     begin_time: contestBegin,
                     end_time: contestEnd,
+                    practice : practiceContest,
                     gid: {{$basic_info["gid"]}}
                 },
                 dataType: 'json',
