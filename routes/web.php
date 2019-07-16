@@ -62,6 +62,8 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
     Route::get('/{cid}/board/print', 'ContestController@print')->middleware('auth', 'contest_account')->name('print');
     Route::get('/{cid}/board/admin', 'ContestController@admin')->middleware('auth', 'contest_account')->name('admin');
     Route::get('/{cid}/board/analysis', 'ContestController@analysis')->middleware('auth', 'contest_account')->name('analysis');
+    Route::get('/{cid}/admin/downloadContestAccountXlsx', 'ContestController@downloadContestAccountXlsx')->middleware('auth', 'contest_account')->name('downloadContestAccountXlsx');
+});
 
 Route::group(['prefix' => 'system'], function () {
     Route::redirect('/', '/system/info', 301);

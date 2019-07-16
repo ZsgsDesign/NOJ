@@ -1502,4 +1502,9 @@ class ContestModel extends Model
             ]);
         }
     }
+
+    public function getContestAccount($cid)
+    {
+        return Cache::tags(['contest', 'account'])->get($cid);
+    }
 }
