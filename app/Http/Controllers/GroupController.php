@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use App\Exports\GroupAnalysisExport;
 use App\Models\GroupModel;
 use App\Models\ContestModel;
 use App\Http\Controllers\Controller;
+use Excel;
 use Auth;
 use Redirect;
 
@@ -95,5 +98,28 @@ class GroupController extends Controller
             'navigation'=>"Group",
             'group_info'=>$group_info,
         ]);
+    }
+
+     /**
+     * Download the Contest Analysis with xlsx.
+     *
+     * @return Response
+     */
+    public function analysisDownload($gcode,Request $request){
+        $all_data = $all_data=$request->all();
+        $groupModel = new GroupModel();
+        $group_info = $groupModel->details($gcode);
+        $data = $groupModel->groupMemberPracticeContestStat($group_info['gid']);
+        return Excel::download(
+            new GroupAnalysisExport(
+                $data['contest_list'],
+                $data['member_data'],
+                [
+                    'maxium' => $all_data['maxium'] ?? true,
+                    'percent' => $all_data['percent'] ?? false,
+                ]
+            ),
+            $gcode . ' Group Analysis.xlsx'
+        );
     }
 }
