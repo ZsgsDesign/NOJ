@@ -346,14 +346,30 @@ class ContestModel extends Model
 
         $contest_rule=$this->contestRule($cid);
 
-        $problemSet=DB::table("contest_problem")->join("problem", "contest_problem.pid", "=", "problem.pid")->where([
-            "cid"=>$cid
-        ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title")->get()->all();
+        $problemSet=DB::table("contest_problem")
+        ->join("problem", "contest_problem.pid", "=", "problem.pid")
+        ->join("contest", "contest_problem.cid", "=", "contest.cid")
+        ->where([
+            "contest_problem.cid"=>$cid
+        ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title", "contest.gid as gid", "contest.practice as practice")->get()->all();
 
         $frozen_time=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
         $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
 
         foreach ($problemSet as &$p) {
+            if($p['practice']){
+                $tags = DB::table("group_problem_tag")
+                ->where('gid',$p['gid'])
+                ->where('pid',$p['pid'])
+                ->get()->all();
+                $tags_arr = [];
+                if(!empty($tags)){
+                    foreach ($tags as $value) {
+                        array_push($tags_arr,$value['tag']);
+                    }
+                }
+                $p['tags'] = $tags_arr;
+            }
             if ($contest_rule==1) {
                 $prob_stat=DB::table("submission")->select(
                     DB::raw("count(sid) as submission_count"),
@@ -390,6 +406,8 @@ class ContestModel extends Model
                     "color"=>$prob_status["color"]
                 ];
             }
+
+
         }
 
         return $problemSet;
@@ -582,6 +600,7 @@ class ContestModel extends Model
                 $prob_detail=[];
                 $totPen=0;
                 $totScore=0;
+                $solved=0;
                 foreach ($problemSet as $p) {
                     $prob_stat=$this->contestProblemInfoACM($cid, $p["pid"], $s["uid"]);
                     $prob_detail[]=[
@@ -595,6 +614,7 @@ class ContestModel extends Model
                         $totPen+=$prob_stat["wrong_doings"] * 20;
                         $totPen+=$prob_stat["solved_time"] / 60;
                         $totScore+=$prob_stat["solved"];
+                        $solved ++;
                     }
                 }
                 $ret[]=[
@@ -608,6 +628,7 @@ class ContestModel extends Model
                     ])->where("role", ">", 0)->first()["nick_name"],
                     "score" => $totScore,
                     "penalty" => $totPen,
+                    "solved" =>$solved,
                     "problem_detail" => $prob_detail
                 ];
             }
@@ -899,7 +920,6 @@ class ContestModel extends Model
         $basicInfo=$this->basic($cid);
         return $this->formatAbsTime($basicInfo["froze_length"]);
     }
-
 
     public function getContestRecord($cid)
     {
@@ -1223,6 +1243,7 @@ class ContestModel extends Model
                 "verified"=>0, //todo
                 "rated"=>0,
                 "anticheated"=>0,
+                "practice"=>$config["practice"],
                 "featured"=>0,
                 "description"=>$config["description"],
                 "rule"=>1, //todo

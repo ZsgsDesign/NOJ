@@ -98,7 +98,7 @@ class ContestController extends Controller
      */
     public function board($cid)
     {
-        return Redirect::route('contest_challenge', ['cid' => $cid]);
+        return Redirect::route('contest.challenge', ['cid' => $cid]);
     }
 
     /**
@@ -111,7 +111,7 @@ class ContestController extends Controller
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if (!$clearance) {
-            return Redirect::route('contest_detail', ['cid' => $cid]);
+            return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
         $contest_rule=$contestModel->contestRule($cid);
@@ -151,14 +151,14 @@ class ContestController extends Controller
         $accountModel=new AccountModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if (!$clearance) {
-            return Redirect::route('contest_detail', ['cid' => $cid]);
+            return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
         $contest_rule=$contestModel->rule($cid);
         $contest_ended=$contestModel->isContestEnded($cid);
         $pid=$contestModel->getPid($cid, $ncode);
         if (empty($pid)) {
-            return Redirect::route('contest_board', ['cid' => $cid]);
+            return Redirect::route('contest.board', ['cid' => $cid]);
         }
         $pcode=$problemModel->pcode($pid);
 
@@ -216,7 +216,7 @@ class ContestController extends Controller
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if (!$clearance) {
-            return Redirect::route('contest_detail', ['cid' => $cid]);
+            return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
         $contest_rule=$contestModel->contestRule($cid);
@@ -251,7 +251,7 @@ class ContestController extends Controller
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if (!$clearance) {
-            return Redirect::route('contest_detail', ['cid' => $cid]);
+            return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
         $customInfo=$contestModel->getCustomInfo($cid);
@@ -284,7 +284,7 @@ class ContestController extends Controller
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if (!$clearance) {
-            return Redirect::route('contest_detail', ['cid' => $cid]);
+            return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
         $customInfo=$contestModel->getCustomInfo($cid);
@@ -313,7 +313,7 @@ class ContestController extends Controller
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if (!$clearance) {
-            return Redirect::route('contest_detail', ['cid' => $cid]);
+            return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
         $customInfo=$contestModel->getCustomInfo($cid);

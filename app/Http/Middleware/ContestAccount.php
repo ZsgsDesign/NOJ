@@ -22,7 +22,7 @@ class ContestAccount
         } elseif ($request->cid==Auth::user()->contest_account) {
             return $next($request);
         } else {
-            return Redirect::route('contest_detail', ['cid' => Auth::user()->contest_account]);
+            return Redirect::route('contest.detail', ['cid' => Auth::user()->contest_account]);
         }
 
     }
