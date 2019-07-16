@@ -53,7 +53,7 @@
     right-side {
         display: block;
         /* padding:1rem 2rem 1rem 3rem; */
-        padding: 2rem;
+        padding: 3rem;
         height: 100%;
         overflow-y: scroll;
     }
