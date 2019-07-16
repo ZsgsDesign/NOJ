@@ -153,11 +153,11 @@
                                     <h5 class="modal-title"><i class="MDI share"></i> Submission Sharing</h5>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Please choose a method to share. Using Direct Share would make your code available for users of {{config("app.name")}} by clicking the submission detail and by Pastebin would allow you to share your code through a link.</p>
+                                    <p>Please choose a method to share. Using Direct Share would make your code available for users of NOJ by clicking the submission detail and by Pastebin would allow you to share your code through a link.</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-info" onclick="share(${ret.data.sid},${id})"><i class="MDI cube-outline"></i> ${ret.data.share?'Disable':'Enable'} Direct Share</button>
-                                    <button type="button" class="btn btn-warning" onclick="sharePB(${ret.data.sid},${id})"><i class="MDI note-plus"></i> Create a {{config("app.name")}} Pastebin</button>
+                                    <button type="button" class="btn btn-warning" onclick="sharePB(${ret.data.sid},${id})"><i class="MDI note-plus"></i> Create a NOJ Pastebin</button>
                                 </div>
                             </div>
                         </div>

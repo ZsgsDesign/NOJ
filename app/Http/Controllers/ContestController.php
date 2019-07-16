@@ -9,7 +9,6 @@ use App\Models\CompilerModel;
 use App\Models\SubmissionModel;
 use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Auth;
 use Redirect;
 
@@ -20,42 +19,19 @@ class ContestController extends Controller
      *
      * @return Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $all_data=$request->all();
         $contestModel=new ContestModel();
-        $filter["rule"]=isset($all_data["rule"]) ? $all_data["rule"] : null;
-        $filter["public"]=isset($all_data["public"]) ? $all_data["public"] : null;
-        $filter["verified"]=isset($all_data["verified"]) ? $all_data["verified"] : null;
-        $filter["rated"]=isset($all_data["rated"]) ? $all_data["rated"] : null;
-        $filter["anticheated"]=isset($all_data["anticheated"]) ? $all_data["anticheated"] : null;
-        $return_list=$contestModel->list($filter,Auth::check()?Auth::user()->id:0);
+        $return_list=$contestModel->list(Auth::check()?Auth::user()->id:0);
         $featured=$contestModel->featured();
-        if (is_null($return_list)) {
-            if (isset($all_data["page"]) && $all_data["page"]>1) {
-                return redirect("/contest");
-            } else {
-                return view('contest.index', [
-                    'page_title'=>"Contest",
-                    'site_title'=>config("app.name"),
-                    'navigation' => "Contest",
-                    'contest_list'=> null,
-                    'paginator' => null,
-                    'featured'=>$featured,
-                    'filter' => $filter
-                ]);
-            }
-        } else {
-            return view('contest.index', [
-                'page_title'=>"Contest",
-                'site_title'=>config("app.name"),
-                'navigation' => "Contest",
-                'contest_list'=>$return_list['contents'],
-                'paginator' => $return_list['paginator'],
-                'featured'=>$featured,
-                'filter' => $filter
-            ]);
-        }
+        return view('contest.index', [
+            'page_title'=>"Contest",
+            'site_title'=>"NOJ",
+            'navigation' => "Contest",
+            'contest_list'=>$return_list['contents'],
+            'paginator' => $return_list['paginator'],
+            'featured'=>$featured
+        ]);
     }
 
     /**
@@ -82,7 +58,7 @@ class ContestController extends Controller
         }
         return view('contest.detail', [
             'page_title'=>"Contest",
-            'site_title'=>config("app.name"),
+            'site_title'=>"NOJ",
             'navigation' => "Contest",
             'detail'=>$contest_detail["data"]["contest_detail"],
             'clearance' => $clearance,
@@ -329,30 +305,28 @@ class ContestController extends Controller
     }
 
     /**
-     * Show the Contest Admin Page.
+     * Show the Contest Analysis Page.
      *
      * @return Response
      */
-    public function admin($cid)
+    public function analysis($cid)
     {
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
-        if ($clearance <= 2) {
-            return Redirect::route('contest_detail', ['cid' => $cid]);
+        if ($clearance < 2) {
+            return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
         $customInfo=$contestModel->getCustomInfo($cid);
-        $accountModel=new AccountModel();
-        $contest_accounts=$accountModel->getContestAccount($cid);
-        return view('contest.board.admin', [
-            'page_title'=>"Admin",
+
+        return view('contest.board.analysis', [
+            'page_title'=>"Analysis",
             'navigation' => "Contest",
             'site_title'=>$contest_name,
             'contest_name'=>$contest_name,
             'cid'=>$cid,
             'custom_info' => $customInfo,
-            'clearance'=> $clearance,
-            'contest_accounts'=>$contest_accounts
+            'clearance'=> $clearance
         ]);
     }
 }

@@ -18,10 +18,10 @@ class RankController extends Controller
     public function index(Request $request)
     {
         $rankModel=new RankModel();
-        $rankingList=$rankModel->list(100);
+        $rankingList=$rankModel->list();
         return view('rank.index', [
                 'page_title'=>"Rank",
-                'site_title'=>config("app.name"),
+                'site_title'=>"NOJ",
                 'navigation' => "Rank",
                 'rankingList' => $rankingList
             ]);

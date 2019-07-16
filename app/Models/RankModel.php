@@ -75,11 +75,10 @@ class RankModel extends Model
         return self::$professionalRanking[$rankTitle];
     }
 
-    public function list($num)
+    public function list()
     {
         $rankList=Cache::tags(['rank'])->get('general');
-        if($rankList==null) $rankList=[];
-        $userInfoRaw=DB::table("users")->select("id as uid","avatar","name")->limit($num)->get()->all();
+        $userInfoRaw=DB::table("users")->select("id as uid","avatar","name")->get()->all();
         $userInfo=[];
         foreach($userInfoRaw as $u){
             $userInfo[$u["uid"]]=$u;
