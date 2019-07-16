@@ -118,4 +118,19 @@ class ContestController extends Controller
 
         return $ret ? ResponseModel::success(200) : ResponseModel::err(4006);
     }
+
+    public function getAnalysisData(Request $request)
+    {
+        $request->validate([
+            'cid' => 'required|integer'
+        ]);
+        $cid = $request->input('cid');
+
+        $contestModel=new ContestModel();
+        $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
+        if ($clearance < 2) {
+            return ResponseModel::err(7002);
+        }
+        return ResponseModel::success(200,null,$contestModel->praticeAnalysis($cid));
+    }
 }

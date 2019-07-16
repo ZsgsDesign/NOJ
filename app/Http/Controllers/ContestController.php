@@ -318,7 +318,6 @@ class ContestController extends Controller
         }
         $contest_name=$contestModel->contestName($cid);
         $customInfo=$contestModel->getCustomInfo($cid);
-
         return view('contest.board.analysis', [
             'page_title'=>"Analysis",
             'navigation' => "Contest",
@@ -326,7 +325,7 @@ class ContestController extends Controller
             'contest_name'=>$contest_name,
             'cid'=>$cid,
             'custom_info' => $customInfo,
-            'clearance'=> $clearance
+            'clearance'=> $clearance,
         ]);
     }
 }

@@ -1362,4 +1362,50 @@ class ContestModel extends Model
         }
         return $ret;
     }
+
+    public function praticeAnalysis($cid){
+        $gid = DB::table('contest')
+            ->where('cid',$cid)
+            ->first()['gid'];
+        $contestRank = $this->contestRank($cid,Auth::user()->id);
+
+        $all_problems = DB::table('problem')
+            ->whereIn('pid',array_column($contestRank[0]['problem_detail'],'pid'))
+            ->select('pid','title')
+            ->get()->all();
+
+        $tags = DB::table('group_problem_tag')
+            ->where('gid', $gid)
+            ->whereIn('pid', array_column($all_problems,'pid'))
+            ->get()->all();
+
+        $all_tags = array_unique(array_column($tags,'tag'));
+
+        $memberData = [];
+        foreach($contestRank as $member){
+            $m = [
+                'uid' => $member['uid'],
+                'name' => $member['name'],
+                'nick_name' => $member['nick_name'],
+            ];
+            $completion = [];
+            foreach ($all_tags as $tag){
+                $completion[$tag] = [];
+                foreach ($tags as $t) {
+                    if($t['tag'] == $tag){
+                        foreach ($member['problem_detail'] as $pd) {
+                            if($pd['pid'] == $t['pid']){
+                                $completion[$tag][$t['pid']] = $pd['solved_time_parsed'] == "" ? 0 : 1;
+                            }
+                        }
+                    }
+                }
+            }
+            $m['completion'] = $completion;
+            $memberData[] = $m;
+        }
+
+
+        return $memberData;
+    }
 }
