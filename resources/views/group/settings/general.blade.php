@@ -81,6 +81,76 @@
         cursor: pointer;
     }
 
+    group-image {
+        display: block;
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 61.8%;
+    }
+
+    group-image > shadow-div {
+        display: block;
+        position: absolute;
+        overflow: hidden;
+        top:0;
+        bottom:0;
+        right:0;
+        left:0;
+    }
+
+    group-image > shadow-layer{
+        position: absolute;
+        top:0;
+        left:0;
+        right:0;
+        display: block;
+        height:3rem;
+        background-image: linear-gradient(to bottom,rgba(0,0,0,.5),rgba(0,0,0,0));
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    group-image > shadow-div > img{
+        object-fit: cover;
+        width:100%;
+        height: 100%;
+        transition: .2s ease-out .0s;
+    }
+
+    group-image > shadow-div > img:hover{
+        transform: scale(1.2);
+    }
+
+    user-card{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    user-card user-avatar{
+        display: block;
+        padding-right:1rem;
+    }
+    user-card user-avatar img{
+        height: 3rem;
+        width: 3rem;
+        border-radius: 2000px;
+        object-fit: cover;
+        overflow: hidden;
+    }
+    user-card user-info{
+        display: block;
+    }
+    user-card user-info p{
+        margin-bottom:0;
+    }
+
+    user-card:last-of-type{
+        margin-bottom: 0;
+    }
+
 </style>
 
     <div id="settingModal" class="" tabindex="-1" role="dialog">
