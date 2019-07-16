@@ -19,6 +19,24 @@
         box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
     }
 
+    paper-card[type="flat"]{
+        box-shadow: none;
+    }
+
+    paper-card[type="flat"]:hover{
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
+    }
+
+    paper-card[type="none"]{
+        box-shadow: none;
+        background: none;
+        border: none;
+    }
+
+    paper-card[type="none"]:hover{
+        box-shadow: none;
+    }
+
     contest-card {
         display: flex;
         justify-content: flex-start;
@@ -132,10 +150,92 @@
         color:rgba(0,0,0,0.54);
     }
 
+    .badge-rule,
+    .badge-public,
+    .badge-verified,
+    .badge-rated,
+    .badge-anticheated{
+        background-color: transparent;
+        max-width: 7rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+        padding: .3rem .6rem;
+    }
+
+    .badge-rule > i,
+    .badge-public > i,
+    .badge-verified > i,
+    .badge-rated > i,
+    .badge-anticheated > i{
+        font-weight: normal;
+    }
+
+    .badge-rule {
+        color: #ffc107;
+        border: 1px solid #ffc107;
+    }
+
+    .badge-rule.selected {
+        color: white;
+        background-color: #ffc107;
+    }
+
+    .badge-public {
+        color: #F44336;
+        border: 1px solid #F44336;
+    }
+
+    .badge-public.selected {
+        color: white;
+        background-color: #F44336;
+    }
+    .badge-verified{
+        color: #03a9f4;
+        border: 1px solid #03a9f4;
+    }
+
+    .badge-verified.selected {
+        color: white;
+        background-color: #03a9f4;
+    }
+
+    .badge-rated{
+        color: #9c27b0;
+        border: 1px solid #9c27b0;
+    }
+
+    .badge-rated.selected {
+        color: white;
+        background-color: #9c27b0;
+    }
+
+    .badge-anticheated{
+        color: #009688;
+        border: 1px solid #009688;
+    }
+
+    .badge-anticheated.selected {
+        color: white;
+        background-color: #009688;
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
         <div class="col-sm-12 col-md-8">
+            <paper-card class="animated bounceInRight p-0" type="none">
+                <p class="cm-tending mb-3"><i class="MDI filter"></i> Filter</p>
+                <div>
+                    <span class="badge badge-rule @if($filter['rule']==1) selected @endif" onclick="applyFilter('rule',this)" data-rule="1"><i class="MDI trophy"></i> ICPC</span>
+                    <span class="badge badge-rule @if($filter['rule']==2) selected @endif" onclick="applyFilter('rule',this)" data-rule="2"><i class="MDI trophy"></i> OI</span>
+                    @if(Auth::check())<span class="badge badge-public @if($filter['public']=='1') selected @endif" onclick="applyFilter('public',this)" data-public="1"><i class="MDI incognito"></i> Public</span>@endif
+                    @if(Auth::check())<span class="badge badge-public @if($filter['public']=='0') selected @endif" onclick="applyFilter('public',this)" data-public="0"><i class="MDI incognito"></i> Private</span>@endif
+                    <span class="badge badge-verified @if($filter['verified']==1) selected @endif" onclick="applyFilter('verified',this)" data-verified="1"><i class="MDI marker-check"></i> Verified</span>
+                    <span class="badge badge-rated @if($filter['rated']==1) selected @endif" onclick="applyFilter('rated',this)" data-rated="1"><i class="MDI seal"></i> Rated</span>
+                    <span class="badge badge-anticheated @if($filter['anticheated']==1) selected @endif" onclick="applyFilter('anticheated',this)" data-anticheated="1"><i class="MDI do-not-disturb-off"></i> Anticheated</span>
+                </div>
+            </paper-card>
             @if(!empty($contest_list))
                 @foreach($contest_list as $c)
                 <a href="/contest/{{$c['cid']}}">
@@ -164,7 +264,7 @@
                 </a>
                 @endforeach
 
-                {{$paginator->links()}}
+                {{$paginator->appends($filter)->links()}}
             @else
                 <empty-container>
                     <i class="MDI package-variant"></i>
@@ -203,6 +303,43 @@
     window.addEventListener("load",function() {
 
     }, false);
+
+    function applyFilter(key,e) {
+        if($(e).hasClass("selected")) {
+            delete filterVal[key];
+            _activateFilter();
+        }else{
+            if(key!="rule"&&key!="public") _applyFilter(key,1);
+            else if(key!="public") _applyFilter(key,$(e).attr("data-rule"));
+            else _applyFilter(key,$(e).attr("data-public"));
+        }
+    }
+
+    function _applyFilter(key,value) {
+        if(value==filterVal[key]) return;
+        filterVal[key]=value;
+        _activateFilter();
+    }
+
+    function _activateFilter(){
+        var tempNav="";
+        Object.keys(filterVal).forEach((_key)=>{
+            let _value=filterVal[_key];
+            if(_value===null || _value==="") return;
+            tempNav+=`${_key}=${encodeURIComponent(_value)}&`;
+        });
+        if(tempNav.endsWith('&')) tempNav=tempNav.substring(0,tempNav.length-1);
+        if(tempNav==="") location.href="/contest";
+        else location.href="/contest?"+tempNav;
+    }
+
+    var filterVal=[];
+
+    @foreach($filter as $key=>$value)
+
+        filterVal["{{$key}}"]="{{$value}}";
+
+    @endforeach
 
 </script>
 @endsection

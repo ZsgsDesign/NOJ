@@ -46,7 +46,7 @@ class MainController extends Controller
         // Log::debug(["info"=>"User Viewed Home!"]);
         return view('home', [
                 'page_title'=>"Home",
-                'site_title'=>"NOJ",
+                'site_title'=>config("app.name"),
                 'navigation' => "Home",
                 'group_notice' => $group_notice,
                 'ojs' => $ojs

@@ -39,7 +39,7 @@ class ForgotPasswordController extends Controller
     {
         return view('auth.passwords.email',[
             'page_title'=>"Reset Password",
-            'site_title'=>"NOJ",
+            'site_title'=>config("app.name"),
             'navigation' => "Account"
         ]);
     }
