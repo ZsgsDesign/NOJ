@@ -111,7 +111,7 @@ class GroupController extends Controller
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
         $member_list=$groupModel->userList($basic_info["gid"]);
         return view('group.settings.general', [
-            'page_title'=>"Group Setting",
+            'page_title'=>"Group Setting General",
             'site_title'=>config("app.name"),
             'navigation'=>"Group",
             "basic_info"=>$basic_info,
@@ -134,7 +134,7 @@ class GroupController extends Controller
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
         $member_list=$groupModel->userList($basic_info["gid"]);
         return view('group.settings.danger', [
-            'page_title'=>"Group Setting",
+            'page_title'=>"Group Setting danger",
             'site_title'=>config("app.name"),
             'navigation'=>"Group",
             "basic_info"=>$basic_info,
@@ -146,7 +146,7 @@ class GroupController extends Controller
      *
      * @return Response
      */
-    public function settingsSome($gcode)
+    public function settingsMember($gcode)
     {
         $groupModel=new GroupModel();
         $contestModel=new ContestModel();
@@ -154,8 +154,8 @@ class GroupController extends Controller
         if(empty($basic_info)) return Redirect::route('group_index');
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
         $member_list=$groupModel->userList($basic_info["gid"]);
-        return view('group.settings.some', [
-            'page_title'=>"Group Setting",
+        return view('group.settings.member', [
+            'page_title'=>"Group Setting Member",
             'site_title'=>config("app.name"),
             'navigation'=>"Group",
             "basic_info"=>$basic_info,

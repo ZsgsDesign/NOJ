@@ -1,4 +1,4 @@
-@extends('group.settings.common', ['selectedTab' => "some"])
+@extends('group.settings.common', ['selectedTab' => "member"])
 
 @section('settingsTab')
 
@@ -39,7 +39,7 @@
         <div class="paper-card" role="document">
             <div class="modal-content sm-modal" style="width: 80%">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="MDI settings"></i> Some Group Settings</h5>
+                    <h5 class="modal-title"><i class="MDI settings"></i> member Group Settings</h5>
                 </div>
                 <div class="modal-body">
                     <div class="row">
