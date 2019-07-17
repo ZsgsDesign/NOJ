@@ -62,6 +62,7 @@ class GroupController extends Controller
         }
 
         $contestModel->arrangeContest($all_data["gid"], [
+            "assign_uid"=>Auth::user()->id,
             "name"=>$all_data["name"],
             "description"=>$all_data["description"],
             "begin_time"=>$all_data["begin_time"],
@@ -307,7 +308,7 @@ class GroupController extends Controller
         $groupModel->inviteMember($all_data["gid"], $all_data["email"]);
         return ResponseModel::success(200);
     }
-    
+
     public function createGroup(Request $request)
     {
         $request->validate([
@@ -317,7 +318,7 @@ class GroupController extends Controller
             'description' => 'nullable|max:100',
             'join_policy'  => 'required|integer|min:1|max:3'
         ]);
-        
+
         $all_data=$request->all();
 
         if (!empty($request->file('img')) && $request->file('img')->isValid()) {
@@ -348,7 +349,7 @@ class GroupController extends Controller
             'title' => 'required|min:3|max:50',
             'content' => 'required|min:3|max:100',
         ]);
-        
+
         $all_data=$request->all();
 
         $groupModel=new GroupModel();

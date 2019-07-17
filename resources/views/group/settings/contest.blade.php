@@ -151,7 +151,7 @@
         margin-bottom: 0;
     }
 
-    .paper-card {
+    settings-card {
         display: block;
         box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
         border-radius: 4px;
@@ -160,20 +160,45 @@
         background: #fff;
         padding: 1rem;
         position: relative;
-        border: 1px solid rgba(0, 0, 0, 0.15);
         margin-bottom: 2rem;
-        overflow: hidden;
+        width: 100%;
     }
 
-    .paper-card:hover {
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
+    settings-header{
+        display: block;
+        padding: 1.5rem 1.5rem 0;
+        border-bottom: 0;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        border-top-left-radius: .3rem;
+        border-top-right-radius: .3rem;
     }
+
+    settings-header>h5{
+        font-weight: bold;
+        font-family: 'Roboto';
+        margin-bottom: 0;
+        line-height: 1.5;
+    }
+
+    settings-body{
+        display: block;
+        position: relative;
+        flex: 1 1 auto;
+        padding: 1.25rem 1.5rem 1.5rem;
+    }
+
 </style>
 <div class="container-fluid mundb-standard-container">
-    <div class="paper-card" role="document">
-        <p class="modal-title"><i class="MDI trophy-variant"></i> Group Contest Management</p>
-        //Todo...
-    </div>
+    <settings-card>
+        <settings-header>
+            <h5><i class="MDI trophy-variant"></i> Group Contest Management</h5>
+        </settings-header>
+        <settings-body>
+
+        </settings-body>
+    </settings-card>
 </div>
 
 @endsection

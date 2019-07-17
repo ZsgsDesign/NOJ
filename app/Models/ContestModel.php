@@ -936,10 +936,19 @@ class ContestModel extends Model
             return 0;
         }
 
-        $contest_started=DB::table("contest")->where("cid", $cid)->where("begin_time", "<", date("Y-m-d H:i:s"))->count();
-        $contest_ended=DB::table("contest")->where("cid", $cid)->where("end_time", "<", date("Y-m-d H:i:s"))->count();
         $contest_info=DB::table("contest")->where("cid", $cid)->first();
 
+        if(empty($contest_info)){
+            // contest not exist
+            return 0;
+        }
+
+        if($uid == $contest_info['assign_uid']){
+            return 3;
+        }
+
+        $contest_started = strtotime($contest_info['begin_time']) < time();
+        $contest_ended = strtotime($contest_info['end_time']) < time();
         if (!$contest_started) {
             // not started or do not exist
             return 0;
