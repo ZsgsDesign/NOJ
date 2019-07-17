@@ -379,7 +379,7 @@ class GroupController extends Controller
         }
         $tags = $groupModel->problemTags($all_data['gid'],$all_data['pid']);
         if(in_array($all_data['tag'],$tags)){
-            return ResponseModel::err(7005);
+            return ResponseModel::err(7007);
         }
 
         $groupModel->problemAddTag($all_data["gid"], $all_data["pid"], $all_data["tag"]);
