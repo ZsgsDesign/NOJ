@@ -43,15 +43,16 @@ Route::group(['prefix' => 'problem'], function () {
 });
 Route::get('/status', 'StatusController@index')->middleware('contest_account')->name('status_index');
 
-Route::group(['prefix' => 'group'], function () {
-    Route::get('/', 'GroupController@index')->middleware('contest_account')->name('group_index');
-    Route::get('/create', 'GroupController@create')->middleware('contest_account')->name('group.create');
-    Route::get('/{gcode}', 'GroupController@detail')->middleware('auth', 'contest_account')->name('group.detail');
-    Route::get('/{gcode}/settings', 'GroupController@settings')->middleware('auth', 'contest_account')->name('group.settings');
-    Route::get('/{gcode}/settings/general', 'GroupController@settingsGeneral')->middleware('auth', 'contest_account')->name('group.settings.general');
-    Route::get('/{gcode}/settings/return', 'GroupController@settingsReturn')->middleware('auth', 'contest_account')->name('group.settings.return');
-    Route::get('/{gcode}/settings/danger', 'GroupController@settingsDanger')->middleware('auth', 'contest_account')->name('group.settings.danger');
-    Route::get('/{gcode}/settings/member', 'GroupController@settingsMember')->middleware('auth', 'contest_account')->name('group.settings.member');
+Route::group(['prefix' => 'group','as' => 'group.'], function () {
+    Route::get('/', 'GroupController@index')->middleware('contest_account')->name('index');
+    Route::get('/create', 'GroupController@create')->middleware('contest_account')->name('create');
+    Route::get('/{gcode}', 'GroupController@detail')->middleware('auth', 'contest_account')->name('detail');
+    Route::get('/{gcode}/settings', 'GroupController@settings')->middleware('auth', 'contest_account')->name('settings');
+    Route::get('/{gcode}/settings/general', 'GroupController@settingsGeneral')->middleware('auth', 'contest_account')->name('settings.general');
+    Route::get('/{gcode}/settings/return', 'GroupController@settingsReturn')->middleware('auth', 'contest_account')->name('settings.return');
+    Route::get('/{gcode}/settings/danger', 'GroupController@settingsDanger')->middleware('auth', 'contest_account')->name('settings.danger');
+    Route::get('/{gcode}/settings/member', 'GroupController@settingsMember')->middleware('auth', 'contest_account')->name('settings.member');
+    Route::get('/{gcode}/settings/contest', 'GroupController@settingsContest')->middleware('auth', 'contest_account')->name('settings.contest');
 });
 
 Route::group(['prefix' => 'contest'], function () {
