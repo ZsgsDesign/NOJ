@@ -97,7 +97,7 @@
         <a class="nav-link disabled" href="#">Developing...</a>
     </nav>
     <div class="switch text-right">
-        <a id="analysis-download" class="btn btn-primary" href="#" role="button"></a>
+        <a id="analysis-download" class="btn btn-primary" href="#" role="button">download .xlsx</a>
         <label>
             <input id="switch-percent" type="checkbox">
             Show By Percent
@@ -212,6 +212,7 @@
 
         $('#switch-percent').on('click',function(){
             contest_showPercent = $(this).prop('checked');
+            updataDownloadUrl();
             displayTable({
                 mode : displaying,
                 selector : '#' + displaying + '-panel'
@@ -220,6 +221,7 @@
 
         $('#switch-max').on('click',function(){
             contest_hideMax = $(this).prop('checked');
+            updataDownloadUrl();
             displayTable({
                 mode : displaying,
                 selector : '#' + displaying + '-panel'
