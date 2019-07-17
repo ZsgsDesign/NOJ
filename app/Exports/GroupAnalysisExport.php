@@ -120,7 +120,6 @@ class GroupAnalysisExport implements FromCollection, WithEvents, WithStrictNullC
                 array_push($data,$row);
             }
         }
-        dd($data);
         return collect($data);
     }
 

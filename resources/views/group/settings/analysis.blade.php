@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('group.settings.common', ['selectedTab' => "analysis"])
 
-@section('template')
+@section('settingsTab')
 
 <style>
-    .paper-card {
+    settings-card {
         display: block;
         box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
         border-radius: 4px;
@@ -12,12 +12,33 @@
         background: #fff;
         padding: 1rem;
         position: relative;
-        border: 1px solid rgba(0, 0, 0, 0.15);
         margin-bottom: 2rem;
+        width: 100%;
     }
 
-    .paper-card:hover {
-        box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
+    settings-header{
+        display: block;
+        padding: 1.5rem 1.5rem 0;
+        border-bottom: 0;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        border-top-left-radius: .3rem;
+        border-top-right-radius: .3rem;
+    }
+
+    settings-header>h5{
+        font-weight: bold;
+        font-family: 'Roboto';
+        margin-bottom: 0;
+        line-height: 1.5;
+    }
+
+    settings-body{
+        display: block;
+        position: relative;
+        flex: 1 1 auto;
+        padding: 1.25rem 1.5rem 1.5rem;
     }
 
     .mundb-standard-container ::-webkit-scrollbar {
@@ -89,74 +110,35 @@
         cursor: pointer;
     }
 </style>
-<div class="container mundb-standard-container paper-card">
-    <p>Group Member Practice Contest Analysis</p>
-    <nav id="mode-list" class="nav nav-tabs nav-stacked">
-        <a id="tab-contest" class="nav-link active" href="#">Contests</a>
-        <a id="tab-tag" class="nav-link" href="#">Tags</a>
-        <a class="nav-link disabled" href="#">Developing...</a>
-    </nav>
-    <div class="switch text-right">
-        <a id="analysis-download" class="btn btn-primary" href="#" role="button">download .xlsx</a>
-        <label>
-            <input id="switch-percent" type="checkbox">
-            Show By Percent
-        </label>&nbsp;&nbsp;&nbsp;&nbsp;
-        <label>
-            <input id="switch-max" type="checkbox">
-            Hide Maximum
-        </label>
-    </div>
-    <div id="panels">
-        <div id="contest-panel"  style="display: none">
+<settings-card>
+    <settings-header>
+        <h5>Group Member Practice Contest Analysis</h5>
+    </settings-header>
+    <settings-body>
+        <nav id="mode-list" class="nav nav-tabs nav-stacked">
+            <a id="tab-contest" class="nav-link active" href="#">Contests</a>
+            <a id="tab-tag" class="nav-link" href="#">Tags</a>
+            <a class="nav-link disabled" href="#">Developing...</a>
+        </nav>
+        <div class="switch text-right">
+            <a id="analysis-download" class="btn btn-primary" href="#" role="button">download .xlsx</a>
+            <label>
+                <input id="switch-percent" type="checkbox">
+                Show By Percent
+            </label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <label>
+                <input id="switch-max" type="checkbox">
+                Hide Maximum
+            </label>
         </div>
-        <div id="tag-panel" style="display: none">
+        <div id="panels">
+            <div id="contest-panel"  style="display: none">
+            </div>
+            <div id="tag-panel" style="display: none">
+            </div>
         </div>
-    </div>
-
-    {{-- <div class="text-center">
-        <div style="overflow-x: auto">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col" rowspan="2" style="text-align: left;">Member</th>
-                        <th scope="col" colspan="2" style="text-align: middle;">Total</th>
-                        @foreach($contest_list as $c)
-                            <th scope="col" colspan="2" style="max-width: 6rem; text-overflow: ellipsis; overflow: hidden; white-space:nowrap" title="{{$c['name']}}">{{$c['name']}}</th>
-                        @endforeach
-                    </tr>
-                    <tr>
-                        <th scope="col">Solved</th>
-                        <th scope="col">Penalty</th>
-                        @foreach($contest_list as $c)
-                            <th scope="col">Solved</th>
-                            <th scope="col">Penalty</th>
-                        @endforeach
-                    </tr>
-                </thead>
-                <tbody> --}}
-                    {{-- ACM/ICPC Mode --}}
-                    {{-- @foreach($member_data as $m)
-                    <tr>
-                        <td style="text-align: left;">{{$m["name"]}} @if($m["nick_name"])<span class="cm-subtext">({{$m["nick_name"]}})</span>@endif</td>
-                        <td>{{$m["solved_all"]}} / {{$m["problem_all"]}} </td>
-                        <td>{{round($m["penalty"])}}</td>
-                        @foreach($contest_list as $c)
-                            @if(in_array($c['cid'],array_keys($m['contest_detial'])))
-                                <td>{{$m['contest_detial'][$c['cid']]['solved']}} / {{$m['contest_detial'][$c['cid']]["problems"]}} </td>
-                                <td>{{round($m['contest_detial'][$c['cid']]["penalty"])}}</td>
-                            @else
-                            <td>- / -</td>
-                            <td>-</td>
-                            @endif
-                        @endforeach
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div> --}}
-
+    </settings-body>
+</settings-card>
 </div>
 <script>
     let ajaxing = true;

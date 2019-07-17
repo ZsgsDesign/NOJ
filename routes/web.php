@@ -47,7 +47,7 @@ Route::group(['prefix' => 'group','as' => 'group.'], function () {
     Route::get('/', 'GroupController@index')->middleware('contest_account')->name('index');
     Route::get('/create', 'GroupController@create')->middleware('contest_account')->name('create');
     Route::get('/{gcode}', 'GroupController@detail')->middleware('auth', 'contest_account')->name('detail');
-    Route::get('/{gcode}/analysis', 'GroupController@analysis')->middleware('auth', 'contest_account')->name('analysis');
+
     Route::get('/{gcode}/analysisDownload', 'GroupController@analysisDownload')->middleware('auth', 'contest_account')->name('analysis.download');
     Route::get('/{gcode}/settings', 'GroupController@settings')->middleware('auth', 'contest_account')->name('settings');
     Route::get('/{gcode}/settings/general', 'GroupController@settingsGeneral')->middleware('auth', 'contest_account')->name('settings.general');
@@ -56,6 +56,7 @@ Route::group(['prefix' => 'group','as' => 'group.'], function () {
     Route::get('/{gcode}/settings/member', 'GroupController@settingsMember')->middleware('auth', 'contest_account')->name('settings.member');
     Route::get('/{gcode}/settings/contest', 'GroupController@settingsContest')->middleware('auth', 'contest_account')->name('settings.contest');
     Route::get('/{gcode}/settings/problems', 'GroupController@problems')->middleware('auth', 'contest_account')->name('settings.problems');
+    Route::get('/{gcode}/settings/analysis', 'GroupController@analysis')->middleware('auth', 'contest_account')->name('settings.analysis');
 });
 
 Route::group(['prefix' => 'contest','as' => 'contest.'], function () {

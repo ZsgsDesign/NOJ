@@ -175,11 +175,12 @@ class GroupController extends Controller
     public function analysis($gcode){
         $groupModel = new GroupModel();
         $group_info = $groupModel->details($gcode);
-        return view('group.analysis', [
+        return view('group.settings.analysis', [
             'page_title'=>"Group Analysis",
             'site_title'=>"NOJ",
             'navigation'=>"Group",
             'group_info'=>$group_info,
+            "basic_info"=>$group_info,
         ]);
     }
 
