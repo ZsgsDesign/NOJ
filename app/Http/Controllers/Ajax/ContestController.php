@@ -5,15 +5,63 @@ namespace App\Http\Controllers\Ajax;
 use App\Models\ContestModel;
 use App\Models\GroupModel;
 use App\Models\ResponseModel;
-use App\Models\AccountModel;
+use App\Models\UserModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Jobs\ProcessSubmission;
 use Auth;
 
 class ContestController extends Controller
 {
+    public function assignMember(Request $request)
+    {
+        $request->validate([
+            'cid' => 'required|integer',
+            'uid' => 'required|integer'
+        ]);
+        $cid = $request->input('cid');
+        $uid = $request->input('uid');
+
+        $groupModel = new GroupModel();
+        $contestModel = new ContestModel();
+
+        $contest_info = $contestModel->basic($cid);
+        if($contestModel->judgeClearance($cid,Auth::user()->id) != 3){
+            return ResponseModel::err(2001);
+        }
+
+        if(!$groupModel->isMember($contest_info['gid'],$uid)){
+            return ResponseModel::err(7004);
+        }
+
+        $contestModel->assignMember($cid,$uid);
+        return ResponseModel::success(200);
+    }
+
+    public function details(Request $request)
+    {
+        $request->validate([
+            'cid' => 'required|integer',
+        ]);
+        $cid = $request->input('cid');
+
+        $contestModel = new ContestModel();
+        $groupModel = new GroupModel();
+
+        $contest_detail = $contestModel->basic($cid);
+        $assign_uid = $contest_detail['assign_uid'];
+        if($assign_uid != 0){
+            $assignee = $groupModel->userProfile($assign_uid,$contest_detail['gid']);
+        }else{
+            $assignee = null;
+        }
+        $ret = [
+            'contest_info' => $contest_detail,
+            'assignee' => $assignee
+        ];
+        return ResponseModel::success(200,null,$ret);
+    }
+
     public function fetchClarification(Request $request)
     {
         $request->validate([

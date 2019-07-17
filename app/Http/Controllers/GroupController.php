@@ -171,7 +171,8 @@ class GroupController extends Controller
         $basic_info=$groupModel->details($gcode);
         if(empty($basic_info)) return Redirect::route('group.index');
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
-        $contest_list=$contestModel->listByGroup($basic_info["gid"])['contest_list'];
+        $contest_list=$contestModel->listForSetting($basic_info["gid"]);
+        $member_list=$groupModel->userList($basic_info["gid"]);
         return view('group.settings.contest', [
             'page_title'=>"Group Setting Contest",
             'site_title'=>config("app.name"),
@@ -179,6 +180,7 @@ class GroupController extends Controller
             "basic_info"=>$basic_info,
             'contest_list'=>$contest_list,
             'group_clearance'=>$clearance,
+            'member_list'=>$member_list,
         ]);
     }
 }

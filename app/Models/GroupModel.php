@@ -17,9 +17,9 @@ class GroupModel extends Model
 
     /*
         join_policy:
-            1:Ö»ÄÜÍ¨¹ıÑûÇë¼ÓÈë 
-            2:Ö»ÄÜÍ¨¹ıÉêÇë¼ÓÈë 
-            3:ÉêÇëÓëÑûÇë¾ù¿É¼ÓÈë
+            1:Ö»ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            2:Ö»ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            3:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¼ï¿½ï¿½ï¿½
     */
     public $role=[
         "-3"=>"None",
@@ -114,7 +114,12 @@ class GroupModel extends Model
 
     public function userProfile($uid, $gid)
     {
-        $info=DB::table("group_member")->where(["gid"=>$gid, "uid"=>$uid])->where("role", ">", 0)->first();
+        $info=DB::table("group_member")
+        ->join('users','users.id','=','group_member.uid')
+        ->where(["gid"=>$gid, "uid"=>$uid])
+        ->where("role", ">", 0)
+        ->select('avatar','describes','email','gid','uid','name','nick_name','professional_rate','role','sub_group')
+        ->first();
         if (!empty($info)) {
             $info["role_parsed"]=$this->role[$info["role"]];
             $info["role_color"]=$this->role_color[$info["role"]];
@@ -234,7 +239,7 @@ class GroupModel extends Model
         return "$difference $periods[$j] {$tense}";
     }
 
-        
+
     public function judgeEmailClearance($gid, $email)
     {
         $uid=DB::table("users")->where(["email"=>$email])->first();
@@ -256,7 +261,7 @@ class GroupModel extends Model
             "join_time"=>date("Y-m-d H:i:s")
         ]);
     }
-    
+
     public function isUser($email)
     {
         return DB::table("users")->where([

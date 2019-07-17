@@ -118,6 +118,31 @@ class ContestModel extends Model
         ]);
     }
 
+    public function listForSetting($gid)
+    {
+        $uid = Auth::user()->id;
+        $group_contests = DB::table('contest')
+            ->where('gid',$gid)
+            ->orderBy('begin_time','desc')
+            ->get()->all();
+        $groupModel = new GroupModel();
+        $group_clearance = $groupModel->judgeClearance($gid,$uid);
+        foreach ($group_contests as &$contest) {
+            $contest['is_admin'] = ($contest['assign_uid'] == $uid || $group_clearance == 3);
+            $begin_stamps = strtotime($contest['begin_time']);
+            $end_stamps = strtotime($contest['end_time']);
+            $contest['status'] = time() >= $end_stamps ? 1
+                : (time() <= $begin_stamps ? -1 : 0);
+            $contest["rule_parsed"]=$this->rule[$contest["rule"]];
+            $contest["date_parsed"]=[
+                "date"=>date_format(date_create($contest["begin_time"]), 'j'),
+                "month_year"=>date_format(date_create($contest["begin_time"]), 'M, Y'),
+            ];
+            $contest["length"]=$this->calcLength($contest["begin_time"], $contest["end_time"]);
+        }
+        return $group_contests;
+    }
+
     public function listByGroup($gid)
     {
         // $contest_list=DB::table($this->tableName)->where([
@@ -804,7 +829,6 @@ class ContestModel extends Model
         return $this->formatAbsTime($basicInfo["froze_length"]);
     }
 
-
     public function getContestRecord($cid)
     {
         $basicInfo=$this->basic($cid);
@@ -935,7 +959,7 @@ class ContestModel extends Model
         if ($uid==0) {
             return 0;
         }
-
+        $groupModel = new GroupModel();
         $contest_info=DB::table("contest")->where("cid", $cid)->first();
 
         if(empty($contest_info)){
@@ -943,7 +967,7 @@ class ContestModel extends Model
             return 0;
         }
 
-        if($uid == $contest_info['assign_uid']){
+        if($uid == $contest_info['assign_uid'] || $groupModel->judgeClearance($contest_info['gid'],$uid) == 3){
             return 3;
         }
 
@@ -1086,7 +1110,8 @@ class ContestModel extends Model
         }, 5);
     }
 
-    public function updateContestRankTable($cid,$sub){
+    public function updateContestRankTable($cid,$sub)
+    {
         $lock = Cache::lock("contestrank$cid",10);
         try{
             if($lock->get()){
@@ -1153,7 +1178,8 @@ class ContestModel extends Model
         }
     }
 
-    public function sortContestRankTable($contest_info,$cid,$ret){
+    public function sortContestRankTable($contest_info,$cid,$ret)
+    {
         if ($contest_info["rule"]==1){
             usort($ret, function ($a, $b) {
                 if ($a["score"]==$b["score"]) {
@@ -1190,7 +1216,8 @@ class ContestModel extends Model
         return $ret;
     }
 
-    public function updateContestRankDetail($contest_info,$problem,$cid,$uid,$ret){
+    public function updateContestRankDetail($contest_info,$problem,$cid,$uid,$ret)
+    {
         $id = count($ret);
         foreach($ret as $key => $r){
             if($r['uid'] == $uid)
@@ -1274,5 +1301,11 @@ class ContestModel extends Model
             ];
         }
         return $ret;
+    }
+
+    public function assignMember($cid,$uid){
+        return DB::table("contest")->where(["cid"=>$cid])->update([
+            "assign_uid"=>$uid
+        ]);
     }
 }
