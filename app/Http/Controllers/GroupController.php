@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\GroupModel;
 use App\Models\ContestModel;
+use App\Exports\GroupAnalysisExport;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Excel;
 use Auth;
 use Redirect;
+
 
 class GroupController extends Controller
 {
@@ -22,7 +26,7 @@ class GroupController extends Controller
         $user_groups=Auth::check() ? $groupModel->userGroups(Auth::user()->id) : [];
         return view('group.index', [
             'page_title' => "Group",
-            'site_title' => "NOJ",
+            'site_title' => config("app.name"),
             'navigation' => "Group",
             'tending' => $tending_groups,
             'mine' => $user_groups
@@ -48,7 +52,7 @@ class GroupController extends Controller
         $paginator=$contestModel->listByGroup($basic_info["gid"])['paginator'];
         return view('group.detail', [
             'page_title'=>"Group Detail",
-            'site_title'=>"NOJ",
+            'site_title'=>config("app.name"),
             'navigation'=>"Group",
             "basic_info"=>$basic_info,
             'my_profile'=>$my_profile,
@@ -119,6 +123,26 @@ class GroupController extends Controller
             'group_clearance'=>$clearance
         ]);
     }
+  
+     * Show the Group's Problems in Practice Contest or other Contest.
+     *
+     * @return Response
+     */
+    public function problems($gcode){
+        $groupModel = new GroupModel();
+        $group_info = $groupModel->details($gcode);
+        $problems = $groupModel->problems($group_info['gid']);
+        $allTags = $groupModel->problemTags($group_info['gid'],-1);
+
+        return view('group.problems', [
+            'page_title'=>"Group Problems",
+            'site_title'=>"NOJ",
+            'navigation'=>"Group",
+            'group_info'=>$group_info,
+            'problems'=>$problems,
+            'all_tags'=>$allTags
+        ]);
+    }
 
     /**
      * Show the Group Settings General Section.
@@ -138,6 +162,21 @@ class GroupController extends Controller
             'site_title'=>config("app.name"),
             'navigation'=>"Group",
             "basic_info"=>$basic_info,
+            ]);
+    }
+    
+     * Show the Contest Analysis Tab.
+     *
+     * @return Response
+     */
+    public function analysis($gcode){
+        $groupModel = new GroupModel();
+        $group_info = $groupModel->details($gcode);
+        return view('group.analysis', [
+            'page_title'=>"Group Analysis",
+            'site_title'=>"NOJ",
+            'navigation'=>"Group",
+            'group_info'=>$group_info,
         ]);
     }
 
@@ -182,5 +221,49 @@ class GroupController extends Controller
             'group_clearance'=>$clearance,
             'member_list'=>$member_list,
         ]);
+    }
+    
+     * Show the Contest Analysis Tab.
+     *
+     * @return Response
+     */
+    public function analysisDownload($gcode,Request $request){
+        $all_data = $request->all();
+        $groupModel = new GroupModel();
+        $group_info = $groupModel->details($gcode);
+        $mode = $all_data['mode'] ?? 'contest';
+        if($mode == 'contest'){
+            $data = $groupModel->groupMemberPracticeContestStat($group_info['gid']);
+            return Excel::download(
+                new GroupAnalysisExport(
+                    [
+                        'contest_data' => $data['contest_list'],
+                        'member_data' => $data['member_data'],
+                    ],
+                    [
+                        'mode' => $all_data['mode'] ?? 'contest',
+                        'maxium' => $all_data['maxium'] ?? true,
+                        'percent' => $all_data['percent'] ?? false,
+                    ]
+                ),
+                $gcode . '_Group_Contest_Analysis.xlsx'
+            );
+        }else{
+            $data = $groupModel->groupMemberPracticeTagStat($group_info['gid']);
+            return Excel::download(
+                new GroupAnalysisExport(
+                    [
+                        'tag_problems' => $data['tag_problems'],
+                        'member_data' => $data['member_data'],
+                    ],
+                    [
+                        'mode' => $all_data['mode'] ?? 'tag',
+                        'maxium' => $all_data['maxium'] ?? true,
+                        'percent' => $all_data['percent'] ?? false,
+                    ]
+                ),
+                $gcode . '_Group_Tag_Analysis.xlsx'
+            );
+        }
     }
 }

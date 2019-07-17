@@ -32,7 +32,7 @@ class AccountController extends Controller
         $socialiteInfo = $accountModel->getSocialiteInfo(Auth::user()->id,100);
         return view("account.dashboard", [
             'page_title'=>"DashBoard",
-            'site_title'=>"NOJ",
+            'site_title'=>config("app.name"),
             'navigation'=>"DashBoard",
             'info'=>$info,
             'userView'=>false,
@@ -59,7 +59,7 @@ class AccountController extends Controller
         $socialiteInfo = $accountModel->getSocialiteInfo(Auth::user()->id,100);
         return view("account.dashboard", [
             'page_title'=>"Settings",
-            'site_title'=>"NOJ",
+            'site_title'=>config("app.name"),
             'navigation'=>"Settings",
             'info'=>$info,
             'userView'=>false,

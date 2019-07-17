@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Jobs\ProcessSubmission;
 use Auth;
+use Cache;
 
 class ContestController extends Controller
 {
@@ -229,5 +230,106 @@ class ContestController extends Controller
         }
         $contestModel->contestUpdate($cid,$all_data,$problemSet);
         return ResponseModel::success(200,$tips);
+    }
+  
+    public function issueAnnouncement(Request $request){
+        $request->validate([
+            'cid' => 'required|integer',
+            'title' => 'required|string|max:250',
+            'content' => 'required|string|max:65536',
+        ]);
+
+        $all_data=$request->all();
+
+        $contestModel=new ContestModel();
+        $clearance=$contestModel->judgeClearance($all_data["cid"], Auth::user()->id);
+        if ($clearance<3) {
+            return ResponseModel::err(2001);
+        } else {
+            return ResponseModel::success(200, null, [
+                "ccid" => $contestModel->issueAnnouncement($all_data["cid"], $all_data["title"], $all_data["content"], Auth::user()->id)
+            ]);
+        }
+    }
+
+    public function replyClarification(Request $request){
+        $request->validate([
+            'cid' => 'required|integer',
+            'ccid' => 'required|integer',
+            'content' => 'required|string|max:65536',
+        ]);
+
+        $all_data=$request->all();
+
+        $contestModel=new ContestModel();
+        $clearance=$contestModel->judgeClearance($all_data["cid"], Auth::user()->id);
+        if ($clearance<3) {
+            return ResponseModel::err(2001);
+        } else {
+            return ResponseModel::success(200, null, [
+                "line" => $contestModel->replyClarification($all_data["ccid"], $all_data["content"])
+            ]);
+        }
+    }
+
+    public function setClarificationPublic(Request $request){
+        $request->validate([
+            'cid' => 'required|integer',
+            'ccid' => 'required|integer',
+            'public' => 'required',
+        ]);
+
+        $all_data=$request->all();
+
+        $contestModel=new ContestModel();
+        $clearance=$contestModel->judgeClearance($all_data["cid"], Auth::user()->id);
+        if ($clearance<3) {
+            return ResponseModel::err(2001);
+        } else {
+            return ResponseModel::success(200, null, [
+                "line" => $contestModel->setClarificationPublic($all_data["ccid"], $all_data["public"])
+            ]);
+        }
+    }
+
+    public function generateContestAccount(Request $request)
+    {
+        $request->validate([
+            'cid' => 'required|integer',
+            'ccode' => 'required|min:3|max:10',
+            'num' => 'required|integer'
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        $contestModel=new ContestModel();
+        $gid=$contestModel->gid($all_data["cid"]);
+        $clearance=$groupModel->judgeClearance($gid, Auth::user()->id);
+        if ($clearance<3) {
+            return ResponseModel::err(2001);
+        }
+        $accountModel=new AccountModel();
+        $ret=$accountModel->generateContestAccount($all_data["cid"], $all_data["ccode"], $all_data["num"]);
+        $cache_data=Cache::tags(['contest', 'account'])->get($all_data["cid"]);
+        $cache_data[]=$ret;
+        Cache::tags(['contest', 'account'])->put($all_data["cid"], $cache_data);
+        return ResponseModel::success(200, null, $ret);
+    }
+
+
+    public function getAnalysisData(Request $request)
+    {
+        $request->validate([
+            'cid' => 'required|integer'
+        ]);
+        $cid = $request->input('cid');
+
+        $contestModel=new ContestModel();
+        $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
+        if ($clearance < 2) {
+            return ResponseModel::err(7002);
+        }
+        return ResponseModel::success(200,null,$contestModel->praticeAnalysis($cid));
     }
 }

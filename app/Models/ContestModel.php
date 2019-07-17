@@ -176,50 +176,121 @@ class ContestModel extends Model
         ])->first()["rule"];
     }
 
-    public function list($uid)
+    public function list($filter,$uid)
     {
         if ($uid) {
             //$paginator=DB::select('SELECT DISTINCT contest.* FROM group_member inner join contest on group_member.gid=contest.gid left join contest_participant on contest.cid=contest_participant.cid where (public=1 and audit=1) or (group_member.uid=:uid and group_member.role>0 and (contest_participant.uid=:uidd or ISNULL(contest_participant.uid)) and (registration=0 or (registration=1 and not ISNULL(contest_participant.uid))))',["uid"=>$uid,"uidd"=>$uid])->paginate(10);
-            $paginator=DB::table('group_member')
+            if ($filter['public']=='1') {
+                $paginator=DB::table($this->tableName)->where([
+                    "public"=>1,
+                    "audit_status"=>1
+                ])->orderBy('begin_time', 'desc');
+                if ($filter['rule']) {
+                    $paginator=$paginator->where(["rule"=>$filter['rule']]);
+                }
+                if ($filter['verified']) {
+                    $paginator=$paginator->where(["verified"=>$filter['verified']]);
+                }
+                if ($filter['rated']) {
+                    $paginator=$paginator->where(["rated"=>$filter['rated']]);
+                }
+                if ($filter['anticheated']) {
+                    $paginator=$paginator->where(["anticheated"=>$filter['anticheated']]);
+                }
+                $paginator = $paginator ->paginate(10);
+            }elseif($filter['public']=='0'){
+                $paginator=DB::table('group_member')
                 ->distinct()
                 ->select('contest.*')
                 ->join('contest', 'group_member.gid', '=', 'contest.gid')
                 ->leftJoin('contest_participant', 'contest.cid', '=', 'contest_participant.cid')
                 ->where(
-                    function ($query) {
+                    function ($query) use ($filter,$uid) {
+                        if ($filter['rule']) {
+                            $query=$query->where(["rule"=>$filter['rule']]);
+                        }
+                        if ($filter['verified']) {
+                            $query=$query->where(["verified"=>$filter['verified']]);
+                        }
+                        if ($filter['rated']) {
+                            $query=$query->where(["rated"=>$filter['rated']]);
+                        }
+                        if ($filter['anticheated']) {
+                            $query=$query->where(["anticheated"=>$filter['anticheated']]);
+                        }
+                        $query->where('group_member.uid', $uid)
+                                ->where('group_member.role', '>', 0)
+                                ->where(["public"=>0]);
+                    }
+                )
+                ->orderBy('contest.begin_time', 'desc')
+                ->paginate(10, ['contest.cid']);
+            }else{
+                $paginator=DB::table('group_member')
+                ->distinct()
+                ->select('contest.*')
+                ->join('contest', 'group_member.gid', '=', 'contest.gid')
+                ->leftJoin('contest_participant', 'contest.cid', '=', 'contest_participant.cid')
+                ->where(
+                    function ($query) use ($filter) {
+                        if ($filter['rule']) {
+                            $query=$query->where(["rule"=>$filter['rule']]);
+                        }
+                        if ($filter['verified']) {
+                            $query=$query->where(["verified"=>$filter['verified']]);
+                        }
+                        if ($filter['rated']) {
+                            $query=$query->where(["rated"=>$filter['rated']]);
+                        }
+                        if ($filter['anticheated']) {
+                            $query=$query->where(["anticheated"=>$filter['anticheated']]);
+                        }
                         $query->where('public', 1)
                               ->where('audit_status', 1);
                     }
                 )
                 ->orWhere(
-                    function ($query) use ($uid) {
+                    function ($query) use ($filter,$uid) {
+                        if ($filter['rule']) {
+                            $query=$query->where(["rule"=>$filter['rule']]);
+                        }
+                        if ($filter['public']) {
+                            $query=$query->where(["public"=>$filter['public']]);
+                        }
+                        if ($filter['verified']) {
+                            $query=$query->where(["verified"=>$filter['verified']]);
+                        }
+                        if ($filter['rated']) {
+                            $query=$query->where(["rated"=>$filter['rated']]);
+                        }
+                        if ($filter['anticheated']) {
+                            $query=$query->where(["anticheated"=>$filter['anticheated']]);
+                        }
                         $query->where('group_member.uid', $uid)
                                 ->where('group_member.role', '>', 0);
-                            //     ->where(function ($query) use ($uid) {
-                            //         $query->where('contest_participant.uid', $uid)
-                            //               ->orWhereNull('contest_participant.uid');
-                            //     })
-                            //   ->where(function ($query) {
-                            //       $query->where('registration', 0)
-                            //                     ->orWhere(function ($query) {
-                            //                         $query->where('registration', 1)
-                            //                               ->whereNotNull('contest_participant.uid');
-                            //                     });
-                            //   });
                     }
                 )
                 ->orderBy('contest.begin_time', 'desc')
                 ->paginate(10, ['contest.cid']);
-
-        /*  $paginator=DB::table($this->tableName)->where([
-             "public"=>1,
-             "audit_status"=>1
-         ])->orderBy('begin_time', 'desc')->paginate(10); */
+            }
         } else {
             $paginator=DB::table($this->tableName)->where([
                 "public"=>1,
                 "audit_status"=>1
-            ])->orderBy('begin_time', 'desc')->paginate(10);
+            ])->orderBy('begin_time', 'desc');
+            if ($filter['rule']) {
+                $paginator=$paginator->where(["rule"=>$filter['rule']]);
+            }
+            if ($filter['verified']) {
+                $paginator=$paginator->where(["verified"=>$filter['verified']]);
+            }
+            if ($filter['rated']) {
+                $paginator=$paginator->where(["rated"=>$filter['rated']]);
+            }
+            if ($filter['anticheated']) {
+                $paginator=$paginator->where(["anticheated"=>$filter['anticheated']]);
+            }
+            $paginator = $paginator ->paginate(10);
         }
         $contest_list=$paginator->all();
         foreach ($contest_list as &$c) {
@@ -309,14 +380,30 @@ class ContestModel extends Model
 
         $contest_rule=$this->contestRule($cid);
 
-        $problemSet=DB::table("contest_problem")->join("problem", "contest_problem.pid", "=", "problem.pid")->where([
-            "cid"=>$cid
-        ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title")->get()->all();
+        $problemSet=DB::table("contest_problem")
+        ->join("problem", "contest_problem.pid", "=", "problem.pid")
+        ->join("contest", "contest_problem.cid", "=", "contest.cid")
+        ->where([
+            "contest_problem.cid"=>$cid
+        ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title", "contest.gid as gid", "contest.practice as practice")->get()->all();
 
         $frozen_time=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
         $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
 
         foreach ($problemSet as &$p) {
+            if($p['practice']){
+                $tags = DB::table("group_problem_tag")
+                ->where('gid',$p['gid'])
+                ->where('pid',$p['pid'])
+                ->get()->all();
+                $tags_arr = [];
+                if(!empty($tags)){
+                    foreach ($tags as $value) {
+                        array_push($tags_arr,$value['tag']);
+                    }
+                }
+                $p['tags'] = $tags_arr;
+            }
             if ($contest_rule==1) {
                 $prob_stat=DB::table("submission")->select(
                     DB::raw("count(sid) as submission_count"),
@@ -353,6 +440,8 @@ class ContestModel extends Model
                     "color"=>$prob_status["color"]
                 ];
             }
+
+
         }
 
         return $problemSet;
@@ -545,6 +634,7 @@ class ContestModel extends Model
                 $prob_detail=[];
                 $totPen=0;
                 $totScore=0;
+                $solved=0;
                 foreach ($problemSet as $p) {
                     $prob_stat=$this->contestProblemInfoACM($cid, $p["pid"], $s["uid"]);
                     $prob_detail[]=[
@@ -558,6 +648,7 @@ class ContestModel extends Model
                         $totPen+=$prob_stat["wrong_doings"] * 20;
                         $totPen+=$prob_stat["solved_time"] / 60;
                         $totScore+=$prob_stat["solved"];
+                        $solved ++;
                     }
                 }
                 $ret[]=[
@@ -571,6 +662,7 @@ class ContestModel extends Model
                     ])->where("role", ">", 0)->first()["nick_name"],
                     "score" => $totScore,
                     "penalty" => $totPen,
+                    "solved" =>$solved,
                     "problem_detail" => $prob_detail
                 ];
             }
@@ -661,11 +753,45 @@ class ContestModel extends Model
             "gid" => $contest_info["gid"]
         ])->where("role", ">", 0)->first());
 
-        $contestRankRaw=Cache::tags(['contest', 'rank'])->get($cid);
+        $clearance = $this -> judgeClearance($cid, $uid);
 
-        if ($contestRankRaw==null) {
-            $contestRankRaw=$this->contestRankCache($cid);
+        /** New Version With MySQL */
+        $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+
+        if(time() < $end_time){
+            if($clearance == 3){
+                $contestRankRaw=Cache::tags(['contest', 'rank'])->get("contestAdmin$cid");
+            }else{
+                $contestRankRaw=Cache::tags(['contest', 'rank'])->get($cid);
+            }
+            if(!isset($contestRankRaw) && !Cache::has($cid)){
+                $contestRankRaw=$this->contestRankCache($cid);
+            }
+        }else{
+            if($clearance == 3){
+                $contestRankRaw=Cache::tags(['contest', 'rank'])->get("contestAdmin$cid");
+            }else{
+                $contestRankRaw=getContestRankFromMySQL($cid);
+                if(!isset($contestRankRaw)){
+                    $contestRankRaw=Cache::tags(['contest', 'rank'])->get($cid);
+                    if(!isset($contestRankRaw) && !Cache::has($cid)){
+                        $contestRankRaw=$this->contestRankCache($cid);
+                    }
+                    $this->storeContestRankInMySQL($cid, $contestRankRaw);
+                }
+            }
         }
+
+        /** Old version */
+        // if ($contestRankRaw==null) {
+        //     $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+        //     if(time() > $end_time && !Cache::has($cid)){
+        //         $contestRankRaw=$this->contestRankCache($cid);
+        //         // Cache::forever($cid, $contestRankRaw);
+        //     }else{
+        //         $contestRankRaw=$this->contestRankCache($cid);
+        //     }
+        // }
 
         $ret=$contestRankRaw;
 
@@ -712,15 +838,23 @@ class ContestModel extends Model
 
     public function getClarificationList($cid)
     {
-        return DB::table("contest_clarification")->where([
-            "cid"=>$cid
-        ])->where(function ($query) {
-            $query->where([
-                "public"=>1
-            ])->orWhere([
-                "uid" => Auth::user()->id
-            ]);
-        })->orderBy('create_time', 'desc')->get()->all();
+        $uid = Auth::user()->id;
+        $clearance = $this -> judgeClearance($cid, $uid);
+        if($clearance == 3){
+            return DB::table("contest_clarification")->where([
+                "cid"=>$cid
+            ])->orderBy('create_time', 'desc')->get()->all();
+        }else{
+            return DB::table("contest_clarification")->where([
+                "cid"=>$cid
+            ])->where(function ($query) {
+                $query->where([
+                    "public"=>1
+                ])->orWhere([
+                    "uid" => Auth::user()->id
+                ]);
+            })->orderBy('create_time', 'desc')->get()->all();
+        }
     }
 
     public function fetchClarification($cid)
@@ -763,6 +897,19 @@ class ContestModel extends Model
             "title"=>$title,
             "content"=>$content,
             "public"=>"0",
+            "uid"=>$uid,
+            "create_time"=>date("Y-m-d H:i:s")
+        ]);
+    }
+
+    public function issueAnnouncement($cid, $title, $content, $uid)
+    {
+        return DB::table("contest_clarification")->insertGetId([
+            "cid"=>$cid,
+            "type"=>0,
+            "title"=>$title,
+            "content"=>$content,
+            "public"=>"1",
             "uid"=>$uid,
             "create_time"=>date("Y-m-d H:i:s")
         ]);
@@ -841,6 +988,7 @@ class ContestModel extends Model
     public function getContestRecord($cid)
     {
         $basicInfo=$this->basic($cid);
+        $userInfo=DB::table('group_member')->where('gid',$basicInfo["gid"])->where('uid',Auth::user()->id)->get()->first();
         $problemSet_temp=DB::table("contest_problem")->join("problem", "contest_problem.pid", "=", "problem.pid")->where([
             "cid"=>$cid
         ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title", "points", "tot_score")->get()->all();
@@ -853,80 +1001,149 @@ class ContestModel extends Model
         $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
         $contestEnd=time()>$end_time;
 
-        if ($basicInfo["status_visibility"]==2) {
-            // View all
-            $paginator=DB::table("submission")->where([
-                'cid'=>$cid
-            ])->where(
-                "submission_date",
-                "<",
-                $end_time
-            )->join(
-                "users",
-                "users.id",
-                "=",
-                "submission.uid"
-            )->where(function ($query) use ($frozen_time) {
-                $query->where(
+        if($userInfo==null || $userInfo["role"]!=3){
+            if ($basicInfo["status_visibility"]==2) {
+                // View all
+                $paginator=DB::table("submission")->where([
+                    'cid'=>$cid
+                ])->where(
                     "submission_date",
                     "<",
-                    $frozen_time
-                )->orWhere(
-                    'uid',
-                    Auth::user()->id
-                );
-            })->select(
-                "sid",
-                "uid",
-                "pid",
-                "name",
-                "color",
-                "verdict",
-                "time",
-                "memory",
-                "language",
-                "score",
-                "submission_date",
-                "share"
-            )->orderBy(
-                'submission_date',
-                'desc'
-            )->paginate(50);
-        } elseif ($basicInfo["status_visibility"]==1) {
-            $paginator=DB::table("submission")->where([
-                'cid'=>$cid,
-                'uid'=>Auth::user()->id
-            ])->where(
-                "submission_date",
-                "<",
-                $end_time
-            )->join(
-                "users",
-                "users.id",
-                "=",
-                "submission.uid"
-            )->select(
-                "sid",
-                "uid",
-                "pid",
-                "name",
-                "color",
-                "verdict",
-                "time",
-                "memory",
-                "language",
-                "score",
-                "submission_date",
-                "share"
-            )->orderBy(
-                'submission_date',
-                'desc'
-            )->paginate(50);
-        } else {
-            return [
-                "paginator"=>null,
-                "records"=>[]
-            ];
+                    $end_time
+                )->join(
+                    "users",
+                    "users.id",
+                    "=",
+                    "submission.uid"
+                )->where(function ($query) use ($frozen_time) {
+                    $query->where(
+                        "submission_date",
+                        "<",
+                        $frozen_time
+                    )->orWhere(
+                        'uid',
+                        Auth::user()->id
+                    );
+                })->select(
+                    "sid",
+                    "uid",
+                    "pid",
+                    "name",
+                    "color",
+                    "verdict",
+                    "time",
+                    "memory",
+                    "language",
+                    "score",
+                    "submission_date",
+                    "share"
+                )->orderBy(
+                    'submission_date',
+                    'desc'
+                )->paginate(50);
+            } elseif ($basicInfo["status_visibility"]==1) {
+                $paginator=DB::table("submission")->where([
+                    'cid'=>$cid,
+                    'uid'=>Auth::user()->id
+                ])->where(
+                    "submission_date",
+                    "<",
+                    $end_time
+                )->join(
+                    "users",
+                    "users.id",
+                    "=",
+                    "submission.uid"
+                )->select(
+                    "sid",
+                    "uid",
+                    "pid",
+                    "name",
+                    "color",
+                    "verdict",
+                    "time",
+                    "memory",
+                    "language",
+                    "score",
+                    "submission_date",
+                    "share"
+                )->orderBy(
+                    'submission_date',
+                    'desc'
+                )->paginate(50);
+            } else {
+                return [
+                    "paginator"=>null,
+                    "records"=>[]
+                ];
+            }
+        }else{
+            if ($basicInfo["status_visibility"]==2) {
+                // View all
+                $paginator=DB::table("submission")->where([
+                    'cid'=>$cid
+                ])->where(
+                    "submission_date",
+                    "<",
+                    $end_time
+                )->join(
+                    "users",
+                    "users.id",
+                    "=",
+                    "submission.uid"
+                )->select(
+                    "sid",
+                    "uid",
+                    "pid",
+                    "name",
+                    "color",
+                    "verdict",
+                    "time",
+                    "memory",
+                    "language",
+                    "score",
+                    "submission_date",
+                    "share"
+                )->orderBy(
+                    'submission_date',
+                    'desc'
+                )->paginate(50);
+            } elseif ($basicInfo["status_visibility"]==1) {
+                $paginator=DB::table("submission")->where([
+                    'cid'=>$cid,
+                    'uid'=>Auth::user()->id
+                ])->where(
+                    "submission_date",
+                    "<",
+                    $end_time
+                )->join(
+                    "users",
+                    "users.id",
+                    "=",
+                    "submission.uid"
+                )->select(
+                    "sid",
+                    "uid",
+                    "pid",
+                    "name",
+                    "color",
+                    "verdict",
+                    "time",
+                    "memory",
+                    "language",
+                    "score",
+                    "submission_date",
+                    "share"
+                )->orderBy(
+                    'submission_date',
+                    'desc'
+                )->paginate(50);
+            } else {
+                return [
+                    "paginator"=>null,
+                    "records"=>[]
+                ];
+            }
         }
 
         $records=$paginator->all();
@@ -965,11 +1182,16 @@ class ContestModel extends Model
 
     public function judgeClearance($cid, $uid=0)
     {
+        /***************************
+         * 2 stands for participant*
+         * 3 stands for admin      *
+         ***************************/
         if ($uid==0) {
             return 0;
         }
         $groupModel = new GroupModel();
         $contest_info=DB::table("contest")->where("cid", $cid)->first();
+        $userInfo=DB::table('group_member')->where('gid',$contest_info["gid"])->where('uid',$uid)->get()->first();
 
         if(empty($contest_info)){
             // contest not exist
@@ -985,6 +1207,10 @@ class ContestModel extends Model
         if (!$contest_started) {
             // not started or do not exist
             return 0;
+        }
+
+        if ($userInfo["role"]==3) {
+            return 3;
         }
 
         if ($contest_info["public"]) {
@@ -1113,6 +1339,7 @@ class ContestModel extends Model
                 "verified"=>0, //todo
                 "rated"=>0,
                 "anticheated"=>0,
+                "practice"=>$config["practice"],
                 "featured"=>0,
                 "description"=>$config["description"],
                 "rule"=>1, //todo
@@ -1150,8 +1377,6 @@ class ContestModel extends Model
                 if(Cache::tags(['contest','rank'])->get($cid) != null){
                     $chache = Cache::tags(['contest','data'])->get($cid);
                     $ret = Cache::tags(['contest','rank'])->get($cid);
-                    if (time() > $chache['frozen_time'])
-                        return;
 
                     $id = 0;
 
@@ -1165,7 +1390,10 @@ class ContestModel extends Model
                     $ret = $this->updateContestRankDetail($chache['contest_info'],$chache['problemSet'][$id],$cid,$sub['uid'],$ret);
                     $ret = $this->sortContestRankTable($chache['contest_info'],$cid,$ret);
 
-                    Cache::tags(['contest', 'rank'])->put($cid, $ret);
+                    if (time() < $chache['frozen_time']){
+                        Cache::tags(['contest', 'rank'])->put($cid, $ret);
+                    }
+                    Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $ret);
                 }
                 else{
                     $ret=[];
@@ -1192,7 +1420,13 @@ class ContestModel extends Model
                             "<",
                             $chache['frozen_time']
                         )->select('uid')->groupBy('uid')->get()->all();
+                        $submissionUsersAdmin=DB::table("submission")->where([
+                            "cid"=>$cid
+                        ])->select('uid')->groupBy('uid')->get()->all();
                     }
+
+                    $chacheAdmin = $chache;
+
                     foreach ($submissionUsers as $s) {
                         foreach ($chache['problemSet'] as $key => $p) {
                             $p['cpid'] = $key;
@@ -1201,6 +1435,16 @@ class ContestModel extends Model
                     }
                     $ret = $this->sortContestRankTable($chache['contest_info'],$cid,$ret);
                     Cache::tags(['contest', 'rank'])->put($cid, $ret);
+
+                    $retAdmin=[];
+                    foreach ($submissionUsersAdmin as $s) {
+                        foreach ($chacheAdmin['problemSet'] as $key => $p) {
+                            $p['cpid'] = $key;
+                            $retAdmin = $this->updateContestRankDetail($chacheAdmin['contest_info'],$p,$cid,$s['uid'],$retAdmin);
+                        }
+                    }
+                    $retAdmin = $this->sortContestRankTable($chacheAdmin['contest_info'],$cid,$retAdmin);
+                    Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $retAdmin);
                 }
             }
         }catch(LockTimeoutException $e){
@@ -1299,11 +1543,11 @@ class ContestModel extends Model
             // OI Mode
             if($id == count($ret)){
                 $prob_detail = [];
-                $totPen = 0;
+                $totSolved = 0;
                 $totScore = 0;
             }else{
                 $prob_detail = $ret[$id]['problem_detail'];
-                $totPen=$ret[$id]['penalty'];
+                $totSolved=$ret[$id]['solved'];
                 $totScore=$ret[$id]['score'];
             };
 
@@ -1380,5 +1624,88 @@ class ContestModel extends Model
         }
 
         return true;
+    }
+  
+    public function replyClarification($ccid, $content)
+    {
+        return DB::table("contest_clarification")->where('ccid','=',$ccid)->update([
+            "reply"=>$content
+        ]);
+    }
+
+    public function setClarificationPublic($ccid, $public)
+    {
+        if($public)
+        {
+            return DB::table("contest_clarification")->where('ccid','=',$ccid)->update([
+                "public"=>1
+            ]);
+        }
+        else
+        {
+            return DB::table("contest_clarification")->where('ccid','=',$ccid)->update([
+                "public"=>0
+            ]);
+        }
+    }
+
+    public function getContestAccount($cid)
+    {
+        return Cache::tags(['contest', 'account'])->get($cid);
+    }
+
+    public function praticeAnalysis($cid){
+        $gid = DB::table('contest')
+            ->where('cid',$cid)
+            ->first()['gid'];
+        $contestRank = $this->contestRank($cid,Auth::user()->id);
+        $all_problems = DB::table('problem')
+            ->whereIn('pid',array_column($contestRank[0]['problem_detail'],'pid'))
+            ->select('pid','title')
+            ->get()->all();
+        $tags = DB::table('group_problem_tag')
+            ->where('gid', $gid)
+            ->whereIn('pid', array_column($all_problems,'pid'))
+            ->get()->all();
+        $all_tags = array_unique(array_column($tags,'tag'));
+        $memberData = [];
+        foreach($contestRank as $member){
+            $m = [
+                'uid' => $member['uid'],
+                'name' => $member['name'],
+                'nick_name' => $member['nick_name'],
+            ];
+            $completion = [];
+            foreach ($all_tags as $tag){
+                $completion[$tag] = [];
+                foreach ($tags as $t) {
+                    if($t['tag'] == $tag){
+                        foreach ($member['problem_detail'] as $pd) {
+                            if($pd['pid'] == $t['pid']){
+                                $completion[$tag][$t['pid']] = $pd['solved_time_parsed'] == "" ? 0 : 1;
+                            }
+                        }
+                    }
+                }
+            }
+            $m['completion'] = $completion;
+            $memberData[] = $m;
+        }
+        return $memberData;
+    }
+
+    public function storeContestRankInMySQL($cid, $data)
+    {
+        $contestRankJson = json_encode($data);
+        return DB::table('contest')->where('cid','=',$cid)->update([
+            'rank' => $contestRankJson
+        ]);
+    }
+
+    public function getContestRankFromMySQL($cid)
+    {
+        $contestRankJson = DB::table('contest')->where('cid','=',$cid)->pluck('rank')->first();
+        $data = json_decode($contestRankJson, true);
+        return $data;
     }
 }

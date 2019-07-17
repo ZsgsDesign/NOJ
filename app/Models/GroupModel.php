@@ -206,6 +206,66 @@ class GroupModel extends Model
         ])->where("role", ">", 0)->count();
     }
 
+    public function problemTags($gid,$pid = -1)
+    {
+        if($pid == -1){
+            $tags =  DB::table('group_problem_tag')
+            ->select('tag')
+            ->where('gid',$gid)
+            ->distinct()
+            ->get()->all();
+        }else{
+            $tags =  DB::table('group_problem_tag')
+            ->select('tag')
+            ->where('gid', $gid)
+            ->where('pid', $pid)
+            ->distinct()
+            ->get()->all();
+        }
+
+        $tags_arr = [];
+        if(!empty($tags)){
+            foreach ($tags as $value) {
+                array_push($tags_arr,$value['tag']);
+            }
+        }
+        return $tags_arr;
+    }
+
+    public function problems($gid)
+    {
+        $problems = DB::table('contest_problem')
+        ->join('contest','contest_problem.cid', '=', 'contest.cid')
+        ->join('problem','contest_problem.pid', '=', 'problem.pid' )
+        ->select('problem.pid as pid', 'pcode', 'title')
+        ->where('contest.gid',$gid)
+        ->where('contest.practice',1)
+        ->distinct()
+        ->get()->all();
+        foreach($problems as &$value){
+            $value['tags'] = $this->problemTags($gid,$value['pid']);
+        }
+        return $problems;
+    }
+
+    public function problemAddTag($gid,$pid,$tag)
+    {
+        return DB::table("group_problem_tag")->insert([
+            "gid"=>$gid,
+            "pid"=>$pid,
+            "tag"=>$tag,
+        ]);
+    }
+
+    public function problemRemoveTag($gid,$pid,$tag)
+    {
+        return DB::table("group_problem_tag")->where([
+            "gid"=>$gid,
+            "pid"=>$pid,
+            "tag"=>$tag
+        ])->delete();
+    }
+
     public function formatPostTime($date)
     {
         $periods=["second", "minute", "hour", "day", "week", "month", "year", "decade"];
@@ -238,7 +298,6 @@ class GroupModel extends Model
 
         return "$difference $periods[$j] {$tense}";
     }
-
 
     public function judgeEmailClearance($gid, $email)
     {
@@ -310,5 +369,178 @@ class GroupModel extends Model
                 "content"=>$content,
                 "post_date"=>date("Y-m-d H:i:s"),
             ]);
+    }
+    public function groupMemberPracticeContestStat($gid)
+    {
+        $contestModel = new ContestModel();
+
+        $allPracticeContest = DB::table('contest')
+            ->where([
+                'gid' => $gid,
+                'practice' => 1,
+            ])
+            ->select('cid','name')
+            ->get()->all();
+        $user_list = $this->userList($gid);
+
+        $memberData = [];
+        foreach ($user_list as $u) {
+            $memberData[$u['uid']] = [
+                'name' => $u['name'],
+                'nick_name' => $u['nick_name'],
+                'solved_all' => 0,
+                'problem_all' => 0,
+                'penalty' => 0,
+                'contest_detial' => []
+            ];
+
+        }
+        foreach ($allPracticeContest as $c) {
+            $contestRank = $contestModel->contestRank($c['cid'],0);
+            $problemsCount = DB::table('contest_problem')
+                ->where('cid',$c['cid'])
+                ->count();
+            $rank = 0;
+            foreach ($contestRank as $cr) {
+                $rank++;
+                if(in_array($cr['uid'],array_keys($memberData))) {
+                    $memberData[$cr['uid']]['solved_all'] += $cr['solved'];
+                    $memberData[$cr['uid']]['problem_all'] += $problemsCount;
+                    $memberData[$cr['uid']]['penalty'] += $cr['penalty'];
+                    $memberData[$cr['uid']]['contest_detial'][$c['cid']] = [
+                        'rank' => $rank,
+                        'solved' => $cr['solved'],
+                        'problems' => $problemsCount,
+                        'penalty' => $cr['penalty']
+                    ];
+                }
+            }
+        }
+        $new_memberData = [];
+        foreach ($memberData as $uid => $data) {
+            $contest_count = 0;
+            $rank_sum = 0;
+            foreach ($data['contest_detial'] as $cid => $c) {
+                $rank_sum += $c['rank'];
+                $contest_count += 1;
+            }
+            $temp = $data;
+            $temp['uid'] = $uid;
+            if($contest_count != 0){
+                $temp['rank_ave'] = $rank_sum/$contest_count;
+            }
+            array_push($new_memberData,$temp);
+        }
+        $ret = [
+            'contest_list' => $allPracticeContest,
+            'member_data' => $new_memberData
+        ];
+        return $ret;
+    }
+
+    public function groupMemberPracticeTagStat($gid)
+    {
+        $tags = $this->problemTags($gid);
+        $tag_problems = [];
+
+        $user_list = $this->userList($gid);
+        foreach ($tags as $tag) {
+            $tag_problems[$tag] = DB::table('problem')
+                ->join('group_problem_tag','problem.pid','=','group_problem_tag.pid')
+                ->where([
+                    'group_problem_tag.gid' => $gid,
+                    'tag' => $tag
+                ])
+                ->select('group_problem_tag.pid as pid','pcode','title')
+                ->get()->all();
+        }
+        $all_problems = [];
+        foreach ($tag_problems as &$tag_problem_set) {
+            foreach ($tag_problem_set as $problem) {
+                $all_problems[$problem['pid']] = $problem;
+            }
+            $tag_problem_set = array_column($tag_problem_set,'pid');
+        }
+        $submission_data =  DB::table('submission')
+            ->whereIn('pid',array_keys($all_problems))
+            ->whereIn('uid',array_column($user_list,'uid'))
+            ->where('verdict','Accepted')
+            ->select('pid','uid')
+            ->get()->all();
+
+        $memberData = [];
+        foreach ($user_list as $member) {
+            $completion = [];
+            foreach($tag_problems as $tag => $problems) {
+                $completion[$tag] = [];
+                foreach ($problems as $problem) {
+                    $is_accepted = 0;
+                    foreach ($submission_data as $sd) {
+                        if($sd['pid'] == $problem && $sd['uid'] == $member['uid']){
+                            $is_accepted = 1;
+                            break;
+                        }
+                    }
+                    $completion[$tag][$problem] = $is_accepted;
+                }
+            }
+            array_push($memberData,[
+                'uid' => $member['uid'],
+                'name' => $member['name'],
+                'nick_name' => $member['nick_name'],
+                'completion' => $completion,
+            ]);
+        }
+        $ret = [
+            'all_problems' => $all_problems,
+            'tag_problems' => $tag_problems,
+            'member_data' => $memberData
+        ];
+        return $ret;
+    }
+
+    public function canUpdateContestTime($cid,$time = [])
+    {
+        $begin_time_new = $time['begin'] ?? null;
+        $end_time_new = $time['end'] ?? null;
+
+        $hold_time = DB::table('contest')
+            ->where('cid',$cid)
+            ->select('begin_time','end_time')
+            ->first();
+        $begin_stamps = strtotime($hold_time['begin_time']);
+        $end_stamps = strtotime($hold_time['end_time']);
+        /*
+        -1 : have not begun
+         0 : ing
+         1 : end
+        */
+        $status = time() >= $end_stamps ? 1
+                : (time() <= $begin_stamps ? -1 : 0);
+        if($status === -1){
+            return true;
+        }else if($status === 0){
+            if($begin_time_new !== null){
+                return false;
+            }
+            if($end_time_new !== null){
+                if(strtotime($end_time_new) <= time()){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+        }else{
+            return false;
+        }
+
+        return true;
+    }
+
+    public function updateContestInfo($cid,$data)
+    {
+        return DB::table("contest")->where([
+            "cid"=>$cid,
+        ])->update($data);
     }
 }

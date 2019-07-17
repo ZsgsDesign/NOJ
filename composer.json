@@ -27,6 +27,7 @@
         "laravel/socialite": "^4.1",
         "laravel/tinker": "^1.0",
         "laravelium/sitemap": "^3.1",
+        "maatwebsite/excel": "^3.1",
         "mews/purifier": "^2.1",
         "npm-asset/animate.css": "^3.7",
         "npm-asset/bootstrap-material-design": "^4.1",
@@ -44,6 +45,7 @@
         "npm-asset/simplemde": "^1.11",
         "oomphinc/composer-installers-extender": "^1.1",
         "orangehill/iseed": "^2.6",
+        "phar-io/version": "^2.0",
         "predis/predis": "^1.1",
         "rmccue/requests": "^1.7",
         "sebastian/version": "^2.0"

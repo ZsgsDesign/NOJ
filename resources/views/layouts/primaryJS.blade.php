@@ -180,7 +180,7 @@
         $(`#notice${id}`).modal('toggle');
     }
 
-    function changeText(selector,{text="",css={},fadeOutTime=100,fadeInTime=200} = {},callback=function(){}){
+    function changeText({selector="",text="",css={},fadeOutTime=100,fadeInTime=200} = {},callback=function(){}){
         $(selector).animate({opacity : 0},100,function(){
             css['opacity'] = 1;
             $(selector).text(text);

@@ -9,8 +9,11 @@ use App\Models\CompilerModel;
 use App\Models\SubmissionModel;
 use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Auth;
 use Redirect;
+use App\Exports\AccountExport;
+use Excel;
 
 class ContestController extends Controller
 {
@@ -19,19 +22,42 @@ class ContestController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $all_data=$request->all();
         $contestModel=new ContestModel();
-        $return_list=$contestModel->list(Auth::check()?Auth::user()->id:0);
+        $filter["rule"]=isset($all_data["rule"]) ? $all_data["rule"] : null;
+        $filter["public"]=isset($all_data["public"]) ? $all_data["public"] : null;
+        $filter["verified"]=isset($all_data["verified"]) ? $all_data["verified"] : null;
+        $filter["rated"]=isset($all_data["rated"]) ? $all_data["rated"] : null;
+        $filter["anticheated"]=isset($all_data["anticheated"]) ? $all_data["anticheated"] : null;
+        $return_list=$contestModel->list($filter,Auth::check()?Auth::user()->id:0);
         $featured=$contestModel->featured();
-        return view('contest.index', [
-            'page_title'=>"Contest",
-            'site_title'=>"NOJ",
-            'navigation' => "Contest",
-            'contest_list'=>$return_list['contents'],
-            'paginator' => $return_list['paginator'],
-            'featured'=>$featured
-        ]);
+        if (is_null($return_list)) {
+            if (isset($all_data["page"]) && $all_data["page"]>1) {
+                return redirect("/contest");
+            } else {
+                return view('contest.index', [
+                    'page_title'=>"Contest",
+                    'site_title'=>config("app.name"),
+                    'navigation' => "Contest",
+                    'contest_list'=> null,
+                    'paginator' => null,
+                    'featured'=>$featured,
+                    'filter' => $filter
+                ]);
+            }
+        } else {
+            return view('contest.index', [
+                'page_title'=>"Contest",
+                'site_title'=>config("app.name"),
+                'navigation' => "Contest",
+                'contest_list'=>$return_list['contents'],
+                'paginator' => $return_list['paginator'],
+                'featured'=>$featured,
+                'filter' => $filter
+            ]);
+        }
     }
 
     /**
@@ -58,7 +84,7 @@ class ContestController extends Controller
         }
         return view('contest.detail', [
             'page_title'=>"Contest",
-            'site_title'=>"NOJ",
+            'site_title'=>config("app.name"),
             'navigation' => "Contest",
             'detail'=>$contest_detail["data"]["contest_detail"],
             'clearance' => $clearance,
@@ -74,7 +100,7 @@ class ContestController extends Controller
      */
     public function board($cid)
     {
-        return Redirect::route('contest_challenge', ['cid' => $cid]);
+        return Redirect::route('contest.challenge', ['cid' => $cid]);
     }
 
     /**
@@ -87,7 +113,7 @@ class ContestController extends Controller
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if (!$clearance) {
-            return Redirect::route('contest_detail', ['cid' => $cid]);
+            return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
         $contest_rule=$contestModel->contestRule($cid);
@@ -127,14 +153,14 @@ class ContestController extends Controller
         $accountModel=new AccountModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if (!$clearance) {
-            return Redirect::route('contest_detail', ['cid' => $cid]);
+            return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
         $contest_rule=$contestModel->rule($cid);
         $contest_ended=$contestModel->isContestEnded($cid);
         $pid=$contestModel->getPid($cid, $ncode);
         if (empty($pid)) {
-            return Redirect::route('contest_board', ['cid' => $cid]);
+            return Redirect::route('contest.board', ['cid' => $cid]);
         }
         $pcode=$problemModel->pcode($pid);
 
@@ -157,7 +183,7 @@ class ContestController extends Controller
             ];
         }
 
-        $editor_left_width = $account->getExtra(Auth::user()->id, 'editor_left_width');
+        $editor_left_width = $accountModel->getExtra(Auth::user()->id, 'editor_left_width');
         if(empty($editor_left_width)) $editor_left_width='40';
 
         return view('contest.board.editor', [
@@ -192,7 +218,7 @@ class ContestController extends Controller
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if (!$clearance) {
-            return Redirect::route('contest_detail', ['cid' => $cid]);
+            return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
         $contest_rule=$contestModel->contestRule($cid);
@@ -227,7 +253,7 @@ class ContestController extends Controller
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if (!$clearance) {
-            return Redirect::route('contest_detail', ['cid' => $cid]);
+            return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
         $customInfo=$contestModel->getCustomInfo($cid);
@@ -260,7 +286,7 @@ class ContestController extends Controller
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if (!$clearance) {
-            return Redirect::route('contest_detail', ['cid' => $cid]);
+            return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
         $customInfo=$contestModel->getCustomInfo($cid);
@@ -289,11 +315,75 @@ class ContestController extends Controller
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if (!$clearance) {
-            return Redirect::route('contest_detail', ['cid' => $cid]);
+            return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
         $customInfo=$contestModel->getCustomInfo($cid);
         return view('contest.board.print', [
+            'page_title'=>"Print",
+            'navigation' => "Contest",
+            'site_title'=>$contest_name,
+            'contest_name'=>$contest_name,
+            'cid'=>$cid,
+            'custom_info' => $customInfo,
+            'clearance'=> $clearance
+        ]);
+    }
+
+    /**
+     * Show the Contest Admin Page.
+     *
+     * @return Response
+     */
+    public function admin($cid)
+    {
+        $contestModel=new ContestModel();
+        $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
+        if ($clearance <= 2) {
+            return Redirect::route('contest_detail', ['cid' => $cid]);
+        }
+        $contest_name=$contestModel->contestName($cid);
+        $customInfo=$contestModel->getCustomInfo($cid);
+        $accountModel=new AccountModel();
+        $contest_accounts=$accountModel->getContestAccount($cid);
+        return view('contest.board.admin', [
+            'page_title'=>"Admin",
+            'navigation' => "Contest",
+            'site_title'=>$contest_name,
+            'contest_name'=>$contest_name,
+            'cid'=>$cid,
+            'custom_info' => $customInfo,
+            'clearance'=> $clearance,
+            'contest_accounts'=>$contest_accounts
+        ]);
+    }
+
+    public function downloadContestAccountXlsx($cid)
+    {
+        $contestModel=new ContestModel();
+        $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
+        if ($clearance <= 2) {
+            return Redirect::route('contest_detail', ['cid' => $cid]);
+        }
+        $account=$contestModel->getContestAccount($cid);
+        if($account==null){
+            return ;
+        }else{
+            $AccountExport=new AccountExport($account);
+            $filename="ContestAccount$cid";
+            return Excel::download($AccountExport, $filename.'.xlsx');
+        }
+    }
+
+    public function analysis($cid){
+        $contestModel=new ContestModel();
+        $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
+        if (!$clearance) {
+            return Redirect::route('contest.detail', ['cid' => $cid]);
+        }
+        $contest_name=$contestModel->contestName($cid);
+        $customInfo=$contestModel->getCustomInfo($cid);
+        return view('contest.board.analysis', [
             'page_title'=>"Print",
             'navigation' => "Contest",
             'site_title'=>$contest_name,

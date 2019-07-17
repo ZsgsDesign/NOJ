@@ -329,6 +329,12 @@
         margin-bottom: 2rem;
     }
 
+    function-container > div{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
     function-block{
         display: inline-block;
         text-align: center;
@@ -595,6 +601,7 @@
                                                 @unless($c["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="top" title="This contest is under review"></i></span>@endif
                                                 @unless($c["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="top" title="This is a private contest"></i></span>@endif
                                                 @if($c['verified'])<span><i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a verified contest"></i></span>@endif
+                                                @if($c['practice'])<span><i class="MDI sword wemd-green-text"  data-toggle="tooltip" data-placement="left" title="This is a contest for praticing"></i></span>@endif
                                                 @if($c['rated'])<span><i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="top" title="This is a rated contest"></i></span>@endif
                                                 @if($c['anticheated'])<span><i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="top" title="Anti-cheat enabled"></i></span>@endif
                                             </badge-div>
@@ -843,6 +850,12 @@
                             <label>
                                 <input type="checkbox" disabled>
                                 Public Contest
+                            </label>
+                        </div>
+                        <div class="switch">
+                            <label>
+                                <input id="switch-practice" type="checkbox">
+                                Practice Contest
                             </label>
                         </div>
                         <table class="table">
@@ -1123,10 +1136,12 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(result){
                     if (result.ret===200) {
-                        changeText('#join-policy-display',{
+                        changeText({
+                            selector : '#join-policy-display',
                             text : join_policy,
                         });
-                        changeText('#policy-choice-btn',{
+                        changeText({
+                            selector : '#join-policy-display',
                             text : join_policy,
                         });
                     } else {
@@ -1145,7 +1160,8 @@
             var file = $(this).get(0).files[0];
 
             if(file == undefined){
-                changeText('#change-image-tip',{
+                changeText({
+                    selector : '#change-image-tip',
                     text : 'PLEASE CHOOSE A LOCAL FILE',
                     css : {color:'#f00'}
                 });
@@ -1153,7 +1169,8 @@
             }
 
             if(file.size/1024 > 1024){
-                changeText('#change-image-tip',{
+                changeText({
+                    selector : '#change-image-tip',
                     text : 'THE SELECTED FILE IS TOO LARGE',
                     css : {color:'#f00'}
                 });
@@ -1175,14 +1192,16 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(result){
                     if (result.ret===200) {
-                        changeText('#change-image-tip',{
+                        changeText({
+                            selector : '#change-image-tip',
                             text : 'GROUP IMAGE CHANGE SUCESSFUL',
                             css : {color:'#4caf50'}
                         });
                         $('group-image img').attr('src',result.data);
                         $('.group-image').attr('src',result.data);
                     } else {
-                        changeText('#change-image-tip',{
+                        changeText({
+                            selector : '#change-image-tip',
                             text : result.desc,
                             css : {color:'#4caf50'}
                         });
@@ -1206,7 +1225,8 @@
             if(e.keyCode == '13'){
                 var name = $(this).val();
                 if(name == ''){
-                    changeText('#group-name-tip',{
+                    changeText({
+                        selector : '#group-name-tip',
                         text : 'THE NAME OF THE GROUP CANNOT BE EMPTY',
                         css : {color:'#f00'}
                     });
@@ -1224,15 +1244,18 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }, success: function(result){
                         if (result.ret===200) {
-                            changeText('#group-name-display',{
+                            changeText({
+                                selector : '#group-name-display',
                                 text : name,
                             });
-                            changeText('#group-name-tip',{
+                            changeText({
+                                selector : '#group-name-tip',
                                 text : 'GROUP NAME CHANGE SUCESSFUL',
                                 css : {color:'#4caf50'}
                             });
                         } else {
-                            changeText('#group-name-tip',{
+                            changeText({
+                                selector : '#group-name-tip',
                                 text : result.desc,
                                 color : '#f00',
                             });
@@ -1326,6 +1349,7 @@
             var contestName = $("#contestName").val();
             var contestBegin = $("#contestBegin").val();
             var contestEnd = $("#contestEnd").val();
+            var practiceContest = $("#switch-practice").prop("checked") == true ? 1 : 0;
             var problemSet = "";
             var contestDescription = editor.getValue();
             $("#contestProblemSet td:first-of-type").each(function(){
@@ -1360,6 +1384,7 @@
                     description: contestDescription,
                     begin_time: contestBegin,
                     end_time: contestEnd,
+                    practice : practiceContest,
                     gid: {{$basic_info["gid"]}}
                 },
                 dataType: 'json',

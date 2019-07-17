@@ -111,7 +111,7 @@
         width:4rem;
         object-fit: cover;
         border-radius: 2000px;
-        border: 0.1rem solid currentColor;
+        border: 2px solid currentColor;
         margin-right:1rem;
     }
 
