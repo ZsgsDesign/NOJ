@@ -14,7 +14,7 @@ class AddVcidToSubmissionTable extends Migration
     public function up()
     {
         Schema::table('submission', function (Blueprint $table) {
-            $table->integer('vcid');
+            $table->integer('vcid')->nullable();
         });
     }
 
