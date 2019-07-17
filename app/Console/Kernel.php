@@ -4,8 +4,10 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use App\Babel\Babel;
+use App\Babel\Extension\hdu;
 use App\Models\RankModel;
 use App\Models\SiteMapModel;
+use App\Models\ContestModel;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
@@ -43,6 +45,27 @@ class Kernel extends ConsoleKernel
         $schedule->call(function() {
             $siteMapModel=new SiteMapModel();
         })->daily()->description("Update SiteMap");
+
+        $schedule->call(function() {
+            $contestModel = new ContestModel();
+            $syncList = $contestModel->runningContest();
+            foreach($syncList as $syncContest) {
+                $className = "App\\Babel\\Extension\\hdu\\Synchronizer";  // TODO Add OJ judgement.
+                $all_data = [
+                    'oj'=>"hdu",
+                    'vcid'=>$syncContest['vcid'],
+                    'gid'=>$syncContest['gid']
+                ];
+                $hduSync = new $className($all_data);
+                $hduSync->crawlRank();
+                $hduSync->crawlClarification();
+            }
+        })->everyMinute()->description("Sync Remote Rank and Clarification");
+
+        // TODO it depends on the front interface.
+        // $schedule->call(function() {
+            
+        // })->everyMinute()->description("Sync Remote Problem");
 
         $schedule->command('backup:run')->weekly()->description("BackUp Site");
         $schedule->command('backup:run --only-db')->daily()->description("BackUp DataBase");
