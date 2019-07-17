@@ -65,6 +65,65 @@ class GroupController extends Controller
     }
 
     /**
+     * Show the Group Create Page.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        $groupModel=new GroupModel();
+        //$basic_info=$groupModel->details($gcode);
+        return view('group.create', [
+            'page_title'=>"Group Create",
+            'site_title'=>config("app.name"),
+            'navigation'=>"Group",
+            //"basic_info"=>$basic_info,
+        ]);
+    }
+
+    /**
+     * Redirect to the Group Settings General Section.
+     *
+     * @return Response
+     */
+    public function settings($gcode)
+    {
+        return Redirect::route('group.settings.general', ['gcode' => $gcode]);;
+    }
+
+    /**
+     * Redirect to the Group Detail Page.
+     *
+     * @return Response
+     */
+    public function settingsReturn($gcode)
+    {
+        return Redirect::route('group.detail', ['gcode' => $gcode]);;
+    }
+
+    /**
+     * Show the Group Settings General Section.
+     *
+     * @return Response
+     */
+    public function settingsGeneral($gcode)
+    {
+        $groupModel=new GroupModel();
+        $contestModel=new ContestModel();
+        $basic_info=$groupModel->details($gcode);
+        if(empty($basic_info)) return Redirect::route('group.index');
+        $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
+        $member_list=$groupModel->userList($basic_info["gid"]);
+        return view('group.settings.general', [
+            'page_title'=>"Group Setting General",
+            'site_title'=>config("app.name"),
+            'navigation'=>"Group",
+            "basic_info"=>$basic_info,
+            'member_list'=>$member_list,
+            'group_clearance'=>$clearance
+        ]);
+    }
+  
      * Show the Group's Problems in Practice Contest or other Contest.
      *
      * @return Response
@@ -86,6 +145,26 @@ class GroupController extends Controller
     }
 
     /**
+     * Show the Group Settings General Section.
+     *
+     * @return Response
+     */
+    public function settingsDanger($gcode)
+    {
+        $groupModel=new GroupModel();
+        $contestModel=new ContestModel();
+        $basic_info=$groupModel->details($gcode);
+        if(empty($basic_info)) return Redirect::route('group.index');
+        $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
+        $member_list=$groupModel->userList($basic_info["gid"]);
+        return view('group.settings.danger', [
+            'page_title'=>"Group Setting danger",
+            'site_title'=>config("app.name"),
+            'navigation'=>"Group",
+            "basic_info"=>$basic_info,
+            ]);
+    }
+    
      * Show the Contest Analysis Tab.
      *
      * @return Response
@@ -102,6 +181,48 @@ class GroupController extends Controller
     }
 
     /**
+     * Show the Group Settings General Section.
+     *
+     * @return Response
+     */
+    public function settingsMember($gcode)
+    {
+        $groupModel=new GroupModel();
+        $contestModel=new ContestModel();
+        $basic_info=$groupModel->details($gcode);
+        if(empty($basic_info)) return Redirect::route('group.index');
+        $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
+        $member_list=$groupModel->userList($basic_info["gid"]);
+        return view('group.settings.member', [
+            'page_title'=>"Group Setting Member",
+            'site_title'=>config("app.name"),
+            'navigation'=>"Group",
+            "basic_info"=>$basic_info,
+            'member_list'=>$member_list,
+            'group_clearance'=>$clearance,
+        ]);
+    }
+
+    public function settingsContest($gcode)
+    {
+        $groupModel=new GroupModel();
+        $contestModel=new ContestModel();
+        $basic_info=$groupModel->details($gcode);
+        if(empty($basic_info)) return Redirect::route('group.index');
+        $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
+        $contest_list=$contestModel->listForSetting($basic_info["gid"]);
+        $member_list=$groupModel->userList($basic_info["gid"]);
+        return view('group.settings.contest', [
+            'page_title'=>"Group Setting Contest",
+            'site_title'=>config("app.name"),
+            'navigation'=>"Group",
+            "basic_info"=>$basic_info,
+            'contest_list'=>$contest_list,
+            'group_clearance'=>$clearance,
+            'member_list'=>$member_list,
+        ]);
+    }
+    
      * Show the Contest Analysis Tab.
      *
      * @return Response
@@ -144,6 +265,5 @@ class GroupController extends Controller
                 $gcode . '_Group_Tag_Analysis.xlsx'
             );
         }
-
     }
 }

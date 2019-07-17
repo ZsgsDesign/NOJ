@@ -15,6 +15,12 @@ class GroupModel extends Model
     const UPDATED_AT=null;
     const CREATED_AT=null;
 
+    /*
+        join_policy:
+            1:ֻ��ͨ���������
+            2:ֻ��ͨ���������
+            3:������������ɼ���
+    */
     public $role=[
         "-3"=>"None",
         "-1"=>"Invited",
@@ -108,7 +114,12 @@ class GroupModel extends Model
 
     public function userProfile($uid, $gid)
     {
-        $info=DB::table("group_member")->where(["gid"=>$gid, "uid"=>$uid])->where("role", ">", 0)->first();
+        $info=DB::table("group_member")
+        ->join('users','users.id','=','group_member.uid')
+        ->where(["gid"=>$gid, "uid"=>$uid])
+        ->where("role", ">", 0)
+        ->select('avatar','describes','email','gid','uid','name','nick_name','professional_rate','role','sub_group')
+        ->first();
         if (!empty($info)) {
             $info["role_parsed"]=$this->role[$info["role"]];
             $info["role_color"]=$this->role_color[$info["role"]];
@@ -288,6 +299,77 @@ class GroupModel extends Model
         return "$difference $periods[$j] {$tense}";
     }
 
+    public function judgeEmailClearance($gid, $email)
+    {
+        $uid=DB::table("users")->where(["email"=>$email])->first();
+        if(empty($uid)) return -4;
+        $ret=DB::table("group_member")->where([
+            "gid"=>$gid,
+            "uid"=>$uid["id"],
+        ])->first();
+        return empty($ret) ? -3 : $ret["role"];
+    }
+
+    public function inviteMember($gid, $email)
+    {
+        $uid=DB::table("users")->where(["email"=>$email])->first();
+        return DB::table("group_member")->insert([
+            "uid"=>$uid["id"],
+            "gid"=>$gid,
+            "role"=>-1,
+            "join_time"=>date("Y-m-d H:i:s")
+        ]);
+    }
+
+    public function isUser($email)
+    {
+        return DB::table("users")->where([
+            "email"=>$email
+        ])->count();
+    }
+
+    public function isGroup($gcode)
+    {
+        return DB::table("group")->where([
+            "gcode"=>$gcode,
+        ])->count();
+    }
+
+    public function createGroup($uid, $gcode, $img, $name, $public, $description, $join_policy)
+    {
+        $gid=DB::table("group")->insertGetId([
+            "gcode"=>$gcode,
+            "img"=>$img,
+            "name"=>$name,
+            "public"=>$public,
+            "verified"=>0,
+            "description"=>$description,
+            "join_policy"=>$join_policy,
+            "custom_icon"=>null,
+            "custom_title"=>null,
+            "create_time"=>date("Y-m-d H:i:s")
+        ]);
+        return DB::table("group_member")->insert([
+            "uid"=>$uid,
+            "gid"=>$gid,
+            "role"=>3,
+            "join_time"=>date("Y-m-d H:i:s")
+        ]);
+    }
+
+    public function createNotice($gid, $uid, $title, $content)
+    {
+        return DB::table("group_notice")->updateOrInsert(
+            [
+                "gid"=>$gid
+            ],
+            [
+                "uid"=>$uid,
+                "title"=>$title,
+                "content"=>$content,
+                "post_date"=>date("Y-m-d H:i:s"),
+            ]);
+    }
     public function groupMemberPracticeContestStat($gid)
     {
         $contestModel = new ContestModel();

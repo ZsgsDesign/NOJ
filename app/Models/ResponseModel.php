@@ -62,6 +62,7 @@ class ResponseModel extends Model
             '2003' => "A user with the same username already exists",
             '2004' => "New passwords do not match",
             '2005' => "Old passwords error",
+            '2006' => "Can't find this user",
 
             '3000' => "Problem-Related Error",
             '3001' => "Problem Not Found",
@@ -90,7 +91,9 @@ class ResponseModel extends Model
             '7002' => "Insufficient Clearance",
             '7003' => "No Need to Approve",
             '7004' => "Group Member Not Found",
-            '7005' => "Group Problem Tag Exist",
+            '7005' => "Don't play just for fun",//gcode=="create"
+            '7006' => "A group with the same gcode already exists",
+            '7007' => "Group Problem Tag Exist",
         ];
         return isset($errDesc[$errCode]) ? $errDesc[$errCode] : $errDesc['1000'];
     }

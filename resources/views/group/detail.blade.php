@@ -542,7 +542,7 @@
                         @if($group_clearance>=2)
                         <function-container>
                             <div>
-                                <function-block>
+                                <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings/member'">
                                     <i class="MDI bullhorn"></i>
                                     <p>Notice</p>
                                 </function-block>
@@ -554,21 +554,13 @@
                                     <i class="MDI trophy-variant"></i>
                                     <p>Contest</p>
                                 </function-block>
-                                <function-block onclick="window.location='{{route('group.problems',$basic_info['gcode'])}}'">
-                                    <i class="MDI script"></i>
-                                    <p>Problems</p>
-                                </function-block>
-                                <function-block onclick="window.location='{{route('group.analysis',$basic_info['gcode'])}}'">
-                                    <i class="MDI chart-line"></i>
-                                    <p>Analysis</p>
-                                </function-block>
-                                <function-block>
+                                <function-block onclick="$('#inviteModal').modal({backdrop:'static'});">
                                     <i class="MDI account-plus"></i>
                                     <p>Invite</p>
                                 </function-block>
-                                <function-block onclick="$('#settingModal').modal();">
+                                <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings/general'">
                                     <i class="MDI settings"></i>
-                                    <p>Setting</p>
+                                    <p>Settings</p>
                                 </function-block>
                             </div>
                         </function-container>
@@ -687,6 +679,9 @@
         </div>
     </div>
 </group-container>
+
+
+
 <style>
     .sm-modal{
         display: block;
@@ -891,6 +886,51 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="arrangeBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Arrange</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="noticeModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content sm-modal">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="MDI trophy"></i> Notice Announcement</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="noticeTitle" class="bmd-label-floating">Title</label>
+                    <input type="text" class="form-control" id="noticeTitle">
+                </div>
+                <div class="form-group">
+                    <label for="noticeContent" class="bmd-label-floating">Content</label>
+                    <textarea type="text" class="form-control" id="noticeContent"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="noticeBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="inviteModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content sm-modal">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="MDI trophy"></i> Invite Member</h5>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label for="contestName" class="bmd-label-floating">E-mail</label>
+                    <input type="text" class="form-control" id="Email">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="InviteBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Invite</button>
             </div>
         </div>
     </div>
@@ -1365,6 +1405,80 @@
                     alert("Server Connection Error");
                     ajaxing=false;
                     $("#arrangeBtn > i").addClass("d-none");
+                }
+            });
+        });
+
+
+        $("#InviteBtn").click(function() {
+            if(ajaxing) return;
+            else ajaxing=true;
+            var email = $("#Email").val();
+            $("#arrangeBtn > i").removeClass("d-none");
+            console.log(email);
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/group/inviteMember',
+                data: {
+                    gid:{{$basic_info["gid"]}},
+                    email:email
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if (ret.ret==200) {
+                        alert(ret.desc);
+                        //location.reload();
+                    } else {
+                        alert(ret.desc);
+                    }
+                    ajaxing=false;
+                    $("#InviteBtn > i").addClass("d-none");
+                }, error: function(xhr, type){
+                    console.log('Ajax error while posting to arrangeContest!');
+                    alert("Server Connection Error");
+                    ajaxing=false;
+                    $("#InviteBtn > i").addClass("d-none");
+                }
+            });
+        });
+
+        $("#noticeBtn").click(function() {
+            if(ajaxing) return;
+            else ajaxing=true;
+            var noticeTitle = $("#noticeTitle").val();
+            var noticeContent = $("#noticeContent").val();
+            $("#noticeBtn > i").removeClass("d-none");
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/group/createNotice',
+                data: {
+                    gid:{{$basic_info["gid"]}},
+                    title:noticeTitle,
+                    content:noticeContent
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if (ret.ret==200) {
+                        alert(ret.desc);
+                        setTimeout(function(){
+                            location.reload();
+                        },800)
+                    } else {
+                        alert(ret.desc);
+                    }
+                    ajaxing=false;
+                    $("#noticeBtn > i").addClass("d-none");
+                }, error: function(xhr, type){
+                    console.log('Ajax error while posting to arrangeContest!');
+                    alert("Server Connection Error");
+                    ajaxing=false;
+                    $("#noticeBtn > i").addClass("d-none");
                 }
             });
         });

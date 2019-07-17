@@ -62,6 +62,7 @@ class GroupController extends Controller
         }
 
         $contestModel->arrangeContest($all_data["gid"], [
+            "assign_uid"=>Auth::user()->id,
             "name"=>$all_data["name"],
             "description"=>$all_data["description"],
             "begin_time"=>$all_data["begin_time"],
@@ -360,7 +361,7 @@ class GroupController extends Controller
         $groupModel->createNotice($all_data["gid"], Auth::user()->id, $all_data["title"], $all_data["content"]);
         return ResponseModel::success(200);
     }
-
+  
     public function addProblemTag(Request $request)
     {
         $request->validate([
@@ -378,7 +379,7 @@ class GroupController extends Controller
         }
         $tags = $groupModel->problemTags($all_data['gid'],$all_data['pid']);
         if(in_array($all_data['tag'],$tags)){
-            return ResponseModel::err(7005);
+            return ResponseModel::err(7007);
         }
 
         $groupModel->problemAddTag($all_data["gid"], $all_data["pid"], $all_data["tag"]);
