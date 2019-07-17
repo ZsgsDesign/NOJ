@@ -764,7 +764,8 @@ class ContestModel extends Model
             }else{
                 $contestRankRaw=Cache::tags(['contest', 'rank'])->get($cid);
             }
-            if(!isset($contestRankRaw) && !Cache::has($cid)){
+            // if(!isset($contestRankRaw) && !Cache::has($cid)){
+            if(!isset($contestRankRaw)){
                 $contestRankRaw=$this->contestRankCache($cid);
             }
         }else{
@@ -774,7 +775,8 @@ class ContestModel extends Model
                 $contestRankRaw=getContestRankFromMySQL($cid);
                 if(!isset($contestRankRaw)){
                     $contestRankRaw=Cache::tags(['contest', 'rank'])->get($cid);
-                    if(!isset($contestRankRaw) && !Cache::has($cid)){
+                    // if(!isset($contestRankRaw) && !Cache::has($cid)){
+                    if(!isset($contestRankRaw)){
                         $contestRankRaw=$this->contestRankCache($cid);
                     }
                     $this->storeContestRankInMySQL($cid, $contestRankRaw);
@@ -1625,7 +1627,7 @@ class ContestModel extends Model
 
         return true;
     }
-  
+
     public function replyClarification($ccid, $content)
     {
         return DB::table("contest_clarification")->where('ccid','=',$ccid)->update([
