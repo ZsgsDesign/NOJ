@@ -17,19 +17,6 @@
         overflow:hidden;
     }
 
-    settings-card {
-        display: block;
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
-        border-radius: 4px;
-        transition: .2s ease-out .0s;
-        color: #7a8e97;
-        background: #fff;
-        padding: 1rem;
-        position: relative;
-        margin-bottom: 2rem;
-        width: 100%;
-    }
-
     a:hover{
         text-decoration: none;
     }
@@ -134,79 +121,50 @@
     group-image > shadow-div > img:hover{
         transform: scale(1.2);
     }
-
-    settings-header{
-        display: block;
-        padding: 1.5rem 1.5rem 0;
-        border-bottom: 0;
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        border-top-left-radius: .3rem;
-        border-top-right-radius: .3rem;
-    }
-
-    settings-header>h5{
-        font-weight: bold;
-        font-family: 'Roboto';
-        margin-bottom: 0;
-        line-height: 1.5;
-    }
-
-    settings-body{
-        display: block;
-        position: relative;
-        flex: 1 1 auto;
-        padding: 1.25rem 1.5rem 1.5rem;
-    }
-
-
 </style>
 
-    <div id="settingModal" class="" tabindex="-1" role="dialog">
-            <settings-card>
-                <settings-header>
-                    <h5><i class="MDI settings"></i> General Group Settings</h5>
-                </settings-header>
-                <settings-body>
-                    <div class="row">
-                        <div class="col-sm">
-                            <group-name-setting>
-                                <div class="form-group">
-                                    <p style="font-weight:500;">Group Name</p>
-                                    <small id="group-name-tip" style="display:block;text-indent:20px;">PRESS ENTER TO APPLY THE CHANGES</small>
-                                    <input type="text" class="form-control" id="group-name" value="{{$basic_info['name']}}">
-                                </div>
-                            </group-name-setting><br>
-                            <join-policy-setting style="display:block">
-                                <p style="margin-bottom:0px;font-weight:500;">Join Policy</p>
-                                <div class="text-center">
-                                    <div class="btn-group">
-                                        <button id="policy-choice-btn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            @if($basic_info['join_policy']==3)<span>Invitation & Application</span>@elseif(($basic_info['join_policy']==2))<span>Application</span>@else<span>Invitation</span>@endif
-                                        </button>
-                                        <div class="dropdown-menu text-center">
-                                            <a class="dropdown-item join-policy-choice" data-policy="3">Invitation & Application</a>
-                                            <a class="dropdown-item join-policy-choice" data-policy="2">Application only</a>
-                                            <a class="dropdown-item join-policy-choice" data-policy="1">Invitation only</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </join-policy-setting>
-                            <focus-images-setting style="display:block">
-                                <p style="font-weight:500;">Change Group Image</p>
-                                <small id="change-image-tip" style="display:block;text-align:left;width:100%;text-indent:20px;">CLICK IMAGE TO CHOOSE A LOCAL IMAGE</small>
-                                <input id="image-file" type="file" style="display:none" accept=".jpg,.png,.jpeg,.gif" />
-                                <label for="image-file" style="display: block;" class="text-center">
-                                    <img class="group-image" style="max-height:250px;max-width: 90%; height: auto;display:inline-block;cursor: pointer;" src="{{$basic_info['img']}}">
-                                </label>
-                            </focus-images-setting>
+<settings-card>
+    <settings-header>
+        <h5><i class="MDI settings"></i> General Group Settings</h5>
+    </settings-header>
+    <settings-body>
+        <div class="row">
+            <div class="col-sm">
+                <group-name-setting>
+                    <div class="form-group">
+                        <p style="font-weight:500;">Group Name</p>
+                        <small id="group-name-tip" style="display:block;text-indent:20px;">PRESS ENTER TO APPLY THE CHANGES</small>
+                        <input type="text" class="form-control" id="group-name" value="{{$basic_info['name']}}">
+                    </div>
+                </group-name-setting><br>
+                <join-policy-setting style="display:block">
+                    <p style="margin-bottom:0px;font-weight:500;">Join Policy</p>
+                    <div class="text-center">
+                        <div class="btn-group">
+                            <button id="policy-choice-btn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                @if($basic_info['join_policy']==3)<span>Invitation & Application</span>@elseif(($basic_info['join_policy']==2))<span>Application</span>@else<span>Invitation</span>@endif
+                            </button>
+                            <div class="dropdown-menu text-center">
+                                <a class="dropdown-item join-policy-choice" data-policy="3">Invitation & Application</a>
+                                <a class="dropdown-item join-policy-choice" data-policy="2">Application only</a>
+                                <a class="dropdown-item join-policy-choice" data-policy="1">Invitation only</a>
+                            </div>
                         </div>
                     </div>
-                </settings-body>
-            </settings-card>
-    </div>
+                </join-policy-setting>
+                <focus-images-setting style="display:block">
+                    <p style="font-weight:500;">Change Group Image</p>
+                    <small id="change-image-tip" style="display:block;text-align:left;width:100%;text-indent:20px;">CLICK IMAGE TO CHOOSE A LOCAL IMAGE</small>
+                    <input id="image-file" type="file" style="display:none" accept=".jpg,.png,.jpeg,.gif" />
+                    <label for="image-file" style="display: block;" class="text-center">
+                        <img class="group-image" style="max-height:250px;max-width: 90%; height: auto;display:inline-block;cursor: pointer;" src="{{$basic_info['img']}}">
+                    </label>
+                </focus-images-setting>
+            </div>
+        </div>
+    </settings-body>
+</settings-card>
 
 @endsection
 
