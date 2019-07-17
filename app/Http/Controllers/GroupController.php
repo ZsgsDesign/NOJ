@@ -123,7 +123,8 @@ class GroupController extends Controller
             'group_clearance'=>$clearance
         ]);
     }
-  
+
+    /*
      * Show the Group's Problems in Practice Contest or other Contest.
      *
      * @return Response
@@ -133,11 +134,12 @@ class GroupController extends Controller
         $group_info = $groupModel->details($gcode);
         $problems = $groupModel->problems($group_info['gid']);
         $allTags = $groupModel->problemTags($group_info['gid'],-1);
-
-        return view('group.problems', [
+        $basic_info=$groupModel->details($gcode);
+        return view('group.settings.problems', [
             'page_title'=>"Group Problems",
             'site_title'=>"NOJ",
             'navigation'=>"Group",
+            'basic_info'=>$basic_info,
             'group_info'=>$group_info,
             'problems'=>$problems,
             'all_tags'=>$allTags
@@ -164,7 +166,8 @@ class GroupController extends Controller
             "basic_info"=>$basic_info,
             ]);
     }
-    
+
+    /*
      * Show the Contest Analysis Tab.
      *
      * @return Response
@@ -222,7 +225,8 @@ class GroupController extends Controller
             'member_list'=>$member_list,
         ]);
     }
-    
+
+    /*
      * Show the Contest Analysis Tab.
      *
      * @return Response

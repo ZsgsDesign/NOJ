@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('group.settings.common', ['selectedTab' => "problems"])
 
-@section('template')
+@section('settingsTab')
 
 <style>
     paper-card {
@@ -20,6 +20,44 @@
         box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
     }
 
+    settings-card {
+        display: block;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
+        border-radius: 4px;
+        transition: .2s ease-out .0s;
+        color: #7a8e97;
+        background: #fff;
+        padding: 1rem;
+        position: relative;
+        margin-bottom: 2rem;
+        width: 100%;
+    }
+
+    settings-header{
+        display: block;
+        padding: 1.5rem 1.5rem 0;
+        border-bottom: 0;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        border-top-left-radius: .3rem;
+        border-top-right-radius: .3rem;
+    }
+
+    settings-header>h5{
+        font-weight: bold;
+        font-family: 'Roboto';
+        margin-bottom: 0;
+        line-height: 1.5;
+    }
+
+    settings-body{
+        display: block;
+        position: relative;
+        flex: 1 1 auto;
+        padding: 1.25rem 1.5rem 1.5rem;
+    }
+
     .badge-tag{
         color: #6c757d;
         background-color: transparent;
@@ -29,46 +67,48 @@
         cursor: pointer;
     }
 </style>
-<div class="container mundb-standard-container">
+<settings-card>
+        <settings-header>
+                <h5><i class="MDI script"></i> Group Problems Management</h5>
+        </settings-header>
     @if(is_null($problems))
         <empty-container>
             <i class="MDI package-variant"></i>
             <p>Nothing matches your search.</p>
         </empty-container>
         @else
-        <paper-card class="animated bounceInLeft">
-            <p>Group Problems</p>
+        <settings-body class="animated bounceInLeft">
             <div class="table-responsive">
-            <table class="table table-borderless">
-                <thead>
-                    <tr>
-                        <th scope="col" class="cm-fw">#</th>
-                        <th scope="col">Problem</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($problems as $p)
-                    <tr>
-                        <th scope="row">{{$p["pcode"]}}</th>
-                        <td>
-                            {{$p["title"]}}
-                            <div>
-                                @if(!empty($p['tags']))
-                                @foreach($p['tags'] as $tag)
-                                    <span class="badge badge-tag badge-exist" data-pid="{{$p['pid']}}">{{$tag}}</span>
-                                @endforeach
-                                @endif
-                                <span class="badge badge-tag badge-add" data-pid="{{$p['pid']}}" data-toggle="tooltip" data-placement="top" title="add a tag to this problem">+</span>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="cm-fw">#</th>
+                            <th scope="col">Problem</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($problems as $p)
+                        <tr>
+                            <th scope="row">{{$p["pcode"]}}</th>
+                            <td>
+                                {{$p["title"]}}
+                                <div>
+                                    @if(!empty($p['tags']))
+                                    @foreach($p['tags'] as $tag)
+                                        <span class="badge badge-tag badge-exist" data-pid="{{$p['pid']}}">{{$tag}}</span>
+                                    @endforeach
+                                    @endif
+                                    <span class="badge badge-tag badge-add" data-pid="{{$p['pid']}}" data-toggle="tooltip" data-placement="top" title="add a tag to this problem">+</span>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
-        </paper-card>
+        </settings-body>
         @endif
-</div>
+</settings-card>
 <script>
     window.addEventListener("load",function() {
         let ajaxing = false;

@@ -143,7 +143,7 @@
                 <menu-item type="return" data-name="return"> <i class="MDI undo"></i> Back to Group Page </menu-item>
                 <menu-item type="item" data-name="general"> <i class="MDI settings"></i> General Settings </menu-item>
                 <menu-item type="item" data-name="member"> <i class="MDI tune"></i> Member Settings </menu-item>
-                <menu-item type="item" data-name="problem"> <i class="MDI script"></i> Problems Management</menu-item>
+                <menu-item type="item" data-name="problems"> <i class="MDI script"></i> Problems Management</menu-item>
                 <menu-item type="item" data-name="contest"> <i class="MDI trophy-variant"></i> Contest Management </menu-item>
                 <menu-item type="separate"></menu-item>
                 <menu-item type="item" data-name="danger"> <i class="MDI vector-curve"></i> Danger Field </menu-item>

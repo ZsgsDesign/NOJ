@@ -55,6 +55,7 @@ Route::group(['prefix' => 'group','as' => 'group.'], function () {
     Route::get('/{gcode}/settings/danger', 'GroupController@settingsDanger')->middleware('auth', 'contest_account')->name('settings.danger');
     Route::get('/{gcode}/settings/member', 'GroupController@settingsMember')->middleware('auth', 'contest_account')->name('settings.member');
     Route::get('/{gcode}/settings/contest', 'GroupController@settingsContest')->middleware('auth', 'contest_account')->name('settings.contest');
+    Route::get('/{gcode}/settings/problems', 'GroupController@problems')->middleware('auth', 'contest_account')->name('settings.problems');
 });
 
 Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
