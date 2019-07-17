@@ -720,21 +720,44 @@ class ContestModel extends Model
         ])->where("role", ">", 0)->first());
 
         $clearance = $this -> judgeClearance($cid, $uid);
-        if($clearance == 3){
-            $contestRankRaw=Cache::tags(['contest', 'rank'])->get("contestAdmin$cid");
-        }else{
-            $contestRankRaw=Cache::tags(['contest', 'rank'])->get($cid);
-        }
 
-        if ($contestRankRaw==null) {
-            $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
-            if(time() > $end_time && !Cache::has($cid)){
-                $contestRankRaw=$this->contestRankCache($cid);
-                Cache::forever($cid, $contestRankRaw);
+        /** New Version With MySQL */
+        $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+
+        if(time() < $end_time){
+            if($clearance == 3){
+                $contestRankRaw=Cache::tags(['contest', 'rank'])->get("contestAdmin$cid");
             }else{
+                $contestRankRaw=Cache::tags(['contest', 'rank'])->get($cid);
+            }
+            if(!isset($contestRankRaw) && !Cache::has($cid)){
                 $contestRankRaw=$this->contestRankCache($cid);
             }
+        }else{
+            if($clearance == 3){
+                $contestRankRaw=Cache::tags(['contest', 'rank'])->get("contestAdmin$cid");
+            }else{
+                $contestRankRaw=getContestRankFromMySQL($cid);
+                if(!isset($contestRankRaw)){
+                    $contestRankRaw=Cache::tags(['contest', 'rank'])->get($cid);
+                    if(!isset($contestRankRaw) && !Cache::has($cid)){
+                        $contestRankRaw=$this->contestRankCache($cid);
+                    }
+                    $this->storeContestRankInMySQL($cid, $contestRankRaw);
+                }
+            }
         }
+
+        /** Old version */
+        // if ($contestRankRaw==null) {
+        //     $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+        //     if(time() > $end_time && !Cache::has($cid)){
+        //         $contestRankRaw=$this->contestRankCache($cid);
+        //         // Cache::forever($cid, $contestRankRaw);
+        //     }else{
+        //         $contestRankRaw=$this->contestRankCache($cid);
+        //     }
+        // }
 
         $ret=$contestRankRaw;
 
@@ -1553,5 +1576,20 @@ class ContestModel extends Model
             $memberData[] = $m;
         }
         return $memberData;
+    }
+
+    public function storeContestRankInMySQL($cid, $data)
+    {
+        $contestRankJson = json_encode($data);
+        return DB::table('contest')->where('cid','=',$cid)->update([
+            'rank' => $contestRankJson
+        ]);
+    }
+
+    public function getContestRankFromMySQL($cid)
+    {
+        $contestRankJson = DB::table('contest')->where('cid','=',$cid)->pluck('rank')->first();
+        $data = json_decode($contestRankJson, true);
+        return $data;
     }
 }
