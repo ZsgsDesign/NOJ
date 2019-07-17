@@ -59,6 +59,7 @@ class ProblemController extends Controller
             'remote_id'=>'',
             'coid'=>$all_data["coid"],
             'cid'=>isset($all_data["contest"]) ? $all_data["contest"] : null,
+            'vcid'=>isset($all_data["vcid"]) ? $all_data["vcid"] : null,
             'jid'=>null,
             'score'=>0
         ]);

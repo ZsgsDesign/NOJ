@@ -1053,6 +1053,7 @@ class ContestModel extends Model
                 "rule"=>1, //todo
                 "begin_time"=>$config["begin_time"],
                 "end_time"=>$config["end_time"],
+                "vcid"=>isset($config["vcid"])?$config["vcid"]:null,
                 "public"=>0, //todo
                 "registration"=>0, //todo
                 "registration_due"=>null, //todo

@@ -974,6 +974,7 @@
                     pid:{{$detail["pid"]}},
                     pcode:"{{$detail["pcode"]}}",
                     cid:"{{$detail["contest_id"]}}",
+                    vcid:"{{$detail["vcid"]}}"
                     iid:"{{$detail["index_id"]}}",
                     oj:"{{$detail["oj_detail"]["ocode"]}}",
                     coid: chosen_coid,
