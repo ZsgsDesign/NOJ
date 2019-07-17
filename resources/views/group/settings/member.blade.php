@@ -88,68 +88,64 @@
 
 </style>
 
-    <div id="settingModal" class="" tabindex="-1" role="dialog">
-        <div class="paper-card" role="document">
-            <div class="modal-content sm-modal" style="width: 100%">
-                <div class="modal-header">
-                    <h5 class="modal-title"><i class="MDI settings"></i> member Group Settings</h5>
+
+        <settings-card>
+            <settings-header>
+                <h5><i class="MDI settings"></i> Group Member Management</h5>
+            </settings-header>
+            <settings-body>
+                <div class="row">
+                    <permission-setting style="width:100%;">
+                        <p>Permission Settings</p>
+                        <div style="display:flex;justify-content:space-around;width:100%;flex-wrap:wrap;align-items:baseline">
+                            @foreach($member_list as $m)
+                                @if($m["role"]>0)
+                                <user-card id="user-permission-{{$m["uid"]}}">
+                                    <user-avatar>
+                                        <a href="/user/{{$m["uid"]}}"><img src="{{$m["avatar"]}}"></a>
+                                    </user-avatar>
+                                    <user-info data-clearance="{{$m["role"]}}" data-rolecolor="{{$m["role_color"]}}">
+                                        <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
+                                        <p>
+                                            <small><i class="MDI google-circles"></i> {{$m["sub_group"]}}</small>
+                                            @if($group_clearance>$m["role"])
+                                                <small @if($group_clearance <= $m["role"] + 1) style="display:none" @endif class="wemd-green-text cm-operation clearance-up" onclick="changeMemberClearance({{$m['uid']}},'promote')"><i class="MDI arrow-up-drop-circle-outline"></i> Promote</small>
+                                                <small @if($m["role"] <= 1) style="display:none" @endif class="wemd-red-text cm-operation clearance-down" onclick="changeMemberClearance({{$m['uid']}},'demote')"><i class="MDI arrow-down-drop-circle-outline"></i> Demote</small>
+                                            @endif
+                                        </p>
+                                    </user-info>
+                                </user-card>
+                                @endif
+                            @endforeach
+                        </div>
+                    </permission-setting>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <permission-setting style="width:100%;">
-                            <p>Permission Settings</p>
-                            <div style="display:flex;justify-content:space-around;width:100%;flex-wrap:wrap;align-items:baseline">
-                                @foreach($member_list as $m)
-                                    @if($m["role"]>0)
-                                    <user-card id="user-permission-{{$m["uid"]}}">
-                                        <user-avatar>
-                                            <a href="/user/{{$m["uid"]}}"><img src="{{$m["avatar"]}}"></a>
-                                        </user-avatar>
-                                        <user-info data-clearance="{{$m["role"]}}" data-rolecolor="{{$m["role_color"]}}">
-                                            <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
-                                            <p>
-                                                <small><i class="MDI google-circles"></i> {{$m["sub_group"]}}</small>
-                                                @if($group_clearance>$m["role"])
-                                                    <small @if($group_clearance <= $m["role"] + 1) style="display:none" @endif class="wemd-green-text cm-operation clearance-up" onclick="changeMemberClearance({{$m['uid']}},'promote')"><i class="MDI arrow-up-drop-circle-outline"></i> Promote</small>
-                                                    <small @if($m["role"] <= 1) style="display:none" @endif class="wemd-red-text cm-operation clearance-down" onclick="changeMemberClearance({{$m['uid']}},'demote')"><i class="MDI arrow-down-drop-circle-outline"></i> Demote</small>
-                                                @endif
-                                            </p>
-                                        </user-info>
-                                    </user-card>
-                                    @endif
-                                @endforeach
-                            </div>
-                        </permission-setting>
-                    </div>
+            </settings-body>
+        </settings-card>
+
+        <settings-card>
+
+            <settings-header>
+                <h5><i class="MDI trophy"></i> Notice Announcement</h5>
+            </settings-header>
+            <settings-body>
+                <div class="form-group">
+                    <label for="noticeTitle" class="bmd-label-floating">Title</label>
+                    <input type="text" class="form-control" id="noticeTitle">
                 </div>
-            </div>
-        </div>
-    </div>
-    <div id="noticeModal" class="" tabindex="-1" role="dialog">
-        <div class="paper-card" role="document">
-            <div class="modal-content sm-modal" style="width:100%">
-                <div class="modal-header">
-                    <h5 class="modal-title"><i class="MDI trophy"></i> Notice Announcement</h5>
+                <div class="form-group">
+                    <small class="" style="margin-bottom:10px;font-size:17px;">Content</small>
+                    <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
+                    <markdown-editor class="mt-3 mb-3">
+                        <textarea id="notice_editor"></textarea>
+                    </markdown-editor>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="noticeTitle" class="bmd-label-floating">Title</label>
-                        <input type="text" class="form-control" id="noticeTitle">
-                    </div>
-                    <div class="form-group">
-                        <small class="" style="margin-bottom:10px;font-size:17px;">Content</small>
-                        <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
-                        <markdown-editor class="mt-3 mb-3">
-                            <textarea id="notice_editor"></textarea>
-                        </markdown-editor>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="noticeBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Submit</button>
-                </div>
-            </div>
-        </div>
-    </div>
+            </settings-body>
+            <settings-footer>
+                <button type="button" class="btn btn-primary" id="noticeBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Submit</button>
+            </settings-footer>
+
+        </settings-card>
 
 @endsection
 

@@ -129,6 +129,12 @@
         flex: 1 1 auto;
         padding: 1.25rem 1.5rem 1.5rem;
     }
+
+    settings-footer{
+        padding: 0 1.5rem 1.5rem;
+        display: flex;
+        justify-content: flex-end;
+    }
 </style>
 <settings-layout>
     <div class="row no-gutters">
