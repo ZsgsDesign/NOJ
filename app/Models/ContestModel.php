@@ -719,13 +719,18 @@ class ContestModel extends Model
             "gid" => $contest_info["gid"]
         ])->where("role", ">", 0)->first());
 
-        $contestRankRaw=Cache::tags(['contest', 'rank'])->get($cid);
+        $clearance = $this -> judgeClearance($cid, $uid);
+        if($clearance == 3){
+            $contestRankRaw=Cache::tags(['contest', 'rank'])->get("contestAdmin$cid");
+        }else{
+            $contestRankRaw=Cache::tags(['contest', 'rank'])->get($cid);
+        }
 
         if ($contestRankRaw==null) {
-            $end_time=strtotime(DB::table("contest")->where(["cid"=>$this->cid])->select("end_time")->first()["end_time"]);
-            if(time() > $end_time && !Cache::has($this->cid)){
-                $contestRankRaw=$this->contestRankCache($this->cid);
-                Cache::forever($this->cid, $contestRankRaw);
+            $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+            if(time() > $end_time && !Cache::has($cid)){
+                $contestRankRaw=$this->contestRankCache($cid);
+                Cache::forever($cid, $contestRankRaw);
             }
         }
 
@@ -1501,5 +1506,10 @@ class ContestModel extends Model
                 "public"=>0
             ]);
         }
+    }
+
+    public function getContestAccount($cid)
+    {
+        return Cache::tags(['contest', 'account'])->get($cid);
     }
 }
