@@ -1,7 +1,7 @@
 @extends('group.settings.common', ['selectedTab' => "contest"])
 
 @section('settingsTab')
-
+<link rel="stylesheet" href="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.min.css">
 <style>
      paper-card {
         display: block;
@@ -191,6 +191,23 @@
         vertical-align: text-bottom;
     }
 
+    .cm-remove{
+        cursor: pointer;
+    }
+
+    .MDI.cm-remove:before {
+        content: "\e795";
+    }
+
+    #problems-table tbody {
+        counter-reset: pnumber;
+    }
+
+    #problems-table tbody th::before{
+        counter-increment: pnumber;
+        content: counter(pnumber);
+    }
+
 </style>
 <div class="container-fluid mundb-standard-container">
     <settings-card>
@@ -217,7 +234,7 @@
                                 @if($contest['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="left" title="Anti-cheat enabled"></i>@endif
                                 {{$contest['name']}}
                                 <div style="display:inline-block; width:auto" class="float-right">
-                                    @if($contest['is_admin'])<i class="MDI account-check wemd-red-text" data-toggle="tooltip" data-placement="left" title="You have the permission to manage this contest"></i>@endif
+                                    @if($contest['is_admin'])<i class="MDI account-check wemd-green-text" data-toggle="tooltip" data-placement="left" title="You have the permission to manage this contest"></i>@endif
                                 </div>
                             </h5>
                             <p class="sm-contest-info">
@@ -238,7 +255,41 @@
                         <div id="assignee-area">
 
                         </div>
-                        <p style="margin-top: 1rem;">Contest Info</p>
+                        <div class="form-group">
+                            <label for="contestName" class="bmd-label-floating" style="top: 1rem; left: 0; font-size: .75rem;">Contest Name</label>
+                            <input type="text" class="form-control" id="contestName">
+                        </div>
+                        <div class="form-group is-focused">
+                            <label for="contestBegin" class="bmd-label-floating">Contest Begin Time</label>
+                            <input type="text" class="form-control" id="contestBegin">
+                        </div>
+                        <div class="form-group is-focused">
+                            <label for="contestEnd" class="bmd-label-floating">Contest End Time</label>
+                            <input type="text" class="form-control" id="contestEnd">
+                        </div>
+                        <p style="margin-top: 1rem;">Problems</p>
+                        <table id="problems-table" class="table">
+                            <thead>
+                                <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Code</th>
+                                <th scope="col">Score</th>
+                                <th scope="col">Op.</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contestProblemSet">
+                            </tbody>
+                        </table>
+                        <div style="text-align: center;">
+                            <button class="btn btn-info" onclick="$('#addProblemModal').modal({backdrop:'static'});"><i class="MDI plus"></i> Add Problem</button>
+                        </div>
+                        <p>Description</p>
+                        <div id="vscode_container" style="width:100%;height:50vh;">
+                            <div id="vscode" style="width:100%;height:100%;"></div>
+                        </div>
+                        <div class="text-right">
+                            <button id="contest-update" type="button" class="btn btn-danger">update</button>
+                        </div>
 
                     </paper-card>
                 </div>
@@ -275,6 +326,26 @@
     </div>
 </div>
 
+<div id="addProblemModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content sm-modal">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="MDI bookmark-plus"></i> Add Problem</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="problemCode" class="bmd-label-floating">Problem Code</label>
+                    <input type="text" class="form-control" id="problemCode">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="addProblemBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('additionJS')
@@ -283,10 +354,24 @@
     <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
     <script src="/static/js/parazoom.min.js"></script>
     <script>
-        loadContestData($('#contest-list').children().first());
+        let ajaxing = false;
+        function sortableInit(){
+            $("#problems-table tbody").sortable({
+                items: "> tr",
+                appendTo: "parent",
+                helper: "clone"
+            });
+        }
+        setTimeout(function(){
+            loadContestData($('#contest-list').children().first());
+        },500);
 
         $('#assignee-area').on('click',function(){
             $('#assignModal').modal();
+        });
+
+        $("#addProblemBtn").click(function() {
+            addProblem();
         });
 
         $('user-card').on('click',function(){
@@ -319,9 +404,74 @@
 
         });
 
+        $('#contest-update').on('click',function(){
+            if(ajaxing) return;
+            else ajaxing=true;
+            var cid = $('contest-card.chosen').attr('data-cid');
+            var contestName = $("#contestName").val();
+            var contestBegin = $("#contestBegin").val();
+            var contestEnd = $("#contestEnd").val();
+            var problemSet = "";
+            var contestDescription = editor.getValue();
+            $("#contestProblemSet td:first-of-type").each(function(){
+                problemSet+=""+$(this).text()+",";
+            });
+            if (contestName.replace(/(^s*)|(s*$)/g, "").length == 0) {
+                ajaxing=false;
+                return alert("Contest Name Shoudn't be empty");
+            }
+            if (contestBegin.replace(/(^s*)|(s*$)/g, "").length == 0) {
+                ajaxing=false;
+                return alert("Contest Begin Time Shoudn't be empty");
+            }
+            if (contestEnd.replace(/(^s*)|(s*$)/g, "").length == 0) {
+                ajaxing=false;
+                return alert("Contest End Time Shoudn't be empty");
+            }
+            var beginTimeParsed=new Date(Date.parse(contestBegin)).getTime();
+            var endTimeParsed=new Date(Date.parse(contestEnd)).getTime();
+            if(endTimeParsed < beginTimeParsed + 60000){
+                ajaxing=false;
+                return alert("Contest length should be at least one minute.");
+            }
+            $("#arrangeBtn > i").removeClass("d-none");
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/contest/update',
+                data: {
+                    cid :cid,
+                    problems: problemSet,
+                    name: contestName,
+                    description: contestDescription,
+                    begin_time: contestBegin,
+                    end_time: contestEnd,
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if (ret.ret==200) {
+                        alert(ret.desc);
+                    } else {
+                        alert(ret.desc);
+                    }
+                    ajaxing=false;
+                    $("#arrangeBtn > i").addClass("d-none");
+                }, error: function(xhr, type){
+                    console.log('Ajax error while posting to arrangeContest!');
+                    alert("Server Connection Error");
+                    ajaxing=false;
+                    $("#arrangeBtn > i").addClass("d-none");
+                }
+            });
+        });
+
         function displayContestData(data){
-            assignee = data.assignee;
-            contest = data.contest_data;
+            var assignee = data.assignee;
+            var contest = data.contest_info;
+            var problems = contest.problems;
+            var is_admin = data.is_admin;
             if(assignee == null){
                 $('#assignee-area').html('').append(`
                 <div class="assignee-empty">
@@ -343,6 +493,90 @@
                 </user-card>
                 `);
             }
+            $('#contestName').val(contest.name);
+            $('#contestBegin').val(contest.begin_time);
+            $('#contestEnd').val(contest.end_time);
+            editor.setValue(contest.description);
+            $('#contestProblemSet').html('');
+            for(let i in problems){
+                problem = problems[i];
+                console.log(problem);
+                $("#contestProblemSet").append(`
+                    <tr>
+                        <th scope="row"></th>
+                        <td>${problem.pcode}</td>
+                        <td>1</td>
+                        <td><i class="MDI cm-remove wemd-red-text" onclick="removeProblem(this)" title="Delete this problem"></i></td>
+                    </tr>
+                `);
+            }
+            sortableInit();
+            if(is_admin){
+                $('#contest-update').fadeIn();
+            }else{
+                $('#contest-update').fadeOut();
+            }
+        }
+
+        function addProblem(){
+            // Add Problem
+            if(ajaxing) return;
+            else ajaxing=true;
+            $("#addProblemBtn > i").removeClass("d-none");
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/problemExists',
+                data: {
+                    pcode: $("#problemCode").val()
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if (ret.ret==200) {
+                        var sameFlag=false;
+                        $("#contestProblemSet td:first-of-type").each(function(){
+                            if(ret.data.pcode==$(this).text()){
+                                alert("Problem Already Exist");
+                                $('#addProblemModal').modal('toggle');
+                                ajaxing=false;
+                                $("#problemCode").val("");
+                                sameFlag=true;
+                                return;
+                            }
+                        });
+                        if(sameFlag==false){
+                            $("#contestProblemSet").append(`
+                                <tr>
+                                    <th scope="row"></th>
+                                    <td>${ret.data.pcode}</td>
+                                    <td>1</td>
+                                    <td><i class="MDI cm-remove wemd-red-text" onclick="removeProblem(this)" title="Delete this problem"></i></td>
+                                </tr>
+                            `);
+                            sortableInit();
+                        }
+                    } else {
+                        alert("Problem Doesn't Exist");
+                    }
+                    $('#addProblemModal').modal('toggle');
+                    ajaxing=false;
+                    $("#problemCode").val("");
+                    $("#addProblemBtn > i").addClass("d-none");
+                }, error: function(xhr, type){
+                    console.log('Ajax error while posting to problemExists!');
+                    alert("Server Connection Error");
+                    $('#addProblemModal').modal('toggle');
+                    ajaxing=false;
+                    $("#problemCode").val("");
+                    $("#addProblemBtn > i").addClass("d-none");
+                }
+            });
+        };
+
+        function removeProblem(obj) {
+            $(obj).parent().parent().remove();
         }
 
         function loadContestData(contest_card){
@@ -350,6 +584,7 @@
             contest_card.addClass('chosen');
             var cid = contest_card.attr('data-cid');
             $('#assignModal').attr('data-cid',cid);
+            ajaxing = true;
             $.ajax({
                 type: 'POST',
                 url: '/ajax/contest/details',
@@ -373,6 +608,25 @@
 
         $('contest-card').on('click',function(){
             loadContestData($(this));
+        });
+
+        $('#contestBegin').datetimepicker({
+            onShow:function( ct ){
+                this.setOptions({
+                    minDate:'+1970/01/01',
+                    maxDate:$('#contestEnd').val()?$('#contestEnd').val():false
+                })
+            },
+            timepicker:true
+        });
+
+        $('#contestEnd').datetimepicker({
+            onShow:function( ct ){
+                this.setOptions({
+                    minDate: $('#contestBegin').val()?$('#contestBegin').val():false
+                })
+            },
+            timepicker:true
         });
 
         require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});

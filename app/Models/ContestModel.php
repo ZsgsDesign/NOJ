@@ -294,6 +294,15 @@ class ContestModel extends Model
         return $str.chr($index % 26+$start);
     }
 
+    public function problems($cid)
+    {
+        return DB::table('contest_problem')
+            ->join('problem','contest_problem.pid','=','problem.pid')
+            ->where('cid',$cid)
+            ->select('problem.pid as pid','pcode','number')
+            ->get()->all();
+    }
+
     public function contestProblems($cid, $uid)
     {
         $submissionModel=new SubmissionModel();
@@ -1072,6 +1081,29 @@ class ContestModel extends Model
         }
     }
 
+    public function contestUpdate($cid,$data,$problems)
+    {
+        DB::transaction(function () use ($cid, $data, $problems) {
+            DB::table($this->tableName)
+                ->where('cid',$cid)
+                ->update($data);
+            DB::table('contest_problem')
+                ->where('cid',$cid)
+                ->delete();
+            foreach ($problems as $p) {
+                $pid=DB::table("problem")->where(["pcode"=>$p["pcode"]])->select("pid")->first()["pid"];
+                DB::table("contest_problem")->insert([
+                    "cid"=>$cid,
+                    "number"=>$p["number"],
+                    "ncode"=>$this->intToChr($p["number"]-1),
+                    "pid"=>$pid,
+                    "alias"=>"",
+                    "points"=>$p["points"]
+                ]);
+            }
+        }, 5);
+    }
+
     public function arrangeContest($gid, $config, $problems)
     {
         DB::transaction(function () use ($gid, $config, $problems) {
@@ -1307,5 +1339,46 @@ class ContestModel extends Model
         return DB::table("contest")->where(["cid"=>$cid])->update([
             "assign_uid"=>$uid
         ]);
+    }
+
+    public function canUpdateContestTime($cid,$time = [])
+    {
+        $begin_time_new = $time['begin'] ?? null;
+        $end_time_new = $time['end'] ?? null;
+
+        $hold_time = DB::table('contest')
+            ->where('cid',$cid)
+            ->select('begin_time','end_time')
+            ->first();
+        $begin_stamps = strtotime($hold_time['begin_time']);
+        $end_stamps = strtotime($hold_time['end_time']);
+        /*
+        -1 : have not begun
+         0 : ing
+         1 : end
+        */
+        $status = time() >= $end_stamps ? 1
+                : (time() <= $begin_stamps ? -1 : 0);
+        if($status === -1){
+            if(time() > $begin_time_new){
+                return false;
+            }
+            return true;
+        }else if($status === 0){
+            if($begin_time_new !== null){
+                return false;
+            }
+            if($end_time_new !== null){
+                if(strtotime($end_time_new) <= time()){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+        }else{
+            return false;
+        }
+
+        return true;
     }
 }
