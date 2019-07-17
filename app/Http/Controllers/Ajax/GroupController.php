@@ -289,6 +289,78 @@ class GroupController extends Controller
         return ResponseModel::err(7002);
     }
 
+    public function inviteMember(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|integer',
+            'email' => 'required|email',
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        $is_user=$groupModel->isUser($all_data["email"]);
+        if(!$is_user) return ResponseModel::err(2006);
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        if($clearance<2) return ResponseModel::err(7002);
+        $targetClearance=$groupModel->judgeEmailClearance($all_data["gid"], $all_data["email"]);
+        if($targetClearance!=-3) return ResponseModel::err(7003);
+        $groupModel->inviteMember($all_data["gid"], $all_data["email"]);
+        return ResponseModel::success(200);
+    }
+
+    public function createGroup(Request $request)
+    {
+        $request->validate([
+            'gcode' => 'required|alpha_dash|min:3|max:50',
+            'name' => 'required|min:3|max:50',
+            'public' => 'required|integer|min:1|max:2',
+            'description' => 'nullable|max:100',
+            'join_policy'  => 'required|integer|min:1|max:3'
+        ]);
+
+        $all_data=$request->all();
+
+        if (!empty($request->file('img')) && $request->file('img')->isValid()) {
+            $extension=$request->file('img')->extension();
+        } else {
+            return ResponseModel::err(1005);
+        }
+
+        $allow_extension=['jpg', 'png', 'jpeg', 'gif', 'bmp'];
+
+        $groupModel=new GroupModel();
+        if($all_data["gcode"]=="create") return ResponseModel::err(7005);
+        $is_group=$groupModel->isGroup($all_data["gcode"]);
+        if($is_group) return ResponseModel::err(7006);
+        if (!in_array($extension, $allow_extension)) {
+            return ResponseModel::err(1005);
+        }
+        $path=$request->file('img')->store('/static/img/group', 'NOJPublic');
+        $img='/'.$path;
+        $groupModel->createGroup(Auth::user()->id, $all_data["gcode"], $img, $all_data["name"], $all_data["public"], $all_data["description"], $all_data["join_policy"]);
+        return ResponseModel::success(200);
+    }
+
+    public function createNotice(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|integer',
+            'title' => 'required|min:3|max:50',
+            'content' => 'required|min:3|max:100',
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        if ($clearance < 2){
+            return ResponseModel::err(2001);
+        }
+        $groupModel->createNotice($all_data["gid"], Auth::user()->id, $all_data["title"], $all_data["content"]);
+        return ResponseModel::success(200);
+    }
+
     public function addProblemTag(Request $request)
     {
         $request->validate([

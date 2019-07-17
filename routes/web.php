@@ -48,6 +48,7 @@ Route::group(['prefix' => 'group','as' => 'group.'], function (){
     Route::get('/{gcode}', 'GroupController@detail')->middleware('auth', 'contest_account')->name('detail');
     Route::get('/{gcode}/problems', 'GroupController@problems')->middleware('auth', 'contest_account')->name('problems');
     Route::get('/{gcode}/analysis', 'GroupController@analysis')->middleware('auth', 'contest_account')->name('analysis');
+    Route::get('/{gcode}/analysisDownload', 'GroupController@analysisDownload')->middleware('auth', 'contest_account')->name('analysis.download');
 });
 
 Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
@@ -62,6 +63,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
     Route::get('/{cid}/board/print', 'ContestController@print')->middleware('auth', 'contest_account')->name('print');
     Route::get('/{cid}/board/admin', 'ContestController@admin')->middleware('auth', 'contest_account')->name('admin');
     Route::get('/{cid}/board/analysis', 'ContestController@analysis')->middleware('auth', 'contest_account')->name('analysis');
+});
 
 Route::group(['prefix' => 'system'], function () {
     Route::redirect('/', '/system/info', 301);
