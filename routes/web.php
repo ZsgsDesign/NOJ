@@ -133,6 +133,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
         Route::post('replyClarification', 'ContestController@replyClarification')->middleware('auth');
         Route::post('setClarificationPublic', 'ContestController@setClarificationPublic')->middleware('auth');
         Route::post('generateContestAccount', 'ContestController@generateContestAccount')->middleware('auth');
+        Route::post('getAnalysisData', 'ContestController@getAnalysisData')->middleware('auth')->name('ajax.contest.getAnalysisData');
     });
 
     Route::group(['prefix' => 'submission'], function () {

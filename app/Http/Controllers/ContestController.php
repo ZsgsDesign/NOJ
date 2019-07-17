@@ -374,4 +374,23 @@ class ContestController extends Controller
             return Excel::download($AccountExport, $filename.'.xlsx');
         }
     }
+
+    public function analysis($cid){
+        $contestModel=new ContestModel();
+        $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
+        if (!$clearance) {
+            return Redirect::route('contest.detail', ['cid' => $cid]);
+        }
+        $contest_name=$contestModel->contestName($cid);
+        $customInfo=$contestModel->getCustomInfo($cid);
+        return view('contest.board.analysis', [
+            'page_title'=>"Print",
+            'navigation' => "Contest",
+            'site_title'=>$contest_name,
+            'contest_name'=>$contest_name,
+            'cid'=>$cid,
+            'custom_info' => $customInfo,
+            'clearance'=> $clearance
+        ]);
+    }
 }

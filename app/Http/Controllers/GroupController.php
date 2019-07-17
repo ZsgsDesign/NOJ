@@ -6,7 +6,8 @@ use App\Models\GroupModel;
 use App\Models\ContestModel;
 use App\Exports\GroupAnalysisExport;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
+use Excel;
 use Auth;
 use Redirect;
 
@@ -108,6 +109,7 @@ class GroupController extends Controller
     public function analysisDownload($gcode,Request $request){
         $all_data = $request->all();
         $groupModel = new GroupModel();
+        $group_info = $groupModel->details($gcode);
         $mode = $all_data['mode'] ?? 'contest';
         if($mode == 'contest'){
             $data = $groupModel->groupMemberPracticeContestStat($group_info['gid']);
