@@ -97,6 +97,7 @@
         <a class="nav-link disabled" href="#">Developing...</a>
     </nav>
     <div class="switch text-right">
+        <a id="analysis-download" class="btn btn-primary" href="#" role="button"></a>
         <label>
             <input id="switch-percent" type="checkbox">
             Show By Percent
@@ -188,6 +189,7 @@
             }else{
                 loadContestsData();
             }
+            updataDownloadUrl();
             $(this).addClass('active')
         });
 
@@ -204,6 +206,7 @@
             }else{
                 loadTagsData();
             }
+            updataDownloadUrl();
             $(this).addClass('active')
         });
 
@@ -224,9 +227,13 @@
         });
 
         $('#contest-contest').click();
-
+        updataDownloadUrl();
         loadContestsData();
         $('#contest-panel').fadeIn();
+
+        function updataDownloadUrl(){
+            $('#analysis-download').attr('href','{{route('group.analysis.download',['gcode' => $group_info['gcode']])}}' + '?maxium=' + !contest_hideMax + '&percent=' + contest_showPercent + '&mode=' + displaying);
+        }
 
         function loadContestsData(){
             ajaxing = true;
@@ -242,6 +249,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
                     if(ret.ret == '200'){
+                        console.log(ret);
                         data_contest = ret.data;
                         ajaxing = false;
                         displayTable({
