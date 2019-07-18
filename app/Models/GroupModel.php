@@ -51,7 +51,7 @@ class GroupModel extends Model
             $t["members"]=$this->countGroupMembers($t["gid"]);
         }
         usort($trending_groups, function ($a, $b) {
-            return $a["members"]<=>$b["members"];
+            return $b["members"]<=>$a["members"];
         });
         Cache::tags(['group'])->put('trending', array_slice($trending_groups,0,12), 3600*24);
     }
