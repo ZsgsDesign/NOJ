@@ -122,8 +122,8 @@
                 @csrf
                 <div class="row">
                     <div class="col-12 col-lg-4">
-                        <focus-image>
-                            <img id="avatar-preview" src="/static/img/group/default.png" onclick="$('#avatar-file').click();">
+                        <focus-image style="cursor: pointer">
+                            <img id="avatar-preview" src="/static/img/group/addphoto.jpg" onclick="$('#avatar-file').click();">
                             <input type="file" style="display:none" id="avatar-file" accept=".jpg,.png,.jpeg,.gif">
                         </focus-image>
                     </div>
