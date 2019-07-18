@@ -6,7 +6,6 @@ use Illuminate\Console\Command;
 use App\Babel\Babel;
 use Exception;
 use function GuzzleHttp\json_decode;
-use Artisan;
 
 class Crawl extends Command
 {

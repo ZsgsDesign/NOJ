@@ -5,7 +5,7 @@ namespace App\Console\Commands\Babel;
 use Illuminate\Console\Command;
 use Exception;
 use function GuzzleHttp\json_decode;
-use Artisan;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 class Update extends Command
 {
@@ -41,22 +41,45 @@ class Update extends Command
     public function handle()
     {
         $extension = $this->argument('extension');
-        $installerProvider="Installer";
+        $output = new BufferedOutput();
+        $this->line("Updating <fg=green>$extension</>");
         try {
             $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$extension/babel.json")), true);
         }catch(Exception $e){
             $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>babel.json parse error, The extension may not exist.</>\n");
             if($this->confirm("Would you like to download it from the marketspace first?")){
-                Artisan::call("babel:require", ['extension' => $extension]);
+                $this->call("babel:require", ['extension' => $extension]);
+                $output->fetch();
             }
             return;
         }
+        $this->backup($extension);
         $this->delDir(babel_path("Extension/$extension/"));
-        Artisan::call("babel:require", ['extension' => $extension]);
-        Artisan::call("babel:install", ['extension' => $extension]);
+        try {
+            $this->call("babel:require", ['extension' => $extension, '--exception' => true]);
+            $output->fetch();
+            $this->line("Updated <fg=green>$extension</>");
+        } catch(Exception $e) {
+            $this->line($e);
+            $this->roolbackBackup(($extension));
+        }
+    }
+
+    private function backup($extension)
+    {
+        if(!is_dir(babel_path("Tmp/backup/"))) mkdir(babel_path("Tmp/backup/"));
+        if(is_dir(babel_path("Tmp/backup/$extension/"))) $this->delDir(babel_path("Tmp/backup/$extension/"));
+        rename(babel_path("Extension/$extension/"), babel_path("Tmp/backup/$extension/"));
+    }
+
+    private function roolbackBackup($extension)
+    {
+        if(is_dir(babel_path("Extension/$extension/"))) $this->delDir(babel_path("Extension/$extension/"));
+        rename(babel_path("Tmp/backup/$extension/"), babel_path("Extension/$extension/"));
     }
 
     private function delDir($dir){
+        if(!is_dir($dir)) return;
         $it = new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS);
         $files = new \RecursiveIteratorIterator($it, \RecursiveIteratorIterator::CHILD_FIRST);
         foreach($files as $file) {

@@ -5,7 +5,7 @@ namespace App\Console\Commands\Babel;
 use Illuminate\Console\Command;
 use Exception;
 use function GuzzleHttp\json_decode;
-use Artisan;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 class Install extends Command
 {
@@ -41,13 +41,15 @@ class Install extends Command
     public function handle()
     {
         $extension = $this->argument('extension');
+        $output = new BufferedOutput();
         $installerProvider="Installer";
         try {
             $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$extension/babel.json")), true);
         }catch(Exception $e){
             $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>babel.json parse error, The extension may not exist.</>\n");
             if($this->confirm("Would you like to download it from the marketspace first?")){
-                Artisan::call("babel:require", ['extension' => $extension]);
+                $this->call("babel:require", ['extension' => $extension]);
+                $output->fetch();
             }
             return;
         }
@@ -56,9 +58,12 @@ class Install extends Command
             return;
         }
         $installerProvider=$BabelConfig["provider"]["installer"];
-        $submitter=self::create($extension,$installerProvider,$this);
-        if(!is_null($submitter)) $submitter->install();
-        else $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>Installer initiation error.</>\n");
+        $installer=self::create($extension,$installerProvider,$this);
+        if(!is_null($installer)) {
+            $installer->install();
+        } else {
+            $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>Installer initiation error.</>\n");
+        }
     }
 
     public static function create($oj,$installerProvider,$class) {
