@@ -34,6 +34,7 @@ class CrawlerBase
     ];
 
     public $data=null;
+    protected $command=null;
 
     /**
      * Initial
@@ -42,6 +43,10 @@ class CrawlerBase
      */
     public function __construct()
     {
+    }
+
+    protected function importCommandLine($command){
+        $this->command=$command;
     }
 
     public static function cmp($a, $b)
@@ -137,5 +142,14 @@ class CrawlerBase
     {
         $problemModel=new ProblemModel();
         return $problemModel->updateProblem($this->pro);
+    }
+
+    protected function line($line)
+    {
+        if(is_null($this->command)){
+            echo $line;
+        }else{
+            $this->command->line($line);
+        }
     }
 }

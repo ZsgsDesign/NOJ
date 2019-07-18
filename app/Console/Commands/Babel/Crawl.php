@@ -51,6 +51,6 @@ class Crawl extends Command
             "action" => $action,
             "con" => $con,
             "cached" => $cached,
-        ]);
+        ], $this);
     }
 }

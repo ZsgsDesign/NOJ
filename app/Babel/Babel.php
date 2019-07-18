@@ -14,9 +14,9 @@ class Babel
         return new Submitter($conf);
     }
 
-    public function crawl($conf)
+    public function crawl($conf, $commandLineObject=null)
     {
-        return new Crawler($conf);
+        return new Crawler($conf, $commandLineObject);
     }
 
     public function judge()
