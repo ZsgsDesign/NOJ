@@ -307,7 +307,7 @@
             </div>
             <div class="modal-body" style="max-height:60vh;overflow-y: auto" >
                 @foreach($member_list as $m)
-                    @if($m["role"]>0)
+                    @if($m["role"]>1)
                     <user-card id="assign-{{$m["uid"]}}">
                         <user-avatar>
                             <a href="/user/{{$m["uid"]}}"><img src="{{$m["avatar"]}}"></a>
@@ -607,6 +607,10 @@
         }
 
         $('contest-card').on('click',function(){
+            if(ajaxing){
+                alert('loading a contest info ,slow down!');
+                return;
+            }
             loadContestData($(this));
         });
 
