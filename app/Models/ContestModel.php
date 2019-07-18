@@ -207,7 +207,7 @@ class ContestModel extends Model
                 $paginator = $paginator ->paginate(10);
             }elseif($filter['public']=='0'){
                 $paginator=DB::table('group_member')
-                ->distinct()
+                ->groupBy('contest.cid')
                 ->select('contest.*')
                 ->join('contest', 'group_member.gid', '=', 'contest.gid')
                 ->leftJoin('contest_participant', 'contest.cid', '=', 'contest_participant.cid')
@@ -234,10 +234,10 @@ class ContestModel extends Model
                     }
                 )
                 ->orderBy('contest.begin_time', 'desc')
-                ->paginate(10, ['contest.cid']);
+                ->paginate(10);
             }else{
                 $paginator=DB::table('group_member')
-                ->distinct()
+                ->groupBy('contest.cid')
                 ->select('contest.*')
                 ->join('contest', 'group_member.gid', '=', 'contest.gid')
                 ->leftJoin('contest_participant', 'contest.cid', '=', 'contest_participant.cid')
@@ -287,7 +287,7 @@ class ContestModel extends Model
                     }
                 )
                 ->orderBy('contest.begin_time', 'desc')
-                ->paginate(10, ['contest.cid']);
+                ->paginate(10);
             }
         } else {
             $paginator=DB::table($this->tableName)->where([

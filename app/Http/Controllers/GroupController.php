@@ -22,13 +22,13 @@ class GroupController extends Controller
     public function index()
     {
         $groupModel=new GroupModel();
-        $tending_groups=$groupModel->tendingGroups();
+        $trending_groups=$groupModel->trendingGroups();
         $user_groups=Auth::check() ? $groupModel->userGroups(Auth::user()->id) : [];
         return view('group.index', [
             'page_title' => "Group",
             'site_title' => config("app.name"),
             'navigation' => "Group",
-            'tending' => $tending_groups,
+            'trending' => $trending_groups,
             'mine' => $user_groups
         ]);
     }
