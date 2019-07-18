@@ -77,107 +77,104 @@
         cursor: pointer;
         margin-left: 200px;
     }
+
     .gender-select{
         cursor: pointer;
     }
 
+    paper-card {
+        display: block;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
+        border-radius: 4px;
+        transition: .2s ease-out .0s;
+        color: #7a8e97;
+        background: #fff;
+        padding: 1rem;
+        position: relative;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        margin-bottom: 2rem;
+        overflow: hidden;
+    }
+
+    paper-card:hover {
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
+    }
+
+    focus-image{
+        display: block;
+    }
+
+    focus-image > img{
+        width: 100%;
+    }
+
+    card-body{
+        display: block;
+        padding: 1rem;
+    }
+
 </style>
 <div class="container mundb-standard-container">
-    <div class="row">
-    </div>
-    <div class="card my-card">
-        <div class="card-body ">
-            <h4 class="card-title"><a>Create a New Group</a></h4>
-            <div class="paper-card">
-                <form class="extra-info-form md-form" id="create" action="/">
-                    @csrf
-                    <div class="form-group">
-                        <label for="contact" class="bmd-label-floating">Group Name</label>
-                        <input id="groupName" type="text" name="name" class="form-control" id="contact" autocomplete="off" />
+    <paper-card>
+        <h5><i class="MDI account-multiple-plus"></i> Create a New Group</h5>
+        <card-body>
+            <form class="extra-info-form md-form" id="create" action="/">
+                @csrf
+                <div class="row">
+                    <div class="col-12 col-lg-4">
+                        <focus-image>
+                            <img src="/static/img/group/default.png">
+                            {{-- <label for="avatar" style="color:grey">Group Avatar</label>
+                            <div class="avatar-div" id="avatar">Chose</div> --}}
+                        </focus-image>
                     </div>
-                    <div class="form-group">
-                        <label for="school" class="bmd-label-floating">Group Site</label>
-                        <input id="groupSite" type="text" name="gcode" class="form-control"  id="school" autocomplete="off" />
-                    </div>
-                    {{-- <div class="form-group" style="display:flex;align-items:flex-end">
-                        <label for="avatar" style="color:grey">Group Avatar</label>
-                        <div class="avatar-div" id="avatar">
-                            Chose
-                            <input id="groupAvatar" name="img" class="avatar-input" type="file" accept="image/" value="">
+                    <div class="col-12 col-lg-8">
+                        <div class="form-group">
+                            <label for="contact" class="bmd-label-floating">Group Name</label>
+                            <input id="groupName" type="text" name="name" class="form-control" id="contact" autocomplete="off" />
                         </div>
-                    </div> --}}
-                    <div>
-                        <avatar-section>
-                            <label for="avatar" style="color:grey">Group Avatar</label>
-                            <div class="avatar-div" id="avatar">
-                                Chose
-                            {{-- <input id="groupAvatar" name="img" class="avatar-input" type="file" accept="image/" value=""> --}}
+                        <div class="form-group">
+                            <label for="school" class="bmd-label-floating">Short Code</label>
+                            <input id="groupSite" type="text" name="gcode" class="form-control"  id="school" autocomplete="off" />
                         </div>
-                        </avatar-section>
-                    </div>
-                    <div class="form-group">
-                        <label for="location" class="bmd-label-floating">Group Description</label>
-                        <input id="groupDescription" type="text" name="description" class="form-control"  id="location" autocomplete="off" />
-                    </div>
-                    <div class="form-group">
-                        <label for="location" class="bmd-label-floating">Join Policy</label>
-                        <div class="input-group text-center" style="display: flex;justify-content: center; align-items: center;">
-                            <div class="input-group-prepend">
-                                <button id="gender-btn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                   Default
-                                </button>
-                                <div class="dropdown-menu" style="font-size: .75rem">
-                                    <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('Invite Only');$('#gender').val(1);$('#gender-input').fadeOut(200);">Invite Only</a>
-                                    <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('Apply Only');$('#gender').val(2);$('#gender-input').fadeOut(200);">Apply Only</a>
-                                    <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('Both');$('#gender').val(3);$('#gender-input').fadeOut(200);">Both</a>
+                        <div class="form-group">
+                            <label for="location" class="bmd-label-floating">Group Description</label>
+                            <input id="groupDescription" type="text" name="description" class="form-control"  id="location" autocomplete="off" />
+                        </div>
+                        <div class="form-group">
+                            <label for="location" class="bmd-label-floating">Join Policy</label>
+                            <div class="input-group text-center" style="display: flex;justify-content: center; align-items: center;">
+                                <div class="input-group-prepend">
+                                    <button id="gender-btn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Default
+                                    </button>
+                                    <div class="dropdown-menu" style="font-size: .75rem">
+                                        <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('Invite Only');$('#gender').val(1);$('#gender-input').fadeOut(200);">Invite Only</a>
+                                        <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('Apply Only');$('#gender').val(2);$('#gender-input').fadeOut(200);">Apply Only</a>
+                                        <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('Both');$('#gender').val(3);$('#gender-input').fadeOut(200);">Both</a>
+                                    </div>
+                                </div>
+                                <input style="display:none;" id="gender" name="gender" type="text" class="form-control" value="@if(!empty($extra_info['gender'])){{$extra_info['gender']}}@endif" aria-label="gender input box">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label for="location" class="bmd-label-floating">Is Public</label>
+                                <div class="switch">
+                                    <label>
+                                        Off
+                                        <input name="public" id="groupPublic" type="checkbox">
+                                        <span class="lever"></span> On
+                                    </label>
                                 </div>
                             </div>
-                            <input style="display:none;" id="gender" name="gender" type="text" class="form-control" value="@if(!empty($extra_info['gender'])){{$extra_info['gender']}}@endif" aria-label="gender input box">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="form-group">
-                            <label for="location" class="bmd-label-floating">Is Public</label>
-                            <div class="switch">
-                                <label>
-                                    Off
-                                    <input name="public" id="groupPublic" type="checkbox">
-                                    <span class="lever"></span> On
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <a href="#" class="btn btn-primary" id="submit" style="margin-top:30px">Submit</a>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="update-avatar-modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-alert" role="document">
-        <div class="modal-content sm-modal">
-            <div class="modal-header">
-                <h5 class="modal-title">Update your avatar</h5>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid text-center">
-                    <avatar-section>
-                        <img id="avatar-preview" src="" alt="avatar">
-                        {{-- src="{{$info["avatar"]}}" --}}
-                    </avatar-section>
-                    <br />
-                    <input type="file" style="display:none" id="avatar-file" accept=".jpg,.png,.jpeg,.gif">
-                    <label for="avatar-file" id="choose-avatar" class="btn btn-primary" role="button"><i class="MDI upload"></i> select local file</label>
                 </div>
-                <div id="avatar-error-tip" style="opacity:0" class="text-center">
-                    <small id="tip-text" class="text-danger font-weight-bold">PLEASE CHOOSE A LOCAL FILE</small>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="avatar-submit" type="button" class="btn btn-danger">Update</button>
-            </div>
-        </div>
-    </div>
+            </form>
+        </card-body>
+        <a href="#" class="btn btn-primary" id="submit" style="margin-top:30px">Submit</a>
+    </paper-card>
 </div>
 
 
