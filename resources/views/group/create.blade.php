@@ -123,9 +123,8 @@
                 <div class="row">
                     <div class="col-12 col-lg-4">
                         <focus-image>
-                            <img src="/static/img/group/default.png">
-                            {{-- <label for="avatar" style="color:grey">Group Avatar</label>
-                            <div class="avatar-div" id="avatar">Chose</div> --}}
+                            <img src="/static/img/group/default.png" onclick="$('#avatar-file').click();">
+                            <input type="file" style="display:none" id="avatar-file" accept=".jpg,.png,.jpeg,.gif">
                         </focus-image>
                     </div>
                     <div class="col-12 col-lg-8">
