@@ -208,6 +208,26 @@
         content: counter(pnumber);
     }
 
+    markdown-editor{
+        display: block;
+    }
+
+    markdown-editor .CodeMirror {
+        height: 20rem;
+    }
+
+    markdown-editor ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    markdown-editor ::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    markdown-editor .editor-toolbar.disabled-for-preview a:not(.no-disable){
+        opacity: 0.5;
+    }
+
 </style>
 <div class="container-fluid mundb-standard-container">
     <settings-card>
@@ -256,16 +276,16 @@
 
                         </div>
                         <div class="form-group">
-                            <label for="contestName" class="bmd-label-floating" style="top: 1rem; left: 0; font-size: .75rem;">Contest Name</label>
-                            <input type="text" class="form-control" id="contestName">
+                            <label for="contestName" style="top: 1rem; left: 0; font-size: .75rem;">Contest Name</label>
+                            <input type="text" class="form-control" id="contestName" autocomplete="off">
                         </div>
-                        <div class="form-group is-focused">
-                            <label for="contestBegin" class="bmd-label-floating">Contest Begin Time</label>
-                            <input type="text" class="form-control" id="contestBegin">
+                        <div class="form-group">
+                            <label for="contestBegin" style="top: 1rem; left: 0; font-size: .75rem;">Contest Begin Time</label>
+                            <input type="text" class="form-control" id="contestBegin" autocomplete="off">
                         </div>
-                        <div class="form-group is-focused">
-                            <label for="contestEnd" class="bmd-label-floating">Contest End Time</label>
-                            <input type="text" class="form-control" id="contestEnd">
+                        <div class="form-group">
+                            <label for="contestEnd" style="top: 1rem; left: 0; font-size: .75rem;">Contest End Time</label>
+                            <input type="text" class="form-control" id="contestEnd" autocomplete="off">
                         </div>
                         <p style="margin-top: 1rem;">Problems</p>
                         <table id="problems-table" class="table">
@@ -284,9 +304,10 @@
                             <button class="btn btn-info" onclick="$('#addProblemModal').modal({backdrop:'static'});"><i class="MDI plus"></i> Add Problem</button>
                         </div>
                         <p>Description</p>
-                        <div id="vscode_container" style="width:100%;height:50vh;">
-                            <div id="vscode" style="width:100%;height:100%;"></div>
-                        </div>
+                        <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
+                        <markdown-editor class="mt-3 mb-3">
+                            <textarea id="description_editor"></textarea>
+                        </markdown-editor>
                         <div class="text-right">
                             <button id="contest-update" type="button" class="btn btn-danger">update</button>
                         </div>
@@ -307,7 +328,7 @@
             </div>
             <div class="modal-body" style="max-height:60vh;overflow-y: auto" >
                 @foreach($member_list as $m)
-                    @if($m["role"]>0)
+                    @if($m["role"]>1)
                     <user-card id="assign-{{$m["uid"]}}">
                         <user-avatar>
                             <a href="/user/{{$m["uid"]}}"><img src="{{$m["avatar"]}}"></a>
@@ -351,7 +372,8 @@
 @section('additionJS')
     <script src="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
     <script src="/static/js/jquery-ui-sortable.min.js"></script>
-    <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
+    <script type="text/javascript" src="/static/library/simplemde/dist/simplemde.min.js"></script>
+    <script type="text/javascript" src="/static/library/marked/marked.min.js"></script>
     <script src="/static/js/parazoom.min.js"></script>
     <script>
         let ajaxing = false;
@@ -412,7 +434,7 @@
             var contestBegin = $("#contestBegin").val();
             var contestEnd = $("#contestEnd").val();
             var problemSet = "";
-            var contestDescription = editor.getValue();
+            var contestDescription = simplemde.value();
             $("#contestProblemSet td:first-of-type").each(function(){
                 problemSet+=""+$(this).text()+",";
             });
@@ -450,7 +472,6 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
                     if (ret.ret==200) {
                         alert(ret.desc);
                     } else {
@@ -496,11 +517,10 @@
             $('#contestName').val(contest.name);
             $('#contestBegin').val(contest.begin_time);
             $('#contestEnd').val(contest.end_time);
-            editor.setValue(contest.description);
+            simplemde.value(contest.description);
             $('#contestProblemSet').html('');
             for(let i in problems){
                 problem = problems[i];
-                console.log(problem);
                 $("#contestProblemSet").append(`
                     <tr>
                         <th scope="row"></th>
@@ -595,7 +615,6 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(result){
-                    console.log(result);
                     displayContestData(result.data);
                     ajaxing=false;
                 }, error: function(xhr, type){
@@ -607,6 +626,10 @@
         }
 
         $('contest-card').on('click',function(){
+            if(ajaxing){
+                alert('loading a contest info ,slow down!');
+                return;
+            }
             loadContestData($(this));
         });
 
@@ -629,36 +652,84 @@
             timepicker:true
         });
 
-        require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});
-
-        // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
-        // the default worker url location (used when creating WebWorkers). The problem here is that
-        // HTML5 does not allow cross-domain web workers, so we need to proxy the instantiation of
-        // a web worker through a same-domain script
-
-        window.MonacoEnvironment = {
-            getWorkerUrl: function(workerId, label) {
-                return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
-                self.MonacoEnvironment = {
-                    baseUrl: '{{env('APP_URL')}}/static/library/monaco-editor/min/'
-                };
-                importScripts('{{env('APP_URL')}}/static/library/monaco-editor/min/vs/base/worker/workerMain.js');`
-                )}`;
-            }
-        };
-
-        require(["vs/editor/editor.main"], function () {
-            editor = monaco.editor.create(document.getElementById('vscode'), {
-                value: "",
-                language: "markdown",
-                theme: "vs-light",
-                fontSize: 16,
-                formatOnPaste: true,
-                formatOnType: true,
-                automaticLayout: true,
-                lineNumbers: "off"
-            });
-            $("#vscode_container").css("opacity",1);
+        var simplemde = new SimpleMDE({
+            element: $("#description_editor")[0],
+            hideIcons: ["guide", "heading","side-by-side","fullscreen"],
+            spellChecker: false,
+            tabSize: 4,
+            renderingConfig: {
+                codeSyntaxHighlighting: true
+            },
+            previewRender: function (plainText) {
+                return marked(plainText, {
+                    sanitize: true,
+                    sanitizer: DOMPurify.sanitize,
+                    highlight: function (code) {
+                        return hljs.highlightAuto(code).value;
+                    }
+                });
+            },
+            status:false,
+            toolbar: [{
+                    name: "bold",
+                    action: SimpleMDE.toggleBold,
+                    className: "MDI format-bold",
+                    title: "Bold",
+                },
+                {
+                    name: "italic",
+                    action: SimpleMDE.toggleItalic,
+                    className: "MDI format-italic",
+                    title: "Italic",
+                },
+                "|",
+                {
+                    name: "quote",
+                    action: SimpleMDE.toggleBlockquote,
+                    className: "MDI format-quote",
+                    title: "Quote",
+                },
+                {
+                    name: "unordered-list",
+                    action: SimpleMDE.toggleUnorderedList,
+                    className: "MDI format-list-bulleted",
+                    title: "Generic List",
+                },
+                {
+                    name: "ordered-list",
+                    action: SimpleMDE.toggleOrderedList,
+                    className: "MDI format-list-numbers",
+                    title: "Numbered List",
+                },
+                "|",
+                {
+                    name: "code",
+                    action: SimpleMDE.toggleCodeBlock,
+                    className: "MDI code-tags",
+                    title: "Create Code",
+                },
+                {
+                    name: "link",
+                    action: SimpleMDE.drawLink,
+                    className: "MDI link-variant",
+                    title: "Insert Link",
+                },
+                {
+                    name: "image",
+                    action: SimpleMDE.drawImage,
+                    className: "MDI image-area",
+                    title: "Insert Image",
+                },
+                "|",
+                {
+                    name: "preview",
+                    action: SimpleMDE.togglePreview,
+                    className: "MDI eye no-disable",
+                    title: "Toggle Preview",
+                },
+            ],
         });
+
+        hljs.initHighlighting();
     </script>
 @endsection

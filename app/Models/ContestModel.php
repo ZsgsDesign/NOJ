@@ -1358,6 +1358,7 @@ class ContestModel extends Model
             $cid=DB::table($this->tableName)->insertGetId([
                 "gid"=>$gid,
                 "name"=>$config["name"],
+                "assign_uid"=>$config["assign_uid"],
                 "verified"=>0, //todo
                 "rated"=>0,
                 "anticheated"=>0,

@@ -105,7 +105,6 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('judgeStatus', 'ProblemController@judgeStatus')->middleware('auth');
     Route::post('manualJudge', 'ProblemController@manualJudge')->middleware('auth');
     Route::post('submitHistory', 'ProblemController@submitHistory')->middleware('auth');
-    Route::get('crawler', 'ProblemController@crawler')->middleware('auth');
     Route::post('problemExists', 'ProblemController@problemExists')->middleware('auth');
     Route::post('arrangeContest', 'GroupController@arrangeContest')->middleware('auth');
     Route::post('joinGroup', 'GroupController@joinGroup')->middleware('auth');

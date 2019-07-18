@@ -17,9 +17,9 @@ class GroupModel extends Model
 
     /*
         join_policy:
-            1:ֻ��ͨ���������
-            2:ֻ��ͨ���������
-            3:������������ɼ���
+            1:ֻ��ͨ���������?
+            2:ֻ��ͨ���������?
+            3:������������ɼ���?
     */
     public $role=[
         "-3"=>"None",
@@ -301,11 +301,11 @@ class GroupModel extends Model
 
     public function judgeEmailClearance($gid, $email)
     {
-        $uid=DB::table("users")->where(["email"=>$email])->first();
-        if(empty($uid)) return -4;
+        $user=DB::table("users")->where(["email"=>$email])->first();
+        if(empty($user)) return -4;
         $ret=DB::table("group_member")->where([
             "gid"=>$gid,
-            "uid"=>$uid["id"],
+            "uid"=>$user["id"],
         ])->first();
         return empty($ret) ? -3 : $ret["role"];
     }
@@ -355,6 +355,16 @@ class GroupModel extends Model
             "role"=>3,
             "join_time"=>date("Y-m-d H:i:s")
         ]);
+    }
+
+    public function detailNotice($gcode)
+    {
+        $group=DB::table("group")->where([
+            "gcode"=>$gcode,
+        ])->first();
+        return $group_notice=DB::table("group_notice")->where([
+            "gid"=>$group["gid"],
+        ])->first();
     }
 
     public function createNotice($gid, $uid, $title, $content)

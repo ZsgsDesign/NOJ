@@ -19,6 +19,7 @@ class Synchronizer
         try {
             $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$oj/babel.json")), true);
             $synchronizerProvider=$BabelConfig["provider"]["synchronizer"];
+        } catch(ErrorException $e) {
         } catch(Exception $e) {
         }
         $className = "App\\Babel\\Extension\\$oj\\$synchronizerProvider";

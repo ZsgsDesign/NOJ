@@ -434,6 +434,26 @@
         cursor: pointer;
     }
 
+    markdown-editor{
+        display: block;
+    }
+
+    markdown-editor .CodeMirror {
+        height: 20rem;
+    }
+
+    markdown-editor ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    markdown-editor ::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    markdown-editor .editor-toolbar.disabled-for-preview a:not(.no-disable){
+        opacity: 0.5;
+    }
+
     /*
     .xdsoft_datetimepicker .xdsoft_next,
     .xdsoft_datetimepicker .xdsoft_prev{
@@ -844,15 +864,15 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="contestName" class="bmd-label-floating">Contest Name</label>
-                            <input type="text" class="form-control" id="contestName">
+                            <input type="text" class="form-control" id="contestName" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="contestBegin" class="bmd-label-floating">Contest Begin Time</label>
-                            <input type="text" class="form-control" id="contestBegin">
+                            <input type="text" class="form-control" id="contestBegin" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="contestEnd" class="bmd-label-floating">Contest End Time</label>
-                            <input type="text" class="form-control" id="contestEnd">
+                            <input type="text" class="form-control" id="contestEnd" autocomplete="off">
                         </div>
                         <div class="switch">
                             <label>
@@ -884,9 +904,10 @@
                     </div>
                     <div class="col-md-8">
                         <p>Description</p>
-                        <div id="vscode_container" style="width:100%;height:50vh;">
-                            <div id="vscode" style="width:100%;height:100%;"></div>
-                        </div>
+                        <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
+                        <markdown-editor class="mt-3 mb-3">
+                            <textarea id="description_editor"></textarea>
+                        </markdown-editor>
                     </div>
                 </div>
 
@@ -996,7 +1017,8 @@
 @section('additionJS')
     <script src="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
     <script src="/static/js/jquery-ui-sortable.min.js"></script>
-    <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
+    <script type="text/javascript" src="/static/library/simplemde/dist/simplemde.min.js"></script>
+    <script type="text/javascript" src="/static/library/marked/marked.min.js"></script>
     <script src="/static/js/parazoom.min.js"></script>
     <script>
         function sortableInit(){
@@ -1359,7 +1381,7 @@
             var contestEnd = $("#contestEnd").val();
             var practiceContest = $("#switch-practice").prop("checked") == true ? 1 : 0;
             var problemSet = "";
-            var contestDescription = editor.getValue();
+            var contestDescription = simplemde.value();
             $("#contestProblemSet td:first-of-type").each(function(){
                 problemSet+=""+$(this).text()+",";
             });
@@ -1569,36 +1591,85 @@
             },
             timepicker:true
         });
-        require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});
 
-        // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
-        // the default worker url location (used when creating WebWorkers). The problem here is that
-        // HTML5 does not allow cross-domain web workers, so we need to proxy the instantiation of
-        // a web worker through a same-domain script
-
-        window.MonacoEnvironment = {
-            getWorkerUrl: function(workerId, label) {
-                return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
-                self.MonacoEnvironment = {
-                    baseUrl: '{{env('APP_URL')}}/static/library/monaco-editor/min/'
-                };
-                importScripts('{{env('APP_URL')}}/static/library/monaco-editor/min/vs/base/worker/workerMain.js');`
-                )}`;
-            }
-        };
-
-        require(["vs/editor/editor.main"], function () {
-            editor = monaco.editor.create(document.getElementById('vscode'), {
-                value: "",
-                language: "markdown",
-                theme: "vs-light",
-                fontSize: 16,
-                formatOnPaste: true,
-                formatOnType: true,
-                automaticLayout: true,
-                lineNumbers: "off"
-            });
-            $("#vscode_container").css("opacity",1);
+        var simplemde = new SimpleMDE({
+            element: $("#description_editor")[0],
+            hideIcons: ["guide", "heading","side-by-side","fullscreen"],
+            spellChecker: false,
+            tabSize: 4,
+            renderingConfig: {
+                codeSyntaxHighlighting: true
+            },
+            previewRender: function (plainText) {
+                return marked(plainText, {
+                    sanitize: true,
+                    sanitizer: DOMPurify.sanitize,
+                    highlight: function (code) {
+                        return hljs.highlightAuto(code).value;
+                    }
+                });
+            },
+            status:false,
+            toolbar: [{
+                    name: "bold",
+                    action: SimpleMDE.toggleBold,
+                    className: "MDI format-bold",
+                    title: "Bold",
+                },
+                {
+                    name: "italic",
+                    action: SimpleMDE.toggleItalic,
+                    className: "MDI format-italic",
+                    title: "Italic",
+                },
+                "|",
+                {
+                    name: "quote",
+                    action: SimpleMDE.toggleBlockquote,
+                    className: "MDI format-quote",
+                    title: "Quote",
+                },
+                {
+                    name: "unordered-list",
+                    action: SimpleMDE.toggleUnorderedList,
+                    className: "MDI format-list-bulleted",
+                    title: "Generic List",
+                },
+                {
+                    name: "ordered-list",
+                    action: SimpleMDE.toggleOrderedList,
+                    className: "MDI format-list-numbers",
+                    title: "Numbered List",
+                },
+                "|",
+                {
+                    name: "code",
+                    action: SimpleMDE.toggleCodeBlock,
+                    className: "MDI code-tags",
+                    title: "Create Code",
+                },
+                {
+                    name: "link",
+                    action: SimpleMDE.drawLink,
+                    className: "MDI link-variant",
+                    title: "Insert Link",
+                },
+                {
+                    name: "image",
+                    action: SimpleMDE.drawImage,
+                    className: "MDI image-area",
+                    title: "Insert Image",
+                },
+                "|",
+                {
+                    name: "preview",
+                    action: SimpleMDE.togglePreview,
+                    className: "MDI eye no-disable",
+                    title: "Toggle Preview",
+                },
+            ],
         });
+
+        hljs.initHighlighting();
     </script>
 @endsection
