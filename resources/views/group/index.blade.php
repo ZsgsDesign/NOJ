@@ -71,7 +71,7 @@
         margin-bottom: 0;
     }
 
-    .cm-tending,
+    .cm-trending,
     .cm-mine-group{
         color:rgba(0,0,0,0.54);
         margin-bottom: 1.5rem;
@@ -84,11 +84,12 @@
 
 </style>
 <div class="container mundb-standard-container">
+    @unless(is_null($trending))
     <div>
-        <p class="cm-tending"><i class="MDI fire wemd-red-text"></i> Tending Groups</p>
+        <p class="cm-trending"><i class="MDI fire wemd-red-text"></i> Trending Groups</p>
     </div>
     <div class="row">
-        @foreach ($tending as $t)
+        @foreach ($trending as $t)
             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                 <a href="/group/{{$t['gcode']}}">
                     <group-card>
@@ -109,6 +110,7 @@
             </div>
         @endforeach
     </div>
+    @endunless
     @if(Auth::check())
     <div>
         <p class="cm-mine-group">My Groups</p>
