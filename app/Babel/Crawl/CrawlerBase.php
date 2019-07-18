@@ -45,6 +45,34 @@ class CrawlerBase
     {
     }
 
+    protected function _resetPro()
+    {
+        $this->pro=[
+            'file'=> 0,
+            'pcode'=>'',
+            'solved_count'=>'',
+            'time_limit'=>'',
+            'memory_limit'=>'',
+            'title'=>'',
+            'OJ'=>'',
+            'description'=>'',
+            'input'=>'',
+            'output'=>'',
+            'note'=>'',
+            'input_type'=>'',
+            'output_type'=>'',
+            'contest_id'=>'',
+            'index_id'=>'',
+            'origin'=>'',
+            'source'=>'',
+            'sample'=>[],
+            'markdown'=>0,
+            'tot_score'=>1,
+            'partial'=>0,
+            'special_compiler'=>null,
+        ];
+    }
+
     protected function importCommandLine($command){
         $this->command=$command;
     }
