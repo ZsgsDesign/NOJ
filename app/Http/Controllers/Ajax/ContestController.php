@@ -305,6 +305,10 @@ class ContestController extends Controller
 
         $groupModel=new GroupModel();
         $contestModel=new ContestModel();
+        $verified=$contestModel->isVerified($all_data["cid"]);
+        if(!$verified){
+            return ResponseModel::err(2001);
+        }
         $gid=$contestModel->gid($all_data["cid"]);
         $clearance=$groupModel->judgeClearance($gid, Auth::user()->id);
         if ($clearance<3) {

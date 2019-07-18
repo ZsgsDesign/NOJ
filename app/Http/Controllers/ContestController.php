@@ -339,6 +339,7 @@ class ContestController extends Controller
     public function admin($cid)
     {
         $contestModel=new ContestModel();
+        $verified=$contestModel->isVerified($cid);
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if ($clearance <= 2) {
             return Redirect::route('contest_detail', ['cid' => $cid]);
@@ -355,7 +356,8 @@ class ContestController extends Controller
             'cid'=>$cid,
             'custom_info' => $customInfo,
             'clearance'=> $clearance,
-            'contest_accounts'=>$contest_accounts
+            'contest_accounts'=>$contest_accounts,
+            'verified'=>$verified
         ]);
     }
 

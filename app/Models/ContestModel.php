@@ -109,7 +109,7 @@ class ContestModel extends Model
         ])->first()["gid"];
     }
 
-    public function runningContest() 
+    public function runningContest()
     {
         return DB::select("select * from contest where begin_time < SYSDATE() and end_time > SYSDATE() and vcid != null");
     }
@@ -1730,5 +1730,10 @@ class ContestModel extends Model
         $contestRankJson = DB::table('contest')->where('cid','=',$cid)->pluck('rank')->first();
         $data = json_decode($contestRankJson, true);
         return $data;
+    }
+
+    public function isVerified($cid)
+    {
+        return DB::table('contest')->where('cid','=',$cid)->pluck('verified')->first();
     }
 }
