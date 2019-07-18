@@ -44,6 +44,11 @@ class GroupModel extends Model
         return Cache::tags(['group'])->get('trending');
     }
 
+    public function gid($gcode)
+    {
+        return DB::table($this->tableName)->where(["gcode"=>$gcode])->first()["gid"];
+    }
+
     public function cacheTrendingGroups()
     {
         $trending_groups=DB::table($this->tableName)->where(["public"=>1])->orderBy('create_time', 'desc')->select("gid", "gcode", "img", "name", "verified")->get()->all();
