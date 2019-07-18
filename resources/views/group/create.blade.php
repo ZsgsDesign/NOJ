@@ -129,50 +129,48 @@
                     </div>
                     <div class="col-12 col-lg-8">
                         <div class="form-group">
-                            <label for="contact" class="bmd-label-floating">Group Name</label>
-                            <input id="groupName" type="text" name="name" class="form-control" id="contact" autocomplete="off" />
+                            <label for="groupName" class="bmd-label-floating">Group Name</label>
+                            <input id="groupName" type="text" name="name" class="form-control" autocomplete="off" />
                         </div>
                         <div class="form-group">
-                            <label for="school" class="bmd-label-floating">Short Code</label>
-                            <input id="groupSite" type="text" name="gcode" class="form-control"  id="school" autocomplete="off" />
+                            <label for="groupSite" class="bmd-label-floating">Short Code</label>
+                            <input id="groupSite" type="text" name="gcode" class="form-control"  autocomplete="off" />
                         </div>
                         <div class="form-group">
-                            <label for="location" class="bmd-label-floating">Group Description</label>
-                            <input id="groupDescription" type="text" name="description" class="form-control"  id="location" autocomplete="off" />
+                            <label for="groupDescription" class="bmd-label-floating">Group Description</label>
+                            <input id="groupDescription" type="text" name="description" class="form-control"  autocomplete="off" />
                         </div>
                         <div class="form-group">
                             <label for="location" class="bmd-label-floating">Join Policy</label>
                             <div class="input-group text-center" style="display: flex;justify-content: center; align-items: center;">
                                 <div class="input-group-prepend">
-                                    <button id="gender-btn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button id="join-policy" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Default
                                     </button>
                                     <div class="dropdown-menu" style="font-size: .75rem">
-                                        <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('Invite Only');$('#gender').val(1);$('#gender-input').fadeOut(200);">Invite Only</a>
-                                        <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('Apply Only');$('#gender').val(2);$('#gender-input').fadeOut(200);">Apply Only</a>
-                                        <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('Both');$('#gender').val(3);$('#gender-input').fadeOut(200);">Both</a>
+                                        <a class="dropdown-item gender-select" onclick="$('#join-policy').text('Invite Only');$('#policy').val(1);$('#join-policy').fadeIn(200);">Invite Only</a>
+                                        <a class="dropdown-item gender-select" onclick="$('#join-policy').text('Apply Only');$('#policy').val(2);$('#join-policy').fadeIn(200);">Apply Only</a>
+                                        <a class="dropdown-item gender-select" onclick="$('#join-policy').text('Both');$('#policy').val(3);$('#join-policy').fadeIn(200);">Both</a>
                                     </div>
                                 </div>
-                                <input style="display:none;" id="gender" name="gender" type="text" class="form-control" value="@if(!empty($extra_info['gender'])){{$extra_info['gender']}}@endif" aria-label="gender input box">
+                                <input style="display:none;" id="policy" name="policy" type="text" class="form-control" value="0" aria-label="gender input box">
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="form-group">
-                                <label for="location" class="bmd-label-floating">Is Public</label>
-                                <div class="switch">
-                                    <label>
-                                        Off
-                                        <input name="public" id="groupPublic" type="checkbox">
-                                        <span class="lever"></span> On
-                                    </label>
-                                </div>
+                            <div class="switch">
+                                <label>
+                                    <input name="public" id="groupPublic" type="checkbox">Public
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
         </card-body>
-        <a href="#" class="btn btn-primary" id="submit" style="margin-top:30px">Submit</a>
+        <div class="text-right">
+            <button type="button" id="submit" class="btn btn-danger" style="margin-top:30px">Create</button>
+        </div>
+
     </paper-card>
 </div>
 
@@ -185,7 +183,7 @@ window.addEventListener('load',function(){
         const img = document.querySelector('#avatar-file').files[0];
         const Public = document.querySelector('#groupPublic').checked === true ? 1 : 2;
         const description = document.querySelector("#groupDescription").value;
-        const joinPolicy = document.querySelector("#gender").value;
+        const joinPolicy = document.querySelector("#policy").value;
         const data = new FormData();
         if(name.length < 3 || name.length > 50 || gcode.length < 3 || gcode.length > 50 || description > 100){
             alert(`
