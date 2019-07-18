@@ -16,12 +16,6 @@ class GroupModel extends Model
     const UPDATED_AT=null;
     const CREATED_AT=null;
 
-    /*
-        join_policy:
-            1:Ö»ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?
-            2:Ö»ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?
-            3:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¼ï¿½ï¿½ï¿?
-    */
     public $role=[
         "-3"=>"None",
         "-1"=>"Invited",
