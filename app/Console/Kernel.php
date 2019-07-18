@@ -42,16 +42,16 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $rankModel=new RankModel();
             $rankModel->rankList();
-        })->daily()->description("Update Rank");
+        })->dailyAt('02:00')->description("Update Rank");
 
         $schedule->call(function () {
             $siteMapModel=new SiteMapModel();
-        })->daily()->description("Update SiteMap");
+        })->dailyAt('02:00')->description("Update SiteMap");
 
         $schedule->call(function () {
             $groupModel=new GroupModel();
             $groupModel->cacheTrendingGroups();
-        })->dailyAt('04:00')->description("Update Trending Groups");
+        })->dailyAt('03:00')->description("Update Trending Groups");
 
         $schedule->call(function() {
             $contestModel = new ContestModel();
@@ -84,7 +84,7 @@ class Kernel extends ConsoleKernel
         }
 
         if (!env("APP_DEBUG")) {
-            $schedule->command('backup:run --only-db')->daily()->description("BackUp DataBase");
+            $schedule->command('backup:run --only-db')->dailyAt('00:30')->description("BackUp DataBase");
         }
     }
 
