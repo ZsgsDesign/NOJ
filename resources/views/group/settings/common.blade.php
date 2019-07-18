@@ -147,7 +147,7 @@
                 <menu-item type="item" data-name="contest"> <i class="MDI trophy-variant"></i> Contest Management </menu-item>
                 <menu-item type="item" data-name="analysis"> <i class="MDI chart-line"></i> Practice Analysis </menu-item>
                 <menu-item type="separate"></menu-item>
-                <menu-item type="item" data-name="danger"> <i class="MDI vector-curve"></i> Danger Field </menu-item>
+                <menu-item type="item" data-name="danger"> <i class="MDI alert-circle"></i> Danger Field </menu-item>
             </left-side>
             <script>
                 let selectedTab=document.querySelector(`menu-item[type="item"][data-name="{{$selectedTab}}"]`);

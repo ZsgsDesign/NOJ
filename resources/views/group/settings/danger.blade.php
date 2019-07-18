@@ -157,12 +157,12 @@
         <div class="paper-card" role="document">
             <div class="modal-content sm-modal" style="width: 80%">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="MDI settings"></i>Danger Group Settings</h5>
+                    <h5 class="modal-title"><i class="MDI alert-circle-outline"></i> Danger Zone</h5>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm">
-                            Empty
+                            Noting here.
                         </div>
                     </div>
                 </div>
