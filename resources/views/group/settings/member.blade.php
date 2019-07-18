@@ -236,7 +236,7 @@
                 },
             ],
         });
-        simplemde.value('{{$group_notice["content"]}}')
+        simplemde.value(`{{$group_notice["content"]}}`);
 
         hljs.initHighlighting();
 

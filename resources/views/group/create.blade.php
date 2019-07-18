@@ -185,10 +185,10 @@ window.addEventListener('load',function(){
         const description = document.querySelector("#groupDescription").value;
         const joinPolicy = document.querySelector("#policy").value;
         const data = new FormData();
-        if(name.length < 3 || name.length > 50 || gcode.length < 3 || gcode.length > 50 || description > 100){
+        if(name.length < 3 || name.length > 50 || gcode.length < 3 || gcode.length > 50 || description > 60000){
             alert(`
             The length of the name and short code should be less than 50 and greater than 3 <br />
-            The description length should be less than 100
+            The description length should be less than 60000
             `);
             return;
         }

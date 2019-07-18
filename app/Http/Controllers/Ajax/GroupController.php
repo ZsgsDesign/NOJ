@@ -316,7 +316,7 @@ class GroupController extends Controller
             'gcode' => 'required|alpha_dash|min:3|max:50',
             'name' => 'required|min:3|max:50',
             'public' => 'required|integer|min:1|max:2',
-            'description' => 'nullable|max:100',
+            'description' => 'nullable|max:60000',
             'join_policy'  => 'required|integer|min:1|max:3'
         ]);
 
@@ -348,7 +348,7 @@ class GroupController extends Controller
         $request->validate([
             'gid' => 'required|integer',
             'title' => 'required|min:3|max:50',
-            'content' => 'required|min:3|max:100',
+            'content' => 'required|min:3|max:60000',
         ]);
 
         $all_data=$request->all();
