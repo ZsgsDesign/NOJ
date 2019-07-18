@@ -1732,4 +1732,9 @@ class ContestModel extends Model
         $data = json_decode($contestRankJson, true);
         return $data;
     }
+
+    public function isVerified($cid)
+    {
+        return DB::table('contest')->where('cid','=',$cid)->pluck('verified')->first();
+    }
 }
