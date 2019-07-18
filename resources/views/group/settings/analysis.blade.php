@@ -119,10 +119,14 @@
     .nav-tabs .nav-link.active {
         border-color: #bbc2ca;
     }
+
+    #panels{
+        padding-top: 2rem;
+    }
 </style>
 <settings-card>
     <settings-header>
-        <h5>Group Member Practice Contest Analysis</h5>
+        <h5><i class="MDI chart-line"></i> Practice Contest Analysis</h5>
     </settings-header>
     <settings-body>
         <nav id="mode-list" class="nav nav-tabs nav-stacked">
