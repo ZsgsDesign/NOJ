@@ -215,9 +215,7 @@ class InstallerBase
     protected function applyCustom($ocode, $cssPath)
     {
         $storePath=base_path("public/static/css/oj/");
-        if(is_dir($storePath)) {
-            $this->delFile($storePath);
-        }else{
+        if(!is_dir($storePath)) {
             mkdir($storePath);
         }
         if (is_null($cssPath)) {
