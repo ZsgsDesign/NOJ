@@ -32,7 +32,7 @@ class ContestController extends Controller
             return ResponseModel::err(2001);
         }
 
-        if(!$groupModel->isMember($contest_info['gid'],$uid)){
+        if($groupModel->judgeClearance($contest_info['gid'],$uid) < 2){
             return ResponseModel::err(7004);
         }
 
