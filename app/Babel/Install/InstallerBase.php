@@ -116,6 +116,21 @@ class InstallerBase
             }
         }
 
+        // import css
+        try {
+            if (isset($babelConfig["custom"]["css"]) && !is_null($babelConfig["custom"]["css"]) && trim($babelConfig["custom"]["css"])!="") {
+                $cssPath=babel_path("Extension/$ocode/".$babelConfig["custom"]["css"]);
+            }else{
+                $cssPath=null;
+            }
+            $this->applyCustom($ocode, $cssPath);
+        }catch(Exception $e){
+            DB::rollback();
+            $this->command->line("\n  <bg=red;fg=white> Unable to add an custom css for this extension, aborting. </>\n");
+            return;
+        }
+
+
         // import icon
         try{
             $imgPath=babel_path("Extension/$ocode/".$babelConfig["icon"]);
@@ -195,6 +210,21 @@ class InstallerBase
         }
         file_put_contents($storePath.basename($imgPath),file_get_contents($imgPath));
         return "/static/img/oj/$ocode/".basename($imgPath);
+    }
+
+    protected function applyCustom($ocode, $cssPath)
+    {
+        $storePath=base_path("public/static/css/oj/");
+        if(is_dir($storePath)) {
+            $this->delFile($storePath);
+        }else{
+            mkdir($storePath);
+        }
+        if (is_null($cssPath)) {
+            file_put_contents($storePath."$ocode.css", "\/*Silence is Golden*\/");
+        }else {
+            file_put_contents($storePath."$ocode.css", file_get_contents($cssPath));
+        }
     }
 
     private function delFile($dirName){
