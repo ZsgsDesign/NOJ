@@ -119,7 +119,7 @@
         margin-bottom: 0;
     }
 
-    .cm-tending,
+    .cm-trending,
     .cm-mine-group{
         color:rgba(0,0,0,0.54);
         margin-bottom: 1.5rem;
@@ -237,7 +237,7 @@
     <div class="row">
         <div class="col-sm-12 col-md-8">
             <paper-card class="animated bounceInRight p-0" type="none">
-                <p class="cm-tending mb-3"><i class="MDI filter"></i> Filter</p>
+                <p class="cm-trending mb-3"><i class="MDI filter"></i> Filter</p>
                 <div>
                     <span class="badge badge-rule @if($filter['rule']==1) selected @endif" onclick="applyFilter('rule',this)" data-rule="1"><i class="MDI trophy"></i> ICPC</span>
                     <span class="badge badge-rule @if($filter['rule']==2) selected @endif" onclick="applyFilter('rule',this)" data-rule="2"><i class="MDI trophy"></i> OI</span>
@@ -287,7 +287,7 @@
         </div>
         <div class="col-sm-12 col-md-4">
             <div class="animated jackInTheBox">
-                <p class="cm-tending"><i class="MDI star wemd-amber-text"></i> Featured Contest</p>
+                <p class="cm-trending"><i class="MDI star wemd-amber-text"></i> Featured Contest</p>
                     <paper-card style="text-align:center;">
                         @if(!is_null($featured))
                             <h5 class="sm-contest-title">{{$featured['name']}}</h5>

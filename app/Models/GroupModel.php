@@ -38,13 +38,13 @@ class GroupModel extends Model
         "3"=>"wemd-amber"
     ];
 
-    public function tendingGroups()
+    public function trendingGroups()
     {
-        $tending_groups=DB::table($this->tableName)->where(["public"=>1])->orderBy('create_time', 'desc')->select("gid", "gcode", "img", "name", "verified")->limit(12)->get()->all(); //Fake Tending
-        foreach ($tending_groups as &$t) {
+        $trending_groups=DB::table($this->tableName)->where(["public"=>1])->orderBy('create_time', 'desc')->select("gid", "gcode", "img", "name", "verified")->limit(12)->get()->all(); //Fake Trending
+        foreach ($trending_groups as &$t) {
             $t["members"]=$this->countGroupMembers($t["gid"]);
         }
-        return $tending_groups;
+        return $trending_groups;
     }
 
     public function userGroups($uid)
