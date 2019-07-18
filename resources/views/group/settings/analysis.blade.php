@@ -109,6 +109,16 @@
     .contest-rank{
         cursor: pointer;
     }
+
+    .analysis-toolbar{
+        justify-content: space-between;
+        display: flex;
+        padding-top: 2rem;
+    }
+
+    .nav-tabs .nav-link.active {
+        border-color: #bbc2ca;
+    }
 </style>
 <settings-card>
     <settings-header>
@@ -120,16 +130,20 @@
             <a id="tab-tag" class="nav-link" href="#">Tags</a>
             <a class="nav-link disabled" href="#">Developing...</a>
         </nav>
-        <div class="switch text-right">
-            <a id="analysis-download" class="btn btn-primary" href="#" role="button">download .xlsx</a>
-            <label>
-                <input id="switch-percent" type="checkbox">
-                Show By Percent
-            </label>&nbsp;&nbsp;&nbsp;&nbsp;
-            <label>
-                <input id="switch-max" type="checkbox">
-                Hide Maximum
-            </label>
+        <div class="analysis-toolbar">
+            <button id="analysis-download" class="btn btn-outline-primary m-0"><i class="MDI download"></i> download as excel</button>
+            <span class="bmd-form-group pt-2">
+                <div class="switch">
+                    <label>
+                        <input id="switch-percent" type="checkbox">
+                        Show By Percent
+                    </label>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label>
+                        <input id="switch-max" type="checkbox">
+                        Hide Maximum
+                    </label>
+                </div>
+            </span>
         </div>
         <div id="panels">
             <div id="contest-panel"  style="display: none">
