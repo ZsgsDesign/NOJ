@@ -6,6 +6,7 @@ use App\Models\ContestModel;
 use App\Models\GroupModel;
 use App\Models\ResponseModel;
 use App\Models\UserModel;
+use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Jobs\ProcessSubmission;
@@ -231,7 +232,7 @@ class ContestController extends Controller
         $contestModel->contestUpdate($cid,$all_data,$problemSet);
         return ResponseModel::success(200,$tips);
     }
-  
+
     public function issueAnnouncement(Request $request){
         $request->validate([
             'cid' => 'required|integer',
