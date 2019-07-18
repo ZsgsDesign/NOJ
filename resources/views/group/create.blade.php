@@ -193,12 +193,7 @@ window.addEventListener('load',function(){
             return;
         }
 
-        if(img == undefined){
-            alert('Please select a image');
-            return;
-        }
-
-        if(img.size/1024 > 1024){
+        if(img&&img.size/1024 > 1024){
             $('#tip-text').text('The selected img id too large');
             return;
         }
