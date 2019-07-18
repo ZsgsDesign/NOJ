@@ -864,15 +864,15 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="contestName" class="bmd-label-floating">Contest Name</label>
-                            <input type="text" class="form-control" id="contestName">
+                            <input type="text" class="form-control" id="contestName" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="contestBegin" class="bmd-label-floating">Contest Begin Time</label>
-                            <input type="text" class="form-control" id="contestBegin">
+                            <input type="text" class="form-control" id="contestBegin" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="contestEnd" class="bmd-label-floating">Contest End Time</label>
-                            <input type="text" class="form-control" id="contestEnd">
+                            <input type="text" class="form-control" id="contestEnd" autocomplete="off">
                         </div>
                         <div class="switch">
                             <label>

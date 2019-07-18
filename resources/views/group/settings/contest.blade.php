@@ -277,15 +277,15 @@
                         </div>
                         <div class="form-group">
                             <label for="contestName" style="top: 1rem; left: 0; font-size: .75rem;">Contest Name</label>
-                            <input type="text" class="form-control" id="contestName">
+                            <input type="text" class="form-control" id="contestName" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="contestBegin" style="top: 1rem; left: 0; font-size: .75rem;">Contest Begin Time</label>
-                            <input type="text" class="form-control" id="contestBegin">
+                            <input type="text" class="form-control" id="contestBegin" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="contestEnd" style="top: 1rem; left: 0; font-size: .75rem;">Contest End Time</label>
-                            <input type="text" class="form-control" id="contestEnd">
+                            <input type="text" class="form-control" id="contestEnd" autocomplete="off">
                         </div>
                         <p style="margin-top: 1rem;">Problems</p>
                         <table id="problems-table" class="table">
