@@ -1,0 +1,13 @@
+fresh-container *:not(pre) code::before, fresh-container *:not(pre) code::after {
+    letter-spacing: -0.2em;
+    content: "\00a0";
+}
+
+fresh-container *:not(pre) code{
+    font-family: Menlo,Monaco,Consolas,'Courier New',monospace;
+    font-size: .85em !important;
+    color: #000;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    padding: .2em 0;
+}

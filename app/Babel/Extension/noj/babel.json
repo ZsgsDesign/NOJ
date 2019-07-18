@@ -8,6 +8,9 @@
     "repository":"https://github.com/ZsgsDesign/NOJ",
     "version":"__cur__",
     "website":"/",
+    "custom":{
+        "css":"resources/custom.css"
+    },
     "provider":{
         "submitter":"Submitter",
         "installer":"Installer"
