@@ -123,7 +123,7 @@
                 <div class="row">
                     <div class="col-12 col-lg-4">
                         <focus-image style="cursor: pointer">
-                            <img id="avatar-preview" src="/static/img/group/create.jpg" onclick="$('#avatar-file').click();">
+                            <img id="avatar-preview" src="/static/img/group/create.png" onclick="$('#avatar-file').click();">
                             <input type="file" style="display:none" id="avatar-file" accept=".jpg,.png,.jpeg,.gif">
                         </focus-image>
                     </div>

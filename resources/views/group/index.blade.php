@@ -139,7 +139,7 @@
                 <group-card style="border-style: dashed;">
                     <div>
                         <shadow-div>
-                            <img src="/static/img/group/create.jpg">
+                            <img src="/static/img/group/create.png">
                         </shadow-div>
                     </div>
                     <div>
