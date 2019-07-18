@@ -17,7 +17,7 @@ class Crawler
     public function __construct($conf, $commandLineObject=null)
     {
         $crawler=self::create($conf, $commandLineObject);
-        if (!is_null($crawler) && isset($crawler)) $this->data=$crawler->data;
+        if (!is_null($crawler) && isset($crawler)) $crawler->start($conf);
     }
 
     public static function create($conf, $commandLineObject=null) {
@@ -30,7 +30,9 @@ class Crawler
         }
         $className = "App\\Babel\\Extension\\$name\\$crawlerProvider";
         if(class_exists($className)) {
-            return new $className($conf, $commandLineObject);
+            $temp=new $className();
+            $temp->importCommandLine($commandLineObject);
+            return $temp;
         } else {
             return null;
         }

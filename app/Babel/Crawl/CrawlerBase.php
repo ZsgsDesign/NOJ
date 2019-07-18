@@ -34,7 +34,7 @@ class CrawlerBase
     ];
 
     public $data=null;
-    protected $command=null;
+    public $command=null;
 
     /**
      * Initial
@@ -73,8 +73,8 @@ class CrawlerBase
         ];
     }
 
-    protected function importCommandLine($command){
-        $this->command=$command;
+    public function importCommandLine($commandTemp){
+        $this->command=$commandTemp;
     }
 
     public static function cmp($a, $b)

@@ -58,6 +58,7 @@ class Update extends Command
         try {
             $this->call("babel:require", ['extension' => $extension, '--exception' => true]);
             $output->fetch();
+            $this->delDir(babel_path("Tmp/backup/$extension/"));
             $this->line("Updated <fg=green>$extension</>");
         } catch(Exception $e) {
             $this->line($e);
