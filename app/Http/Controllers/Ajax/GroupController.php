@@ -322,23 +322,23 @@ class GroupController extends Controller
 
         $all_data=$request->all();
 
-        if (!empty($request->file('img')) && $request->file('img')->isValid()) {
-            $extension=$request->file('img')->extension();
-        } else {
-            return ResponseModel::err(1005);
-        }
-
-        $allow_extension=['jpg', 'png', 'jpeg', 'gif', 'bmp'];
-
         $groupModel=new GroupModel();
         if($all_data["gcode"]=="create") return ResponseModel::err(7005);
         $is_group=$groupModel->isGroup($all_data["gcode"]);
         if($is_group) return ResponseModel::err(7006);
-        if (!in_array($extension, $allow_extension)) {
-            return ResponseModel::err(1005);
+
+        $allow_extension=['jpg', 'png', 'jpeg', 'gif', 'bmp'];
+        if (!empty($request->file('img')) && $request->file('img')->isValid()) {
+            $extension=$request->file('img')->extension();
+            if (!in_array($extension, $allow_extension)) {
+                return ResponseModel::err(1005);
+            }
+            $path=$request->file('img')->store('/static/img/group', 'NOJPublic');
+        } else {
+            $path="static/img/group/default.png";
         }
-        $path=$request->file('img')->store('/static/img/group', 'NOJPublic');
         $img='/'.$path;
+        
         $groupModel->createGroup(Auth::user()->id, $all_data["gcode"], $img, $all_data["name"], $all_data["public"], $all_data["description"], $all_data["join_policy"]);
         return ResponseModel::success(200);
     }
