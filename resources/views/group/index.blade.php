@@ -84,6 +84,7 @@
 
 </style>
 <div class="container mundb-standard-container">
+    @unless(is_null($trending))
     <div>
         <p class="cm-trending"><i class="MDI fire wemd-red-text"></i> Trending Groups</p>
     </div>
@@ -109,6 +110,7 @@
             </div>
         @endforeach
     </div>
+    @endunless
     @if(Auth::check())
     <div>
         <p class="cm-mine-group">My Groups</p>

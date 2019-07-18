@@ -8,6 +8,7 @@ use App\Babel\Extension\hdu;
 use App\Models\RankModel;
 use App\Models\SiteMapModel;
 use App\Models\ContestModel;
+use App\Models\GroupModel;
 use App\Models\JudgerModel;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -45,6 +46,11 @@ class Kernel extends ConsoleKernel
 
         $schedule->call(function () {
             $siteMapModel=new SiteMapModel();
+        })->daily()->description("Update SiteMap");
+
+        $schedule->call(function () {
+            $groupModel=new GroupModel();
+            $groupModel->cacheTrendingGroups();
         })->daily()->description("Update SiteMap");
 
         $schedule->call(function() {
