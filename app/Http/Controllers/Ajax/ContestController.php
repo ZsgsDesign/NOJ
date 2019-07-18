@@ -298,7 +298,7 @@ class ContestController extends Controller
         $request->validate([
             'cid' => 'required|integer',
             'ccode' => 'required|min:3|max:10',
-            'num' => 'required|integer'
+            'num' => 'required|integer|max:100'
         ]);
 
         $all_data=$request->all();

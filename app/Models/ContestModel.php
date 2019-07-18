@@ -109,6 +109,12 @@ class ContestModel extends Model
         ])->first()["gid"];
     }
 
+    public function gcode($cid)
+    {
+        $gid = $this->gid($cid);
+        return DB::table('group')->where('gid','=',$gid)->first()["gcode"];
+    }
+
     public function runningContest()
     {
         return DB::select("select * from contest where begin_time < SYSDATE() and end_time > SYSDATE() and vcid != null");

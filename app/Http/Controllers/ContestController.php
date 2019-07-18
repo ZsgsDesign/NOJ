@@ -348,6 +348,7 @@ class ContestController extends Controller
         $customInfo=$contestModel->getCustomInfo($cid);
         $accountModel=new AccountModel();
         $contest_accounts=$accountModel->getContestAccount($cid);
+        $gcode=$contestModel->gcode($cid);
         return view('contest.board.admin', [
             'page_title'=>"Admin",
             'navigation' => "Contest",
@@ -357,7 +358,8 @@ class ContestController extends Controller
             'custom_info' => $customInfo,
             'clearance'=> $clearance,
             'contest_accounts'=>$contest_accounts,
-            'verified'=>$verified
+            'verified'=>$verified,
+            'gcode'=>$gcode
         ]);
     }
 

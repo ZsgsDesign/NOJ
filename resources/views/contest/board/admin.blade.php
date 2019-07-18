@@ -110,6 +110,12 @@
                 <ul class="list-group bmd-list-group p-0">
                     <a href="#" class="list-group-item admin-tab-text wemd-light-blue wemd-lighten-4"> Account Generate</a>
                 </ul>
+                <ul class="list-group bmd-list-group p-0">
+                    <a href="/contest/{{$cid}}/board/clarification" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Issue Clarification</a>
+                </ul>
+                <ul class="list-group bmd-list-group p-0">
+                    <a href="/group/{{$gcode}}/settings/contest" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Contest Management</a>
+                </ul>
             </div>
             @endif
             <div class="col-9 pt-3">
