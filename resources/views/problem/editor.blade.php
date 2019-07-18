@@ -592,7 +592,7 @@
                     <info-badge data-toggle="tooltip" data-placement="top" title="Memory Limit"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
                 </div>
                 <div class="animated pre-animated cm-performance-optimistic cm-delay">
-                    <link rel="stylesheet" href="/css/oj/{{$detail["oj_detail"]["ocode"]}}.css">
+                    <link rel="stylesheet" href="/static/css/oj/{{$detail["oj_detail"]["ocode"]}}.css">
                     <fresh-container>
                         <h1>
                             @if($contest_mode)
@@ -981,6 +981,7 @@
                     pid:{{$detail["pid"]}},
                     pcode:"{{$detail["pcode"]}}",
                     cid:"{{$detail["contest_id"]}}",
+                    vcid:"{{$detail["vcid"]}}"
                     iid:"{{$detail["index_id"]}}",
                     oj:"{{$detail["oj_detail"]["ocode"]}}",
                     coid: chosen_coid,

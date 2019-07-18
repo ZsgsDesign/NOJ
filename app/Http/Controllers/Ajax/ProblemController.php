@@ -6,12 +6,10 @@ use App\Models\ProblemModel;
 use App\Models\SubmissionModel;
 use App\Models\ResponseModel;
 use App\Models\CompilerModel;
-use App\Http\Controllers\VirtualJudge\Submit;
-use App\Http\Controllers\VirtualJudge\Judge;
+use App\Babel\Babel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Http\Controllers\VirtualCrawler\Crawler;
 use App\Jobs\ProcessSubmission;
 use Illuminate\Support\Facades\Validator;
 use Auth;
@@ -61,6 +59,7 @@ class ProblemController extends Controller
             'remote_id'=>'',
             'coid'=>$all_data["coid"],
             'cid'=>isset($all_data["contest"]) ? $all_data["contest"] : null,
+            'vcid'=>isset($all_data["vcid"]) ? $all_data["vcid"] : null,
             'jid'=>null,
             'score'=>0
         ]);
@@ -211,7 +210,8 @@ class ProblemController extends Controller
             return ResponseModel::err(2001);
         }
 
-        $vj_judge=new Judge();
+        $babel=new Babel();
+        $vj_judge=$babel->judge();
 
         return ResponseModel::success(200, null, $vj_judge->ret);
     }
@@ -253,7 +253,14 @@ class ProblemController extends Controller
 
         $all_data=$request->all();
 
-        $crawler=new Crawler($all_data["name"], $all_data["action"], $all_data["con"], $all_data["cached"]);
+        $babel=new Babel();
+
+        $crawler=$babel->crawl([
+            "name"=>$all_data["name"],
+            "action"=>$all_data["action"],
+            "con"=>$all_data["con"],
+            "cached"=>$all_data["cached"]
+        ]);
 
         return ResponseModel::success(200, null, $crawler->data);
     }

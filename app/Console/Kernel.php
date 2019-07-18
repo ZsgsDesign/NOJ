@@ -3,9 +3,11 @@
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
-use App\Http\Controllers\VirtualJudge\Judge;
+use App\Babel\Babel;
+use App\Babel\Extension\hdu;
 use App\Models\RankModel;
 use App\Models\SiteMapModel;
+use App\Models\ContestModel;
 use App\Models\JudgerModel;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -29,8 +31,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function () {
+            $babel=new Babel();
             for ($i=1; $i<=12; $i++) {
-                new Judge();
+                $babel->judge();
                 sleep(5);
             }
         })->everyMinute()->description("Sync Judger");
@@ -43,6 +46,27 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $siteMapModel=new SiteMapModel();
         })->daily()->description("Update SiteMap");
+
+        $schedule->call(function() {
+            $contestModel = new ContestModel();
+            $syncList = $contestModel->runningContest();
+            foreach($syncList as $syncContest) {
+                $className = "App\\Babel\\Extension\\hdu\\Synchronizer";  // TODO Add OJ judgement.
+                $all_data = [
+                    'oj'=>"hdu",
+                    'vcid'=>$syncContest['vcid'],
+                    'gid'=>$syncContest['gid']
+                ];
+                $hduSync = new $className($all_data);
+                $hduSync->crawlRank();
+                $hduSync->crawlClarification();
+            }
+        })->everyMinute()->description("Sync Remote Rank and Clarification");
+
+        // TODO it depends on the front interface.
+        // $schedule->call(function() {
+
+        // })->everyMinute()->description("Sync Remote Problem");
 
         $schedule->call(function () {
             $judgerModel=new JudgerModel();

@@ -109,6 +109,10 @@ class ContestModel extends Model
         ])->first()["gid"];
     }
 
+    public function runningContest() 
+    {
+        return DB::select("select * from contest where begin_time < SYSDATE() and end_time > SYSDATE() and vcid != null");
+    }
     public function grantAccess($uid, $cid, $audit=0)
     {
         return DB::table('contest_participant')->insert([
@@ -1363,6 +1367,7 @@ class ContestModel extends Model
                 "rule"=>1, //todo
                 "begin_time"=>$config["begin_time"],
                 "end_time"=>$config["end_time"],
+                "vcid"=>isset($config["vcid"])?$config["vcid"]:null,
                 "public"=>0, //todo
                 "registration"=>0, //todo
                 "registration_due"=>null, //todo
