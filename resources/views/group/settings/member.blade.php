@@ -8,13 +8,14 @@
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        margin-bottom: 1rem;
+        margin-bottom: 2rem;
     }
 
     user-card user-avatar{
         display: block;
         padding-right:1rem;
     }
+
     user-card user-avatar img{
         height: 3rem;
         width: 3rem;
@@ -22,15 +23,13 @@
         object-fit: cover;
         overflow: hidden;
     }
+
     user-card user-info{
         display: block;
     }
+
     user-card user-info p{
         margin-bottom:0;
-    }
-
-    user-card:last-of-type{
-        margin-bottom: 0;
     }
 
 
@@ -91,34 +90,31 @@
 
         <settings-card>
             <settings-header>
-                <h5><i class="MDI settings"></i> Group Member Management</h5>
+                <h5><i class="MDI marker-check"></i> Permission Management</h5>
             </settings-header>
             <settings-body>
-                <div class="row">
-                    <permission-setting style="width:100%;">
-                        <p>Permission Settings</p>
-                        <div style="display:flex;justify-content:space-around;width:100%;flex-wrap:wrap;align-items:baseline">
-                            @foreach($member_list as $m)
-                                @if($m["role"]>0)
-                                <user-card id="user-permission-{{$m["uid"]}}">
-                                    <user-avatar>
-                                        <a href="/user/{{$m["uid"]}}"><img src="{{$m["avatar"]}}"></a>
-                                    </user-avatar>
-                                    <user-info data-clearance="{{$m["role"]}}" data-rolecolor="{{$m["role_color"]}}">
-                                        <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
-                                        <p>
-                                            <small><i class="MDI google-circles"></i> {{$m["sub_group"]}}</small>
-                                            @if($group_clearance>$m["role"])
-                                                <small @if($group_clearance <= $m["role"] + 1) style="display:none" @endif class="wemd-green-text cm-operation clearance-up" onclick="changeMemberClearance({{$m['uid']}},'promote')"><i class="MDI arrow-up-drop-circle-outline"></i> Promote</small>
-                                                <small @if($m["role"] <= 1) style="display:none" @endif class="wemd-red-text cm-operation clearance-down" onclick="changeMemberClearance({{$m['uid']}},'demote')"><i class="MDI arrow-down-drop-circle-outline"></i> Demote</small>
-                                            @endif
-                                        </p>
-                                    </user-info>
-                                </user-card>
-                                @endif
-                            @endforeach
+                <div class="row mt-4">
+                    @foreach($member_list as $m)
+                        @if($m["role"]>0)
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <user-card id="user-permission-{{$m["uid"]}}">
+                                <user-avatar>
+                                    <a href="/user/{{$m["uid"]}}"><img src="{{$m["avatar"]}}"></a>
+                                </user-avatar>
+                                <user-info data-clearance="{{$m["role"]}}" data-rolecolor="{{$m["role_color"]}}">
+                                    <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
+                                    <p>
+                                        <small><i class="MDI google-circles"></i> {{$m["sub_group"]}}</small>
+                                        @if($group_clearance>$m["role"])
+                                            <small @if($group_clearance <= $m["role"] + 1) style="display:none" @endif class="wemd-green-text cm-operation clearance-up" onclick="changeMemberClearance({{$m['uid']}},'promote')"><i class="MDI arrow-up-drop-circle-outline"></i> Promote</small>
+                                            <small @if($m["role"] <= 1) style="display:none" @endif class="wemd-red-text cm-operation clearance-down" onclick="changeMemberClearance({{$m['uid']}},'demote')"><i class="MDI arrow-down-drop-circle-outline"></i> Demote</small>
+                                        @endif
+                                    </p>
+                                </user-info>
+                            </user-card>
                         </div>
-                    </permission-setting>
+                        @endif
+                    @endforeach
                 </div>
             </settings-body>
         </settings-card>
@@ -126,7 +122,7 @@
         <settings-card>
 
             <settings-header>
-                <h5><i class="MDI trophy"></i> Notice Announcement</h5>
+                <h5><i class="MDI bullhorn"></i> Group Announcement</h5>
             </settings-header>
             <settings-body>
                 <div class="form-group">
