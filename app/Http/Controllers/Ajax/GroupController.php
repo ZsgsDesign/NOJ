@@ -348,7 +348,7 @@ class GroupController extends Controller
         $request->validate([
             'gid' => 'required|integer',
             'title' => 'required|min:3|max:50',
-            'content' => 'required|min:3|max:100',
+            'content' => 'required|min:3|max:60000',
         ]);
 
         $all_data=$request->all();
