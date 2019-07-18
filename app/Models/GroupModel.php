@@ -16,6 +16,12 @@ class GroupModel extends Model
     const UPDATED_AT=null;
     const CREATED_AT=null;
 
+    /*
+        join_policy:
+            1:a user can join this group only by invitation
+            2:a user can join this group only by application
+            3:a user can join this group by both invitation and application
+    */
     public $role=[
         "-3"=>"None",
         "-1"=>"Invited",
