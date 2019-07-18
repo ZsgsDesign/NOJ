@@ -17,9 +17,9 @@ class GroupModel extends Model
 
     /*
         join_policy:
-            1:Ö»ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?
-            2:Ö»ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?
-            3:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¼ï¿½ï¿½ï¿?
+            1:a user can join this group only by invitation
+            2:a user can join this group only by application
+            3:a user can join this group by both invitation and application
     */
     public $role=[
         "-3"=>"None",
