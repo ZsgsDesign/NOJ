@@ -45,7 +45,13 @@ class Uninstall extends Command
     }
 
     public static function create($oj,$class) {
-        $className = "App\\Babel\\Extension\\$oj\\Installer";
+        $installerProvider="Installer";
+        try {
+            $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$oj/babel.json")), true);
+            $installerProvider=$BabelConfig["provider"]["installer"];
+        } catch(Exception $e) {
+        }
+        $className = "App\\Babel\\Extension\\$oj\\$installerProvider";
         if(class_exists($className)) {
             return new $className($class);
         } else {

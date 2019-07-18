@@ -41,7 +41,13 @@ class Submitter
     }
 
     public static function create($oj,& $sub, $all_data) {
-        $className = "App\\Babel\\Extension\\$oj\\Submitter";
+        $submitterProvider="Submitter";
+        try {
+            $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$oj/babel.json")), true);
+            $submitterProvider=$BabelConfig["provider"]["submitter"];
+        } catch(Exception $e) {
+        }
+        $className = "App\\Babel\\Extension\\$oj\\$submitterProvider";
         if(class_exists($className)) {
             return new $className($sub, $all_data);
         } else {

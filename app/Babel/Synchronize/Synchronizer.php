@@ -15,7 +15,13 @@ class Synchronizer
     }
 
     public static function create($oj, $all_data) {
-        $className = "App\\Babel\\Extension\\$oj\\Synchronizer";
+        $synchronizerProvider="Synchronizer";
+        try {
+            $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$oj/babel.json")), true);
+            $synchronizerProvider=$BabelConfig["provider"]["synchronizer"];
+        } catch(Exception $e) {
+        }
+        $className = "App\\Babel\\Extension\\$oj\\$synchronizerProvider";
         if(class_exists($className)) {
             return new $className($all_data);
         } else {

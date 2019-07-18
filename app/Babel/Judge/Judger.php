@@ -38,7 +38,13 @@ class Judger extends Curl
 
     public static function create($ocode) {
         $name=$ocode;
-        $className = "App\\Babel\\Extension\\$name\\Judger";
+        $judgerProvider="Judger";
+        try {
+            $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$ocode/babel.json")), true);
+            $judgerProvider=$BabelConfig["provider"]["judger"];
+        } catch(Exception $e) {
+        }
+        $className = "App\\Babel\\Extension\\$name\\$judgerProvider";
         if(class_exists($className)) {
             return new $className();
         } else {

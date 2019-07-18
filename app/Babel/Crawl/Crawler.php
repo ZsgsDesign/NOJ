@@ -22,7 +22,13 @@ class Crawler
 
     public static function create($conf, $commandLineObject=null) {
         $name=$conf["name"];
-        $className = "App\\Babel\\Extension\\$name\\Crawler";
+        $crawlerProvider="Crawler";
+        try {
+            $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$name/babel.json")), true);
+            $crawlerProvider=$BabelConfig["provider"]["crawler"];
+        } catch(Exception $e) {
+        }
+        $className = "App\\Babel\\Extension\\$name\\$crawlerProvider";
         if(class_exists($className)) {
             return new $className($conf, $commandLineObject);
         } else {
