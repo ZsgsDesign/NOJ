@@ -482,11 +482,10 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
                     if (ret.ret==200) {
                         alert(ret.desc);
                         setTimeout(function(){
-                            location.reload();
+                            location.href='/group/{{$basic_info["gid"]}}';
                         },800)
                     } else {
                         alert(ret.desc);
