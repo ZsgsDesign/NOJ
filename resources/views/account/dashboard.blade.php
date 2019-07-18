@@ -361,6 +361,14 @@
     account-bind:hover{
         background-color: #eee;
     }
+
+    setting-card > .paper-card {
+        box-shadow: none;
+    }
+
+    setting-card > .paper-card:hover {
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
