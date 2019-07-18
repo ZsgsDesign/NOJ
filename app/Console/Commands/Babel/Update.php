@@ -61,7 +61,7 @@ class Update extends Command
             $this->delDir(babel_path("Tmp/backup/$extension/"));
             $this->line("Updated <fg=green>$extension</>");
         } catch(Exception $e) {
-            $this->line($e);
+            $this->line($e->getMessage());
             $this->roolbackBackup(($extension));
         }
     }
