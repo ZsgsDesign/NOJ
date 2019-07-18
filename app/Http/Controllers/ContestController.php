@@ -31,6 +31,7 @@ class ContestController extends Controller
         $filter["verified"]=isset($all_data["verified"]) ? $all_data["verified"] : null;
         $filter["rated"]=isset($all_data["rated"]) ? $all_data["rated"] : null;
         $filter["anticheated"]=isset($all_data["anticheated"]) ? $all_data["anticheated"] : null;
+        $filter["practice"]=isset($all_data["practice"]) ? $all_data["practice"] : null;
         $return_list=$contestModel->list($filter,Auth::check()?Auth::user()->id:0);
         $featured=$contestModel->featured();
         if (is_null($return_list)) {

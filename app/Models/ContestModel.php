@@ -197,6 +197,9 @@ class ContestModel extends Model
                 if ($filter['anticheated']) {
                     $paginator=$paginator->where(["anticheated"=>$filter['anticheated']]);
                 }
+                if ($filter['practice']) {
+                    $paginator=$paginator->where(["practice"=>$filter['practice']]);
+                }
                 $paginator = $paginator ->paginate(10);
             }elseif($filter['public']=='0'){
                 $paginator=DB::table('group_member')
@@ -217,6 +220,9 @@ class ContestModel extends Model
                         }
                         if ($filter['anticheated']) {
                             $query=$query->where(["anticheated"=>$filter['anticheated']]);
+                        }
+                        if ($filter['practice']) {
+                            $query=$query->where(["practice"=>$filter['practice']]);
                         }
                         $query->where('group_member.uid', $uid)
                                 ->where('group_member.role', '>', 0)
@@ -245,6 +251,9 @@ class ContestModel extends Model
                         if ($filter['anticheated']) {
                             $query=$query->where(["anticheated"=>$filter['anticheated']]);
                         }
+                        if ($filter['practice']) {
+                            $query=$query->where(["practice"=>$filter['practice']]);
+                        }
                         $query->where('public', 1)
                               ->where('audit_status', 1);
                     }
@@ -265,6 +274,9 @@ class ContestModel extends Model
                         }
                         if ($filter['anticheated']) {
                             $query=$query->where(["anticheated"=>$filter['anticheated']]);
+                        }
+                        if ($filter['practice']) {
+                            $query=$query->where(["practice"=>$filter['practice']]);
                         }
                         $query->where('group_member.uid', $uid)
                                 ->where('group_member.role', '>', 0);
@@ -289,6 +301,9 @@ class ContestModel extends Model
             }
             if ($filter['anticheated']) {
                 $paginator=$paginator->where(["anticheated"=>$filter['anticheated']]);
+            }
+            if ($filter['practice']) {
+                $paginator=$paginator->where(["practice"=>$filter['practice']]);
             }
             $paginator = $paginator ->paginate(10);
         }
@@ -772,7 +787,7 @@ class ContestModel extends Model
             if($clearance == 3){
                 $contestRankRaw=Cache::tags(['contest', 'rank'])->get("contestAdmin$cid");
             }else{
-                $contestRankRaw=getContestRankFromMySQL($cid);
+                $contestRankRaw=$this->getContestRankFromMySQL($cid);
                 if(!isset($contestRankRaw)){
                     $contestRankRaw=Cache::tags(['contest', 'rank'])->get($cid);
                     // if(!isset($contestRankRaw) && !Cache::has($cid)){

@@ -153,6 +153,7 @@
     .badge-rule,
     .badge-public,
     .badge-verified,
+    .badge-practice,
     .badge-rated,
     .badge-anticheated{
         background-color: transparent;
@@ -166,6 +167,7 @@
     .badge-rule > i,
     .badge-public > i,
     .badge-verified > i,
+    .badge-practice > i,
     .badge-rated > i,
     .badge-anticheated > i{
         font-weight: normal;
@@ -200,6 +202,16 @@
         background-color: #03a9f4;
     }
 
+    .badge-practice{
+        color: #4CAF50;
+        border: 1px solid #4CAF50;
+    }
+
+    .badge-practice.selected {
+        color: white;
+        background-color: #4CAF50;
+    }
+
     .badge-rated{
         color: #9c27b0;
         border: 1px solid #9c27b0;
@@ -232,6 +244,7 @@
                     @if(Auth::check())<span class="badge badge-public @if($filter['public']=='1') selected @endif" onclick="applyFilter('public',this)" data-public="1"><i class="MDI incognito"></i> Public</span>@endif
                     @if(Auth::check())<span class="badge badge-public @if($filter['public']=='0') selected @endif" onclick="applyFilter('public',this)" data-public="0"><i class="MDI incognito"></i> Private</span>@endif
                     <span class="badge badge-verified @if($filter['verified']==1) selected @endif" onclick="applyFilter('verified',this)" data-verified="1"><i class="MDI marker-check"></i> Verified</span>
+                    <span class="badge badge-practice @if($filter['practice']==1) selected @endif" onclick="applyFilter('practice',this)" data-practice="1"><i class="MDI sword"></i> Practice</span>
                     <span class="badge badge-rated @if($filter['rated']==1) selected @endif" onclick="applyFilter('rated',this)" data-rated="1"><i class="MDI seal"></i> Rated</span>
                     <span class="badge badge-anticheated @if($filter['anticheated']==1) selected @endif" onclick="applyFilter('anticheated',this)" data-anticheated="1"><i class="MDI do-not-disturb-off"></i> Anticheated</span>
                 </div>
