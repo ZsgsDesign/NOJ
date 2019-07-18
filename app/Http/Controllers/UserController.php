@@ -32,7 +32,7 @@ class UserController extends Controller
         $socialiteInfo = $accountModel->getSocialiteInfo($uid,0);
         return view("account.dashboard", [
             'page_title'=>$info["name"],
-            'site_title'=>"NOJ",
+            'site_title'=>config("app.name"),
             'navigation'=>"DashBoard",
             'info'=>$info,
             'userView'=>true,

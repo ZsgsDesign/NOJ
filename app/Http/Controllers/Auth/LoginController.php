@@ -41,7 +41,7 @@ class LoginController extends Controller
     {
         return view("auth.login", [
             'page_title'=>"Login",
-            'site_title'=>"NOJ",
+            'site_title'=>config("app.name"),
             'navigation' => "Account"
         ]);
     }

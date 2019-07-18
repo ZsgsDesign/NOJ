@@ -85,6 +85,11 @@ class AccountModel extends Model
         return $ret;
     }
 
+    public function getContestAccount($cid)
+    {
+        return DB::table('users')->where(["contest_account"=>$cid])->get()->all();
+    }
+
     public function add($data)
     {
         return DB::table("users")->insertGetId([

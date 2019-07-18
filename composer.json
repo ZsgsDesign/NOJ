@@ -27,6 +27,7 @@
         "laravel/socialite": "^4.1",
         "laravel/tinker": "^1.0",
         "laravelium/sitemap": "^3.1",
+        "maatwebsite/excel": "^3.1",
         "mews/purifier": "^2.1",
         "nelexa/zip": "^3.1",
         "npm-asset/animate.css": "^3.7",

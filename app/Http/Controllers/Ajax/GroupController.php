@@ -62,10 +62,12 @@ class GroupController extends Controller
         }
 
         $contestModel->arrangeContest($all_data["gid"], [
+            "assign_uid"=>Auth::user()->id,
             "name"=>$all_data["name"],
             "description"=>$all_data["description"],
             "begin_time"=>$all_data["begin_time"],
             "end_time"=>$all_data["end_time"],
+            "practice"=>$all_data["practice"] ?? 0,
         ], $problemSet);
 
         return ResponseModel::success(200);
@@ -286,5 +288,186 @@ class GroupController extends Controller
             return ResponseModel::success(200);
         }
         return ResponseModel::err(7002);
+    }
+
+    public function inviteMember(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|integer',
+            'email' => 'required|email',
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        $is_user=$groupModel->isUser($all_data["email"]);
+        if(!$is_user) return ResponseModel::err(2006);
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        if($clearance<2) return ResponseModel::err(7002);
+        $targetClearance=$groupModel->judgeEmailClearance($all_data["gid"], $all_data["email"]);
+        if($targetClearance!=-3) return ResponseModel::err(7003);
+        $groupModel->inviteMember($all_data["gid"], $all_data["email"]);
+        return ResponseModel::success(200);
+    }
+
+    public function createGroup(Request $request)
+    {
+        $request->validate([
+            'gcode' => 'required|alpha_dash|min:3|max:50',
+            'name' => 'required|min:3|max:50',
+            'public' => 'required|integer|min:1|max:2',
+            'description' => 'nullable|max:100',
+            'join_policy'  => 'required|integer|min:1|max:3'
+        ]);
+
+        $all_data=$request->all();
+
+        if (!empty($request->file('img')) && $request->file('img')->isValid()) {
+            $extension=$request->file('img')->extension();
+        } else {
+            return ResponseModel::err(1005);
+        }
+
+        $allow_extension=['jpg', 'png', 'jpeg', 'gif', 'bmp'];
+
+        $groupModel=new GroupModel();
+        if($all_data["gcode"]=="create") return ResponseModel::err(7005);
+        $is_group=$groupModel->isGroup($all_data["gcode"]);
+        if($is_group) return ResponseModel::err(7006);
+        if (!in_array($extension, $allow_extension)) {
+            return ResponseModel::err(1005);
+        }
+        $path=$request->file('img')->store('/static/img/group', 'NOJPublic');
+        $img='/'.$path;
+        $groupModel->createGroup(Auth::user()->id, $all_data["gcode"], $img, $all_data["name"], $all_data["public"], $all_data["description"], $all_data["join_policy"]);
+        return ResponseModel::success(200);
+    }
+
+    public function createNotice(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|integer',
+            'title' => 'required|min:3|max:50',
+            'content' => 'required|min:3|max:100',
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        if ($clearance < 2){
+            return ResponseModel::err(2001);
+        }
+        $groupModel->createNotice($all_data["gid"], Auth::user()->id, $all_data["title"], $all_data["content"]);
+        return ResponseModel::success(200);
+    }
+  
+    public function addProblemTag(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|integer',
+            'pid' => 'required|integer',
+            'tag' => 'required|string',
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        if ($clearance < 2) {
+            return ResponseModel::err(7002);
+        }
+        $tags = $groupModel->problemTags($all_data['gid'],$all_data['pid']);
+        if(in_array($all_data['tag'],$tags)){
+            return ResponseModel::err(7007);
+        }
+
+        $groupModel->problemAddTag($all_data["gid"], $all_data["pid"], $all_data["tag"]);
+        return ResponseModel::success(200);
+    }
+
+    public function removeProblemTag(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|integer',
+            'pid' => 'required|integer',
+            'tag' => 'required|string',
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        if ($clearance>1) {
+            $groupModel->problemRemoveTag($all_data["gid"], $all_data["pid"], $all_data["tag"]);
+            return ResponseModel::success(200);
+        }
+        return ResponseModel::err(7002);
+    }
+
+    public function getPracticeStat(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|string',
+            'mode' => 'required'
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        if ($clearance>2) {
+            switch($all_data['mode']){
+                case 'contest':
+                    $ret = $groupModel->groupMemberPracticeContestStat($all_data["gid"]);
+                break;
+                case 'tag':
+                    $ret = $groupModel->groupMemberPracticeTagStat($all_data["gid"]);
+                break;
+                default:
+                    return ResponseModel::err(1007);
+                break;
+            }
+
+            return ResponseModel::success(200,null,$ret);
+        }
+        return ResponseModel::err(7002);
+    }
+
+    public function updateContestInfo(Request $request){
+        $request->validate([
+            'cid' => 'required|integer',
+            'name' => 'required|max:255',
+            'begin_time' => 'date',
+            'end_time' => 'date',
+            'description' => 'string'
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        if ($clearance != 3) {
+            return ResponseModel::err(2001);
+        }
+
+        $valid_time = $groupModel->canUpdateContestTime($all_data['cid'],[
+            'begin' => $all_data['begin_time'] ?? null,
+            'end' => $all_data['end_time'] ?? null,
+        ]);
+
+        if(!$valid_time){
+            return ResponseModel::err(1); //Illegal manipulation of contest time
+        }
+        $allow_update = [
+            'name','begin_time','end_time','description'
+        ];
+        foreach ($all_data as $key => $value) {
+            if(!in_array($key,$allow_update)){
+                unset($all_data[$key]);
+            }
+        }
+        $groupModel->updateContestInfo($all_data['cid'],$all_data);
+        return ResponseModel::success(200);
     }
 }

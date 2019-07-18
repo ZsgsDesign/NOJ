@@ -586,7 +586,7 @@
     var simplemde = new SimpleMDE({
         autosave: {
             enabled: true,
-            uniqueId: "problemSolutionDiscussion{{$detail["pid"]}}",
+            uniqueId: "problemSolutionDiscussion_{{Auth::user()->id}}_{{$detail["pid"]}}",
             delay: 1000,
         },
         element: $("#solution_editor")[0],
@@ -689,6 +689,7 @@
                 console.log(ret);
                 if (ret.ret==200) {
                     alert("Your Solution Has Been Recieved.");
+                    localStorage.removeItem('{{$detail["pcode"]}}')
                     location.reload();
                 } else {
                     alert(ret.desc);
@@ -756,92 +757,102 @@
         });
     }
 
-    @if(!empty($submitted))
+        @if(!empty($submitted))
 
-    var updatingSolutionDiscussion=false;
+        var updatingSolutionDiscussion=false;
 
-    function updateSolutionDiscussion() {
-        if(updatingSolutionDiscussion)return;
-        else updatingSolutionDiscussion=true;
-        $.ajax({
-            type: 'POST',
-            url: '/ajax/updateSolutionDiscussion',
-            data: {
-                psoid: {{$submitted["psoid"]}},
-                content: simplemde.value(),
-            },
-            dataType: 'json',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }, success: function(ret){
-                console.log(ret);
-                if (ret.ret==200) {
-                    alert("Your Solution Has Been Updated.");
-                    location.reload();
-                } else {
-                    alert(ret.desc);
+        function updateSolutionDiscussion() {
+            if(updatingSolutionDiscussion)return;
+            else updatingSolutionDiscussion=true;
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/updateSolutionDiscussion',
+                data: {
+                    psoid: {{$submitted["psoid"]}},
+                    content: simplemde.value(),
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if (ret.ret==200) {
+                        alert("Your Solution Has Been Updated.");
+                        location.reload();
+                    } else {
+                        alert(ret.desc);
+                    }
+                    updatingSolutionDiscussion=false;
+                }, error: function(xhr, type){
+                    console.log(xhr);
+                    switch(xhr.status) {
+                        case 422:
+                            alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                            break;
+                        case 429:
+                            alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                            break;
+                        default:
+                            alert("Server Connection Error");
+                    }
+                    console.log('Ajax error while posting to updateSolutionDiscussion!');
+                    updatingSolutionDiscussion=false;
                 }
-                updatingSolutionDiscussion=false;
-            }, error: function(xhr, type){
-                console.log(xhr);
-                switch(xhr.status) {
-                    case 422:
-                        alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
-                        break;
-                    case 429:
-                        alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
-                        break;
-                    default:
-                        alert("Server Connection Error");
+            });
+        }
+
+        // var deletingSolutionDiscussion=false;
+
+        function deleteSolutionDiscussion() {
+            if(updatingSolutionDiscussion)return;
+            else updatingSolutionDiscussion=true;
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/deleteSolutionDiscussion',
+                data: {
+                    psoid: {{$submitted["psoid"]}}
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if (ret.ret==200) {
+                        alert("Your Solution Has Been Deleted.");
+                        location.reload();
+                    } else {
+                        alert(ret.desc);
+                    }
+                    updatingSolutionDiscussion=false;
+                }, error: function(xhr, type){
+                    console.log(xhr);
+                    switch(xhr.status) {
+                        case 422:
+                            alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                            break;
+                        case 429:
+                            alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                            break;
+                        default:
+                            alert("Server Connection Error");
+                    }
+                    console.log('Ajax error while posting to deleteSolutionDiscussion!');
+                    updatingSolutionDiscussion=false;
                 }
-                console.log('Ajax error while posting to updateSolutionDiscussion!');
-                updatingSolutionDiscussion=false;
+            });
+        }
+
+        @else
+        window.addEventListener('load', function(){
+            if(localStorage.getItem('{{$detail["pcode"]}}')){
+                simplemde.value(localStorage.getItem('{{$detail["pcode"]}}'));
             }
-        });
-    }
-
-    // var deletingSolutionDiscussion=false;
-
-    function deleteSolutionDiscussion() {
-        if(updatingSolutionDiscussion)return;
-        else updatingSolutionDiscussion=true;
-        $.ajax({
-            type: 'POST',
-            url: '/ajax/deleteSolutionDiscussion',
-            data: {
-                psoid: {{$submitted["psoid"]}}
-            },
-            dataType: 'json',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }, success: function(ret){
-                console.log(ret);
-                if (ret.ret==200) {
-                    alert("Your Solution Has Been Deleted.");
-                    location.reload();
-                } else {
-                    alert(ret.desc);
-                }
-                updatingSolutionDiscussion=false;
-            }, error: function(xhr, type){
-                console.log(xhr);
-                switch(xhr.status) {
-                    case 422:
-                        alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
-                        break;
-                    case 429:
-                        alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
-                        break;
-                    default:
-                        alert("Server Connection Error");
-                }
-                console.log('Ajax error while posting to deleteSolutionDiscussion!');
-                updatingSolutionDiscussion=false;
+            else{
+                simplemde.value('```\n//input code here\n```');
             }
-        });
-    }
+        })
+        @endif
 
-    @endif
     @endif
 
 </script>
