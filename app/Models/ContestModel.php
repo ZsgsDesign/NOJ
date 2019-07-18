@@ -779,18 +779,19 @@ class ContestModel extends Model
             }else{
                 $contestRankRaw=Cache::tags(['contest', 'rank'])->get($cid);
             }
-            // if(!isset($contestRankRaw) && !Cache::has($cid)){
             if(!isset($contestRankRaw)){
                 $contestRankRaw=$this->contestRankCache($cid);
             }
         }else{
             if($clearance == 3){
                 $contestRankRaw=Cache::tags(['contest', 'rank'])->get("contestAdmin$cid");
+                if (!isset($contestRankRaw)) {
+                    $contestRankRaw=$this->contestRankCache($cid);
+                }
             }else{
                 $contestRankRaw=$this->getContestRankFromMySQL($cid);
                 if(!isset($contestRankRaw)){
                     $contestRankRaw=Cache::tags(['contest', 'rank'])->get($cid);
-                    // if(!isset($contestRankRaw) && !Cache::has($cid)){
                     if(!isset($contestRankRaw)){
                         $contestRankRaw=$this->contestRankCache($cid);
                     }
