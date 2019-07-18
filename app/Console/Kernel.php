@@ -51,7 +51,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $groupModel=new GroupModel();
             $groupModel->cacheTrendingGroups();
-        })->daily()->description("Update SiteMap");
+        })->dailyAt('04:00')->description("Update Trending Groups");
 
         $schedule->call(function() {
             $contestModel = new ContestModel();
