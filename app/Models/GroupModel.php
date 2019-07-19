@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Rating\GroupRatingCalculator;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -154,7 +155,8 @@ class GroupModel extends Model
             "name",
             "nick_name",
             "avatar",
-            "sub_group"
+            "sub_group",
+            "ranking",
         )->get()->all();
         foreach ($user_list as &$u) {
             $u["role_parsed"]=$this->role[$u["role"]];
@@ -394,9 +396,12 @@ class GroupModel extends Model
                 "post_date"=>date("Y-m-d H:i:s"),
             ]);
     }
+
     public function groupMemberPracticeContestStat($gid)
     {
         $contestModel = new ContestModel();
+
+        $this->rankingUpdate($gid);
 
         $allPracticeContest = DB::table('contest')
             ->where([
@@ -412,6 +417,7 @@ class GroupModel extends Model
             $memberData[$u['uid']] = [
                 'name' => $u['name'],
                 'nick_name' => $u['nick_name'],
+                'elo' => $u['ranking'],
                 'solved_all' => 0,
                 'problem_all' => 0,
                 'penalty' => 0,
@@ -566,5 +572,31 @@ class GroupModel extends Model
         return DB::table("contest")->where([
             "cid"=>$cid,
         ])->update($data);
+    }
+
+    public function rankingUpdate($gid)
+    {
+        $contests = DB::table('contest')
+            ->leftJoin('group_rated_change_log','contest.cid','=','group_rated_change_log.cid')
+            ->where([
+                'contest.gid' => $gid,
+                'practice' => 1
+            ])->where('end_time','<',date('Y-m-d H:i:s'))
+            ->select('contest.cid as cid','group_rated_change_log.cid as cid_rated')
+            ->whereNull('group_rated_change_log.cid')
+            ->orderBy('end_time')
+            ->get()->all();
+
+        if(empty($contests)){
+            return true;
+        }
+
+        foreach ($contests as $contest) {
+            $calc = new GroupRatingCalculator($contest['cid']);
+            $calc->calculate();
+            $calc->storage();
+        }
+
+        return true;
     }
 }

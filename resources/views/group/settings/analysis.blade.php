@@ -1,6 +1,6 @@
-@extends('group.settings.common', ['selectedTab' => "analysis"])
+@extends('layouts.app')
 
-@section('settingsTab')
+@section('template')
 
 <style>
     settings-card {
@@ -106,7 +106,8 @@
     .contest-penalty,
     .contest-solved,
     .tag-solved,
-    .contest-rank{
+    .contest-rank,
+    .contest-elo{
         cursor: pointer;
     }
 
@@ -124,39 +125,41 @@
         padding-top: 2rem;
     }
 </style>
-<settings-card>
-    <settings-header>
-        <h5><i class="MDI chart-line"></i> Practice Contest Analysis</h5>
-    </settings-header>
-    <settings-body>
-        <nav id="mode-list" class="nav nav-tabs nav-stacked">
-            <a id="tab-contest" class="nav-link active" href="#">Contests</a>
-            <a id="tab-tag" class="nav-link" href="#">Tags</a>
-            <a class="nav-link disabled" href="#">Developing...</a>
-        </nav>
-        <div class="analysis-toolbar">
-            <button id="analysis-download" class="btn btn-outline-primary m-0"><i class="MDI download"></i> download as excel</button>
-            <span class="bmd-form-group pt-2">
-                <div class="switch">
-                    <label>
-                        <input id="switch-percent" type="checkbox">
-                        Show By Percent
-                    </label>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <label>
-                        <input id="switch-max" type="checkbox">
-                        Hide Maximum
-                    </label>
+<div class="mundb-standard-container container">
+    <settings-card>
+        <settings-header>
+            <h5><i class="MDI chart-line"></i> Practice Contest Analysis</h5>
+        </settings-header>
+        <settings-body>
+            <nav id="mode-list" class="nav nav-tabs nav-stacked">
+                <a id="tab-contest" class="nav-link active" href="#">Contests</a>
+                <a id="tab-tag" class="nav-link" href="#">Tags</a>
+                <a class="nav-link disabled" href="#">Developing...</a>
+            </nav>
+            <div class="analysis-toolbar">
+                <a id="analysis-download" class="btn btn-outline-primary m-0"><i class="MDI download"></i> download as excel</a>
+                <span class="bmd-form-group pt-2">
+                    <div class="switch">
+                        <label>
+                            <input id="switch-percent" type="checkbox">
+                            Show By Percent
+                        </label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label>
+                            <input id="switch-max" type="checkbox">
+                            Hide Maximum
+                        </label>
+                    </div>
+                </span>
+            </div>
+            <div id="panels">
+                <div id="contest-panel"  style="display: none">
                 </div>
-            </span>
-        </div>
-        <div id="panels">
-            <div id="contest-panel"  style="display: none">
+                <div id="tag-panel" style="display: none">
+                </div>
             </div>
-            <div id="tag-panel" style="display: none">
-            </div>
-        </div>
-    </settings-body>
-</settings-card>
+        </settings-body>
+    </settings-card>
+    </div>
 </div>
 <script>
     let ajaxing = true;
@@ -327,10 +330,11 @@
                             <thead>
                                 <tr id="tr-1">
                                     <th scope="col" rowspan="2" style="text-align: left;">Member</th>
-                                    <th scope="col" colspan="3" style="text-align: middle;">Total</th>
+                                    <th scope="col" colspan="4" style="text-align: middle;">Total</th>
                                     <!-- here is contests -->
                                 </tr>
                                 <tr id="tr-2">
+                                    <th scopr="col" class="contest-elo" data-cid="0">Elo</th>
                                     <th scope="col" class="contest-rank" data-cid="0">Rank</th>
                                     <th scope="col" class="contest-solved" data-cid="0">Solved</th>
                                     <th scope="col" class="contest-penalty" data-cid="0">Penalty</th>
@@ -361,6 +365,7 @@
                         $(selector + ' tbody').append(`
                         <tr id="uid-${member['uid']}">
                             <td class="member-name" style="text-align: left;">${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}</span></td>
+                            <td>${member['elo']}</td>
                             <td>${member['rank_ave'] == undefined ? '-' : parseFloat(member['rank_ave']).toFixed(1)}</span></td>
                             <td>${member['solved_all']}<span class="problem-maximum"> / ${member['problem_all']}</span></td>
                             <td>${Math.round(member['penalty'])}</td>
@@ -370,6 +375,7 @@
                         $(selector + ' tbody').append(`
                         <tr id="uid-${member['uid']}">
                             <td class="member-name" style="text-align: left;">${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}</span></td>
+                            <td>${member['elo']}</td>
                             <td>${member['rank_ave'] == undefined ? '-' : parseFloat(member['rank_ave']).toFixed(1)}</span></td>
                             <td>${member['problem_all'] != 0 ? Math.round(member['solved_all'] / member['problem_all'] * 100) : '-'} %</td>
                             <td>${Math.round(member['penalty'])}</td>
@@ -494,6 +500,10 @@
                             if(b['rank_ave'] == undefined) compare_b = 1000000000;
                             else var compare_b = b['rank_ave'];
                             return desc * (compare_a - compare_b);
+                        }else if(by == 'elo'){
+                            var compare_a = a['elo'];
+                            var compare_b = b['elo'];
+                            return desc * (compare_a - compare_b);
                         }
                     }else{
                         if(by == 'rank'){
@@ -540,6 +550,24 @@
                 }else{
                     member_ingore.splice(member_ingore.indexOf(uid),1);
                 }
+                displayTable({
+                    mode : 'contest',
+                    selector : '#contest-panel'
+                });
+            });
+
+            $('.contest-elo').unbind();
+            $('.contest-elo').on('click',function(){
+                var cid = $(this).attr('data-cid');
+                if(cid == sort_by_contest){
+                    sort_desc = !sort_desc;
+                }
+                sort_by_contest = cid;
+                sortContestData({
+                    byContest : sort_by_contest,
+                    desc : sort_desc,
+                    by : 'elo'
+                })
                 displayTable({
                     mode : 'contest',
                     selector : '#contest-panel'

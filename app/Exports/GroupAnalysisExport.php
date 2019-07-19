@@ -35,7 +35,7 @@ class GroupAnalysisExport implements FromCollection, WithEvents, WithStrictNullC
         return [
             AfterSheet::class => function(AfterSheet $event) {
                 if($this->config['mode'] === 'contest'){
-                    $mergeCell = ['A1:A2','B1:D1'];
+                    $mergeCell = ['A1:A2','B1:E1'];
                     foreach ($this->contest_data as $c) {
                         array_push($mergeCell,$this->mergeCellColumnNext());
                     }
@@ -54,8 +54,8 @@ class GroupAnalysisExport implements FromCollection, WithEvents, WithStrictNullC
         $percent = $this->config['percent'] ?? false;
 
         if($this->config['mode'] == 'contest'){
-            $row_1 = ['Member','Total','',''];
-            $row_2 = ['','Rank','Solved','Penalty'];
+            $row_1 = ['Member','Total','','',''];
+            $row_2 = ['','Elo','Rank','Solved','Penalty'];
             foreach ($this->contest_data as $contest) {
                 array_push($row_1,$contest['name'],'');
                 array_push($row_2,'Solved','Penalty');
@@ -68,6 +68,7 @@ class GroupAnalysisExport implements FromCollection, WithEvents, WithStrictNullC
                 }
                 $row = [
                     $display_name,
+                    $member['elo'],
                     !empty($member['rank_ave']) ? round($member['rank_ave'],1) : '-',
                     $percent === 'true'  ? ($member['problem_all'] != 0 ? round( $member['solved_all'] / $member['problem_all'] * 100 , 1) : '-'). ' %'
                             : ($maxium === 'true'  ? $member['solved_all'] . ' / ' . $member['problem_all'] : $member['solved_all']),
@@ -80,7 +81,7 @@ class GroupAnalysisExport implements FromCollection, WithEvents, WithStrictNullC
                             $row,
                             $percent === 'true' ? (round($contest_detial['solved'] / $contest_detial['problems'] * 100,1) . ' %')
                                     : ($maxium === 'true' ? $contest_detial['solved'].' / '.$contest_detial['problems'] : $contest_detial['solved']),
-                            $contest_detial['penalty']
+                            round($contest_detial['penalty'])
                         );
                     }else{
                         array_push(
@@ -125,7 +126,7 @@ class GroupAnalysisExport implements FromCollection, WithEvents, WithStrictNullC
 
     private function mergeCellColumnNext(){
         static $columns = [
-            [2],[3]
+            [3],[4]
         ];
         $columns_str = ['',''];
         $chars = str_split('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
