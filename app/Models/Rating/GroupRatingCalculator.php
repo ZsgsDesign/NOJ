@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\ContestModel;
 use Log;
 
-class RatingCalculator extends Model
+class GroupRatingCalculator extends Model
 {
     public $cid=0;
     public $contestants=[];
@@ -25,7 +25,6 @@ class RatingCalculator extends Model
     private function getRecord(){
         $contestModel = new ContestModel();
         $contestRankRaw = $contestModel->contestRank($this->cid);
-
         $this->totParticipants = count($contestRankRaw);
         $members = array_column($contestRankRaw,'uid');
         $ratings_temp = DB::table('group_member')
@@ -38,7 +37,6 @@ class RatingCalculator extends Model
         foreach ($ratings_temp as $rating) {
             $ratings[$rating['uid']] = $rating['ranking'];
         }
-
         foreach($contestRankRaw as $c){
             $this->contestants[]=[
                 "uid"=>$c["uid"],
@@ -167,7 +165,7 @@ class RatingCalculator extends Model
         DB::transaction(function () use ($contestants) {
             foreach($contestants as $contestant){
                 $newRating=$contestant["rating"]+$contestant["delta"];
-                DB::table("group_ranking")->where([
+                DB::table("group_member")->where([
                     'gid' => $this->gid,
                     'uid' => $contestant['uid'],
                 ])->update([

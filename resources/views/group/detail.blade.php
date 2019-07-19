@@ -559,17 +559,17 @@
             <right-side>
                 <div class="row">
                     <div class="col-sm-12 col-md-7">
-                        @if($group_clearance>=2)
                         <function-container>
                             <div>
+                                <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings/analysis'">
+                                    <i class="MDI chart-line"></i>
+                                    <p>Analysis</p>
+                                </function-block>
+                                @if($group_clearance>=2)
                                 <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings/member'">
                                     <i class="MDI bullhorn"></i>
                                     <p>Notice</p>
                                 </function-block>
-                                {{--  <function-block>
-                                    <i class="MDI note"></i>
-                                    <p>Post</p>
-                                </function-block>  --}}
                                 <function-block onclick="$('#contestModal').modal({backdrop:'static'});">
                                     <i class="MDI trophy-variant"></i>
                                     <p>Contest</p>
@@ -582,17 +582,13 @@
                                     <i class="MDI script"></i>
                                     <p>Problems</p>
                                 </function-block>
-                                <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings/analysis'">
-                                    <i class="MDI chart-line"></i>
-                                    <p>Analysis</p>
-                                </function-block>
                                 <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings/general'">
                                     <i class="MDI settings"></i>
                                     <p>Settings</p>
                                 </function-block>
+                                @endif
                             </div>
                         </function-container>
-                        @endif
                         @unless(empty($group_notice))
                             <timeline-container>
                                 <timeline-item data-type="notice">

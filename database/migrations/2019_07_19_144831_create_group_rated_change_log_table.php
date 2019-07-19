@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGroupRantedChangeLogTable extends Migration
+class CreateGroupRatedChangeLogTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateGroupRantedChangeLogTable extends Migration
      */
     public function up()
     {
-        Schema::create('group_ranted_change_log', function (Blueprint $table) {
+        Schema::create('group_rated_change_log', function (Blueprint $table) {
             $table->integer('id',true);
             $table->integer('gid');
             $table->integer('cid');
