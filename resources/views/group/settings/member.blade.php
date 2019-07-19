@@ -127,7 +127,7 @@
             <settings-body>
                 <div class="form-group">
                     <label for="noticeTitle" class="bmd-label-floating">Title</label>
-                    <input type="text" class="form-control" id="noticeTitle">
+                    <input type="text" class="form-control" id="noticeTitle" value='{{$group_notice["title"]}}'>
                 </div>
                 <div class="form-group">
                     <small class="" style="margin-bottom:10px;font-size:17px;">Content</small>
@@ -146,7 +146,7 @@
 @endsection
 
 @section('additionJS')
-@include("js.common.hljsLight")
+    @include("js.common.hljsLight")
     <script src="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
     <script src="/static/js/jquery-ui-sortable.min.js"></script>
     <script type="text/javascript" src="/static/library/simplemde/dist/simplemde.min.js"></script>
@@ -236,6 +236,8 @@
                 },
             ],
         });
+        var desc = '{{base64_encode($group_notice["content"])}}';
+        simplemde.value(window.atob(desc));
 
         hljs.initHighlighting();
 
@@ -481,15 +483,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
-                    if (ret.ret==200) {
-                        alert(ret.desc);
-                        setTimeout(function(){
-                            location.reload();
-                        },800)
-                    } else {
-                        alert(ret.desc);
-                    }
+                    alert(ret.desc);
                     ajaxing=false;
                     $("#noticeBtn > i").addClass("d-none");
                 }, error: function(xhr, type){

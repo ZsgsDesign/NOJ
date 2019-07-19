@@ -123,7 +123,7 @@
                 <div class="row">
                     <div class="col-12 col-lg-4">
                         <focus-image style="cursor: pointer">
-                            <img id="avatar-preview" src="/static/img/group/addphoto.jpg" onclick="$('#avatar-file').click();">
+                            <img id="avatar-preview" src="/static/img/group/create.png" onclick="$('#avatar-file').click();">
                             <input type="file" style="display:none" id="avatar-file" accept=".jpg,.png,.jpeg,.gif">
                         </focus-image>
                     </div>
@@ -185,20 +185,15 @@ window.addEventListener('load',function(){
         const description = document.querySelector("#groupDescription").value;
         const joinPolicy = document.querySelector("#policy").value;
         const data = new FormData();
-        if(name.length < 3 || name.length > 50 || gcode.length < 3 || gcode.length > 50 || description > 100){
+        if(name.length < 3 || name.length > 50 || gcode.length < 3 || gcode.length > 50 || description > 60000){
             alert(`
             The length of the name and short code should be less than 50 and greater than 3 <br />
-            The description length should be less than 100
+            The description length should be less than 60000
             `);
             return;
         }
 
-        if(img == undefined){
-            alert('Please select a image');
-            return;
-        }
-
-        if(img.size/1024 > 1024){
+        if(img&&img.size/1024 > 1024){
             $('#tip-text').text('The selected img id too large');
             return;
         }

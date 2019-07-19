@@ -235,33 +235,4 @@ class ProblemController extends Controller
 
         return ResponseModel::success(200, null, ["history"=>$history]);
     }
-
-    /**
-     * Crawler Ajax Control.
-     * [Notice] THIS FUNCTION IS FOR TEST ONLY
-     * SHALL BE STRICTLY FORBIDDEN UNDER PRODUCTION ENVIRONMENT.
-     *
-     * @param Request $request web request
-     *
-     * @return Response
-     */
-    public function crawler(Request $request)
-    {
-        if (Auth::user()->id!=1) {
-            return ResponseModel::err(2001);
-        }
-
-        $all_data=$request->all();
-
-        $babel=new Babel();
-
-        $crawler=$babel->crawl([
-            "name"=>$all_data["name"],
-            "action"=>$all_data["action"],
-            "con"=>$all_data["con"],
-            "cached"=>$all_data["cached"]
-        ]);
-
-        return ResponseModel::success(200, null, $crawler->data);
-    }
 }

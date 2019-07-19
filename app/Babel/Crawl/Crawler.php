@@ -26,6 +26,7 @@ class Crawler
         try {
             $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$name/babel.json")), true);
             $crawlerProvider=$BabelConfig["provider"]["crawler"];
+        } catch(ErrorException $e) {
         } catch(Exception $e) {
         }
         $className = "App\\Babel\\Extension\\$name\\$crawlerProvider";

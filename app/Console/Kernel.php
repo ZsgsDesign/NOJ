@@ -8,6 +8,7 @@ use App\Babel\Extension\hdu;
 use App\Models\RankModel;
 use App\Models\SiteMapModel;
 use App\Models\ContestModel;
+use App\Models\GroupModel;
 use App\Models\JudgerModel;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -36,16 +37,25 @@ class Kernel extends ConsoleKernel
                 $babel->judge();
                 sleep(5);
             }
+            file_put_contents(storage_path('app/task-schedule.output'),"Successfully Synced Judger");
         })->everyMinute()->description("Sync Judger");
 
         $schedule->call(function () {
             $rankModel=new RankModel();
             $rankModel->rankList();
-        })->daily()->description("Update Rank");
+            file_put_contents(storage_path('app/task-schedule.output'),"Successfully Updated Rank");
+        })->dailyAt('02:00')->description("Update Rank");
 
         $schedule->call(function () {
             $siteMapModel=new SiteMapModel();
-        })->daily()->description("Update SiteMap");
+            file_put_contents(storage_path('app/task-schedule.output'),"Successfully Updated SiteMap");
+        })->dailyAt('02:00')->description("Update SiteMap");
+
+        $schedule->call(function () {
+            $groupModel=new GroupModel();
+            $groupModel->cacheTrendingGroups();
+            file_put_contents(storage_path('app/task-schedule.output'),"Successfully Cached Trending Groups");
+        })->dailyAt('03:00')->description("Update Trending Groups");
 
         $schedule->call(function() {
             $contestModel = new ContestModel();
@@ -61,6 +71,7 @@ class Kernel extends ConsoleKernel
                 $hduSync->crawlRank();
                 $hduSync->crawlClarification();
             }
+            file_put_contents(storage_path('app/task-schedule.output'),"Successfully Synced Remote Rank and Clarification");
         })->everyMinute()->description("Sync Remote Rank and Clarification");
 
         // TODO it depends on the front interface.
@@ -71,6 +82,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $judgerModel=new JudgerModel();
             $judgerModel->updateServerStatus(1);
+            file_put_contents(storage_path('app/task-schedule.output'),"Successfully Updated Judge Server Status");
         })->everyMinute()->description("Update Judge Server Status");
 
         if (!env("APP_DEBUG")) {
@@ -78,7 +90,7 @@ class Kernel extends ConsoleKernel
         }
 
         if (!env("APP_DEBUG")) {
-            $schedule->command('backup:run --only-db')->daily()->description("BackUp DataBase");
+            $schedule->command('backup:run --only-db')->dailyAt('00:30')->description("BackUp DataBase");
         }
     }
 

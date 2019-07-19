@@ -434,6 +434,26 @@
         cursor: pointer;
     }
 
+    markdown-editor{
+        display: block;
+    }
+
+    markdown-editor .CodeMirror {
+        height: 20rem;
+    }
+
+    markdown-editor ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    markdown-editor ::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    markdown-editor .editor-toolbar.disabled-for-preview a:not(.no-disable){
+        opacity: 0.5;
+    }
+
     /*
     .xdsoft_datetimepicker .xdsoft_next,
     .xdsoft_datetimepicker .xdsoft_prev{
@@ -577,7 +597,7 @@
                             <timeline-container>
                                 <timeline-item data-type="notice">
                                     <div>
-                                        <div>{{$group_notice["name"]}} - {{$group_notice["post_date_parsed"]}} <span class="wemd-green-text">&rtrif; Notice</span></div>
+                                        <div>{{$group_notice["name"]}} <span class="wemd-green-text">&rtrif; {{$group_notice["post_date_parsed"]}}</span></div>
                                         <div><img src="{{$group_notice["avatar"]}}" class="cm-avatar"></div>
                                     </div>
                                     <div>
@@ -758,81 +778,6 @@
 
 </style>
 
-<div id="settingModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content sm-modal" style="width: 80%">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="MDI settings"></i> Group setting</h5>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <group-name-setting>
-                            <div class="form-group">
-                                <label for="group-name" class="bmd-label-floating">Group Name</label>
-                                <input type="text" class="form-control" id="group-name" value="{{$basic_info['name']}}">
-                            </div>
-                            <small id="group-name-tip" class="text-center" style="display:block">PRESS ENTER TO APPLY THE CHANGES</small>
-                        </group-name-setting><br>
-                        <join-policy-setting style="display:block">
-                            <p>Join Policy</p>
-                            <div class="text-center">
-                                <div class="btn-group">
-                                    <button id="policy-choice-btn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        @if($basic_info['join_policy']==3)<span>Invitation & Application</span>@elseif(($basic_info['join_policy']==2))<span>Application</span>@else<span>Invitation</span>@endif
-                                    </button>
-                                    <div class="dropdown-menu text-center">
-                                        <a class="dropdown-item join-policy-choice" data-policy="3">Invitation & Application</a>
-                                        <a class="dropdown-item join-policy-choice" data-policy="2">Application only</a>
-                                        <a class="dropdown-item join-policy-choice" data-policy="1">Invitation only</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </join-policy-setting>
-                        <focus-images-setting style="display:block">
-                            <p>Change Group Image</p>
-                            <small id="change-image-tip" class="text-center" style="display:block">CLICK IMAGE TO CHOOSE A LOCAL IMAGE</small>
-                            <input id="image-file" type="file" style="display:none" accept=".jpg,.png,.jpeg,.gif" />
-                            <label for="image-file" style="display: block; cursor: pointer;" class="text-center">
-                                <img class="group-image" style="width: 90%; height: auto;display:inline-block" src="{{$basic_info['img']}}">
-                            </label>
-                        </focus-images-setting>
-                    </div>
-                    <div class="col-md-6">
-                        <permission-setting>
-                            <p>Permission Setting</p>
-                            @foreach($member_list as $m)
-                                @if($m["role"]>0)
-                                <user-card id="user-permission-{{$m["uid"]}}">
-                                    <user-avatar>
-                                        <a href="/user/{{$m["uid"]}}"><img src="{{$m["avatar"]}}"></a>
-                                    </user-avatar>
-                                    <user-info data-clearance="{{$m["role"]}}" data-rolecolor="{{$m["role_color"]}}">
-                                        <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
-                                        <p>
-                                            <small><i class="MDI google-circles"></i> {{$m["sub_group"]}}</small>
-                                            @if($group_clearance>$m["role"])
-                                                <small @if($group_clearance <= $m["role"] + 1) style="display:none" @endif class="wemd-green-text cm-operation clearance-up" onclick="changeMemberClearance({{$m['uid']}},'promote')"><i class="MDI arrow-up-drop-circle-outline"></i> Promote</small>
-                                                <small @if($m["role"] <= 1) style="display:none" @endif class="wemd-red-text cm-operation clearance-down" onclick="changeMemberClearance({{$m['uid']}},'demote')"><i class="MDI arrow-down-drop-circle-outline"></i> Demote</small>
-                                            @endif
-                                        </p>
-                                    </user-info>
-                                </user-card>
-                                @endif
-                            @endforeach
-                        </permission-setting>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div id="contestModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content sm-modal">
@@ -844,15 +789,15 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="contestName" class="bmd-label-floating">Contest Name</label>
-                            <input type="text" class="form-control" id="contestName">
+                            <input type="text" class="form-control" id="contestName" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="contestBegin" class="bmd-label-floating">Contest Begin Time</label>
-                            <input type="text" class="form-control" id="contestBegin">
+                            <input type="text" class="form-control" id="contestBegin" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="contestEnd" class="bmd-label-floating">Contest End Time</label>
-                            <input type="text" class="form-control" id="contestEnd">
+                            <input type="text" class="form-control" id="contestEnd" autocomplete="off">
                         </div>
                         <div class="switch">
                             <label>
@@ -884,9 +829,10 @@
                     </div>
                     <div class="col-md-8">
                         <p>Description</p>
-                        <div id="vscode_container" style="width:100%;height:50vh;">
-                            <div id="vscode" style="width:100%;height:100%;"></div>
-                        </div>
+                        <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
+                        <markdown-editor class="mt-3 mb-3">
+                            <textarea id="description_editor"></textarea>
+                        </markdown-editor>
                     </div>
                 </div>
 
@@ -994,9 +940,13 @@
 @endsection
 
 @section('additionJS')
+
+    @include("js.common.hljsLight")
     <script src="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
     <script src="/static/js/jquery-ui-sortable.min.js"></script>
-    <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
+    <script type="text/javascript" src="/static/library/simplemde/dist/simplemde.min.js"></script>
+    <script type="text/javascript" src="/static/library/marked/marked.min.js"></script>
+    <script type="text/javascript" src="/static/library/dompurify/dist/purify.min.js"></script>
     <script src="/static/js/parazoom.min.js"></script>
     <script>
         function sortableInit(){
@@ -1359,7 +1309,7 @@
             var contestEnd = $("#contestEnd").val();
             var practiceContest = $("#switch-practice").prop("checked") == true ? 1 : 0;
             var problemSet = "";
-            var contestDescription = editor.getValue();
+            var contestDescription = simplemde.value();
             $("#contestProblemSet td:first-of-type").each(function(){
                 problemSet+=""+$(this).text()+",";
             });
@@ -1569,36 +1519,85 @@
             },
             timepicker:true
         });
-        require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});
 
-        // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
-        // the default worker url location (used when creating WebWorkers). The problem here is that
-        // HTML5 does not allow cross-domain web workers, so we need to proxy the instantiation of
-        // a web worker through a same-domain script
-
-        window.MonacoEnvironment = {
-            getWorkerUrl: function(workerId, label) {
-                return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
-                self.MonacoEnvironment = {
-                    baseUrl: '{{env('APP_URL')}}/static/library/monaco-editor/min/'
-                };
-                importScripts('{{env('APP_URL')}}/static/library/monaco-editor/min/vs/base/worker/workerMain.js');`
-                )}`;
-            }
-        };
-
-        require(["vs/editor/editor.main"], function () {
-            editor = monaco.editor.create(document.getElementById('vscode'), {
-                value: "",
-                language: "markdown",
-                theme: "vs-light",
-                fontSize: 16,
-                formatOnPaste: true,
-                formatOnType: true,
-                automaticLayout: true,
-                lineNumbers: "off"
-            });
-            $("#vscode_container").css("opacity",1);
+        var simplemde = new SimpleMDE({
+            element: $("#description_editor")[0],
+            hideIcons: ["guide", "heading","side-by-side","fullscreen"],
+            spellChecker: false,
+            tabSize: 4,
+            renderingConfig: {
+                codeSyntaxHighlighting: true
+            },
+            previewRender: function (plainText) {
+                return marked(plainText, {
+                    sanitize: true,
+                    sanitizer: DOMPurify.sanitize,
+                    highlight: function (code) {
+                        return hljs.highlightAuto(code).value;
+                    }
+                });
+            },
+            status:false,
+            toolbar: [{
+                    name: "bold",
+                    action: SimpleMDE.toggleBold,
+                    className: "MDI format-bold",
+                    title: "Bold",
+                },
+                {
+                    name: "italic",
+                    action: SimpleMDE.toggleItalic,
+                    className: "MDI format-italic",
+                    title: "Italic",
+                },
+                "|",
+                {
+                    name: "quote",
+                    action: SimpleMDE.toggleBlockquote,
+                    className: "MDI format-quote",
+                    title: "Quote",
+                },
+                {
+                    name: "unordered-list",
+                    action: SimpleMDE.toggleUnorderedList,
+                    className: "MDI format-list-bulleted",
+                    title: "Generic List",
+                },
+                {
+                    name: "ordered-list",
+                    action: SimpleMDE.toggleOrderedList,
+                    className: "MDI format-list-numbers",
+                    title: "Numbered List",
+                },
+                "|",
+                {
+                    name: "code",
+                    action: SimpleMDE.toggleCodeBlock,
+                    className: "MDI code-tags",
+                    title: "Create Code",
+                },
+                {
+                    name: "link",
+                    action: SimpleMDE.drawLink,
+                    className: "MDI link-variant",
+                    title: "Insert Link",
+                },
+                {
+                    name: "image",
+                    action: SimpleMDE.drawImage,
+                    className: "MDI image-area",
+                    title: "Insert Image",
+                },
+                "|",
+                {
+                    name: "preview",
+                    action: SimpleMDE.togglePreview,
+                    className: "MDI eye no-disable",
+                    title: "Toggle Preview",
+                },
+            ],
         });
+
+        hljs.initHighlighting();
     </script>
 @endsection

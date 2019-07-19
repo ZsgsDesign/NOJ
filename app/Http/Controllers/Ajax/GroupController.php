@@ -316,29 +316,29 @@ class GroupController extends Controller
             'gcode' => 'required|alpha_dash|min:3|max:50',
             'name' => 'required|min:3|max:50',
             'public' => 'required|integer|min:1|max:2',
-            'description' => 'nullable|max:100',
+            'description' => 'nullable|max:60000',
             'join_policy'  => 'required|integer|min:1|max:3'
         ]);
 
         $all_data=$request->all();
 
-        if (!empty($request->file('img')) && $request->file('img')->isValid()) {
-            $extension=$request->file('img')->extension();
-        } else {
-            return ResponseModel::err(1005);
-        }
-
-        $allow_extension=['jpg', 'png', 'jpeg', 'gif', 'bmp'];
-
         $groupModel=new GroupModel();
         if($all_data["gcode"]=="create") return ResponseModel::err(7005);
         $is_group=$groupModel->isGroup($all_data["gcode"]);
         if($is_group) return ResponseModel::err(7006);
-        if (!in_array($extension, $allow_extension)) {
-            return ResponseModel::err(1005);
+
+        $allow_extension=['jpg', 'png', 'jpeg', 'gif', 'bmp'];
+        if (!empty($request->file('img')) && $request->file('img')->isValid()) {
+            $extension=$request->file('img')->extension();
+            if (!in_array($extension, $allow_extension)) {
+                return ResponseModel::err(1005);
+            }
+            $path=$request->file('img')->store('/static/img/group', 'NOJPublic');
+        } else {
+            $path="static/img/group/default.png";
         }
-        $path=$request->file('img')->store('/static/img/group', 'NOJPublic');
         $img='/'.$path;
+        
         $groupModel->createGroup(Auth::user()->id, $all_data["gcode"], $img, $all_data["name"], $all_data["public"], $all_data["description"], $all_data["join_policy"]);
         return ResponseModel::success(200);
     }
@@ -348,7 +348,7 @@ class GroupController extends Controller
         $request->validate([
             'gid' => 'required|integer',
             'title' => 'required|min:3|max:50',
-            'content' => 'required|min:3|max:100',
+            'content' => 'required|min:3|max:60000',
         ]);
 
         $all_data=$request->all();

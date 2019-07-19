@@ -22,13 +22,13 @@ class GroupController extends Controller
     public function index()
     {
         $groupModel=new GroupModel();
-        $tending_groups=$groupModel->tendingGroups();
+        $trending_groups=$groupModel->trendingGroups();
         $user_groups=Auth::check() ? $groupModel->userGroups(Auth::user()->id) : [];
         return view('group.index', [
             'page_title' => "Group",
             'site_title' => config("app.name"),
             'navigation' => "Group",
-            'tending' => $tending_groups,
+            'trending' => $trending_groups,
             'mine' => $user_groups
         ]);
     }
@@ -157,8 +157,6 @@ class GroupController extends Controller
         $contestModel=new ContestModel();
         $basic_info=$groupModel->details($gcode);
         if(empty($basic_info)) return Redirect::route('group.index');
-        $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
-        $member_list=$groupModel->userList($basic_info["gid"]);
         return view('group.settings.danger', [
             'page_title'=>"Group Setting danger",
             'site_title'=>config("app.name"),
@@ -197,6 +195,7 @@ class GroupController extends Controller
         if(empty($basic_info)) return Redirect::route('group.index');
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
         $member_list=$groupModel->userList($basic_info["gid"]);
+        $group_notice=$groupModel->detailNotice($gcode);
         return view('group.settings.member', [
             'page_title'=>"Group Setting Member",
             'site_title'=>config("app.name"),
@@ -204,6 +203,7 @@ class GroupController extends Controller
             "basic_info"=>$basic_info,
             'member_list'=>$member_list,
             'group_clearance'=>$clearance,
+            'group_notice'=>$group_notice,
         ]);
     }
 

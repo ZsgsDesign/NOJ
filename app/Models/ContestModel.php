@@ -109,7 +109,13 @@ class ContestModel extends Model
         ])->first()["gid"];
     }
 
-    public function runningContest() 
+    public function gcode($cid)
+    {
+        $gid = $this->gid($cid);
+        return DB::table('group')->where('gid','=',$gid)->first()["gcode"];
+    }
+
+    public function runningContest()
     {
         return DB::select("select * from contest where begin_time < SYSDATE() and end_time > SYSDATE() and vcid != null");
     }
@@ -207,7 +213,7 @@ class ContestModel extends Model
                 $paginator = $paginator ->paginate(10);
             }elseif($filter['public']=='0'){
                 $paginator=DB::table('group_member')
-                ->distinct()
+                ->groupBy('contest.cid')
                 ->select('contest.*')
                 ->join('contest', 'group_member.gid', '=', 'contest.gid')
                 ->leftJoin('contest_participant', 'contest.cid', '=', 'contest_participant.cid')
@@ -234,10 +240,10 @@ class ContestModel extends Model
                     }
                 )
                 ->orderBy('contest.begin_time', 'desc')
-                ->paginate(10, ['contest.cid']);
+                ->paginate(10);
             }else{
                 $paginator=DB::table('group_member')
-                ->distinct()
+                ->groupBy('contest.cid')
                 ->select('contest.*')
                 ->join('contest', 'group_member.gid', '=', 'contest.gid')
                 ->leftJoin('contest_participant', 'contest.cid', '=', 'contest_participant.cid')
@@ -287,7 +293,7 @@ class ContestModel extends Model
                     }
                 )
                 ->orderBy('contest.begin_time', 'desc')
-                ->paginate(10, ['contest.cid']);
+                ->paginate(10);
             }
         } else {
             $paginator=DB::table($this->tableName)->where([
@@ -1358,6 +1364,7 @@ class ContestModel extends Model
             $cid=DB::table($this->tableName)->insertGetId([
                 "gid"=>$gid,
                 "name"=>$config["name"],
+                "assign_uid"=>$config["assign_uid"],
                 "verified"=>0, //todo
                 "rated"=>0,
                 "anticheated"=>0,
@@ -1730,5 +1737,10 @@ class ContestModel extends Model
         $contestRankJson = DB::table('contest')->where('cid','=',$cid)->pluck('rank')->first();
         $data = json_decode($contestRankJson, true);
         return $data;
+    }
+
+    public function isVerified($cid)
+    {
+        return DB::table('contest')->where('cid','=',$cid)->pluck('verified')->first();
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Cache;
 
 class GroupModel extends Model
 {
@@ -17,9 +18,9 @@ class GroupModel extends Model
 
     /*
         join_policy:
-            1:ֻ��ͨ���������
-            2:ֻ��ͨ���������
-            3:������������ɼ���
+            1:a user can join this group only by invitation
+            2:a user can join this group only by application
+            3:a user can join this group by both invitation and application
     */
     public $role=[
         "-3"=>"None",
@@ -38,13 +39,26 @@ class GroupModel extends Model
         "3"=>"wemd-amber"
     ];
 
-    public function tendingGroups()
+    public function trendingGroups()
     {
-        $tending_groups=DB::table($this->tableName)->where(["public"=>1])->orderBy('create_time', 'desc')->select("gid", "gcode", "img", "name", "verified")->limit(12)->get()->all(); //Fake Tending
-        foreach ($tending_groups as &$t) {
+        return Cache::tags(['group'])->get('trending');
+    }
+
+    public function gid($gcode)
+    {
+        return DB::table($this->tableName)->where(["gcode"=>$gcode])->first()["gid"];
+    }
+
+    public function cacheTrendingGroups()
+    {
+        $trending_groups=DB::table($this->tableName)->where(["public"=>1])->orderBy('create_time', 'desc')->select("gid", "gcode", "img", "name", "verified")->get()->all();
+        foreach ($trending_groups as &$t) {
             $t["members"]=$this->countGroupMembers($t["gid"]);
         }
-        return $tending_groups;
+        usort($trending_groups, function ($a, $b) {
+            return $b["members"]<=>$a["members"];
+        });
+        Cache::tags(['group'])->put('trending', array_slice($trending_groups,0,12), 3600*24);
     }
 
     public function userGroups($uid)
@@ -301,11 +315,11 @@ class GroupModel extends Model
 
     public function judgeEmailClearance($gid, $email)
     {
-        $uid=DB::table("users")->where(["email"=>$email])->first();
-        if(empty($uid)) return -4;
+        $user=DB::table("users")->where(["email"=>$email])->first();
+        if(empty($user)) return -4;
         $ret=DB::table("group_member")->where([
             "gid"=>$gid,
-            "uid"=>$uid["id"],
+            "uid"=>$user["id"],
         ])->first();
         return empty($ret) ? -3 : $ret["role"];
     }
@@ -355,6 +369,16 @@ class GroupModel extends Model
             "role"=>3,
             "join_time"=>date("Y-m-d H:i:s")
         ]);
+    }
+
+    public function detailNotice($gcode)
+    {
+        $group=DB::table("group")->where([
+            "gcode"=>$gcode,
+        ])->first();
+        return $group_notice=DB::table("group_notice")->where([
+            "gid"=>$group["gid"],
+        ])->first();
     }
 
     public function createNotice($gid, $uid, $title, $content)

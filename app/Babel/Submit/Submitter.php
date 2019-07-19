@@ -45,6 +45,7 @@ class Submitter
         try {
             $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$oj/babel.json")), true);
             $submitterProvider=$BabelConfig["provider"]["submitter"];
+        } catch(ErrorException $e) {
         } catch(Exception $e) {
         }
         $className = "App\\Babel\\Extension\\$oj\\$submitterProvider";

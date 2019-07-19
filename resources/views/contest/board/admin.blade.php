@@ -99,15 +99,29 @@
             <a href="/contest/{{$cid}}/board/status"><nav-item>Status</nav-item></a>
             <a href="/contest/{{$cid}}/board/clarification"><nav-item>Clarification</nav-item></a>
             <a href="/contest/{{$cid}}/board/print"><nav-item>Print</nav-item></a>
+            @if($basic['practice'])
+                <a href="/contest/{{$cid}}/board/analysis"><nav-item>Analysis</nav-item></a>
+            @endif
+            @if($clearance>2)
             <a href="/contest/{{$cid}}/board/admin"><nav-item class="active">Admin</nav-item></a>
+            @endif
         </nav-div>
         <div class="row pl-3">
+            @if($verified)
             <div class="col-3 admin-list p-0">
                 <ul class="list-group bmd-list-group p-0">
                     <a href="#" class="list-group-item admin-tab-text wemd-light-blue wemd-lighten-4"> Account Generate</a>
                 </ul>
+                <ul class="list-group bmd-list-group p-0">
+                    <a href="/contest/{{$cid}}/board/clarification" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Issue Clarification</a>
+                </ul>
+                <ul class="list-group bmd-list-group p-0">
+                    <a href="/group/{{$gcode}}/settings/contest" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Contest Management</a>
+                </ul>
             </div>
+            @endif
             <div class="col-9 pt-3">
+                @if($verified)
                 <h3 class="tab-title">Account Generate</h3>
                 <form class="form-inline">
                     <div class="form-group mr-3">
@@ -139,6 +153,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                @endif
             </div>
         </div>
     </paper-card>

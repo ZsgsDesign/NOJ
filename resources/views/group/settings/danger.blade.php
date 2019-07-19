@@ -151,24 +151,34 @@
         margin-bottom: 0;
     }
 
+    empty-container{
+        display:block;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    empty-container i{
+        font-size:5rem;
+        color:rgba(0,0,0,0.42);
+    }
+
+    empty-container p{
+        font-size: 1rem;
+        color:rgba(0,0,0,0.54);
+    }
+
+
 </style>
 
-    <div id="settingModal" class="" tabindex="-1" role="dialog">
-        <div class="paper-card" role="document">
-            <div class="modal-content sm-modal" style="width: 80%">
-                <div class="modal-header">
-                    <h5 class="modal-title"><i class="MDI alert-circle-outline"></i> Danger Zone</h5>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm">
-                            Noting here.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<settings-card>
+    <settings-header>
+            <h5><i class="MDI alert-circle-outline"></i> Danger Zone</h5>
+    </settings-header>
+    <empty-container>
+        <i class="MDI package-variant"></i>
+        <p>Nothing Here.</p>
+    </empty-container>
+</settings-card>
 
 @endsection
 

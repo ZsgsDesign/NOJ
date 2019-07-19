@@ -6,6 +6,7 @@ use App\Models\ContestModel;
 use App\Models\GroupModel;
 use App\Models\ResponseModel;
 use App\Models\UserModel;
+use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Jobs\ProcessSubmission;
@@ -31,7 +32,7 @@ class ContestController extends Controller
             return ResponseModel::err(2001);
         }
 
-        if(!$groupModel->isMember($contest_info['gid'],$uid)){
+        if($groupModel->judgeClearance($contest_info['gid'],$uid) < 2){
             return ResponseModel::err(7004);
         }
 
@@ -231,7 +232,7 @@ class ContestController extends Controller
         $contestModel->contestUpdate($cid,$all_data,$problemSet);
         return ResponseModel::success(200,$tips);
     }
-  
+
     public function issueAnnouncement(Request $request){
         $request->validate([
             'cid' => 'required|integer',
@@ -297,13 +298,17 @@ class ContestController extends Controller
         $request->validate([
             'cid' => 'required|integer',
             'ccode' => 'required|min:3|max:10',
-            'num' => 'required|integer'
+            'num' => 'required|integer|max:100'
         ]);
 
         $all_data=$request->all();
 
         $groupModel=new GroupModel();
         $contestModel=new ContestModel();
+        $verified=$contestModel->isVerified($all_data["cid"]);
+        if(!$verified){
+            return ResponseModel::err(2001);
+        }
         $gid=$contestModel->gid($all_data["cid"]);
         $clearance=$groupModel->judgeClearance($gid, Auth::user()->id);
         if ($clearance<3) {
@@ -327,7 +332,7 @@ class ContestController extends Controller
 
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
-        if ($clearance < 2) {
+        if ($clearance < 1) {
             return ResponseModel::err(7002);
         }
         return ResponseModel::success(200,null,$contestModel->praticeAnalysis($cid));

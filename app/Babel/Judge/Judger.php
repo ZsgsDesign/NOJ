@@ -42,6 +42,7 @@ class Judger extends Curl
         try {
             $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$ocode/babel.json")), true);
             $judgerProvider=$BabelConfig["provider"]["judger"];
+        } catch(ErrorException $e) {
         } catch(Exception $e) {
         }
         $className = "App\\Babel\\Extension\\$name\\$judgerProvider";
