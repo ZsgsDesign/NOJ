@@ -81,6 +81,10 @@
         box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 30px;
     }
 
+    .carousel-item img{
+        transform: scale(1.01);
+    }
+
 </style>
 
 <div class="container mundb-standard-container">
@@ -130,19 +134,21 @@
         <div class="col-sm-12 col-lg-4">
             <p class="cm-anno"><i class="MDI newspaper"></i> Announcement</p>
             <div>
-                @unless(empty($group_notice))
-                    <timeline-container>
-                        <timeline-item data-type="notice">
-                            <div>
-                                <div>{{$group_notice["name"]}} - {{$group_notice["post_date_parsed"]}} <span class="wemd-green-text">&rtrif; Notice</span></div>
-                                <div><img src="{{$group_notice["avatar"]}}" class="cm-avatar"></div>
-                            </div>
-                            <div>
-                                <h5>{{$group_notice["title"]}}</h5>
-                                <p>{!!$group_notice["content_parsed"]!!}</p>
-                            </div>
-                        </timeline-item>
-                    </timeline-container>
+                @unless(empty($announcements))
+                    @foreach($announcements as $announcement)
+                        <timeline-container>
+                            <timeline-item data-type="notice">
+                                <div>
+                                    <div>{{$announcement["name"]}} - {{$announcement["post_date_parsed"]}} <span class="wemd-green-text">&rtrif; Notice</span></div>
+                                    <div><img src="{{$announcement["avatar"]}}" class="cm-avatar"></div>
+                                </div>
+                                <div>
+                                    <h5>{{$announcement["title"]}}</h5>
+                                    <p>{!!$announcement["content_parsed"]!!}</p>
+                                </div>
+                            </timeline-item>
+                        </timeline-container>
+                    @endforeach
                 @else
                     <empty-container>
                         <i class="MDI package-variant"></i>
