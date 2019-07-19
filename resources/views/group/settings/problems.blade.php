@@ -66,17 +66,34 @@
         border: 1px solid #6c757d;
         cursor: pointer;
     }
+
+    empty-container{
+        display:block;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    empty-container i{
+        font-size:5rem;
+        color:rgba(0,0,0,0.42);
+    }
+
+    empty-container p{
+        font-size: 1rem;
+        color:rgba(0,0,0,0.54);
+    }
+
 </style>
 <settings-card>
         <settings-header>
                 <h5><i class="MDI script"></i> Group Problems Management</h5>
         </settings-header>
-    @if(is_null($problems))
+    @if(empty($problems))
         <empty-container>
             <i class="MDI package-variant"></i>
             <p>Nothing matches your search.</p>
         </empty-container>
-        @else
+    @else
         <settings-body class="animated bounceInLeft">
             <div class="table-responsive">
                 <table class="table table-borderless">

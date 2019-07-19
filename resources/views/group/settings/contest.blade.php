@@ -270,7 +270,7 @@
                     @endif
                 </div>
                 <div id="contest-detail" class="col-7">
-                    <paper-card>
+                    <paper-card style="box-shadow:none;border:none;margin:0;">
                         <p>Assignee</p>
                         <div id="assignee-area">
 

@@ -72,7 +72,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.', 'middleware' => ['contes
     Route::get('/{cid}/board/clarification', 'ContestController@clarification')->middleware('auth')->name('clarification');
     Route::get('/{cid}/board/print', 'ContestController@print')->middleware('auth')->name('print');
     Route::get('/{cid}/board/admin', 'ContestController@admin')->middleware('auth', 'privileged')->name('admin');
-    Route::get('/{cid}/board/analysis', 'ContestController@analysis')->middleware('auth', 'privileged')->name('analysis');
+    Route::get('/{cid}/board/analysis', 'ContestController@analysis')->middleware('auth')->name('analysis');
     Route::get('/{cid}/admin/downloadContestAccountXlsx', 'ContestController@downloadContestAccountXlsx')->middleware('auth')->name('downloadContestAccountXlsx');
 });
 
