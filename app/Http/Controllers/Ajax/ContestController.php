@@ -332,7 +332,7 @@ class ContestController extends Controller
 
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
-        if ($clearance < 2) {
+        if ($clearance < 1) {
             return ResponseModel::err(7002);
         }
         return ResponseModel::success(200,null,$contestModel->praticeAnalysis($cid));
