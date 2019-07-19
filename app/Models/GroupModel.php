@@ -156,7 +156,7 @@ class GroupModel extends Model
             "nick_name",
             "avatar",
             "sub_group",
-            "ranking",
+            "ranking"
         )->get()->all();
         foreach ($user_list as &$u) {
             $u["role_parsed"]=$this->role[$u["role"]];
