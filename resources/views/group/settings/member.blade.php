@@ -146,7 +146,7 @@
 @endsection
 
 @section('additionJS')
-@include("js.common.hljsLight")
+    @include("js.common.hljsLight")
     <script src="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
     <script src="/static/js/jquery-ui-sortable.min.js"></script>
     <script type="text/javascript" src="/static/library/simplemde/dist/simplemde.min.js"></script>
@@ -236,7 +236,8 @@
                 },
             ],
         });
-        simplemde.value(`{{$group_notice["content"]}}`);
+        var desc = '{{base64_encode($group_notice["content"])}}';
+        simplemde.value(window.atob(desc));
 
         hljs.initHighlighting();
 
@@ -482,14 +483,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    if (ret.ret==200) {
-                        alert(ret.desc);
-                        setTimeout(function(){
-                            location.href='/group/{{$basic_info["gid"]}}';
-                        },800)
-                    } else {
-                        alert(ret.desc);
-                    }
+                    alert(ret.desc);
                     ajaxing=false;
                     $("#noticeBtn > i").addClass("d-none");
                 }, error: function(xhr, type){
