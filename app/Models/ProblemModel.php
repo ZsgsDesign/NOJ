@@ -62,6 +62,7 @@ class ProblemModel extends Model
                     DB::raw("sum(verdict='accepted') as passed_count"),
                     DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
                 )->where(["pid"=>$prob_detail["pid"]])->first();
+                $prob_detail['vcid']=null;
                 $prob_detail["points"]=0;
             }
             if ($prob_stat["submission_count"]==0) {
