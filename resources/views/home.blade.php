@@ -86,37 +86,37 @@
     <div class="row">
         <div class="col-sm-12 col-lg-8">
             <div class="cm-title-section">
-                    <h1>Welcome to {{config("app.name")}}!</h1>
-                    <version-badge class="mb-5">
-                        <inline-div>Version</inline-div><inline-div>{{version()}}</inline-div>
-                    </version-badge>
-                </div>
-            <div id="NOJFocusCarousel" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#NOJFocusCarousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#NOJFocusCarousel" data-slide-to="1"></li>
-                    <li data-target="#NOJFocusCarousel" data-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                    <img class="d-block w-100" src="/static/img/carousel/default.png" alt="First slide">
-                    </div>
-                    <div class="carousel-item">
-                    <img class="d-block w-100" src="/static/img/carousel/default.png" alt="Second slide">
-                    </div>
-                    <div class="carousel-item">
-                    <img class="d-block w-100" src="/static/img/carousel/default.png" alt="Third slide">
-                    </div>
-                </div>
-                <a class="carousel-control-prev" href="#NOJFocusCarousel" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#NOJFocusCarousel" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
+                <h1>Welcome to {{config("app.name")}}!</h1>
+                <version-badge class="mb-5">
+                    <inline-div>Version</inline-div><inline-div>{{version()}}</inline-div>
+                </version-badge>
             </div>
+            @unless(empty($carousel))
+                <div id="NOJFocusCarousel" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        @foreach ($carousel as $c)
+                            <li data-target="#NOJFocusCarousel" data-slide-to="{{$loop->index}}" class="@unless($loop->index) active @endunless"></li>
+                        @endforeach
+                    </ol>
+                    <div class="carousel-inner">
+                        @foreach ($carousel as $c)
+                            <div class="carousel-item @unless($loop->index) active @endunless">
+                                <img class="d-block w-100" src="{{$c["image"]}}" alt="{{$c["title"]}}">
+                            </div>
+                        @endforeach
+                    </div>
+                    <a class="carousel-control-prev" href="#NOJFocusCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#NOJFocusCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            @else
+                <p class="mb-5">{{config("app.name")}} is an Online Judge, and yet have features of Virtual Judges as well as an perspective to hold contests over several OJs without knowing the tests and outcomes dataset to enable multiple possibilities like ICPC team routine training and internal contest holding and so on.</p>
+            @endunless
             <p class="cm-anno mt-5"><i class="MDI power-plug"></i> We have currently support the following Babel Extensions:</p>
             <div class="row">
                 @foreach ($ojs as $oj)
