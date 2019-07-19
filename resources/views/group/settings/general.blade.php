@@ -121,6 +121,19 @@
     group-image > shadow-div > img:hover{
         transform: scale(1.2);
     }
+
+    .cm-fake-select{
+        height: calc(2.4375rem + 2px);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    group-name-setting,
+    join-policy-setting,
+    focus-images-setting{
+        display: block;
+    }
 </style>
 
 <settings-card>
@@ -132,32 +145,31 @@
             <div class="col-sm">
                 <group-name-setting>
                     <div class="form-group">
-                        <p style="font-weight:500;">Group Name</p>
-                        <small id="group-name-tip" style="display:block;text-indent:20px;">PRESS ENTER TO APPLY THE CHANGES</small>
+                        <p style="font-weight:500;margin-bottom: 0.5rem;">Group Name</p>
+                        <small id="change-image-tip" style="display:block;font-size:65%:">Enter the new name displayed for your group</small>
                         <input type="text" class="form-control" id="group-name" value="{{$basic_info['name']}}">
                     </div>
-                </group-name-setting><br>
-                <join-policy-setting style="display:block">
+                </group-name-setting>
+                <join-policy-setting style="display:block;margin-top:2rem;">
                     <p style="margin-bottom:0px;font-weight:500;">Join Policy</p>
-                    <div class="text-center">
-                        <div class="btn-group">
-                            <button id="policy-choice-btn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                                @if($basic_info['join_policy']==3)<span>Invitation & Application</span>@elseif(($basic_info['join_policy']==2))<span>Application</span>@else<span>Invitation</span>@endif
-                            </button>
-                            <div class="dropdown-menu text-center">
-                                <a class="dropdown-item join-policy-choice" data-policy="3">Invitation & Application</a>
-                                <a class="dropdown-item join-policy-choice" data-policy="2">Application only</a>
-                                <a class="dropdown-item join-policy-choice" data-policy="1">Invitation only</a>
-                            </div>
+                    <div class="btn-group">
+                        <div class="form-control cm-fake-select dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="policy-choice-btn" name="pb_lang" required="">
+                            @if($basic_info['join_policy']==3)<span>Invitation & Application</span>
+                            @elseif(($basic_info['join_policy']==2))<span>Application</span>
+                            @else<span>Invitation</span>@endif
+                        </div>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item join-policy-choice" data-policy="3">Invitation & Application</button>
+                            <button class="dropdown-item join-policy-choice" data-policy="2">Application only</button>
+                            <button class="dropdown-item join-policy-choice" data-policy="1">Invitation only</button>
                         </div>
                     </div>
                 </join-policy-setting>
-                <focus-images-setting style="display:block">
-                    <p style="font-weight:500;">Change Group Image</p>
-                    <small id="change-image-tip" style="display:block;text-align:left;width:100%;text-indent:20px;">CLICK IMAGE TO CHOOSE A LOCAL IMAGE</small>
+                <focus-images-setting style="display:block;margin-top:2rem;">
+                    <p style="font-weight:500;margin-bottom: 0.5rem;">Change Group Image</p>
+                    <small id="change-image-tip" style="display:block;font-size:65%:">Click image to upload a local file as new focus image</small>
                     <input id="image-file" type="file" style="display:none" accept=".jpg,.png,.jpeg,.gif" />
-                    <label for="image-file" style="display: block;" class="text-center">
+                    <label for="image-file" style="display: block;margin-top:2rem;">
                         <img class="group-image" style="max-height:250px;max-width: 90%; height: auto;display:inline-block;cursor: pointer;" src="{{$basic_info['img']}}">
                     </label>
                 </focus-images-setting>
@@ -169,12 +181,8 @@
 @endsection
 
 @section('additionJS')
-    <script src="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
-    <script src="/static/js/jquery-ui-sortable.min.js"></script>
-    <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
-    <script src="/static/js/parazoom.min.js"></script>
     <script>
-        window.addEventListener('load',function(){
+        window.addEventListener('load',function(){});
 
         $('#avatar').on('click',function(){
             $('#update-avatar-modal').modal();
@@ -221,8 +229,6 @@
             $('#update-avatar-modal').modal('hide');
         });
 
-    </script>
-    <script>
         function sortableInit(){
             $("#contestModal tbody").sortable({
                 items: "> tr",
@@ -368,12 +374,10 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(result){
                     if (result.ret===200) {
-                        changeText('#join-policy-display',{
+                        changeText('#policy-choice-btn > span',{
                             text : join_policy,
                         });
-                        changeText('#policy-choice-btn',{
-                            text : join_policy,
-                        });
+                        $('#policy-choice-btn > span').text(join_policy);
                     } else {
                         alert(result.desc);
                     }
@@ -563,40 +567,6 @@
                     $("#changeProfileBtn > i").addClass("d-none");
                 }
             });
-        });
-
-
-
-        require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});
-
-        // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
-        // the default worker url location (used when creating WebWorkers). The problem here is that
-        // HTML5 does not allow cross-domain web workers, so we need to proxy the instantiation of
-        // a web worker through a same-domain script
-
-        window.MonacoEnvironment = {
-            getWorkerUrl: function(workerId, label) {
-                return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
-                self.MonacoEnvironment = {
-                    baseUrl: '{{env('APP_URL')}}/static/library/monaco-editor/min/'
-                };
-                importScripts('{{env('APP_URL')}}/static/library/monaco-editor/min/vs/base/worker/workerMain.js');`
-                )}`;
-            }
-        };
-
-        require(["vs/editor/editor.main"], function () {
-            editor = monaco.editor.create(document.getElementById('vscode'), {
-                value: "",
-                language: "markdown",
-                theme: "vs-light",
-                fontSize: 16,
-                formatOnPaste: true,
-                formatOnType: true,
-                automaticLayout: true,
-                lineNumbers: "off"
-            });
-            $("#vscode_container").css("opacity",1);
         });
     </script>
 @endsection

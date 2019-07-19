@@ -13,6 +13,7 @@ namespace App\Http\Controllers;
 
 use App\Models\GroupModel;
 use App\Models\ProblemModel;
+use App\Models\CarouselModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
@@ -49,7 +50,8 @@ class MainController extends Controller
                 'site_title'=>config("app.name"),
                 'navigation' => "Home",
                 'group_notice' => $group_notice,
-                'ojs' => $ojs
+                'ojs' => $ojs,
+                'carousel' => CarouselModel::list()
             ]);
     }
 
