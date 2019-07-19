@@ -54,7 +54,7 @@ class GroupAnalysisExport implements FromCollection, WithEvents, WithStrictNullC
         $percent = $this->config['percent'] ?? false;
 
         if($this->config['mode'] == 'contest'){
-            $row_1 = ['Member','Total','',''];
+            $row_1 = ['Member','Total','','',''];
             $row_2 = ['','Elo','Rank','Solved','Penalty'];
             foreach ($this->contest_data as $contest) {
                 array_push($row_1,$contest['name'],'');
@@ -81,7 +81,7 @@ class GroupAnalysisExport implements FromCollection, WithEvents, WithStrictNullC
                             $row,
                             $percent === 'true' ? (round($contest_detial['solved'] / $contest_detial['problems'] * 100,1) . ' %')
                                     : ($maxium === 'true' ? $contest_detial['solved'].' / '.$contest_detial['problems'] : $contest_detial['solved']),
-                            $contest_detial['penalty']
+                            round($contest_detial['penalty'])
                         );
                     }else{
                         array_push(

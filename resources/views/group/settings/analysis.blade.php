@@ -137,7 +137,7 @@
                 <a class="nav-link disabled" href="#">Developing...</a>
             </nav>
             <div class="analysis-toolbar">
-                <button id="analysis-download" class="btn btn-outline-primary m-0"><i class="MDI download"></i> download as excel</button>
+                <a id="analysis-download" class="btn btn-outline-primary m-0"><i class="MDI download"></i> download as excel</a>
                 <span class="bmd-form-group pt-2">
                     <div class="switch">
                         <label>
