@@ -78,6 +78,7 @@
     #NOJFocusCarousel{
         border-radius: 4px;
         overflow: hidden;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 30px;
     }
 
 </style>
@@ -101,7 +102,7 @@
                     <div class="carousel-inner">
                         @foreach ($carousel as $c)
                             <div class="carousel-item @unless($loop->index) active @endunless">
-                                <img class="d-block w-100" src="{{$c["image"]}}" alt="{{$c["title"]}}">
+                                <a href="{{$c["url"]}}" target="_blank"><img class="d-block w-100" src="{{$c["image"]}}" alt="{{$c["title"]}}"></a>
                             </div>
                         @endforeach
                     </div>
