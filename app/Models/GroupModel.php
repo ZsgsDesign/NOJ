@@ -567,4 +567,23 @@ class GroupModel extends Model
             "cid"=>$cid,
         ])->update($data);
     }
+
+    public function rankingNeedUpdate($gid)
+    {
+        $lastest_contest = DB::table('contest')
+            ->where([
+                'gid' => $gid,
+                'practice' => 1
+            ])->select('cid')
+            ->orderByDesc('end_time')
+            ->first();
+
+        $log = DB::table('group_rated_change_log')
+            ->where([
+                'gid' => $gid,
+                'cid' => $lastest_contest['cid'],
+            ])->count();
+
+        return $log ? true : false;
+    }
 }

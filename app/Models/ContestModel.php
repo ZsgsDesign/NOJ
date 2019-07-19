@@ -760,7 +760,7 @@ class ContestModel extends Model
         return $ret;
     }
 
-    public function contestRank($cid, $uid)
+    public function contestRank($cid, $uid = 0)
     {
         // [ToDo] If the current user's in the organizer group show nick name
         // [ToDo] The participants determination
