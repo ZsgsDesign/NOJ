@@ -14,6 +14,7 @@ class ModifyForeignKeysOfProblemTable extends Migration
     public function up()
     {
         Schema::table('problem', function (Blueprint $table) {
+            $table->dropForeign('problem_oid');
             $table->foreign('OJ', 'problem_oid')->references('oid')->on('oj')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
@@ -26,6 +27,7 @@ class ModifyForeignKeysOfProblemTable extends Migration
     public function down()
     {
         Schema::table('problem', function (Blueprint $table) {
+            $table->dropForeign('problem_oid');
             $table->foreign('OJ', 'problem_oid')->references('oid')->on('oj')->onUpdate('CASCADE')->onDelete('RESTRICT');
         });
     }

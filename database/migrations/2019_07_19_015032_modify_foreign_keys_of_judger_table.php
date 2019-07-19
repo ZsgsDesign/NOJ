@@ -14,6 +14,7 @@ class ModifyForeignKeysOfJudgerTable extends Migration
     public function up()
     {
         Schema::table('judger', function (Blueprint $table) {
+            $table->dropForeign('judger_oid');
             $table->foreign('oid', 'judger_oid')->references('oid')->on('oj')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
@@ -26,6 +27,7 @@ class ModifyForeignKeysOfJudgerTable extends Migration
     public function down()
     {
         Schema::table('judger', function (Blueprint $table) {
+            $table->dropForeign('judger_oid');
             $table->foreign('oid', 'judger_oid')->references('oid')->on('oj')->onUpdate('CASCADE')->onDelete('RESTRICT');
         });
     }
