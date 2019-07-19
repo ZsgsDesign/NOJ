@@ -597,7 +597,7 @@
                             <timeline-container>
                                 <timeline-item data-type="notice">
                                     <div>
-                                        <div>{{$group_notice["name"]}} - {{$group_notice["post_date_parsed"]}} <span class="wemd-green-text">&rtrif; Notice</span></div>
+                                        <div>{{$group_notice["name"]}} <span class="wemd-green-text">&rtrif; {{$group_notice["post_date_parsed"]}}</span></div>
                                         <div><img src="{{$group_notice["avatar"]}}" class="cm-avatar"></div>
                                     </div>
                                     <div>

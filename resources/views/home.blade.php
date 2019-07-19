@@ -132,14 +132,14 @@
             </div>
         </div>
         <div class="col-sm-12 col-lg-4">
-            <p class="cm-anno"><i class="MDI newspaper"></i> Announcement</p>
+            <p class="cm-anno"><i class="MDI newspaper"></i> Announcements</p>
             <div>
                 @unless(empty($announcements))
                     @foreach($announcements as $announcement)
                         <timeline-container>
                             <timeline-item data-type="notice">
                                 <div>
-                                    <div>{{$announcement["name"]}} - {{$announcement["post_date_parsed"]}} <span class="wemd-green-text">&rtrif; Notice</span></div>
+                                    <div>{{$announcement["name"]}} <span class="wemd-green-text">&rtrif; {{$announcement["post_date_parsed"]}}</span></div>
                                     <div><img src="{{$announcement["avatar"]}}" class="cm-avatar"></div>
                                 </div>
                                 <div>
