@@ -659,7 +659,6 @@ class ContestModel extends Model
                 $prob_detail=[];
                 $totPen=0;
                 $totScore=0;
-                $solved=0;
                 foreach ($problemSet as $p) {
                     $prob_stat=$this->contestProblemInfoACM($cid, $p["pid"], $s["uid"]);
                     $prob_detail[]=[
@@ -673,7 +672,6 @@ class ContestModel extends Model
                         $totPen+=$prob_stat["wrong_doings"] * 20;
                         $totPen+=$prob_stat["solved_time"] / 60;
                         $totScore+=$prob_stat["solved"];
-                        $solved ++;
                     }
                 }
                 $ret[]=[
@@ -687,7 +685,6 @@ class ContestModel extends Model
                     ])->where("role", ">", 0)->first()["nick_name"],
                     "score" => $totScore,
                     "penalty" => $totPen,
-                    "solved" =>$solved,
                     "problem_detail" => $prob_detail
                 ];
             }
@@ -820,6 +817,17 @@ class ContestModel extends Model
         //         $contestRankRaw=$this->contestRankCache($cid);
         //     }
         // }
+        if($contest_info["rule"]==1){
+            foreach ($contestRankRaw as &$cr) {
+                $solved = 0;
+                foreach($cr['problem_detail'] as $pd){
+                    if(!empty($pd['solved_time_parsed'])){
+                        $solved ++;
+                    }
+                }
+                $cr['solved'] = $solved;
+            }
+        }
 
         $ret=$contestRankRaw;
 
