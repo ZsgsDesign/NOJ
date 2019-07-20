@@ -41,9 +41,11 @@ class InstallerBase
         // check requirement
         try {
             if(!($this->versionParser->parse($babelConfig["require"]["NOJ"])->complies(new Version(explode("-",version())[0])))){
-                $this->command->line("Your Current NOJ Version <fg=yellow>".version()."</> doesn't support the following extension: ");
-                $this->command->line("  - <fg=green>$ocode</> requires NOJ version <fg=yellow>{$babelConfig['require']['NOJ']}</>");
-                return;
+                if(!$this->command->option('ignore-platform-reqs')){
+                    $this->command->line("Your Current NOJ Version <fg=yellow>".version()."</> doesn't support the following extension: ");
+                    $this->command->line("  - <fg=green>$ocode</> requires NOJ version <fg=yellow>{$babelConfig['require']['NOJ']}</>");
+                    return;
+                }
             }
         } catch(InvalidVersionException $e) {
             $this->command->line("\n  <bg=red;fg=white> Illegal Compability Info, aborting. </>\n");

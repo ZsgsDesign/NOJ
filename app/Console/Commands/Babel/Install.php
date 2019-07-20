@@ -14,7 +14,7 @@ class Install extends Command
      *
      * @var string
      */
-    protected $signature = 'babel:install {extension : The package name of the extension}';
+    protected $signature = 'babel:install {extension : The package name of the extension} {--ignore-platform-reqs : Ignore the Platform Requirements when install}';
 
     /**
      * The console command description.
@@ -41,6 +41,7 @@ class Install extends Command
     public function handle()
     {
         $extension = $this->argument('extension');
+        $ignoreReqs = $this->option('ignore-platform-reqs');
         $output = new BufferedOutput();
         $installerProvider="Installer";
         try {
