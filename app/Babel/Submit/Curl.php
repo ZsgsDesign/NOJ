@@ -26,6 +26,7 @@ class Curl
 
         $datapost=curl_init();
         $headers=array("Expect:");
+        $handle=urlencode($handle);
 
         curl_setopt($datapost, CURLOPT_CAINFO, babel_path("Cookies/cacert.pem"));
         curl_setopt($datapost, CURLOPT_URL, $url);
@@ -58,6 +59,8 @@ class Curl
         if(isset($all_data["headers"])) $headers = $all_data["headers"];    else $headers = [];
         if(isset($all_data["handle"]))  $handle = $all_data["handle"];      else $handle = "default";
 
+        $handle=urlencode($handle);
+
         $ch=curl_init();
         curl_setopt($ch, CURLOPT_CAINFO, babel_path("Cookies/cacert.pem"));
         // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -89,6 +92,8 @@ class Curl
         if(isset($all_data["postJson"]))     $postJson = $all_data["postJson"];         else $postJson = false;
         if(isset($all_data["extraHeaders"])) $extraHeaders = $all_data["extraHeaders"]; else $extraHeaders = [];
         if(isset($all_data["handle"]))       $handle = $all_data["handle"];             else $handle = "default";
+
+        $handle=urlencode($handle);
 
         $datapost=curl_init();
         $headers=array("Expect:");
