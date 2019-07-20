@@ -2,6 +2,7 @@
 namespace App\Babel\Submit;
 
 use App\Models\SubmissionModel;
+use Exception;
 
 interface CurlInterface {
     function login($all_data);
