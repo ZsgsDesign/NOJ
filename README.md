@@ -203,7 +203,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hd
                 - [ ] Site-wide Contests
             - [ ] Group Own ProblemSet
                 - [ ] Add Problem
-            - [ ] Group Settings
+            - [X] Group Settings
 - [ ] Admin Portal
     - [X] User Management
     - [X] Contest Management
