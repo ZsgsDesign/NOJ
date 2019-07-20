@@ -338,7 +338,7 @@ class GroupController extends Controller
             $path="static/img/group/default.png";
         }
         $img='/'.$path;
-        
+
         $groupModel->createGroup(Auth::user()->id, $all_data["gcode"], $img, $all_data["name"], $all_data["public"], $all_data["description"], $all_data["join_policy"]);
         return ResponseModel::success(200);
     }
@@ -361,7 +361,7 @@ class GroupController extends Controller
         $groupModel->createNotice($all_data["gid"], Auth::user()->id, $all_data["title"], $all_data["content"]);
         return ResponseModel::success(200);
     }
-  
+
     public function addProblemTag(Request $request)
     {
         $request->validate([
@@ -432,42 +432,5 @@ class GroupController extends Controller
             return ResponseModel::success(200,null,$ret);
         }
         return ResponseModel::err(7002);
-    }
-
-    public function updateContestInfo(Request $request){
-        $request->validate([
-            'cid' => 'required|integer',
-            'name' => 'required|max:255',
-            'begin_time' => 'date',
-            'end_time' => 'date',
-            'description' => 'string'
-        ]);
-
-        $all_data=$request->all();
-
-        $groupModel=new GroupModel();
-        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
-        if ($clearance != 3) {
-            return ResponseModel::err(2001);
-        }
-
-        $valid_time = $groupModel->canUpdateContestTime($all_data['cid'],[
-            'begin' => $all_data['begin_time'] ?? null,
-            'end' => $all_data['end_time'] ?? null,
-        ]);
-
-        if(!$valid_time){
-            return ResponseModel::err(1); //Illegal manipulation of contest time
-        }
-        $allow_update = [
-            'name','begin_time','end_time','description'
-        ];
-        foreach ($all_data as $key => $value) {
-            if(!in_array($key,$allow_update)){
-                unset($all_data[$key]);
-            }
-        }
-        $groupModel->updateContestInfo($all_data['cid'],$all_data);
-        return ResponseModel::success(200);
     }
 }

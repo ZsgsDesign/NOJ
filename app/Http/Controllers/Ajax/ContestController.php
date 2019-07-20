@@ -208,20 +208,6 @@ class ContestController extends Controller
             return ResponseModel::err(2001);
         }
 
-        $tips = 'Successful';
-        if(!$contestModel->canUpdateContestTime($cid,[
-            'begin' => $all_data['begin_time'],
-            'end' => $all_data['end_time'],
-        ])){
-            unset($all_data['begin_time'],$all_data['end_time']);
-            $tips = 'Successful!But all the relevant time changes are invalid.<br />
-            Because:<br />
-            1. It is not allowed to modify the time of games that have been finished<br />
-            2. For running contest, only the end time is allowed to be modified, and not before "now"<br />
-            3. For matches that have not started yet, the starting time cannot be modified to earlier than now.<br />
-            ';
-        }
-
         $allow_update = ['name','description','begin_time','end_time'];
 
         foreach($all_data as $key => $value){
@@ -230,7 +216,7 @@ class ContestController extends Controller
             }
         }
         $contestModel->contestUpdate($cid,$all_data,$problemSet);
-        return ResponseModel::success(200,$tips);
+        return ResponseModel::success(200);
     }
 
     public function issueAnnouncement(Request $request){
