@@ -146,7 +146,7 @@
                 <group-name-setting>
                     <div class="form-group">
                         <p style="font-weight:500;margin-bottom: 0.5rem;">Group Name</p>
-                        <small id="change-image-tip" style="display:block;font-size:65%:">Enter the new name displayed for your group</small>
+                        <small id="group-name-tip" style="display:block;font-size:65%:">Enter the new name displayed for your group</small>
                         <input type="text" class="form-control" id="group-name" value="{{$basic_info['name']}}">
                     </div>
                 </group-name-setting>
@@ -480,7 +480,7 @@
                     }, success: function(result){
                         if (result.ret===200) {
                             changeText({
-                                selector:'#group-name-display',
+                                selector:'#group-name-tip',
                                 text : name,
                             });
                             changeText({
