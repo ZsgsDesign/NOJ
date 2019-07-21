@@ -79,7 +79,8 @@ class RankModel extends Model
     {
         $rankList=Cache::tags(['rank'])->get('general');
         if($rankList==null) $rankList=[];
-        $userInfoRaw=DB::table("users")->select("id as uid","avatar","name")->limit($num)->get()->all();
+        $rankList=array_slice($rankList,0,$num);
+        $userInfoRaw=DB::table("users")->select("id as uid","avatar","name")->get()->all();
         $userInfo=[];
         foreach($userInfoRaw as $u){
             $userInfo[$u["uid"]]=$u;

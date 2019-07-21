@@ -561,7 +561,7 @@
                     <div class="col-sm-12 col-md-7">
                         <function-container>
                             <div>
-                                <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings/analysis'">
+                                <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/analysis'">
                                     <i class="MDI chart-line"></i>
                                     <p>Analysis</p>
                                 </function-block>

@@ -228,6 +228,23 @@
         opacity: 0.5;
     }
 
+    empty-container{
+        display:block;
+        text-align: center;
+        margin-bottom: 2rem;
+        width: 100%
+    }
+
+    empty-container i{
+        font-size:5rem;
+        color:rgba(0,0,0,0.42);
+    }
+
+    empty-container p{
+        font-size: 1rem;
+        color:rgba(0,0,0,0.54);
+    }
+
 </style>
 <div class="container-fluid mundb-standard-container">
     <settings-card>
@@ -236,7 +253,7 @@
         </settings-header>
         <settings-body>
             <div class="row">
-                <div id="contest-list" class="col-5">
+                <div id="contest-list" class="col-5 text-center">
                     @if(!empty($contest_list))
                     @foreach($contest_list as $contest)
                     <contest-card class="animated fadeInLeft" style="animation-delay: {{$loop->index/10}}s;" data-cid="{{$contest['cid']}}">
@@ -388,7 +405,17 @@
             });
         }
         setTimeout(function(){
-            loadContestData($('#contest-list').children().first());
+            if($('#contest-list').children().length != 0){
+                loadContestData($('#contest-list').children().first());
+            }else{
+                $('#contest-detail').remove();
+                $('#contest-list').parent().html('').append(`
+                <empty-container>
+                    <i class="MDI package-variant"></i>
+                    <p>No contest has been created in this group.</p>
+                </empty-container>
+                `).removeClass('col-5');
+            }
         },500);
 
         $('#assignee-area').on('click',function(){
