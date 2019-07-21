@@ -54,6 +54,7 @@ class ProblemModel extends Model
                     "pid"=>$prob_detail["pid"],
                     "cid"=>$cid,
                 ])->where("submission_date", "<", $frozen_time)->first();
+                $prob_detail['vcid']=DB::table("contest")->where(["cid"=>$cid])->select("vcid")->first()['vcid'];
                 $prob_detail["points"]=DB::table("contest_problem")->where(["cid"=>$cid, "pid"=>$prob_detail["pid"]])->select("points")->first()["points"];
             } else {
                 $prob_stat=DB::table("submission")->select(
@@ -61,6 +62,7 @@ class ProblemModel extends Model
                     DB::raw("sum(verdict='accepted') as passed_count"),
                     DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
                 )->where(["pid"=>$prob_detail["pid"]])->first();
+                $prob_detail['vcid']=null;
                 $prob_detail["points"]=0;
             }
             if ($prob_stat["submission_count"]==0) {

@@ -361,6 +361,14 @@
     account-bind:hover{
         background-color: #eee;
     }
+
+    setting-card > .paper-card {
+        box-shadow: none;
+    }
+
+    setting-card > .paper-card:hover {
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -464,12 +472,12 @@
             @if(!$settingsView)
                 {{-- <empty-container>
                     <i class="MDI package-variant"></i>
-                    <p>NOJ Feed is empty, try adding some :-)</p>
+                    <p>{{config("app.name")}} Feed is empty, try adding some :-)</p>
                 </empty-container> --}}
                 {{-- <feed-card feed-type="card">
                     <feed-body>
-                        <h1>Introducing NOJ Feed</h1>
-                        <p>Meet the fully new design of NOJ Feed.</p>
+                        <h1>Introducing {{config("app.name")}} Feed</h1>
+                        <p>Meet the fully new design of {{config("app.name")}} Feed.</p>
                         <!--<a href="/">// Continue Reading</a>-->
                     </feed-body>
                     <feed-footer>
@@ -501,7 +509,7 @@
                             <img src="{{$info["avatar"]}}">
                         </feed-circle>
                         <feed-info>
-                            <h5><strong style="color:#000">{{$info["name"]}}</strong> joined NOJ</h5>
+                            <h5><strong style="color:#000">{{$info["name"]}}</strong> joined {{config("app.name")}}</h5>
                         </feed-info>
                     </feed-header>
                     <feed-footer>{{$info["created_at"]}}</feed-footer>

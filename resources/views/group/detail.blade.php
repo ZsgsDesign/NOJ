@@ -329,6 +329,12 @@
         margin-bottom: 2rem;
     }
 
+    function-container > div{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
     function-block{
         display: inline-block;
         text-align: center;
@@ -426,6 +432,26 @@
 
     .cm-operation{
         cursor: pointer;
+    }
+
+    markdown-editor{
+        display: block;
+    }
+
+    markdown-editor .CodeMirror {
+        height: 20rem;
+    }
+
+    markdown-editor ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    markdown-editor ::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    markdown-editor .editor-toolbar.disabled-for-preview a:not(.no-disable){
+        opacity: 0.5;
     }
 
     /*
@@ -533,37 +559,41 @@
             <right-side>
                 <div class="row">
                     <div class="col-sm-12 col-md-7">
-                        @if($group_clearance>=2)
                         <function-container>
                             <div>
-                                <function-block>
+                                <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings/analysis'">
+                                    <i class="MDI chart-line"></i>
+                                    <p>Analysis</p>
+                                </function-block>
+                                @if($group_clearance>=2)
+                                <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings/member'">
                                     <i class="MDI bullhorn"></i>
                                     <p>Notice</p>
                                 </function-block>
-                                {{--  <function-block>
-                                    <i class="MDI note"></i>
-                                    <p>Post</p>
-                                </function-block>  --}}
                                 <function-block onclick="$('#contestModal').modal({backdrop:'static'});">
                                     <i class="MDI trophy-variant"></i>
                                     <p>Contest</p>
                                 </function-block>
-                                <function-block>
+                                <function-block onclick="$('#inviteModal').modal({backdrop:'static'});">
                                     <i class="MDI account-plus"></i>
                                     <p>Invite</p>
                                 </function-block>
-                                <function-block onclick="$('#settingModal').modal();">
-                                    <i class="MDI settings"></i>
-                                    <p>Setting</p>
+                                <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings/problems'">
+                                    <i class="MDI script"></i>
+                                    <p>Problems</p>
                                 </function-block>
+                                <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings/general'">
+                                    <i class="MDI settings"></i>
+                                    <p>Settings</p>
+                                </function-block>
+                                @endif
                             </div>
                         </function-container>
-                        @endif
                         @unless(empty($group_notice))
                             <timeline-container>
                                 <timeline-item data-type="notice">
                                     <div>
-                                        <div>{{$group_notice["name"]}} - {{$group_notice["post_date_parsed"]}} <span class="wemd-green-text">&rtrif; Notice</span></div>
+                                        <div>{{$group_notice["name"]}} <span class="wemd-green-text">&rtrif; {{$group_notice["post_date_parsed"]}}</span></div>
                                         <div><img src="{{$group_notice["avatar"]}}" class="cm-avatar"></div>
                                     </div>
                                     <div>
@@ -595,6 +625,7 @@
                                                 @unless($c["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="top" title="This contest is under review"></i></span>@endif
                                                 @unless($c["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="top" title="This is a private contest"></i></span>@endif
                                                 @if($c['verified'])<span><i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a verified contest"></i></span>@endif
+                                                @if($c['practice'])<span><i class="MDI sword wemd-green-text"  data-toggle="tooltip" data-placement="left" title="This is a contest for praticing"></i></span>@endif
                                                 @if($c['rated'])<span><i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="top" title="This is a rated contest"></i></span>@endif
                                                 @if($c['anticheated'])<span><i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="top" title="Anti-cheat enabled"></i></span>@endif
                                             </badge-div>
@@ -672,6 +703,9 @@
         </div>
     </div>
 </group-container>
+
+
+
 <style>
     .sm-modal{
         display: block;
@@ -740,81 +774,6 @@
 
 </style>
 
-<div id="settingModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content sm-modal" style="width: 80%">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="MDI settings"></i> Group setting</h5>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <group-name-setting>
-                            <div class="form-group">
-                                <label for="group-name" class="bmd-label-floating">Group Name</label>
-                                <input type="text" class="form-control" id="group-name" value="{{$basic_info['name']}}">
-                            </div>
-                            <small id="group-name-tip" class="text-center" style="display:block">PRESS ENTER TO APPLY THE CHANGES</small>
-                        </group-name-setting><br>
-                        <join-policy-setting style="display:block">
-                            <p>Join Policy</p>
-                            <div class="text-center">
-                                <div class="btn-group">
-                                    <button id="policy-choice-btn" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        @if($basic_info['join_policy']==3)<span>Invitation & Application</span>@elseif(($basic_info['join_policy']==2))<span>Application</span>@else<span>Invitation</span>@endif
-                                    </button>
-                                    <div class="dropdown-menu text-center">
-                                        <a class="dropdown-item join-policy-choice" data-policy="3">Invitation & Application</a>
-                                        <a class="dropdown-item join-policy-choice" data-policy="2">Application only</a>
-                                        <a class="dropdown-item join-policy-choice" data-policy="1">Invitation only</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </join-policy-setting>
-                        <focus-images-setting style="display:block">
-                            <p>Change Group Image</p>
-                            <small id="change-image-tip" class="text-center" style="display:block">CLICK IMAGE TO CHOOSE A LOCAL IMAGE</small>
-                            <input id="image-file" type="file" style="display:none" accept=".jpg,.png,.jpeg,.gif" />
-                            <label for="image-file" style="display: block; cursor: pointer;" class="text-center">
-                                <img class="group-image" style="width: 90%; height: auto;display:inline-block" src="{{$basic_info['img']}}">
-                            </label>
-                        </focus-images-setting>
-                    </div>
-                    <div class="col-md-6">
-                        <permission-setting>
-                            <p>Permission Setting</p>
-                            @foreach($member_list as $m)
-                                @if($m["role"]>0)
-                                <user-card id="user-permission-{{$m["uid"]}}">
-                                    <user-avatar>
-                                        <a href="/user/{{$m["uid"]}}"><img src="{{$m["avatar"]}}"></a>
-                                    </user-avatar>
-                                    <user-info data-clearance="{{$m["role"]}}" data-rolecolor="{{$m["role_color"]}}">
-                                        <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
-                                        <p>
-                                            <small><i class="MDI google-circles"></i> {{$m["sub_group"]}}</small>
-                                            @if($group_clearance>$m["role"])
-                                                <small @if($group_clearance <= $m["role"] + 1) style="display:none" @endif class="wemd-green-text cm-operation clearance-up" onclick="changeMemberClearance({{$m['uid']}},'promote')"><i class="MDI arrow-up-drop-circle-outline"></i> Promote</small>
-                                                <small @if($m["role"] <= 1) style="display:none" @endif class="wemd-red-text cm-operation clearance-down" onclick="changeMemberClearance({{$m['uid']}},'demote')"><i class="MDI arrow-down-drop-circle-outline"></i> Demote</small>
-                                            @endif
-                                        </p>
-                                    </user-info>
-                                </user-card>
-                                @endif
-                            @endforeach
-                        </permission-setting>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div id="contestModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content sm-modal">
@@ -826,20 +785,26 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="contestName" class="bmd-label-floating">Contest Name</label>
-                            <input type="text" class="form-control" id="contestName">
+                            <input type="text" class="form-control" id="contestName" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="contestBegin" class="bmd-label-floating">Contest Begin Time</label>
-                            <input type="text" class="form-control" id="contestBegin">
+                            <input type="text" class="form-control" id="contestBegin" autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="contestEnd" class="bmd-label-floating">Contest End Time</label>
-                            <input type="text" class="form-control" id="contestEnd">
+                            <input type="text" class="form-control" id="contestEnd" autocomplete="off">
                         </div>
                         <div class="switch">
                             <label>
                                 <input type="checkbox" disabled>
                                 Public Contest
+                            </label>
+                        </div>
+                        <div class="switch">
+                            <label>
+                                <input id="switch-practice" type="checkbox">
+                                Practice Contest
                             </label>
                         </div>
                         <table class="table">
@@ -860,9 +825,10 @@
                     </div>
                     <div class="col-md-8">
                         <p>Description</p>
-                        <div id="vscode_container" style="width:100%;height:50vh;">
-                            <div id="vscode" style="width:100%;height:100%;"></div>
-                        </div>
+                        <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
+                        <markdown-editor class="mt-3 mb-3">
+                            <textarea id="description_editor"></textarea>
+                        </markdown-editor>
                     </div>
                 </div>
 
@@ -870,6 +836,51 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="arrangeBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Arrange</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="noticeModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content sm-modal">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="MDI trophy"></i> Notice Announcement</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="noticeTitle" class="bmd-label-floating">Title</label>
+                    <input type="text" class="form-control" id="noticeTitle">
+                </div>
+                <div class="form-group">
+                    <label for="noticeContent" class="bmd-label-floating">Content</label>
+                    <textarea type="text" class="form-control" id="noticeContent"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="noticeBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="inviteModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content sm-modal">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="MDI trophy"></i> Invite Member</h5>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label for="contestName" class="bmd-label-floating">E-mail</label>
+                    <input type="text" class="form-control" id="Email">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="InviteBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Invite</button>
             </div>
         </div>
     </div>
@@ -925,9 +936,13 @@
 @endsection
 
 @section('additionJS')
+
+    @include("js.common.hljsLight")
     <script src="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
     <script src="/static/js/jquery-ui-sortable.min.js"></script>
-    <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
+    <script type="text/javascript" src="/static/library/simplemde/dist/simplemde.min.js"></script>
+    <script type="text/javascript" src="/static/library/marked/marked.min.js"></script>
+    <script type="text/javascript" src="/static/library/dompurify/dist/purify.min.js"></script>
     <script src="/static/js/parazoom.min.js"></script>
     <script>
         function sortableInit(){
@@ -1075,10 +1090,12 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(result){
                     if (result.ret===200) {
-                        changeText('#join-policy-display',{
+                        changeText({
+                            selector : '#join-policy-display',
                             text : join_policy,
                         });
-                        changeText('#policy-choice-btn',{
+                        changeText({
+                            selector : '#join-policy-display',
                             text : join_policy,
                         });
                     } else {
@@ -1097,7 +1114,8 @@
             var file = $(this).get(0).files[0];
 
             if(file == undefined){
-                changeText('#change-image-tip',{
+                changeText({
+                    selector : '#change-image-tip',
                     text : 'PLEASE CHOOSE A LOCAL FILE',
                     css : {color:'#f00'}
                 });
@@ -1105,7 +1123,8 @@
             }
 
             if(file.size/1024 > 1024){
-                changeText('#change-image-tip',{
+                changeText({
+                    selector : '#change-image-tip',
                     text : 'THE SELECTED FILE IS TOO LARGE',
                     css : {color:'#f00'}
                 });
@@ -1127,14 +1146,16 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(result){
                     if (result.ret===200) {
-                        changeText('#change-image-tip',{
+                        changeText({
+                            selector : '#change-image-tip',
                             text : 'GROUP IMAGE CHANGE SUCESSFUL',
                             css : {color:'#4caf50'}
                         });
                         $('group-image img').attr('src',result.data);
                         $('.group-image').attr('src',result.data);
                     } else {
-                        changeText('#change-image-tip',{
+                        changeText({
+                            selector : '#change-image-tip',
                             text : result.desc,
                             css : {color:'#4caf50'}
                         });
@@ -1158,7 +1179,8 @@
             if(e.keyCode == '13'){
                 var name = $(this).val();
                 if(name == ''){
-                    changeText('#group-name-tip',{
+                    changeText({
+                        selector : '#group-name-tip',
                         text : 'THE NAME OF THE GROUP CANNOT BE EMPTY',
                         css : {color:'#f00'}
                     });
@@ -1176,15 +1198,18 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }, success: function(result){
                         if (result.ret===200) {
-                            changeText('#group-name-display',{
+                            changeText({
+                                selector : '#group-name-display',
                                 text : name,
                             });
-                            changeText('#group-name-tip',{
+                            changeText({
+                                selector : '#group-name-tip',
                                 text : 'GROUP NAME CHANGE SUCESSFUL',
                                 css : {color:'#4caf50'}
                             });
                         } else {
-                            changeText('#group-name-tip',{
+                            changeText({
+                                selector : '#group-name-tip',
                                 text : result.desc,
                                 color : '#f00',
                             });
@@ -1278,8 +1303,9 @@
             var contestName = $("#contestName").val();
             var contestBegin = $("#contestBegin").val();
             var contestEnd = $("#contestEnd").val();
+            var practiceContest = $("#switch-practice").prop("checked") == true ? 1 : 0;
             var problemSet = "";
-            var contestDescription = editor.getValue();
+            var contestDescription = simplemde.value();
             $("#contestProblemSet td:first-of-type").each(function(){
                 problemSet+=""+$(this).text()+",";
             });
@@ -1312,6 +1338,7 @@
                     description: contestDescription,
                     begin_time: contestBegin,
                     end_time: contestEnd,
+                    practice : practiceContest,
                     gid: {{$basic_info["gid"]}}
                 },
                 dataType: 'json',
@@ -1332,6 +1359,80 @@
                     alert("Server Connection Error");
                     ajaxing=false;
                     $("#arrangeBtn > i").addClass("d-none");
+                }
+            });
+        });
+
+
+        $("#InviteBtn").click(function() {
+            if(ajaxing) return;
+            else ajaxing=true;
+            var email = $("#Email").val();
+            $("#arrangeBtn > i").removeClass("d-none");
+            console.log(email);
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/group/inviteMember',
+                data: {
+                    gid:{{$basic_info["gid"]}},
+                    email:email
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if (ret.ret==200) {
+                        alert(ret.desc);
+                        //location.reload();
+                    } else {
+                        alert(ret.desc);
+                    }
+                    ajaxing=false;
+                    $("#InviteBtn > i").addClass("d-none");
+                }, error: function(xhr, type){
+                    console.log('Ajax error while posting to arrangeContest!');
+                    alert("Server Connection Error");
+                    ajaxing=false;
+                    $("#InviteBtn > i").addClass("d-none");
+                }
+            });
+        });
+
+        $("#noticeBtn").click(function() {
+            if(ajaxing) return;
+            else ajaxing=true;
+            var noticeTitle = $("#noticeTitle").val();
+            var noticeContent = $("#noticeContent").val();
+            $("#noticeBtn > i").removeClass("d-none");
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/group/createNotice',
+                data: {
+                    gid:{{$basic_info["gid"]}},
+                    title:noticeTitle,
+                    content:noticeContent
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if (ret.ret==200) {
+                        alert(ret.desc);
+                        setTimeout(function(){
+                            location.reload();
+                        },800)
+                    } else {
+                        alert(ret.desc);
+                    }
+                    ajaxing=false;
+                    $("#noticeBtn > i").addClass("d-none");
+                }, error: function(xhr, type){
+                    console.log('Ajax error while posting to arrangeContest!');
+                    alert("Server Connection Error");
+                    ajaxing=false;
+                    $("#noticeBtn > i").addClass("d-none");
                 }
             });
         });
@@ -1414,36 +1515,85 @@
             },
             timepicker:true
         });
-        require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});
 
-        // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
-        // the default worker url location (used when creating WebWorkers). The problem here is that
-        // HTML5 does not allow cross-domain web workers, so we need to proxy the instantiation of
-        // a web worker through a same-domain script
-
-        window.MonacoEnvironment = {
-            getWorkerUrl: function(workerId, label) {
-                return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
-                self.MonacoEnvironment = {
-                    baseUrl: '{{env('APP_URL')}}/static/library/monaco-editor/min/'
-                };
-                importScripts('{{env('APP_URL')}}/static/library/monaco-editor/min/vs/base/worker/workerMain.js');`
-                )}`;
-            }
-        };
-
-        require(["vs/editor/editor.main"], function () {
-            editor = monaco.editor.create(document.getElementById('vscode'), {
-                value: "",
-                language: "markdown",
-                theme: "vs-light",
-                fontSize: 16,
-                formatOnPaste: true,
-                formatOnType: true,
-                automaticLayout: true,
-                lineNumbers: "off"
-            });
-            $("#vscode_container").css("opacity",1);
+        var simplemde = new SimpleMDE({
+            element: $("#description_editor")[0],
+            hideIcons: ["guide", "heading","side-by-side","fullscreen"],
+            spellChecker: false,
+            tabSize: 4,
+            renderingConfig: {
+                codeSyntaxHighlighting: true
+            },
+            previewRender: function (plainText) {
+                return marked(plainText, {
+                    sanitize: true,
+                    sanitizer: DOMPurify.sanitize,
+                    highlight: function (code) {
+                        return hljs.highlightAuto(code).value;
+                    }
+                });
+            },
+            status:false,
+            toolbar: [{
+                    name: "bold",
+                    action: SimpleMDE.toggleBold,
+                    className: "MDI format-bold",
+                    title: "Bold",
+                },
+                {
+                    name: "italic",
+                    action: SimpleMDE.toggleItalic,
+                    className: "MDI format-italic",
+                    title: "Italic",
+                },
+                "|",
+                {
+                    name: "quote",
+                    action: SimpleMDE.toggleBlockquote,
+                    className: "MDI format-quote",
+                    title: "Quote",
+                },
+                {
+                    name: "unordered-list",
+                    action: SimpleMDE.toggleUnorderedList,
+                    className: "MDI format-list-bulleted",
+                    title: "Generic List",
+                },
+                {
+                    name: "ordered-list",
+                    action: SimpleMDE.toggleOrderedList,
+                    className: "MDI format-list-numbers",
+                    title: "Numbered List",
+                },
+                "|",
+                {
+                    name: "code",
+                    action: SimpleMDE.toggleCodeBlock,
+                    className: "MDI code-tags",
+                    title: "Create Code",
+                },
+                {
+                    name: "link",
+                    action: SimpleMDE.drawLink,
+                    className: "MDI link-variant",
+                    title: "Insert Link",
+                },
+                {
+                    name: "image",
+                    action: SimpleMDE.drawImage,
+                    className: "MDI image-area",
+                    title: "Insert Image",
+                },
+                "|",
+                {
+                    name: "preview",
+                    action: SimpleMDE.togglePreview,
+                    className: "MDI eye no-disable",
+                    title: "Toggle Preview",
+                },
+            ],
         });
+
+        hljs.initHighlighting();
     </script>
 @endsection

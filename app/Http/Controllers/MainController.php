@@ -11,8 +11,9 @@
  */
 namespace App\Http\Controllers;
 
-use App\Models\GroupModel;
+use App\Models\AnnouncementModel;
 use App\Models\ProblemModel;
+use App\Models\CarouselModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
@@ -39,17 +40,18 @@ class MainController extends Controller
      */
     public function home(Request $request)
     {
-        $groupModel=new GroupModel();
-        $group_notice=$groupModel->groupNotice(1);
+        $announcementModel=new AnnouncementModel();
+        $announcements=$announcementModel->fetch();
         $problem=new ProblemModel();
         $ojs=$problem->ojs();
         // Log::debug(["info"=>"User Viewed Home!"]);
         return view('home', [
                 'page_title'=>"Home",
-                'site_title'=>"NOJ",
+                'site_title'=>config("app.name"),
                 'navigation' => "Home",
-                'group_notice' => $group_notice,
-                'ojs' => $ojs
+                'announcements' => $announcements,
+                'ojs' => $ojs,
+                'carousel' => CarouselModel::list()
             ]);
     }
 

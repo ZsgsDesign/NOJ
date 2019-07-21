@@ -8,7 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Models\SubmissionModel;
-use App\Http\Controllers\VirtualJudge\Submit;
+use App\Babel\Babel;
 
 class ProcessSubmission implements ShouldQueue
 {
@@ -35,7 +35,8 @@ class ProcessSubmission implements ShouldQueue
      */
     public function handle()
     {
-        new Submit($this->all_data);
+        $babel=new Babel();
+        $babel->submit($this->all_data);
     }
 
     public function failed()

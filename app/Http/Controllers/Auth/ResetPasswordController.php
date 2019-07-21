@@ -58,7 +58,7 @@ class ResetPasswordController extends Controller
             'token' => $token,
             'email' => $request->email,
             'page_title'=>"Reset Password",
-            'site_title'=>"NOJ",
+            'site_title'=>config("app.name"),
             'navigation' => "Account"
         ]);
     }

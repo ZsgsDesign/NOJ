@@ -181,11 +181,27 @@
             <a href="/contest/{{$cid}}/board/status"><nav-item>Status</nav-item></a>
             <a href="/contest/{{$cid}}/board/clarification"><nav-item class="active">Clarification</nav-item></a>
             <a href="/contest/{{$cid}}/board/print"><nav-item>Print</nav-item></a>
-            @if($clearance>2)<a href="/contest/{{$cid}}/board/admin"><nav-item>Admin</nav-item></a>@endif
+            @if($basic['practice'])
+                <a href="/contest/{{$cid}}/board/analysis"><nav-item>Analysis</nav-item></a>
+            @endif
+            @if($clearance>2)
+            <a href="/contest/{{$cid}}/board/admin"><nav-item>Admin</nav-item></a>
+            @endif
         </nav-div>
         <div>
             <div class="row no-gutters" style="height:40rem;">
                 <div class="col-4 cm-msg-list">
+                    <div class="p-3">
+                        <div style="text-align: center;">
+                            @if($clearance<=2)
+                                <button class="btn btn-outline-warning btn-rounded" data-toggle="modal"
+                                data-target="#issueModel" data-backdrop="static"><i class="MDI comment-question-outline"></i> Request Clarification</button>
+                            @else
+                                <button class="btn btn-outline-warning btn-rounded" data-toggle="modal"
+                                data-target="#issueModel" data-backdrop="static"><i class="MDI comment-plus-outline"></i> Issue Announcement</button>
+                            @endif
+                        </div>
+                    </div>
                     @foreach($clarification_list as $c)
                     <message-card id="m{{$c["ccid"]}}" class="wemd-lighten-5" data-msg-id="{{$c["ccid"]}}">
                         <div>
@@ -203,7 +219,19 @@
                         @foreach($clarification_list as $c)
                         <msg-container class="d-none" id="{{$c["ccid"]}}">
                             <fresh-container>
-                                <h1 class="mb-0"> {{$c["title"]}}</h1>
+                                @if($clearance>2 && $c["type"])
+                                    @if((is_null($c["reply"]) || trim($c["reply"])==""))
+                                    <button class="btn btn-primary btn-raised float-right" onclick="replyClarification({{$c['ccid']}})">Reply</button>
+                                    @else
+                                    <div class="switch float-right">
+                                        <label class="text-dark">
+                                        <input id="public_{{$c['ccid']}}" type="checkbox" @if($c['public']) checked @endif
+                                        onchange="setToPublic({{$c['ccid']}})">Public
+                                        </label>
+                                    </div>
+                                    @endif
+                                @endif
+                                <h1 class="m-0"> {{$c["title"]}}</h1>
                                 <p class="@if($c["type"]) wemd-amber-text @else wemd-pink-text @endif"><i class="MDI checkbox-blank-circle"></i> @if($c["type"]) Clarification @else Announcement @endif</p>
                                 <p>{{$c["content"]}}</p>
                                 @unless(is_null($c["reply"]) || trim($c["reply"])=="")
@@ -217,19 +245,20 @@
                     </div>
                 </div>
             </div>
-            @unless($contest_ended || $clearance<2)
-                <div class="pt-3" style="text-align: center;">
-                    <button class="btn btn-outline-warning btn-rounded" data-toggle="modal" data-target="#clarificationModel" data-backdrop="static"><i class="MDI comment-question-outline"></i> Request Clarification</button>
-                </div>
-            @endunless
         </div>
     </paper-card>
 </div>
-<div id="clarificationModel" class="modal fade" tabindex="-1" role="dialog">
+<div id="issueModel" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-dialog-alert" role="document">
         <div class="modal-content sm-modal">
             <div class="modal-header">
-                <h5 class="modal-title"><i class="MDI comment-question-outline"></i> Request Clarification</h5>
+                <h5 class="modal-title">
+                    @if($clearance>2)
+                        <i class="MDI comment-plus-outline"></i> Issue Announcement
+                    @else
+                        <i class="MDI comment-question-outline"></i> Request Clarification
+                    @endif
+                </h5>
             </div>
             <div class="modal-body">
                 <div class="form-group">
@@ -243,11 +272,18 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="clarificationBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Request</button>
+                @if($clearance>2)
+                <button type="button" class="btn btn-primary" id="issueAnnouncementBtn" onclick="post('issueAnnouncement')">
+                        <i class="MDI autorenew cm-refreshing d-none"></i> Issue</button>
+                @else
+                <button type="button" class="btn btn-primary" id="requestClarificationBtn" onclick="post('requestClarification')">
+                        <i class="MDI autorenew cm-refreshing d-none"></i> Request</button>
+                @endif
             </div>
         </div>
     </div>
 </div>
+
 @endsection
 
 @section('additionJS')
@@ -269,15 +305,15 @@
         selectMsg($("message-card").data("msg-id"));
     }, false);
 
-    var sendingClarification = false;
+    var sending = false;
 
-    $("#clarificationBtn").click(function() {
-        if(sendingClarification) return;
-        sendingClarification=true;
-        $("#clarificationBtn > i").removeClass("d-none");
+    function post(type){
+        if(sending) return;
+        sending=true;
+        $("#" + type + "Btn > i").removeClass("d-none");
         $.ajax({
             type: 'POST',
-            url: '/ajax/contest/requestClarification',
+            url: '/ajax/contest/' + type ,
             data: {
                 cid: {{$cid}},
                 title: $("#clarification_title").val(),
@@ -289,13 +325,13 @@
             }, success: function(ret){
                 console.log(ret);
                 if (ret.ret==200) {
-                    alert("Successfully Requested.");
+                    alert("Success!");
                     location.reload();
                 } else {
                     alert(ret.desc);
                 }
-                sendingClarification=false;
-                $("#clarificationBtn > i").addClass("d-none");
+                sending=false;
+                $("#" + type + "Btn > i").addClass("d-none");
             }, error: function(xhr, type){
                 console.log(xhr);
                 switch(xhr.status) {
@@ -309,12 +345,102 @@
                     default:
                         alert("Server Connection Error");
                 }
-                console.log('Ajax error while posting to requestClarification!');
-                sendingClarification=false;
-                $("#clarificationBtn > i").addClass("d-none");
+                console.log('Ajax error while posting to ' + type);
+                sending=false;
+                $("#" + type + "Btn > i").addClass("d-none");
             }
         });
-    });
+    }
+
+    function replyClarification(ccid){
+        if(sending) return;
+        sending=true;
+
+        prompt({content:"Reply this Clarification",
+        title:"Reply",
+        placeholder:"",
+        }, function (deny, text){
+            if(deny) return;
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/contest/replyClarification',
+                data: {
+                    cid: {{$cid}},
+                    ccid: ccid,
+                    content: text,
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if (ret.ret==200) {
+                        alert("Success!");
+                        location.reload();
+                    } else {
+                        alert(ret.desc);
+                    }
+                    sending=false;
+                }, error: function(xhr, type){
+                    console.log(xhr);
+                    switch(xhr.status) {
+                        case 422:
+                            alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                            break;
+                        case 429:
+                            alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                            break;
+
+                        default:
+                            alert("Server Connection Error");
+                    }
+                    console.log('Ajax error while posting to ' + type);
+                    sending=false;
+                }
+            });
+        })
+    }
+
+    function setToPublic(ccid){
+        if(sending) return;
+        sending=true;
+        $.ajax({
+            type: 'POST',
+            url: '/ajax/contest/setClarificationPublic',
+            data: {
+                cid: {{$cid}},
+                ccid: ccid,
+                public: $("#public_" + ccid).is(':checked')
+            },
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }, success: function(ret){
+                console.log(ret);
+                if (ret.ret==200) {
+                    //alert("Success!");
+                } else {
+                    alert(ret.desc);
+                }
+                sending=false;
+            }, error: function(xhr, type){
+                console.log(xhr);
+                switch(xhr.status) {
+                    case 422:
+                        alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                        break;
+                    case 429:
+                        alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                        break;
+
+                    default:
+                        alert("Server Connection Error");
+                }
+                console.log('Ajax error while posting to ' + type);
+                sending=false;
+            }
+        });
+    }
 
 </script>
 @endsection

@@ -1,19 +1,32 @@
 <?php
 namespace App\Babel;
 
-class Bable {
+use App\Babel\Submit\Submitter;
+use App\Babel\Crawl\Crawler;
+use App\Babel\Judge\Judger;
+use App\Babel\Synchronize\Synchronizer;
+
+class Babel
+{
+
     public function submit($conf)
     {
-        new Judger\Submit($conf);
+        return new Submitter($conf);
     }
 
-    public function crawl($conf)
+    public function crawl($conf, $commandLineObject=null)
     {
-        new Crawler\Crawler($conf["name"], $conf["action"], $conf["con"], $conf["cached"]=="true");
+        return new Crawler($conf, $commandLineObject);
     }
 
-    public function judge($conf)
+    public function judge()
     {
-        ;
+        return new Judger();
     }
+
+    public function synchronize($conf)
+    {
+        return new Synchronizer($conf);
+    }
+
 }

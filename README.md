@@ -166,8 +166,8 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hd
     - [X] Contest List
     - [ ] Contest Tag
     - [X] Contest Ranking
-    - [ ] Contest Filter
-    - [ ] Contest Details
+    - [X] Contest Filter
+    - [X] Contest Details
         - [x] Contest Registration
         - [X] Contest Temp Account
         - [X] Leader Board
@@ -175,10 +175,10 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hd
         - [X] Contest Problem List
         - [X] Contest Problem Details
         - [X] Contest Announcements
-        - [ ] Contest Admin Portal
-            - [ ] Account Generate
-            - [ ] Judge Status
-            - [ ] Issue Announcements
+        - [X] Contest Admin Portal
+            - [X] Account Generate
+            - [X] Judge Status
+            - [X] Issue Announcements
         - [X] In-Contest Problem Switch
         - [X] Problem Temp Block
     - [X] Contest Ranking System
@@ -189,21 +189,21 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hd
     - [X] Group Details
         - [X] Group Timeline
         - [ ] Group Member Management
-            - [ ] Invite
+            - [X] Invite
             - [X] Remove Members
             - [X] Approve Requests
             - [ ] Sub Group
         - [X] Group Profile
         - [X] Group General Info
         - [ ] Group Functions
-            - [ ] Group Announcement
+            - [X] Group Announcement
             - [ ] Group Posts
             - [ ] Group Contests
                 - [X] Group-wide Contests
                 - [ ] Site-wide Contests
             - [ ] Group Own ProblemSet
                 - [ ] Add Problem
-            - [ ] Group Settings
+            - [X] Group Settings
 - [ ] Admin Portal
     - [X] User Management
     - [X] Contest Management

@@ -3,9 +3,13 @@
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
-use App\Http\Controllers\VirtualJudge\Judge;
+use App\Babel\Babel;
+use App\Babel\Extension\hdu;
 use App\Models\RankModel;
 use App\Models\SiteMapModel;
+use App\Models\ContestModel;
+use App\Models\GroupModel;
+use App\Models\JudgerModel;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
@@ -27,24 +31,67 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function() {
+        $schedule->call(function () {
+            $babel=new Babel();
             for ($i=1; $i<=12; $i++) {
-                new Judge();
+                $babel->judge();
                 sleep(5);
             }
+            file_put_contents(storage_path('app/task-schedule.output'),"Successfully Synced Judger");
         })->everyMinute()->description("Sync Judger");
 
-        $schedule->call(function() {
+        $schedule->call(function () {
             $rankModel=new RankModel();
             $rankModel->rankList();
-        })->daily()->description("Update Rank");
+            file_put_contents(storage_path('app/task-schedule.output'),"Successfully Updated Rank");
+        })->dailyAt('02:00')->description("Update Rank");
+
+        $schedule->call(function () {
+            $siteMapModel=new SiteMapModel();
+            file_put_contents(storage_path('app/task-schedule.output'),"Successfully Updated SiteMap");
+        })->dailyAt('02:00')->description("Update SiteMap");
+
+        $schedule->call(function () {
+            $groupModel=new GroupModel();
+            $groupModel->cacheTrendingGroups();
+            file_put_contents(storage_path('app/task-schedule.output'),"Successfully Cached Trending Groups");
+        })->dailyAt('03:00')->description("Update Trending Groups");
 
         $schedule->call(function() {
-            $siteMapModel=new SiteMapModel();
-        })->daily()->description("Update SiteMap");
+            $contestModel = new ContestModel();
+            $syncList = $contestModel->runningContest();
+            foreach($syncList as $syncContest) {
+                $className = "App\\Babel\\Extension\\hdu\\Synchronizer";  // TODO Add OJ judgement.
+                $all_data = [
+                    'oj'=>"hdu",
+                    'vcid'=>$syncContest['vcid'],
+                    'gid'=>$syncContest['gid']
+                ];
+                $hduSync = new $className($all_data);
+                $hduSync->crawlRank();
+                $hduSync->crawlClarification();
+            }
+            file_put_contents(storage_path('app/task-schedule.output'),"Successfully Synced Remote Rank and Clarification");
+        })->everyMinute()->description("Sync Remote Rank and Clarification");
 
-        $schedule->command('backup:run')->weekly()->description("BackUp Site");
-        $schedule->command('backup:run --only-db')->daily()->description("BackUp DataBase");
+        // TODO it depends on the front interface.
+        // $schedule->call(function() {
+
+        // })->everyMinute()->description("Sync Remote Problem");
+
+        $schedule->call(function () {
+            $judgerModel=new JudgerModel();
+            $judgerModel->updateServerStatus(1);
+            file_put_contents(storage_path('app/task-schedule.output'),"Successfully Updated Judge Server Status");
+        })->everyMinute()->description("Update Judge Server Status");
+
+        if (!env("APP_DEBUG")) {
+            $schedule->command('backup:run')->weekly()->description("BackUp Site");
+        }
+
+        if (!env("APP_DEBUG")) {
+            $schedule->command('backup:run --only-db')->dailyAt('00:30')->description("BackUp DataBase");
+        }
     }
 
     /**
