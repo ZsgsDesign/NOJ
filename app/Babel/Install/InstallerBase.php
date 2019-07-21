@@ -104,11 +104,13 @@ class InstallerBase
         if(isset($info["compiler_timestamp"]) && !is_null($info["compiler_timestamp"]) && trim($info["compiler_timestamp"])!=""){
             $installed_timestamp=intval($info["compiler_timestamp"]);
         }
+        $latest_timestamp=$installed_timestamp;
         $ConpilerConfig = glob(babel_path("Extension/$ocode/compiler/*.*"));
         foreach($ConpilerConfig as $file) {
             if(intval(basename($file)) > $installed_timestamp) {
                 try {
                     $this->commitCompiler($file,json_decode(file_get_contents($file), true));
+                    $latest_timestamp=intval(basename($file));
                 } catch (Exception $e) {
                     DB::rollback();
                     $this->command->line("<fg=red>Error:     ".$e->getMessage()."</>");
@@ -143,6 +145,11 @@ class InstallerBase
             $this->command->line("\n  <bg=red;fg=white> Unable to add an icon for this extension, aborting. </>\n");
             return;
         }
+
+        $this->oid=OJModel::updateOJ(OJModel::oid($babelConfig["code"]), [
+            "version"=>$babelConfig["version"],
+            "compiler_timestamp"=>$latest_timestamp,
+        ]);
 
         DB::commit();
     }
