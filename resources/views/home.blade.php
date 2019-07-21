@@ -85,6 +85,22 @@
         transform: scale(1.01);
     }
 
+    empty-container{
+        display:block;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    empty-container i{
+        font-size:5rem;
+        color:rgba(0,0,0,0.42);
+    }
+
+    empty-container p{
+        font-size: 1rem;
+        color:rgba(0,0,0,0.54);
+    }
+
 </style>
 
 <div class="container mundb-standard-container">
