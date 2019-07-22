@@ -119,6 +119,7 @@ class ContestModel extends Model
     {
         return DB::select("select * from contest where begin_time < SYSDATE() and end_time > SYSDATE() and vcid != null");
     }
+
     public function grantAccess($uid, $cid, $audit=0)
     {
         return DB::table('contest_participant')->insert([
@@ -1346,41 +1347,50 @@ class ContestModel extends Model
 
     public function contestUpdate($cid,$data,$problems)
     {
-        $old_problmes = array_column(
-            DB::table('contest_problem')
-            ->where('cid',$cid)
-            ->get()->all(),
-            'pid'
-        );
-        DB::transaction(function () use ($cid, $data, $problems,$old_problmes) {
+        if($problems !== false){
+            $old_problmes = array_column(
+                DB::table('contest_problem')
+                ->where('cid',$cid)
+                ->get()->all(),
+                'pid'
+            );
+            DB::transaction(function () use ($cid, $data, $problems,$old_problmes) {
+                DB::table($this->tableName)
+                    ->where('cid',$cid)
+                    ->update($data);
+                DB::table('contest_problem')
+                    ->where('cid',$cid)
+                    ->delete();
+                $new_problems = [];
+                foreach ($problems as $p) {
+                    $pid=DB::table("problem")->where(["pcode"=>$p["pcode"]])->select("pid")->first()["pid"];
+                    array_push($new_problems,$pid);
+                    DB::table("contest_problem")->insert([
+                        "cid"=>$cid,
+                        "number"=>$p["number"],
+                        "ncode"=>$this->intToChr($p["number"]-1),
+                        "pid"=>$pid,
+                        "alias"=>"",
+                        "points"=>$p["points"]
+                    ]);
+                }
+                foreach($old_problmes as $op) {
+                    if(!in_array($op,$new_problems)){
+                        DB::table('submission')
+                            ->where('cid',$cid)
+                            ->where('pid',$op)
+                            ->delete();
+                    }
+                }
+            }, 5);
+            $contestRankRaw = $this->contestRankCache($cid);
+            Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
+            Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $contestRankRaw);
+        }else{
             DB::table($this->tableName)
                 ->where('cid',$cid)
                 ->update($data);
-            DB::table('contest_problem')
-                ->where('cid',$cid)
-                ->delete();
-            $new_problems = [];
-            foreach ($problems as $p) {
-                $pid=DB::table("problem")->where(["pcode"=>$p["pcode"]])->select("pid")->first()["pid"];
-                array_push($new_problems,$pid);
-                DB::table("contest_problem")->insert([
-                    "cid"=>$cid,
-                    "number"=>$p["number"],
-                    "ncode"=>$this->intToChr($p["number"]-1),
-                    "pid"=>$pid,
-                    "alias"=>"",
-                    "points"=>$p["points"]
-                ]);
-            }
-            foreach($old_problmes as $op) {
-                if(!in_array($op,$new_problems)){
-                    DB::table('submission')
-                        ->where('cid',$cid)
-                        ->where('pid',$op)
-                        ->delete();
-                }
-            }
-        }, 5);
+        }
     }
 
     public function arrangeContest($gid, $config, $problems)
@@ -1640,47 +1650,6 @@ class ContestModel extends Model
         ]);
     }
 
-    public function canUpdateContestTime($cid,$time = [])
-    {
-        $begin_time_new = $time['begin'] ?? null;
-        $end_time_new = $time['end'] ?? null;
-
-        $hold_time = DB::table('contest')
-            ->where('cid',$cid)
-            ->select('begin_time','end_time')
-            ->first();
-        $begin_stamps = strtotime($hold_time['begin_time']);
-        $end_stamps = strtotime($hold_time['end_time']);
-        /*
-        -1 : have not begun
-         0 : ing
-         1 : end
-        */
-        $status = time() >= $end_stamps ? 1
-                : (time() <= $begin_stamps ? -1 : 0);
-        if($status === -1){
-            if(time() > $begin_time_new){
-                return false;
-            }
-            return true;
-        }else if($status === 0){
-            if($begin_time_new !== null){
-                return false;
-            }
-            if($end_time_new !== null){
-                if(strtotime($end_time_new) <= time()){
-                    return false;
-                }else{
-                    return true;
-                }
-            }
-        }else{
-            return false;
-        }
-
-        return true;
-    }
-
     public function replyClarification($ccid, $content)
     {
         return DB::table("contest_clarification")->where('ccid','=',$ccid)->update([
@@ -1709,7 +1678,8 @@ class ContestModel extends Model
         return Cache::tags(['contest', 'account'])->get($cid);
     }
 
-    public function praticeAnalysis($cid){
+    public function praticeAnalysis($cid)
+    {
         $gid = DB::table('contest')
             ->where('cid',$cid)
             ->first()['gid'];
