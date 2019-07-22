@@ -408,7 +408,7 @@ class SubmissionModel extends Model
     public function getWaitingSubmission()
     {
         $ret=DB::table($this->tableName)    ->join('problem', 'problem.pid', '=', 'submission.pid')
-                                            ->select("sid", "OJ as oid", "remote_id", "cid", "jid")
+                                            ->select("sid", "OJ as oid", "remote_id", "cid", "jid", "vcid", "problem.pid as pid")
                                             ->where(['verdict'=>'Waiting'])
                                             ->get()
                                             ->all();
