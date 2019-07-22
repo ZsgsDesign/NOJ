@@ -35,7 +35,11 @@ class Judger extends Curl
             if(!isset($this->judger[$ocode]) || is_null($this->judger[$ocode])) {
                 $this->judger[$ocode]=self::create($ocode);
             }
-            $this->judger[$ocode]->judge($row);
+            try {
+                $this->judger[$ocode]->judge($row);
+            }catch(Exception $e){
+                Log::alert("Exception Occurs While Processing {$this->judger[$ocode]}'s Submission {$row['sid']}");
+            }
         }
     }
 
