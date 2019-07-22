@@ -107,11 +107,12 @@
             @endif
         </nav-div>
         <div class="row pl-3">
-            @if($verified)
             <div class="col-3 admin-list p-0">
+                @if($verified)
                 <ul class="list-group bmd-list-group p-0">
                     <a href="#" class="list-group-item admin-tab-text wemd-light-blue wemd-lighten-4"> Account Generate</a>
                 </ul>
+                @endif
                 <ul class="list-group bmd-list-group p-0">
                     <a href="/contest/{{$cid}}/board/clarification" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Issue Clarification</a>
                 </ul>
@@ -119,7 +120,7 @@
                     <a href="/group/{{$gcode}}/settings/contest" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Contest Management</a>
                 </ul>
             </div>
-            @endif
+
             <div class="col-9 pt-3">
                 @if($verified)
                 <h3 class="tab-title">Account Generate</h3>
