@@ -1346,15 +1346,23 @@ class ContestModel extends Model
 
     public function contestUpdate($cid,$data,$problems)
     {
-        DB::transaction(function () use ($cid, $data, $problems) {
+        $old_problmes = array_column(
+            DB::table('contest_problem')
+            ->where('cid',$cid)
+            ->get()->all(),
+            'pid'
+        );
+        DB::transaction(function () use ($cid, $data, $problems,$old_problmes) {
             DB::table($this->tableName)
                 ->where('cid',$cid)
                 ->update($data);
             DB::table('contest_problem')
                 ->where('cid',$cid)
                 ->delete();
+            $new_problems = [];
             foreach ($problems as $p) {
                 $pid=DB::table("problem")->where(["pcode"=>$p["pcode"]])->select("pid")->first()["pid"];
+                array_push($new_problems,$pid);
                 DB::table("contest_problem")->insert([
                     "cid"=>$cid,
                     "number"=>$p["number"],
@@ -1363,6 +1371,14 @@ class ContestModel extends Model
                     "alias"=>"",
                     "points"=>$p["points"]
                 ]);
+            }
+            foreach($old_problmes as $op) {
+                if(!in_array($op,$new_problems)){
+                    DB::table('submission')
+                        ->where('cid',$cid)
+                        ->where('pid',$op)
+                        ->delete();
+                }
             }
         }, 5);
     }
