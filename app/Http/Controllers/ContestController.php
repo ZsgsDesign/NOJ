@@ -81,7 +81,7 @@ class ContestController extends Controller
             $inGroup=false;
         }
         if ($contest_detail["ret"]!=200) {
-            return Redirect::route('contest_index');
+            return Redirect::route('contest.index');
         }
         return view('contest.detail', [
             'page_title'=>"Contest",
