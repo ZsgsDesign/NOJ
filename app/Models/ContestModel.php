@@ -396,6 +396,7 @@ class ContestModel extends Model
             ->join('problem','contest_problem.pid','=','problem.pid')
             ->where('cid',$cid)
             ->select('problem.pid as pid','pcode','number')
+            ->orderBy('number')
             ->get()->all();
     }
 
