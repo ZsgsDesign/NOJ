@@ -14,6 +14,7 @@ use Auth;
 use Redirect;
 use App\Exports\AccountExport;
 use Excel;
+use Cache;
 
 class ContestController extends Controller
 {
@@ -409,5 +410,17 @@ class ContestController extends Controller
             'clearance'=> $clearance,
             'basic'=>$basicInfo,
         ]);
+    }
+
+    public function refreshContestRank($cid){
+        $contestModel=new ContestModel();
+        $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
+        if ($clearance <= 2) {
+            return Redirect::route('contest_detail', ['cid' => $cid]);
+        }
+        $contestRankRaw=$contestModel->contestRankCache($cid);
+        Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
+        Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $contestRankRaw);
+        dd("success");
     }
 }

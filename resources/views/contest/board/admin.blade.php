@@ -119,6 +119,9 @@
                 <ul class="list-group bmd-list-group p-0">
                     <a href="/group/{{$gcode}}/settings/contest" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Contest Management</a>
                 </ul>
+                <ul class="list-group bmd-list-group p-0">
+                    <a href="/contest/{{$cid}}/admin/refreshContestRank" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Refresh Contest Rank</a>
+                </ul>
             </div>
 
             <div class="col-9 pt-3">
