@@ -91,7 +91,7 @@
     @if(empty($problems))
         <empty-container>
             <i class="MDI package-variant"></i>
-            <p>Nothing matches your search.</p>
+            <p>There are no problem in this group.</p>
         </empty-container>
     @else
         <settings-body class="animated bounceInLeft">

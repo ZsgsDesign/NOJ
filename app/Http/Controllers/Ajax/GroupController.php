@@ -416,7 +416,7 @@ class GroupController extends Controller
 
         $groupModel=new GroupModel();
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
-        if ($clearance>2) {
+        if ($clearance > 0) {
             switch($all_data['mode']){
                 case 'contest':
                     $ret = $groupModel->groupMemberPracticeContestStat($all_data["gid"]);

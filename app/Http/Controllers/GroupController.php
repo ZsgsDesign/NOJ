@@ -109,7 +109,6 @@ class GroupController extends Controller
     public function settingsGeneral($gcode)
     {
         $groupModel=new GroupModel();
-        $contestModel=new ContestModel();
         $basic_info=$groupModel->details($gcode);
         if(empty($basic_info)) return Redirect::route('group.index');
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);

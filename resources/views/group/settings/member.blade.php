@@ -386,10 +386,12 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(result){
                     if (result.ret===200) {
-                        changeText('#join-policy-display',{
+                        changeText({
+                            selector:'#join-policy-display',
                             text : join_policy,
                         });
-                        changeText('#policy-choice-btn',{
+                        changeText({
+                            selector:'#policy-choice-btn',
                             text : join_policy,
                         });
                     } else {
@@ -408,7 +410,8 @@
             var file = $(this).get(0).files[0];
 
             if(file == undefined){
-                changeText('#change-image-tip',{
+                changeText({
+                    selector:'#change-image-tip',
                     text : 'PLEASE CHOOSE A LOCAL FILE',
                     css : {color:'#f00'}
                 });
@@ -416,7 +419,8 @@
             }
 
             if(file.size/1024 > 1024){
-                changeText('#change-image-tip',{
+                changeText({
+                    selector:'#change-image-tip',
                     text : 'THE SELECTED FILE IS TOO LARGE',
                     css : {color:'#f00'}
                 });
@@ -438,14 +442,16 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(result){
                     if (result.ret===200) {
-                        changeText('#change-image-tip',{
+                        changeText({
+                            selector:'#change-image-tip',
                             text : 'GROUP IMAGE CHANGE SUCESSFUL',
                             css : {color:'#4caf50'}
                         });
                         $('group-image img').attr('src',result.data);
                         $('.group-image').attr('src',result.data);
                     } else {
-                        changeText('#change-image-tip',{
+                        changeText({
+                            selector:'#change-image-tip',
                             text : result.desc,
                             css : {color:'#4caf50'}
                         });
@@ -499,7 +505,8 @@
             if(e.keyCode == '13'){
                 var name = $(this).val();
                 if(name == ''){
-                    changeText('#group-name-tip',{
+                    changeText({
+                        selector:'#group-name-tip',
                         text : 'THE NAME OF THE GROUP CANNOT BE EMPTY',
                         css : {color:'#f00'}
                     });
@@ -517,15 +524,18 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }, success: function(result){
                         if (result.ret===200) {
-                            changeText('#group-name-display',{
+                            changeText({
+                                selector:'#group-name-display',
                                 text : name,
                             });
-                            changeText('#group-name-tip',{
+                            changeText({
+                                selector:'#group-name-tip',
                                 text : 'GROUP NAME CHANGE SUCESSFUL',
                                 css : {color:'#4caf50'}
                             });
                         } else {
-                            changeText('#group-name-tip',{
+                            changeText({
+                                selector:'#group-name-tip',
                                 text : result.desc,
                                 color : '#f00',
                             });

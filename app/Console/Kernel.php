@@ -65,7 +65,8 @@ class Kernel extends ConsoleKernel
                 $all_data = [
                     'oj'=>"hdu",
                     'vcid'=>$syncContest['vcid'],
-                    'gid'=>$syncContest['gid']
+                    'gid'=>$syncContest['gid'],
+                    'cid'=>$syncContest['cid'],
                 ];
                 $hduSync = new $className($all_data);
                 $hduSync->crawlRank();

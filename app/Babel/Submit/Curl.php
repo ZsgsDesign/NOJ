@@ -16,7 +16,7 @@ class Curl
         //
     }
 
-    protected function login($all_data)
+    public function login($all_data)
     {
         if(isset($all_data["url"]))    $url = $all_data["url"];       else throw new Exception("url is not exist in all_data");
         if(isset($all_data["data"]))   $data = $all_data["data"];     else throw new Exception("data is not exist in all_data");
@@ -52,7 +52,7 @@ class Curl
         return $response;
     }
 
-    protected function grab_page($all_data)
+    public function grab_page($all_data)
     {
         if(isset($all_data["site"]))    $site = $all_data["site"];          else throw new Exception("site is not exist in all_data");
         if(isset($all_data["oj"]))      $oj = $all_data["oj"];              else throw new Exception("oj is not exist in all_data");
@@ -81,7 +81,7 @@ class Curl
         return $response;
     }
 
-    protected function post_data($all_data)
+    public function post_data($all_data)
     {
         if(isset($all_data["site"]))         $site = $all_data["site"];                 else throw new Exception("site is not exist in all_data");
         if(isset($all_data["data"]))         $data = $all_data["data"];                 else throw new Exception("data is not exist in all_data");
