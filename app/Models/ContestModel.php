@@ -396,6 +396,7 @@ class ContestModel extends Model
             ->join('problem','contest_problem.pid','=','problem.pid')
             ->where('cid',$cid)
             ->select('problem.pid as pid','pcode','number')
+            ->orderBy('number')
             ->get()->all();
     }
 
@@ -1697,10 +1698,14 @@ class ContestModel extends Model
             ->where('cid',$cid)
             ->first()['gid'];
         $contestRank = $this->contestRank($cid,Auth::user()->id);
-        $all_problems = DB::table('problem')
+        if(!empty($contestRank)){
+            $all_problems = DB::table('problem')
             ->whereIn('pid',array_column($contestRank[0]['problem_detail'],'pid'))
             ->select('pid','title')
             ->get()->all();
+        }else{
+            $all_problems = [];
+        }
         $tags = DB::table('group_problem_tag')
             ->where('gid', $gid)
             ->whereIn('pid', array_column($all_problems,'pid'))

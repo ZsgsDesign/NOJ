@@ -155,7 +155,11 @@
 
                 document.querySelectorAll(`menu-item[data-name]`).forEach((ele)=>{
                     ele.addEventListener('click', function(event) {
-                        location.href=`{{route('group.settings.index',['gcode'=>$basic_info['gcode']])}}/${this.getAttribute('data-name')}`;
+                        if(this.getAttribute('data-name') != 'analysis'){
+                            location.href=`{{route('group.settings.index',['gcode'=>$basic_info['gcode']])}}/${this.getAttribute('data-name')}`;
+                        }else{
+                            location.href=`{{ route('group.analysis',['gcode'=>$basic_info['gcode']]) }}`;
+                        }
                     });
                 });
             </script>
