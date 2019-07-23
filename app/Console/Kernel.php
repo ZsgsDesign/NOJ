@@ -11,6 +11,7 @@ use App\Models\ContestModel;
 use App\Models\GroupModel;
 use App\Models\JudgerModel;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -61,6 +62,9 @@ class Kernel extends ConsoleKernel
             $contestModel = new ContestModel();
             $syncList = $contestModel->runningContest();
             foreach($syncList as $syncContest) {
+                if(!isset($syncContest['vcid'])) {
+                    continue;
+                }
                 $className = "App\\Babel\\Extension\\hdu\\Synchronizer";  // TODO Add OJ judgement.
                 $all_data = [
                     'oj'=>"hdu",
@@ -75,10 +79,26 @@ class Kernel extends ConsoleKernel
             // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Synced Remote Rank and Clarification");
         })->everyMinute()->description("Sync Remote Rank and Clarification");
 
-        // TODO it depends on the front interface.
-        // $schedule->call(function() {
-
-        // })->everyMinute()->description("Sync Remote Problem");
+        $schedule->call(function() {
+            $contestModel = new ContestModel();
+            $syncList = $contestModel->runningContest();
+            foreach($syncList as $syncContest) {
+                if(isset($syncContest['crawled'])) {
+                    if(!$syncContest['crawled']) {
+                        $className = "App\\Babel\\Extension\\hdu\\Synchronizer";
+                        $all_data = [
+                            'oj'=>"hdu",
+                            'vcid'=>$syncContest['vcid'],
+                            'gid'=>$syncContest['gid'],
+                            'cid'=>$syncContest['cid'],
+                        ];
+                        $hduSync = new $className($all_data);
+                        $hduSync->scheduleCrawl();
+                        $contestModel->updateCrawlStatus($syncContest['cid']);
+                    }
+                }
+            }
+        })->everyMinute()->description("Sync Contest Problem");
 
         $schedule->call(function () {
             $judgerModel=new JudgerModel();
