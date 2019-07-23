@@ -232,6 +232,10 @@
         background-color: #009688;
     }
 
+    .list-group-item{
+        flex-flow: initial;
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
