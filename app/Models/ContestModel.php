@@ -140,10 +140,10 @@ class ContestModel extends Model
         $group_clearance = $groupModel->judgeClearance($gid,$uid);
         foreach ($group_contests as &$contest) {
             $contest['is_admin'] = ($contest['assign_uid'] == $uid || $group_clearance == 3);
-            $begin_stamps = strtotime($contest['begin_time']);
-            $end_stamps = strtotime($contest['end_time']);
-            $contest['status'] = time() >= $end_stamps ? 1
-                : (time() <= $begin_stamps ? -1 : 0);
+            $contest['begin_stamps'] = strtotime($contest['begin_time']);
+            $contest['end_stamps'] = strtotime($contest['end_time']);
+            $contest['status'] = time() >= $contest['end_stamps'] ? 1
+                : (time() <= $contest['begin_stamps'] ? -1 : 0);
             $contest["rule_parsed"]=$this->rule[$contest["rule"]];
             $contest["date_parsed"]=[
                 "date"=>date_format(date_create($contest["begin_time"]), 'j'),
@@ -151,6 +151,12 @@ class ContestModel extends Model
             ];
             $contest["length"]=$this->calcLength($contest["begin_time"], $contest["end_time"]);
         }
+        usort($group_contests,function($a,$b){
+            if($a['is_admin'] == $b['is_admin']){
+                return $b['begin_stamps'] - $a['begin_stamps'];
+            }
+            return $b['is_admin'] - $a['is_admin'];
+        });
         return $group_contests;
     }
 
@@ -1442,6 +1448,24 @@ class ContestModel extends Model
                 if(Cache::tags(['contest','rank'])->get($cid) != null){
                     $chache = Cache::tags(['contest','data'])->get($cid);
                     $ret = Cache::tags(['contest','rank'])->get($cid);
+
+                    /**
+                     * Fix bugs caused by calling every 5 seconds(temporary)
+                     */
+                    if($chache['contest_info']['rule']==1){
+                        //ACM-ICPC Mode
+                        foreach($ret as $cr){
+                            if($cr["uid"]==$sub['uid']){
+                                foreach($cr["problem_detail"] as $crp){
+                                    if($crp["pid"]==$sub['pid'] && $crp["solved_time_parsed"]){
+                                        return ;
+                                    }
+                                }
+                            }
+                        }
+                    } elseif ($chache['contest_info']['rule']==2){
+                        //TODO: OI Mode
+                    }
 
                     $id = 0;
 
