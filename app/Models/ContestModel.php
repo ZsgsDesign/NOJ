@@ -1566,44 +1566,44 @@ class ContestModel extends Model
         }
         if ($contest_info["rule"]==1) {
             // ACM/ICPC Mode
-                if($id == count($ret)){
-                    $prob_detail = [];
-                    $totPen = 0;
-                    $totScore = 0;
-                }else{
-                    $prob_detail = $ret[$id]['problem_detail'];
-                    $totPen=$ret[$id]['penalty'];
-                    $totScore=$ret[$id]['score'];
-                };
+            if($id == count($ret)){
+                $prob_detail = [];
+                $totPen = 0;
+                $totScore = 0;
+            }else{
+                $prob_detail = $ret[$id]['problem_detail'];
+                $totPen=$ret[$id]['penalty'];
+                $totScore=$ret[$id]['score'];
+            };
 
-                $prob_stat=$this->contestProblemInfoACM($cid, $problem["pid"], $uid);
+            $prob_stat=$this->contestProblemInfoACM($cid, $problem["pid"], $uid);
 
-                $prob_detail[$problem['cpid']]=[
-                    "ncode"=>$problem["ncode"],
-                    "pid"=>$problem["pid"],
-                    "color"=>$prob_stat["color"],
-                    "wrong_doings"=>$prob_stat["wrong_doings"],
-                    "solved_time_parsed"=>$prob_stat["solved_time_parsed"]
-                ];
-                if ($prob_stat["solved"]) {
-                    $totPen+=$prob_stat["wrong_doings"] * 20;
-                    $totPen+=$prob_stat["solved_time"] / 60;
-                    $totScore+=$prob_stat["solved"];
-                }
+            $prob_detail[$problem['cpid']]=[
+                "ncode"=>$problem["ncode"],
+                "pid"=>$problem["pid"],
+                "color"=>$prob_stat["color"],
+                "wrong_doings"=>$prob_stat["wrong_doings"],
+                "solved_time_parsed"=>$prob_stat["solved_time_parsed"]
+            ];
+            if ($prob_stat["solved"]) {
+                $totPen+=$prob_stat["wrong_doings"] * 20;
+                $totPen+=$prob_stat["solved_time"] / 60;
+                $totScore+=$prob_stat["solved"];
+            }
 
-                $ret[$id]=[
+            $ret[$id]=[
+                "uid" => $uid,
+                "name" => DB::table("users")->where([
+                    "id"=>$uid
+                ])->first()["name"],
+                "nick_name" => DB::table("group_member")->where([
                     "uid" => $uid,
-                    "name" => DB::table("users")->where([
-                        "id"=>$uid
-                    ])->first()["name"],
-                    "nick_name" => DB::table("group_member")->where([
-                        "uid" => $uid,
-                        "gid" => $contest_info["gid"]
-                    ])->where("role", ">", 0)->first()["nick_name"],
-                    "score" => $totScore,
-                    "penalty" => $totPen,
-                    "problem_detail" => $prob_detail
-                ];
+                    "gid" => $contest_info["gid"]
+                ])->where("role", ">", 0)->first()["nick_name"],
+                "score" => $totScore,
+                "penalty" => $totPen,
+                "problem_detail" => $prob_detail
+            ];
         } elseif ($contest_info["rule"]==2) {
             // OI Mode
             if($id == count($ret)){

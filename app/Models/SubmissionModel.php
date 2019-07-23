@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Tool\PastebinModel;
+use Cache;
 
 class SubmissionModel extends Model
 {
@@ -434,12 +435,13 @@ class SubmissionModel extends Model
 
         $contestModel = new ContestModel();
         $submission_info = DB::table($this->tableName) -> where(['sid'=>$sid]) -> get() -> first();
-        if ($result==1 && $submission_info['cid'] && $contestModel->isContestRunning($submission_info['cid'])){
-            $sub['pid'] = $submission_info['pid'];
-            $sub['uid'] = $submission_info['uid'];
-            $sub['cid'] = $submission_info['cid'];
-            $sub['sid'] = $sid;
-            $contestModel->updateContestRankTable($submission_info['cid'],$sub);
+        if ($result==1 && $submission_info['cid'] /*&& $contestModel->isContestRunning($submission_info['cid'])*/){
+            // $sub['pid'] = $submission_info['pid'];
+            // $sub['uid'] = $submission_info['uid'];
+            // $sub['cid'] = $submission_info['cid'];
+            // $sub['sid'] = $sid;
+            // $contestModel->updateContestRankTable($submission_info['cid'],$sub);
+            $contestModel->contestRankCache($submission_info['cid']);
         }
         return $result;
     }
