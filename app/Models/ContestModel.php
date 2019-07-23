@@ -140,10 +140,10 @@ class ContestModel extends Model
         $group_clearance = $groupModel->judgeClearance($gid,$uid);
         foreach ($group_contests as &$contest) {
             $contest['is_admin'] = ($contest['assign_uid'] == $uid || $group_clearance == 3);
-            $begin_stamps = strtotime($contest['begin_time']);
-            $end_stamps = strtotime($contest['end_time']);
-            $contest['status'] = time() >= $end_stamps ? 1
-                : (time() <= $begin_stamps ? -1 : 0);
+            $contest['begin_stamps'] = strtotime($contest['begin_time']);
+            $contest['end_stamps'] = strtotime($contest['end_time']);
+            $contest['status'] = time() >= $contest['end_stamps'] ? 1
+                : (time() <= $contest['begin_stamps'] ? -1 : 0);
             $contest["rule_parsed"]=$this->rule[$contest["rule"]];
             $contest["date_parsed"]=[
                 "date"=>date_format(date_create($contest["begin_time"]), 'j'),
@@ -151,6 +151,12 @@ class ContestModel extends Model
             ];
             $contest["length"]=$this->calcLength($contest["begin_time"], $contest["end_time"]);
         }
+        usort($group_contests,function($a,$b){
+            if($a['is_admin'] == $b['is_admin']){
+                return $b['begin_stamps'] - $a['begin_stamps'];
+            }
+            return $b['is_admin'] - $a['is_admin'];
+        });
         return $group_contests;
     }
 

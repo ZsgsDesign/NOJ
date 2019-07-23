@@ -55,6 +55,9 @@ class ContestController extends Controller
         $contest_detail['problems'] = $contest_problems;
         $assign_uid = $contest_detail['assign_uid'];
         $clearance = $contestModel->judgeClearance($cid,Auth::user()->id);
+        if($clearance != 3){
+            return ResponseModel::err(2001);
+        }
         if($assign_uid != 0){
             $assignee = $groupModel->userProfile($assign_uid,$contest_detail['gid']);
         }else{

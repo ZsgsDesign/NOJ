@@ -37,7 +37,12 @@
         cursor: pointer;
     }
 
-    contest-card:hover {
+    contest-card.no-permission{
+        cursor: default!important;
+        opacity: 0.4!important;
+    }
+
+    contest-card:not(.no-permission):hover {
         box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
         margin-left: 0.5rem;
         margin-right: -0.5rem;
@@ -256,7 +261,7 @@
                 <div id="contest-list" class="col-5">
                     @if(!empty($contest_list))
                     @foreach($contest_list as $contest)
-                    <contest-card class="animated fadeInLeft" style="animation-delay: {{$loop->index/10}}s;" data-cid="{{$contest['cid']}}">
+                    <contest-card class="animated fadeInLeft @if(!$contest['is_admin']) no-permission @endif" style="animation-delay: {{$loop->index/10}}s;" data-cid="{{$contest['cid']}}">
                         <date-div>
                             <p class="sm-date">{{$contest['date_parsed']['date']}}</p>
                             <small class="sm-month">{{$contest['date_parsed']['month_year']}}</small>
@@ -397,6 +402,9 @@
     <script src="/static/js/parazoom.min.js"></script>
     <script>
         let ajaxing = false;
+
+        initDetails();
+
         function sortableInit(){
             $("#problems-table tbody").sortable({
                 items: "> tr",
@@ -404,19 +412,6 @@
                 helper: "clone"
             });
         }
-        setTimeout(function(){
-            if($('#contest-list').children().length != 0){
-                loadContestData($('#contest-list').children().first());
-            }else{
-                $('#contest-detail').remove();
-                $('#contest-list').parent().html('').append(`
-                <empty-container>
-                    <i class="MDI package-variant"></i>
-                    <p>No contest has been created in this group.</p>
-                </empty-container>
-                `).removeClass('col-5').addClass('text-center');
-            }
-        },500);
 
         $('#assignee-area').on('click',function(){
             $('#assignModal').modal();
@@ -518,6 +513,29 @@
             });
         });
 
+        function initDetails(){
+            if($('#contest-list').children().length != 0){
+                if($('#contest-list').children().first().is('.no-permission')){
+                    $('#contest-detail').html('').append(`
+                    <empty-container>
+                        <i class="MDI package-variant"></i>
+                        <p>You are not in charge of any match.</p>
+                    </empty-container>
+                    `);
+                }else{
+                    loadContestData($('#contest-list').children().first());
+                }
+            }else{
+                $('#contest-detail').remove();
+                $('#contest-list').parent().html('').append(`
+                <empty-container>
+                    <i class="MDI package-variant"></i>
+                    <p>No contest has been created in this group.</p>
+                </empty-container>
+                `).removeClass('col-5').addClass('text-center');
+            }
+        }
+
         function displayContestData(data){
             var assignee = data.assignee;
             var contest = data.contest_info;
@@ -538,7 +556,7 @@
                     <user-info>
                         <p><span class="badge badge-role ${assignee.role_color}">${assignee.role_parsed}</span> <span class="cm-user-name">${assignee.name}</span> ${assignee.nick_name != null ? '<span class="cm-nick-name">(' + assignee.nick_name + ')</span>' : ''} </p>
                         <p>
-                            <small><i class="MDI google-circles"></i> ${assignee.sub_group}</small>
+                            <small><i class="MDI google-circles"></i> ${assignee.sub_group == null ? 'None' : assignee.sub_group}</small>
                         </p>
                     </user-info>
                 </user-card>
@@ -633,6 +651,9 @@
             contest_card.siblings().removeClass('chosen');
             contest_card.addClass('chosen');
             var cid = contest_card.attr('data-cid');
+            if(contest_card.is('.no-permission')){
+                return;
+            }
             $('#assignModal').attr('data-cid',cid);
             ajaxing = true;
             $.ajax({
@@ -645,8 +666,16 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(result){
-                    displayContestData(result.data);
-                    ajaxing=false;
+                    if(result.ret == 2001){
+                        contest_card.addClass('no-permission');
+                        contest_card.find('.account-check').remove();
+                        $('#contest-list').append(contest_card);
+                        ajaxing=false;
+                        initDetails();
+                    }else{
+                        displayContestData(result.data);
+                        ajaxing=false;
+                    }
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
                     alert("Server Connection Error");
@@ -658,6 +687,9 @@
         $('contest-card').on('click',function(){
             if(ajaxing){
                 alert('loading a contest info ,slow down!');
+                return;
+            }
+            if($(this).is('.no-permission')){
                 return;
             }
             loadContestData($(this));
