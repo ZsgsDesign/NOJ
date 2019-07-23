@@ -807,7 +807,7 @@
                                 Practice Contest
                             </label>
                         </div>
-                        <table class="table">
+                        <table width="100%" class="table">
                             <thead>
                                 <tr>
                                 <th scope="col">#</th>

@@ -253,7 +253,7 @@
         </settings-header>
         <settings-body>
             <div class="row">
-                <div id="contest-list" class="col-5 text-center">
+                <div id="contest-list" class="col-5">
                     @if(!empty($contest_list))
                     @foreach($contest_list as $contest)
                     <contest-card class="animated fadeInLeft" style="animation-delay: {{$loop->index/10}}s;" data-cid="{{$contest['cid']}}">
@@ -414,7 +414,7 @@
                     <i class="MDI package-variant"></i>
                     <p>No contest has been created in this group.</p>
                 </empty-container>
-                `).removeClass('col-5');
+                `).removeClass('col-5').addClass('text-center');
             }
         },500);
 

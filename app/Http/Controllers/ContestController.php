@@ -416,11 +416,11 @@ class ContestController extends Controller
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if ($clearance <= 2) {
-            return Redirect::route('contest_detail', ['cid' => $cid]);
+            return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contestRankRaw=$contestModel->contestRankCache($cid);
         Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
         Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $contestRankRaw);
-        dd("success");
+        return Redirect::route('contest.rank', ['cid' => $cid]);
     }
 }
