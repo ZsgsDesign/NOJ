@@ -434,7 +434,7 @@ class SubmissionModel extends Model
 
         $contestModel = new ContestModel();
         $submission_info = DB::table($this->tableName) -> where(['sid'=>$sid]) -> get() -> first();
-        if ($submission_info['cid'] && $contestModel->isContestRunning($submission_info['cid'])){
+        if ($result==1 && $submission_info['cid'] && $contestModel->isContestRunning($submission_info['cid'])){
             $sub['pid'] = $submission_info['pid'];
             $sub['uid'] = $submission_info['uid'];
             $sub['cid'] = $submission_info['cid'];
