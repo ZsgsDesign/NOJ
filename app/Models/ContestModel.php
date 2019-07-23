@@ -1436,9 +1436,12 @@ class ContestModel extends Model
 
     public function updateContestRankTable($cid,$sub)
     {
+        $isProceed=!is_null(Cache::tags(['contest','rank','proc'])->get($sub["sid"]));
+        if($isProceed) return;
         $lock = Cache::lock("contestrank$cid",10);
         try{
             if($lock->get()){
+                Cache::tags(['contest','rank','proc'])->put($sub["sid"], 1);
                 if(Cache::tags(['contest','rank'])->get($cid) != null){
                     $chache = Cache::tags(['contest','data'])->get($cid);
                     $ret = Cache::tags(['contest','rank'])->get($cid);

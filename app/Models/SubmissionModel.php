@@ -438,6 +438,7 @@ class SubmissionModel extends Model
             $sub['pid'] = $submission_info['pid'];
             $sub['uid'] = $submission_info['uid'];
             $sub['cid'] = $submission_info['cid'];
+            $sub['sid'] = $sid;
             $contestModel->updateContestRankTable($submission_info['cid'],$sub);
         }
         return $result;
