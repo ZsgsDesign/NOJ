@@ -1449,6 +1449,24 @@ class ContestModel extends Model
                     $chache = Cache::tags(['contest','data'])->get($cid);
                     $ret = Cache::tags(['contest','rank'])->get($cid);
 
+                    /**
+                     * Fix bugs caused by calling every 5 seconds(temporary)
+                     */
+                    if($chache['contest_info']['rule']==1){
+                        //ACM-ICPC Mode
+                        foreach($ret as $cr){
+                            if($cr["uid"]==$sub['uid']){
+                                foreach($cr["problem_detail"] as $crp){
+                                    if($crp["pid"]==$sub['pid'] && $crp["solved_time_parsed"]){
+                                        return ;
+                                    }
+                                }
+                            }
+                        }
+                    } elseif ($chache['contest_info']['rule']==2){
+                        //TODO: OI Mode
+                    }
+
                     $id = 0;
 
                     foreach($chache['problemSet'] as $key => $p){
