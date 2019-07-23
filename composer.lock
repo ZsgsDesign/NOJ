@@ -630,16 +630,16 @@
         },
         {
             "name": "encore/laravel-admin",
-            "version": "v1.7.2",
+            "version": "v1.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/z-song/laravel-admin.git",
-                "reference": "6306ab390c6194a8cd847bcdc6232669de32b3bb"
+                "reference": "822412b02e0f596da424bae8a60662cecb1bf535"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/6306ab390c6194a8cd847bcdc6232669de32b3bb",
-                "reference": "6306ab390c6194a8cd847bcdc6232669de32b3bb",
+                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/822412b02e0f596da424bae8a60662cecb1bf535",
+                "reference": "822412b02e0f596da424bae8a60662cecb1bf535",
                 "shasum": ""
             },
             "require": {
@@ -697,7 +697,7 @@
                 "grid",
                 "laravel"
             ],
-            "time": "2019-06-23T10:12:08+00:00"
+            "time": "2019-07-21T09:04:25+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -2250,9 +2250,9 @@
             "authors": [
                 {
                     "name": "Ben Corlett",
+                    "role": "Developer",
                     "email": "bencorlett@me.com",
-                    "homepage": "http://www.webcomm.com.au",
-                    "role": "Developer"
+                    "homepage": "http://www.webcomm.com.au"
                 }
             ],
             "description": "OAuth 1.0 Client Library",
@@ -6882,8 +6882,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "The PHP Unit Testing framework.",
