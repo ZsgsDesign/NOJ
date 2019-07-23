@@ -432,19 +432,18 @@ class SubmissionModel extends Model
             $sub["color"]=$this->colorScheme[$sub['verdict']];
         }
         $result = DB::table($this->tableName)->where(['sid'=>$sid])->update($sub);
-
-        $contestModel = new ContestModel();
-        $submission_info = DB::table($this->tableName) -> where(['sid'=>$sid]) -> get() -> first();
-        if ($result==1 && $submission_info['cid'] /*&& $contestModel->isContestRunning($submission_info['cid'])*/){
+        // $contestModel = new ContestModel();
+        // $submission_info = DB::table($this->tableName) -> where(['sid'=>$sid]) -> get() -> first();
+        // if ($result==1 && $submission_info['cid'] && $contestModel->isContestRunning($submission_info['cid'])){
             // $sub['pid'] = $submission_info['pid'];
             // $sub['uid'] = $submission_info['uid'];
             // $sub['cid'] = $submission_info['cid'];
             // $sub['sid'] = $sid;
             // $contestModel->updateContestRankTable($submission_info['cid'],$sub);
-            $contestRankRaw=$contestModel->contestRankCache($submission_info['cid']);
-            Cache::tags(['contest', 'rank'])->put($submission_info['cid'], $contestRankRaw);
-            Cache::tags(['contest', 'rank'])->put("contestAdmin{$submission_info['cid']}", $contestRankRaw);
-        }
+            // $contestRankRaw=$contestModel->contestRankCache($submission_info['cid']);
+            // Cache::tags(['contest', 'rank'])->put($submission_info['cid'], $contestRankRaw);
+            // Cache::tags(['contest', 'rank'])->put("contestAdmin{$submission_info['cid']}", $contestRankRaw);
+        // }
         return $result;
     }
 
