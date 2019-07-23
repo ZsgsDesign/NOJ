@@ -441,7 +441,9 @@ class SubmissionModel extends Model
             // $sub['cid'] = $submission_info['cid'];
             // $sub['sid'] = $sid;
             // $contestModel->updateContestRankTable($submission_info['cid'],$sub);
-            $contestModel->contestRankCache($submission_info['cid']);
+            $contestRankRaw=$contestModel->contestRankCache($submission_info['cid']);
+            Cache::tags(['contest', 'rank'])->put($submission_info['cid'], $contestRankRaw);
+            Cache::tags(['contest', 'rank'])->put("contestAdmin{$submission_info['cid']}", $contestRankRaw);
         }
         return $result;
     }
