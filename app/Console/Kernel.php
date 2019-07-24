@@ -65,6 +65,7 @@ class Kernel extends ConsoleKernel
             foreach($syncList as $syncContest) {
                 if(!isset($syncContest['vcid'])) {
                     $contestRankRaw=$contestModel->contestRankCache($syncContest['cid']);
+                    $cid=$syncContest['cid'];
                     Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
                     Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $contestRankRaw);
                     continue ;
