@@ -39,6 +39,7 @@ class Judger extends Curl
                 $this->judger[$ocode]->judge($row);
             }catch(Exception $e){
                 Log::alert("Exception Occurs While Processing $ocode's Submission {$row['sid']}");
+                Log::alert($e->getMessage());
             }
         }
     }
