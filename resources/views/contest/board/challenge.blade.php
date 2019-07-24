@@ -183,7 +183,7 @@
             </paper-card>
             @unless(empty($clarification_list))
                 <paper-card>
-                    <h5>{{$clarification_list["title"]}}</h5>
+                    <h5 style="word-break: break-all;">{{$clarification_list["title"]}}</h5>
                     <div>
                         <p>{{$clarification_list["content"]}}</p>
                     </div>

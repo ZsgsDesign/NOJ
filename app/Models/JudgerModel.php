@@ -45,6 +45,14 @@ class JudgerModel extends Model
         return $judger_list;
     }
 
+    public function contestJudger($vcid) {
+        return DB::table("contest_judger")->where(["vcid"=>$vcid, "available"=>1])->get()->all();
+    }
+
+    public function contestJudgerDetail($jid) {
+        return DB::table("contest_judger")->where("jid", $jid)->get()->first();
+    }
+
     public function server($oid=1)
     {
         $serverList=DB::table("judge_server")->where(["oid"=>$oid, "available"=>1])->get()->all();

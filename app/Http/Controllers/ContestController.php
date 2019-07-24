@@ -14,6 +14,7 @@ use Auth;
 use Redirect;
 use App\Exports\AccountExport;
 use Excel;
+use Cache;
 
 class ContestController extends Controller
 {
@@ -81,7 +82,7 @@ class ContestController extends Controller
             $inGroup=false;
         }
         if ($contest_detail["ret"]!=200) {
-            return Redirect::route('contest_index');
+            return Redirect::route('contest.index');
         }
         return view('contest.detail', [
             'page_title'=>"Contest",
@@ -409,5 +410,17 @@ class ContestController extends Controller
             'clearance'=> $clearance,
             'basic'=>$basicInfo,
         ]);
+    }
+
+    public function refreshContestRank($cid){
+        $contestModel=new ContestModel();
+        $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
+        if ($clearance <= 2) {
+            return Redirect::route('contest.detail', ['cid' => $cid]);
+        }
+        $contestRankRaw=$contestModel->contestRankCache($cid);
+        Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
+        Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $contestRankRaw);
+        return Redirect::route('contest.rank', ['cid' => $cid]);
     }
 }
