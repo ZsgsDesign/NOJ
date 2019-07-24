@@ -537,6 +537,7 @@ class GroupModel extends Model
                 'contest.gid' => $gid,
                 'practice' => 1
             ])->where('end_time','<',date('Y-m-d H:i:s'))
+            ->whereNull('contest.vcid')
             ->select('contest.cid as cid','group_rated_change_log.cid as cid_rated')
             ->whereNull('group_rated_change_log.cid')
             ->orderBy('end_time')

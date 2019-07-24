@@ -1357,25 +1357,50 @@ class ContestModel extends Model
 
     public function contestUpdate($cid,$data,$problems)
     {
-        DB::transaction(function () use ($cid, $data, $problems) {
-            DB::table($this->tableName)
-                ->where('cid', $cid)
-                ->update($data);
-            DB::table('contest_problem')
+        if($problems !== false){
+            $old_problmes = array_column(
+                DB::table('contest_problem')
                 ->where('cid',$cid)
-                ->delete();
-            foreach ($problems as $p) {
-                $pid=DB::table("problem")->where(["pcode"=>$p["pcode"]])->select("pid")->first()["pid"];
-                DB::table("contest_problem")->insert([
-                    "cid"=>$cid,
-                    "number"=>$p["number"],
-                    "ncode"=>$this->intToChr($p["number"]-1),
-                    "pid"=>$pid,
-                    "alias"=>"",
-                    "points"=>$p["points"]
-                ]);
-            }
-        }, 5);
+                ->get()->all(),
+                'pid'
+            );
+            DB::transaction(function () use ($cid, $data, $problems,$old_problmes) {
+                DB::table($this->tableName)
+                    ->where('cid',$cid)
+                    ->update($data);
+                DB::table('contest_problem')
+                    ->where('cid',$cid)
+                    ->delete();
+                $new_problems = [];
+                foreach ($problems as $p) {
+                    $pid=DB::table("problem")->where(["pcode"=>$p["pcode"]])->select("pid")->first()["pid"];
+                    array_push($new_problems,$pid);
+                    DB::table("contest_problem")->insert([
+                        "cid"=>$cid,
+                        "number"=>$p["number"],
+                        "ncode"=>$this->intToChr($p["number"]-1),
+                        "pid"=>$pid,
+                        "alias"=>"",
+                        "points"=>$p["points"]
+                    ]);
+                }
+                foreach($old_problmes as $op) {
+                    if(!in_array($op,$new_problems)){
+                        DB::table('submission')
+                            ->where('cid',$cid)
+                            ->where('pid',$op)
+                            ->delete();
+                    }
+                }
+            }, 5);
+            $contestRankRaw = $this->contestRankCache($cid);
+            Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
+            Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $contestRankRaw);
+        }else{
+            DB::table($this->tableName)
+                ->where('cid',$cid)
+                ->update($data);
+        }
     }
 
     public function contestUpdateProblem($cid,$problems)
@@ -1394,6 +1419,7 @@ class ContestModel extends Model
             ]);
         }
     }
+
     public function arrangeContest($gid, $config, $problems)
     {
         DB::transaction(function () use ($gid, $config, $problems) {
