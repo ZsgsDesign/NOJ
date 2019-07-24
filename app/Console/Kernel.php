@@ -63,7 +63,10 @@ class Kernel extends ConsoleKernel
             $syncList = $contestModel->runningContest();
             foreach($syncList as $syncContest) {
                 if(!isset($syncContest['vcid'])) {
-                    continue;
+                    $contestRankRaw=$contestModel->contestRankCache($syncContest['cid']);
+                    Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
+                    Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $contestRankRaw);
+                    return ;
                 }
                 $className = "App\\Babel\\Extension\\hdu\\Synchronizer";  // TODO Add OJ judgement.
                 $all_data = [
