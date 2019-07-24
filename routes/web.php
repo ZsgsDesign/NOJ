@@ -17,6 +17,8 @@ Route::get('/acmhome/problemdetail.do','MainController@oldRedirect')->name('old.
 
 Route::get('/', 'MainController@home')->middleware('contest_account')->name('home');
 
+Route::get('/search', 'SearchController')->name('search');
+
 Route::group(['prefix' => 'account'], function () {
     Route::get('/', 'AccountController@index')->name('account_index');
     Route::get('/dashboard', 'AccountController@dashboard')->middleware('auth')->name('account_dashboard');
@@ -117,7 +119,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('deleteSolutionDiscussion', 'ProblemController@deleteSolutionDiscussion')->middleware('auth');
     Route::post('voteSolutionDiscussion', 'ProblemController@voteSolutionDiscussion')->middleware('auth');
 
-    Route::post('search', 'SearchController')->name('search');
+    Route::post('search', 'SearchController')->name('ajax.search');
 
     Route::group(['prefix' => 'group'], function () {
         Route::post('changeMemberClearance', 'GroupController@changeMemberClearance')->middleware('auth');
