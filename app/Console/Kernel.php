@@ -12,6 +12,7 @@ use App\Models\GroupModel;
 use App\Models\JudgerModel;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Log;
+use Cache;
 
 class Kernel extends ConsoleKernel
 {
