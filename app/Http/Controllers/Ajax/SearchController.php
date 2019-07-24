@@ -23,18 +23,34 @@ class SearchController extends Controller
         if (!$request->has('search_key')) {
             return ResponseModel::err(1003);
         }
-
-        $search_key=strtoupper($request->input('search_key'));
-        $problem=new ProblemModel();
-        $prob_details=$problem->detail($search_key);
-        if (!is_null($prob_details)) {
-            if ($problem->isBlocked($prob_details["pid"])) {
-                return ResponseModel::err(403);
+        $key  = $request->input('search_key');
+        $all_result  = [];
+        $search_from = [
+            'users'         => \App\Models\AccountModel::class,
+            'problems'      => \App\Models\ProblemModel::class,
+            'contests'      => \App\Models\ContestModel::class,
+            'groups'        => \App\Models\GroupModel::class,
+        ];
+        foreach ($search_from as $name => $model_class) {
+            if(class_exists($model_class)){
+                $model = new $model_class();
+                if(!method_exists($model,'search')){
+                    $all_result[$name] = [
+                        'code' => -1,
+                        'msg' => 'cannot find search method in '.$model_class
+                    ];
+                    continue;
+                }
+                $result = $model->search($key);
+                $all_result[$name] = $result;
+            }else{
+                $all_result[$name] = [
+                    'code' => -1,
+                    'msg' => 'cannot find class named '.$model_class
+                ];;
+                continue;
             }
-            $problem_url=route('problem_detail', ['pcode' => $search_key]);
-            return ResponseModel::success(200, null, $problem_url);
-        } else {
-            return ResponseModel::err(3001);
         }
+        return ResponseModel::success(200,'Successful',$all_result);
     }
 }

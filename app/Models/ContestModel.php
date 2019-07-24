@@ -1816,4 +1816,26 @@ class ContestModel extends Model
     {
         return DB::table('contest')->where('cid','=',$cid)->pluck('verified')->first();
     }
+
+    public function search($key)
+    {
+        $result = [];
+        //contest name find
+        if(strlen($key) >= 2){
+            $ret = DB::table('contest')
+                ->where('name', 'like', $key.'%')
+                ->select('cid', 'gid', 'name', 'rule', 'public', 'verified', 'practice', 'rated', 'anticheated', 'begin_time', 'end_time')
+                ->get()->all();
+            $user_id = Auth::user()->id;
+            foreach($ret as $c_index => $c){
+                if(!$this->judgeClearance($c['cid'],$user_id)){
+                    array_splice($ret,$c_index);
+                }
+            }
+            if(!empty($ret)){
+                $result += $ret;
+            }
+        }
+        return $result;
+    }
 }

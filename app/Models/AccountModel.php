@@ -221,7 +221,8 @@ class AccountModel extends Model
      * @param string $value the value
      * @return string $result
      */
-    public function findExtra($key,$value){
+    public function findExtra($key,$value)
+    {
         $key = array_search($key,$this->user_extra);
         if($key){
             return DB::table('users_extra')->where('key',$key)->where('value',$value)->first();
@@ -230,7 +231,8 @@ class AccountModel extends Model
         }
     }
 
-    public function getSocialiteInfo($uid,$secret_level = -1){
+    public function getSocialiteInfo($uid,$secret_level = -1)
+    {
         $socialites = [];
         foreach ($this->socialite_support as $key => $value) {
             $id_keyname = $key.'_id';
@@ -250,5 +252,29 @@ class AccountModel extends Model
         }
 
         return $socialites;
+    }
+
+    public function search($key)
+    {
+        $result = [];
+        //email find
+        $ret = DB::table('users')
+            ->where('email',$key)
+            ->select('id','avatar', 'email', 'describes', 'professional_rate')
+            ->first();
+        if(!empty($ret)){
+            $result[] = $ret;
+        }
+        //user name find
+        if(strlen($key) >= 2){
+            $ret = DB::table('users')
+                ->where('name', 'like', $key.'%')
+                ->select('id','avatar', 'email', 'describes', 'professional_rate')
+                ->get()->all();
+            if(!empty($ret)){
+                $result += $ret;
+            }
+        }
+        return $result;
     }
 }
