@@ -97,6 +97,21 @@ class Languages
                     'seccomp_rule' => 'general',
                     'env' => array_merge(['MALLOC_ARENA_MAX=1'], $default_env)
                 ]
+            ],
+            'php7_lang_config' => [
+                'compile' => [
+                    'src_name' => 'solution.php',
+                    'exe_name' => 'solution.php',
+                    'max_cpu_time' => 3000,
+                    'max_real_time' => 10000,
+                    'max_memory' => 1024 * 1024 * 1024,
+                    'compile_command' => null,
+                ],
+                'run' => [
+                    'command' => '/usr/bin/php {src_name}',
+                    'seccomp_rule' => 'general',
+                    'env' => $default_env
+                ]
             ]
         ];
     }
