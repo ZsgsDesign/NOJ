@@ -27,12 +27,19 @@ class Judger extends Curl
         $submissionModel=new SubmissionModel();
 
         $result=$submissionModel->getWaitingSubmission();
+
+        Log::info(json_encode($result));
+
         foreach ($result as $row) {
             $ocode=$row["ocode"];
             if(!isset($this->judger[$ocode]) || is_null($this->judger[$ocode])) {
                 $this->judger[$ocode]=self::create($ocode);
             }
-            $this->judger[$ocode]->judge($row);
+            try {
+                $this->judger[$ocode]->judge($row);
+            }catch(Exception $e){
+                Log::alert("Exception Occurs While Processing $ocode's Submission {$row['sid']}\n".$e->getMessage()."\nAt ".$e->getFile().":".$e->getLine());
+            }
         }
     }
 
