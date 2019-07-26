@@ -320,12 +320,12 @@
     }
 
     markdown-editor ::-webkit-scrollbar,
-    pre::-webkit-scrollbar {
+    solution-content ::-webkit-scrollbar {
         width: 8px;
         height: 8px;
     }
     markdown-editor ::-webkit-scrollbar-thumb,
-    pre::-webkit-scrollbar-thumb {
+    solution-content ::-webkit-scrollbar-thumb {
         background-color: rgba(0, 0, 0, 0.2);
     }
 
