@@ -401,8 +401,6 @@ class GroupModel extends Model
     {
         $contestModel = new ContestModel();
 
-        $this->rankingUpdate($gid);
-
         $allPracticeContest = DB::table('contest')
             ->where([
                 'gid' => $gid,
@@ -529,21 +527,28 @@ class GroupModel extends Model
         return $ret;
     }
 
-    public function rankingUpdate($gid)
+    public function refreshElo($gid)
     {
+        DB::table('group_rated_change_log')
+            ->where('gid',$gid)
+            ->delete();
+        DB::table('group_member')
+            ->where('gid',$gid)
+            ->update([
+                'ranking' => 1500
+            ]);
         $contests = DB::table('contest')
-            ->leftJoin('group_rated_change_log','contest.cid','=','group_rated_change_log.cid')
             ->where([
-                'contest.gid' => $gid,
+                'gid' => $gid,
                 'practice' => 1
-            ])->where('end_time','<',date('Y-m-d H:i:s'))
+            ])
             ->whereNull('contest.vcid')
-            ->select('contest.cid as cid','group_rated_change_log.cid as cid_rated')
-            ->whereNull('group_rated_change_log.cid')
+            ->whereNull('vcid')
+            ->select('cid')
             ->orderBy('end_time')
             ->get()->all();
 
-        if(empty($contests)){
+        if(empty($contests)) {
             return true;
         }
 
