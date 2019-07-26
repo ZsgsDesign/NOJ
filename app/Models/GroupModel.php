@@ -7,6 +7,7 @@ use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Cache;
+use Auth;
 
 class GroupModel extends Model
 {
@@ -250,16 +251,23 @@ class GroupModel extends Model
 
     public function problems($gid)
     {
+        $contestModel = new ContestModel();
         $problems = DB::table('contest_problem')
         ->join('contest','contest_problem.cid', '=', 'contest.cid')
         ->join('problem','contest_problem.pid', '=', 'problem.pid' )
-        ->select('problem.pid as pid', 'pcode', 'title')
+        ->select('contest_problem.cid as cid', 'problem.pid as pid', 'pcode', 'title')
         ->where('contest.gid',$gid)
         ->where('contest.practice',1)
+        ->orderBy('contest.create_time','desc')
         ->distinct()
         ->get()->all();
-        foreach($problems as &$value){
-            $value['tags'] = $this->problemTags($gid,$value['pid']);
+        $user_id = Auth::user()->id;
+        foreach($problems as $key => $value){
+            if($contestModel->judgeClearance($value['cid'],$user_id) != 3){
+                unset($problems[$key]);
+            }else{
+                $problems[$key]['tags'] = $this->problemTags($gid,$value['pid']);
+            }
         }
         return $problems;
     }

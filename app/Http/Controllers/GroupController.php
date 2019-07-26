@@ -132,7 +132,6 @@ class GroupController extends Controller
         $groupModel = new GroupModel();
         $group_info = $groupModel->details($gcode);
         $problems = $groupModel->problems($group_info['gid']);
-        $allTags = $groupModel->problemTags($group_info['gid'],-1);
         $basic_info=$groupModel->details($gcode);
         return view('group.settings.problems', [
             'page_title'=>"Group Problems",
@@ -141,7 +140,6 @@ class GroupController extends Controller
             'basic_info'=>$basic_info,
             'group_info'=>$group_info,
             'problems'=>$problems,
-            'all_tags'=>$allTags
         ]);
     }
 
