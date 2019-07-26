@@ -9,4 +9,9 @@ class ProblemSearchModel extends Model
 {
     protected $table='problem';
     protected $primaryKey='pid';
+
+    public function search()
+    {
+        return [];
+    }
 }
