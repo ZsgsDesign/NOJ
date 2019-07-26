@@ -253,28 +253,4 @@ class AccountModel extends Model
 
         return $socialites;
     }
-
-    public function search($key)
-    {
-        $result = [];
-        //email find
-        $ret = DB::table('users')
-            ->where('email',$key)
-            ->select('id','avatar', 'email', 'describes', 'professional_rate')
-            ->first();
-        if(!empty($ret)){
-            $result[] = $ret;
-        }
-        //user name find
-        if(strlen($key) >= 2){
-            $ret = DB::table('users')
-                ->where('name', 'like', $key.'%')
-                ->select('id','avatar', 'email', 'describes', 'professional_rate')
-                ->get()->all();
-            if(!empty($ret)){
-                $result += $ret;
-            }
-        }
-        return $result;
-    }
 }

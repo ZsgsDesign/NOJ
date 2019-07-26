@@ -472,34 +472,4 @@ class ProblemModel extends Model
 
         return $pid;
     }
-
-    public function search($key)
-    {
-        $result = [];
-        //problem code find
-        $ret = DB::table('problem')
-            ->where('pcode', $key)
-            ->select('pid', 'pcode', 'title')
-            ->first();
-        if(!empty($ret)){
-            array_push($result,$ret);
-        }
-        //problem name find
-        if(strlen($key) >= 2){
-            $ret = DB::table('problem')
-                ->where('title', 'like', $key.'%')
-                ->select('pid', 'pcode', 'title')
-                ->get()->all();
-            if(!empty($ret)){
-                $result += $ret;
-            }
-        }
-        foreach ($result as $p_index => $p) {
-            if($this->isBlocked($p['pid'])){
-                array_splice($result,$p_index);
-            }
-        }
-        return $result;
-    }
-
 }

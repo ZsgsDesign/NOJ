@@ -26,10 +26,10 @@ class SearchController extends Controller
         $key  = $request->input('search_key');
         $all_result  = [];
         $search_from = [
-            'users'         => \App\Models\AccountModel::class,
-            'problems'      => \App\Models\ProblemModel::class,
-            'contests'      => \App\Models\ContestModel::class,
-            'groups'        => \App\Models\GroupModel::class,
+            'users'         => \App\Models\Search\UserSearchModel::class,
+            'problems'      => \App\Models\Search\ProblemSearchModel::class,
+            'contests'      => \App\Models\Search\ContestSearchModel::class,
+            'groups'        => \App\Models\Search\GroupSearchModel::class,
         ];
         foreach ($search_from as $name => $model_class) {
             if(class_exists($model_class)){
