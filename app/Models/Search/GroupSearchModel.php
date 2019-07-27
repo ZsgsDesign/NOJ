@@ -14,8 +14,10 @@ class GroupSearchModel extends Model
         $result = [];
         //group name or gcode find
         if(strlen($key) >= 2){
-            $ret = self::where('name', 'like', $key.'%')
-                ->orWhere('gcode', $key)
+            $ret = self::where(function($query) use ($key){
+                $query->where('name', 'like', $key.'%')
+                    ->orWhere('gcode', $key);
+                })
                 ->where('public',1)
                 ->select('gid','gcode', 'img', 'name', 'description')
                 ->get()->all();

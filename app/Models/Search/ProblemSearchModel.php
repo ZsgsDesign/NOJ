@@ -16,7 +16,7 @@ class ProblemSearchModel extends Model
         $result = [];
         //problem code find
         $ret = self::where('pcode', $key)
-            ->select('pid', 'pcode', 'title')
+            ->select('pcode', 'title')
             ->first();
         if(!empty($ret)){
             array_push($result,$ret);
@@ -24,7 +24,7 @@ class ProblemSearchModel extends Model
         //problem name find
         if(strlen($key) >= 2){
             $ret = self::where('title', 'like', $key.'%')
-                ->select('pid', 'pcode', 'title')
+                ->select('pcode', 'title')
                 ->get()->all();
             if(!empty($ret)){
                 $result += $ret;

@@ -43,11 +43,6 @@
         margin-bottom: -2px;
     }
 
-    h5{
-        margin-bottom: 1rem;
-        font-weight: bold;
-    }
-
     empty-container{
         display:block;
         text-align: center;
@@ -78,7 +73,8 @@
         cursor: pointer;
         transition: 400ms;
         line-height: 2.5rem;
-        height: 2.5rem;
+        padding: 0.5rem;
+        height: 3.5rem;
     }
 
     category-title:hover{
@@ -163,7 +159,7 @@
         margin-top: 2rem;
     }
 
-    .badge{
+    .badge-count{
         color: #6c757d;
         background-color: transparent;
         overflow: hidden;
@@ -288,6 +284,69 @@
         padding-left:1rem;
         font-size: .85rem;
     }
+
+    group-card {
+        display: block;
+        /* box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px; */
+        border-radius: 4px;
+        transition: .2s ease-out .0s;
+        color: #7a8e97;
+        background: #fff;
+        /* padding: 1rem; */
+        position: relative;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        margin-bottom: 2rem;
+        overflow:hidden;
+    }
+
+    a:hover{
+        text-decoration: none;
+    }
+
+    group-card:hover {
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
+    }
+
+    group-card > div:first-of-type {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 61.8%;
+    }
+
+    group-card > div:first-of-type > shadow-div {
+        display: block;
+        position: absolute;
+        overflow: hidden;
+        top:0;
+        bottom:0;
+        right:0;
+        left:0;
+    }
+
+    group-card > div:first-of-type > shadow-div > img{
+        object-fit: cover;
+        width:100%;
+        height: 100%;
+        transition: .2s ease-out .0s;
+    }
+
+    group-card > div:first-of-type > shadow-div > img:hover{
+        transform: scale(1.2);
+    }
+
+    group-card > div:last-of-type{
+        padding:1rem;
+    }
+
+    #content-problems tr{
+        transition: 250ms;
+        cursor: pointer;
+    }
+
+    #content-problems tr:hover{
+        background: #eeee;
+    }
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
@@ -307,30 +366,46 @@
                     <category-box id="category-problems">
                         <category-title data-toggle="collapse" data-target="#content-problems" aria-expanded="true" aria-controls="content-problems">
                             <span style="position: relative; top:0.1rem;">Problems</span>
-                            <span class="badge">0</span>
+                            <span class="badge badge-count">0</span>
                         </category-title>
-                        <category-content id="content-problems" class="collapse" aria-labelledby="content-problems" data-parent="result-box"></category-content>
+                        <category-content id="content-problems" class="collapse" aria-labelledby="content-problems" data-parent="result-box">
+                            <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="cm-fw">#</th>
+                                        <th scope="col">Title</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                            </div>
+                        </category-content>
                     </category-box>
                     <category-box id="category-contests">
                         <category-title data-toggle="collapse" data-target="#content-contests" aria-expanded="true" aria-controls="content-contests">
                             <span style="position: relative; top:0.1rem;">Contests</span>
-                            <span class="badge">0</span>
+                            <span class="badge badge-count">0</span>
                         </category-title>
                         <category-content id="content-contests" class="collapse" aria-labelledby="content-contests" data-parent="result-box"></category-content>
                     </category-box>
                     <category-box id="category-users">
                         <category-title data-toggle="collapse" data-target="#content-users" aria-expanded="true" aria-controls="content-users">
                             <span style="position: relative; top:0.1rem;">Users</span>
-                            <span class="badge">0</span>
+                            <span class="badge badge-count">0</span>
                         </category-title>
                         <category-content id="content-users" class="collapse" aria-labelledby="content-users" data-parent="result-box"></category-content>
                     </category-box>
                     <category-box id="category-groups">
                         <category-title data-toggle="collapse" data-target="#content-groups" aria-expanded="true" aria-controls="content-groups">
                             <span style="position: relative; top:0.1rem;">Groups</span>
-                            <span class="badge">0</span>
+                            <span class="badge badge-count">0</span>
                         </category-title>
-                        <category-content id="content-groups" class="collapse" aria-labelledby="content-groups" data-parent="result-box"></category-content>
+                        <category-content id="content-groups" class="collapse" aria-labelledby="content-groups" data-parent="result-box">
+                            <div class="row"></div>
+                        </category-content>
                     </category-box>
                 </result-box>
             @endif
@@ -350,7 +425,7 @@
                     url : '{{route("ajax.search")}}',
                     type : 'POST',
                     data : {
-                        search_key : '{{ $search_key }}'
+                        search_key : window.atob('{{base64_encode($search_key)}}')
                     },
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -371,7 +446,7 @@
                 $('#loading-tips').fadeOut(500,function(){
                     $('result-box').fadeIn(200);
                     for(let category in result) {
-                        $(`#category-${category} span.badge`).text(result[category].length);
+                        $(`#category-${category} > category-title span.badge`).text(result[category].length);
                         for(let item_id in result[category]){
                             item = result[category][item_id];
                             switch(category){
@@ -391,7 +466,12 @@
                                     `)
                                     break;
                                 case 'problems':
-
+                                    $(`#content-problems tbody`).append(`
+                                        <tr id="p-${item['pcode']}">
+                                            <th scope="row">${item['pcode']}</th>
+                                            <td>${item['title']}</td>
+                                        </tr>
+                                    `);
                                     break;
                                 case 'contests':
                                     $(`#content-contests`).append(`
@@ -402,12 +482,12 @@
                                         </date-div>
                                         <info-div>
                                             <h5 class="sm-contest-title">
-                                                ${item['audit_status'] == 0 ? '<i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="left" title="This contest is under review"></i>' : ''}
-                                                ${item['public'] == 0 ? '<i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="left" title="This is a private contest"></i>' : ''}
-                                                ${item['verified'] == 1 ? '<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="left" title="This is a verified contest"></i>' : ''}
-                                                ${item['practice'] == 1 ? '<i class="MDI sword wemd-green-text"  data-toggle="tooltip" data-placement="left" title="This is a contest for praticing"></i>' : ''}
-                                                ${item['rated'] == 1 ? '<i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="left" title="This is a rated contest"></i>' : ''}
-                                                ${item['anticheated'] == 1 ? '<i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="left" title="Anti-cheat enabled"></i>' : ''}
+                                                ${item['audit_status'] == 0 ? '<i class="MDI gavel wemd-brown-text" title="This contest is under review"></i>' : ''}
+                                                ${item['public'] == 0 ? '<i class="MDI incognito wemd-red-text" title="This is a private contest"></i>' : ''}
+                                                ${item['verified'] == 1 ? '<i class="MDI marker-check wemd-light-blue-text" title="This is a verified contest"></i>' : ''}
+                                                ${item['practice'] == 1 ? '<i class="MDI sword wemd-green-text"  title="This is a contest for praticing"></i>' : ''}
+                                                ${item['rated'] == 1 ? '<i class="MDI seal wemd-purple-text" title="This is a rated contest"></i>' : ''}
+                                                ${item['anticheated'] == 1 ? '<i class="MDI do-not-disturb-off wemd-teal-text" title="Anti-cheat enabled"></i>' : ''}
                                                 ${item['name']}
                                             </h5>
                                             <p class="sm-contest-info">
@@ -419,6 +499,23 @@
                                     `);
                                     break;
                                 case 'groups':
+                                    $('#content-groups div.row').append(`
+                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                        <a href="/group/${item['gcode']}">
+                                            <group-card>
+                                                <div>
+                                                    <shadow-div>
+                                                        <img src="${item['img']}">
+                                                    </shadow-div>
+                                                </div>
+                                                <div>
+                                                    <p class="cm-group-name">${item['verified'] == 1 ? '<i class="MDI marker-check wemd-light-blue-text"></i>' : ''}${item['name']}</p>
+                                                    <small class="cm-group-info">${item['description']}</small>
+                                                </div>
+                                            </group-card>
+                                        </a>
+                                    </div>
+                                    `);
                                     break;
                             }
                         }
@@ -430,6 +527,10 @@
             function registerEvent(){
                 $('user-card').on('click',function(){
                     window.location = $(this).find('a').attr('href');
+                });
+
+                $('#content-problems tbody tr').on('click',function(){
+                    window.location = `/problem/${$(this).find('th').text()}`;
                 });
             }
         @endif

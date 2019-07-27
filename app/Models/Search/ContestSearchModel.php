@@ -28,6 +28,11 @@ class ContestSearchModel extends Model
                     unset($ret[$c_index]);
                 }
             }
+            if(!empty($ret)){
+                $result += $ret;
+            }
+        }
+        if(!empty($result)) {
             foreach ($result as &$contest) {
                 $contest["rule_parsed"]=$this->rule[$contest["rule"]];
                 $contest["date_parsed"]=[
@@ -37,11 +42,8 @@ class ContestSearchModel extends Model
                 $contest["length"]=$contestModel->calcLength($contest["begin_time"], $contest["end_time"]);
             }
             unset($contest);
-
-            if(!empty($ret)){
-                $result += $ret;
-            }
         }
+
         return $result;
     }
 }
