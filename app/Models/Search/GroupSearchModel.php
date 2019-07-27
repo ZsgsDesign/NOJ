@@ -15,7 +15,7 @@ class GroupSearchModel extends Model
         //group name or gcode find
         if(strlen($key) >= 2){
             $ret = self::where(function($query) use ($key){
-                $query->where('name', 'like', $key.'%')
+                $query->whereRaw('MATCH(`name`) AGAINST (?)',[$key])
                     ->orWhere('gcode', $key);
                 })
                 ->where('public',1)

@@ -23,7 +23,7 @@ class ProblemSearchModel extends Model
         }
         //problem name find
         if(strlen($key) >= 2){
-            $ret = self::where('title', 'like', $key.'%')
+            $ret = self::whereRaw('MATCH(`title`) AGAINST (?)',[$key])
                 ->select('pcode', 'title')
                 ->get()->all();
             if(!empty($ret)){
