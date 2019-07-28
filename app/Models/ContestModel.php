@@ -807,7 +807,11 @@ class ContestModel extends Model
             if($clearance == 3){
                 $contestRankRaw=Cache::tags(['contest', 'rank'])->get("contestAdmin$cid");
                 if (!isset($contestRankRaw)) {
-                    $contestRankRaw=$this->contestRankCache($cid);
+                    $contestRankRaw=$this->getContestRankFromMySQL($cid);
+                    if(!isset($contestRankRaw)){
+                        $contestRankRaw=$this->contestRankCache($cid);
+                        $this->storeContestRankInMySQL($cid, $contestRankRaw);
+                    }
                 }
             }else{
                 $contestRankRaw=$this->getContestRankFromMySQL($cid);
@@ -1474,8 +1478,14 @@ class ContestModel extends Model
         try{
             if($lock->get()){
                 if(Cache::tags(['contest','rank'])->get($cid) != null){
-                    $chache = Cache::tags(['contest','data'])->get($cid);
                     $ret = Cache::tags(['contest','rank'])->get($cid);
+                    $chache=[];
+                    $chache['contest_info']=DB::table("contest")->where("cid", $cid)->first();
+                    $chache['problemSet']=DB::table("contest_problem")->join("problem", "contest_problem.pid", "=", "problem.pid")->where([
+                        "cid"=>$cid
+                    ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title")->get()->all();
+                    $chache['frozen_time']=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
+                    $chache['end_time']=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
 
                     $id = 0;
 
@@ -1493,6 +1503,9 @@ class ContestModel extends Model
                         Cache::tags(['contest', 'rank'])->put($cid, $ret);
                     }
                     Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $ret);
+                    if(time() > $chache['end_time']){
+                        $this->storeContestRankInMySQL($cid, $ret);
+                    }
                 }
                 else{
                     $ret=[];
@@ -1503,8 +1516,6 @@ class ContestModel extends Model
                     ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title")->get()->all();
                     $chache['frozen_time']=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
                     $chache['end_time']=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
-
-                    Cache::tags(['contest', 'data'])->put($cid, $chache);
 
                     if ($chache['contest_info']["registration"]) {
                         $submissionUsers=DB::table("contest_participant")->where([
@@ -1610,34 +1621,49 @@ class ContestModel extends Model
                 $totScore=$ret[$id]['score'];
             };
 
-            $prob_stat=$this->contestProblemInfoACM($cid, $problem["pid"], $uid);
+            $ac_times=DB::table("submission")->where([
+                "cid"=>$cid,
+                "pid"=>$problem['pid'],
+                "uid"=>$uid,
+                "verdict"=>"Accepted"
+            ])->count();
 
-            $prob_detail[$problem['cpid']]=[
-                "ncode"=>$problem["ncode"],
-                "pid"=>$problem["pid"],
-                "color"=>$prob_stat["color"],
-                "wrong_doings"=>$prob_stat["wrong_doings"],
-                "solved_time_parsed"=>$prob_stat["solved_time_parsed"]
-            ];
-            if ($prob_stat["solved"]) {
-                $totPen+=$prob_stat["wrong_doings"] * 20;
-                $totPen+=$prob_stat["solved_time"] / 60;
-                $totScore+=$prob_stat["solved"];
-            }
+            $last_record=DB::table("submission")->where([
+                "cid"=>$cid,
+                "pid"=>$problem['pid'],
+                "uid"=>$uid,
+            ])->orderBy('submission_date', 'desc')->first();
+    
+            if ($ac_times<=1 && $last_record->verdict!="Waiting" && $last_record->verdict!="Submission Error" && $last_record->verdict!="System Error"){
+                $prob_stat=$this->contestProblemInfoACM($cid, $problem["pid"], $uid);
 
-            $ret[$id]=[
-                "uid" => $uid,
-                "name" => DB::table("users")->where([
-                    "id"=>$uid
-                ])->first()["name"],
-                "nick_name" => DB::table("group_member")->where([
+                $prob_detail[$problem['cpid']]=[
+                    "ncode"=>$problem["ncode"],
+                    "pid"=>$problem["pid"],
+                    "color"=>$prob_stat["color"],
+                    "wrong_doings"=>$prob_stat["wrong_doings"],
+                    "solved_time_parsed"=>$prob_stat["solved_time_parsed"]
+                ];
+                if ($prob_stat["solved"]) {
+                    $totPen+=$prob_stat["wrong_doings"] * 20;
+                    $totPen+=$prob_stat["solved_time"] / 60;
+                    $totScore+=$prob_stat["solved"];
+                }
+    
+                $ret[$id]=[
                     "uid" => $uid,
-                    "gid" => $contest_info["gid"]
-                ])->where("role", ">", 0)->first()["nick_name"],
-                "score" => $totScore,
-                "penalty" => $totPen,
-                "problem_detail" => $prob_detail
-            ];
+                    "name" => DB::table("users")->where([
+                        "id"=>$uid
+                    ])->first()["name"],
+                    "nick_name" => DB::table("group_member")->where([
+                        "uid" => $uid,
+                        "gid" => $contest_info["gid"]
+                    ])->where("role", ">", 0)->first()["nick_name"],
+                    "score" => $totScore,
+                    "penalty" => $totPen,
+                    "problem_detail" => $prob_detail
+                ];
+            }
         } elseif ($contest_info["rule"]==2) {
             // OI Mode
             if($id == count($ret)){
