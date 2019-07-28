@@ -25,7 +25,7 @@ class SubmissionController extends Controller
         return $content
             ->header('Submissions')
             ->description('all submissions')
-            ->body($this->grid());
+            ->body($this->grid()->render());
     }
 
     /**

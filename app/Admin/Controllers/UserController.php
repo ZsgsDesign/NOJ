@@ -25,7 +25,7 @@ class UserController extends Controller
         return $content
             ->header('Users')
             ->description('all users')
-            ->body($this->grid());
+            ->body($this->grid()->render());
     }
 
     /**

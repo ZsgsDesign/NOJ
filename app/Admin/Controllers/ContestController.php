@@ -25,7 +25,7 @@ class ContestController extends Controller
         return $content
             ->header('Contests')
             ->description('all contests')
-            ->body($this->grid());
+            ->body($this->grid()->render());
     }
 
     /**
