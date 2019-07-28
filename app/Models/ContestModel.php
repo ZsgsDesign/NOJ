@@ -1503,6 +1503,9 @@ class ContestModel extends Model
                         Cache::tags(['contest', 'rank'])->put($cid, $ret);
                     }
                     Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $ret);
+                    if(time() > $chache['end_time']){
+                        $this->storeContestRankInMySQL($cid, $ret);
+                    }
                 }
                 else{
                     $ret=[];
@@ -1624,7 +1627,7 @@ class ContestModel extends Model
                 "uid"=>$uid,
                 "verdict"=>"Accepted"
             ])->count();
-            
+
             $last_record=DB::table("submission")->where([
                 "cid"=>$cid,
                 "pid"=>$problem['pid'],
