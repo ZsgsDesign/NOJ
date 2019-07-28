@@ -99,17 +99,11 @@ class Languages
                 ]
             ],
             'php7_lang_config' => [
-                'compile' => [
-                    'src_name' => 'solution.php',
-                    'exe_name' => 'solution.php',
-                    'max_cpu_time' => 3000,
-                    'max_real_time' => 10000,
-                    'max_memory' => 1024 * 1024 * 1024,
-                    'compile_command' => null,
-                ],
+                'compile' => null,
                 'run' => [
-                    'command' => '/usr/bin/php {src_name}',
-                    'seccomp_rule' => 'general',
+                    'exe_name' => 'solution.php',
+                    'command' => '/usr/bin/php {exe_path}',
+                    'seccomp_rule' => null,
                     'env' => $default_env
                 ]
             ]
