@@ -227,3 +227,21 @@
 </script>
 @include('js.submission.detail')
 @endsection
+
+@section("additionJS")
+<script>
+    var changingRank=false;
+    var showRemote=true;
+
+    $("body").keydown(function(event) {
+        if(event.which==72){
+            if(changingRank) return;
+            else changingRank=true;
+            if(showRemote) $(".cm-remote").addClass("d-none");
+            else $(".cm-remote").removeClass("d-none");
+            showRemote=!showRemote;
+            changingRank=false;
+        }
+    });
+</script>
+@endsection
