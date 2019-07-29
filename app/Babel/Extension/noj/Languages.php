@@ -90,10 +90,10 @@ class Languages
                     'max_cpu_time' => 3000,
                     'max_real_time' => 10000,
                     'max_memory' => 1024 * 1024 * 1024,
-                    'compile_command' => '/usr/bin/python3.7 -m py_compile {src_path}',
+                    'compile_command' => 'python3.7 -m py_compile {src_path}',
                 ],
                 'run' => [
-                    'command' => '/usr/bin/python3.7 {exe_path}',
+                    'command' => 'python3.7 {exe_path}',
                     'seccomp_rule' => 'general',
                     'env' => array_merge(['MALLOC_ARENA_MAX=1'], $default_env)
                 ]
