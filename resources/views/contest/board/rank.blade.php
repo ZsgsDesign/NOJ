@@ -113,6 +113,10 @@
         margin:1rem
     }
 
+    tbody > tr{
+        height: calc(36px + 1.5rem);
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
