@@ -134,6 +134,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
         Route::post('addProblemTag', 'GroupController@addProblemTag')->middleware('auth');
         Route::post('removeProblemTag', 'GroupController@removeProblemTag')->middleware('auth');
         Route::post('getPracticeStat', 'GroupController@getPracticeStat')->middleware('auth');
+        Route::post('refreshElo', 'GroupController@refreshElo')->middleware('auth');
     });
 
     Route::group(['prefix' => 'contest'], function () {
