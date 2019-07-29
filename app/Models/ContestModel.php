@@ -1634,7 +1634,7 @@ class ContestModel extends Model
                 "uid"=>$uid,
             ])->orderBy('submission_date', 'desc')->first();
     
-            if ($ac_times<=1 && $last_record->verdict!="Waiting" && $last_record->verdict!="Submission Error" && $last_record->verdict!="System Error"){
+            if ($ac_times<=1 && isset($last_record) && $last_record['verdict']!="Waiting" && $last_record['verdict']!="Submission Error" && $last_record['verdict']!="System Error"){
                 $prob_stat=$this->contestProblemInfoACM($cid, $problem["pid"], $uid);
 
                 $prob_detail[$problem['cpid']]=[
