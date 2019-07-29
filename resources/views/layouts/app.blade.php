@@ -180,36 +180,36 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
-                    <li class="nav-item />">
+                    <li class="nav-item">
                         <a class="nav-link @if ($navigation === "Home") active @endif" href="/">Home <span class="sr-only">(current)</span></a>
                     </li>
                     @endif
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
-                        <li class="nav-item />">
+                        <li class="nav-item">
                             <a class="nav-link @if ($navigation === "Problem") active @endif" href="/problem">Problem</a>
                         </li>
                     @endif
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
-                        <li class="nav-item />">
+                        <li class="nav-item">
                             <a class="nav-link @if ($navigation === "Status") active @endif" href="/status">Status</a>
                         </li>
                     @endif
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
-                        <li class="nav-item />">
+                        <li class="nav-item">
                             <a class="nav-link @if ($navigation === "Rank") active @endif" href="/rank">Rank</a>
                         </li>
                     @endif
-                    <li class="nav-item />">
+                    <li class="nav-item">
                         <a class="nav-link @if ($navigation === "Contest") active @endif" href="/contest">Contest</a>
                     </li>
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
-                    <li class="nav-item />">
+                    <li class="nav-item">
                         <a class="nav-link @if ($navigation === "Group") active @endif" href="/group">Group</a>
                     </li>
                     @endif
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
                         @foreach(getCustomUrl() as $u)
-                            <li class="nav-item />">
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{$u["url"]}}" target="{{$u["newtab"]?'_blank':''}}">{{$u["display_name"]}}</a>
                             </li>
                         @endforeach
