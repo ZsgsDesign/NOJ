@@ -93,7 +93,7 @@ class Languages
                     'compile_command' => '/usr/bin/python3.7 -m py_compile {src_path}',
                 ],
                 'run' => [
-                    'command' => '/usr/bin/python3 {exe_path}',
+                    'command' => '/usr/bin/python3.7 {exe_path}',
                     'seccomp_rule' => 'general',
                     'env' => array_merge(['MALLOC_ARENA_MAX=1'], $default_env)
                 ]
