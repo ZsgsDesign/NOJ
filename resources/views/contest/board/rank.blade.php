@@ -121,9 +121,9 @@
         height: calc(36px + 1.5rem);
     }
 
-    tbody{counter-reset: count 0;}
+    /* tbody{counter-reset: count 0;}
     tbody > tr{counter-increment: count 1;}
-    tbody th::before{content:counter(count);}
+    tbody th::before{content:counter(count);} */
 
 </style>
 <div class="container mundb-standard-container">
@@ -185,7 +185,7 @@
                             {{-- ACM/ICPC Mode --}}
                             @foreach($contest_rank as $r)
                             <tr class="@if($r["uid"]==Auth::user()->id) cm-me @endif @if(isset($r["remote"]) && $r["remote"]) cm-remote @endif">
-                                <th scope="row">{{--$loop->iteration--}}</th>
+                                <th scope="row">{{$loop->iteration}}</th>
                                 <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
                                 <td>{{$r["score"]}}</td>
                                 <td>{{round($r["penalty"])}}</td>
@@ -202,7 +202,7 @@
                             {{-- OI Mode --}}
                             @foreach($contest_rank as $r)
                             <tr class="@if($r["uid"]==Auth::user()->id) cm-me @endif @if(isset($r["remote"]) && $r["remote"]) cm-remote @endif">
-                                <th scope="row">{{--$loop->iteration--}}</th>
+                                <th scope="row">{{$loop->iteration}}</th>
                                 <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
                                 <td>{{round($r["score"])}}</td>
                                 <td>{{$r["solved"]}}</td>
