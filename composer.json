@@ -14,7 +14,7 @@
         "graham-campbell/markdown": "^10.2",
         "grubersjoe/bing-daily-photo": "^2.0",
         "illuminate/support": "^5.7",
-        "kub-at/php-simple-html-dom-parser": "^1.7",
+        "kub-at/php-simple-html-dom-parser": "^1.7.0",
         "laracasts/utilities": "^3.0",
         "laravel-admin-ext/api-tester": "^1.0",
         "laravel-admin-ext/backup": "^1.0",
