@@ -15,6 +15,7 @@ use Redirect;
 use App\Exports\AccountExport;
 use Excel;
 use Cache;
+use DB;
 
 class ContestController extends Controller
 {
@@ -233,7 +234,7 @@ class ContestController extends Controller
         $frozenTime=$contestModel->frozenTime($cid);
         $basicInfo=$contestModel->basic($cid);
         return view('contest.board.rank', [
-            'page_title'=>"Challenge",
+            'page_title'=>"Rank",
             'navigation' => "Contest",
             'site_title'=>$contest_name,
             'contest_name'=>$contest_name,
@@ -421,6 +422,10 @@ class ContestController extends Controller
         $contestRankRaw=$contestModel->contestRankCache($cid);
         Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
         Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $contestRankRaw);
+        $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+        if(time() > $end_time){
+            $contestModel->storeContestRankInMySQL($cid, $contestRankRaw);
+        }
         return Redirect::route('contest.rank', ['cid' => $cid]);
     }
 }

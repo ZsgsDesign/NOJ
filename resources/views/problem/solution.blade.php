@@ -308,6 +308,7 @@
         display:block;
         flex-shrink: 1;
         flex-grow: 1;
+        width: 0;
     }
 
     markdown-editor{
@@ -318,11 +319,13 @@
         height: 20rem;
     }
 
-    markdown-editor ::-webkit-scrollbar {
+    markdown-editor ::-webkit-scrollbar,
+    solution-content ::-webkit-scrollbar {
         width: 8px;
         height: 8px;
     }
-    markdown-editor ::-webkit-scrollbar-thumb {
+    markdown-editor ::-webkit-scrollbar-thumb,
+    solution-content ::-webkit-scrollbar-thumb {
         background-color: rgba(0, 0, 0, 0.2);
     }
 

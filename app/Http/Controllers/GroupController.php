@@ -132,7 +132,6 @@ class GroupController extends Controller
         $groupModel = new GroupModel();
         $group_info = $groupModel->details($gcode);
         $problems = $groupModel->problems($group_info['gid']);
-        $allTags = $groupModel->problemTags($group_info['gid'],-1);
         $basic_info=$groupModel->details($gcode);
         return view('group.settings.problems', [
             'page_title'=>"Group Problems",
@@ -141,7 +140,6 @@ class GroupController extends Controller
             'basic_info'=>$basic_info,
             'group_info'=>$group_info,
             'problems'=>$problems,
-            'all_tags'=>$allTags
         ]);
     }
 
@@ -153,7 +151,6 @@ class GroupController extends Controller
     public function settingsDanger($gcode)
     {
         $groupModel=new GroupModel();
-        $contestModel=new ContestModel();
         $basic_info=$groupModel->details($gcode);
         if(empty($basic_info)) return Redirect::route('group.index');
         return view('group.settings.danger', [
@@ -226,11 +223,6 @@ class GroupController extends Controller
         ]);
     }
 
-    /*
-     * Show the Contest Analysis Tab.
-     *
-     * @return Response
-     */
     public function analysisDownload($gcode,Request $request){
         $all_data = $request->all();
         $groupModel = new GroupModel();

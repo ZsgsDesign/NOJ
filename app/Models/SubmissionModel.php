@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Tool\PastebinModel;
+use Cache;
 
 class SubmissionModel extends Model
 {
@@ -408,7 +409,7 @@ class SubmissionModel extends Model
     public function getWaitingSubmission()
     {
         $ret=DB::table($this->tableName)    ->join('problem', 'problem.pid', '=', 'submission.pid')
-                                            ->select("sid", "OJ as oid", "remote_id", "cid", "jid")
+                                            ->select("sid", "OJ as oid", "remote_id", "cid", "jid", "vcid", "problem.pid as pid")
                                             ->where(['verdict'=>'Waiting'])
                                             ->get()
                                             ->all();
@@ -431,13 +432,13 @@ class SubmissionModel extends Model
             $sub["color"]=$this->colorScheme[$sub['verdict']];
         }
         $result = DB::table($this->tableName)->where(['sid'=>$sid])->update($sub);
-
         $contestModel = new ContestModel();
         $submission_info = DB::table($this->tableName) -> where(['sid'=>$sid]) -> get() -> first();
-        if ($submission_info['cid'] && $contestModel->isContestRunning($submission_info['cid'])){
+        if ($result==1 && $submission_info['cid'] && $contestModel->isContestRunning($submission_info['cid'])){
             $sub['pid'] = $submission_info['pid'];
             $sub['uid'] = $submission_info['uid'];
             $sub['cid'] = $submission_info['cid'];
+            $sub['sid'] = $sid;
             $contestModel->updateContestRankTable($submission_info['cid'],$sub);
         }
         return $result;
