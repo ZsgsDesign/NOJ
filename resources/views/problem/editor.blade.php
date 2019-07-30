@@ -642,6 +642,8 @@
 
                             <div class="cm-pre-wrapper"><pre id="output{{$loop->index}}">{!!$ps['sample_output']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#output{{$loop->index}}">Copy</button></div>
 
+                            @if ($ps['sample_note']) {!!$ps['sample_note']!!} @endif
+
                         @endforeach
 
                         @unless(trim($detail["parsed"]["note"])=="")
