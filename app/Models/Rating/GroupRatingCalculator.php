@@ -25,6 +25,12 @@ class GroupRatingCalculator extends Model
     private function getRecord(){
         $contestModel = new ContestModel();
         $contestRankRaw = $contestModel->contestRank($this->cid);
+        foreach($contestRankRaw as $key => $contestRank){
+            if(isset($contestRank['remote']) && $contestRank['remote']){
+                unset($contestRankRaw[$key]);
+            }
+        }
+        $contestRankRaw = array_values($contestRankRaw);
         $this->totParticipants = count($contestRankRaw);
         $members = array_column($contestRankRaw,'uid');
         $ratings_temp = DB::table('group_member')
