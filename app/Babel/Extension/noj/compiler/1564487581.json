@@ -1,0 +1,10 @@
+{
+    "modifications":[{
+        "code":"jsc",
+        "compability":"javascript",
+        "language":"javascript",
+        "icon":"devicon-javascript-plain",
+        "display":"Javascript",
+        "method":"add"
+    }]
+}
