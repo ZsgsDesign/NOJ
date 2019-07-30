@@ -106,6 +106,15 @@ class Languages
                     'seccomp_rule' => null,
                     'env' => $default_env
                 ]
+            ],
+            'jsc_lang_config' => [
+                'compile' => null,
+                'run' => [
+                    'exe_name' => 'solution.js',
+                    'command' => '/usr/bin/jsc {exe_path}',
+                    'seccomp_rule' => null,
+                    'env' => $default_env
+                ]
             ]
         ];
     }
