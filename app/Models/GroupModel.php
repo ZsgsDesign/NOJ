@@ -550,8 +550,6 @@ class GroupModel extends Model
                 'gid' => $gid,
                 'practice' => 1
             ])
-            ->whereNull('contest.vcid')
-            ->whereNull('vcid')
             ->select('cid')
             ->orderBy('end_time')
             ->get()->all();
