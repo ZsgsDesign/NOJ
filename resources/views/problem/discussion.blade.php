@@ -194,16 +194,16 @@
         font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
     }
 
-    user-section{
+    .user-section{
         display: flex;
         justify-content: flex-start;
         align-items: center;
     }
-    user-section > a{
+    .user-section > a{
         color:#7a8e97!important;
     }
 
-    user-section > p{
+    .user-section > p{
         margin:0;
         line-height: 2rem;
         font-size: 1.2rem;
@@ -212,40 +212,39 @@
     .cm-avatar-square{
         height: 1.5rem;
         width: 1.5rem;
-        border-radius: 4px;
+        border-radius: 50%;
         margin-right:0.5rem;
+    }
+    .cm-avatar{
+        height: 4rem;
+        width: 4rem;
+        border-radius: 50%;
+        margin:0 1rem 0.5rem 0;
     }
 
     solution-section{
         display:flex;
         border-bottom:1px solid rgba(0,0,0,0.25);
-        margin: 1rem 0 1rem 0;
+        margin: 1.5rem 0 1.5rem 0;
     }
 
     solution-section:first-of-type{
-        margin-top:0;
+        margin-top:0.5rem;
     }
     solution-section:last-of-type{
         border-bottom:none;
-        margin-bottom:0;
+        margin-bottom:0.5rem;
     }
 
     solution-section > polling-section{
         display:block;
         flex-shrink: 0;
         flex-grow: 0;
-        padding: 0 1rem 0 1rem;
+        padding: 0 2rem 0 1rem;
         text-align: center;
     }
 
-    solution-section > polling-section > h3{
-    }
-
-    solution-section > polling-section > h3{
-        font-family: 'Consolas', monospace;
-    }
-
-    solution-section > content-section{
+    .content-section{
         display:block;
         flex-shrink: 1;
         flex-grow: 1;
@@ -253,7 +252,48 @@
     }
 
     solution-section > content-section > h3 > a {
-        color:#7a8e97!important;
+        color:rgba(0, 0, 0, 0.93)!important;
+    }
+
+    .post-list{
+        display:flex;
+        border-bottom:1px solid rgba(0,0,0,0.25);
+        margin: 1.5rem 0 1.5rem 0;
+    }
+
+    .post-list:first-of-type{
+        margin-top:0;
+    }
+    .post-list:last-of-type{
+        border-bottom:none;
+        margin-bottom:0;
+    }
+
+    .post-list .comment-number{
+        display:block;
+        flex-shrink: 0;
+        flex-grow: 0;
+        padding: 0 2rem 0 1rem;
+        text-align: center;
+    }
+
+    .post-title{
+        display:block;
+        flex-shrink: 1;
+        flex-grow: 1;
+        width: 0;
+    }
+    .post-title > h3 {
+        text-overflow: ellipsis;
+        word-break: break-all;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    .post-title > h3 > a {
+        color:rgba(0, 0, 0, 0.93)!important;
+    }
+    .markdown-text{
+        color:rgba(0, 0, 0, 0.93))!important;
     }
 
     markdown-editor{
@@ -274,98 +314,6 @@
 
     markdown-editor .editor-toolbar.disabled-for-preview a:not(.no-disable){
         opacity: 0.5;
-    }
-
-    solution-content{
-        display: block;
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-        -ms-word-break: break-all;
-        word-break: break-word;
-        -ms-hyphens: auto;
-        -webkit-hyphens: auto;
-        hyphens: auto;
-        font-family: Roboto,Helvetica,Arial,sans-serif;
-        color:rgba(0, 0, 0, 0.93);
-    }
-
-    solution-content p {
-        line-height: 1.5;
-        font-size: inherit
-    }
-
-    solution-content h1,solution-content h2,solution-content h3,solution-content h4,solution-content h5,solution-content h6 {
-        margin-top: 1em;
-        margin-bottom: .6em;
-        line-height: 1.1
-    }
-
-    solution-content h1 {
-        font-size: 1.8em
-    }
-
-    solution-content h2 {
-        font-size: 1.4em
-    }
-
-    solution-content h3 {
-        font-size: 1.17em
-    }
-
-    solution-content h4,solution-content h5,solution-content h6 {
-        font-size: 1em
-    }
-
-    solution-content ul {
-        margin-left: 1.3em;
-        list-style: square
-    }
-
-    .no-heading h1,.no-heading h2,.no-heading h3,.no-heading h4,.no-heading h5,.no-heading h6 {
-        padding-top: .3em;
-        padding-bottom: .3em;
-        margin: 0;
-        font-size: inherit;
-        font-weight: 400;
-        line-height: 1;
-        margin-top: .6em
-    }
-
-    solution-content ol {
-        list-style: decimal;
-        margin-left: 1.9em
-    }
-
-    solution-content li ol,solution-content li ul {
-        margin-top: 1.2em;
-        margin-bottom: 1.2em;
-        margin-left: 2em
-    }
-
-    solution-content li ul {
-        list-style: circle
-    }
-
-    solution-content table caption,solution-content table td,solution-content table th {
-        border: 1px solid #ddd;
-        padding: .5em 1em;
-        color: #666
-    }
-
-    solution-content table th {
-        background: #fbfbfb
-    }
-
-    solution-content table thead th {
-        background: #f1f1f1
-    }
-
-    solution-content table caption {
-        border-bottom: none
-    }
-
-    solution-content img {
-        max-width: 100%
     }
 
     empty-container{
@@ -397,56 +345,23 @@
                 </fresh-container>
             </paper-card>
             <paper-card class="animated fadeInLeft p-3">
-                @if(Auth::check())
-                    {{-- <solution-section>
-                        <content-section>
-                            <user-section>
-                                <a href="/user/{{Auth::user()->id}}"><img src="{{Auth::user()->avatar}}" class="cm-avatar-square"></a>
-                                <p>{{Auth::user()->name}}</p>
-                            </user-section>
-                            <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
-                            <input type="text" class="form-control" id="clarification_title" placeholder="Title">
-                            <markdown-editor class="mt-3 mb-3">
-                                <textarea id="solution_editor">{{$submitted["content"]}}</textarea>
-                            </markdown-editor>
-                            <div class="mb-3" style="display:flex;justify-content:space-between;align-items:cneter;padding-right:1rem;">
-                                <div>
-                                    <button type="button" class="btn btn-outline-primary mb-0" onclick="updateSolutionDiscussion()"><i class="MDI pencil"></i> Update</button>
-                                    <button type="button" class="btn btn-danger mb-0" onclick="deleteSolutionDiscussion()"><i class="MDI delete"></i> Delete</button>
-                                </div>
-                                <div style="flex-grow:0;flex-shrink:0;display:flex;align-items:center;">
-                                    @if($submitted["audit"]==1)
-                                        <p class="mb-0">Audit Status <span class="wemd-green-text"><i class="MDI checkbox-blank-circle"></i> Passed</span></p>
-                                    @elseif($submitted["audit"]==0)
-                                        <p class="mb-0">Audit Status <span class="wemd-blue-text"><i class="MDI checkbox-blank-circle"></i> Pending</span></p>
-                                    @else
-                                        <p class="mb-0">Audit Status <span class="wemd-red-text"><i class="MDI checkbox-blank-circle"></i> Denied</span></p>
-                                    @endif
-                                </div>
-                            </div>
-                        </content-section>
-                    </solution-section> --}}
-                @endif
                 <div class="text-center">
                     <button class="btn btn-outline-primary btn-rounded" onclick="newDiscussion()"><i class="MDI comment-plus-outline"></i>New Discussion</button>
                 </div>
-
-                 @foreach ($solution as $s)
-                    <solution-section>
-                        <polling-section id="poll_{{$s['psoid']}}">
+                @foreach ($solution as $s)
+                    <div class="post-list">
+                        <div class="comment-number" id="poll_{{$s['psoid']}}">
                             <strong><h3 id="vote_{{$s['psoid']}}">{{$s['votes']}}</h3></strong>
-                            <p>Reply</p>
-                        </polling-section>
-                        <content-section>
+                            <p>Comment</p>
+                        </div>
+                        <div class="post-title">
                             <h3><a href="/">{{$s["content_parsed"]}}</a></h3>
-                            <user-section>
+                            <div class="user-section">
                                 <a href="/user/{{$s["uid"]}}"><img src="{{$s["avatar"]}}" class="cm-avatar-square">{{$s["name"]}}</a>@1月前
-                            </user-section>
-                        </content-section>
-
-                    </solution-section>
-
-                 @endforeach
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </paper-card>
         </div>
         <div class="col-sm-12 col-lg-3">
@@ -454,7 +369,7 @@
                 <button type="button" class="btn btn-secondary" id="submitBtn"><i class="MDI send"></i>@guest Login & Submit @else Submit @endguest</button>
                 <separate-line class="ultra-thin"></separate-line>
                 <button type="button" class="btn btn-secondary" style="margin-top: 5px;" id="descBtn"><i class="MDI comment-text-outline"></i> Description </button>
-                <button type="button" class="btn btn-secondary"><i class="MDI comment-multiple-outline"></i> Discussion </button>
+                <button type="button" class="btn btn-secondary" id="solutionBtn"><i class="MDI comment-check-outline"></i> Solution </button>
             </paper-card>
             <paper-card class="animated fadeInRight">
                 <p>Info</p>
@@ -482,15 +397,17 @@
     </div>
 </div>
 <script>
+    document.getElementById("submitBtn").addEventListener("click",function(){
+        location.href="/problem/{{$detail["pcode"]}}/editor";
+    },false)
 
-        document.getElementById("submitBtn").addEventListener("click",function(){
-            location.href="/problem/{{$detail["pcode"]}}/editor";
-        },false)
+    document.getElementById("descBtn").addEventListener("click",function(){
+        location.href="/problem/{{$detail["pcode"]}}/";
+    },false)
 
-        document.getElementById("descBtn").addEventListener("click",function(){
-            location.href="/problem/{{$detail["pcode"]}}/";
-        },false)
-
+    document.getElementById("solutionBtn").addEventListener("click",function(){
+        location.href="/problem/{{$detail["pcode"]}}/solution";
+    },false)
 </script>
 @endsection
 

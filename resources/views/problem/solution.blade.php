@@ -538,7 +538,7 @@
                 <button type="button" class="btn btn-secondary" id="submitBtn"><i class="MDI send"></i>@guest Login & Submit @else Submit @endguest</button>
                 <separate-line class="ultra-thin"></separate-line>
                 <button type="button" class="btn btn-secondary" style="margin-top: 5px;" id="descBtn"><i class="MDI comment-text-outline"></i> Description </button>
-                <button type="button" class="btn btn-secondary"><i class="MDI comment-multiple-outline"></i> Discussion </button>
+                <button type="button" class="btn btn-secondary" id="discussionBtn"><i class="MDI comment-multiple-outline"></i> Discussion </button>
             </paper-card>
             <paper-card class="animated fadeInRight">
                 <p>Info</p>
@@ -566,15 +566,17 @@
     </div>
 </div>
 <script>
+    document.getElementById("submitBtn").addEventListener("click",function(){
+        location.href="/problem/{{$detail["pcode"]}}/editor";
+    },false)
 
-        document.getElementById("submitBtn").addEventListener("click",function(){
-            location.href="/problem/{{$detail["pcode"]}}/editor";
-        },false)
+    document.getElementById("descBtn").addEventListener("click",function(){
+        location.href="/problem/{{$detail["pcode"]}}/";
+    },false)
 
-        document.getElementById("descBtn").addEventListener("click",function(){
-            location.href="/problem/{{$detail["pcode"]}}/";
-        },false)
-
+    document.getElementById("discussionBtn").addEventListener("click",function(){
+        location.href="/problem/{{$detail["pcode"]}}/discussion";
+    },false)
 </script>
 @endsection
 

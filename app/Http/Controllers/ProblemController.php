@@ -100,30 +100,6 @@ class ProblemController extends Controller
     }
 
     /**
-     * Show the Problem Discussion Page.
-     *
-     * @return Response
-     */
-    public function discussion($pcode)
-    {
-        $problem=new ProblemModel();
-        $prob_detail=$problem->detail($pcode);
-        if ($problem->isBlocked($prob_detail["pid"])) {
-            return abort('403');
-        }
-        $solution=$problem->solutionList($prob_detail["pid"], Auth::check() ?Auth::user()->id : null);
-        $submitted=Auth::check() ? $problem->solution($prob_detail["pid"], Auth::user()->id) : [];
-        return is_null($prob_detail) ?  redirect("/problem") : view('problem.discussion', [
-                                            'page_title'=> "Discussion",
-                                            'site_title'=>config("app.name"),
-                                            'navigation' => $prob_detail["title"],
-                                            'detail' => $prob_detail,
-                                            'solution'=>$solution,
-                                            'submitted'=>$submitted
-                                        ]);
-    }
-
-    /**
      * Show the Problem Editor Page.
      *
      * @return Response
@@ -170,6 +146,56 @@ class ProblemController extends Controller
                                             'contest_mode'=> false,
                                             'oj_detail'=>$oj_detail,
                                             'editor_left_width'=>$editor_left_width,
+                                        ]);
+    }
+
+        /**
+     * Show the Problem Discussion Page.
+     *
+     * @return Response
+     */
+    public function discussion($pcode)
+    {
+        //TODO
+        $problem=new ProblemModel();
+        $prob_detail=$problem->detail($pcode);
+        if ($problem->isBlocked($prob_detail["pid"])) {
+            return abort('403');
+        }
+        $solution=$problem->solutionList($prob_detail["pid"], Auth::check() ?Auth::user()->id : null);
+        $submitted=Auth::check() ? $problem->solution($prob_detail["pid"], Auth::user()->id) : [];
+        return is_null($prob_detail) ?  redirect("/problem") : view('problem.discussion', [
+                                            'page_title'=> "Discussion",
+                                            'site_title'=>config("app.name"),
+                                            'navigation' => $prob_detail["title"],
+                                            'detail' => $prob_detail,
+                                            'solution'=>$solution,
+                                            'submitted'=>$submitted
+                                        ]);
+    }
+
+    /**
+     * Show the Problem Discussion Post Page.
+     *
+     * @return Response
+     */
+    public function discussionPost($pcode,$dcode)
+    {
+        //TODO
+        $problem=new ProblemModel();
+        $prob_detail=$problem->detail($pcode);
+        if ($problem->isBlocked($prob_detail["pid"])) {
+            return abort('403');
+        }
+        $solution=$problem->solutionList($prob_detail["pid"], Auth::check() ?Auth::user()->id : null);
+        $submitted=Auth::check() ? $problem->solution($prob_detail["pid"], Auth::user()->id) : [];
+        return is_null($prob_detail) ?  redirect("/problem") : view('problem.discussion_post', [
+                                            'page_title'=> "Discussion",
+                                            'site_title'=>config("app.name"),
+                                            'navigation' => $prob_detail["title"],
+                                            'detail' => $prob_detail,
+                                            'solution'=>$solution,
+                                            'submitted'=>$submitted
                                         ]);
     }
 }
