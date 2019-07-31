@@ -9,6 +9,7 @@ use App\Babel\Submit\Curl;
 use Auth;
 use Requests;
 use Exception;
+use Throwable;
 use Log;
 
 class Judger extends Curl
@@ -37,6 +38,8 @@ class Judger extends Curl
             }
             try {
                 $this->judger[$ocode]->judge($row);
+            }catch(Throwable $e){
+                Log::alert("Exception Occurs While Processing $ocode's Submission {$row['sid']}\n".$e->getMessage()."\nAt ".$e->getFile().":".$e->getLine());
             }catch(Exception $e){
                 Log::alert("Exception Occurs While Processing $ocode's Submission {$row['sid']}\n".$e->getMessage()."\nAt ".$e->getFile().":".$e->getLine());
             }
