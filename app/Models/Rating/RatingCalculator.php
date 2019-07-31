@@ -188,14 +188,14 @@ class RatingCalculator extends Model
             for($j=$i+1;$j<$this->totParticipants;$j++){
                 if($this->contestants[$i]["rating"] > $this->contestants[$j]["rating"]){
                     if($this->contestants[$i]["rating"] + $this->contestants[$i]["delta"] < $this->contestants[$j]["rating"] + $this->contestants[$j]["delta"]){
-                        Log::warning("First rating invariant failed: {$this->contestants[i]["uid"]} vs. {$this->contestants[j]["uid"]}.");
+                        Log::warning("First rating invariant failed: {$this->contestants[$i]["uid"]} vs. {$this->contestants[$j]["uid"]}.");
                         return false;
                     }
                 }
 
                 if($this->contestants[$i]["rating"] < $this->contestants[$j]["rating"]){
                     if($this->contestants[$i]["delta"] < $this->contestants[$j]["delta"]){
-                        Log::warning("Second rating invariant failed: {$this->contestants[i]["uid"]} vs.  {$this->contestants[j]["uid"]}.");
+                        Log::warning("Second rating invariant failed: {$this->contestants[$i]["uid"]} vs.  {$this->contestants[$j]["uid"]}.");
                         return false;
                     }
                 }
