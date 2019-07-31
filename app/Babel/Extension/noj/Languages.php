@@ -104,7 +104,8 @@ class Languages
                     'exe_name' => 'solution.php',
                     'command' => '/usr/bin/php {exe_path}',
                     'seccomp_rule' => null,
-                    'env' => $default_env
+                    'env' => $default_env,
+                    'memory_limit_check_only' => 1
                 ]
             ],
             'jsc_lang_config' => [
@@ -113,7 +114,7 @@ class Languages
                     'exe_name' => 'solution.js',
                     'command' => '/usr/bin/jsc {exe_path}',
                     'seccomp_rule' => null,
-                    'env' => $default_env
+                    'memory_limit_check_only' => 1
                 ]
             ]
         ];
