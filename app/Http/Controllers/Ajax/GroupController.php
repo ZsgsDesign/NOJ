@@ -433,4 +433,18 @@ class GroupController extends Controller
         }
         return ResponseModel::err(7002);
     }
+
+    public function refreshElo(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|string',
+        ]);
+        $gid = $request->input('gid');
+        $groupModel=new GroupModel();
+        if($groupModel->judgeClearance($gid,Auth::user()->id) < 2) {
+            return ResponseModel::err(2001);
+        }
+        $groupModel->refreshElo($gid);
+        return ResponseModel::success(200);
+    }
 }
