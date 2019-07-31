@@ -429,10 +429,15 @@ class GroupModel extends Model
                 'penalty' => 0,
                 'contest_detial' => []
             ];
-
         }
         foreach ($allPracticeContest as $c) {
-            $contestRank = $contestModel->contestRank($c['cid'],0);
+            $contestRank = $contestModel->contestRank($c['cid']);
+            foreach($contestRank as $key => $contestRank){
+                if(isset($contestRank['remote']) && $contestRank['remote']){
+                    unset($contestRank[$key]);
+                }
+            }
+            $contestRank = array_values($contestRank);
             $problemsCount = DB::table('contest_problem')
                 ->where('cid',$c['cid'])
                 ->count();
@@ -550,6 +555,7 @@ class GroupModel extends Model
                 'gid' => $gid,
                 'practice' => 1
             ])
+            ->where('end_time','<',date("Y-m-d H:i:s"))
             ->select('cid')
             ->orderBy('end_time')
             ->get()->all();
