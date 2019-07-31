@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Cache;
 use Auth;
+use function GuzzleHttp\json_encode;
 
 class GroupModel extends Model
 {
@@ -429,10 +430,15 @@ class GroupModel extends Model
                 'penalty' => 0,
                 'contest_detial' => []
             ];
-
         }
         foreach ($allPracticeContest as $c) {
-            $contestRank = $contestModel->contestRank($c['cid'],0);
+            $contestRankRaw = $contestModel->contestRank($c['cid']);
+            foreach($contestRankRaw as $key => $contestRank){
+                if(isset($contestRank['remote']) && $contestRank['remote']){
+                    unset($contestRankRaw[$key]);
+                }
+            }
+            $contestRank = array_values($contestRankRaw);
             $problemsCount = DB::table('contest_problem')
                 ->where('cid',$c['cid'])
                 ->count();
@@ -550,6 +556,7 @@ class GroupModel extends Model
                 'gid' => $gid,
                 'practice' => 1
             ])
+            ->where('end_time','<',date("Y-m-d H:i:s"))
             ->select('cid')
             ->orderBy('end_time')
             ->get()->all();
