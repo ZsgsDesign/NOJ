@@ -605,7 +605,7 @@
             var cm = editor.codemirror;
             var output = '';
             var selectedText = cm.getSelection();
-            var text = selectedText || 'x = (-b +- sqrt(b^2-4ac))/(2a) .';
+            var text = selectedText || 'x = (-b +- sqrt(b^2-4ac))/(2a)';
             output = '$$$' + text + '$$$';
             cm.replaceSelection(output);
         },
@@ -613,7 +613,7 @@
             var cm = editor.codemirror;
             var output = '';
             var selectedText = cm.getSelection();
-            var text = selectedText || 'x = (-b +- sqrt(b^2-4ac))/(2a) .';
+            var text = selectedText || 'x = \\frac{-b \\pm sqrt(b^2-4ac)}{2a}';
             output = '$$' + text + '$$';
             cm.replaceSelection(output);
         }
