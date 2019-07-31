@@ -19,6 +19,8 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="alternate icon" type="image/png" href="/favicon.png">
+    <!-- Desktop App Declarations -->
+    <meta name="msapplication-TileColor" content="#3E4551">
     <!-- Loading Style -->
     <style>
         loading>div {

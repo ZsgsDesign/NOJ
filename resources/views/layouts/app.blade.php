@@ -36,6 +36,8 @@
     <link rel="alternate icon" type="image/png" href="/favicon.png">
     <!-- OpenSearch -->
     {{-- <link rel="search" type="application/opensearchdescription+xml" title="{{config("app.name")}}" href="/opensearch.xml"> --}}
+    <!-- Desktop App Declarations -->
+    <meta name="msapplication-TileColor" content="#3E4551">
     <!-- Third-Party Declarations -->
     <meta name="google-site-verification" content="{{ env("GOOGLE_SITE_VERIFICATION") }}" />
     <meta name="baidu-site-verification" content="{{ env("BAIDU_SITE_VERIFICATION") }}" />
