@@ -20,7 +20,7 @@ class UserSearchModel extends Model
         }
         //user name find
         if(strlen($key) >= 2){
-            $ret = self::where('name', 'like', $key.'%')
+            $ret = self::whereRaw('MATCH(`name`) AGAINST (? IN BOOLEAN MODE)',[$key])
                 ->select('id','avatar', 'name',  'describes', 'professional_rate')
                 ->get()->all();
             if(!empty($ret)){

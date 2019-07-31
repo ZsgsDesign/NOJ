@@ -3,6 +3,7 @@
 namespace App\Models\Search;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class GroupSearchModel extends Model
 {
@@ -15,7 +16,7 @@ class GroupSearchModel extends Model
         //group name or gcode find
         if(strlen($key) >= 2){
             $ret = self::where(function($query) use ($key){
-                $query->whereRaw('MATCH(`name`) AGAINST (?)',[$key])
+                $query->whereRaw('MATCH(`name`) AGAINST (? IN BOOLEAN MODE)',[$key])
                     ->orWhere('gcode', $key);
                 })
                 ->where('public',1)
@@ -25,6 +26,7 @@ class GroupSearchModel extends Model
                 $result += $ret;
             }
         }
+
         return $result;
     }
 }

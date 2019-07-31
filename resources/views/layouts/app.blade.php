@@ -219,7 +219,7 @@
                 <ul class="navbar-nav mundb-nav-right">
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
                     <form id="search-box" action="/search" method="get" class="form-inline my-2 my-lg-0 mundb-inline">
-                        <span class="bmd-form-group"><input id="search-key" class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" placeholder="Onmi Search" autocomplete="off" aria-label="search"></span>
+                        <span class="bmd-form-group"><input id="search-key" class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" value="{{$search_key ?? ''}}" placeholder="Onmi Search" autocomplete="off" aria-label="search"></span>
                     </form>
                     @endif
 

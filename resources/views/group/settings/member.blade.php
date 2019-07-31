@@ -236,8 +236,8 @@
                 },
             ],
         });
-        var desc = '{{base64_encode($group_notice["content"])}}';
-        simplemde.value(window.atob(desc));
+        var desc = '{{urlencode($group_notice["content"])}}';
+        simplemde.value(decodeURIComponent(desc));
 
         hljs.initHighlighting();
 

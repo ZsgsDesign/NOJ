@@ -408,6 +408,10 @@
                         </category-content>
                     </category-box>
                 </result-box>
+                <empty-container id="empty_result" style="margin: 5rem 0;display:none">
+                    <i class="MDI package-variant"></i>
+                    <p>No results match your search keywords.<br/>Try using another keyword.</p>
+                </empty-container>
             @endif
         </div>
     </paper-card>
@@ -425,7 +429,7 @@
                     url : '{{route("ajax.search")}}',
                     type : 'POST',
                     data : {
-                        search_key : window.atob('{{base64_encode($search_key)}}')
+                        search_key : decodeURIComponent('{{urlencode($search_key)}}')
                     },
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -443,6 +447,16 @@
             }
 
             function displayResult(){
+                var all_count = 0;
+                for(let cg in result){
+                    all_count += result[cg].length;
+                }
+                if(all_count == 0){
+                    $('#loading-tips').fadeOut(500,function(){
+                        $('#empty_result').fadeIn();
+                    });
+                    return;
+                }
                 $('#loading-tips').fadeOut(500,function(){
                     $('result-box').fadeIn(200);
                     for(let category in result) {
