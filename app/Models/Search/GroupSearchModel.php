@@ -21,6 +21,7 @@ class GroupSearchModel extends Model
                 })
                 ->where('public',1)
                 ->select('gid','gcode', 'img', 'name', 'description')
+                ->limit(120)
                 ->get()->all();
             if(!empty($ret)){
                 $result += $ret;
