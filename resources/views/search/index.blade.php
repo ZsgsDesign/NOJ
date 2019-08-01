@@ -357,7 +357,7 @@
         box-shadow: none;
     }
 
-    category-tab{
+    category-tab.nav {
         display: block;
         border: 1px solid #e1e4e8;
         background-color: #fff;
@@ -366,7 +366,7 @@
         overflow: hidden;
     }
 
-    category-tab > div{
+    category-tab.nav > div{
         border-bottom: 1px solid #e1e4e8;
         display: block;
         padding: 8px 10px;
@@ -380,23 +380,23 @@
         align-items: center;
     }
 
-    category-tab > div > p{
+    category-tab.nav > div > p{
         margin: 0;
     }
 
-    category-tab > div:hover {
+    category-tab.nav > div:hover {
         background-color: #f6f8fa;
     }
 
-    category-tab > div:first-of-type {
+    category-tab.nav > div:first-of-type {
         border-top: 0;
     }
 
-    category-tab > div:last-of-type {
+    category-tab.nav > div:last-of-type {
         border-bottom: 0;
     }
 
-    category-tab > div.selected {
+    category-tab.nav > div.active {
         background-color: #fff;
         color: var(--wemd-light-blue);
         cursor: default;
@@ -406,6 +406,20 @@
 
     category-section{
         display: block;
+        display: block;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
+        border-radius: 4px;
+        transition: .2s ease-out .0s;
+        color: #7a8e97;
+        background: #fff;
+        padding: 1rem;
+        position: relative;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        margin-bottom: 2rem;
+    }
+
+    category-section:hover {
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
     }
 
     category-box{
@@ -429,68 +443,59 @@
                 <result-box style="display: none;">
                     <div class="row">
                         <div class="col-md-3">
-                            <category-tab>
-                                <div class="selected"><p>Problems</p><span class="badge badge-count">0</span></div>
-                                <div><p>Contests</p><span class="badge badge-count">0</span></div>
-                                <div><p>Users</p><span class="badge badge-count">0</span></div>
-                                <div><p>Groups</p><span class="badge badge-count">0</span></div>
+                            <category-tab class="nav" role="tablist">
+                                <div class="active" id="category-problems" data-toggle="tab" role="tab" href="#content-problems" aria-controls="content-problems" aria-selected="true"><p>Problems</p><span class="badge badge-count">0</span></div>
+                                <div id="category-contests" data-toggle="tab" role="tab" href="#content-contests" aria-controls="content-contests" aria-selected="false"><p>Contests</p><span class="badge badge-count">0</span></div>
+                                <div id="category-users" data-toggle="tab" role="tab" href="#content-users" aria-controls="content-users" aria-selected="false"><p>Users</p><span class="badge badge-count">0</span></div>
+                                <div id="category-groups" data-toggle="tab" role="tab" href="#content-groups" aria-controls="content-groups" aria-selected="false"><p>Groups</p><span class="badge badge-count">0</span></div>
                             </category-tab>
                         </div>
                         <div class="col-md-9">
                             <category-section>
+                                <div class="tab-content">
+                                    <div id="content-problems" class="tab-pane fade show active" role="tabpanel" aria-labelledby="content-problems" data-parent="result-box">
+                                        <div class="table-responsive">
+                                            <table class="table table-borderless">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" class="cm-fw">#</th>
+                                                        <th scope="col">Title</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
 
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <empty-container style="margin: 5rem 0;">
+                                            <i class="MDI package-variant"></i>
+                                            <p>No results match your search keywords.<br/>Try using another keyword.</p>
+                                        </empty-container>
+                                    </div>
+                                    <div id="content-contests" class="tab-pane fade" role="tabpanel" aria-labelledby="content-contests" data-parent="result-box">
+                                        <empty-container style="margin: 5rem 0;">
+                                            <i class="MDI package-variant"></i>
+                                            <p>No results match your search keywords.<br/>Try using another keyword.</p>
+                                        </empty-container>
+                                    </div>
+                                    <div id="content-users" class="tab-pane fade" role="tabpanel" aria-labelledby="content-users" data-parent="result-box">
+                                        <empty-container style="margin: 5rem 0;">
+                                            <i class="MDI package-variant"></i>
+                                            <p>No results match your search keywords.<br/>Try using another keyword.</p>
+                                        </empty-container>
+                                    </div>
+                                    <div id="content-groups" class="tab-pane fade" role="tabpanel" aria-labelledby="content-groups" data-parent="result-box">
+                                        <div class="row"></div>
+                                        <empty-container style="margin: 5rem 0;">
+                                            <i class="MDI package-variant"></i>
+                                            <p>No results match your search keywords.<br/>Try using another keyword.</p>
+                                        </empty-container>
+                                    </div>
+                                </div>
                             </category-section>
                         </div>
                     </div>
-                    <category-box id="category-problems">
-                        <category-title data-toggle="collapse" data-target="#content-problems" aria-expanded="true" aria-controls="content-problems">
-                            <span style="position: relative; top:0.1rem;">Problems</span>
-                            <span class="badge badge-count">0</span>
-                        </category-title>
-                        <category-content id="content-problems" class="collapse" aria-labelledby="content-problems" data-parent="result-box">
-                            <div class="table-responsive">
-                            <table class="table table-borderless">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" class="cm-fw">#</th>
-                                        <th scope="col">Title</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
-                            </div>
-                        </category-content>
-                    </category-box>
-                    <category-box id="category-contests">
-                        <category-title data-toggle="collapse" data-target="#content-contests" aria-expanded="true" aria-controls="content-contests">
-                            <span style="position: relative; top:0.1rem;">Contests</span>
-                            <span class="badge badge-count">0</span>
-                        </category-title>
-                        <category-content id="content-contests" class="collapse" aria-labelledby="content-contests" data-parent="result-box"></category-content>
-                    </category-box>
-                    <category-box id="category-users">
-                        <category-title data-toggle="collapse" data-target="#content-users" aria-expanded="true" aria-controls="content-users">
-                            <span style="position: relative; top:0.1rem;">Users</span>
-                            <span class="badge badge-count">0</span>
-                        </category-title>
-                        <category-content id="content-users" class="collapse" aria-labelledby="content-users" data-parent="result-box"></category-content>
-                    </category-box>
-                    <category-box id="category-groups">
-                        <category-title data-toggle="collapse" data-target="#content-groups" aria-expanded="true" aria-controls="content-groups">
-                            <span style="position: relative; top:0.1rem;">Groups</span>
-                            <span class="badge badge-count">0</span>
-                        </category-title>
-                        <category-content id="content-groups" class="collapse" aria-labelledby="content-groups" data-parent="result-box">
-                            <div class="row"></div>
-                        </category-content>
-                    </category-box>
                 </result-box>
-                <empty-container id="empty_result" style="margin: 5rem 0;display:none">
-                    <i class="MDI package-variant"></i>
-                    <p>No results match your search keywords.<br/>Try using another keyword.</p>
-                </empty-container>
             @endif
         </div>
     </paper-card>
@@ -531,15 +536,15 @@
                     all_count += result[cg].length;
                 }
                 if(all_count == 0){
-                    $('#loading-tips').fadeOut(500,function(){
-                        $('#empty_result').fadeIn();
-                    });
-                    return;
+                    // $('#loading-tips').fadeOut(500,function(){
+                    //     $('#empty_result').fadeIn();
+                    // });
+                    // return;
                 }
                 $('#loading-tips').fadeOut(500,function(){
                     $('result-box').fadeIn(200);
                     for(let category in result) {
-                        $(`#category-${category} > category-title span.badge`).text(result[category].length);
+                        $(`#category-${category} > span`).text(result[category].length);
                         for(let item_id in result[category]){
                             item = result[category][item_id];
                             switch(category){
@@ -557,6 +562,7 @@
                                         </user-info>
                                     </user-card>
                                     `)
+                                    $(`#content-users > empty-container`).remove();
                                     break;
                                 case 'problems':
                                     $(`#content-problems tbody`).append(`
@@ -565,6 +571,7 @@
                                             <td>${item['title']}</td>
                                         </tr>
                                     `);
+                                    $(`#content-problems > empty-container`).remove();
                                     break;
                                 case 'contests':
                                     $(`#content-contests`).append(`
@@ -590,6 +597,7 @@
                                         </info-div>
                                     </contest-card>
                                     `);
+                                    $(`#content-contests > empty-container`).remove();
                                     break;
                                 case 'groups':
                                     $('#content-groups div.row').append(`
@@ -609,6 +617,7 @@
                                         </a>
                                     </div>
                                     `);
+                                    $(`#content-groups > empty-container`).remove();
                                     break;
                             }
                         }
