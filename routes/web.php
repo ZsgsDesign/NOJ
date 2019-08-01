@@ -14,6 +14,9 @@
 Route::redirect('/home', '/', 301);
 Route::redirect('/acmhome/welcome.do', '/', 301);
 Route::get('/acmhome/problemdetail.do','MainController@oldRedirect')->name('old.redirect');
+Route::get('/opensearch.xml', function () {
+    return response(getOpenSearchXML(), 200)->header("Content-type","text/xml");
+});
 
 Route::get('/', 'MainController@home')->middleware('contest_account')->name('home');
 

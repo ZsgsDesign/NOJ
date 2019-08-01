@@ -35,7 +35,7 @@
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="alternate icon" type="image/png" href="/favicon.png">
     <!-- OpenSearch -->
-    {{-- <link rel="search" type="application/opensearchdescription+xml" title="{{config("app.name")}}" href="/opensearch.xml"> --}}
+    <link rel="search" type="application/opensearchdescription+xml" title="{{config("app.name")}}" href="/opensearch.xml">
     <!-- Third-Party Declarations -->
     <meta name="google-site-verification" content="{{ env("GOOGLE_SITE_VERIFICATION") }}" />
     <meta name="baidu-site-verification" content="{{ env("BAIDU_SITE_VERIFICATION") }}" />
