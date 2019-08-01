@@ -5,6 +5,7 @@ use App\Babel\Submit\Submitter;
 use App\Babel\Crawl\Crawler;
 use App\Babel\Judge\Judger;
 use App\Babel\Synchronize\Synchronizer;
+use App\Babel\Monit\Monitor;
 
 class Babel
 {
@@ -27,6 +28,11 @@ class Babel
     public function synchronize($conf)
     {
         return new Synchronizer($conf);
+    }
+
+    public function monitor($conf)
+    {
+        return new Monitor($conf);
     }
 
 }
