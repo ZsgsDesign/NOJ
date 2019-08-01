@@ -1,13 +1,19 @@
 @if(env("GOOGLE_ANALYTICS"))
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{env("GOOGLE_ANALYTICS")}}"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+<script>
+    window.addEventListener("load",function() {
+        $("body").append(`
+            <!-- Global site tag (gtag.js) - Google Analytics -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id={{env("GOOGLE_ANALYTICS")}}"><\/script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
 
-    gtag('config', '{{env("GOOGLE_ANALYTICS")}}');
-    </script>
+                gtag('config', '{{env("GOOGLE_ANALYTICS")}}');
+            <\/script>
+        `);
+    });
+</script>
 @endif
 
 @include("js.common.notification")
