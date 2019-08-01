@@ -165,7 +165,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         border: 1px solid #6c757d;
-        cursor: pointer;
+        /* cursor: pointer; */
         vertical-align: middle;
     }
 
@@ -347,10 +347,74 @@
     #content-problems tr:hover{
         background: #eeee;
     }
+
+    paper-card[type="plain"]{
+        border:none;
+        background: none;
+        box-shadow: none;
+    }
+    paper-card[type="plain"]:hover{
+        box-shadow: none;
+    }
+
+    category-tab{
+        display: block;
+        border: 1px solid #e1e4e8;
+        background-color: #fff;
+        border-radius: 4px;
+        margin-bottom: 0.75rem;
+        overflow: hidden;
+    }
+
+    category-tab > div{
+        border-bottom: 1px solid #e1e4e8;
+        display: block;
+        padding: 8px 10px;
+        position: relative;
+        outline-width: 0;
+        transition: .2s ease-out .0s;
+        cursor: pointer;
+        line-height: 2;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    category-tab > div > p{
+        margin: 0;
+    }
+
+    category-tab > div:hover {
+        background-color: #f6f8fa;
+    }
+
+    category-tab > div:first-of-type {
+        border-top: 0;
+    }
+
+    category-tab > div:last-of-type {
+        border-bottom: 0;
+    }
+
+    category-tab > div.selected {
+        background-color: #fff;
+        color: var(--wemd-light-blue);
+        cursor: default;
+        font-weight: 600;
+        border-left: 3px solid currentColor;
+    }
+
+    category-section{
+        display: block;
+    }
+
+    category-box{
+        display: none;
+    }
 </style>
 <div class="container mundb-standard-container">
-    <paper-card>
-        <p>Search Results</p>
+    <paper-card type="plain">
+        {{-- <p>Search Results</p> --}}
         <div>
             @if(empty($search_key))
                 <empty-container style="margin: 5rem 0">
@@ -363,6 +427,21 @@
                 <p>Searching for you...</p>
                 </div>
                 <result-box style="display: none;">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <category-tab>
+                                <div class="selected"><p>Problems</p><span class="badge badge-count">0</span></div>
+                                <div><p>Contests</p><span class="badge badge-count">0</span></div>
+                                <div><p>Users</p><span class="badge badge-count">0</span></div>
+                                <div><p>Groups</p><span class="badge badge-count">0</span></div>
+                            </category-tab>
+                        </div>
+                        <div class="col-md-9">
+                            <category-section>
+
+                            </category-section>
+                        </div>
+                    </div>
                     <category-box id="category-problems">
                         <category-title data-toggle="collapse" data-target="#content-problems" aria-expanded="true" aria-controls="content-problems">
                             <span style="position: relative; top:0.1rem;">Problems</span>
