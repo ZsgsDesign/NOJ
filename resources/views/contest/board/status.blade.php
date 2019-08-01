@@ -123,6 +123,41 @@
         font-size: 1rem;
         color:rgba(0,0,0,0.54);
     }
+
+    tr input.form-control {
+        font-weight: 500;
+        font-size: 0.75rem;
+        color: rgba(0, 0, 0, 0.93);
+        transition: .2s ease-out .0s;
+    }
+
+    tr input.form-control::-webkit-input-placeholder{
+        font-weight: 500;
+        font-size: 0.75rem;
+        color: rgba(0, 0, 0, 0.42);
+        transition: .2s ease-out .0s;
+    }
+
+    tr input.form-control::-moz-placeholder{
+        font-weight: 500;
+        font-size: 0.75rem;
+        color: rgba(0, 0, 0, 0.42);
+        transition: .2s ease-out .0s;
+    }
+
+    tr input.form-control:-ms-input-placeholder{
+        font-weight: 500;
+        font-size: 0.75rem;
+        color: rgba(0, 0, 0, 0.42);
+        transition: .2s ease-out .0s;
+    }
+
+    tr input.form-control:-moz-placeholder{
+        font-weight: 500;
+        font-size: 0.75rem;
+        color: rgba(0, 0, 0, 0.42);
+        transition: .2s ease-out .0s;
+    }
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
@@ -151,9 +186,21 @@
                     <thead>
                         <tr>
                             <th scope="col" style="text-align: left;">SID</th>
-                            <th scope="col">Account</th>
-                            <th scope="col">Problem</th>
-                            <th scope="col">Result</th>
+                            <th scope="col">
+                                <div class="form-group m-0 p-0">
+                                    <input type="text" class="form-control text-center" id="accountFilter" placeholder="Account" onkeypress="applyFilter(event,'account')" value="{{$filter['account']}}" autocomplete="off">
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="form-group m-0 p-0">
+                                    <input type="text" class="form-control text-center" id="problemFilter" placeholder="Problem" onkeypress="applyFilter(event,'ncode')" value="{{$filter['ncode']}}" autocomplete="off">
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="form-group m-0 p-0">
+                                    <input type="text" class="form-control text-center" id="resultFilter" placeholder="Result" onkeypress="applyFilter(event,'result')" value="{{$filter['result']}}" autocomplete="off">
+                                </div>
+                            </th>
                             <th scope="col">Time</th>
                             <th scope="col">Memory</th>
                             <th scope="col">Languages</th>
@@ -191,6 +238,35 @@
     window.addEventListener("load",function() {
 
     }, false);
+
+    function applyFilter(e,key){
+        if (e.keyCode == 13) {
+            // alert($(e.target).val());
+            _applyFilter(key,String($(e.target).val()).trim());
+        }
+    }
+
+    function _applyFilter(key,value) {
+        var tempNav="";
+        if(value==filterVal[key]) return;
+        filterVal[key]=value;
+        Object.keys(filterVal).forEach((_key)=>{
+            let _value=filterVal[_key];
+            if(_value===null || _value==="") return;
+            tempNav+=`${_key}=${encodeURIComponent(_value)}&`;
+        });
+        if(tempNav.endsWith('&')) tempNav=tempNav.substring(0,tempNav.length-1);
+        if(tempNav==="") location.href="/contest/{{$cid}}/board/status";
+        else location.href="/contest/{{$cid}}/board/status?"+tempNav;
+    }
+
+    var filterVal=[];
+
+    @foreach($filter as $key=>$value)
+
+        filterVal["{{$key}}"]="{{$value}}";
+
+    @endforeach
 
 </script>
 @include('js.submission.detail')
