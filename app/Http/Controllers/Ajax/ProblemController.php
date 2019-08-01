@@ -255,6 +255,10 @@ class ProblemController extends Controller
             return ResponseModel::err(2001);
         }
 
+        if($submissionData["verdict"]!="Submission Error"){
+            return ResponseModel::err(6003);
+        }
+
         $submissionModel->updateSubmission($all_data["sid"],[
             "verdict"=>"Pending",
             "time"=>0,
@@ -263,6 +267,10 @@ class ProblemController extends Controller
 
         $problemDetails=$problemModel->basic($submissionData["pid"]);
         $lang=$compilerModel->detail($submissionData["coid"]);
+
+        if (!$problemModel->ojdetail($problemDetails['OJ'])['status']) {
+            return ResponseModel::err(6001);
+        }
 
         $proceedData=[];
         $proceedData["lang"]=$lang["lcode"];
@@ -277,10 +285,8 @@ class ProblemController extends Controller
         $proceedData["solution"]=$submissionData["solution"];
         $proceedData["sid"]=$submissionData["sid"];
 
-        dispatch(new ProcessSubmission($proceedData))->onQueue($submissionData["oj"]);
+        dispatch(new ProcessSubmission($proceedData))->onQueue($proceedData["oj"]);
 
-        return ResponseModel::success(200, null, [
-            "sid"=>$sid
-        ]);
+        return ResponseModel::success(200);
     }
 }
