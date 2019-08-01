@@ -12,4 +12,9 @@ class JudgeServerModel extends Model
     const DELETED_AT=null;
     const UPDATED_AT=null;
     const CREATED_AT=null;
+
+    public static function column($key)
+    {
+        return Self::groupBy($key)->whereNotNull($key)->pluck($key)->toArray();
+    }
 }
