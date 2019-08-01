@@ -11,6 +11,8 @@ use App\Models\ContestModel;
 use App\Models\GroupModel;
 use App\Models\JudgerModel;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Log;
+use Cache;
 
 class Kernel extends ConsoleKernel
 {
@@ -37,30 +39,37 @@ class Kernel extends ConsoleKernel
                 $babel->judge();
                 sleep(5);
             }
-            file_put_contents(storage_path('app/task-schedule.output'),"Successfully Synced Judger");
+            // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Synced Judger");
         })->everyMinute()->description("Sync Judger");
 
         $schedule->call(function () {
             $rankModel=new RankModel();
             $rankModel->rankList();
-            file_put_contents(storage_path('app/task-schedule.output'),"Successfully Updated Rank");
+            // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Updated Rank");
         })->dailyAt('02:00')->description("Update Rank");
 
         $schedule->call(function () {
             $siteMapModel=new SiteMapModel();
-            file_put_contents(storage_path('app/task-schedule.output'),"Successfully Updated SiteMap");
+            // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Updated SiteMap");
         })->dailyAt('02:00')->description("Update SiteMap");
 
         $schedule->call(function () {
             $groupModel=new GroupModel();
             $groupModel->cacheTrendingGroups();
-            file_put_contents(storage_path('app/task-schedule.output'),"Successfully Cached Trending Groups");
+            // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Cached Trending Groups");
         })->dailyAt('03:00')->description("Update Trending Groups");
 
         $schedule->call(function() {
             $contestModel = new ContestModel();
             $syncList = $contestModel->runningContest();
             foreach($syncList as $syncContest) {
+                if(!isset($syncContest['vcid'])) {
+                    $contestRankRaw=$contestModel->contestRankCache($syncContest['cid']);
+                    $cid=$syncContest['cid'];
+                    Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
+                    Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $contestRankRaw);
+                    continue ;
+                }
                 $className = "App\\Babel\\Extension\\hdu\\Synchronizer";  // TODO Add OJ judgement.
                 $all_data = [
                     'oj'=>"hdu",
@@ -72,18 +81,34 @@ class Kernel extends ConsoleKernel
                 $hduSync->crawlRank();
                 $hduSync->crawlClarification();
             }
-            file_put_contents(storage_path('app/task-schedule.output'),"Successfully Synced Remote Rank and Clarification");
+            // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Synced Remote Rank and Clarification");
         })->everyMinute()->description("Sync Remote Rank and Clarification");
 
-        // TODO it depends on the front interface.
-        // $schedule->call(function() {
-
-        // })->everyMinute()->description("Sync Remote Problem");
+        $schedule->call(function() {
+            $contestModel = new ContestModel();
+            $syncList = $contestModel->runningContest();
+            foreach($syncList as $syncContest) {
+                if(isset($syncContest['crawled'])) {
+                    if(!$syncContest['crawled']) {
+                        $className = "App\\Babel\\Extension\\hdu\\Synchronizer";
+                        $all_data = [
+                            'oj'=>"hdu",
+                            'vcid'=>$syncContest['vcid'],
+                            'gid'=>$syncContest['gid'],
+                            'cid'=>$syncContest['cid'],
+                        ];
+                        $hduSync = new $className($all_data);
+                        $hduSync->scheduleCrawl();
+                        $contestModel->updateCrawlStatus($syncContest['cid']);
+                    }
+                }
+            }
+        })->everyMinute()->description("Sync Contest Problem");
 
         $schedule->call(function () {
             $judgerModel=new JudgerModel();
             $judgerModel->updateServerStatus(1);
-            file_put_contents(storage_path('app/task-schedule.output'),"Successfully Updated Judge Server Status");
+            // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Updated Judge Server Status");
         })->everyMinute()->description("Update Judge Server Status");
 
         if (!env("APP_DEBUG")) {

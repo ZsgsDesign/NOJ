@@ -7,6 +7,7 @@ use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Cache;
+use Auth;
 
 class GroupModel extends Model
 {
@@ -250,16 +251,23 @@ class GroupModel extends Model
 
     public function problems($gid)
     {
+        $contestModel = new ContestModel();
         $problems = DB::table('contest_problem')
         ->join('contest','contest_problem.cid', '=', 'contest.cid')
         ->join('problem','contest_problem.pid', '=', 'problem.pid' )
-        ->select('problem.pid as pid', 'pcode', 'title')
+        ->select('contest_problem.cid as cid', 'problem.pid as pid', 'pcode', 'title')
         ->where('contest.gid',$gid)
         ->where('contest.practice',1)
+        ->orderBy('contest.create_time','desc')
         ->distinct()
         ->get()->all();
-        foreach($problems as &$value){
-            $value['tags'] = $this->problemTags($gid,$value['pid']);
+        $user_id = Auth::user()->id;
+        foreach($problems as $key => $value){
+            if($contestModel->judgeClearance($value['cid'],$user_id) != 3){
+                unset($problems[$key]);
+            }else{
+                $problems[$key]['tags'] = $this->problemTags($gid,$value['pid']);
+            }
         }
         return $problems;
     }
@@ -401,8 +409,6 @@ class GroupModel extends Model
     {
         $contestModel = new ContestModel();
 
-        $this->rankingUpdate($gid);
-
         $allPracticeContest = DB::table('contest')
             ->where([
                 'gid' => $gid,
@@ -529,20 +535,26 @@ class GroupModel extends Model
         return $ret;
     }
 
-    public function rankingUpdate($gid)
+    public function refreshElo($gid)
     {
+        DB::table('group_rated_change_log')
+            ->where('gid',$gid)
+            ->delete();
+        DB::table('group_member')
+            ->where('gid',$gid)
+            ->update([
+                'ranking' => 1500
+            ]);
         $contests = DB::table('contest')
-            ->leftJoin('group_rated_change_log','contest.cid','=','group_rated_change_log.cid')
             ->where([
-                'contest.gid' => $gid,
+                'gid' => $gid,
                 'practice' => 1
-            ])->where('end_time','<',date('Y-m-d H:i:s'))
-            ->select('contest.cid as cid','group_rated_change_log.cid as cid_rated')
-            ->whereNull('group_rated_change_log.cid')
+            ])
+            ->select('cid')
             ->orderBy('end_time')
             ->get()->all();
 
-        if(empty($contests)){
+        if(empty($contests)) {
             return true;
         }
 

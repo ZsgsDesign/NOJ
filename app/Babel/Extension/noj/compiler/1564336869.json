@@ -1,0 +1,14 @@
+{
+    "modifications":[{
+        "code":"py3",
+        "display":"Python 3.7",
+        "method":"modify"
+    },{
+        "code":"php7",
+        "compability":"php",
+        "language":"php",
+        "icon":"devicon-php-plain",
+        "display":"PHP 7.3",
+        "method":"add"
+    }]
+}

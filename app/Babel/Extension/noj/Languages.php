@@ -86,16 +86,35 @@ class Languages
             'py3_lang_config' => [
                 'compile' => [
                     'src_name' => 'solution.py',
-                    'exe_name' => '__pycache__/solution.cpython-35.pyc',
+                    'exe_name' => '__pycache__/solution.cpython-37.pyc',
                     'max_cpu_time' => 3000,
                     'max_real_time' => 10000,
                     'max_memory' => 1024 * 1024 * 1024,
-                    'compile_command' => '/usr/bin/python3 -m py_compile {src_path}',
+                    'compile_command' => '/usr/bin/python3.7 -m py_compile {src_path}',
                 ],
                 'run' => [
-                    'command' => '/usr/bin/python3 {exe_path}',
+                    'command' => '/usr/bin/python3.7 {exe_path}',
                     'seccomp_rule' => 'general',
                     'env' => array_merge(['MALLOC_ARENA_MAX=1'], $default_env)
+                ]
+            ],
+            'php7_lang_config' => [
+                'compile' => null,
+                'run' => [
+                    'exe_name' => 'solution.php',
+                    'command' => '/usr/bin/php {exe_path}',
+                    'seccomp_rule' => null,
+                    'env' => $default_env,
+                    'memory_limit_check_only' => 1
+                ]
+            ],
+            'jsc_lang_config' => [
+                'compile' => null,
+                'run' => [
+                    'exe_name' => 'solution.js',
+                    'command' => '/usr/bin/jsc {exe_path}',
+                    'seccomp_rule' => null,
+                    'memory_limit_check_only' => 1
                 ]
             ]
         ];

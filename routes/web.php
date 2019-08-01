@@ -17,6 +17,8 @@ Route::get('/acmhome/problemdetail.do','MainController@oldRedirect')->name('old.
 
 Route::get('/', 'MainController@home')->middleware('contest_account')->name('home');
 
+Route::get('/search', 'SearchController')->name('search');
+
 Route::group(['prefix' => 'account'], function () {
     Route::get('/', 'AccountController@index')->name('account_index');
     Route::get('/dashboard', 'AccountController@dashboard')->middleware('auth')->name('account_dashboard');
@@ -74,6 +76,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.', 'middleware' => ['contes
     Route::get('/{cid}/board/admin', 'ContestController@admin')->middleware('auth', 'privileged')->name('admin');
     Route::get('/{cid}/board/analysis', 'ContestController@analysis')->middleware('auth')->name('analysis');
     Route::get('/{cid}/admin/downloadContestAccountXlsx', 'ContestController@downloadContestAccountXlsx')->middleware('auth')->name('downloadContestAccountXlsx');
+    Route::get('/{cid}/admin/refreshContestRank', 'ContestController@refreshContestRank')->middleware('auth')->name('refreshContestRank');
 });
 
 Route::group(['prefix' => 'system'], function () {
@@ -116,7 +119,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('deleteSolutionDiscussion', 'ProblemController@deleteSolutionDiscussion')->middleware('auth');
     Route::post('voteSolutionDiscussion', 'ProblemController@voteSolutionDiscussion')->middleware('auth');
 
-    Route::post('search', 'SearchController')->name('search');
+    Route::post('search', 'SearchController')->name('ajax.search');
 
     Route::group(['prefix' => 'group'], function () {
         Route::post('changeMemberClearance', 'GroupController@changeMemberClearance')->middleware('auth');
@@ -133,6 +136,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
         Route::post('addProblemTag', 'GroupController@addProblemTag')->middleware('auth');
         Route::post('removeProblemTag', 'GroupController@removeProblemTag')->middleware('auth');
         Route::post('getPracticeStat', 'GroupController@getPracticeStat')->middleware('auth');
+        Route::post('refreshElo', 'GroupController@refreshElo')->middleware('auth');
     });
 
     Route::group(['prefix' => 'contest'], function () {

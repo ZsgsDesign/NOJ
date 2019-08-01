@@ -25,7 +25,7 @@ class GroupController extends Controller
         return $content
             ->header('Groups')
             ->description('all groups')
-            ->body($this->grid());
+            ->body($this->grid()->render());
     }
 
     /**

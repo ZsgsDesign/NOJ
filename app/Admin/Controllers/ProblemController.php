@@ -25,7 +25,7 @@ class ProblemController extends Controller
         return $content
             ->header('Problems')
             ->description('all problems')
-            ->body($this->grid());
+            ->body($this->grid()->render());
     }
 
     /**

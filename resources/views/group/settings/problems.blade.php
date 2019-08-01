@@ -91,7 +91,7 @@
     @if(empty($problems))
         <empty-container>
             <i class="MDI package-variant"></i>
-            <p>There are no problem in this group.</p>
+            <p>There are no questions in the group that allow you to operate.</p>
         </empty-container>
     @else
         <settings-body class="animated bounceInLeft">

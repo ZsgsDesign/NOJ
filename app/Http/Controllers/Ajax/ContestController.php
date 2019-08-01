@@ -55,6 +55,9 @@ class ContestController extends Controller
         $contest_detail['problems'] = $contest_problems;
         $assign_uid = $contest_detail['assign_uid'];
         $clearance = $contestModel->judgeClearance($cid,Auth::user()->id);
+        if($clearance != 3){
+            return ResponseModel::err(2001);
+        }
         if($assign_uid != 0){
             $assignee = $groupModel->userProfile($assign_uid,$contest_detail['gid']);
         }else{
@@ -187,36 +190,50 @@ class ContestController extends Controller
         $cid = $all_data['cid'];
 
         $contestModel = new ContestModel();
-
-        $problems=explode(",", $all_data["problems"]);
-        if (count($problems)>26) {
-            return ResponseModel::err(4002);
-        }
-        $i=0;
-        $problemSet=[];
-        foreach ($problems as $p) {
-            if (!empty($p)) {
-                $i++;
-                $problemSet[]=[
-                    "number"=>$i,
-                    "pcode"=>$p,
-                    "points"=>100
-                ];
-            }
-        }
         if($contestModel->judgeClearance($all_data['cid'],Auth::user()->id) != 3){
             return ResponseModel::err(2001);
         }
 
-        $allow_update = ['name','description','begin_time','end_time'];
-
-        foreach($all_data as $key => $value){
-            if(!in_array($key,$allow_update)){
-                unset($all_data[$key]);
+        if($contestModel->remainingTime($cid) > 0){
+            $problems=explode(",", $all_data["problems"]);
+            if (count($problems)>26) {
+                return ResponseModel::err(4002);
             }
+            $i=0;
+            $problemSet=[];
+            foreach ($problems as $p) {
+                if (!empty($p)) {
+                    $i++;
+                    $problemSet[]=[
+                        "number"=>$i,
+                        "pcode"=>$p,
+                        "points"=>100
+                    ];
+                }
+            }
+            $allow_update = ['name','description','begin_time','end_time'];
+
+            foreach($all_data as $key => $value){
+                if(!in_array($key,$allow_update)){
+                    unset($all_data[$key]);
+                }
+            }
+            $contestModel->contestUpdate($cid,$all_data,$problemSet);
+            return ResponseModel::success(200);
+        }else{
+            $allow_update = ['name','description'];
+
+            foreach($all_data as $key => $value){
+                if(!in_array($key,$allow_update)){
+                    unset($all_data[$key]);
+                }
+            }
+            $contestModel->contestUpdate($cid,$all_data,false);
+            return ResponseModel::success(200,'
+                Successful! However, only the name and description of the match can be changed for the match that has been finished.
+            ');
         }
-        $contestModel->contestUpdate($cid,$all_data,$problemSet);
-        return ResponseModel::success(200);
+
     }
 
     public function issueAnnouncement(Request $request){
