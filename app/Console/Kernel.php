@@ -4,12 +4,12 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use App\Babel\Babel;
-use App\Babel\Extension\hdu;
+use App\Models\Eloquent\JudgeServerModel as EloquentJudgeServerModel;
 use App\Models\RankModel;
 use App\Models\SiteMapModel;
 use App\Models\ContestModel;
 use App\Models\GroupModel;
-use App\Models\JudgerModel;
+use App\Models\OJModel;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Log;
 use Cache;
@@ -106,9 +106,11 @@ class Kernel extends ConsoleKernel
         })->everyMinute()->description("Sync Contest Problem");
 
         $schedule->call(function () {
-            $judgerModel=new JudgerModel();
-            $judgerModel->updateServerStatus(1);
-            // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Updated Judge Server Status");
+            $oidList=EloquentJudgeServerModel::column('oid');
+            $babel=new Babel();
+            foreach($oidList as $oid){
+                $babel->monitor(["name"=>OJMOdel::ocode($oid)]);
+            }
         })->everyMinute()->description("Update Judge Server Status");
 
         if (!env("APP_DEBUG")) {
