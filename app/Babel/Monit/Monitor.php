@@ -2,12 +2,11 @@
 
 namespace App\Babel\Monit;
 
-use App\Models\SubmissionModel;
-use App\Babel\Submit\Curl;
+use ErrorException;
 use Exception;
-use Log;
+use Throwable;
 
-class Monitor extends Curl
+class Monitor
 {
 
     /**
@@ -27,6 +26,7 @@ class Monitor extends Curl
         try {
             $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$name/babel.json")), true);
             $monitorProvider=$BabelConfig["provider"]["monitor"];
+        } catch(Throwable $e) {
         } catch(ErrorException $e) {
         } catch(Exception $e) {
         }
