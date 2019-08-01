@@ -3,16 +3,17 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class MainAccess extends TestCase
+class MainAccessTest extends TestCase
 {
     /**
-     * A basic test example.
+     * A basic NOJ home access test.
      *
      * @return void
      */
-    public function testBasicTest()
+    public function testHomeAccess()
     {
         $response = $this->get('/');
 
