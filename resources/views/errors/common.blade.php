@@ -14,7 +14,6 @@
     flex-direction: column;
     align-items: flex-start;
     padding-right: 0;
-    width: 70%;
 }
 footer {
     bottom: 0;
@@ -61,10 +60,9 @@ footer {
 <div class="error-container">
     <div class="error-container-left">
         <div class="error-emoji">:-(</div>
-        <div class="error-title"><span style="font-weight:500;color:black">500. </span>That’s an error.</div>
-        <div class="error-description">Somthing went wrong.</div>
-        <div class="error-description" style="color:gray">We're looking to see what happened</div>
-        <div class="error-description" onclick="(function(){location.href='/'})()" style="cursor:pointer;margin-top:20px;font-size: 20px;text-decoration:underline;text-indent:30px;">click here to homepage</div>
+        <div class="error-title"><span style="font-weight:500;color:black">{{$code}}. </span>That’s an error.</div>
+    <div class="error-description">{{$message}}</div>
+        <div class="error-description" style="color:gray">That’s all we know.</div>
     </div>
     <div class="error-container-right">
         <img src="/static/img/avatar/noj.png" alt="">
