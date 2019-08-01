@@ -444,10 +444,10 @@
                     <div class="row">
                         <div class="col-md-3">
                             <category-tab class="nav" role="tablist">
-                                <div class="active" id="category-problems" data-toggle="tab" role="tab" href="#content-problems" aria-controls="content-problems" aria-selected="true"><p>Problems</p><span class="badge badge-count">0</span></div>
-                                <div id="category-contests" data-toggle="tab" role="tab" href="#content-contests" aria-controls="content-contests" aria-selected="false"><p>Contests</p><span class="badge badge-count">0</span></div>
-                                <div id="category-users" data-toggle="tab" role="tab" href="#content-users" aria-controls="content-users" aria-selected="false"><p>Users</p><span class="badge badge-count">0</span></div>
-                                <div id="category-groups" data-toggle="tab" role="tab" href="#content-groups" aria-controls="content-groups" aria-selected="false"><p>Groups</p><span class="badge badge-count">0</span></div>
+                                <div class="active" id="category-problems" data-toggle="tab" role="tab" href="#content-problems" aria-controls="content-problems" aria-selected="true" data-tab="problems"><p>Problems</p><span class="badge badge-count">0</span></div>
+                                <div id="category-contests" data-toggle="tab" role="tab" href="#content-contests" aria-controls="content-contests" aria-selected="false" data-tab="contests"><p>Contests</p><span class="badge badge-count">0</span></div>
+                                <div id="category-users" data-toggle="tab" role="tab" href="#content-users" aria-controls="content-users" aria-selected="false" data-tab="users"><p>Users</p><span class="badge badge-count">0</span></div>
+                                <div id="category-groups" data-toggle="tab" role="tab" href="#content-groups" aria-controls="content-groups" aria-selected="false" data-tab="groups"><p>Groups</p><span class="badge badge-count">0</span></div>
                             </category-tab>
                         </div>
                         <div class="col-md-9">
@@ -516,6 +516,26 @@
         }
     };
 
+    var updateQueryStringParam = function (key, value) {
+        var baseUrl = [location.protocol, '//', location.host, location.pathname].join(''),
+            urlQueryString = document.location.search,
+            newParam = key + '=' + value,
+            params = '?' + newParam;
+
+        // If the "search" string exists, then build params from it
+        if (urlQueryString) {
+            keyRegex = new RegExp('([\?&])' + key + '[^&]*');
+
+            // If param exists already, update it
+            if (urlQueryString.match(keyRegex) !== null) {
+                params = urlQueryString.replace(keyRegex, "$1" + newParam);
+            } else { // Otherwise, add it to end of query string
+                params = urlQueryString + '&' + newParam;
+            }
+        }
+        window.history.replaceState({}, "", baseUrl + params);
+    };
+
     window.addEventListener("load",function() {
         @if(!empty($search_key))
             setTimeout(function(){
@@ -523,6 +543,10 @@
             },200);
 
             var result = [];
+
+            $("category-tab > div").click(function() {
+                updateQueryStringParam("tabs",$(this).attr("data-tab"));
+            });
 
             function loadResult(){
                 $.ajax({
