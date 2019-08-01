@@ -253,8 +253,13 @@ class ContestController extends Controller
      *
      * @return Response
      */
-    public function status($cid)
+    public function status(Request $request)
     {
+        $all_data=$request->all();
+        $filter["ncode"]=isset($all_data["ncode"]) ? $all_data["ncode"] : null;
+        $filter["result"]=isset($all_data["result"]) ? $all_data["result"] : null;
+        $filter["account"]=isset($all_data["account"]) ? $all_data["account"] : null;
+        $cid=$request->cid;
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if (!$clearance) {
@@ -263,7 +268,7 @@ class ContestController extends Controller
         $contest_name=$contestModel->contestName($cid);
         $customInfo=$contestModel->getCustomInfo($cid);
         $basicInfo=$contestModel->basic($cid);
-        $submissionRecordSet=$contestModel->getContestRecord($cid);
+        $submissionRecordSet=$contestModel->getContestRecord($filter, $cid);
         $rankFrozen=$contestModel->isFrozen($cid);
         $frozenTime=$contestModel->frozenTime($cid);
         return view('contest.board.status', [
@@ -278,6 +283,7 @@ class ContestController extends Controller
             'rank_frozen' => $rankFrozen,
             'frozen_time' => $frozenTime,
             'clearance'=> $clearance,
+            'filter' => $filter,
         ]);
     }
 

@@ -1021,7 +1021,7 @@ class ContestModel extends Model
         return $this->formatAbsTime($basicInfo["froze_length"]);
     }
 
-    public function getContestRecord($cid)
+    public function getContestRecord($filter, $cid)
     {
         $basicInfo=$this->basic($cid);
         $userInfo=DB::table('group_member')->where('gid',$basicInfo["gid"])->where('uid',Auth::user()->id)->get()->first();
@@ -1036,6 +1036,13 @@ class ContestModel extends Model
         $frozen_time=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
         $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
         $contestEnd=time()>$end_time;
+
+        $filter['pid'] = array_search($filter['ncode'], array_column($problemSet_temp, 'ncode'));
+        if($filter['pid']==false){
+            $filter['pid'] = null;
+        }else{
+            $filter['pid'] = $problemSet_temp[$filter['pid']]['pid'];
+        }
 
         if($userInfo==null || $userInfo["role"]!=3){
             if ($basicInfo["status_visibility"]==2) {
@@ -1076,7 +1083,21 @@ class ContestModel extends Model
                 )->orderBy(
                     'submission_date',
                     'desc'
-                )->paginate(50);
+                );
+
+                if($filter["pid"]){
+                    $paginator=$paginator->where(["pid"=>$filter["pid"]]);
+                }
+        
+                if($filter["result"]){
+                    $paginator=$paginator->where(["verdict"=>$filter["result"]]);
+                }
+        
+                if($filter["account"]){
+                    $paginator=$paginator->where(["name"=>$filter["account"]]);
+                }
+        
+                $paginator=$paginator->paginate(50);
             } elseif ($basicInfo["status_visibility"]==1) {
                 $paginator=DB::table("submission")->where([
                     'cid'=>$cid,
@@ -1106,7 +1127,21 @@ class ContestModel extends Model
                 )->orderBy(
                     'submission_date',
                     'desc'
-                )->paginate(50);
+                );
+
+                if($filter["pid"]){
+                    $paginator=$paginator->where(["pid"=>$filter["pid"]]);
+                }
+        
+                if($filter["result"]){
+                    $paginator=$paginator->where(["verdict"=>$filter["result"]]);
+                }
+        
+                if($filter["account"]){
+                    $paginator=$paginator->where(["name"=>$filter["account"]]);
+                }
+        
+                $paginator=$paginator->paginate(50);
             } else {
                 return [
                     "paginator"=>null,
@@ -1143,7 +1178,21 @@ class ContestModel extends Model
                 )->orderBy(
                     'submission_date',
                     'desc'
-                )->paginate(50);
+                );
+
+                if($filter["pid"]){
+                    $paginator=$paginator->where(["pid"=>$filter["pid"]]);
+                }
+        
+                if($filter["result"]){
+                    $paginator=$paginator->where(["verdict"=>$filter["result"]]);
+                }
+        
+                if($filter["account"]){
+                    $paginator=$paginator->where(["name"=>$filter["account"]]);
+                }
+        
+                $paginator=$paginator->paginate(50);
             } elseif ($basicInfo["status_visibility"]==1) {
                 $paginator=DB::table("submission")->where([
                     'cid'=>$cid,
@@ -1173,7 +1222,21 @@ class ContestModel extends Model
                 )->orderBy(
                     'submission_date',
                     'desc'
-                )->paginate(50);
+                );
+
+                if($filter["pid"]){
+                    $paginator=$paginator->where(["pid"=>$filter["pid"]]);
+                }
+        
+                if($filter["result"]){
+                    $paginator=$paginator->where(["verdict"=>$filter["result"]]);
+                }
+        
+                if($filter["account"]){
+                    $paginator=$paginator->where(["name"=>$filter["account"]]);
+                }
+        
+                $paginator=$paginator->paginate(50);
             } else {
                 return [
                     "paginator"=>null,
