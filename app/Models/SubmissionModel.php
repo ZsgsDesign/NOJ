@@ -304,9 +304,14 @@ class SubmissionModel extends Model
         return $sid;
     }
 
+    public function basic($sid)
+    {
+        return DB::table($this->tableName)->where(['sid'=>$sid])->first();
+    }
+
     public function getJudgeStatus($sid, $uid)
     {
-        $status=DB::table($this->tableName)->where(['sid'=>$sid])->first();
+        $status=$this->basic($sid);
         if (empty($status)) {
             return [];
         }

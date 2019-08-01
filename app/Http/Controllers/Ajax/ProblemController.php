@@ -235,4 +235,52 @@ class ProblemController extends Controller
 
         return ResponseModel::success(200, null, ["history"=>$history]);
     }
+    /**
+     * Resubmit Submission Error Problems.
+     *
+     * @param Request $request web request
+     *
+     * @return Response
+     */
+    public function resubmitSolution(Request $request)
+    {
+        $all_data=$request->all();
+        $submissionModel=new SubmissionModel();
+        $problemModel=new ProblemModel();
+        $compilerModel=new CompilerModel();
+
+        $submissionData=$submissionModel->basic($all_data["sid"]);
+
+        if($submissionData["uid"]!=Auth::user()->id){
+            return ResponseModel::err(2001);
+        }
+
+        $submissionModel->updateSubmission($all_data["sid"],[
+            "verdict"=>"Pending",
+            "time"=>0,
+            "memory"=>0
+        ]);
+
+        $problemDetails=$problemModel->basic($submissionData["pid"]);
+        $lang=$compilerModel->detail($submissionData["coid"]);
+
+        $proceedData=[];
+        $proceedData["lang"]=$lang["lcode"];
+        $proceedData["pid"]=$problemDetails["pid"];
+        $proceedData["pcode"]=$problemDetails["pcode"];
+        $proceedData["cid"]=$problemDetails["contest_id"];
+        $proceedData["contest"]=$submissionData["cid"];
+        $proceedData["vcid"]=$submissionData["vcid"];
+        $proceedData["iid"]=$problemDetails["index_id"];
+        $proceedData["oj"]=$problemModel->ocode($problemDetails["pid"]);
+        $proceedData["coid"]=$lang["coid"];
+        $proceedData["solution"]=$submissionData["solution"];
+        $proceedData["sid"]=$submissionData["sid"];
+
+        dispatch(new ProcessSubmission($proceedData))->onQueue($submissionData["oj"]);
+
+        return ResponseModel::success(200, null, [
+            "sid"=>$sid
+        ]);
+    }
 }
