@@ -13,7 +13,8 @@
     },
     "provider":{
         "submitter":"Submitter",
-        "installer":"Installer"
+        "installer":"Installer",
+        "monitor":"Monitor"
     },
     "require":{
         "NOJ":"__cur__"
