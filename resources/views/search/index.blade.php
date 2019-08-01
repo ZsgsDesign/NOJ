@@ -422,8 +422,9 @@
         box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
     }
 
-    category-box{
-        display: none;
+    span.badge.badge-count.filled {
+        background: #6c757d;
+        color: #fff;
     }
 </style>
 <div class="container mundb-standard-container">
@@ -593,6 +594,7 @@
                     $('result-box').fadeIn(200);
                     for(let category in result) {
                         $(`#category-${category} > span`).text(result[category].length);
+                        if(result[category].length>0) $(`#category-${category} > span`).addClass("filled");
                         for(let item_id in result[category]){
                             item = result[category][item_id];
                             switch(category){
