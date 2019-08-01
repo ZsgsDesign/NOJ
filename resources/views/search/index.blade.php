@@ -501,11 +501,27 @@
     </paper-card>
 </div>
 <script>
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+    };
+
     window.addEventListener("load",function() {
         @if(!empty($search_key))
             setTimeout(function(){
                 loadResult();
             },200);
+
             var result = [];
 
             function loadResult(){
@@ -535,12 +551,20 @@
                 for(let cg in result){
                     all_count += result[cg].length;
                 }
-                if(all_count == 0){
-                    // $('#loading-tips').fadeOut(500,function(){
-                    //     $('#empty_result').fadeIn();
-                    // });
-                    // return;
+
+                var section = getUrlParameter("tab");
+                if(["users","problems","contests","groups"].indexOf(section)<0){
+                    section="problems";
                 }
+                $(`#category-${section}`).click();
+
+                // if(all_count == 0){
+                //     $('#loading-tips').fadeOut(500,function(){
+                //         $('#empty_result').fadeIn();
+                //     });
+                //     return;
+                // }
+
                 $('#loading-tips').fadeOut(500,function(){
                     $('result-box').fadeIn(200);
                     for(let category in result) {
