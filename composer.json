@@ -11,7 +11,7 @@
         "php": "^7.3",
         "encore/laravel-admin": "^1.6",
         "fideloper/proxy": "^4.0",
-        "graham-campbell/markdown": "^10.2",
+        "graham-campbell/markdown": "^11.0",
         "grubersjoe/bing-daily-photo": "^2.0",
         "illuminate/support": "^5.7",
         "kub-at/php-simple-html-dom-parser": "~1.7.0",
