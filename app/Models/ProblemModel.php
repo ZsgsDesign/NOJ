@@ -472,4 +472,68 @@ class ProblemModel extends Model
 
         return $pid;
     }
+
+    public function discussionList($pid)
+    {
+        $paginator = DB::table('problem_discussion')->join(
+            "users",
+            "id",
+            "=",
+            "problem_discussion.uid"
+        )->where([
+            'problem_discussion.pid'=>$pid,
+            'problem_discussion.audit'=>1
+        ])->orderBy(
+            'problem_discussion.created_at',
+            'desc'
+        )->select([
+            'problem_discussion.pdid',
+            'problem_discussion.title',
+            'problem_discussion.updated_at',
+            'users.avatar',
+            'users.name'
+        ])->paginate(15);
+        $list = $paginator->all();
+        foreach($list as &$l){
+            $l['updated_at'] = $this->formatTime($l['updated_at']);
+            $l['comment_count'] = DB::table('problem_discussion_comment')->where('pdid','=',$l['pdid'])->count();
+        }
+        return [
+            'paginator' => $paginator,
+            'list' => $list,
+        ];
+    }
+
+    public function formatTime($date)
+    {
+        $periods=["second", "minute", "hour", "day", "week", "month", "year", "decade"];
+        $lengths=["60", "60", "24", "7", "4.35", "12", "10"];
+
+        $now=time();
+        $unix_date=strtotime($date);
+
+        if (empty($unix_date)) {
+            return "Bad date";
+        }
+
+        if ($now>$unix_date) {
+            $difference=$now-$unix_date;
+            $tense="ago";
+        } else {
+            $difference=$unix_date-$now;
+            $tense="from now";
+        }
+
+        for ($j=0; $difference>=$lengths[$j] && $j<count($lengths)-1; $j++) {
+            $difference/=$lengths[$j];
+        }
+
+        $difference=round($difference);
+
+        if ($difference!=1) {
+            $periods[$j].="s";
+        }
+
+        return "$difference $periods[$j] {$tense}";
+    }
 }

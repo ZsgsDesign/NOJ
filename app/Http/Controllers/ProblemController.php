@@ -162,15 +162,15 @@ class ProblemController extends Controller
         if ($problem->isBlocked($prob_detail["pid"])) {
             return abort('403');
         }
-        $solution=$problem->solutionList($prob_detail["pid"], Auth::check() ?Auth::user()->id : null);
-        $submitted=Auth::check() ? $problem->solution($prob_detail["pid"], Auth::user()->id) : [];
+        $discussion=$problem->discussionList($prob_detail["pid"])['list'];
+        $paginator=$problem->discussionList($prob_detail["pid"])['paginator'];
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.discussion', [
                                             'page_title'=> "Discussion",
                                             'site_title'=>config("app.name"),
                                             'navigation' => $prob_detail["title"],
                                             'detail' => $prob_detail,
-                                            'solution'=>$solution,
-                                            'submitted'=>$submitted
+                                            'discussion'=>$discussion,
+                                            'paginator'=>$paginator
                                         ]);
     }
 
