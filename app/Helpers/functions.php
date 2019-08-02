@@ -92,6 +92,13 @@ if (! function_exists('glob_recursive')) {
     }
 }
 
+if (!function_exists('adminMenu')) {
+    function adminMenu()
+    {
+        return json_decode(file_get_contents(app_path('Admin/menu.json')),true);
+    }
+}
+
 if (!function_exists('getOpenSearchXML')) {
     function getOpenSearchXML()
     {

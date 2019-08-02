@@ -20,3 +20,5 @@
 
 Admin::css('/static/css/wemd-color-scheme.css');
 Encore\Admin\Form::forget(['map', 'editor']);
+app('view')->prependNamespace('admin', resource_path('views/admin'));
+
