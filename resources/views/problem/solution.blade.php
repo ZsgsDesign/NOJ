@@ -636,8 +636,12 @@
             document.getElementById("editor-preview").innerHTML=marked(plainText, {
                 sanitize: true,
                 sanitizer: DOMPurify.sanitize,
-                highlight: function (code) {
-                    return hljs.highlightAuto(code).value;
+                highlight: function (code, lang) {
+                    try {
+                        return hljs.highlight(lang,code).value;
+                    } catch (error) {
+                        return hljs.highlightAuto(code).value;
+                    }
                 }
             });
             MathJax.Hub.Queue(["Typeset",MathJax.Hub,"editor-preview"]);
