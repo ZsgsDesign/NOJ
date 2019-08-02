@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\UserModel;
+use App\Models\Eloquent\UserModel as EloquentUserModel;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -79,7 +80,7 @@ class UserController extends Controller
      */
     protected function grid()
     {
-        $grid=new Grid(new UserModel);
+        $grid=new Grid(new EloquentUserModel);
         $grid->id('ID')->sortable();
         $grid->name()->editable();
         $grid->email();
@@ -101,7 +102,7 @@ class UserController extends Controller
      */
     protected function detail($id)
     {
-        $show=new Show(UserModel::findOrFail($id));
+        $show=new Show(EloquentUserModel::findOrFail($id));
         return $show;
     }
 
@@ -112,7 +113,7 @@ class UserController extends Controller
      */
     protected function form()
     {
-        $form=new Form(new UserModel);
+        $form=new Form(new EloquentUserModel);
         $form->model()->makeVisible('password');
         $form->tab('Basic', function(Form $form) {
             $form->display('id');

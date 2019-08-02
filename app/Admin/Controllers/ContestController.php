@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\ContestModel;
+use App\Models\Eloquent\ContestModel as EloquentContestModel;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -79,7 +80,7 @@ class ContestController extends Controller
      */
     protected function grid()
     {
-        $grid=new Grid(new ContestModel);
+        $grid=new Grid(new EloquentContestModel);
         $grid->column('cid', "ID")->sortable();
         $grid->column("gid", "Group");
         $grid->name("Name")->editable();
@@ -120,7 +121,7 @@ class ContestController extends Controller
      */
     protected function detail($id)
     {
-        $show=new Show(ContestModel::findOrFail($id));
+        $show=new Show(EloquentContestModel::findOrFail($id));
         return $show;
     }
 
@@ -131,7 +132,7 @@ class ContestController extends Controller
      */
     protected function form()
     {
-        $form=new Form(new ContestModel);
+        $form=new Form(new EloquentContestModel);
         $form->model()->makeVisible('password');
         $form->tab('Basic', function(Form $form) {
             $form->display('cid');

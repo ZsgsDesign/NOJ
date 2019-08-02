@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\ProblemModel;
+use App\Models\Eloquent\ProblemModel as EloquentProblemModel;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -79,7 +80,7 @@ class ProblemController extends Controller
      */
     protected function grid()
     {
-        $grid=new Grid(new ProblemModel);
+        $grid=new Grid(new EloquentProblemModel);
         $grid->column('pid', "ID")->sortable();
         $grid->column('pcode', "PCode")->editable();
         $grid->title("Title")->editable();
@@ -110,7 +111,7 @@ class ProblemController extends Controller
      */
     protected function detail($id)
     {
-        $show=new Show(ProblemModel::findOrFail($id));
+        $show=new Show(EloquentProblemModel::findOrFail($id));
         return $show;
     }
 
@@ -121,7 +122,7 @@ class ProblemController extends Controller
      */
     protected function form()
     {
-        $form=new Form(new ProblemModel);
+        $form=new Form(new EloquentProblemModel);
         $form->model()->makeVisible('password');
         $form->tab('Basic', function(Form $form) {
             // $form->display('pid');
