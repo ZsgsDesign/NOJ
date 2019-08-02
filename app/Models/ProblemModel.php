@@ -626,8 +626,6 @@ class ProblemModel extends Model
             $cr['created_at'] = $this->formatTime($cr['created_at']);
         }
 
-        dd($main);
-
         return [
             'main' => $main,
             'paginator' => $paginator,
