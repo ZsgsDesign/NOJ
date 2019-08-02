@@ -491,7 +491,8 @@ class ProblemModel extends Model
             'problem_discussion.title',
             'problem_discussion.updated_at',
             'users.avatar',
-            'users.name'
+            'users.name',
+            'users.id as uid'
         ])->paginate(15);
         $list = $paginator->all();
         foreach($list as &$l){
