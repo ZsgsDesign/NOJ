@@ -46,14 +46,14 @@ class ResetPass extends Command
         $uid=$this->option('uid');
         $digit=intval($this->option('digit'));
         $userInfo=UserModel::find($uid);
-        if(is_null($userInfo)){
+        if (is_null($userInfo)) {
             $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>User Not Found</>\n");
             return;
         }
-        if($digit<8){
+        if ($digit<8) {
             $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>Digit less than 8</>\n");
             return;
-        }elseif($digit>40){
+        } elseif ($digit>40) {
             $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>Digit more than 40</>\n");
             return;
         }

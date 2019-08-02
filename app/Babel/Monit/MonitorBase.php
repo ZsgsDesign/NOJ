@@ -9,12 +9,13 @@ use Throwable;
 
 class MonitorBase
 {
-    public function updateStatus($jsid, $status) {
+    public function updateStatus($jsid, $status)
+    {
         $judgeServer=JudgeServerModel::find($jsid);
-        if(is_null($judgeServer)){
+        if (is_null($judgeServer)) {
             return false;
-        }else{
-            if($judgeServer->available==0){
+        } else {
+            if ($judgeServer->available==0) {
                 $status=-2;
             }
             $judgeServer->status=$status;

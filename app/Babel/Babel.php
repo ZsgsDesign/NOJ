@@ -9,7 +9,6 @@ use App\Babel\Monit\Monitor;
 
 class Babel
 {
-
     public function submit($conf)
     {
         return new Submitter($conf);
@@ -34,5 +33,4 @@ class Babel
     {
         return new Monitor($conf);
     }
-
 }

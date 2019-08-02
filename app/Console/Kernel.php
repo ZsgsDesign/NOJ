@@ -59,11 +59,11 @@ class Kernel extends ConsoleKernel
             // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Cached Trending Groups");
         })->dailyAt('03:00')->description("Update Trending Groups");
 
-        $schedule->call(function() {
+        $schedule->call(function () {
             $contestModel = new ContestModel();
             $syncList = $contestModel->runningContest();
-            foreach($syncList as $syncContest) {
-                if(!isset($syncContest['vcid'])) {
+            foreach ($syncList as $syncContest) {
+                if (!isset($syncContest['vcid'])) {
                     $contestRankRaw=$contestModel->contestRankCache($syncContest['cid']);
                     $cid=$syncContest['cid'];
                     Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
@@ -84,12 +84,12 @@ class Kernel extends ConsoleKernel
             // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Synced Remote Rank and Clarification");
         })->everyMinute()->description("Sync Remote Rank and Clarification");
 
-        $schedule->call(function() {
+        $schedule->call(function () {
             $contestModel = new ContestModel();
             $syncList = $contestModel->runningContest();
-            foreach($syncList as $syncContest) {
-                if(isset($syncContest['crawled'])) {
-                    if(!$syncContest['crawled']) {
+            foreach ($syncList as $syncContest) {
+                if (isset($syncContest['crawled'])) {
+                    if (!$syncContest['crawled']) {
                         $className = "App\\Babel\\Extension\\hdu\\Synchronizer";
                         $all_data = [
                             'oj'=>"hdu",
@@ -108,7 +108,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $oidList=EloquentJudgeServerModel::column('oid');
             $babel=new Babel();
-            foreach($oidList as $oid){
+            foreach ($oidList as $oid) {
                 $babel->monitor(["name"=>OJMOdel::ocode($oid)]);
             }
         })->everyMinute()->description("Update Judge Server Status");

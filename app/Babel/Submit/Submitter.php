@@ -32,7 +32,9 @@ class Submitter
         ];
 
         $submitter=self::create($this->post_data["oj"], $sub, $all_data);
-        if(!is_null($submitter)) $submitter->submit();
+        if (!is_null($submitter)) {
+            $submitter->submit();
+        }
 
         // insert submission
 
@@ -40,16 +42,17 @@ class Submitter
         $submission->updateSubmission($this->post_data["sid"], $sub);
     }
 
-    public static function create($oj,& $sub, $all_data) {
+    public static function create($oj, & $sub, $all_data)
+    {
         $submitterProvider="Submitter";
         try {
             $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$oj/babel.json")), true);
             $submitterProvider=$BabelConfig["provider"]["submitter"];
-        } catch(ErrorException $e) {
-        } catch(Exception $e) {
+        } catch (ErrorException $e) {
+        } catch (Exception $e) {
         }
         $className = "App\\Babel\\Extension\\$oj\\$submitterProvider";
-        if(class_exists($className)) {
+        if (class_exists($className)) {
             return new $className($sub, $all_data);
         } else {
             return null;

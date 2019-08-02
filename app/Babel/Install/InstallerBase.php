@@ -20,34 +20,38 @@ class InstallerBase
     {
         $this->command->line("Installing <fg=green>$ocode</>");
 
-        $babelConfig=json_decode(file_get_contents(babel_path("Extension/$ocode/babel.json")),true);
+        $babelConfig=json_decode(file_get_contents(babel_path("Extension/$ocode/babel.json")), true);
 
         // support __cur__ variables
-        if($babelConfig["version"]=="__cur__") $babelConfig["version"]=explode("-",version())[0];
-        if($babelConfig["require"]["NOJ"]=="__cur__") $babelConfig["require"]["NOJ"]=explode("-",version())[0];
+        if ($babelConfig["version"]=="__cur__") {
+            $babelConfig["version"]=explode("-", version())[0];
+        }
+        if ($babelConfig["require"]["NOJ"]=="__cur__") {
+            $babelConfig["require"]["NOJ"]=explode("-", version())[0];
+        }
 
         // check version info
-        if(!isset($babelConfig["version"]) || is_null($babelConfig["version"]) || trim($babelConfig["version"])==""){
+        if (!isset($babelConfig["version"]) || is_null($babelConfig["version"]) || trim($babelConfig["version"])=="") {
             $this->command->line("\n  <bg=red;fg=white> Lack version info, aborting. </>\n");
             return;
         }
 
         // check require info
-        if(!isset($babelConfig["require"]["NOJ"]) || is_null($babelConfig["require"]["NOJ"]) || trim($babelConfig["require"]["NOJ"])==""){
+        if (!isset($babelConfig["require"]["NOJ"]) || is_null($babelConfig["require"]["NOJ"]) || trim($babelConfig["require"]["NOJ"])=="") {
             $this->command->line("\n  <bg=red;fg=white> Lack NOJ compability info, aborting. </>\n");
             return;
         }
 
         // check requirement
         try {
-            if(!($this->versionParser->parse($babelConfig["require"]["NOJ"])->complies(new Version(explode("-",version())[0])))){
-                if(!$this->command->option('ignore-platform-reqs')){
+            if (!($this->versionParser->parse($babelConfig["require"]["NOJ"])->complies(new Version(explode("-", version())[0])))) {
+                if (!$this->command->option('ignore-platform-reqs')) {
                     $this->command->line("Your Current NOJ Version <fg=yellow>".version()."</> doesn't support the following extension: ");
                     $this->command->line("  - <fg=green>$ocode</> requires NOJ version <fg=yellow>{$babelConfig['require']['NOJ']}</>");
                     return;
                 }
             }
-        } catch(InvalidVersionException $e) {
+        } catch (InvalidVersionException $e) {
             $this->command->line("\n  <bg=red;fg=white> Illegal Compability Info, aborting. </>\n");
             return;
         }
@@ -58,7 +62,7 @@ class InstallerBase
         $info=OJModel::basic(OJModel::oid($ocode));
 
         // if there isn't, create one
-        if(empty($info)){
+        if (empty($info)) {
             $this->oid=OJModel::insertOJ([
                 "ocode"=>$babelConfig["code"],
                 "name"=>$babelConfig["name"],
@@ -72,17 +76,17 @@ class InstallerBase
             // check legal version format
             try {
                 $currentVersion=new Version($babelConfig["version"]);
-            } catch(InvalidVersionException $e) {
+            } catch (InvalidVersionException $e) {
                 DB::rollback();
                 $this->command->line("\n  <bg=red;fg=white> Illegal Version Info, aborting. </>\n");
                 return;
             }
 
             // check there is a not null version
-            if(isset($info["version"]) && !is_null($info["version"]) && trim($info["version"])!=""){
+            if (isset($info["version"]) && !is_null($info["version"]) && trim($info["version"])!="") {
                 try {
                     $installedVersion=new Version($info["version"]);
-                } catch(InvalidVersionException $e) {
+                } catch (InvalidVersionException $e) {
                     DB::rollback();
                     $this->command->line("\n  <bg=red;fg=white> Illegal Version Info, aborting. </>\n");
                     return;
@@ -101,15 +105,15 @@ class InstallerBase
 
         // retrieve compiler config and then import it
         $installed_timestamp=0;
-        if(isset($info["compiler_timestamp"]) && !is_null($info["compiler_timestamp"]) && trim($info["compiler_timestamp"])!=""){
+        if (isset($info["compiler_timestamp"]) && !is_null($info["compiler_timestamp"]) && trim($info["compiler_timestamp"])!="") {
             $installed_timestamp=intval($info["compiler_timestamp"]);
         }
         $latest_timestamp=$installed_timestamp;
         $ConpilerConfig = glob(babel_path("Extension/$ocode/compiler/*.*"));
-        foreach($ConpilerConfig as $file) {
-            if(intval(basename($file)) > $installed_timestamp) {
+        foreach ($ConpilerConfig as $file) {
+            if (intval(basename($file)) > $installed_timestamp) {
                 try {
-                    $this->commitCompiler($file,json_decode(file_get_contents($file), true));
+                    $this->commitCompiler($file, json_decode(file_get_contents($file), true));
                     $latest_timestamp=intval(basename($file));
                 } catch (Exception $e) {
                     DB::rollback();
@@ -124,11 +128,11 @@ class InstallerBase
         try {
             if (isset($babelConfig["custom"]["css"]) && !is_null($babelConfig["custom"]["css"]) && trim($babelConfig["custom"]["css"])!="") {
                 $cssPath=babel_path("Extension/$ocode/".$babelConfig["custom"]["css"]);
-            }else{
+            } else {
                 $cssPath=null;
             }
             $this->applyCustom($ocode, $cssPath);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             DB::rollback();
             $this->command->line("\n  <bg=red;fg=white> Unable to add an custom css for this extension, aborting. </>\n");
             return;
@@ -136,11 +140,11 @@ class InstallerBase
 
 
         // import icon
-        try{
+        try {
             $imgPath=babel_path("Extension/$ocode/".$babelConfig["icon"]);
             $storePath=$this->applyIcon($ocode, $imgPath);
-            OJModel::updateOJ($this->oid,["logo"=>$storePath]);
-        }catch(Exception $e){
+            OJModel::updateOJ($this->oid, ["logo"=>$storePath]);
+        } catch (Exception $e) {
             DB::rollback();
             $this->command->line("\n  <bg=red;fg=white> Unable to add an icon for this extension, aborting. </>\n");
             return;
@@ -157,7 +161,7 @@ class InstallerBase
     protected function _uninstall($ocode)
     {
         $this->command->line("<fg=red>Warning: Removing an installed and already-used extension may cause severe consequences, including lossing user submission, problem data and contests regaring or involving the usage of this extension. </>");
-        if ($this->command->confirm("Are you sure you want to uninstall $ocode?")){
+        if ($this->command->confirm("Are you sure you want to uninstall $ocode?")) {
             //uninstall
             OJModel::removeOJ(["ocode"=>$ocode]);
             $this->command->line("Already removed <fg=green>$ocode</>");
@@ -171,12 +175,12 @@ class InstallerBase
     }
 
 
-    protected function commitCompiler($path,$json)
+    protected function commitCompiler($path, $json)
     {
         $this->command->line("<fg=yellow>Migrating: </>$path");
         $modifications=$json["modifications"];
-        foreach($modifications as $m){
-            if($m["method"]=="add"){
+        foreach ($modifications as $m) {
+            if ($m["method"]=="add") {
                 CompilerModel::add([
                     "oid"=>$this->oid,
                     "comp"=>$m["compability"],
@@ -187,22 +191,30 @@ class InstallerBase
                     "available"=>1,
                     "deleted"=>0
                 ]);
-            }elseif($m["method"]=="modify"){
+            } elseif ($m["method"]=="modify") {
                 $modifyItem=[];
-                if(isset($m["compability"])) $modifyItem["comp"]=$m["compability"];
-                if(isset($m["language"])) $modifyItem["lang"]=$m["language"];
-                if(isset($m["icon"])) $modifyItem["icon"]=$m["icon"];
-                if(isset($m["display"])) $modifyItem["display_name"]=$m["display"];
+                if (isset($m["compability"])) {
+                    $modifyItem["comp"]=$m["compability"];
+                }
+                if (isset($m["language"])) {
+                    $modifyItem["lang"]=$m["language"];
+                }
+                if (isset($m["icon"])) {
+                    $modifyItem["icon"]=$m["icon"];
+                }
+                if (isset($m["display"])) {
+                    $modifyItem["display_name"]=$m["display"];
+                }
                 CompilerModel::modify([
                     "oid"=>$this->oid,
                     "lcode"=>$m["code"],
                 ], $modifyItem);
-            }elseif($m["method"]=="remove"){
+            } elseif ($m["method"]=="remove") {
                 CompilerModel::remove([
                     "oid"=>$this->oid,
                     "lcode"=>$m["code"],
                 ]);
-            }else{
+            } else {
                 continue;
             }
         }
@@ -212,42 +224,43 @@ class InstallerBase
     protected function applyIcon($ocode, $imgPath)
     {
         $storePath=base_path("public/static/img/oj/$ocode/");
-        if(is_dir($storePath)) {
+        if (is_dir($storePath)) {
             $this->delFile($storePath);
-        }else{
+        } else {
             mkdir($storePath);
         }
-        file_put_contents($storePath.basename($imgPath),file_get_contents($imgPath));
+        file_put_contents($storePath.basename($imgPath), file_get_contents($imgPath));
         return "/static/img/oj/$ocode/".basename($imgPath);
     }
 
     protected function applyCustom($ocode, $cssPath)
     {
         $storePath=base_path("public/static/css/oj/");
-        if(!is_dir($storePath)) {
+        if (!is_dir($storePath)) {
             mkdir($storePath);
         }
         if (is_null($cssPath)) {
             file_put_contents($storePath."$ocode.css", "\/*Silence is Golden*\/");
-        }else {
+        } else {
             file_put_contents($storePath."$ocode.css", file_get_contents($cssPath));
         }
     }
 
-    private function delFile($dirName){
-        if(file_exists($dirName) && $handle=opendir($dirName)){
-            while(false!==($item = readdir($handle))){
-                if($item!= "." && $item != ".."){
-                    if(file_exists($dirName.'/'.$item) && is_dir($dirName.'/'.$item)){
+    private function delFile($dirName)
+    {
+        if (file_exists($dirName) && $handle=opendir($dirName)) {
+            while (false!==($item = readdir($handle))) {
+                if ($item!= "." && $item != "..") {
+                    if (file_exists($dirName.'/'.$item) && is_dir($dirName.'/'.$item)) {
                         delFile($dirName.'/'.$item);
-                    }else{
-                        if(unlink($dirName.'/'.$item)){
+                    } else {
+                        if (unlink($dirName.'/'.$item)) {
                             return true;
                         }
                     }
                 }
             }
-            closedir( $handle);
+            closedir($handle);
         }
     }
 }

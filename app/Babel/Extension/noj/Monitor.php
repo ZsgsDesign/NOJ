@@ -21,7 +21,7 @@ class Monitor extends MonitorBase
         $judgerModel=new JudgerModel();
         $serverList=$judgerModel->fetchServer($this->oid);
         foreach ($serverList as $server) {
-            if($server["available"]==0){
+            if ($server["available"]==0) {
                 continue;
             }
 
@@ -48,7 +48,9 @@ class Monitor extends MonitorBase
     {
         $curl=curl_init();
 
-        if($curl===false) return [];
+        if ($curl===false) {
+            return [];
+        }
 
         curl_setopt_array($curl, array(
             CURLOPT_PORT => $port,
