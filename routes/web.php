@@ -41,8 +41,10 @@ Route::group(['prefix' => 'problem'], function () {
     Route::get('/{pcode}/editor', 'ProblemController@editor')->middleware('auth', 'contest_account')->name('problem_editor');
     Route::get('/{pcode}/solution', 'ProblemController@solution')->middleware('auth', 'contest_account')->name('problem_solution');
     Route::get('/{pcode}/discussion', 'ProblemController@discussion')->middleware('auth', 'contest_account')->name('problem.discussion');
-    Route::get('/{pcode}/discussion/{dcode}', 'ProblemController@discussionPost')->middleware('auth', 'contest_account')->name('problem.discussion.post');
 });
+
+Route::get('/discussion/{dcode}', 'ProblemController@discussionPost')->middleware('auth', 'contest_account')->name('problem.discussion.post');
+
 Route::get('/status', 'StatusController@index')->middleware('contest_account')->name('status_index');
 
 Route::group(['prefix' => 'group','as' => 'group.'], function () {

@@ -345,19 +345,21 @@
                 </fresh-container>
             </paper-card>
             <paper-card class="animated fadeInLeft p-3">
+                @auth
                 <div class="text-center">
-                    <button class="btn btn-outline-primary btn-rounded" onclick="newDiscussion()"><i class="MDI comment-plus-outline"></i>New Discussion</button>
+                    <button class="btn btn-outline-primary btn-rounded" onclick="$('#newDiscussionModel').modal()"><i class="MDI comment-plus-outline"></i>Post Discussion</button>
                 </div>
-                @foreach ($solution as $s)
+                @endauth
+                @foreach ($discussion as $d)
                     <div class="post-list">
-                        <div class="comment-number" id="poll_{{$s['psoid']}}">
-                            <strong><h3 id="vote_{{$s['psoid']}}">{{$s['votes']}}</h3></strong>
+                        <div class="comment-number">
+                            <strong><h3>{{$d['comment_count']}}</h3></strong>
                             <p>Comment</p>
                         </div>
                         <div class="post-title">
-                            <h3><a href="/">{{$s["content_parsed"]}}</a></h3>
+                        <h3><a href="/discussion/{{$d['pdid']}}">{{$d["title"]}}</a></h3>
                             <div class="user-section">
-                                <a href="/user/{{$s["uid"]}}"><img src="{{$s["avatar"]}}" class="cm-avatar-square">{{$s["name"]}}</a>@1月前
+                                <a href="/user/{{$d['uid']}}"><img src="{{$d['avatar']}}" class="cm-avatar-square">{{$d["name"]}}</a>@ {{$d['updated_at']}}
                             </div>
                         </div>
                     </div>
@@ -396,6 +398,32 @@
         </div>
     </div>
 </div>
+<div id="newDiscussionModel" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-alert" role="document">
+        <div class="modal-content sm-modal">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="MDI comment-multiple-outline"></i> Post Discussion
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="post_title" class="bmd-label-floating">Title</label>
+                    <input type="text" class="form-control" id="post_title">
+                </div>
+                <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
+                <markdown-editor class="mt-3 mb-3">
+                    <textarea id="markdown_editor"></textarea>
+                </markdown-editor>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="postBtn" onclick="postDiscussion()">
+                        <i class="MDI autorenew cm-refreshing d-none"></i> Post</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     document.getElementById("submitBtn").addEventListener("click",function(){
         location.href="/problem/{{$detail["pcode"]}}/editor";
@@ -417,13 +445,15 @@
 <script type="text/javascript" src="/static/library/marked/marked.min.js"></script>
 <script type="text/javascript" src="/static/library/dompurify/dist/purify.min.js"></script>
 <script>
+    hljs.initHighlighting();
+@auth
     var simplemde = new SimpleMDE({
         autosave: {
             enabled: true,
-            uniqueId: "problemSolutionDiscussion_{{Auth::user()->id}}_{{$detail["pid"]}}",
+            uniqueId: "markdown_editor",
             delay: 1000,
         },
-        element: $("#solution_editor")[0],
+        element: $("#markdown_editor")[0],
         hideIcons: ["guide", "heading","side-by-side","fullscreen"],
         spellChecker: false,
         tabSize: 4,
@@ -500,21 +530,17 @@
         ],
     });
 
-    hljs.initHighlighting();
-
-    @if(Auth::check())
-
-    var submitingSolutionDiscussion=false;
-
-    function submitSolutionDiscussion() {
-        if(submitingSolutionDiscussion)return;
-        else submitingSolutionDiscussion=true;
+    let ajaxing = false;
+    function postDiscussion() {
+        if(ajaxing)return;
+        ajaxing=true;
         $.ajax({
             type: 'POST',
-            url: '/ajax/submitSolutionDiscussion',
+            url: '/ajax/postDiscussion',
             data: {
-                pid: {{$detail["pid"]}},
-                content: simplemde.value(),
+                pcode: '{{$detail['pid']}}',
+                title: $('#post_title').val(),
+                content: simplemde.value()
             },
             dataType: 'json',
             headers: {
@@ -522,13 +548,11 @@
             }, success: function(ret){
                 console.log(ret);
                 if (ret.ret==200) {
-                    alert("Your Solution Has Been Recieved.");
-                    localStorage.removeItem('{{$detail["pcode"]}}')
-                    location.reload();
+                    location.href = "/discussion/" + ret.data;
                 } else {
                     alert(ret.desc);
                 }
-                submitingSolutionDiscussion=false;
+                ajaxing=false;
             }, error: function(xhr, type){
                 console.log(xhr);
                 switch(xhr.status) {
@@ -541,153 +565,12 @@
                     default:
                         alert("Server Connection Error");
                 }
-                console.log('Ajax error while posting to submitSolutionDiscussion!');
-                submitingSolutionDiscussion=false;
+                console.log('Ajax error while posting to postDiscussion!');
+                ajaxing=false;
             }
         });
     }
 
-    var votingSolutionDiscussion=false;
-
-    function voteSolutionDiscussion(psoid,type) {
-        if(votingSolutionDiscussion)return;
-        else votingSolutionDiscussion=true;
-        $.ajax({
-            type: 'POST',
-            url: '/ajax/voteSolutionDiscussion',
-            data: {
-                psoid: psoid,
-                type: type,
-            },
-            dataType: 'json',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }, success: function(ret){
-                console.log(ret);
-                if (ret.ret==200) {
-                    $(`#vote_${psoid}`).text(ret.data.votes);
-                    $(`#poll_${psoid} .btn-group div`).removeClass();
-                    if(ret.data.select==1) $(`#poll_${psoid} .btn-group div:first-of-type`).addClass("upvote-selected");
-                    if(ret.data.select==0) $(`#poll_${psoid} .btn-group div:last-of-type`).addClass("downvote-selected");
-                } else {
-                    alert(ret.desc);
-                }
-                votingSolutionDiscussion=false;
-            }, error: function(xhr, type){
-                console.log(xhr);
-                switch(xhr.status) {
-                    case 422:
-                        alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
-                        break;
-                    case 429:
-                        alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
-                        break;
-                    default:
-                        alert("Server Connection Error");
-                }
-                console.log('Ajax error while posting to voteSolutionDiscussion!');
-                votingSolutionDiscussion=false;
-            }
-        });
-    }
-
-        @if(!empty($submitted))
-
-        var updatingSolutionDiscussion=false;
-
-        function updateSolutionDiscussion() {
-            if(updatingSolutionDiscussion)return;
-            else updatingSolutionDiscussion=true;
-            $.ajax({
-                type: 'POST',
-                url: '/ajax/updateSolutionDiscussion',
-                data: {
-                    psoid: {{$submitted["psoid"]}},
-                    content: simplemde.value(),
-                },
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }, success: function(ret){
-                    console.log(ret);
-                    if (ret.ret==200) {
-                        alert("Your Solution Has Been Updated.");
-                        location.reload();
-                    } else {
-                        alert(ret.desc);
-                    }
-                    updatingSolutionDiscussion=false;
-                }, error: function(xhr, type){
-                    console.log(xhr);
-                    switch(xhr.status) {
-                        case 422:
-                            alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
-                            break;
-                        case 429:
-                            alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
-                            break;
-                        default:
-                            alert("Server Connection Error");
-                    }
-                    console.log('Ajax error while posting to updateSolutionDiscussion!');
-                    updatingSolutionDiscussion=false;
-                }
-            });
-        }
-
-        // var deletingSolutionDiscussion=false;
-
-        function deleteSolutionDiscussion() {
-            if(updatingSolutionDiscussion)return;
-            else updatingSolutionDiscussion=true;
-            $.ajax({
-                type: 'POST',
-                url: '/ajax/deleteSolutionDiscussion',
-                data: {
-                    psoid: {{$submitted["psoid"]}}
-                },
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }, success: function(ret){
-                    console.log(ret);
-                    if (ret.ret==200) {
-                        alert("Your Solution Has Been Deleted.");
-                        location.reload();
-                    } else {
-                        alert(ret.desc);
-                    }
-                    updatingSolutionDiscussion=false;
-                }, error: function(xhr, type){
-                    console.log(xhr);
-                    switch(xhr.status) {
-                        case 422:
-                            alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
-                            break;
-                        case 429:
-                            alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
-                            break;
-                        default:
-                            alert("Server Connection Error");
-                    }
-                    console.log('Ajax error while posting to deleteSolutionDiscussion!');
-                    updatingSolutionDiscussion=false;
-                }
-            });
-        }
-
-        @else
-        window.addEventListener('load', function(){
-            if(localStorage.getItem('{{$detail["pcode"]}}')){
-                simplemde.value(localStorage.getItem('{{$detail["pcode"]}}'));
-            }
-            else{
-                simplemde.value('```\n//input code here\n```');
-            }
-        })
-        @endif
-
-    @endif
-
+@endauth
 </script>
 @endsection
