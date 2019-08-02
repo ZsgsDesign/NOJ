@@ -162,8 +162,9 @@ class ProblemController extends Controller
         if ($problem->isBlocked($prob_detail["pid"])) {
             return abort('403');
         }
-        $discussion=$problem->discussionList($prob_detail["pid"])['list'];
-        $paginator=$problem->discussionList($prob_detail["pid"])['paginator'];
+        $list=$problem->discussionList($prob_detail["pid"]);
+        $discussion=$list['list'];
+        $paginator=$list['paginator'];
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.discussion', [
                                             'page_title'=> "Discussion",
                                             'site_title'=>config("app.name"),
@@ -187,15 +188,18 @@ class ProblemController extends Controller
         if ($problem->isBlocked($prob_detail["pid"])) {
             return abort('403');
         }
-        $solution=$problem->solutionList($prob_detail["pid"], Auth::check() ?Auth::user()->id : null);
-        $submitted=Auth::check() ? $problem->solution($prob_detail["pid"], Auth::user()->id) : [];
+        $detail=$problem->discussionDetail($dcode);
+        $main=$detail['main'];
+        $paginator=$detail['paginator'];
+        $comment=$detail['comment'];
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.discussion_post', [
                                             'page_title'=> "Discussion",
                                             'site_title'=>config("app.name"),
                                             'navigation' => $prob_detail["title"],
                                             'detail' => $prob_detail,
-                                            'solution'=>$solution,
-                                            'submitted'=>$submitted
+                                            'main'=>$main,
+                                            'paginator'=>$paginator,
+                                            'comment'=>$comment
                                         ]);
     }
 }

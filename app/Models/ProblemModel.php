@@ -537,4 +537,101 @@ class ProblemModel extends Model
 
         return "$difference $periods[$j] {$tense}";
     }
+
+    public function discussionDetail($pdid)
+    {
+        $main = DB::table('problem_discussion')->join(
+            "users",
+            "id",
+            "=",
+            "problem_discussion.uid"
+        )->where(
+            'problem_discussion.pdid',
+            '=',
+            $pdid
+        )->select([
+            'problem_discussion.pdid',
+            'problem_discussion.title',
+            'problem_discussion.content',
+            'problem_discussion.votes',
+            'problem_discussion.created_at',
+            'users.avatar',
+            'users.name',
+            'users.id as uid'
+        ])->get()->first();
+        $main['created_at'] = $this->formatTime($main['created_at']);
+
+        $paginator = DB::table('problem_discussion_comment')->join(
+            "users",
+            "id",
+            "=",
+            "problem_discussion_comment.uid"
+        )->where([
+            'problem_discussion_comment.pdid'=>$pdid,
+            'problem_discussion_comment.reply_id'=>null,
+            'problem_discussion_comment.audit'=>1
+        ])->select([
+            'problem_discussion_comment.pdcid',
+            'problem_discussion_comment.pdid',
+            'problem_discussion_comment.content',
+            'problem_discussion_comment.votes',
+            'problem_discussion_comment.created_at',
+            'users.avatar',
+            'users.name',
+            'users.id as uid'
+        ])->paginate(10);
+        $comment = $paginator->all();
+        foreach($comment as &$c){
+            $c['created_at'] = $this->formatTime($c['created_at']);
+            $c['reply'] = DB::table('problem_discussion_comment')->join(
+                "users",
+                "id",
+                "=",
+                "problem_discussion_comment.uid"
+            )->where(
+                'problem_discussion_comment.pdid',
+                '=',
+                $pdid
+            )->where(
+                'problem_discussion_comment.reply_id',
+                '!=',
+                null
+            )->where(
+                'problem_discussion.audit',
+                '=',
+                1
+            )->select([
+                'problem_discussion_comment.pdcid',
+                'problem_discussion_comment.pdid',
+                'problem_discussion_comment.content',
+                'problem_discussion_comment.reply_id',
+                'problem_discussion_comment.votes',
+                'problem_discussion_comment.created_at',
+                'users.avatar',
+                'users.name',
+                'users.id as uid'
+            ])->get()->all();
+        }
+        foreach($c['reply'] as &$cr){
+            $cr['reply_uid'] = DB::table('problem_discussion_comment')->where(
+                'pdcid',
+                '=',
+                $cr['reply_id']
+            )->get()->first()['uid'];
+            $cr['reply_name'] = DB::table('users')->where(
+                'id',
+                '=',
+                $cr['reply_uid']
+            )->get()->first()['name'];
+            $cr['created_at'] = $this->formatTime($cr['created_at']);
+        }
+
+        dd($main);
+
+        return [
+            'main' => $main,
+            'paginator' => $paginator,
+            'comment' => $comment
+        ];
+    }
 }
