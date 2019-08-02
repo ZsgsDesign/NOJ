@@ -14,17 +14,11 @@ class ProblemSearchModel extends Model
     public function search($key)
     {
         $result = [];
-        //problem code find
-        $ret = self::where('pcode', $key)
-            ->select('pcode', 'title')
-            ->first();
-        if(!empty($ret)){
-            array_push($result,$ret);
-        }
-        //problem name find
         if(strlen($key) >= 2){
-            $ret = self::whereRaw('MATCH(`title`) AGAINST (? IN BOOLEAN MODE)',[$key])
+            $ret = self::where('pcode', $key)
+                ->orWhereRaw('MATCH(`title`) AGAINST (? IN BOOLEAN MODE)',[$key])
                 ->select('pcode', 'title')
+                ->limit(120)
                 ->get()->all();
             if(!empty($ret)){
                 $result += $ret;

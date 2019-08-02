@@ -18,7 +18,9 @@ class SearchController extends Controller
             'page_title' => "Search",
             'site_title' => config("app.name"),
             'navigation' => null,
-            'search_key' => $request->input('q')
+            'search_key' => $request->input('q'),
+            'search_category' => $request->input('tab','problems'),
+            'page' => $request->input('page',1)
         ]);
     }
 }

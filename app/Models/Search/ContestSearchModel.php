@@ -20,6 +20,8 @@ class ContestSearchModel extends Model
         if(strlen($key) >= 2){
             $ret = self::whereRaw('MATCH(`name`) AGAINST (? IN BOOLEAN MODE)',[$key])
                 ->select('cid', 'gid', 'name', 'rule', 'public', 'verified', 'practice', 'rated', 'anticheated', 'begin_time', 'end_time')
+                ->orderBy('end_time','DESC')
+                ->limit(120)
                 ->get()->all();
             $user_id = Auth::user()->id;
             $contestModel = new ContestModel();

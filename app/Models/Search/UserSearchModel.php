@@ -11,17 +11,12 @@ class UserSearchModel extends Model
     public function search($key)
     {
         $result = [];
-        //email find
-        $ret = self::where('email',$key)
-            ->select('id','avatar', 'name', 'describes', 'professional_rate')
-            ->first();
-        if(!empty($ret)){
-            $result[] = $ret;
-        }
-        //user name find
         if(strlen($key) >= 2){
-            $ret = self::whereRaw('MATCH(`name`) AGAINST (? IN BOOLEAN MODE)',[$key])
+            $ret = self::where('email',$key)
+                ->orWhereRaw('MATCH(`name`) AGAINST (? IN BOOLEAN MODE)',[$key])
                 ->select('id','avatar', 'name',  'describes', 'professional_rate')
+                ->orderBy('professional_rate','DESC')
+                ->limit(120)
                 ->get()->all();
             if(!empty($ret)){
                 $result += $ret;

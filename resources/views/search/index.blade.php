@@ -426,6 +426,10 @@
         background: #6c757d;
         color: #fff;
     }
+
+    .page-item:not(.disabled){
+        cursor: pointer;
+    }
 </style>
 <div class="container mundb-standard-container">
     <paper-card type="plain">
@@ -472,25 +476,71 @@
                                             <i class="MDI package-variant"></i>
                                             <p>No results match your search keywords.<br/>Try using another keyword.</p>
                                         </empty-container>
+                                        <ul class="pagination justify-content-center" role="navigation" style="display:none">
+                                            <li class="page-item page-start disabled" aria-disabled="true" aria-label="« Previous">
+                                                <span class="page-link cm-navi" aria-hidden="true"><i class="MDI chevron-left"></i></span>
+                                            </li>
+                                            <li class="page-item active"><span class="page-link">1</span></li>
+
+                                            <li class="page-item page-end">
+                                                <a class="page-link cm-navi" rel="next" aria-label="Next »"><i class="MDI chevron-right"></i></a>
+                                            </li>
+                                        </ul>
                                     </div>
                                     <div id="content-contests" class="tab-pane fade" role="tabpanel" aria-labelledby="content-contests" data-parent="result-box">
+                                        <div class="content">
+
+                                        </div>
                                         <empty-container style="margin: 5rem 0;">
                                             <i class="MDI package-variant"></i>
                                             <p>No results match your search keywords.<br/>Try using another keyword.</p>
                                         </empty-container>
+                                        <ul class="pagination justify-content-center" role="navigation" style="display:none">
+                                            <li class="page-item page-start disabled" aria-disabled="true" aria-label="« Previous">
+                                                <span class="page-link cm-navi" aria-hidden="true"><i class="MDI chevron-left"></i></span>
+                                            </li>
+                                            <li class="page-item active"><span class="page-link">1</span></li>
+                                            <li class="page-item page-end">
+                                                <a class="page-link cm-navi" rel="next" aria-label="Next »"><i class="MDI chevron-right"></i></a>
+                                            </li>
+                                        </ul>
                                     </div>
                                     <div id="content-users" class="tab-pane fade" role="tabpanel" aria-labelledby="content-users" data-parent="result-box">
+                                        <div class="content">
+
+                                        </div>
                                         <empty-container style="margin: 5rem 0;">
                                             <i class="MDI package-variant"></i>
                                             <p>No results match your search keywords.<br/>Try using another keyword.</p>
                                         </empty-container>
+                                        <ul class="pagination justify-content-center" role="navigation" style="display:none">
+                                            <li class="page-item page-start disabled" aria-disabled="true" aria-label="« Previous">
+                                                <span class="page-link cm-navi" aria-hidden="true"><i class="MDI chevron-left"></i></span>
+                                            </li>
+                                            <li class="page-item active"><span class="page-link">1</span></li>
+                                            <li class="page-item page-end">
+                                                <a class="page-link cm-navi" rel="next" aria-label="Next »"><i class="MDI chevron-right"></i></a>
+                                            </li>
+                                        </ul>
                                     </div>
                                     <div id="content-groups" class="tab-pane fade" role="tabpanel" aria-labelledby="content-groups" data-parent="result-box">
+                                        <div class="content">
+
+                                        </div>
                                         <div class="row"></div>
                                         <empty-container style="margin: 5rem 0;">
                                             <i class="MDI package-variant"></i>
                                             <p>No results match your search keywords.<br/>Try using another keyword.</p>
                                         </empty-container>
+                                        <ul class="pagination justify-content-center" role="navigation" style="display:none">
+                                            <li class="page-item page-start disabled" aria-disabled="true" aria-label="« Previous">
+                                                <span class="page-link cm-navi" aria-hidden="true"><i class="MDI chevron-left"></i></span>
+                                            </li>
+                                            <li class="page-item active"><span class="page-link">1</span></li>
+                                            <li class="page-item page-end">
+                                                <a class="page-link cm-navi" rel="next" aria-label="Next »"><i class="MDI chevron-right"></i></a>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </category-section>
@@ -502,6 +552,8 @@
     </paper-card>
 </div>
 <script>
+    var paginator = [];
+
     var getUrlParameter = function getUrlParameter(sParam) {
         var sPageURL = window.location.search.substring(1),
             sURLVariables = sPageURL.split('&'),
@@ -545,8 +597,10 @@
 
             var result = [];
 
+
+
             $("category-tab > div").click(function() {
-                updateQueryStringParam("tabs",$(this).attr("data-tab"));
+                updateQueryStringParam("tab",$(this).attr("data-tab"));
             });
 
             function loadResult(){
@@ -554,7 +608,7 @@
                     url : '{{route("ajax.search")}}',
                     type : 'POST',
                     data : {
-                        search_key : decodeURIComponent('{{urlencode($search_key)}}')
+                        search_key : decodeURIComponent('{{urlencode($search_key)}}'),
                     },
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -593,13 +647,30 @@
                 $('#loading-tips').fadeOut(500,function(){
                     $('result-box').fadeIn(200);
                     for(let category in result) {
-                        $(`#category-${category} > span`).text(result[category].length);
-                        if(result[category].length>0) $(`#category-${category} > span`).addClass("filled");
+                        let category_count = result[category].length;
+                        $(`#category-${category} > span`).text(category_count);
+                        if(category_count.length>0) $(`#category-${category} > span`).addClass("filled");
+                        paginator[`${category}`] = {};
+                        paginator[`${category}`]['count'] = category_count;
+                        paginator[`${category}`]['all_pages'] = Math.ceil(category_count / 12.0);
+                        paginator[`${category}`]['html'] = {};
+                        for (let i = 1; i <= paginator[`${category}`]['all_pages']; i++) {
+                            paginator[`${category}`]['html'][i] = '';
+                        }
+
+                        var page_count = 0;
+                        var page = 1;
                         for(let item_id in result[category]){
                             item = result[category][item_id];
                             switch(category){
                                 case 'users':
-                                    $(`#content-users`).append(`
+                                    if (page_count < 12){
+                                        page_count ++;
+                                    }else{
+                                        page_count = 1;
+                                        page ++;
+                                    }
+                                    paginator['users']['html'][page] += `
                                     <user-card>
                                         <user-avatar>
                                             <a href="/user/${item['id']}"><img src="${item['avatar']}"></a>
@@ -611,74 +682,157 @@
                                             </p>
                                         </user-info>
                                     </user-card>
-                                    `)
-                                    $(`#content-users > empty-container`).remove();
+                                    `;
                                     break;
                                 case 'problems':
-                                    $(`#content-problems tbody`).append(`
+                                    if (page_count < 12){
+                                        page_count ++;
+                                    }else{
+                                        page_count = 1;
+                                        page ++;
+                                    }
+                                    paginator['problems']['html'][page] += `
                                         <tr id="p-${item['pcode']}">
                                             <th scope="row">${item['pcode']}</th>
                                             <td>${item['title']}</td>
                                         </tr>
-                                    `);
-                                    $(`#content-problems > empty-container`).remove();
+                                    `;
                                     break;
                                 case 'contests':
-                                    $(`#content-contests`).append(`
-                                    <contest-card>
-                                        <date-div>
-                                            <p class="sm-date">${item['date_parsed']['date']}</p>
-                                            <small class="sm-month">${item['date_parsed']['month_year']}</small>
-                                        </date-div>
-                                        <info-div>
-                                            <h5 class="sm-contest-title">
-                                                ${item['audit_status'] == 0 ? '<i class="MDI gavel wemd-brown-text" title="This contest is under review"></i>' : ''}
-                                                ${item['public'] == 0 ? '<i class="MDI incognito wemd-red-text" title="This is a private contest"></i>' : ''}
-                                                ${item['verified'] == 1 ? '<i class="MDI marker-check wemd-light-blue-text" title="This is a verified contest"></i>' : ''}
-                                                ${item['practice'] == 1 ? '<i class="MDI sword wemd-green-text"  title="This is a contest for praticing"></i>' : ''}
-                                                ${item['rated'] == 1 ? '<i class="MDI seal wemd-purple-text" title="This is a rated contest"></i>' : ''}
-                                                ${item['anticheated'] == 1 ? '<i class="MDI do-not-disturb-off wemd-teal-text" title="Anti-cheat enabled"></i>' : ''}
-                                                ${item['name']}
-                                            </h5>
-                                            <p class="sm-contest-info">
-                                                <span class="badge badge-pill wemd-amber sm-contest-type"><i class="MDI trophy"></i> ${item['rule_parsed']}</span>
-                                                <span class="sm-contest-time"><i class="MDI clock"></i> ${item['length']}</span>
-                                            </p>
-                                        </info-div>
-                                    </contest-card>
-                                    `);
-                                    $(`#content-contests > empty-container`).remove();
+                                    if (page_count < 12){
+                                        page_count ++;
+                                    }else{
+                                        page_count = 1;
+                                        page ++;
+                                    }
+                                    paginator['contests']['html'][page]+=`
+                                        <contest-card data-cid="${item['cid']}">
+                                            <date-div>
+                                                <p class="sm-date">${item['date_parsed']['date']}</p>
+                                                <small class="sm-month">${item['date_parsed']['month_year']}</small>
+                                            </date-div>
+                                            <info-div>
+                                                <h5 class="sm-contest-title">
+                                                    ${item['audit_status'] == 0 ? '<i class="MDI gavel wemd-brown-text" title="This contest is under review"></i>' : ''}
+                                                    ${item['public'] == 0 ? '<i class="MDI incognito wemd-red-text" title="This is a private contest"></i>' : ''}
+                                                    ${item['verified'] == 1 ? '<i class="MDI marker-check wemd-light-blue-text" title="This is a verified contest"></i>' : ''}
+                                                    ${item['practice'] == 1 ? '<i class="MDI sword wemd-green-text"  title="This is a contest for praticing"></i>' : ''}
+                                                    ${item['rated'] == 1 ? '<i class="MDI seal wemd-purple-text" title="This is a rated contest"></i>' : ''}
+                                                    ${item['anticheated'] == 1 ? '<i class="MDI do-not-disturb-off wemd-teal-text" title="Anti-cheat enabled"></i>' : ''}
+                                                    ${item['name']}
+                                                </h5>
+                                                <p class="sm-contest-info">
+                                                    <span class="badge badge-pill wemd-amber sm-contest-type"><i class="MDI trophy"></i> ${item['rule_parsed']}</span>
+                                                    <span class="sm-contest-time"><i class="MDI clock"></i> ${item['length']}</span>
+                                                </p>
+                                            </info-div>
+                                        </contest-card>
+                                    `;
                                     break;
                                 case 'groups':
-                                    $('#content-groups div.row').append(`
-                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                        <a href="/group/${item['gcode']}">
-                                            <group-card>
-                                                <div>
-                                                    <shadow-div>
-                                                        <img src="${item['img']}">
-                                                    </shadow-div>
-                                                </div>
-                                                <div>
-                                                    <p class="cm-group-name">${item['verified'] == 1 ? '<i class="MDI marker-check wemd-light-blue-text"></i>' : ''}${item['name']}</p>
-                                                    <small class="cm-group-info">${item['description']}</small>
-                                                </div>
-                                            </group-card>
-                                        </a>
-                                    </div>
-                                    `);
-                                    $(`#content-groups > empty-container`).remove();
+                                    if (page_count < 12){
+                                        page_count ++;
+                                    }else{
+                                        page_count = 1;
+                                        page ++;
+                                    }
+                                    paginator['groups']['html'][page]+=`
+                                        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+                                            <a href="/group/${item['gcode']}">
+                                                <group-card>
+                                                    <div>
+                                                        <shadow-div>
+                                                            <img src="${item['img']}">
+                                                        </shadow-div>
+                                                    </div>
+                                                    <div>
+                                                        <p class="cm-group-name">${item['verified'] == 1 ? '<i class="MDI marker-check wemd-light-blue-text"></i>' : ''}${item['name']}</p>
+                                                        <small class="cm-group-info" style="display:inline-block; width:100% ;overflow: hidden; white-space: nowrap; text-overflow:ellipsis" title="${item['description']}">${item['description']}</small>
+                                                    </div>
+                                                </group-card>
+                                            </a>
+                                        </div>
+                                    `;
                                     break;
+                            }
+                        }
+
+                        if(paginator[`${category}`]['count'] != 0){
+                            if(category == 'problems'){
+                                $('#content-problems tbody').html(paginator['problems']['html'][1]);
+                                $('#content-problems empty-container').remove();
+                            }else{
+                                $(`#content-${category} div.content`).html(paginator[`${category}`]['html'][1]);
+                                $(`#content-${category} empty-container`).remove();
+                            }
+
+                            $(`#content-${category} .pagination`).show();
+                            if(paginator[`${category}`]['all_pages'] >= 2){
+                                for (let i = 2; i <= paginator[`${category}`]['all_pages']; i++) {
+                                    $(`#content-${category} .pagination li.page-end`).before(`
+                                        <li class="page-item"><a class="page-link">${i}</a></li>
+                                    `);
+                                }
+                            }else{
+                                $(`#content-${category} .pagination`).remove();
                             }
                         }
                     }
                     registerEvent();
+                    registerPageLink();
+                });
+            }
+
+            function registerPageLink(){
+                $('.page-item').on('click',function(){
+                    if($(this).is('.disabled')) return;
+                    var tab = $('category-tab div.active').attr('data-tab');
+                    var page = $(this).text();
+                    if(parseInt(page) >= 1 || parseInt(page) <= 1){
+                        $(this).siblings().removeClass('disabled').removeClass('active');
+                        if(page == 1)
+                            $(this).siblings('.page-start').addClass('disabled');
+                        if(page == paginator[`${tab}`]['all_pages'])
+                            $(this).siblings('.page-end').addClass('disabled');
+                        $(this).addClass('active');
+                        if(tab == 'problems'){
+                            $('#content-problems tbody').html(paginator[`${tab}`]['html'][page]);
+                        }else{
+                            $(`#content-${tab} div.content`).html(paginator[`${tab}`]['html'][page]);
+                        }
+                        registerEvent();
+                    }else{
+                        var active_ele = $(this).siblings('.active');
+                        if($(this).is('.page-start')){
+                            var ele = active_ele.prev();
+                            page = ele.text();
+                        }else{
+                            var ele = active_ele.next();
+                            page = ele.text();
+                        }
+                        $(this).siblings().removeClass('disabled').removeClass('active');
+                        if(page == 1)
+                            ele.siblings('.page-start').addClass('disabled');
+                        if(page == paginator[`${tab}`]['all_pages'])
+                            ele.siblings('.page-end').addClass('disabled');
+                        ele.addClass('active');
+                        if(tab == 'problems'){
+                            $('#content-problems tbody').html(paginator[`${tab}`]['html'][page]);
+                        }else{
+                            $(`#content-${tab} div.content`).html(paginator[`${tab}`]['html'][page]);
+                        }
+                        registerEvent();
+                    }
                 });
             }
 
             function registerEvent(){
                 $('user-card').on('click',function(){
                     window.location = $(this).find('a').attr('href');
+                });
+
+                $('contest-card').on('click',function(){
+                    window.location = '/contest/' + $(this).attr('data-cid');
                 });
 
                 $('#content-problems tbody tr').on('click',function(){

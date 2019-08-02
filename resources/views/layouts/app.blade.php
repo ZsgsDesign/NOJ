@@ -225,6 +225,12 @@
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
                     <form id="search-box" action="/search" method="get" class="form-inline my-2 my-lg-0 mundb-inline">
                         <span class="bmd-form-group"><input id="search-key" class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" value="{{$search_key ?? ''}}" placeholder="Onmi Search" autocomplete="off" aria-label="search"></span>
+                        <input type="hidden" name="tab" value="{{
+                            $navigation == 'DashBoard' ? 'users' :
+                            ($navigation == 'Group' ? 'groups' : (
+                            $navigation == 'Contest' ? 'contests' : 'problems'
+                            ))
+                        }}">
                     </form>
                     @endif
 
