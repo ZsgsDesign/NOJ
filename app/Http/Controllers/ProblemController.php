@@ -180,10 +180,11 @@ class ProblemController extends Controller
      *
      * @return Response
      */
-    public function discussionPost($pcode,$dcode)
+    public function discussionPost($dcode)
     {
         //TODO
         $problem=new ProblemModel();
+        $pcode=$problem->pcodeByPdid($dcode);
         $prob_detail=$problem->detail($pcode);
         if ($problem->isBlocked($prob_detail["pid"])) {
             return abort('403');

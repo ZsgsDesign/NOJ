@@ -632,4 +632,11 @@ class ProblemModel extends Model
             'comment' => $comment
         ];
     }
+
+    public function pcodeByPdid($dcode)
+    {
+        $pid = DB::table('problem_discussion')->where('pdid','=',$dcode)->get()->first()['pid'];
+        $pcode = pcode($pid);
+        return $pcode;
+    }
 }
