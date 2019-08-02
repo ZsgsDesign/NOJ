@@ -660,6 +660,12 @@
                 className: "MDI format-italic",
                 title: "Italic",
             },
+            {
+                name: "strikethrough",
+                action: SimpleMDE.toggleStrikethrough,
+                className: "MDI format-strikethrough",
+                title: "Strikethrough",
+            },
             "|",
             {
                 name: "quote",
