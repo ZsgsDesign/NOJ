@@ -21,19 +21,7 @@
         "permission": null,
         "created_at": null,
         "updated_at": null,
-        "roles": [
-            {
-                "id": 1,
-                "name": "Administrator",
-                "slug": "administrator",
-                "created_at": "2019-04-10 10:11:45",
-                "updated_at": "2019-04-10 10:11:45",
-                "pivot": {
-                    "menu_id": 2,
-                    "role_id": 1
-                }
-            }
-        ],
+        "roles": [],
         "children": [
             {
                 "id": 3,
@@ -42,54 +30,6 @@
                 "title": "Users",
                 "icon": "fa-users",
                 "uri": "auth\/users",
-                "permission": null,
-                "created_at": null,
-                "updated_at": null,
-                "roles": []
-            },
-            {
-                "id": 4,
-                "parent_id": 2,
-                "order": 4,
-                "title": "Roles",
-                "icon": "fa-user",
-                "uri": "auth\/roles",
-                "permission": null,
-                "created_at": null,
-                "updated_at": null,
-                "roles": []
-            },
-            {
-                "id": 5,
-                "parent_id": 2,
-                "order": 5,
-                "title": "Permission",
-                "icon": "fa-ban",
-                "uri": "auth\/permissions",
-                "permission": null,
-                "created_at": null,
-                "updated_at": null,
-                "roles": []
-            },
-            {
-                "id": 6,
-                "parent_id": 2,
-                "order": 6,
-                "title": "Menu",
-                "icon": "fa-bars",
-                "uri": "auth\/menu",
-                "permission": null,
-                "created_at": null,
-                "updated_at": null,
-                "roles": []
-            },
-            {
-                "id": 7,
-                "parent_id": 2,
-                "order": 7,
-                "title": "Operation log",
-                "icon": "fa-history",
-                "uri": "auth\/logs",
                 "permission": null,
                 "created_at": null,
                 "updated_at": null,
@@ -107,19 +47,7 @@
         "permission": null,
         "created_at": "2019-04-10 16:45:06",
         "updated_at": "2019-04-10 17:01:18",
-        "roles": [
-            {
-                "id": 1,
-                "name": "Administrator",
-                "slug": "administrator",
-                "created_at": "2019-04-10 10:11:45",
-                "updated_at": "2019-04-10 10:11:45",
-                "pivot": {
-                    "menu_id": 8,
-                    "role_id": 1
-                }
-            }
-        ]
+        "roles": []
     },
     {
         "id": 9,
@@ -131,19 +59,7 @@
         "permission": null,
         "created_at": "2019-04-10 16:57:47",
         "updated_at": "2019-04-10 17:01:18",
-        "roles": [
-            {
-                "id": 1,
-                "name": "Administrator",
-                "slug": "administrator",
-                "created_at": "2019-04-10 10:11:45",
-                "updated_at": "2019-04-10 10:11:45",
-                "pivot": {
-                    "menu_id": 9,
-                    "role_id": 1
-                }
-            }
-        ]
+        "roles": []
     },
     {
         "id": 10,
@@ -155,19 +71,7 @@
         "permission": null,
         "created_at": "2019-04-10 16:59:25",
         "updated_at": "2019-04-10 17:01:18",
-        "roles": [
-            {
-                "id": 1,
-                "name": "Administrator",
-                "slug": "administrator",
-                "created_at": "2019-04-10 10:11:45",
-                "updated_at": "2019-04-10 10:11:45",
-                "pivot": {
-                    "menu_id": 10,
-                    "role_id": 1
-                }
-            }
-        ]
+        "roles": []
     },
     {
         "id": 11,
@@ -179,19 +83,7 @@
         "permission": null,
         "created_at": "2019-04-10 17:00:09",
         "updated_at": "2019-04-10 17:01:18",
-        "roles": [
-            {
-                "id": 1,
-                "name": "Administrator",
-                "slug": "administrator",
-                "created_at": "2019-04-10 10:11:45",
-                "updated_at": "2019-04-10 10:11:45",
-                "pivot": {
-                    "menu_id": 11,
-                    "role_id": 1
-                }
-            }
-        ]
+        "roles": []
     },
     {
         "id": 12,
@@ -203,19 +95,7 @@
         "permission": null,
         "created_at": "2019-04-10 17:00:29",
         "updated_at": "2019-04-10 17:01:18",
-        "roles": [
-            {
-                "id": 1,
-                "name": "Administrator",
-                "slug": "administrator",
-                "created_at": "2019-04-10 10:11:45",
-                "updated_at": "2019-04-10 10:11:45",
-                "pivot": {
-                    "menu_id": 12,
-                    "role_id": 1
-                }
-            }
-        ]
+        "roles": []
     },
     {
         "id": 13,
