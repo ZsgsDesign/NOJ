@@ -348,16 +348,16 @@
                 <div class="text-center">
                     <button class="btn btn-outline-primary btn-rounded" onclick="newDiscussion()"><i class="MDI comment-plus-outline"></i>New Discussion</button>
                 </div>
-                @foreach ($solution as $s)
+                @foreach ($discussion as $d)
                     <div class="post-list">
-                        <div class="comment-number" id="poll_{{$s['psoid']}}">
-                            <strong><h3 id="vote_{{$s['psoid']}}">{{$s['votes']}}</h3></strong>
+                        <div class="comment-number">
+                            <strong><h3>{{$d['comment_count']}}</h3></strong>
                             <p>Comment</p>
                         </div>
                         <div class="post-title">
-                            <h3><a href="/">{{$s["content_parsed"]}}</a></h3>
+                        <h3><a href="/discussion/{{$d['pdid']}}">{{$d["title"]}}</a></h3>
                             <div class="user-section">
-                                <a href="/user/{{$s["uid"]}}"><img src="{{$s["avatar"]}}" class="cm-avatar-square">{{$s["name"]}}</a>@1月前
+                                <a href="/user/{{$d['uid']}}"><img src="{{$d['avatar']}}" class="cm-avatar-square">{{$d["name"]}}</a>@ {{$d['updated_at']}}
                             </div>
                         </div>
                     </div>
