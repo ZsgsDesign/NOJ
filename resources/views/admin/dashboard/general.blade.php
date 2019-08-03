@@ -3,6 +3,7 @@ version-badge {
     display:inline-block;
     font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
     color: #fff;
+    margin-bottom: 3rem;
 }
 
 version-badge > inline-div:first-of-type{
@@ -46,6 +47,11 @@ version-badge > inline-div:last-of-type{
                 <version-badge>
                     <inline-div>Version</inline-div><inline-div>{{$status[0]['value']}}</inline-div>
                 </version-badge>
+                <div>
+                    <a class="btn btn-sm btn-default" title="Update to 0.3.0">
+                        <i class="MDI update"></i><span class="hidden-xs">&nbsp;&nbsp;Update to 0.3.0</span>
+                    </a>
+                </div>
             </div>
             <table class="table table-striped">
 

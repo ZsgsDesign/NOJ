@@ -15,6 +15,12 @@
             </div>
         </div>
 
+        <style>
+        .sidebar-menu .MDI{
+            transform: scale(1.2);
+        }
+        </style>
+
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
             <li class="header">{{ trans('admin.menu') }}</li>
