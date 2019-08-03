@@ -1349,7 +1349,17 @@
                 }, success: function(ret){
                     console.log(ret);
                     if (ret.ret==200) {
-                        alert(ret.desc);
+                        confirm({
+                            contest : 'Successful!',
+                            yesText : 'jump to',
+                            noText : 'return'
+                        },function(deny){
+                            if(deny){
+                                $('#contestModal').modal('hide');
+                            }else{
+                                window.location = '/contest/' + ret.data;
+                            }
+                        })
                         //location.reload();
                     } else {
                         alert(ret.desc);
@@ -1365,6 +1375,17 @@
             });
         });
 
+        $('#switch-public').on('click',function(){
+            if($('#switch-public').prop('checked') == true && $('#switch-practice').prop('checked') == true){
+                $('#switch-practice').prop('checked',!$('#switch-practice').prop('checked'));
+            }
+        });
+
+        $('#switch-practice').on('click',function(){
+            if($('#switch-practice').prop('checked') == true &&  $('#switch-public').prop('checked') == true){
+                $('#switch-public').prop('checked',!$('#switch-public').prop('checked'));
+            }
+        });
 
         $("#InviteBtn").click(function() {
             if(ajaxing) return;
