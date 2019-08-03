@@ -37,7 +37,7 @@ class ExtensionModel extends Model
                     $BabelConfig=[];
                 }
                 if (!empty($BabelConfig)) {
-                    if ($BabelConfig["version"]='__cur__') {
+                    if ($BabelConfig["version"]=='__cur__') {
                         $BabelConfig["version"]=explode("-", version())[0];
                     }
                     $downloadedVersion=new Version($BabelConfig["version"]);
