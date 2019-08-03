@@ -74,7 +74,7 @@
         $(`#notice${id}`).modal('toggle');
     }
 
-    function confirm ({content="",title="Confirm",icon="information-outline",backdrop="static"}={},callback=function(deny){}){
+    function confirm ({content="",title="Confirm",icon="information-outline",backdrop="static",noText="Cancel",yesText="OK"}={},callback=function(deny){}){
         var id = new Date().getTime();
         if(backdrop !== "static") backdrop = backdrop?"true":"false";
         $('body').append(`
@@ -88,8 +88,8 @@
                             ${content}
                         </div>
                         <div class="modal-footer">
-                            <button type="button" id="confirmDeny${id}" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="button" id="confirmDone${id}" class="btn btn-primary" data-dismiss="modal">OK</button>
+                            <button type="button" id="confirmDeny${id}" class="btn btn-secondary" data-dismiss="modal">${noText}</button>
+                            <button type="button" id="confirmDone${id}" class="btn btn-primary" data-dismiss="modal">${yesText}</button>
                         </div>
                     </div>
                 </div>

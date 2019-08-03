@@ -1495,7 +1495,8 @@ class ContestModel extends Model
 
     public function arrangeContest($gid, $config, $problems)
     {
-        DB::transaction(function () use ($gid, $config, $problems) {
+        $cid = -1;
+        DB::transaction(function () use ($gid, $config, $problems,&$cid) {
             $cid=DB::table($this->tableName)->insertGetId([
                 "gid"=>$gid,
                 "name"=>$config["name"],
@@ -1533,6 +1534,7 @@ class ContestModel extends Model
                 ]);
             }
         }, 5);
+        return $cid;
     }
 
     public function updateContestRankTable($cid,$sub)
