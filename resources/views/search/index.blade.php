@@ -648,7 +648,7 @@
                     $('result-box').fadeIn(200);
                     for(let category in result) {
                         let category_count = result[category].length;
-                        $(`#category-${category} > span`).text(category_count);
+                        $(`#category-${category} > span`).text(category_count >= 120 ? '120+' : category_count);
                         if(category_count.length>0) $(`#category-${category} > span`).addClass("filled");
                         paginator[`${category}`] = {};
                         paginator[`${category}`]['count'] = category_count;

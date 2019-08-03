@@ -29,7 +29,9 @@ class GroupController extends Controller
             'begin_time' => 'required|date',
             'end_time' => 'required|date|after:begin_time',
             'gid' => 'required|integer',
-            'description' => 'string'
+            'description' => 'string',
+            'public' => 'integer',
+            'practice' => 'integer'
         ]);
 
         $all_data=$request->all();
@@ -68,6 +70,7 @@ class GroupController extends Controller
             "begin_time"=>$all_data["begin_time"],
             "end_time"=>$all_data["end_time"],
             "practice"=>$all_data["practice"] ?? 0,
+            "public"=>$all_data["public"] ?? 0,
         ], $problemSet);
 
         return ResponseModel::success(200);

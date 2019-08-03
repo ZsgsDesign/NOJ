@@ -797,7 +797,7 @@
                         </div>
                         <div class="switch">
                             <label>
-                                <input type="checkbox" disabled>
+                                <input id="switch-public" type="checkbox">
                                 Public Contest
                             </label>
                         </div>
@@ -1304,6 +1304,7 @@
             var contestBegin = $("#contestBegin").val();
             var contestEnd = $("#contestEnd").val();
             var practiceContest = $("#switch-practice").prop("checked") == true ? 1 : 0;
+            var publicContest = $('#switch-public').prop("checked") == true ? 1 : 0;
             var problemSet = "";
             var contestDescription = simplemde.value();
             $("#contestProblemSet td:first-of-type").each(function(){
@@ -1339,6 +1340,7 @@
                     begin_time: contestBegin,
                     end_time: contestEnd,
                     practice : practiceContest,
+                    public : publicContest,
                     gid: {{$basic_info["gid"]}}
                 },
                 dataType: 'json',
