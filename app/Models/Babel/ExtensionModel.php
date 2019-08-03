@@ -21,6 +21,7 @@ class ExtensionModel extends Model
     {
         $ret=[];
         $marketspaceRaw=self::getRemote();
+        if(empty($marketspaceRaw)) return [];
         foreach($marketspaceRaw["packages"] as $extension){
             $temp=[
                 "details"=>$extension,
@@ -30,6 +31,7 @@ class ExtensionModel extends Model
                 "settings"=>null,
                 "available"=>null
             ];
+            $temp["details"]["typeParsed"]=$temp["details"]["type"]=="virtual-judge"?"VirtualJudge":"OnlineJudge";
             try {
                 try {
                     $BabelConfig=json_decode(file_get_contents(babel_path("Extension/{$extension['code']}/babel.json")), true);

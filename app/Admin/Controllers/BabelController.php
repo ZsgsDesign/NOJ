@@ -7,6 +7,7 @@ use App\Models\Babel\ExtensionModel;
 use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
+use Illuminate\Support\Facades\Redirect;
 
 class BabelController extends Controller
 {
@@ -31,7 +32,9 @@ class BabelController extends Controller
     {
         $extensionList=ExtensionModel::list();
 
-        dd($extensionList);
+        if(empty($extensionList)){
+            return redirect('/admin');
+        }
 
         return view('admin::babel.marketspace', [
             'extensionList'=>$extensionList
