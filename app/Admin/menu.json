@@ -223,12 +223,24 @@
         "id": 23,
         "parent_id": 0,
         "order": 23,
-        "title": "Redis manager",
+        "title": "Redis Manager",
         "icon": "MDI database",
         "uri": "redis",
         "permission": null,
         "created_at": "2019-04-22 13:13:45",
         "updated_at": "2019-04-22 13:13:45",
+        "roles": []
+    },
+    {
+        "id": 24,
+        "parent_id": 0,
+        "order": 24,
+        "title": "Babel Marketspace",
+        "icon": "MDI cube-outline",
+        "uri": "babel",
+        "permission": null,
+        "created_at": "2019-08-03 16:53:35",
+        "updated_at": "2019-08-03 16:53:35",
         "roles": []
     }
 ]

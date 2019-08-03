@@ -17,4 +17,8 @@ Route::group([
     $router->resource('contests', ContestController::class);
     $router->resource('groups', GroupController::class);
 
+    Route::group(['prefix' => 'babel'], function (Router $router) {
+        $router->get('/', 'BabelController@index');
+    });
+
 });
