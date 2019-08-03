@@ -65,7 +65,7 @@
                         </td>
                         <td>
                             <p class="extension-description">{{$extension["details"]["description"]}}</p>
-                            <p class="wemd-grey-text">Version {{$extension["details"]["version"]}} - {{$extension["details"]["typeParsed"]}}</p>
+                            <p class="wemd-grey-text">Version {{$extension["version"]}} - {{$extension["details"]["typeParsed"]}}</p>
                         </td>
                     </tr>
                 @endforeach
