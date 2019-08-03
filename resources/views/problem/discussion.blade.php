@@ -418,8 +418,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="postBtn" onclick="postDiscussion()">
-                        <i class="MDI autorenew cm-refreshing d-none"></i> Post</button>
+                <button type="button" class="btn btn-primary" id="postBtn" onclick="postDiscussion()">Post</button>
             </div>
         </div>
     </div>

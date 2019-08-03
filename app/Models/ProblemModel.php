@@ -611,20 +611,21 @@ class ProblemModel extends Model
                 'users.name',
                 'users.id as uid'
             ])->get()->all();
+            foreach($c['reply'] as &$cr){
+                $cr['reply_uid'] = DB::table('problem_discussion_comment')->where(
+                    'pdcid',
+                    '=',
+                    $cr['reply_id']
+                )->get()->first()['uid'];
+                $cr['reply_name'] = DB::table('users')->where(
+                    'id',
+                    '=',
+                    $cr['reply_uid']
+                )->get()->first()['name'];
+                $cr['created_at'] = $this->formatTime($cr['created_at']);
+            }
         }
-        foreach($c['reply'] as &$cr){
-            $cr['reply_uid'] = DB::table('problem_discussion_comment')->where(
-                'pdcid',
-                '=',
-                $cr['reply_id']
-            )->get()->first()['uid'];
-            $cr['reply_name'] = DB::table('users')->where(
-                'id',
-                '=',
-                $cr['reply_uid']
-            )->get()->first()['name'];
-            $cr['created_at'] = $this->formatTime($cr['created_at']);
-        }
+
 
         return [
             'main' => $main,
@@ -636,7 +637,7 @@ class ProblemModel extends Model
     public function pcodeByPdid($dcode)
     {
         $pid = DB::table('problem_discussion')->where('pdid','=',$dcode)->get()->first()['pid'];
-        $pcode = pcode($pid);
+        $pcode = $this->pcode($pid);
         return $pcode;
     }
 }
