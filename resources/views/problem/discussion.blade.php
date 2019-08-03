@@ -538,7 +538,7 @@
             type: 'POST',
             url: '/ajax/postDiscussion',
             data: {
-                pcode: '{{$detail['pid']}}',
+                pid: '{{$detail['pid']}}',
                 title: $('#post_title').val(),
                 content: simplemde.value()
             },

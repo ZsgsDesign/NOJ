@@ -235,4 +235,24 @@ class ProblemController extends Controller
 
         return ResponseModel::success(200, null, ["history"=>$history]);
     }
+
+    public function postDiscussion(Request $request)
+    {
+        $request->validate([
+            'pid' => 'required|integer',
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+        $all_data=$request->all();
+        $problemModel=new ProblemModel();
+        $pid=$all_data["pid"];
+        $title=$all_data["title"];
+        $content=$all_data["content"];
+        $basic=$problemModel->basic($pid);
+        if (empty($basic)) {
+            return ResponseModel::err(3001);
+        }
+        $ret=$problemModel->addDiscussion(Auth::user()->id,$pid,$title,$content);
+        return $ret?ResponseModel::success(200):ResponseModel::err(3003);
+    }
 }

@@ -636,7 +636,22 @@ class ProblemModel extends Model
     public function pcodeByPdid($dcode)
     {
         $pid = DB::table('problem_discussion')->where('pdid','=',$dcode)->get()->first()['pid'];
-        $pcode = pcode($pid);
+        $pcode = $this->pcode($pid);
         return $pcode;
+    }
+
+    public function addDiscussion($uid, $pid, $title, $content)
+    {
+        $pdid=DB::table("problem_solution")->insertGetId([
+            "uid"=>$uid,
+            "pid"=>$pid,
+            "title"=>$title,
+            "content"=>$content,
+            "votes"=>0,
+            "audit"=>1,
+            "created_at"=>date("Y-m-d H:i:s"),
+            "updated_at"=>date("Y-m-d H:i:s"),
+        ]);
+        return $pdid;
     }
 }
