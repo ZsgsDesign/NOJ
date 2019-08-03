@@ -2,6 +2,8 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\Update\UpdateModel;
+
 class DashboardController
 {
     /**
@@ -9,8 +11,11 @@ class DashboardController
      */
     public static function general()
     {
+        $version=UpdateModel::checkUpdate();
+
         $status = [
             ['name' => 'NOJ Version',       'value' => version()],
+            ['name' => 'Lastest Version',       'value' => is_null($version)?'Failed to fetch latest version':$version["name"]],
             ['name' => 'Problems',          'value' => \App\Models\Eloquent\ProblemModel::count()],
             ['name' => 'Solutions',         'value' => \App\Models\Eloquent\ProblemSolutionModel::count()],
             ['name' => 'Submissions',       'value' => \App\Models\Eloquent\SubmissionModel::count()],
@@ -19,6 +24,9 @@ class DashboardController
             ['name' => 'Groups',            'value' => \App\Models\Eloquent\GroupModel::count()],
         ];
 
-        return view('admin::dashboard.general', compact('status'));
+        return view('admin::dashboard.general', [
+            'status'=>$status,
+            'version'=>$version
+        ]);
     }
 }

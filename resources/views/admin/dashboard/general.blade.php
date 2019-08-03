@@ -47,11 +47,21 @@ version-badge > inline-div:last-of-type{
                 <version-badge>
                     <inline-div>Version</inline-div><inline-div>{{$status[0]['value']}}</inline-div>
                 </version-badge>
+                @unless(is_null($version))
+                @if($version["updatable"])
                 <div>
-                    <a class="btn btn-sm btn-default" title="Update to 0.3.0">
-                        <i class="MDI update"></i><span class="hidden-xs">&nbsp;&nbsp;Update to 0.3.0</span>
+                    <a class="btn btn-sm btn-default" title="Update to {{$version}}">
+                        <i class="MDI update"></i><span class="hidden-xs">&nbsp;&nbsp;Update to {{$version}}</span>
                     </a>
                 </div>
+                @else
+                <div>
+                    <a class="btn btn-sm btn-default btn-disabled" disabled title="Already Latest">
+                        <i class="MDI update"></i><span class="hidden-xs">&nbsp;&nbsp;Already Latest</span>
+                    </a>
+                </div>
+                @endif
+                @endunless
             </div>
             <table class="table table-striped">
 
