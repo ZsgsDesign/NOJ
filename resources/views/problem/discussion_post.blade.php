@@ -480,71 +480,52 @@
         max-width: 100%
     }
 </style>
+
 <div class="container mundb-standard-container">
     <div class="row">
         <div class="col-sm-12 col-lg-9">
-                @foreach ($solution as $s)
-                @endforeach
             <paper-card class="animated fadeInLeft p-3">
                 <div class="user-section">
-                    <a href="/user/{{$s["uid"]}}"><img src="{{$s["avatar"]}}" class="cm-avatar-square">{{$s["name"]}}</a>@1月前
+                    <a href="/user/{{$main["uid"]}}"><img src="{{$main["avatar"]}}" class="cm-avatar-square">{{$main["name"]}}</a>@ {{$main['created_at']}}
                 </div>
                 <markdown-content>
-                        {!!$s["content_parsed"]!!}
+                    {!!$main["content"]!!}
                 </markdown-content>
                 <div class="post-bottom">
                     <small>X Views</small>
                 </div>
             </paper-card>
-
             <paper-card class="animated fadeInLeft p-3">
-                <h3>3 Comment</h3>
-                <solution-section>
-                        <img src="{{$s["avatar"]}}" class="cm-avatar">
-                        <div class="content-section">
-                            <div class="user-section">
-                                <a href="/user/{{$s["uid"]}}">{{$s["name"]}}</a>@1月前
-                                <div class="float-right"></div>
-                                <button class="btn btn-primary float-right btn-rounded"><i class="MDI thumb-up-outline"></i>100</button>
-                                <button class="btn btn-primary float-right btn-rounded"><i class="MDI reply"></i>2</button>
-                            </div>
-
-                            <markdown-content>
-                                {!!$s["content_parsed"]!!}
-                            </markdown-content>
-                            <solution-section>
-                                <img src="{{$s["avatar"]}}" class="cm-avatar">
-                                <div class="content-section">
-                                    <a href="/user/{{$s["uid"]}}">{{$s["name"]}}</a>@1月前
-                                    <button class="btn btn-primary float-right btn-rounded"><i class="MDI thumb-up-outline"></i>Like</button>
-                                    <button class="btn btn-primary float-right btn-rounded"><i class="MDI reply"></i>Reply</button>
-                                    <markdown-content>
-                                        {!!$s["content_parsed"]!!}
-                                    </markdown-content>
+                <h3>{{count($comment)}} Comment</h3>
+                @foreach($comment as $c)
+                    <solution-section>
+                            <img src="{{$c["avatar"]}}" class="cm-avatar">
+                            <div class="content-section">
+                                <div class="user-section">
+                                    <a href="/user/{{$c["uid"]}}">{{$c["name"]}}</a>@ {{$c['created_at']}}
+                                    <div class="float-right"></div>
+                                    <button class="btn btn-primary float-right btn-rounded"><i class="MDI thumb-up-outline"></i>@if($c['votes']==0) Like @else {{$c['votes']}} @endif</button>
+                                    <button class="btn btn-primary float-right btn-rounded"><i class="MDI reply"></i>@if(count($c['reply'])==0) Reply @else {{count($c['reply'])}} @endif</button>
                                 </div>
-                            </solution-section>
-                            <solution-section>
-                                    <img src="{{$s["avatar"]}}" class="cm-avatar">
-                                    <div class="content-section">
-                                        <a href="/user/{{$s["uid"]}}">{{$s["name"]}}</a>@1月前
-                                        <button class="btn btn-primary float-right btn-rounded"><i class="MDI thumb-up-outline"></i>Like</button>
-                                        <button class="btn btn-primary float-right btn-rounded"><i class="MDI reply"></i>Reply</button>
-                                        <markdown-content>
-                                            {!!$s["content_parsed"]!!}
-                                        </markdown-content>
-                                    </div>
-                                </solution-section>
-                        </div>
-                </solution-section>
-                <solution-section>
-                        <img src="{{$s["avatar"]}}" class="cm-avatar">
-                        <user-section>
-                            </user-section>
-                        <content-section>
-                                <a href="/user/{{$s["uid"]}}">{{$s["name"]}}</a>@1月前
-                            <h3>{{$s["content_parsed"]}}</h3>
-                        </content-section>
-                </solution-section>
+                                <markdown-content>
+                                    {!!$c["content"]!!}
+                                </markdown-content>
+                                @foreach($c['reply'] as $r)
+                                    <solution-section>
+                                        <img src="{{$r["avatar"]}}" class="cm-avatar">
+                                        <div class="content-section">
+                                            <a href="/user/{{$r["uid"]}}">{{$r["name"]}}</a>@ {{$r['created_at']}}
+                                            <button class="btn btn-primary float-right btn-rounded"><i class="MDI thumb-up-outline"></i>Like</button>
+                                            <button class="btn btn-primary float-right btn-rounded"><i class="MDI reply"></i>Reply</button>
+                                            <markdown-content>
+                                                {!!$r["content"]!!}
+                                            </markdown-content>
+                                        </div>
+                                    </solution-section>
+                                @endforeach
+                            </div>
+                    </solution-section>
+                @endforeach
             </paper-card>
         </div>
         <div class="col-sm-12 col-lg-3">

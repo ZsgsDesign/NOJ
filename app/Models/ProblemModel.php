@@ -597,7 +597,7 @@ class ProblemModel extends Model
                 '!=',
                 null
             )->where(
-                'problem_discussion.audit',
+                'problem_discussion_comment.audit',
                 '=',
                 1
             )->select([
