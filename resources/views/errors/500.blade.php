@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.errors')
 
 @section('template')
 <style>

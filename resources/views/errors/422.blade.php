@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.errors')
 
 @section('template')
 <style>
@@ -60,8 +60,7 @@ footer {
 <div class="error-container">
     <div class="error-container-left">
         <div class="error-emoji">:-(</div>
-        <div class="error-title"><span style="font-weight:500;color:black">{{$code}}. </span>That’s an error.</div>
-    <div class="error-description">{{$message}}</div>
+        <div class="error-description" style="font-size:30px">{{$exception->getMessage()}}</div>
         <div class="error-description" style="color:gray">That’s all we know.</div>
     </div>
     <div class="error-container-right">
