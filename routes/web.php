@@ -48,21 +48,21 @@ Route::group(['prefix' => 'problem'], function () {
 });
 Route::get('/status', 'StatusController@index')->middleware('contest_account')->name('status_index');
 
-Route::group(['prefix' => 'group','as' => 'group.'], function () {
-    Route::get('/', 'GroupController@index')->middleware('contest_account')->name('index');
-    Route::get('/create', 'GroupController@create')->middleware('contest_account')->name('create');
-    Route::get('/{gcode}', 'GroupController@detail')->middleware('auth', 'contest_account')->name('detail');
+Route::group(['namespace' => 'Group', 'prefix' => 'group','as' => 'group.'], function () {
+    Route::get('/', 'IndexController@index')->middleware('contest_account')->name('index');
+    Route::get('/create', 'IndexController@create')->middleware('contest_account')->name('create');
+    Route::get('/{gcode}', 'IndexController@detail')->middleware('auth', 'contest_account')->name('detail');
 
-    Route::get('/{gcode}/analysis', 'GroupController@analysis')->middleware('auth', 'contest_account')->name('analysis');
-    Route::get('/{gcode}/analysisDownload', 'GroupController@analysisDownload')->middleware('auth', 'contest_account', 'privileged')->name('analysis.download');
+    Route::get('/{gcode}/analysis', 'IndexController@analysis')->middleware('auth', 'contest_account')->name('analysis');
+    Route::get('/{gcode}/analysisDownload', 'IndexController@analysisDownload')->middleware('auth', 'contest_account', 'privileged')->name('analysis.download');
     Route::group(['prefix' => '{gcode}/settings','as' => 'settings.', 'middleware' => ['privileged']], function () {
-        Route::get('/', 'GroupController@settings')->middleware('auth', 'contest_account')->name('index');
-        Route::get('/general', 'GroupController@settingsGeneral')->middleware('auth', 'contest_account')->name('general');
-        Route::get('/return', 'GroupController@settingsReturn')->middleware('auth', 'contest_account')->name('return');
-        Route::get('/danger', 'GroupController@settingsDanger')->middleware('auth', 'contest_account')->name('danger');
-        Route::get('/member', 'GroupController@settingsMember')->middleware('auth', 'contest_account')->name('member');
-        Route::get('/contest', 'GroupController@settingsContest')->middleware('auth', 'contest_account')->name('contest');
-        Route::get('/problems', 'GroupController@problems')->middleware('auth', 'contest_account')->name('problems');
+        Route::get('/', 'AdminController@settings')->middleware('auth', 'contest_account')->name('index');
+        Route::get('/general', 'AdminController@settingsGeneral')->middleware('auth', 'contest_account')->name('general');
+        Route::get('/return', 'AdminController@settingsReturn')->middleware('auth', 'contest_account')->name('return');
+        Route::get('/danger', 'AdminController@settingsDanger')->middleware('auth', 'contest_account')->name('danger');
+        Route::get('/member', 'AdminController@settingsMember')->middleware('auth', 'contest_account')->name('member');
+        Route::get('/contest', 'AdminController@settingsContest')->middleware('auth', 'contest_account')->name('contest');
+        Route::get('/problems', 'AdminController@problems')->middleware('auth', 'contest_account')->name('problems');
     });
 });
 

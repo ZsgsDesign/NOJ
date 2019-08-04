@@ -327,7 +327,7 @@ class SubmissionModel extends Model
 
     public function getProblemStatus($pid, $uid, $cid=null)
     {
-        return $this->extractModels["StatusModel"]->getProblaemStatus($pid, $uid, $cid);
+        return $this->extractModels["StatusModel"]->getProblemStatus($pid, $uid, $cid);
     }
 
     public function getProblemSubmission($pid, $uid, $cid=null)
