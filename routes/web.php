@@ -145,19 +145,20 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     });
 
     Route::group(['prefix' => 'contest'], function () {
+        Route::get('updateProfessionalRate', 'ContestController@updateProfessionalRate')->middleware('auth');
         Route::post('fetchClarification', 'ContestController@fetchClarification')->middleware('auth');
         Route::post('requestClarification', 'ContestController@requestClarification')->middleware('auth', 'throttle:1,0.34');
-        Route::get('rejudge', 'ContestController@rejudge')->middleware('auth');
-        Route::get('updateProfessionalRate', 'ContestController@updateProfessionalRate')->middleware('auth');
         Route::post('registContest', 'ContestController@registContest')->middleware('auth')->name('ajax.contest.registContest');
-        Route::post('details', 'ContestController@details')->middleware('auth');
-        Route::post('assignMember', 'ContestController@assignMember')->middleware('auth');
-        Route::post('update', 'ContestController@update')->middleware('auth');
-        Route::post('issueAnnouncement', 'ContestController@issueAnnouncement')->middleware('auth');
-        Route::post('replyClarification', 'ContestController@replyClarification')->middleware('auth');
-        Route::post('setClarificationPublic', 'ContestController@setClarificationPublic')->middleware('auth');
-        Route::post('generateContestAccount', 'ContestController@generateContestAccount')->middleware('auth');
         Route::post('getAnalysisData', 'ContestController@getAnalysisData')->middleware('auth')->name('ajax.contest.getAnalysisData');
+
+        Route::get('rejudge', 'ContestAdminController@rejudge')->middleware('auth');
+        Route::post('details', 'ContestAdminController@details')->middleware('auth');
+        Route::post('assignMember', 'ContestAdminController@assignMember')->middleware('auth');
+        Route::post('update', 'ContestAdminController@update')->middleware('auth');
+        Route::post('issueAnnouncement', 'ContestAdminController@issueAnnouncement')->middleware('auth');
+        Route::post('replyClarification', 'ContestAdminController@replyClarification')->middleware('auth');
+        Route::post('setClarificationPublic', 'ContestAdminController@setClarificationPublic')->middleware('auth');
+        Route::post('generateContestAccount', 'ContestAdminController@generateContestAccount')->middleware('auth');
     });
 
     Route::group(['prefix' => 'submission'], function () {
