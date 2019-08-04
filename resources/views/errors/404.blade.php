@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.errors')
 
 @section('template')
 <style>
@@ -56,7 +56,6 @@ footer {
     }
 }
 </style>
-
 <div class="error-container">
     <div class="error-container-left">
         <div class="error-emoji">:-(</div>
