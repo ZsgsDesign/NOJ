@@ -66,22 +66,29 @@ Route::group(['prefix' => 'group','as' => 'group.'], function () {
     });
 });
 
-Route::group(['prefix' => 'contest','as' => 'contest.', 'middleware' => ['contest_account']], function () {
-    Route::get('/', 'ContestController@index')->name('index');
-    Route::get('/{cid}', 'ContestController@detail')->name('detail');
+Route::group([
+    'namespace' => 'Contest',
+    'prefix' => 'contest',
+    'as' => 'contest.',
+    'middleware' => [
+        'contest_account'
+    ]
+], function () {
+    Route::get('/', 'IndexController@index')->name('index');
+    Route::get('/{cid}', 'IndexController@detail')->name('detail');
 
-    Route::get('/{cid}/board', 'ContestBoardController@board')->middleware('auth')->name('board');
-    Route::get('/{cid}/board/challenge', 'ContestBoardController@challenge')->middleware('auth')->name('challenge');
-    Route::get('/{cid}/board/challenge/{ncode}', 'ContestBoardController@editor')->middleware('auth')->name('editor');
-    Route::get('/{cid}/board/rank', 'ContestBoardController@rank')->middleware('auth')->name('rank');
-    Route::get('/{cid}/board/status', 'ContestBoardController@status')->middleware('auth')->name('status');
-    Route::get('/{cid}/board/clarification', 'ContestBoardController@clarification')->middleware('auth')->name('clarification');
-    Route::get('/{cid}/board/print', 'ContestBoardController@print')->middleware('auth')->name('print');
-    Route::get('/{cid}/board/analysis', 'ContestBoardController@analysis')->middleware('auth')->name('analysis');
+    Route::get('/{cid}/board', 'BoardController@board')->middleware('auth')->name('board');
+    Route::get('/{cid}/board/challenge', 'BoardController@challenge')->middleware('auth')->name('challenge');
+    Route::get('/{cid}/board/challenge/{ncode}', 'BoardController@editor')->middleware('auth')->name('editor');
+    Route::get('/{cid}/board/rank', 'BoardController@rank')->middleware('auth')->name('rank');
+    Route::get('/{cid}/board/status', 'BoardController@status')->middleware('auth')->name('status');
+    Route::get('/{cid}/board/clarification', 'BoardController@clarification')->middleware('auth')->name('clarification');
+    Route::get('/{cid}/board/print', 'BoardController@print')->middleware('auth')->name('print');
+    Route::get('/{cid}/board/analysis', 'BoardController@analysis')->middleware('auth')->name('analysis');
 
-    Route::get('/{cid}/board/admin', 'ContestAdminController@admin')->middleware('auth', 'privileged')->name('admin');
-    Route::get('/{cid}/admin/downloadContestAccountXlsx', 'ContestAdminController@downloadContestAccountXlsx')->middleware('auth')->name('downloadContestAccountXlsx');
-    Route::get('/{cid}/admin/refreshContestRank', 'ContestAdminController@refreshContestRank')->middleware('auth')->name('refreshContestRank');
+    Route::get('/{cid}/board/admin', 'AdminController@admin')->middleware('auth', 'privileged')->name('admin');
+    Route::get('/{cid}/admin/downloadContestAccountXlsx', 'AdminController@downloadContestAccountXlsx')->middleware('auth')->name('downloadContestAccountXlsx');
+    Route::get('/{cid}/admin/refreshContestRank', 'AdminController@refreshContestRank')->middleware('auth')->name('refreshContestRank');
 });
 
 Route::group(['prefix' => 'system'], function () {

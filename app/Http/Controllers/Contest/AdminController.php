@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Contest;
 
 use App\Models\ContestModel;
 use App\Models\AccountModel;
@@ -12,7 +12,7 @@ use Excel;
 use Cache;
 use DB;
 
-class ContestAdminController extends Controller
+class AdminController extends Controller
 {
     /**
      * Show the Contest Admin Page.

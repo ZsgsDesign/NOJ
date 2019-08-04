@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Contest;
 
 use App\Models\ContestModel;
 use App\Models\ProblemModel;
@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Redirect;
 
-class ContestBoardController extends Controller
+class BoardController extends Controller
 {
     /**
      * Redirect the Contest Board Page.

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Contest;
 
 use App\Models\ContestModel;
 use App\Models\GroupModel;
@@ -10,7 +10,7 @@ use Auth;
 use Redirect;
 
 
-class ContestController extends Controller
+class IndexController extends Controller
 {
     /**
      * Show the Contest Page.
