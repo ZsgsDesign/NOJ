@@ -9,6 +9,14 @@ use App\Models\Tool\PastebinModel;
 class ShareModel extends Model
 {
     protected $tableName="submission";
+    protected $extractModels=[
+        "SubmissionModel"=>null
+    ];
+
+    public function __construct($submissionModel)
+    {
+        $this->extractModels["SubmissionModel"]=$submissionModel;
+    }
 
     public function share($sid, $uid)
     {
