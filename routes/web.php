@@ -124,7 +124,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('manualJudge', 'ProblemController@manualJudge')->middleware('auth');
     Route::post('submitHistory', 'ProblemController@submitHistory')->middleware('auth');
     Route::post('problemExists', 'ProblemController@problemExists')->middleware('auth');
-    Route::post('arrangeContest', 'GroupController@arrangeContest')->middleware('auth');
+    Route::post('arrangeContest', 'GroupManageController@arrangeContest')->middleware('auth');
     Route::post('joinGroup', 'GroupController@joinGroup')->middleware('auth');
     Route::get('downloadCode', 'ProblemController@downloadCode')->middleware('auth');
     Route::post('submitSolutionDiscussion', 'ProblemController@submitSolutionDiscussion')->middleware('auth');
@@ -135,22 +135,24 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('search', 'SearchController')->middleware('auth')->name('ajax.search');
 
     Route::group(['prefix' => 'group'], function () {
-        Route::post('changeMemberClearance', 'GroupController@changeMemberClearance')->middleware('auth');
-        Route::post('changeGroupImage', 'GroupController@changeGroupImage')->middleware('auth');
-        Route::post('changeJoinPolicy', 'GroupController@changeJoinPolicy')->middleware('auth');
-        Route::post('changeGroupName', 'GroupController@changeGroupName')->middleware('auth');
         Route::post('changeNickName', 'GroupController@changeNickName')->middleware('auth');
-        Route::get('generateContestAccount', 'GroupController@generateContestAccount')->middleware('auth');
-        Route::post('approveMember', 'GroupController@approveMember')->middleware('auth');
-        Route::post('removeMember', 'GroupController@removeMember')->middleware('auth');
         Route::post('createGroup', 'GroupController@createGroup')->middleware('auth');
-        Route::post('inviteMember', 'GroupController@inviteMember')->middleware('auth');
-        Route::post('createNotice', 'GroupController@createNotice')->middleware('auth');
-        Route::post('addProblemTag', 'GroupController@addProblemTag')->middleware('auth');
-        Route::post('removeProblemTag', 'GroupController@removeProblemTag')->middleware('auth');
         Route::post('getPracticeStat', 'GroupController@getPracticeStat')->middleware('auth');
-        Route::post('refreshElo', 'GroupController@refreshElo')->middleware('auth');
-        Route::post('changeSubGroup', 'GroupController@changeSubGroup')->middleware('auth');
+
+        Route::post('changeMemberClearance', 'GroupManageController@changeMemberClearance')->middleware('auth');
+        Route::post('changeGroupImage', 'GroupManageController@changeGroupImage')->middleware('auth');
+        Route::post('changeJoinPolicy', 'GroupManageController@changeJoinPolicy')->middleware('auth');
+        Route::post('changeGroupName', 'GroupManageController@changeGroupName')->middleware('auth');
+        Route::post('approveMember', 'GroupManageController@approveMember')->middleware('auth');
+        Route::post('removeMember', 'GroupManageController@removeMember')->middleware('auth');
+        Route::post('inviteMember', 'GroupManageController@inviteMember')->middleware('auth');
+        Route::post('createNotice', 'GroupManageController@createNotice')->middleware('auth');
+        Route::post('changeSubGroup', 'GroupManageController@changeSubGroup')->middleware('auth');
+
+        Route::post('addProblemTag', 'GroupAdminController@addProblemTag')->middleware('auth');
+        Route::post('removeProblemTag', 'GroupAdminController@removeProblemTag')->middleware('auth');
+        Route::get('generateContestAccount', 'GroupAdminController@generateContestAccount')->middleware('auth');
+        Route::post('refreshElo', 'GroupAdminController@refreshElo')->middleware('auth');
     });
 
     Route::group(['prefix' => 'contest'], function () {
