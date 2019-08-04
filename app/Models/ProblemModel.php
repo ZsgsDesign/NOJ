@@ -643,7 +643,7 @@ class ProblemModel extends Model
 
     public function addDiscussion($uid, $pid, $title, $content)
     {
-        $pdid=DB::table("problem_solution")->insertGetId([
+        $pdid=DB::table("problem_discussion")->insertGetId([
             "uid"=>$uid,
             "pid"=>$pid,
             "title"=>$title,
