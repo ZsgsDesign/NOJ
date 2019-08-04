@@ -59,7 +59,9 @@
                                     @if($extension["updatable"])
                                         <a>Update</a>
                                     @endif
+                                    @if($extension["details"]["code"]!="noj")
                                         <a class="text-danger">Delete</a>
+                                    @endif
                                 @endif
                             </p>
                         </td>
