@@ -25,6 +25,9 @@
     <meta name="developer" content="">
     <meta name="version" content="">
     <meta name="subversion" content="">
+    <!-- SEO Information -->
+    <meta name="keywords" content="NOJ,NJUPT Online Judge,noip,noi,OJ,acm,icpc,onlineJudge,NUPT Online Judge" />
+    <meta name="description" content="NOJ is yet another Online Judge providing you functions like problem solving, discussing, solutions, groups, contests and ranking system." />
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Necessarily Declarations -->
@@ -282,7 +285,7 @@
         <div class="alert alert-info mb-0" role="alert">
             <strong>Boost your security!</strong> You have not verified your email address, please verify it in your Settings Page.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="setCookie('isEmailVerifiedNoticed',1,1)">
-                <span aria-hidden="true">×</span>
+                <span aria-hidden="true">Ã—</span>
             </button>
         </div>
         @endif
