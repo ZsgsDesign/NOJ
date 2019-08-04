@@ -350,6 +350,26 @@ class GroupController extends Controller
         return ResponseModel::success(200);
     }
 
+    public function changeSubGroup(Request $request)
+    {
+        $request->validate([
+            'gid'=>'required|integer',
+            'uid'=>'required|integer',
+            'sub'=>'nullable|max:60000'
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        $targetClearance=$groupModel->judgeClearance($all_data["gid"], $all_data["uid"]);
+        if ($clearance>1 && $clearance>=$targetClearance) {
+            $groupModel->changeGroup($all_data["uid"], $all_data["gid"], $all_data["sub"]);
+            return ResponseModel::success(200);
+        }
+        return ResponseModel::err(7002);
+    }
+
     public function createNotice(Request $request)
     {
         $request->validate([

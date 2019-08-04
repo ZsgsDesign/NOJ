@@ -660,7 +660,7 @@
                                 <li class="list-group-item">
                                     <i class="MDI google-circles"></i>
                                     <div class="bmd-list-group-col">
-                                        <p class="list-group-item-heading">None</p>
+                                        <p class="list-group-item-heading">@if(isset($my_profile['sub_group'])){{$my_profile['sub_group']}}@else None @endif</p>
                                         <p class="list-group-item-text">Sub Group</p>
                                     </div>
                                 </li>

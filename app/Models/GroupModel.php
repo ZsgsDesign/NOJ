@@ -346,6 +346,16 @@ class GroupModel extends Model
         ]);
     }
 
+    public function changeGroup($uid, $gid, $sub)
+    {
+        return DB::table("group_member")->where([
+            "uid"=>$uid,
+            "gid"=>$gid
+        ])->update([
+            "sub_group"=>$sub
+        ]);
+    }
+
     public function isUser($email)
     {
         return DB::table("users")->where([
