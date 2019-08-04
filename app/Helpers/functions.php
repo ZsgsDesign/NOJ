@@ -115,3 +115,23 @@ if (!function_exists('getOpenSearchXML')) {
         </OpenSearchDescription>';
     }
 }
+
+if (!function_exists('delFile')) {
+    function delFile($dirName)
+    {
+        if (file_exists($dirName) && $handle=opendir($dirName)) {
+            while (false!==($item = readdir($handle))) {
+                if ($item!= "." && $item != "..") {
+                    if (file_exists($dirName.'/'.$item) && is_dir($dirName.'/'.$item)) {
+                        delFile($dirName.'/'.$item);
+                    } else {
+                        if (unlink($dirName.'/'.$item)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            closedir($handle);
+        }
+    }
+}
