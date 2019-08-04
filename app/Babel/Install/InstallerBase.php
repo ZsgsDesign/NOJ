@@ -139,7 +139,7 @@ class InstallerBase
             while (false!==($item = readdir($handle))) {
                 if ($item!= "." && $item != "..") {
                     if (file_exists($dirName.'/'.$item) && is_dir($dirName.'/'.$item)) {
-                        delFile($dirName.'/'.$item);
+                        $this->delFile($dirName.'/'.$item);
                     } else {
                         if (unlink($dirName.'/'.$item)) {
                             return true;
