@@ -36,6 +36,10 @@ class GroupController extends Controller
 
         $all_data=$request->all();
 
+        if(($all_data['public'] ?? 0) && ($all_data['practice'] ?? 0)){
+            return ResponseModel::err(4007);
+        }
+
         $contestModel=new ContestModel();
         $groupModel=new GroupModel();
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
@@ -63,7 +67,7 @@ class GroupController extends Controller
             return ResponseModel::err(1003);
         }
 
-        $contestModel->arrangeContest($all_data["gid"], [
+        $cid = $contestModel->arrangeContest($all_data["gid"], [
             "assign_uid"=>Auth::user()->id,
             "name"=>$all_data["name"],
             "description"=>$all_data["description"],
@@ -73,7 +77,7 @@ class GroupController extends Controller
             "public"=>$all_data["public"] ?? 0,
         ], $problemSet);
 
-        return ResponseModel::success(200);
+        return ResponseModel::success(200,'Successful!',$cid);
     }
 
     public function changeGroupName(Request $request)
