@@ -5,13 +5,9 @@ namespace App\Http\Controllers\Ajax;
 use App\Models\ContestModel;
 use App\Models\GroupModel;
 use App\Models\ResponseModel;
-use App\Models\UserModel;
-use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Jobs\ProcessSubmission;
 use Auth;
-use Cache;
 
 class ContestController extends Controller
 {
