@@ -2,7 +2,7 @@
 
 namespace App\Babel\Submit;
 
-use App\Models\SubmissionModel;
+use App\Models\Submission\SubmissionModel;
 use App\Babel\Submit\Core;
 use Illuminate\Support\Facades\Validator;
 use Auth;

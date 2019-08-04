@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Contest;
 use App\Models\ContestModel;
 use App\Models\ProblemModel;
 use App\Models\CompilerModel;
-use App\Models\SubmissionModel;
+use App\Models\Submission\SubmissionModel;
 use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

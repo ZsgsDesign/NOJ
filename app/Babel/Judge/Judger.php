@@ -2,7 +2,7 @@
 
 namespace App\Babel\Judge;
 
-use App\Models\SubmissionModel;
+use App\Models\Submission\SubmissionModel;
 use App\Models\JudgerModel;
 use App\Models\ContestModel;
 use App\Babel\Submit\Curl;

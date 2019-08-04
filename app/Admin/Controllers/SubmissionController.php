@@ -2,7 +2,6 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\SubmissionModel;
 use App\Models\Eloquent\SubmissionModel as EloquentSubmissionModel;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;

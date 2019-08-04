@@ -1,7 +1,7 @@
 <?php
 namespace App\Babel\Submit;
 
-use App\Models\SubmissionModel;
+use App\Models\Submission\SubmissionModel;
 use Exception;
 
 interface CurlInterface {

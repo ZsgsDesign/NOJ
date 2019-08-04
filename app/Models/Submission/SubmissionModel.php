@@ -1,17 +1,20 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Submission;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use App\Models\Tool\PastebinModel;
-use Cache;
+use App\Models\ContestModel;
+use App\Models\CompilerModel;
 
 class SubmissionModel extends Model
 {
     protected $tableName='submission';
     protected $table='submission';
     protected $primaryKey='sid';
+    protected $extractModels=[
+        "ShareModel"=>null
+    ];
     const DELETED_AT=null;
     const UPDATED_AT=null;
     const CREATED_AT=null;
@@ -40,6 +43,7 @@ class SubmissionModel extends Model
 
     public function __construct()
     {
+        $this->extractModels["ShareNodel"]=new ShareModel();
         $tempLangConfig=[[
             "id" => "plaintext",
             "extensions" => [".txt", ".gitignore"],
@@ -544,41 +548,11 @@ class SubmissionModel extends Model
 
     public function share($sid, $uid)
     {
-        $basic=DB::table($this->tableName)->where(['sid'=>$sid, 'uid'=>$uid])->first();
-        if (empty($basic)) {
-            return [];
-        }
-        DB::table($this->tableName)->where(['sid'=>$sid])->update([
-            "share"=>$basic["share"] ? 0 : 1
-        ]);
-        return [
-            "share"=>$basic["share"] ? 0 : 1
-        ];
+        return $this->extractModels["ShareNodel"]->share($sid, $uid);
     }
 
     public function sharePB($sid, $uid)
     {
-        $basic=DB::table($this->tableName)->where(['sid'=>$sid, 'uid'=>$uid])->first();
-        $problem=DB::table("problem")->where(['pid'=>$basic["pid"]])->first();
-        $compiler=DB::table("compiler")->where(['coid'=>$basic["coid"]])->first();
-        if (empty($basic)) {
-            return [];
-        }
-        $pastebinModel=new PastebinModel();
-        $ret=$pastebinModel->generate([
-            "syntax"=>$compiler["lang"],
-            "expiration"=>0,
-            "content"=>$basic["solution"],
-            "title"=>$problem["pcode"]." - ".$basic["verdict"],
-            "uid"=>$uid
-        ]);
-
-        if (is_null($ret)) {
-            return [];
-        } else {
-            return [
-                "code" => $ret
-            ];
-        }
+        return $this->extractModels["ShareNodel"]->sharePB($sid, $uid);
     }
 }

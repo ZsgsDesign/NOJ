@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Ajax;
 
 use App\Models\ProblemModel;
-use App\Models\SubmissionModel;
+use App\Models\Submission\SubmissionModel;
 use App\Models\ResponseModel;
 use App\Models\CompilerModel;
 use App\Babel\Babel;

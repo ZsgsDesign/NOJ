@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SubmissionModel;
+use App\Models\Submission\SubmissionModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
