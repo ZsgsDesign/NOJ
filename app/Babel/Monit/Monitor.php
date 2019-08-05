@@ -5,7 +5,6 @@ namespace App\Babel\Monit;
 use ErrorException;
 use Exception;
 use Throwable;
-use Log;
 
 class Monitor
 {
@@ -30,7 +29,6 @@ class Monitor
         try {
             $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$name/babel.json")), true);
             $monitorProvider=$BabelConfig["provider"]["monitor"];
-            Log::debug($monitorProvider);
         } catch (Throwable $e) {
         } catch (ErrorException $e) {
         } catch (Exception $e) {
