@@ -410,6 +410,7 @@
                         <badge>Nothing Yet. Leave a comment?</badge>
                     </div>
                 @else
+                    @dd($comment)
                     @foreach($comment as $c)
                         <div class="comment-section">
                                 <img src="{{$c["avatar"]}}" class="cm-avatar">
@@ -484,10 +485,6 @@
                     </h5>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="comment_title" class="bmd-label-floating">Title</label>
-                        <input type="text" class="form-control" id="comment_title">
-                    </div>
                     <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
                     <markdown-editor class="mt-3 mb-3">
                         <textarea id="markdown_editor"></textarea>
@@ -615,11 +612,10 @@
         ajaxing=true;
         $.ajax({
             type: 'POST',
-            url: '/ajax/postComment',
+            url: '/ajax/addComment',
             data: {
                 pdid: {{$main['pdid']}},
                 reply_id: replyid,
-                title: $('#post_title').val(),
                 content: simplemde.value()
             },
             dataType: 'json',

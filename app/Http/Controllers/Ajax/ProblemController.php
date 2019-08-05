@@ -260,8 +260,7 @@ class ProblemController extends Controller
     {
         $request->validate([
             'pdid' => 'required|integer',
-            'content' => 'required',
-            'reply_id' => 'required'
+            'content' => 'required'
         ]);
         $all_data=$request->all();
         $problemModel=new ProblemModel();
