@@ -26,11 +26,11 @@ class Monitor
     public static function create($conf)
     {
         $name=$conf["name"];
-        Log::debug($name);
         $monitorProvider="Monitor";
         try {
             $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$name/babel.json")), true);
             $monitorProvider=$BabelConfig["provider"]["monitor"];
+            Log::debug($monitorProvider);
         } catch (Throwable $e) {
         } catch (ErrorException $e) {
         } catch (Exception $e) {
