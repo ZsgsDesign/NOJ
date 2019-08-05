@@ -410,7 +410,6 @@
                         <badge>Nothing Yet. Leave a comment?</badge>
                     </div>
                 @else
-                    @dd($comment)
                     @foreach($comment as $c)
                         <div class="comment-section">
                                 <img src="{{$c["avatar"]}}" class="cm-avatar">
