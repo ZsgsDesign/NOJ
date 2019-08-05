@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use GrahamCampbell\Markdown\Facades\Markdown;
+use App\Models\Submission\SubmissionModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Rating\RatingCalculator;
