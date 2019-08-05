@@ -255,4 +255,25 @@ class ProblemController extends Controller
         $ret=$problemModel->addDiscussion(Auth::user()->id,$pid,$title,$content);
         return $ret?ResponseModel::success(200, null, $ret):ResponseModel::err(3003);
     }
+
+    public function addComment(Request $request)
+    {
+        $request->validate([
+            'pdid' => 'required|integer',
+            'content' => 'required',
+            'reply_id' => 'required'
+        ]);
+        $all_data=$request->all();
+        $problemModel=new ProblemModel();
+        $pdid=$all_data['pdid'];
+        $content=$all_data['content'];
+        $reply_id=$all_data['reply_id'];
+        $pid=$problemModel->pidByPdid($pdid);
+        $basic=$problemModel->basic($pid);
+        if (empty($basic)) {
+            return ResponseModel::err(3001);
+        }
+        $ret=$problemModel->addComment(Auth::user()->id,$pdid,$content,$reply_id);
+        return $ret?ResponseModel::success(200, null, $ret):ResponseModel::err(3003);
+    }
 }

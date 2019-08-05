@@ -655,4 +655,27 @@ class ProblemModel extends Model
         ]);
         return $pdid;
     }
+
+    public function pidByPdid($pdid)
+    {
+        $pid = DB::table('problem_discussion')->where('pdid','=',$pdid)->get()->first()['pid'];
+        return $pid;
+    }
+
+    public function addComment($uid,$pdid,$content,$reply_id)
+    {
+        $pid=$this->pidByPdid($pdid);
+        $pdcid=DB::table('problem_discussion_comment')->insertGetId([
+            'pdid'=>$pdid,
+            'uid'=>$uid,
+            'pid'=>$pid,
+            'content'=>$content,
+            'reply_id'=>$reply_id,
+            'votes'=>0,
+            'audit'=>1,
+            'created_at'=>date("Y-m-d H:i:s"),
+            'updated_at'=>date("Y-m-d H:i:s"),
+        ]);
+        return $pdcid;
+    }
 }
