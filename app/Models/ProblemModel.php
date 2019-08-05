@@ -28,10 +28,10 @@ class ProblemModel extends Model
                 ];
             } elseif ($prob_detail["markdown"]) {
                 $prob_detail["parsed"]=[
-                    "description"=>clean(Markdown::convertToHtml($prob_detail["description"])),
-                    "input"=>clean(Markdown::convertToHtml($prob_detail["input"])),
-                    "output"=>clean(Markdown::convertToHtml($prob_detail["output"])),
-                    "note"=>clean(Markdown::convertToHtml($prob_detail["note"]))
+                    "description"=>clean(convertMarkdownToHtml($prob_detail["description"])),
+                    "input"=>clean(convertMarkdownToHtml($prob_detail["input"])),
+                    "output"=>clean(convertMarkdownToHtml($prob_detail["output"])),
+                    "note"=>clean(convertMarkdownToHtml($prob_detail["note"]))
                 ];
             } else {
                 $prob_detail["parsed"]=[
@@ -147,7 +147,7 @@ class ProblemModel extends Model
             unset($d);
         }
         foreach ($details as &$d) {
-            $d["content_parsed"]=clean(Markdown::convertToHtml($d["content"]));
+            $d["content_parsed"]=clean(convertMarkdownToHtml($d["content"]));
         }
         return $details;
     }
