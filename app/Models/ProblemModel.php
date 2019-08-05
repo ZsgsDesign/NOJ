@@ -479,7 +479,7 @@ class ProblemModel extends Model
                     'pid'=>$pid,
                     'sample_input'=>$d['sample_input'],
                     'sample_output'=>$d['sample_output'],
-                    'sample_note'=>$d['sample_note'],
+                    'sample_note'=>$d['sample_note']??null,
                 ]);
             }
         }
