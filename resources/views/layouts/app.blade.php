@@ -38,7 +38,7 @@
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="alternate icon" type="image/png" href="/favicon.png">
     <!-- OpenSearch -->
-    {{-- <link rel="search" type="application/opensearchdescription+xml" title="{{config("app.name")}}" href="/opensearch.xml"> --}}
+    <link rel="search" type="application/opensearchdescription+xml" title="{{config("app.name")}}" href="/opensearch.xml">
     <!-- Mobile Display Declarations -->
     <meta name="apple-touch-fullscreen" content="yes">
     <meta name="theme-color" content="#3E4551">
@@ -227,7 +227,13 @@
                 <ul class="navbar-nav mundb-nav-right">
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
                     <form id="search-box" action="/search" method="get" class="form-inline my-2 my-lg-0 mundb-inline">
-                        <span class="bmd-form-group"><input id="search-key" class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" placeholder="Problem code" autocomplete="off" aria-label="search"></span>
+                        <span class="bmd-form-group"><input id="search-key" class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" value="{{$search_key ?? ''}}" placeholder="Onmi Search" autocomplete="off" aria-label="search"></span>
+                        <input type="hidden" name="tab" value="{{
+                            $navigation == 'DashBoard' ? 'users' :
+                            ($navigation == 'Group' ? 'groups' : (
+                            $navigation == 'Contest' ? 'contests' : 'problems'
+                            ))
+                        }}">
                     </form>
                     @endif
 

@@ -19,4 +19,7 @@
  */
 
 Admin::css('/static/css/wemd-color-scheme.css');
+Admin::css('/static/fonts/MDI-WXSS/MDI.css');
 Encore\Admin\Form::forget(['map', 'editor']);
+app('view')->prependNamespace('admin', resource_path('views/admin'));
+

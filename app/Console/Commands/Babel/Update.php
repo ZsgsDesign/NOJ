@@ -45,9 +45,9 @@ class Update extends Command
         $this->line("Updating <fg=green>$extension</>");
         try {
             $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$extension/babel.json")), true);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>babel.json parse error, The extension may not exist.</>\n");
-            if($this->confirm("Would you like to download it from the marketspace first?")){
+            if ($this->confirm("Would you like to download it from the marketspace first?")) {
                 $this->call("babel:require", ['extension' => $extension]);
                 $output->fetch();
             }
@@ -60,7 +60,7 @@ class Update extends Command
             $output->fetch();
             $this->delDir(babel_path("Tmp/backup/$extension/"));
             $this->line("Updated <fg=green>$extension</>");
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->line($e->getMessage());
             $this->roolbackBackup(($extension));
         }
@@ -68,23 +68,32 @@ class Update extends Command
 
     private function backup($extension)
     {
-        if(!is_dir(babel_path("Tmp/backup/"))) mkdir(babel_path("Tmp/backup/"));
-        if(is_dir(babel_path("Tmp/backup/$extension/"))) $this->delDir(babel_path("Tmp/backup/$extension/"));
+        if (!is_dir(babel_path("Tmp/backup/"))) {
+            mkdir(babel_path("Tmp/backup/"));
+        }
+        if (is_dir(babel_path("Tmp/backup/$extension/"))) {
+            $this->delDir(babel_path("Tmp/backup/$extension/"));
+        }
         rename(babel_path("Extension/$extension/"), babel_path("Tmp/backup/$extension/"));
     }
 
     private function roolbackBackup($extension)
     {
-        if(is_dir(babel_path("Extension/$extension/"))) $this->delDir(babel_path("Extension/$extension/"));
+        if (is_dir(babel_path("Extension/$extension/"))) {
+            $this->delDir(babel_path("Extension/$extension/"));
+        }
         rename(babel_path("Tmp/backup/$extension/"), babel_path("Extension/$extension/"));
     }
 
-    private function delDir($dir){
-        if(!is_dir($dir)) return;
+    private function delDir($dir)
+    {
+        if (!is_dir($dir)) {
+            return;
+        }
         $it = new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS);
         $files = new \RecursiveIteratorIterator($it, \RecursiveIteratorIterator::CHILD_FIRST);
-        foreach($files as $file) {
-            if ($file->isDir()){
+        foreach ($files as $file) {
+            if ($file->isDir()) {
                 rmdir($file->getRealPath());
             } else {
                 unlink($file->getRealPath());

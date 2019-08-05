@@ -1,0 +1,87 @@
+<?php
+namespace App\Babel\Extension\noj;
+
+use App\Babel\Monit\MonitorBase;
+use App\Models\OJModel;
+use App\Models\JudgerModel;
+use Exception;
+
+class Monitor extends MonitorBase
+{
+    public $ocode="noj";
+    public $oid=null;
+
+    public function __construct()
+    {
+        $this->oid=OJModel::oid($this->ocode);
+    }
+
+    public function check()
+    {
+        $judgerModel=new JudgerModel();
+        $serverList=$judgerModel->fetchServer($this->oid);
+        foreach ($serverList as $server) {
+            if ($server["available"]==0) {
+                continue;
+            }
+
+            $serverURL="http://".$server["host"].":".$server["port"];
+            try {
+                $pong=$this->ping($serverURL.'/ping', $server["port"], hash('sha256', $server["token"]));
+            } catch (Exception $exception) {
+                $this->updateStatus($server["jsid"], 1);
+                continue;
+            }
+
+            if (empty($pong)) {
+                $this->updateStatus($server["jsid"], 1);
+                continue;
+            }
+
+            if ($pong["status_code"]==200) {
+                $this->updateStatus($server["jsid"], 0);
+            }
+        }
+    }
+
+    private function ping($url, $port, $token)
+    {
+        $curl=curl_init();
+
+        if ($curl===false) {
+            return [];
+        }
+
+        curl_setopt_array($curl, array(
+            CURLOPT_PORT => $port,
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "",
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json",
+                "X-Judge-Server-Token: ".$token,
+                "cache-control: no-cache"
+            ),
+        ));
+
+        $response=curl_exec($curl);
+        $err=curl_error($curl);
+        $httpCode=curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+        curl_close($curl);
+
+        if ($err) {
+            return [];
+        } else {
+            return [
+                "status_code"=>$httpCode,
+                "body"=>json_decode($response)
+            ];
+        }
+    }
+}

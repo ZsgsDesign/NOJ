@@ -251,6 +251,8 @@
 
                         <pre>{!!$ps['sample_output']!!}</pre>
 
+                        @if ($ps['sample_note']) {!!$ps['sample_note']!!} @endif
+
                     @endforeach
 
                     @unless(trim($detail["parsed"]["note"])=="")

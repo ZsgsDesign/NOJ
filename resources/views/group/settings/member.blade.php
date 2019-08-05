@@ -104,7 +104,7 @@
                                 <user-info data-clearance="{{$m["role"]}}" data-rolecolor="{{$m["role_color"]}}">
                                     <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
                                     <p>
-                                        <small><i class="MDI google-circles"></i> {{$m["sub_group"]}}</small>
+                                        <small @if($m["role"] <= $group_clearance) onclick="prompt_changeSubgroup({{$m['uid']}}, '{{$m['name']}}', '{{$m['sub_group']}}' ); " @endif style="cursor: pointer;" ><i class="MDI google-circles"></i> <span id="{{$m['uid']}}"> {{$m['sub_group']}}</span></small>
                                         @if($group_clearance>$m["role"])
                                             <small @if($group_clearance <= $m["role"] + 1) style="display:none" @endif class="wemd-green-text cm-operation clearance-up" onclick="changeMemberClearance({{$m['uid']}},'promote')"><i class="MDI arrow-up-drop-circle-outline"></i> Promote</small>
                                             <small @if($m["role"] <= 1) style="display:none" @endif class="wemd-red-text cm-operation clearance-down" onclick="changeMemberClearance({{$m['uid']}},'demote')"><i class="MDI arrow-down-drop-circle-outline"></i> Demote</small>
@@ -171,8 +171,12 @@
                 return marked(plainText, {
                     sanitize: true,
                     sanitizer: DOMPurify.sanitize,
-                    highlight: function (code) {
-                        return hljs.highlightAuto(code).value;
+                    highlight: function (code, lang) {
+                        try {
+                            return hljs.highlight(lang,code).value;
+                        } catch (error) {
+                            return hljs.highlightAuto(code).value;
+                        }
                     }
                 });
             },
@@ -188,6 +192,12 @@
                     action: SimpleMDE.toggleItalic,
                     className: "MDI format-italic",
                     title: "Italic",
+                },
+                {
+                    name: "strikethrough",
+                    action: SimpleMDE.toggleStrikethrough,
+                    className: "MDI format-strikethrough",
+                    title: "Strikethrough",
                 },
                 "|",
                 {
@@ -236,8 +246,8 @@
                 },
             ],
         });
-        var desc = '{{base64_encode($group_notice["content"])}}';
-        simplemde.value(window.atob(desc));
+        var desc = '{{urlencode($group_notice["content"])}}';
+        simplemde.value(decodeURIComponent(desc));
 
         hljs.initHighlighting();
 
@@ -368,6 +378,43 @@
                     ajaxing=false;
                 }
             });
+        }
+
+        function prompt_changeSubgroup(uid,name,sub_group)
+        {
+
+            var name=prompt({
+                content:"change "+name+"'s subgroup to",
+                title:"Modify Sub Group",
+                placeholder: 'Sub Group',
+                value: sub_group ,
+            }, function (deny, text){
+                if(deny) return;
+                $.ajax({
+                    type: 'POST',
+                    url: '/ajax/group/changeSubGroup',
+                    data: {
+                        uid : uid,
+                        gid : {{$basic_info["gid"]}},
+                        sub : text,
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },success: function(ret){
+                        console.log(ret);
+                        if (ret.ret==200) {
+                            $('#'+uid).text(text);
+                            alert("Success!");
+                        } else {
+                            alert(ret.desc);
+                        }
+                    }, error: function(xhr, type){
+                        console.log('Ajax error');
+                        alert("Server Connection Error");
+                    }
+                });
+            });
+
         }
 
         $('.join-policy-choice').on('click',function(){

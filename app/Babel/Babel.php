@@ -5,10 +5,10 @@ use App\Babel\Submit\Submitter;
 use App\Babel\Crawl\Crawler;
 use App\Babel\Judge\Judger;
 use App\Babel\Synchronize\Synchronizer;
+use App\Babel\Monit\Monitor;
 
 class Babel
 {
-
     public function submit($conf)
     {
         return new Submitter($conf);
@@ -29,4 +29,8 @@ class Babel
         return new Synchronizer($conf);
     }
 
+    public function monitor($conf)
+    {
+        return new Monitor($conf);
+    }
 }

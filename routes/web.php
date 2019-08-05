@@ -14,8 +14,13 @@
 Route::redirect('/home', '/', 301);
 Route::redirect('/acmhome/welcome.do', '/', 301);
 Route::get('/acmhome/problemdetail.do','MainController@oldRedirect')->name('old.redirect');
+Route::get('/opensearch.xml', function () {
+    return response(getOpenSearchXML(), 200)->header("Content-type","text/xml");
+});
 
 Route::get('/', 'MainController@home')->middleware('contest_account')->name('home');
+
+Route::get('/search', 'SearchController')->middleware('auth')->name('search');
 
 Route::group(['prefix' => 'account'], function () {
     Route::get('/', 'AccountController@index')->name('account_index');
@@ -43,38 +48,47 @@ Route::group(['prefix' => 'problem'], function () {
 });
 Route::get('/status', 'StatusController@index')->middleware('contest_account')->name('status_index');
 
-Route::group(['prefix' => 'group','as' => 'group.'], function () {
-    Route::get('/', 'GroupController@index')->middleware('contest_account')->name('index');
-    Route::get('/create', 'GroupController@create')->middleware('contest_account')->name('create');
-    Route::get('/{gcode}', 'GroupController@detail')->middleware('auth', 'contest_account')->name('detail');
+Route::group(['namespace' => 'Group', 'prefix' => 'group','as' => 'group.'], function () {
+    Route::get('/', 'IndexController@index')->middleware('contest_account')->name('index');
+    Route::get('/create', 'IndexController@create')->middleware('contest_account')->name('create');
+    Route::get('/{gcode}', 'IndexController@detail')->middleware('auth', 'contest_account')->name('detail');
 
-    Route::get('/{gcode}/analysis', 'GroupController@analysis')->middleware('auth', 'contest_account')->name('analysis');
-    Route::get('/{gcode}/analysisDownload', 'GroupController@analysisDownload')->middleware('auth', 'contest_account', 'privileged')->name('analysis.download');
+    Route::get('/{gcode}/analysis', 'IndexController@analysis')->middleware('auth', 'contest_account')->name('analysis');
+    Route::get('/{gcode}/analysisDownload', 'IndexController@analysisDownload')->middleware('auth', 'contest_account', 'privileged')->name('analysis.download');
     Route::group(['prefix' => '{gcode}/settings','as' => 'settings.', 'middleware' => ['privileged']], function () {
-        Route::get('/', 'GroupController@settings')->middleware('auth', 'contest_account')->name('index');
-        Route::get('/general', 'GroupController@settingsGeneral')->middleware('auth', 'contest_account')->name('general');
-        Route::get('/return', 'GroupController@settingsReturn')->middleware('auth', 'contest_account')->name('return');
-        Route::get('/danger', 'GroupController@settingsDanger')->middleware('auth', 'contest_account')->name('danger');
-        Route::get('/member', 'GroupController@settingsMember')->middleware('auth', 'contest_account')->name('member');
-        Route::get('/contest', 'GroupController@settingsContest')->middleware('auth', 'contest_account')->name('contest');
-        Route::get('/problems', 'GroupController@problems')->middleware('auth', 'contest_account')->name('problems');
+        Route::get('/', 'AdminController@settings')->middleware('auth', 'contest_account')->name('index');
+        Route::get('/general', 'AdminController@settingsGeneral')->middleware('auth', 'contest_account')->name('general');
+        Route::get('/return', 'AdminController@settingsReturn')->middleware('auth', 'contest_account')->name('return');
+        Route::get('/danger', 'AdminController@settingsDanger')->middleware('auth', 'contest_account')->name('danger');
+        Route::get('/member', 'AdminController@settingsMember')->middleware('auth', 'contest_account')->name('member');
+        Route::get('/contest', 'AdminController@settingsContest')->middleware('auth', 'contest_account')->name('contest');
+        Route::get('/problems', 'AdminController@problems')->middleware('auth', 'contest_account')->name('problems');
     });
 });
 
-Route::group(['prefix' => 'contest','as' => 'contest.', 'middleware' => ['contest_account']], function () {
-    Route::get('/', 'ContestController@index')->name('index');
-    Route::get('/{cid}', 'ContestController@detail')->name('detail');
-    Route::get('/{cid}/board', 'ContestController@board')->middleware('auth')->name('board');
-    Route::get('/{cid}/board/challenge', 'ContestController@challenge')->middleware('auth')->name('challenge');
-    Route::get('/{cid}/board/challenge/{ncode}', 'ContestController@editor')->middleware('auth')->name('editor');
-    Route::get('/{cid}/board/rank', 'ContestController@rank')->middleware('auth')->name('rank');
-    Route::get('/{cid}/board/status', 'ContestController@status')->middleware('auth')->name('status');
-    Route::get('/{cid}/board/clarification', 'ContestController@clarification')->middleware('auth')->name('clarification');
-    Route::get('/{cid}/board/print', 'ContestController@print')->middleware('auth')->name('print');
-    Route::get('/{cid}/board/admin', 'ContestController@admin')->middleware('auth', 'privileged')->name('admin');
-    Route::get('/{cid}/board/analysis', 'ContestController@analysis')->middleware('auth')->name('analysis');
-    Route::get('/{cid}/admin/downloadContestAccountXlsx', 'ContestController@downloadContestAccountXlsx')->middleware('auth')->name('downloadContestAccountXlsx');
-    Route::get('/{cid}/admin/refreshContestRank', 'ContestController@refreshContestRank')->middleware('auth')->name('refreshContestRank');
+Route::group([
+    'namespace' => 'Contest',
+    'prefix' => 'contest',
+    'as' => 'contest.',
+    'middleware' => [
+        'contest_account'
+    ]
+], function () {
+    Route::get('/', 'IndexController@index')->name('index');
+    Route::get('/{cid}', 'IndexController@detail')->name('detail');
+
+    Route::get('/{cid}/board', 'BoardController@board')->middleware('auth')->name('board');
+    Route::get('/{cid}/board/challenge', 'BoardController@challenge')->middleware('auth')->name('challenge');
+    Route::get('/{cid}/board/challenge/{ncode}', 'BoardController@editor')->middleware('auth')->name('editor');
+    Route::get('/{cid}/board/rank', 'BoardController@rank')->middleware('auth')->name('rank');
+    Route::get('/{cid}/board/status', 'BoardController@status')->middleware('auth')->name('status');
+    Route::get('/{cid}/board/clarification', 'BoardController@clarification')->middleware('auth')->name('clarification');
+    Route::get('/{cid}/board/print', 'BoardController@print')->middleware('auth')->name('print');
+    Route::get('/{cid}/board/analysis', 'BoardController@analysis')->middleware('auth')->name('analysis');
+
+    Route::get('/{cid}/board/admin', 'AdminController@admin')->middleware('auth', 'privileged')->name('admin');
+    Route::get('/{cid}/admin/downloadContestAccountXlsx', 'AdminController@downloadContestAccountXlsx')->middleware('auth')->name('downloadContestAccountXlsx');
+    Route::get('/{cid}/admin/refreshContestRank', 'AdminController@refreshContestRank')->middleware('auth')->name('refreshContestRank');
 });
 
 Route::group(['prefix' => 'system'], function () {
@@ -105,11 +119,12 @@ Route::group(['namespace' => 'Tool', 'middleware' => ['contest_account']], funct
 
 Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('submitSolution', 'ProblemController@submitSolution')->middleware('auth', 'throttle:1,0.17');
+    Route::post('resubmitSolution', 'ProblemController@resubmitSolution')->middleware('auth', 'throttle:1,0.17');
     Route::post('judgeStatus', 'ProblemController@judgeStatus')->middleware('auth');
     Route::post('manualJudge', 'ProblemController@manualJudge')->middleware('auth');
     Route::post('submitHistory', 'ProblemController@submitHistory')->middleware('auth');
     Route::post('problemExists', 'ProblemController@problemExists')->middleware('auth');
-    Route::post('arrangeContest', 'GroupController@arrangeContest')->middleware('auth');
+    Route::post('arrangeContest', 'GroupManageController@arrangeContest')->middleware('auth');
     Route::post('joinGroup', 'GroupController@joinGroup')->middleware('auth');
     Route::get('downloadCode', 'ProblemController@downloadCode')->middleware('auth');
     Route::post('submitSolutionDiscussion', 'ProblemController@submitSolutionDiscussion')->middleware('auth');
@@ -117,40 +132,44 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('deleteSolutionDiscussion', 'ProblemController@deleteSolutionDiscussion')->middleware('auth');
     Route::post('voteSolutionDiscussion', 'ProblemController@voteSolutionDiscussion')->middleware('auth');
 
-    Route::post('search', 'SearchController')->name('search');
+    Route::post('search', 'SearchController')->middleware('auth')->name('ajax.search');
 
     Route::group(['prefix' => 'group'], function () {
-        Route::post('changeMemberClearance', 'GroupController@changeMemberClearance')->middleware('auth');
-        Route::post('changeGroupImage', 'GroupController@changeGroupImage')->middleware('auth');
-        Route::post('changeJoinPolicy', 'GroupController@changeJoinPolicy')->middleware('auth');
-        Route::post('changeGroupName', 'GroupController@changeGroupName')->middleware('auth');
         Route::post('changeNickName', 'GroupController@changeNickName')->middleware('auth');
-        Route::get('generateContestAccount', 'GroupController@generateContestAccount')->middleware('auth');
-        Route::post('approveMember', 'GroupController@approveMember')->middleware('auth');
-        Route::post('removeMember', 'GroupController@removeMember')->middleware('auth');
         Route::post('createGroup', 'GroupController@createGroup')->middleware('auth');
-        Route::post('inviteMember', 'GroupController@inviteMember')->middleware('auth');
-        Route::post('createNotice', 'GroupController@createNotice')->middleware('auth');
-        Route::post('addProblemTag', 'GroupController@addProblemTag')->middleware('auth');
-        Route::post('removeProblemTag', 'GroupController@removeProblemTag')->middleware('auth');
         Route::post('getPracticeStat', 'GroupController@getPracticeStat')->middleware('auth');
-        Route::post('refreshElo', 'GroupController@refreshElo')->middleware('auth');
+
+        Route::post('changeMemberClearance', 'GroupManageController@changeMemberClearance')->middleware('auth');
+        Route::post('changeGroupImage', 'GroupManageController@changeGroupImage')->middleware('auth');
+        Route::post('changeJoinPolicy', 'GroupManageController@changeJoinPolicy')->middleware('auth');
+        Route::post('changeGroupName', 'GroupManageController@changeGroupName')->middleware('auth');
+        Route::post('approveMember', 'GroupManageController@approveMember')->middleware('auth');
+        Route::post('removeMember', 'GroupManageController@removeMember')->middleware('auth');
+        Route::post('inviteMember', 'GroupManageController@inviteMember')->middleware('auth');
+        Route::post('createNotice', 'GroupManageController@createNotice')->middleware('auth');
+        Route::post('changeSubGroup', 'GroupManageController@changeSubGroup')->middleware('auth');
+
+        Route::post('addProblemTag', 'GroupAdminController@addProblemTag')->middleware('auth');
+        Route::post('removeProblemTag', 'GroupAdminController@removeProblemTag')->middleware('auth');
+        Route::get('generateContestAccount', 'GroupAdminController@generateContestAccount')->middleware('auth');
+        Route::post('refreshElo', 'GroupAdminController@refreshElo')->middleware('auth');
     });
 
     Route::group(['prefix' => 'contest'], function () {
+        Route::get('updateProfessionalRate', 'ContestController@updateProfessionalRate')->middleware('auth');
         Route::post('fetchClarification', 'ContestController@fetchClarification')->middleware('auth');
         Route::post('requestClarification', 'ContestController@requestClarification')->middleware('auth', 'throttle:1,0.34');
-        Route::get('rejudge', 'ContestController@rejudge')->middleware('auth');
-        Route::get('updateProfessionalRate', 'ContestController@updateProfessionalRate')->middleware('auth');
         Route::post('registContest', 'ContestController@registContest')->middleware('auth')->name('ajax.contest.registContest');
-        Route::post('details', 'ContestController@details')->middleware('auth');
-        Route::post('assignMember', 'ContestController@assignMember')->middleware('auth');
-        Route::post('update', 'ContestController@update')->middleware('auth');
-        Route::post('issueAnnouncement', 'ContestController@issueAnnouncement')->middleware('auth');
-        Route::post('replyClarification', 'ContestController@replyClarification')->middleware('auth');
-        Route::post('setClarificationPublic', 'ContestController@setClarificationPublic')->middleware('auth');
-        Route::post('generateContestAccount', 'ContestController@generateContestAccount')->middleware('auth');
         Route::post('getAnalysisData', 'ContestController@getAnalysisData')->middleware('auth')->name('ajax.contest.getAnalysisData');
+
+        Route::get('rejudge', 'ContestAdminController@rejudge')->middleware('auth');
+        Route::post('details', 'ContestAdminController@details')->middleware('auth');
+        Route::post('assignMember', 'ContestAdminController@assignMember')->middleware('auth');
+        Route::post('update', 'ContestAdminController@update')->middleware('auth');
+        Route::post('issueAnnouncement', 'ContestAdminController@issueAnnouncement')->middleware('auth');
+        Route::post('replyClarification', 'ContestAdminController@replyClarification')->middleware('auth');
+        Route::post('setClarificationPublic', 'ContestAdminController@setClarificationPublic')->middleware('auth');
+        Route::post('generateContestAccount', 'ContestAdminController@generateContestAccount')->middleware('auth');
     });
 
     Route::group(['prefix' => 'submission'], function () {

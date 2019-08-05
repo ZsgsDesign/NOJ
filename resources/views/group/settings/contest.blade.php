@@ -726,8 +726,12 @@
                 return marked(plainText, {
                     sanitize: true,
                     sanitizer: DOMPurify.sanitize,
-                    highlight: function (code) {
-                        return hljs.highlightAuto(code).value;
+                    highlight: function (code, lang) {
+                        try {
+                            return hljs.highlight(lang,code).value;
+                        } catch (error) {
+                            return hljs.highlightAuto(code).value;
+                        }
                     }
                 });
             },
@@ -743,6 +747,12 @@
                     action: SimpleMDE.toggleItalic,
                     className: "MDI format-italic",
                     title: "Italic",
+                },
+                {
+                    name: "strikethrough",
+                    action: SimpleMDE.toggleStrikethrough,
+                    className: "MDI format-strikethrough",
+                    title: "Strikethrough",
                 },
                 "|",
                 {

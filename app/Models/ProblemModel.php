@@ -5,6 +5,7 @@ namespace App\Models;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Models\Submission\SubmissionModel;
 use Cache;
 
 class ProblemModel extends Model
@@ -433,6 +434,7 @@ class ProblemModel extends Model
                     'pid'=>$pid,
                     'sample_input'=>$d['sample_input'],
                     'sample_output'=>$d['sample_output'],
+                    'sample_note'=>$d['sample_note'],
                 ]);
             }
         }
@@ -477,6 +479,7 @@ class ProblemModel extends Model
                     'pid'=>$pid,
                     'sample_input'=>$d['sample_input'],
                     'sample_output'=>$d['sample_output'],
+                    'sample_note'=>$d['sample_note'],
                 ]);
             }
         }
