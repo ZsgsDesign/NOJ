@@ -5,6 +5,7 @@ namespace App\Babel\Monit;
 use ErrorException;
 use Exception;
 use Throwable;
+use Log;
 
 class Monitor
 {
