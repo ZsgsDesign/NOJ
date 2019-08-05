@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use GrahamCampbell\Markdown\Facades\Markdown;
+use App\Models\Submission\SubmissionModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Rating\RatingCalculator;
@@ -89,7 +90,7 @@ class ContestModel extends Model
                 "month_year"=>date_format(date_create($contest_detail["begin_time"]), 'M, Y'),
             ];
             $contest_detail["length"]=$this->calcLength($contest_detail["begin_time"], $contest_detail["end_time"]);
-            $contest_detail["description_parsed"]=clean(Markdown::convertToHtml($contest_detail["description"]));
+            $contest_detail["description_parsed"]=clean(convertMarkdownToHtml($contest_detail["description"]));
             $contest_detail["group_info"]=DB::table("group")->where(["gid"=>$contest_detail["gid"]])->first();
             $contest_detail["problem_count"]=DB::table("contest_problem")->where(["cid"=>$cid])->count();
             return [

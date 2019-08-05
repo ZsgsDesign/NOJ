@@ -246,7 +246,7 @@
                 },
             ],
         });
-        var desc = '{{urlencode($group_notice["content"])}}';
+        var desc = '{{rawurlencode($group_notice["content"])}}';
         simplemde.value(decodeURIComponent(desc));
 
         hljs.initHighlighting();

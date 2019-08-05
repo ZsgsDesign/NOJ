@@ -25,6 +25,9 @@
     <meta name="developer" content="">
     <meta name="version" content="">
     <meta name="subversion" content="">
+    <!-- SEO Information -->
+    <meta name="keywords" content="NOJ,NJUPT Online Judge,noip,noi,OJ,acm,icpc,onlineJudge,NUPT Online Judge" />
+    <meta name="description" content="NOJ is yet another Online Judge providing you functions like problem solving, discussing, solutions, groups, contests and ranking system." />
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Necessarily Declarations -->

@@ -39,7 +39,9 @@ class Monitor extends MonitorBase
             }
 
             if ($pong["status_code"]==200) {
-                $this->updateStatus($server["jsid"], 0);
+                $pong=$pong["body"];
+                $load=4 * $pong->data->cpu+0.6 * $pong->data->memory;
+                $this->updateStatus($server["jsid"], 0, $load);
             }
         }
     }
