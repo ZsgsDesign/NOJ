@@ -611,7 +611,7 @@ class ProblemModel extends Model
                 'users.name',
                 'users.id as uid'
             ])->get()->all();
-            foreach($c['reply'] as &$cr){
+            foreach($c['reply'] as $k=>&$cr){
                 $cr['reply_uid'] = DB::table('problem_discussion_comment')->where(
                     'pdcid',
                     '=',
@@ -623,15 +623,27 @@ class ProblemModel extends Model
                     $cr['reply_uid']
                 )->get()->first()['name'];
                 $cr['created_at'] = $this->formatTime($cr['created_at']);
+                if($this->replyParent($cr['pdcid'])!=$c['pdcid']){
+                    unset($c['reply'][$k]);
+                }
             }
         }
-
-
         return [
             'main' => $main,
             'paginator' => $paginator,
             'comment' => $comment
         ];
+    }
+
+    public function replyParent($pdcid)
+    {
+        $reply_id=DB::table('problem_discussion_comment')->where('pdcid','=',$pdcid)->get()->first()['reply_id'];
+        $top=DB::table('problem_discussion_comment')->where('pdcid','=',$reply_id)->get()->first()['reply_id'];
+        if(isset($top)){
+            return $this->replyParent($reply_id);
+        }else{
+            return $reply_id;
+        }
     }
 
     public function pcodeByPdid($dcode)
