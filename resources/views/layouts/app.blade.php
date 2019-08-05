@@ -25,6 +25,9 @@
     <meta name="developer" content="">
     <meta name="version" content="">
     <meta name="subversion" content="">
+    <!-- SEO Information -->
+    <meta name="keywords" content="NOJ,NJUPT Online Judge,noip,noi,OJ,acm,icpc,onlineJudge,NUPT Online Judge" />
+    <meta name="description" content="NOJ is yet another Online Judge providing you functions like problem solving, discussing, solutions, groups, contests and ranking system." />
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Necessarily Declarations -->
@@ -35,7 +38,12 @@
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="alternate icon" type="image/png" href="/favicon.png">
     <!-- OpenSearch -->
-    {{-- <link rel="search" type="application/opensearchdescription+xml" title="{{config("app.name")}}" href="/opensearch.xml"> --}}
+    <link rel="search" type="application/opensearchdescription+xml" title="{{config("app.name")}}" href="/opensearch.xml">
+    <!-- Mobile Display Declarations -->
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="theme-color" content="#3E4551">
+    <!-- Desktop App Declarations -->
+    <meta name="msapplication-TileColor" content="#3E4551">
     <!-- Third-Party Declarations -->
     <meta name="google-site-verification" content="{{ env("GOOGLE_SITE_VERIFICATION") }}" />
     <meta name="baidu-site-verification" content="{{ env("BAIDU_SITE_VERIFICATION") }}" />
@@ -219,7 +227,13 @@
                 <ul class="navbar-nav mundb-nav-right">
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
                     <form id="search-box" action="/search" method="get" class="form-inline my-2 my-lg-0 mundb-inline">
-                        <span class="bmd-form-group"><input id="search-key" class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" placeholder="Problem code" autocomplete="off" aria-label="search"></span>
+                        <span class="bmd-form-group"><input id="search-key" class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" value="{{$search_key ?? ''}}" placeholder="Onmi Search" autocomplete="off" aria-label="search"></span>
+                        <input type="hidden" name="tab" value="{{
+                            $navigation == 'DashBoard' ? 'users' :
+                            ($navigation == 'Group' ? 'groups' : (
+                            $navigation == 'Contest' ? 'contests' : 'problems'
+                            ))
+                        }}">
                     </form>
                     @endif
 
@@ -277,7 +291,7 @@
         <div class="alert alert-info mb-0" role="alert">
             <strong>Boost your security!</strong> You have not verified your email address, please verify it in your Settings Page.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="setCookie('isEmailVerifiedNoticed',1,1)">
-                <span aria-hidden="true">×</span>
+                <span aria-hidden="true">Ã—</span>
             </button>
         </div>
         @endif

@@ -660,7 +660,7 @@
                                 <li class="list-group-item">
                                     <i class="MDI google-circles"></i>
                                     <div class="bmd-list-group-col">
-                                        <p class="list-group-item-heading">None</p>
+                                        <p class="list-group-item-heading">@if(isset($my_profile['sub_group'])){{$my_profile['sub_group']}}@else None @endif</p>
                                         <p class="list-group-item-text">Sub Group</p>
                                     </div>
                                 </li>
@@ -797,7 +797,7 @@
                         </div>
                         <div class="switch">
                             <label>
-                                <input type="checkbox" disabled>
+                                <input id="switch-public" type="checkbox">
                                 Public Contest
                             </label>
                         </div>
@@ -1304,6 +1304,7 @@
             var contestBegin = $("#contestBegin").val();
             var contestEnd = $("#contestEnd").val();
             var practiceContest = $("#switch-practice").prop("checked") == true ? 1 : 0;
+            var publicContest = $('#switch-public').prop("checked") == true ? 1 : 0;
             var problemSet = "";
             var contestDescription = simplemde.value();
             $("#contestProblemSet td:first-of-type").each(function(){
@@ -1339,6 +1340,7 @@
                     begin_time: contestBegin,
                     end_time: contestEnd,
                     practice : practiceContest,
+                    public : publicContest,
                     gid: {{$basic_info["gid"]}}
                 },
                 dataType: 'json',
@@ -1347,7 +1349,17 @@
                 }, success: function(ret){
                     console.log(ret);
                     if (ret.ret==200) {
-                        alert(ret.desc);
+                        confirm({
+                            contest : 'Successful!',
+                            yesText : 'jump to',
+                            noText : 'return'
+                        },function(deny){
+                            if(deny){
+                                $('#contestModal').modal('hide');
+                            }else{
+                                window.location = '/contest/' + ret.data;
+                            }
+                        })
                         //location.reload();
                     } else {
                         alert(ret.desc);
@@ -1363,6 +1375,17 @@
             });
         });
 
+        $('#switch-public').on('click',function(){
+            if($('#switch-public').prop('checked') == true && $('#switch-practice').prop('checked') == true){
+                $('#switch-practice').prop('checked',!$('#switch-practice').prop('checked'));
+            }
+        });
+
+        $('#switch-practice').on('click',function(){
+            if($('#switch-practice').prop('checked') == true &&  $('#switch-public').prop('checked') == true){
+                $('#switch-public').prop('checked',!$('#switch-public').prop('checked'));
+            }
+        });
 
         $("#InviteBtn").click(function() {
             if(ajaxing) return;
@@ -1528,8 +1551,12 @@
                 return marked(plainText, {
                     sanitize: true,
                     sanitizer: DOMPurify.sanitize,
-                    highlight: function (code) {
-                        return hljs.highlightAuto(code).value;
+                    highlight: function (code, lang) {
+                        try {
+                            return hljs.highlight(lang,code).value;
+                        } catch (error) {
+                            return hljs.highlightAuto(code).value;
+                        }
                     }
                 });
             },
@@ -1545,6 +1572,12 @@
                     action: SimpleMDE.toggleItalic,
                     className: "MDI format-italic",
                     title: "Italic",
+                },
+                {
+                    name: "strikethrough",
+                    action: SimpleMDE.toggleStrikethrough,
+                    className: "MDI format-strikethrough",
+                    title: "Strikethrough",
                 },
                 "|",
                 {

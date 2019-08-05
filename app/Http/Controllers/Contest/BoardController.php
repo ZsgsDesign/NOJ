@@ -1,101 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Contest;
 
 use App\Models\ContestModel;
-use App\Models\GroupModel;
 use App\Models\ProblemModel;
 use App\Models\CompilerModel;
-use App\Models\SubmissionModel;
+use App\Models\Submission\SubmissionModel;
 use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use Redirect;
-use App\Exports\AccountExport;
-use Excel;
-use Cache;
-use DB;
 
-class ContestController extends Controller
+class BoardController extends Controller
 {
-    /**
-     * Show the Contest Page.
-     *
-     * @return Response
-     */
-    public function index(Request $request)
-    {
-        $all_data=$request->all();
-        $contestModel=new ContestModel();
-        $filter["rule"]=isset($all_data["rule"]) ? $all_data["rule"] : null;
-        $filter["public"]=isset($all_data["public"]) ? $all_data["public"] : null;
-        $filter["verified"]=isset($all_data["verified"]) ? $all_data["verified"] : null;
-        $filter["rated"]=isset($all_data["rated"]) ? $all_data["rated"] : null;
-        $filter["anticheated"]=isset($all_data["anticheated"]) ? $all_data["anticheated"] : null;
-        $filter["practice"]=isset($all_data["practice"]) ? $all_data["practice"] : null;
-        $return_list=$contestModel->list($filter,Auth::check()?Auth::user()->id:0);
-        $featured=$contestModel->featured();
-        if (is_null($return_list)) {
-            if (isset($all_data["page"]) && $all_data["page"]>1) {
-                return redirect("/contest");
-            } else {
-                return view('contest.index', [
-                    'page_title'=>"Contest",
-                    'site_title'=>config("app.name"),
-                    'navigation' => "Contest",
-                    'contest_list'=> null,
-                    'paginator' => null,
-                    'featured'=>$featured,
-                    'filter' => $filter
-                ]);
-            }
-        } else {
-            return view('contest.index', [
-                'page_title'=>"Contest",
-                'site_title'=>config("app.name"),
-                'navigation' => "Contest",
-                'contest_list'=>$return_list['contents'],
-                'paginator' => $return_list['paginator'],
-                'featured'=>$featured,
-                'filter' => $filter
-            ]);
-        }
-    }
-
-    /**
-     * Show the Contest Detail Page.
-     *
-     * @return Response
-     */
-    public function detail($cid)
-    {
-        $contestModel=new ContestModel();
-        $groupModel=new GroupModel();
-        $clearance=Auth::check() ? $contestModel->judgeClearance($cid, Auth::user()->id) : 0;
-        if (Auth::check()) {
-            $contest_detail=$contestModel->detail($cid, Auth::user()->id);
-            $registration=$contestModel->registration($cid, Auth::user()->id);
-            $inGroup=$groupModel->isMember($contest_detail["data"]["contest_detail"]["gid"], Auth::user()->id);
-        } else {
-            $contest_detail=$contestModel->detail($cid);
-            $registration=[];
-            $inGroup=false;
-        }
-        if ($contest_detail["ret"]!=200) {
-            return Redirect::route('contest.index');
-        }
-        return view('contest.detail', [
-            'page_title'=>"Contest",
-            'site_title'=>config("app.name"),
-            'navigation' => "Contest",
-            'detail'=>$contest_detail["data"]["contest_detail"],
-            'clearance' => $clearance,
-            'registration' => $registration,
-            'inGroup' => $inGroup
-        ]);
-    }
-
     /**
      * Redirect the Contest Board Page.
      *
@@ -255,8 +173,13 @@ class ContestController extends Controller
      *
      * @return Response
      */
-    public function status($cid)
+    public function status(Request $request)
     {
+        $all_data=$request->all();
+        $filter["ncode"]=isset($all_data["ncode"]) ? $all_data["ncode"] : null;
+        $filter["result"]=isset($all_data["result"]) ? $all_data["result"] : null;
+        $filter["account"]=isset($all_data["account"]) ? $all_data["account"] : null;
+        $cid=$request->cid;
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if (!$clearance) {
@@ -265,7 +188,7 @@ class ContestController extends Controller
         $contest_name=$contestModel->contestName($cid);
         $customInfo=$contestModel->getCustomInfo($cid);
         $basicInfo=$contestModel->basic($cid);
-        $submissionRecordSet=$contestModel->getContestRecord($cid);
+        $submissionRecordSet=$contestModel->getContestRecord($filter, $cid);
         $rankFrozen=$contestModel->isFrozen($cid);
         $frozenTime=$contestModel->frozenTime($cid);
         return view('contest.board.status', [
@@ -280,6 +203,7 @@ class ContestController extends Controller
             'rank_frozen' => $rankFrozen,
             'frozen_time' => $frozenTime,
             'clearance'=> $clearance,
+            'filter' => $filter,
         ]);
     }
 
@@ -341,57 +265,6 @@ class ContestController extends Controller
         ]);
     }
 
-    /**
-     * Show the Contest Admin Page.
-     *
-     * @return Response
-     */
-    public function admin($cid)
-    {
-        $contestModel=new ContestModel();
-        $verified=$contestModel->isVerified($cid);
-        $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
-        if ($clearance <= 2) {
-            return Redirect::route('contest_detail', ['cid' => $cid]);
-        }
-        $contest_name=$contestModel->contestName($cid);
-        $customInfo=$contestModel->getCustomInfo($cid);
-        $accountModel=new AccountModel();
-        $basicInfo=$contestModel->basic($cid);
-        $contest_accounts=$accountModel->getContestAccount($cid);
-        $gcode=$contestModel->gcode($cid);
-        return view('contest.board.admin', [
-            'page_title'=>"Admin",
-            'navigation' => "Contest",
-            'site_title'=>$contest_name,
-            'contest_name'=>$contest_name,
-            'cid'=>$cid,
-            'custom_info' => $customInfo,
-            'clearance'=> $clearance,
-            'contest_accounts'=>$contest_accounts,
-            'verified'=>$verified,
-            'gcode'=>$gcode,
-            'basic'=>$basicInfo,
-        ]);
-    }
-
-    public function downloadContestAccountXlsx($cid)
-    {
-        $contestModel=new ContestModel();
-        $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
-        if ($clearance <= 2) {
-            return Redirect::route('contest_detail', ['cid' => $cid]);
-        }
-        $account=$contestModel->getContestAccount($cid);
-        if($account==null){
-            return ;
-        }else{
-            $AccountExport=new AccountExport($account);
-            $filename="ContestAccount$cid";
-            return Excel::download($AccountExport, $filename.'.xlsx');
-        }
-    }
-
     public function analysis($cid){
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
@@ -411,21 +284,5 @@ class ContestController extends Controller
             'clearance'=> $clearance,
             'basic'=>$basicInfo,
         ]);
-    }
-
-    public function refreshContestRank($cid){
-        $contestModel=new ContestModel();
-        $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
-        if ($clearance <= 2) {
-            return Redirect::route('contest.detail', ['cid' => $cid]);
-        }
-        $contestRankRaw=$contestModel->contestRankCache($cid);
-        Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
-        Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $contestRankRaw);
-        $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
-        if(time() > $end_time){
-            $contestModel->storeContestRankInMySQL($cid, $contestRankRaw);
-        }
-        return Redirect::route('contest.rank', ['cid' => $cid]);
     }
 }

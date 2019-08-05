@@ -2,13 +2,14 @@
 
 namespace App\Babel\Judge;
 
-use App\Models\SubmissionModel;
+use App\Models\Submission\SubmissionModel;
 use App\Models\JudgerModel;
 use App\Models\ContestModel;
 use App\Babel\Submit\Curl;
 use Auth;
 use Requests;
 use Exception;
+use Throwable;
 use Log;
 
 class Judger extends Curl
@@ -32,28 +33,31 @@ class Judger extends Curl
 
         foreach ($result as $row) {
             $ocode=$row["ocode"];
-            if(!isset($this->judger[$ocode]) || is_null($this->judger[$ocode])) {
+            if (!isset($this->judger[$ocode]) || is_null($this->judger[$ocode])) {
                 $this->judger[$ocode]=self::create($ocode);
             }
             try {
                 $this->judger[$ocode]->judge($row);
-            }catch(Exception $e){
+            } catch (Throwable $e) {
+                Log::alert("Exception Occurs While Processing $ocode's Submission {$row['sid']}\n".$e->getMessage()."\nAt ".$e->getFile().":".$e->getLine());
+            } catch (Exception $e) {
                 Log::alert("Exception Occurs While Processing $ocode's Submission {$row['sid']}\n".$e->getMessage()."\nAt ".$e->getFile().":".$e->getLine());
             }
         }
     }
 
-    public static function create($ocode) {
+    public static function create($ocode)
+    {
         $name=$ocode;
         $judgerProvider="Judger";
         try {
             $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$ocode/babel.json")), true);
             $judgerProvider=$BabelConfig["provider"]["judger"];
-        } catch(ErrorException $e) {
-        } catch(Exception $e) {
+        } catch (ErrorException $e) {
+        } catch (Exception $e) {
         }
         $className = "App\\Babel\\Extension\\$name\\$judgerProvider";
-        if(class_exists($className)) {
+        if (class_exists($className)) {
             return new $className();
         } else {
             return null;

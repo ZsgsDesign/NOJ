@@ -1,7 +1,7 @@
 <?php
 namespace App\Babel\Submit;
 
-use App\Models\SubmissionModel;
+use App\Models\Submission\SubmissionModel;
 use Exception;
 
 interface CurlInterface {
@@ -58,6 +58,7 @@ class Curl
         if(isset($all_data["oj"]))      $oj = $all_data["oj"];              else throw new Exception("oj is not exist in all_data");
         if(isset($all_data["headers"])) $headers = $all_data["headers"];    else $headers = [];
         if(isset($all_data["handle"]))  $handle = $all_data["handle"];      else $handle = "default";
+        if(isset($all_data["follow"]))  $follow = $all_data["follow"];      else $handle = false;
 
         $handle=urlencode($handle);
 
@@ -66,6 +67,7 @@ class Curl
         // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, $follow);
         curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36");
         curl_setopt($ch, CURLOPT_COOKIEFILE, babel_path("Cookies/{$oj}_{$handle}.cookie"));
         curl_setopt($ch, CURLOPT_COOKIEJAR, babel_path("Cookies/{$oj}_{$handle}.cookie"));

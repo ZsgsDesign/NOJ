@@ -32,9 +32,9 @@ Till now, NOJ have been successfully deployed to the following systems:
 Here is detailed step about deploying NOJ:
 
 1. You need to have a server and installed the following:
-    - [PHP 7.3(Recommend 7.3.4)](http://php.net/downloads.php)
+    - [PHP 7.3(Recommend 7.3.6)](http://php.net/downloads.php)
     - [Composer 1.8.5(Recommend 1.8.5)](https://getcomposer.org)
-    - [MySQL 5.5.3(Recommend 8.0)](https://www.mysql.com/)
+    - [MySQL 5.7(Recommend 8.0)](https://www.mysql.com/)
     - [Redis 3.2.1(Recommend 5.0)](https://redis.io)
 
 2. Clone NOJ to your website folder;

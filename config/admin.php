@@ -207,7 +207,7 @@ return [
     */
     'operation_log' => [
 
-        'enable' => true,
+        'enable' => false,
 
         /*
          * Only logging allowed methods in the list
@@ -224,6 +224,30 @@ return [
             'admin/auth/logs*',
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Indicates whether to check route permission.
+    |--------------------------------------------------------------------------
+    */
+    'check_route_permission' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Indicates whether to check menu roles.
+    |--------------------------------------------------------------------------
+    */
+    'check_menu_roles'       => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | User default avatar
+    |--------------------------------------------------------------------------
+    |
+    | Set a default avatar for newly created users.
+    |
+    */
+    'default_avatar' => '/static/img/avatar/noj.png',
 
     /*
     |--------------------------------------------------------------------------
@@ -313,6 +337,41 @@ return [
     | Whether enable default breadcrumb for every page content.
     */
     'enable_default_breadcrumb' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enable/Disable assets minify
+    |--------------------------------------------------------------------------
+    */
+    'minify_assets' => [
+
+        // Assets will not be minified.
+        'excepts' => [
+
+        ],
+
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enable/Disable sidebar menu search
+    |--------------------------------------------------------------------------
+    */
+    'enable_menu_search' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Alert message that will displayed on top of the page.
+    |--------------------------------------------------------------------------
+    */
+    'top_alert' => '',
+
+    /*
+    |--------------------------------------------------------------------------
+    | The global Grid action display class.
+    |--------------------------------------------------------------------------
+    */
+    'grid_action_class' => \Encore\Admin\Grid\Displayers\DropdownActions::class,
 
     /*
     |--------------------------------------------------------------------------

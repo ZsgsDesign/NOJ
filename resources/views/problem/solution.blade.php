@@ -440,6 +440,10 @@
         font-size: 1rem;
         color:rgba(0,0,0,0.54);
     }
+
+    #editor-preview{
+        display: none;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -501,6 +505,7 @@
                             </content-section>
                         </solution-section>
                     @endif
+                    <div id="editor-preview"></div>
                 @endif
                 @if(empty($solution))
                 <solution-section style="align-items: center; justify-content: center;">
@@ -585,7 +590,35 @@
 <script type="text/javascript" src="/static/library/simplemde/dist/simplemde.min.js"></script>
 <script type="text/javascript" src="/static/library/marked/marked.min.js"></script>
 <script type="text/javascript" src="/static/library/dompurify/dist/purify.min.js"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$$$','$$$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+</script>
+<script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script>
+    var customSimpleMDE={
+        drawInlineFormula: (editor) => {
+            var cm = editor.codemirror;
+            var output = '';
+            var selectedText = cm.getSelection();
+            var text = selectedText || 'x = (-b \\pm \\sqrt{b^2-4ac})/(2a)';
+            output = '$$$' + text + '$$$';
+            cm.replaceSelection(output);
+        },
+        drawBlockFormula: (editor) => {
+            var cm = editor.codemirror;
+            var output = '';
+            var selectedText = cm.getSelection();
+            var text = selectedText || 'x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}';
+            output = '$$' + text + '$$';
+            cm.replaceSelection(output);
+        }
+    };
+
     var simplemde = new SimpleMDE({
         autosave: {
             enabled: true,
@@ -600,13 +633,19 @@
             codeSyntaxHighlighting: true
         },
         previewRender: function (plainText) {
-            return marked(plainText, {
+            document.getElementById("editor-preview").innerHTML=marked(plainText, {
                 sanitize: true,
                 sanitizer: DOMPurify.sanitize,
-                highlight: function (code) {
-                    return hljs.highlightAuto(code).value;
+                highlight: function (code, lang) {
+                    try {
+                        return hljs.highlight(lang,code).value;
+                    } catch (error) {
+                        return hljs.highlightAuto(code).value;
+                    }
                 }
             });
+            MathJax.Hub.Queue(["Typeset",MathJax.Hub,"editor-preview"]);
+            return document.getElementById("editor-preview").innerHTML;
         },
         status:false,
         toolbar: [{
@@ -620,6 +659,12 @@
                 action: SimpleMDE.toggleItalic,
                 className: "MDI format-italic",
                 title: "Italic",
+            },
+            {
+                name: "strikethrough",
+                action: SimpleMDE.toggleStrikethrough,
+                className: "MDI format-strikethrough",
+                title: "Strikethrough",
             },
             "|",
             {
@@ -658,6 +703,18 @@
                 action: SimpleMDE.drawImage,
                 className: "MDI image-area",
                 title: "Insert Image",
+            },
+            {
+                name: "inline-formula",
+                action: customSimpleMDE.drawInlineFormula,
+                className: "MDI alpha",
+                title: "Inline Formula",
+            },
+            {
+                name: "block-formula",
+                action: customSimpleMDE.drawBlockFormula,
+                className: "MDI beta",
+                title: "Block Formula",
             },
             "|",
             {

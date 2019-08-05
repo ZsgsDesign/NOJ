@@ -5,6 +5,7 @@ namespace App\Models;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Models\Submission\SubmissionModel;
 use Cache;
 
 class ProblemModel extends Model
@@ -166,13 +167,24 @@ class ProblemModel extends Model
                 "pid"=>$pid,
                 "content"=>$content,
                 "votes"=>0,
-                "audit"=>0,
+                "audit"=>$this->inteliAudit($uid, $content),
                 "created_at"=>date("Y-m-d H:i:s"),
                 "updated_at"=>date("Y-m-d H:i:s"),
             ]);
             return true;
         }
         return false;
+    }
+
+    private function inteliAudit($uid, $content)
+    {
+        if (strpos($content, '```')!==false){
+            $userSolutionHistory=DB::table("problem_solution")->where(['uid'=>$uid])->orderByDesc('updated_at')->first();
+            if (!empty($userSolutionHistory) && $userSolutionHistory["audit"]==1){
+                return 1;
+            }
+        }
+        return 0;
     }
 
     public function voteSolution($psoid, $uid, $type)
@@ -232,7 +244,7 @@ class ProblemModel extends Model
         }
         DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->update([
             "content"=>$content,
-            "audit"=>0,
+            "audit"=>$this->inteliAudit($uid, $content),
             "updated_at"=>date("Y-m-d H:i:s"),
         ]);
         return true;
@@ -422,6 +434,7 @@ class ProblemModel extends Model
                     'pid'=>$pid,
                     'sample_input'=>$d['sample_input'],
                     'sample_output'=>$d['sample_output'],
+                    'sample_note'=>$d['sample_note'],
                 ]);
             }
         }
@@ -466,6 +479,7 @@ class ProblemModel extends Model
                     'pid'=>$pid,
                     'sample_input'=>$d['sample_input'],
                     'sample_output'=>$d['sample_output'],
+                    'sample_note'=>$d['sample_note'],
                 ]);
             }
         }

@@ -7,7 +7,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Models\SubmissionModel;
+use App\Models\Submission\SubmissionModel;
 use App\Babel\Babel;
 
 class ProcessSubmission implements ShouldQueue

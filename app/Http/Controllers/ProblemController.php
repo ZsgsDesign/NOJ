@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProblemModel;
-use App\Models\SubmissionModel;
+use App\Models\Submission\SubmissionModel;
 use App\Models\CompilerModel;
 use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
