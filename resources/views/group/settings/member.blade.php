@@ -382,11 +382,12 @@
 
         function prompt_changeSubgroup(uid,name,sub_group)
         {
-            
+
             var name=prompt({
                 content:"change "+name+"'s subgroup to",
-                title:"Sub_group",
-                placeholder: sub_group ,
+                title:"Modify Sub Group",
+                placeholder: 'Sub Group',
+                value: sub_group ,
             }, function (deny, text){
                 if(deny) return;
                 $.ajax({
@@ -413,7 +414,7 @@
                     }
                 });
             });
-        
+
         }
 
         $('.join-policy-choice').on('click',function(){
