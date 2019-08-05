@@ -18,7 +18,9 @@ Route::group([
     $router->resource('groups', GroupController::class);
 
     Route::group(['prefix' => 'babel'], function (Router $router) {
-        $router->get('/', 'BabelController@index');
+        $router->get('/', 'BabelController@index')->name('admin.babel.index');
+        $router->get('installed', 'BabelController@installed')->name('admin.babel.installed');
+        $router->get('marketspace', 'BabelController@marketspace')->name('admin.babel.marketspace');
     });
 
 });

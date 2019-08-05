@@ -12,23 +12,59 @@ use Illuminate\Support\Facades\Redirect;
 class BabelController extends Controller
 {
     /**
-     * Show the Status Page.
+     * Show the MarketSpace Page.
      *
      * @return Response
      */
     public function index(Content $content)
     {
+        return redirect()->route('admin.babel.installed');
+    }
+
+    /**
+     * Show the Installed Page.
+     *
+     * @return Response
+     */
+    public function installed(Content $content)
+    {
         return $content
-            ->header('Babel Marketspace')
-            ->description('Download and Manage your Babel Extension')
+            ->header('Installed Babel Extension')
+            ->description('Manage your installed Babel Extension')
             ->row(function(Row $row) {
                 $row->column(12, function(Column $column) {
-                    $column->append(Self::marketspace());
+                    $column->append(Self::installedView());
                 });
             });
     }
 
-    private static function marketspace()
+    /**
+     * Show the MarketSpace Page.
+     *
+     * @return Response
+     */
+    public function marketspace(Content $content)
+    {
+        return $content
+            ->header('Babel Marketspace')
+            ->description('Find extensions from marketspace')
+            ->row(function(Row $row) {
+                $row->column(12, function(Column $column) {
+                    $column->append(Self::marketspaceView());
+                });
+            });
+    }
+
+    private static function installedView()
+    {
+        $installedExtensionList=ExtensionModel::localList();
+
+        return view('admin::babel.installed', [
+            'installedExtensionList'=>$installedExtensionList
+        ]);
+    }
+
+    private static function marketspaceView()
     {
         $extensionList=ExtensionModel::list();
 
