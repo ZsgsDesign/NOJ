@@ -345,25 +345,29 @@
                 </fresh-container>
             </paper-card>
             <paper-card class="animated fadeInLeft p-3">
-                @auth
                 <div class="text-center">
                     <button class="btn btn-outline-primary btn-rounded" onclick="$('#newDiscussionModel').modal()"><i class="MDI comment-plus-outline"></i>Post Discussion</button>
                 </div>
-                @endauth
-                @foreach ($discussion as $d)
-                    <div class="post-list">
-                        <div class="comment-number">
-                            <strong><h3>{{$d['comment_count']}}</h3></strong>
-                            <p>Comment</p>
-                        </div>
-                        <div class="post-title">
-                        <h3><a href="/discussion/{{$d['pdid']}}">{{$d["title"]}}</a></h3>
-                            <div class="user-section">
-                                <a href="/user/{{$d['uid']}}"><img src="{{$d['avatar']}}" class="cm-avatar-square">{{$d["name"]}}</a>@ {{$d['updated_at']}}
+                @if(count($discussion) == 0)
+                    <div class="cm-empty">
+                        <badge>Nothing Yet</badge>
+                    </div>
+                @else
+                    @foreach ($discussion as $d)
+                        <div class="post-list">
+                            <div class="comment-number">
+                                <strong><h3>{{$d['comment_count']}}</h3></strong>
+                                <p>Comment</p>
+                            </div>
+                            <div class="post-title">
+                            <h3><a href="/discussion/{{$d['pdid']}}">{{$d["title"]}}</a></h3>
+                                <div class="user-section">
+                                    <a href="/user/{{$d['uid']}}"><img src="{{$d['avatar']}}" class="cm-avatar-square">{{$d["name"]}}</a>@ {{$d['updated_at']}}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                @endif
             </paper-card>
         </div>
         <div class="col-sm-12 col-lg-3">
@@ -445,11 +449,11 @@
 <script type="text/javascript" src="/static/library/dompurify/dist/purify.min.js"></script>
 <script>
     hljs.initHighlighting();
-@auth
+
     var simplemde = new SimpleMDE({
         autosave: {
             enabled: true,
-            uniqueId: "markdown_editor",
+            uniqueId: "problem_disscussion_post_{{$detail['pcode']}}",
             delay: 1000,
         },
         element: $("#markdown_editor")[0],
@@ -570,6 +574,5 @@
         });
     }
 
-@endauth
 </script>
 @endsection

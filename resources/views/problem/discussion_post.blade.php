@@ -225,21 +225,21 @@
         flex-grow: 1;
         width: 0;
     }
-    solution-section{
+    .comment-section{
         display:flex;
         border-bottom:1px solid rgba(0,0,0,0.25);
         margin: 1.5rem 0 1.5rem 0;
     }
 
-    solution-section:first-of-type{
+    .comment-section:first-of-type{
         margin-top:0;
     }
-    solution-section:last-of-type{
+    .comment-section:last-of-type{
         border-bottom:none;
         margin-bottom:0;
     }
 
-    solution-section > polling-section{
+    .comment-section > polling-section{
         display:block;
         flex-shrink: 0;
         flex-grow: 0;
@@ -247,14 +247,14 @@
         text-align: center;
     }
 
-    solution-section > content-section{
+    .comment-section > content-section{
         display:block;
         flex-shrink: 1;
         flex-grow: 1;
         width: 0;
     }
 
-    solution-section > content-section > h3 > a {
+    .comment-section > content-section > h3 > a {
         color:#7a8e97!important;
     }
 
@@ -263,7 +263,7 @@
     }
 
     markdown-editor .CodeMirror {
-        height: 20rem;
+        height: 10rem;
     }
 
     markdown-editor ::-webkit-scrollbar {
@@ -276,98 +276,6 @@
 
     markdown-editor .editor-toolbar.disabled-for-preview a:not(.no-disable){
         opacity: 0.5;
-    }
-
-    solution-content{
-        display: block;
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-        -ms-word-break: break-all;
-        word-break: break-word;
-        -ms-hyphens: auto;
-        -webkit-hyphens: auto;
-        hyphens: auto;
-        font-family: Roboto,Helvetica,Arial,sans-serif;
-        color:rgba(0, 0, 0, 0.93);
-    }
-
-    solution-content p {
-        line-height: 1.5;
-        font-size: inherit
-    }
-
-    solution-content h1,solution-content h2,solution-content h3,solution-content h4,solution-content h5,solution-content h6 {
-        margin-top: 1em;
-        margin-bottom: .6em;
-        line-height: 1.1
-    }
-
-    solution-content h1 {
-        font-size: 1.8em
-    }
-
-    solution-content h2 {
-        font-size: 1.4em
-    }
-
-    solution-content h3 {
-        font-size: 1.17em
-    }
-
-    solution-content h4,solution-content h5,solution-content h6 {
-        font-size: 1em
-    }
-
-    solution-content ul {
-        margin-left: 1.3em;
-        list-style: square
-    }
-
-    .no-heading h1,.no-heading h2,.no-heading h3,.no-heading h4,.no-heading h5,.no-heading h6 {
-        padding-top: .3em;
-        padding-bottom: .3em;
-        margin: 0;
-        font-size: inherit;
-        font-weight: 400;
-        line-height: 1;
-        margin-top: .6em
-    }
-
-    solution-content ol {
-        list-style: decimal;
-        margin-left: 1.9em
-    }
-
-    solution-content li ol,solution-content li ul {
-        margin-top: 1.2em;
-        margin-bottom: 1.2em;
-        margin-left: 2em
-    }
-
-    solution-content li ul {
-        list-style: circle
-    }
-
-    solution-content table caption,solution-content table td,solution-content table th {
-        border: 1px solid #ddd;
-        padding: .5em 1em;
-        color: #666
-    }
-
-    solution-content table th {
-        background: #fbfbfb
-    }
-
-    solution-content table thead th {
-        background: #f1f1f1
-    }
-
-    solution-content table caption {
-        border-bottom: none
-    }
-
-    solution-content img {
-        max-width: 100%
     }
     .post-bottom{
         border-top:1px solid rgba(0,0,0,0.25);
@@ -484,48 +392,55 @@
 <div class="container mundb-standard-container">
     <div class="row">
         <div class="col-sm-12 col-lg-9">
-            <paper-card class="animated fadeInLeft p-3">
+            <paper-card class="animated fadeInLeft p-4">
                 <div class="user-section">
                     <a href="/user/{{$main["uid"]}}"><img src="{{$main["avatar"]}}" class="cm-avatar-square">{{$main["name"]}}</a>@ {{$main['created_at']}}
                 </div>
                 <markdown-content>
                     {!!$main["content"]!!}
                 </markdown-content>
-                <div class="post-bottom">
-                    <small>X Views</small>
+                <div class="text-center">
+                    <button class="btn btn-outline-primary btn-rounded" onclick="comment()"><i class="MDI comment-plus-outline"></i>Comment</button>
                 </div>
             </paper-card>
             <paper-card class="animated fadeInLeft p-3">
                 <h3>{{count($comment)}} Comment</h3>
-                @foreach($comment as $c)
-                    <solution-section>
-                            <img src="{{$c["avatar"]}}" class="cm-avatar">
-                            <div class="content-section">
-                                <div class="user-section">
-                                    <a href="/user/{{$c["uid"]}}">{{$c["name"]}}</a>@ {{$c['created_at']}}
-                                    <div class="float-right"></div>
-                                    <button class="btn btn-primary float-right btn-rounded"><i class="MDI thumb-up-outline"></i>@if($c['votes']==0) Like @else {{$c['votes']}} @endif</button>
-                                    <button class="btn btn-primary float-right btn-rounded"><i class="MDI reply"></i>@if(count($c['reply'])==0) Reply @else {{count($c['reply'])}} @endif</button>
-                                </div>
-                                <markdown-content>
-                                    {!!$c["content"]!!}
-                                </markdown-content>
-                                @foreach($c['reply'] as $r)
-                                    <solution-section>
-                                        <img src="{{$r["avatar"]}}" class="cm-avatar">
-                                        <div class="content-section">
-                                            <a href="/user/{{$r["uid"]}}">{{$r["name"]}}</a>@ {{$r['created_at']}}
-                                            <button class="btn btn-primary float-right btn-rounded"><i class="MDI thumb-up-outline"></i>Like</button>
-                                            <button class="btn btn-primary float-right btn-rounded"><i class="MDI reply"></i>Reply</button>
-                                            <markdown-content>
-                                                {!!$r["content"]!!}
-                                            </markdown-content>
+                @if(count($comment) == 0)
+                    <div class="cm-empty">
+                        <badge>Nothing Yet. Leave a comment?</badge>
+                    </div>
+                @else
+                    @foreach($comment as $c)
+                        <div class="comment-section">
+                                <img src="{{$c["avatar"]}}" class="cm-avatar">
+                                <div class="content-section">
+                                    <div class="user-section">
+                                        <a href="/user/{{$c["uid"]}}">{{$c["name"]}}</a>@ {{$c['created_at']}}
+                                        {{-- <button class="btn btn-primary float-right btn-rounded"><i class="MDI thumb-up-outline"></i>@if($c['votes']==0) Like @else {{$c['votes']}} @endif</button> --}}
+                                        <button class="btn btn-primary float-right btn-rounded"><i class="MDI reply"></i>@if(count($c['reply'])==0) Reply @else {{count($c['reply'])}} @endif</button>
+                                    </div>
+                                    <markdown-content>
+                                        {!!$c["content"]!!}
+                                    </markdown-content>
+                                    @foreach($c['reply'] as $r)
+                                        <div class="comment-section">
+                                            <img src="{{$r["avatar"]}}" class="cm-avatar">
+                                            <div class="content-section">
+                                                <div class="user-section">
+                                                    <a href="/user/{{$r["uid"]}}">{{$r["name"]}}</a> <strong>Reply:</strong>{{$r['reply_name']}} @ {{$r['created_at']}}
+                                                    {{-- <button class="btn btn-primary float-right btn-rounded"><i class="MDI thumb-up-outline"></i>Like</button> --}}
+                                                    <button class="btn btn-primary float-right btn-rounded" onclick="reply({{$r['pdcid']}})"><i class="MDI reply"></i>Reply</button>
+                                                </div>
+                                                <markdown-content>
+                                                    {!!$r["content"]!!}
+                                                </markdown-content>
+                                            </div>
                                         </div>
-                                    </solution-section>
-                                @endforeach
-                            </div>
-                    </solution-section>
-                @endforeach
+                                    @endforeach
+                                </div>
+                        </div>
+                    @endforeach
+                @endif
             </paper-card>
         </div>
         <div class="col-sm-12 col-lg-3">
@@ -560,6 +475,31 @@
         </div>
     </div>
 </div>
+<div id="commentModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-alert" role="document">
+            <div class="modal-content sm-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="MDI comment-multiple-outline"></i> Post Comment
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="comment_title" class="bmd-label-floating">Title</label>
+                        <input type="text" class="form-control" id="comment_title">
+                    </div>
+                    <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
+                    <markdown-editor class="mt-3 mb-3">
+                        <textarea id="markdown_editor"></textarea>
+                    </markdown-editor>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="postBtn" onclick="postComment()">Post</button>
+                </div>
+            </div>
+        </div>
+    </div>
 <script>
     document.getElementById("backBtn").addEventListener("click",function(){
         location.href="/problem/{{$detail["pcode"]}}/discussion";
@@ -580,11 +520,6 @@
 <script type="text/javascript" src="/static/library/dompurify/dist/purify.min.js"></script>
 <script>
     var simplemde = new SimpleMDE({
-        autosave: {
-            enabled: true,
-            uniqueId: "problemSolutionDiscussion_{{Auth::user()->id}}_{{$detail["pid"]}}",
-            delay: 1000,
-        },
         element: $("#solution_editor")[0],
         hideIcons: ["guide", "heading","side-by-side","fullscreen"],
         spellChecker: false,
@@ -663,20 +598,29 @@
     });
 
     hljs.initHighlighting();
+    let replyid = null;
+    function comment(){
+        replyid = null;
+        $('#commentModal').modal();
+    }
 
-    @if(Auth::check())
+    function reply(id){
+        replyid = id;
+        $('#commentModal').modal();
+    }
 
-    var submitingSolutionDiscussion=false;
-
-    function submitSolutionDiscussion() {
-        if(submitingSolutionDiscussion)return;
-        else submitingSolutionDiscussion=true;
+    let ajaxing = false;
+    function postComment() {
+        if(ajaxing)return;
+        ajaxing=true;
         $.ajax({
             type: 'POST',
-            url: '/ajax/submitSolutionDiscussion',
+            url: '/ajax/postComment',
             data: {
-                pid: {{$detail["pid"]}},
-                content: simplemde.value(),
+                pdid: {{$main['pdid']}},
+                reply_id: replyid,
+                title: $('#post_title').val(),
+                content: simplemde.value()
             },
             dataType: 'json',
             headers: {
@@ -684,13 +628,11 @@
             }, success: function(ret){
                 console.log(ret);
                 if (ret.ret==200) {
-                    alert("Your Solution Has Been Recieved.");
-                    localStorage.removeItem('{{$detail["pcode"]}}')
                     location.reload();
                 } else {
                     alert(ret.desc);
                 }
-                submitingSolutionDiscussion=false;
+                ajaxing=false;
             }, error: function(xhr, type){
                 console.log(xhr);
                 switch(xhr.status) {
@@ -703,153 +645,11 @@
                     default:
                         alert("Server Connection Error");
                 }
-                console.log('Ajax error while posting to submitSolutionDiscussion!');
-                submitingSolutionDiscussion=false;
+                console.log('Ajax error while posting to postDiscussion!');
+                ajaxing=false;
             }
         });
     }
-
-    var votingSolutionDiscussion=false;
-
-    function voteSolutionDiscussion(psoid,type) {
-        if(votingSolutionDiscussion)return;
-        else votingSolutionDiscussion=true;
-        $.ajax({
-            type: 'POST',
-            url: '/ajax/voteSolutionDiscussion',
-            data: {
-                psoid: psoid,
-                type: type,
-            },
-            dataType: 'json',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }, success: function(ret){
-                console.log(ret);
-                if (ret.ret==200) {
-                    $(`#vote_${psoid}`).text(ret.data.votes);
-                    $(`#poll_${psoid} .btn-group div`).removeClass();
-                    if(ret.data.select==1) $(`#poll_${psoid} .btn-group div:first-of-type`).addClass("upvote-selected");
-                    if(ret.data.select==0) $(`#poll_${psoid} .btn-group div:last-of-type`).addClass("downvote-selected");
-                } else {
-                    alert(ret.desc);
-                }
-                votingSolutionDiscussion=false;
-            }, error: function(xhr, type){
-                console.log(xhr);
-                switch(xhr.status) {
-                    case 422:
-                        alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
-                        break;
-                    case 429:
-                        alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
-                        break;
-                    default:
-                        alert("Server Connection Error");
-                }
-                console.log('Ajax error while posting to voteSolutionDiscussion!');
-                votingSolutionDiscussion=false;
-            }
-        });
-    }
-
-        @if(!empty($submitted))
-
-        var updatingSolutionDiscussion=false;
-
-        function updateSolutionDiscussion() {
-            if(updatingSolutionDiscussion)return;
-            else updatingSolutionDiscussion=true;
-            $.ajax({
-                type: 'POST',
-                url: '/ajax/updateSolutionDiscussion',
-                data: {
-                    psoid: {{$submitted["psoid"]}},
-                    content: simplemde.value(),
-                },
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }, success: function(ret){
-                    console.log(ret);
-                    if (ret.ret==200) {
-                        alert("Your Solution Has Been Updated.");
-                        location.reload();
-                    } else {
-                        alert(ret.desc);
-                    }
-                    updatingSolutionDiscussion=false;
-                }, error: function(xhr, type){
-                    console.log(xhr);
-                    switch(xhr.status) {
-                        case 422:
-                            alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
-                            break;
-                        case 429:
-                            alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
-                            break;
-                        default:
-                            alert("Server Connection Error");
-                    }
-                    console.log('Ajax error while posting to updateSolutionDiscussion!');
-                    updatingSolutionDiscussion=false;
-                }
-            });
-        }
-
-        // var deletingSolutionDiscussion=false;
-
-        function deleteSolutionDiscussion() {
-            if(updatingSolutionDiscussion)return;
-            else updatingSolutionDiscussion=true;
-            $.ajax({
-                type: 'POST',
-                url: '/ajax/deleteSolutionDiscussion',
-                data: {
-                    psoid: {{$submitted["psoid"]}}
-                },
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }, success: function(ret){
-                    console.log(ret);
-                    if (ret.ret==200) {
-                        alert("Your Solution Has Been Deleted.");
-                        location.reload();
-                    } else {
-                        alert(ret.desc);
-                    }
-                    updatingSolutionDiscussion=false;
-                }, error: function(xhr, type){
-                    console.log(xhr);
-                    switch(xhr.status) {
-                        case 422:
-                            alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
-                            break;
-                        case 429:
-                            alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
-                            break;
-                        default:
-                            alert("Server Connection Error");
-                    }
-                    console.log('Ajax error while posting to deleteSolutionDiscussion!');
-                    updatingSolutionDiscussion=false;
-                }
-            });
-        }
-
-        @else
-        window.addEventListener('load', function(){
-            if(localStorage.getItem('{{$detail["pcode"]}}')){
-                simplemde.value(localStorage.getItem('{{$detail["pcode"]}}'));
-            }
-            else{
-                simplemde.value('```\n//input code here\n```');
-            }
-        })
-        @endif
-
-    @endif
 
 </script>
 @endsection
