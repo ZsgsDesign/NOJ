@@ -608,7 +608,7 @@
                     url : '{{route("ajax.search")}}',
                     type : 'POST',
                     data : {
-                        search_key : decodeURIComponent('{{urlencode($search_key)}}'),
+                        search_key : decodeURIComponent('{{rawurlencode($search_key)}}'),
                     },
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
