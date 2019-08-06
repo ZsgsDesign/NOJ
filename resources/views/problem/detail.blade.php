@@ -243,13 +243,15 @@
 
                     @foreach($detail["samples"] as $ps)
 
+                        @if (!is_null($ps['sample_input']) && $ps['sample_input'] !== '')
                         <h2>Sample Input:</h2>
-
                         <pre>{!!$ps['sample_input']!!}</pre>
+                        @endif
 
+                        @if (!is_null($ps['sample_output']) && $ps['sample_output'] !== '')
                         <h2>Sample Output:</h2>
-
                         <pre>{!!$ps['sample_output']!!}</pre>
+                        @endif
 
                         @if ($ps['sample_note']) {!!$ps['sample_note']!!} @endif
 
