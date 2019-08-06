@@ -55,6 +55,23 @@ class BabelController extends Controller
             });
     }
 
+    /**
+     * Show the MarketSpace Detail Page.
+     *
+     * @return Response
+     */
+    public function detail($code, Content $content)
+    {
+        return $content
+            ->header("Extension: $code")
+            ->description('Details about this extension')
+            ->row(function(Row $row) use ($code) {
+                $row->column(12, function(Column $column) use ($code) {
+                    $column->append(Self::marketspaceDetailView($code));
+                });
+            });
+    }
+
     private static function installedView()
     {
         $installedExtensionList=ExtensionModel::localList();
@@ -69,11 +86,24 @@ class BabelController extends Controller
         $extensionList=ExtensionModel::list();
 
         if(empty($extensionList)){
-            return redirect('/admin');
+            return view('admin::babel.empty');
         }
 
         return view('admin::babel.marketspace', [
             'extensionList'=>$extensionList
+        ]);
+    }
+
+    private static function marketspaceDetailView($code)
+    {
+        $details=ExtensionModel::remoteDetail($code);
+
+        if(empty($details)){
+            return view('admin::babel.empty');
+        }
+
+        return view('admin::babel.detail', [
+            'details'=>$details
         ]);
     }
 }

@@ -21,6 +21,7 @@ Route::group([
         $router->get('/', 'BabelController@index')->name('admin.babel.index');
         $router->get('installed', 'BabelController@installed')->name('admin.babel.installed');
         $router->get('marketspace', 'BabelController@marketspace')->name('admin.babel.marketspace');
+        $router->get('marketspace/{code}', 'BabelController@detail')->name('admin.babel.detail');
     });
 
 });

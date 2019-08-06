@@ -144,9 +144,20 @@ class ExtensionModel extends Model
     public static function getRemote()
     {
         try {
-            return json_decode(file_get_contents(env("BABEL_MIRROR", "https://acm.njupt.edu.cn/babel")."/babel.json"), true);
+            return json_decode(file_get_contents(config('babel.mirror')."/babel.json"), true);
         }catch(Throwable $e){
             return [];
         }
+    }
+
+    public static function remoteDetail($code)
+    {
+        $babelConfig=self::getRemote();
+        if(empty($babelConfig)) return [];
+        $babelConfigPackages=$babelConfig["packages"];
+        foreach($babelConfigPackages as $package) {
+            if($package["code"]==$code) return $package;
+        }
+        return [];
     }
 }
