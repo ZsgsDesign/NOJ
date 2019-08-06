@@ -560,6 +560,7 @@ class ProblemModel extends Model
             'users.id as uid'
         ])->get()->first();
         $main['created_at'] = $this->formatTime($main['created_at']);
+        $main['content']=clean(Markdown::convertToHtml($main["content"]));
 
         $paginator = DB::table('problem_discussion_comment')->join(
             "users",
@@ -582,6 +583,7 @@ class ProblemModel extends Model
         ])->paginate(10);
         $comment = $paginator->all();
         foreach($comment as &$c){
+            $c['content']=clean(Markdown::convertToHtml($c["content"]));
             $c['created_at'] = $this->formatTime($c['created_at']);
             $c['reply'] = DB::table('problem_discussion_comment')->join(
                 "users",
@@ -612,6 +614,7 @@ class ProblemModel extends Model
                 'users.id as uid'
             ])->get()->all();
             foreach($c['reply'] as $k=>&$cr){
+                $cr['content']=clean(Markdown::convertToHtml($cr["content"]));
                 $cr['reply_uid'] = DB::table('problem_discussion_comment')->where(
                     'pdcid',
                     '=',
