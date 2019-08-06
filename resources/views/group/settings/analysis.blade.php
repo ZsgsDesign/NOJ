@@ -110,7 +110,8 @@
     .contest-solved,
     .tag-solved,
     .contest-rank,
-    .contest-elo{
+    .contest-elo,
+    .member-elo{
         cursor: pointer;
     }
 
@@ -153,6 +154,7 @@
                         </label>
                     </div>
                 </span>
+                <span style="font-size:1.5rem" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<p>something you can do.</p><p>Click the attribute name below total or each contest to sort.</p><p> Click on the name of a member to ignore/unignore him.</p><p> click on the Elo rate of a member to see his elo rate change history."><i class="MDI comment-question-outline"></i></span>
             </div>
             <div id="panels">
                 <div id="contest-panel"  style="display: none">
@@ -162,6 +164,29 @@
             </div>
         </settings-body>
     </settings-card>
+    <div id="historyModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content sm-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="MDI history"></i> Elo Change History</h5>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="text-left" scope="col">Contest Name</th>
+                                <th scope="col">After Contest Elo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history_container">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <script>
@@ -375,7 +400,7 @@
                         <tr id="uid-${member['uid']}">
                             <td>${member['index']}</td>
                             <td class="member-name" style="text-align: left;">${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}</span></td>
-                            <td>${member['elo']}</td>
+                            <td class="member-elo">${member['elo']}</td>
                             <td>${member['rank_ave'] == undefined ? '-' : parseFloat(member['rank_ave']).toFixed(1)}</span></td>
                             <td>${member['solved_all']}<span class="problem-maximum"> / ${member['problem_all']}</span></td>
                             <td>${Math.round(member['penalty'])}</td>
@@ -386,7 +411,7 @@
                         <tr id="uid-${member['uid']}">
                             <td>${member['index']}</td>
                             <td class="member-name" style="text-align: left;">${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}</span></td>
-                            <td>${member['elo']}</td>
+                            <td class="member-elo">${member['elo']}</td>
                             <td>${member['rank_ave'] == undefined ? '-' : parseFloat(member['rank_ave']).toFixed(1)}</span></td>
                             <td>${member['problem_all'] != 0 ? Math.round(member['solved_all'] / member['problem_all'] * 100) : '-'} %</td>
                             <td>${Math.round(member['penalty'])}</td>
@@ -675,6 +700,82 @@
                 displayTable({
                     mode : 'contest',
                     selector : '#contest-panel'
+                });
+            });
+
+            $('.member-elo').unbind();
+            $('.member-elo').on('click',function(){
+                if(ajaxing) return;
+                ajaxing = true;
+                var uid = parseInt($(this).parent('tr').attr('id').split('-')[1]);
+                console.log(uid);
+                $.ajax({
+                    type: 'POST',
+                    url: '/ajax/group/eloChangeLog',
+                    data: {
+                        gid: {{ $group_info['gid'] }},
+                        uid: uid
+                    },
+                    dataType: 'json',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }, success: function(ret){
+                        if(ret.ret == '200'){
+                            console.log(ret);
+                            var data = ret.data;
+                            $('#historyModal #history_container').html('');
+                            //init 1500
+                            $('#historyModal #history_container').append(`
+                            <tr>
+                                <td class="text-left"></td>
+                                <td>1500</td>
+                            </tr>
+                            `)
+                            //for each any change
+                            for (const key in data) {
+                                var color_class;
+                                if(key == 0){
+                                    if(data[key]['ranking'] < 1500){
+                                        color_class = 'alert-danger';
+                                    }else if(data[key]['ranking'] == 1500){
+                                        color_class = '';
+                                    }else{
+                                        color_class = 'alert-success';
+                                    }
+                                }else{
+                                    if(data[key]['ranking'] < data[key-1]['ranking']){
+                                        color_class = 'alert-danger';
+                                    }else if(data[key]['ranking'] == data[key-1]['ranking']){
+                                        color_class = '';
+                                    }else{
+                                        color_class = 'alert-success';
+                                    }
+                                }
+                                $('#historyModal #history_container').prepend(`
+                                <tr class="${color_class}">
+                                    <td class="text-left">${data[key]['name']}</td>
+                                    <td>${data[key]['ranking']}</td>
+                                </tr>
+                                `)
+                            }
+                            $('#historyModal').modal();
+                            ajaxing = false;
+                        }
+                    }, error: function(xhr, type){
+                        console.log(xhr);
+                        switch(xhr.status) {
+                            case 422:
+                                alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                                break;
+                            case 429:
+                                alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                                break;
+                            default:
+                                alert("Server Connection Error");
+                        }
+                        console.log('Ajax error while posting to ' + type);
+                        ajaxing = false;
+                    }
                 });
             });
         }

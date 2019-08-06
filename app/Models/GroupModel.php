@@ -596,4 +596,16 @@ class GroupModel extends Model
 
         return true;
     }
+
+    public function getEloChangeLog($gid,$uid)
+    {
+        return DB::table('group_rated_change_log')
+            ->join('contest','group_rated_change_log.cid','=','contest.cid')
+            ->where([
+                'group_rated_change_log.gid' => $gid,
+                'group_rated_change_log.uid' => $uid
+            ])->select('group_rated_change_log.cid as cid', 'contest.name as name', 'ranking')
+            ->orderBy('contest.end_time')
+            ->get()->all();
+    }
 }

@@ -138,6 +138,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
         Route::post('changeNickName', 'GroupController@changeNickName')->middleware('auth');
         Route::post('createGroup', 'GroupController@createGroup')->middleware('auth');
         Route::post('getPracticeStat', 'GroupController@getPracticeStat')->middleware('auth');
+        Route::post('eloChangeLog', 'GroupController@eloChangeLog')->middleware('auth');
 
         Route::post('changeMemberClearance', 'GroupManageController@changeMemberClearance')->middleware('auth');
         Route::post('changeGroupImage', 'GroupManageController@changeGroupImage')->middleware('auth');
