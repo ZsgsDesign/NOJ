@@ -50,7 +50,7 @@
     }
 
     .mundb-standard-container td:first-of-type,
-    .mundb-standard-container th:first-of-type{
+    .td-name,.member-name,#th-sharp{
         border-right: 1px solid rgb(241, 241, 241);
     }
 
@@ -97,7 +97,7 @@
         font-weight: normal;
     }
 
-    th{
+    th,td{
         white-space: nowrap;
     }
 
@@ -330,8 +330,8 @@
                         <table class="table">
                             <thead>
                                 <tr id="tr-1">
-                                    <th scope="col" rowspan="2" style="text-align: left;">#</th>
-                                    <th scope="col" rowspan="2" style="text-align: left;">Member</th>
+                                    <th id="th-sharp" scope="col" rowspan="2" style="text-align: left;">#</th>
+                                    <th class="td-name" scope="col" rowspan="2" style="text-align: left;">Member</th>
                                     <th scope="col" colspan="4" style="text-align: middle;">Total</th>
                                     <!-- here is contests -->
                                 </tr>
