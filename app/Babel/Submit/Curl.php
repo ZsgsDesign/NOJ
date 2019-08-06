@@ -58,7 +58,7 @@ class Curl
         if(isset($all_data["oj"]))      $oj = $all_data["oj"];              else throw new Exception("oj is not exist in all_data");
         if(isset($all_data["headers"])) $headers = $all_data["headers"];    else $headers = [];
         if(isset($all_data["handle"]))  $handle = $all_data["handle"];      else $handle = "default";
-        if(isset($all_data["follow"]))  $follow = $all_data["follow"];      else $handle = false;
+        if(isset($all_data["follow"]))  $follow = $all_data["follow"];      else $follow = false;
 
         $handle=urlencode($handle);
 

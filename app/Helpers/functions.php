@@ -23,6 +23,8 @@ use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Contracts\Broadcasting\Factory as BroadcastFactory;
 use Illuminate\Support\Facades\DB;
+use GrahamCampbell\Markdown\Facades\Markdown;
+
 
 if (!function_exists('version')) {
     function version()
@@ -53,7 +55,7 @@ if (!function_exists('getCustomUrl')) {
 if (!function_exists('emailVerified')) {
     function emailVerified()
     {
-        if(Auth::check()){
+        if (Auth::check()) {
             return !is_null(Auth::user()->email_verified_at);
         }
 
@@ -95,7 +97,7 @@ if (! function_exists('glob_recursive')) {
 if (!function_exists('adminMenu')) {
     function adminMenu()
     {
-        return json_decode(file_get_contents(app_path('Admin/menu.json')),true);
+        return json_decode(file_get_contents(app_path('Admin/menu.json')), true);
     }
 }
 
@@ -133,5 +135,12 @@ if (!function_exists('delFile')) {
             }
             closedir($handle);
         }
+    }
+}
+
+if (!function_exists('convertMarkdownToHtml')) {
+    function convertMarkdownToHtml($md)
+    {
+        return is_string($md)?Markdown::convertToHtml($md):'';
     }
 }

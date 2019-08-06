@@ -291,7 +291,7 @@
         <div class="alert alert-info mb-0" role="alert">
             <strong>Boost your security!</strong> You have not verified your email address, please verify it in your Settings Page.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="setCookie('isEmailVerifiedNoticed',1,1)">
-                <span aria-hidden="true">Ã—</span>
+                <span aria-hidden="true">×</span>
             </button>
         </div>
         @endif
