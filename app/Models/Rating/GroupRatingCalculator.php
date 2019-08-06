@@ -44,6 +44,9 @@ class GroupRatingCalculator extends Model
             $ratings[$rating['uid']] = $rating['ranking'];
         }
         foreach($contestRankRaw as $c){
+            if(!isset($ratings[$c['uid']])){
+                continue;
+            }
             $this->contestants[]=[
                 "uid"=>$c["uid"],
                 "points"=>$c["score"],
