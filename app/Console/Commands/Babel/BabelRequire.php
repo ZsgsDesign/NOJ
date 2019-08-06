@@ -51,7 +51,7 @@ class BabelRequire extends Command
             }
             return;
         }
-        $marketspaceRaw=json_decode(file_get_contents(env("BABEL_MIRROR", "https://acm.njupt.edu.cn/babel")."/babel.json"), true);
+        $marketspaceRaw=json_decode(file_get_contents(config('babel.mirror')."/babel.json"), true);
         $marketspacePackages=$marketspaceRaw["packages"];
         $marketspaceHash=$marketspaceRaw["content-hash"];
         $packageCodeColumn=array_column($marketspacePackages, 'code');
