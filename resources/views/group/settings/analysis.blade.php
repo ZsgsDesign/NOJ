@@ -50,7 +50,10 @@
     }
 
     .mundb-standard-container td:first-of-type,
-    .td-name,.member-name,#th-sharp{
+    .td-name,
+    .member-name,
+    #th-sharp,
+    .th-member{
         border-right: 1px solid rgb(241, 241, 241);
     }
 
@@ -429,7 +432,7 @@
                         <table class="table">
                             <thead>
                                 <tr id="tr-1">
-                                    <th scope="col" rowspan="2" style="text-align: left;">Member</th>
+                                    <th class="th-member" scope="col" rowspan="2" style="text-align: left;">Member</th>
                                     <!-- here is tags -->
                                 </tr>
                                 <tr id="tr-2">
