@@ -453,6 +453,7 @@ class GroupModel extends Model
                 ->where('cid',$c['cid'])
                 ->count();
             $index = 1;
+            $rank = 1;
             $last_cr = [];
             $last_rank = 1;
             foreach ($contestRank as $cr) {
@@ -470,7 +471,7 @@ class GroupModel extends Model
                     $memberData[$cr['uid']]['problem_all'] += $problemsCount;
                     $memberData[$cr['uid']]['penalty'] += $cr['penalty'];
                     $memberData[$cr['uid']]['contest_detial'][$c['cid']] = [
-                        'rank' => $rank ?? 1,
+                        'rank' => $rank,
                         'solved' => $cr['solved'],
                         'problems' => $problemsCount,
                         'penalty' => $cr['penalty']
