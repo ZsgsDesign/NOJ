@@ -31,7 +31,6 @@ class GroupRatingCalculator extends Model
             }
         }
         $contestRankRaw = array_values($contestRankRaw);
-        $this->totParticipants = count($contestRankRaw);
         $members = array_column($contestRankRaw,'uid');
         $ratings_temp = DB::table('group_member')
             ->where([
@@ -53,6 +52,7 @@ class GroupRatingCalculator extends Model
                 "rating"=>$ratings[$c['uid']],
             ];
         }
+        $this->totParticipants = count($this->contestants);
     }
 
     private function reassignRank(){
