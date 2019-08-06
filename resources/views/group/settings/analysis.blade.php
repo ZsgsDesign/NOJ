@@ -257,6 +257,7 @@
                         console.log(ret);
                         data_contest = ret.data;
                         ajaxing = false;
+                        sortContestData({by : 'elo',desc : true})
                         displayTable({
                             mode : 'contest',
                             selector : '#contest-panel'
@@ -329,6 +330,7 @@
                         <table class="table">
                             <thead>
                                 <tr id="tr-1">
+                                    <th scope="col" rowspan="2" style="text-align: left;">#</th>
                                     <th scope="col" rowspan="2" style="text-align: left;">Member</th>
                                     <th scope="col" colspan="4" style="text-align: middle;">Total</th>
                                     <!-- here is contests -->
@@ -364,6 +366,7 @@
                     if(!contest_showPercent){
                         $(selector + ' tbody').append(`
                         <tr id="uid-${member['uid']}">
+                            <td>${member['index']}</td>
                             <td class="member-name" style="text-align: left;">${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}</span></td>
                             <td>${member['elo']}</td>
                             <td>${member['rank_ave'] == undefined ? '-' : parseFloat(member['rank_ave']).toFixed(1)}</span></td>
@@ -527,6 +530,23 @@
                         }
                     }
                 });
+                var var_name = {
+                    elo : 'elo',
+                    rank : 'rank_ave',
+                    solved : 'solved_all',
+                    penalty : 'penalty',
+                }
+                for(let i in data_contest.member_data){
+                    if(byContest == 0){
+                        if(i >= 1 && data_contest.member_data[i][var_name[by]] == data_contest.member_data[i - 1][var_name[by]]){
+                            data_contest.member_data[i]['index'] = data_contest.member_data[i-1]['index'];
+                        }else{
+                            data_contest.member_data[i]['index'] = parseInt(i) + 1;
+                        }
+                    }else{
+                        data_contest.member_data[i]['index'] = '';
+                    }
+                }
             }
         }
 
