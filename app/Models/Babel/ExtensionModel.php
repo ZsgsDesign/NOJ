@@ -149,4 +149,15 @@ class ExtensionModel extends Model
             return [];
         }
     }
+
+    public static function remoteDetail($code)
+    {
+        $babelConfig=self::getRemote();
+        if(empty($babelConfig)) return [];
+        $babelConfigPackages=$babelConfig["packages"];
+        foreach($babelConfigPackages as $package) {
+            if($package["code"]==$code) return $package;
+        }
+        return [];
+    }
 }
