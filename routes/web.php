@@ -54,7 +54,7 @@ Route::group(['namespace' => 'Group', 'prefix' => 'group','as' => 'group.'], fun
     Route::get('/{gcode}', 'IndexController@detail')->middleware('auth', 'contest_account')->name('detail');
 
     Route::get('/{gcode}/analysis', 'IndexController@analysis')->middleware('auth', 'contest_account')->name('analysis');
-    Route::get('/{gcode}/analysisDownload', 'IndexController@analysisDownload')->middleware('auth', 'contest_account', 'privileged')->name('analysis.download');
+    Route::get('/{gcode}/analysisDownload', 'IndexController@analysisDownload')->middleware('auth', 'contest_account')->name('analysis.download');
     Route::group(['prefix' => '{gcode}/settings','as' => 'settings.', 'middleware' => ['privileged']], function () {
         Route::get('/', 'AdminController@settings')->middleware('auth', 'contest_account')->name('index');
         Route::get('/general', 'AdminController@settingsGeneral')->middleware('auth', 'contest_account')->name('general');
