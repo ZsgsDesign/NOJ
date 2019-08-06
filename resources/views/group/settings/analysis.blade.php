@@ -381,6 +381,7 @@
                     }else{
                         $(selector + ' tbody').append(`
                         <tr id="uid-${member['uid']}">
+                            <td>${member['index']}</td>
                             <td class="member-name" style="text-align: left;">${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}</span></td>
                             <td>${member['elo']}</td>
                             <td>${member['rank_ave'] == undefined ? '-' : parseFloat(member['rank_ave']).toFixed(1)}</span></td>
