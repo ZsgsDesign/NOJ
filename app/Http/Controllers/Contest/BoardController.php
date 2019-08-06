@@ -148,10 +148,12 @@ class BoardController extends Controller
         $problemSet=$contestModel->contestProblems($cid, Auth::user()->id);
         $customInfo=$contestModel->getCustomInfo($cid);
         $contestRank=$contestModel->contestRank($cid, Auth::user()->id);
+
+        // To determine the ranking
         foreach ($contestRank as $i => &$r) {
             if($i != 0) {
                 if($r['score'] == $contestRank[$i-1]['score'] && $r['penalty'] == $contestRank[$i-1]['penalty']){
-                    $r['ranl'] = $contestRank[$i-1]['rank'];
+                    $r['rank'] = $contestRank[$i-1]['rank'];
                 }else{
                     $r['rank'] = $i + 1;
                 }
