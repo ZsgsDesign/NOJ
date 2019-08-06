@@ -324,12 +324,14 @@
         }
 
         function displayTable({mode = 'contest',selector = '#contest-panel'}){
+            var scrollLeft = document.querySelector(`${selector} .table-responsive`) == null ? 0 : document.querySelector(`${selector} .table-responsive`).scrollLeft;
             if(mode == 'contest'){
                 var contest_list = data_contest.contest_list;
                 var member_data = data_contest.member_data;
+                //main table div
                 $(selector).html('').append(`
                 <div class="text-center">
-                    <div calss="table-responsive" style="overflow-x: auto">
+                    <div class="table-responsive" style="overflow-x: auto">
                         <table class="table">
                             <thead>
                                 <tr id="tr-1">
@@ -356,6 +358,7 @@
                 for(let contest_index in contest_list){
                     let contest_id = contest_list[contest_index]['cid'];
                     let contest_name = contest_list[contest_index]['name'];
+                    //thead
                     $(selector + ' #tr-1').append(`
                         <th class="t-left" scope="col" colspan="3" style="max-width: 6rem; text-overflow: ellipsis; overflow: hidden; white-space:nowrap" class="contest-name" data-cid="${contest_id}" title="${contest_name}">${contest_name}</th>
                     `);
@@ -433,7 +436,7 @@
                 var all_problems = data_tag['all_problems'];
                 $(selector).html('').append(`
                 <div class="text-center">
-                    <div calss="table-responsive" style="overflow-x: auto">
+                    <div class="table-responsive" style="overflow-x: auto">
                         <table class="table">
                             <thead>
                                 <tr id="tr-1">
@@ -485,6 +488,7 @@
                 }
                 registerTagOpr()
             }
+            document.querySelector(`${selector} .table-responsive`).scrollLeft = scrollLeft;
         }
 
         function sortContestData({byContest = 0,by = 'rank',desc = false}){
