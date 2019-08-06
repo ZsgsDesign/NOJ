@@ -344,11 +344,16 @@
         hyphens: auto;
         font-family: Roboto,Helvetica,Arial,sans-serif;
         color:rgba(0, 0, 0, 0.93);
+        overflow: hidden;
     }
 
     solution-content p {
         line-height: 1.5;
-        font-size: inherit
+        font-size: inherit;
+    }
+
+    solution-content .MathJax_Display {
+        overflow: auto;
     }
 
     solution-content h1,solution-content h2,solution-content h3,solution-content h4,solution-content h5,solution-content h6 {

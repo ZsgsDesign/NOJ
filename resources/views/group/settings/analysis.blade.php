@@ -49,9 +49,12 @@
         background-color: rgba(0, 0, 0, 0.2);
     }
 
-    .mundb-standard-container td:first-of-type,
-    .mundb-standard-container th:first-of-type{
+    .mundb-standard-container td:first-of-type,.td-name,.member-name,#th-sharp,.th-member{
         border-right: 1px solid rgb(241, 241, 241);
+    }
+
+    .t-left{
+        border-left: 1px solid rgb(241, 241, 241);
     }
 
     .table thead th,
@@ -97,7 +100,7 @@
         font-weight: normal;
     }
 
-    th{
+    th,td{
         white-space: nowrap;
     }
 
@@ -257,6 +260,7 @@
                         console.log(ret);
                         data_contest = ret.data;
                         ajaxing = false;
+                        sortContestData({by : 'elo',desc : true})
                         displayTable({
                             mode : 'contest',
                             selector : '#contest-panel'
@@ -320,16 +324,19 @@
         }
 
         function displayTable({mode = 'contest',selector = '#contest-panel'}){
+            var scrollLeft = document.querySelector(`${selector} .table-responsive`) == null ? 0 : document.querySelector(`${selector} .table-responsive`).scrollLeft;
             if(mode == 'contest'){
                 var contest_list = data_contest.contest_list;
                 var member_data = data_contest.member_data;
+                //main table div
                 $(selector).html('').append(`
                 <div class="text-center">
-                    <div calss="table-responsive" style="overflow-x: auto">
+                    <div class="table-responsive" style="overflow-x: auto">
                         <table class="table">
                             <thead>
                                 <tr id="tr-1">
-                                    <th scope="col" rowspan="2" style="text-align: left;">Member</th>
+                                    <th id="th-sharp" scope="col" rowspan="2" style="text-align: left;">#</th>
+                                    <th class="td-name" scope="col" rowspan="2" style="text-align: left;">Member</th>
                                     <th scope="col" colspan="4" style="text-align: middle;">Total</th>
                                     <!-- here is contests -->
                                 </tr>
@@ -351,10 +358,12 @@
                 for(let contest_index in contest_list){
                     let contest_id = contest_list[contest_index]['cid'];
                     let contest_name = contest_list[contest_index]['name'];
+                    //thead
                     $(selector + ' #tr-1').append(`
-                        <th scope="col" colspan="2" style="max-width: 6rem; text-overflow: ellipsis; overflow: hidden; white-space:nowrap" class="contest-name" data-cid="${contest_id}" title="${contest_name}">${contest_name}</th>
+                        <th class="t-left" scope="col" colspan="3" style="max-width: 6rem; text-overflow: ellipsis; overflow: hidden; white-space:nowrap" class="contest-name" data-cid="${contest_id}" title="${contest_name}">${contest_name}</th>
                     `);
                     $(selector + ' #tr-2').append(`
+                        <th scope="col" class="contest-rank t-left" data-cid="${contest_id}">Rank</th>
                         <th scope="col" class="contest-solved" data-cid="${contest_id}">Solved</th>
                         <th scope="col" class="contest-penalty" data-cid="${contest_id}">Penalty</th>
                     `);
@@ -364,6 +373,7 @@
                     if(!contest_showPercent){
                         $(selector + ' tbody').append(`
                         <tr id="uid-${member['uid']}">
+                            <td>${member['index']}</td>
                             <td class="member-name" style="text-align: left;">${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}</span></td>
                             <td>${member['elo']}</td>
                             <td>${member['rank_ave'] == undefined ? '-' : parseFloat(member['rank_ave']).toFixed(1)}</span></td>
@@ -374,6 +384,7 @@
                     }else{
                         $(selector + ' tbody').append(`
                         <tr id="uid-${member['uid']}">
+                            <td>${member['index']}</td>
                             <td class="member-name" style="text-align: left;">${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}</span></td>
                             <td>${member['elo']}</td>
                             <td>${member['rank_ave'] == undefined ? '-' : parseFloat(member['rank_ave']).toFixed(1)}</span></td>
@@ -387,12 +398,14 @@
                         if(Object.keys(member['contest_detial']).indexOf(`${contest_id}`) != -1){
                             if(contest_showPercent){
                                 $(selector + ' #uid-'+member['uid']).append(`
+                                <td class="t-left">${member['contest_detial'][contest_id]['rank']}</td>
                                 <td>${Math.round(1.0*member['contest_detial'][contest_id]['solved'] / member['contest_detial'][contest_id]['problems'] * 100)} %</td>
                                 <td>${Math.round(member['contest_detial'][contest_id]['penalty'])}</td>
                                 `
                                 );
                             }else{
                                 $(selector + ' #uid-'+member['uid']).append(`
+                                <td class="t-left">${member['contest_detial'][contest_id]['rank']}</td>
                                 <td>${member['contest_detial'][contest_id]['solved']} <span class="problem-maximum"> / ${member['contest_detial'][contest_id]['problems']}</span></td>
                                 <td>${Math.round(member['contest_detial'][contest_id]['penalty'])}</td>
                                 `
@@ -400,6 +413,7 @@
                             }
                         }else{
                             $(selector + ' #uid-'+member['uid']).append(`
+                            <td class="t-left">-</td>
                             <td>- <span class="problem-maximum"> / -</span></td>
                             <td>-</td>
                             `
@@ -422,11 +436,11 @@
                 var all_problems = data_tag['all_problems'];
                 $(selector).html('').append(`
                 <div class="text-center">
-                    <div calss="table-responsive" style="overflow-x: auto">
+                    <div class="table-responsive" style="overflow-x: auto">
                         <table class="table">
                             <thead>
                                 <tr id="tr-1">
-                                    <th scope="col" rowspan="2" style="text-align: left;">Member</th>
+                                    <th class="th-member" scope="col" rowspan="2" style="text-align: left;">Member</th>
                                     <!-- here is tags -->
                                 </tr>
                                 <tr id="tr-2">
@@ -474,6 +488,7 @@
                 }
                 registerTagOpr()
             }
+            document.querySelector(`${selector} .table-responsive`).scrollLeft = scrollLeft;
         }
 
         function sortContestData({byContest = 0,by = 'rank',desc = false}){
@@ -527,6 +542,23 @@
                         }
                     }
                 });
+                var var_name = {
+                    elo : 'elo',
+                    rank : 'rank_ave',
+                    solved : 'solved_all',
+                    penalty : 'penalty',
+                }
+                for(let i in data_contest.member_data){
+                    if(byContest == 0){
+                        if(i >= 1 && data_contest.member_data[i][var_name[by]] == data_contest.member_data[i - 1][var_name[by]]){
+                            data_contest.member_data[i]['index'] = data_contest.member_data[i-1]['index'];
+                        }else{
+                            data_contest.member_data[i]['index'] = parseInt(i) + 1;
+                        }
+                    }else{
+                        data_contest.member_data[i]['index'] = '';
+                    }
+                }
             }
         }
 

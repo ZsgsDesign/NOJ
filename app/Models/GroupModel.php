@@ -178,7 +178,7 @@ class GroupModel extends Model
         $notice_item["name"]=$notice_author["name"];
         $notice_item["avatar"]=$notice_author["avatar"];
         $notice_item["post_date_parsed"]=$this->formatPostTime($notice_item["post_date"]);
-        $notice_item["content_parsed"]=clean(Markdown::convertToHtml($notice_item["content"]));
+        $notice_item["content_parsed"]=clean(convertMarkdownToHtml($notice_item["content"]));
         return $notice_item;
     }
 
@@ -452,9 +452,20 @@ class GroupModel extends Model
             $problemsCount = DB::table('contest_problem')
                 ->where('cid',$c['cid'])
                 ->count();
-            $rank = 0;
+            $index = 1;
+            $rank = 1;
+            $last_cr = [];
+            $last_rank = 1;
             foreach ($contestRank as $cr) {
-                $rank++;
+                $last_rank = $index;
+                if(!empty($last_cr)){
+                    if($cr['solved'] == $last_cr['solved'] && $cr['penalty'] == $last_cr['penalty'] ){
+                        $rank = $last_rank;
+                    }else{
+                        $rank = $index;
+                        $last_rank = $rank;
+                    }
+                }
                 if(in_array($cr['uid'],array_keys($memberData))) {
                     $memberData[$cr['uid']]['solved_all'] += $cr['solved'];
                     $memberData[$cr['uid']]['problem_all'] += $problemsCount;
@@ -466,6 +477,8 @@ class GroupModel extends Model
                         'penalty' => $cr['penalty']
                     ];
                 }
+                $last_cr = $cr;
+                $index++;
             }
         }
         $new_memberData = [];

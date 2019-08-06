@@ -55,36 +55,13 @@ class JudgerModel extends Model
 
     public function server($oid=1)
     {
-        $serverList=DB::table("judge_server")->where(["oid"=>$oid, "available"=>1])->get()->all();
-        // return $serverList[0];
-        $bestServer=[
-            "load"=> 99999,
-            "server" => null
-        ];
-        foreach ($serverList as $server) {
-            $serverURL="http://".$server["host"].":".$server["port"];
-            try {
-                $pong=$this->ping($serverURL.'/ping', $server["port"], hash('sha256', $server["token"]));
-            } catch (Exception $exception) {
-                continue;
-            }
+        $serverList=DB::table("judge_server")->where([
+            "oid"=>$oid,
+            "available"=>1,
+            "status"=>0
+        ])->orderBy('usage','desc')->get()->first();
 
-            if (empty($pong)) {
-                continue;
-            }
-
-            if ($pong["status_code"]==200) {
-                $pong=$pong["body"];
-                $load=4 * $pong->data->cpu+0.6 * $pong->data->memory;
-                if ($load<$bestServer['load']) {
-                    $bestServer=[
-                        'server' => $server,
-                        'load' => $load
-                    ];
-                }
-            }
-        }
-        return $bestServer["server"];
+        return $serverList;
     }
 
     public function fetchServer($oid=1)
