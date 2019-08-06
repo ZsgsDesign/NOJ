@@ -9,7 +9,7 @@ use Throwable;
 
 class MonitorBase
 {
-    public function updateStatus($jsid, $status)
+    public function updateStatus($jsid, $status, $usage=null)
     {
         $judgeServer=JudgeServerModel::find($jsid);
         if (is_null($judgeServer)) {
@@ -20,6 +20,8 @@ class MonitorBase
             }
             $judgeServer->status=$status;
             $judgeServer->status_update_at=date("Y-m-d H:i:s");
+            $judgeServer->usage=$usage;
+            $judgeServer->save();
         }
     }
 }

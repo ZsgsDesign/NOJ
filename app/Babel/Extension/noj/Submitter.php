@@ -56,7 +56,7 @@ class Submitter extends Curl
         $judgerModel=new JudgerModel();
         $problemModel=new ProblemModel();
         $contestModel=new ContestModel();
-        $bestServer=$judgerModel->server(1);
+        $bestServer=$judgerModel->server($this->oid);
         if (is_null($bestServer)) {
             $this->sub['verdict']="Compile Error";
             $this->sub['compile_info']="No Available Judger.";

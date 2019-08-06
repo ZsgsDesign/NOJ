@@ -33,10 +33,10 @@ class Judger extends Curl
 
         foreach ($result as $row) {
             $ocode=$row["ocode"];
-            if (!isset($this->judger[$ocode]) || is_null($this->judger[$ocode])) {
-                $this->judger[$ocode]=self::create($ocode);
-            }
             try {
+                if (!isset($this->judger[$ocode]) || is_null($this->judger[$ocode])) {
+                    $this->judger[$ocode]=self::create($ocode);
+                }
                 $this->judger[$ocode]->judge($row);
             } catch (Throwable $e) {
                 Log::alert("Exception Occurs While Processing $ocode's Submission {$row['sid']}\n".$e->getMessage()."\nAt ".$e->getFile().":".$e->getLine());

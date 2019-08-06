@@ -26,7 +26,7 @@ class AnnouncementModel extends Model
             $item["name"]=$notice_author["name"];
             $item["avatar"]=$notice_author["avatar"];
             $item["post_date_parsed"]=$this->formatPostTime($item["post_date"]);
-            $item["content_parsed"]=clean(Markdown::convertToHtml($item["content"]));
+            $item["content_parsed"]=clean(convertMarkdownToHtml($item["content"]));
         }
         return $list;
     }

@@ -17,7 +17,7 @@ class Monitor
     public function __construct($conf)
     {
         $monitor=self::create($conf);
-        if (!is_null($monitor) && isset($crawler)) {
+        if (!is_null($monitor) && isset($monitor)) {
             $monitor->check();
         }
     }

@@ -178,7 +178,7 @@ class GroupModel extends Model
         $notice_item["name"]=$notice_author["name"];
         $notice_item["avatar"]=$notice_author["avatar"];
         $notice_item["post_date_parsed"]=$this->formatPostTime($notice_item["post_date"]);
-        $notice_item["content_parsed"]=clean(Markdown::convertToHtml($notice_item["content"]));
+        $notice_item["content_parsed"]=clean(convertMarkdownToHtml($notice_item["content"]));
         return $notice_item;
     }
 
