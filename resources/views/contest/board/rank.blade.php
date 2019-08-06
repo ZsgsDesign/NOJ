@@ -183,9 +183,16 @@
                     <tbody>
                         @if($contest_rule==1)
                             {{-- ACM/ICPC Mode --}}
-                            @foreach($contest_rank as $r)
+                            @foreach($contest_rank as &$r)
                             <tr class="@if($r["uid"]==Auth::user()->id) cm-me @endif @if(isset($r["remote"]) && $r["remote"]) cm-remote @endif">
-                                <th scope="row">{{$loop->iteration}}</th>
+                                <th scope="row">
+                                    @if($loop->iteration == 1)
+                                        {{ $r['rank'] = $loop->iteration }}
+                                    @else
+                                        {{($r['score'] == $contest_rank[$loop->index - 1]['score'] && $r['penalty'] == $contest_rank[$loop->index - 1]['penalty'])
+                                        ? ($r['rank'] = $contest_rank[$loop->index - 1]['rank']) : ($r['rank'] = $loop->iteration)}}
+                                    @endif
+                                </th>
                                 <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
                                 <td>{{$r["score"]}}</td>
                                 <td>{{round($r["penalty"])}}</td>

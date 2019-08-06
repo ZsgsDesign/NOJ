@@ -452,20 +452,32 @@ class GroupModel extends Model
             $problemsCount = DB::table('contest_problem')
                 ->where('cid',$c['cid'])
                 ->count();
-            $rank = 0;
+            $index = 1;
+            $last_cr = [];
+            $last_rank = 1;
             foreach ($contestRank as $cr) {
-                $rank++;
+                $last_rank = $index;
+                if(!empty($last_cr)){
+                    if($cr['solved'] == $last_cr['solved'] && $cr['penalty'] == $last_cr['penalty'] ){
+                        $rank = $last_rank;
+                    }else{
+                        $rank = $index;
+                        $last_rank = $rank;
+                    }
+                }
                 if(in_array($cr['uid'],array_keys($memberData))) {
                     $memberData[$cr['uid']]['solved_all'] += $cr['solved'];
                     $memberData[$cr['uid']]['problem_all'] += $problemsCount;
                     $memberData[$cr['uid']]['penalty'] += $cr['penalty'];
                     $memberData[$cr['uid']]['contest_detial'][$c['cid']] = [
-                        'rank' => $rank,
+                        'rank' => $rank ?? 1,
                         'solved' => $cr['solved'],
                         'problems' => $problemsCount,
                         'penalty' => $cr['penalty']
                     ];
                 }
+                $last_cr = $cr;
+                $index++;
             }
         }
         $new_memberData = [];
