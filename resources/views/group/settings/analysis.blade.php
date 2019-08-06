@@ -49,12 +49,12 @@
         background-color: rgba(0, 0, 0, 0.2);
     }
 
-    .mundb-standard-container td:first-of-type,
-    .td-name,
-    .member-name,
-    #th-sharp,
-    .th-member{
+    .mundb-standard-container td:first-of-type,.td-name,.member-name,#th-sharp,.th-member{
         border-right: 1px solid rgb(241, 241, 241);
+    }
+
+    .t-left{
+        border-left: 1px solid rgb(241, 241, 241);
     }
 
     .table thead th,
@@ -357,9 +357,10 @@
                     let contest_id = contest_list[contest_index]['cid'];
                     let contest_name = contest_list[contest_index]['name'];
                     $(selector + ' #tr-1').append(`
-                        <th scope="col" colspan="2" style="max-width: 6rem; text-overflow: ellipsis; overflow: hidden; white-space:nowrap" class="contest-name" data-cid="${contest_id}" title="${contest_name}">${contest_name}</th>
+                        <th class="t-left" scope="col" colspan="3" style="max-width: 6rem; text-overflow: ellipsis; overflow: hidden; white-space:nowrap" class="contest-name" data-cid="${contest_id}" title="${contest_name}">${contest_name}</th>
                     `);
                     $(selector + ' #tr-2').append(`
+                        <th scope="col" class="contest-rank t-left" data-cid="${contest_id}">Rank</th>
                         <th scope="col" class="contest-solved" data-cid="${contest_id}">Solved</th>
                         <th scope="col" class="contest-penalty" data-cid="${contest_id}">Penalty</th>
                     `);
@@ -393,12 +394,14 @@
                         if(Object.keys(member['contest_detial']).indexOf(`${contest_id}`) != -1){
                             if(contest_showPercent){
                                 $(selector + ' #uid-'+member['uid']).append(`
+                                <td class="t-left">${member['contest_detial'][contest_id]['rank']}</td>
                                 <td>${Math.round(1.0*member['contest_detial'][contest_id]['solved'] / member['contest_detial'][contest_id]['problems'] * 100)} %</td>
                                 <td>${Math.round(member['contest_detial'][contest_id]['penalty'])}</td>
                                 `
                                 );
                             }else{
                                 $(selector + ' #uid-'+member['uid']).append(`
+                                <td class="t-left">${member['contest_detial'][contest_id]['rank']}</td>
                                 <td>${member['contest_detial'][contest_id]['solved']} <span class="problem-maximum"> / ${member['contest_detial'][contest_id]['problems']}</span></td>
                                 <td>${Math.round(member['contest_detial'][contest_id]['penalty'])}</td>
                                 `
@@ -406,6 +409,7 @@
                             }
                         }else{
                             $(selector + ' #uid-'+member['uid']).append(`
+                            <td class="t-left">-</td>
                             <td>- <span class="problem-maximum"> / -</span></td>
                             <td>-</td>
                             `
