@@ -196,9 +196,12 @@
 
     .user-section{
         align-items: center;
+        color:rgba(0,0,0,0.60);
     }
     .user-section > a{
-        color:#7a8e97!important;
+        color: rgba(0,0,0,0.75) !important;
+        font-weight: 400;
+        font-size: 18px;
     }
 
     .user-section > p{
@@ -207,7 +210,7 @@
         font-size: 1.2rem;
     }
 
-    .cm-avatar-square{
+    .cm-avatar-sm{
         height: 1.5rem;
         width: 1.5rem;
         border-radius: 50%;
@@ -217,7 +220,14 @@
         height: 4rem;
         width: 4rem;
         border-radius: 50%;
-        margin:0 1rem 0.5rem 0;
+        margin:0.5rem 1rem 0.5rem 0;
+    }
+
+    .cm-avatar-md{
+        height: 3.5rem;
+        width: 3.5rem;
+        border-radius: 50%;
+        margin:0.5rem 1rem 0.5rem 0;
     }
     .content-section{
         display:block;
@@ -225,37 +235,27 @@
         flex-grow: 1;
         width: 0;
     }
+    .content-section > a {
+        margin-bottom: 0;
+        text-decoration: none;
+        font-size: 13px;
+        color: #528AF1 !important;
+    }
+    .content-section > p {
+        display: inline;
+        font-size: 13px;
+        vertical-align: middle;
+    }
     .comment-section{
         display:flex;
-        border-bottom:1px solid rgba(0,0,0,0.25);
-        margin: 1.5rem 0 1.5rem 0;
+        margin: 0.1rem 0 0.1rem 0;
     }
 
     .comment-section:first-of-type{
-        margin-top:0;
+        margin-top:0.25rem;
     }
     .comment-section:last-of-type{
-        border-bottom:none;
         margin-bottom:0;
-    }
-
-    .comment-section > polling-section{
-        display:block;
-        flex-shrink: 0;
-        flex-grow: 0;
-        padding: 0 2rem 0 1rem;
-        text-align: center;
-    }
-
-    .comment-section > content-section{
-        display:block;
-        flex-shrink: 1;
-        flex-grow: 1;
-        width: 0;
-    }
-
-    .comment-section > content-section > h3 > a {
-        color:#7a8e97!important;
     }
 
     markdown-editor{
@@ -311,12 +311,13 @@
 
     markdown-content p {
         line-height: 1.5;
-        font-size: inherit
+        font-size: inherit;
+        margin: 0.1rem 0 0.1rem 0;
     }
 
     markdown-content h1,markdown-content h2,markdown-content h3,markdown-content h4,markdown-content h5,markdown-content h6 {
-        margin-top: 1em;
-        margin-bottom: .6em;
+        /* margin-top: 1em; */
+        margin-bottom: .1em;
         line-height: 1.1
     }
 
@@ -387,27 +388,60 @@
     markdown-content img {
         max-width: 100%
     }
+
+    .flex-center{
+        align-items: center;
+    }
+    .new-comment {
+        background-color: #FCFCFC;
+        border-radius: 30px;
+        color:rgba(0,0,0,0.54);
+        width: 100%;
+        padding: 3px 0.7rem 3px 0.7rem;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+
+    .new-comment > h5{
+        display: inline;
+    }
+
+    .comment-count{
+        color: rgba(0, 0, 0, 0.93);
+    }
+    .discussion-title{
+        color: rgba(0, 0, 0, 0.93);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    }
 </style>
 
 <div class="container mundb-standard-container">
     <div class="row">
         <div class="col-sm-12 col-lg-9">
             <paper-card class="animated fadeInLeft p-4">
-                <div class="user-section">
-                    <a href="/user/{{$main["uid"]}}"><img src="{{$main["avatar"]}}" class="cm-avatar-square">{{$main["name"]}}</a>@ {{$main['created_at']}}
+                <div class="discussion-title mb-1">
+                    <h2>{{$main['title']}}</h2>
+                </div>
+                <div class="user-section mb-3">
+                    <a href="/user/{{$main["uid"]}}"><img src="{{$main["avatar"]}}" class="cm-avatar-sm">{{$main["name"]}}</a>@ {{$main['created_at']}}
                 </div>
                 <markdown-content>
                     {!!$main["content"]!!}
                 </markdown-content>
-                <div class="text-center">
-                    <button class="btn btn-outline-primary btn-rounded" onclick="comment()"><i class="MDI comment-plus-outline"></i>Comment</button>
-                </div>
             </paper-card>
             <paper-card class="animated fadeInLeft p-3">
-                <h3>{{count($comment)}} Comment</h3>
-                @if(count($comment) == 0)
+                <div class="comment-count">
+                    <h5><strong>{{$comment_count}}</strong> Comments</h5>
+                </div>
+                <div class="comment-section flex-center">
+                    <img src="{{Auth::user()->avatar}}" class="cm-avatar">
+                    <div class="new-comment" onclick="comment()">
+                        <h5 class="new-comment-text">Write a comment...</h5>
+                    </div>
+                </div>
+                @if($comment_count == 0)
                     <div class="cm-empty">
-                        <badge>Nothing Yet. Leave a comment?</badge>
+                        <badge>Nothing Yet. Write a comment?</badge>
                     </div>
                 @else
                     @foreach($comment as $c)
@@ -415,25 +449,27 @@
                                 <img src="{{$c["avatar"]}}" class="cm-avatar">
                                 <div class="content-section">
                                     <div class="user-section">
-                                        <a href="/user/{{$c["uid"]}}">{{$c["name"]}}</a>@ {{$c['created_at']}}
+                                        <a href="/user/{{$c["uid"]}}">{{$c["name"]}}</a>
                                         {{-- <button class="btn btn-primary float-right btn-rounded"><i class="MDI thumb-up-outline"></i>@if($c['votes']==0) Like @else {{$c['votes']}} @endif</button> --}}
-                                        <button class="btn btn-primary float-right btn-rounded"><i class="MDI reply"></i>@if(count($c['reply'])==0) Reply @else {{count($c['reply'])}} @endif</button>
                                     </div>
                                     <markdown-content>
                                         {!!$c["content"]!!}
                                     </markdown-content>
+                                    <a href="javascript:reply({{$c['pdcid']}})"><i class="MDI reply"></i>@if(count($c['reply'])==0) Reply @else {{count($c['reply'])}} @endif</a>
+                                    <p>@ {{$c['created_at']}}</p>
                                     @foreach($c['reply'] as $r)
                                         <div class="comment-section">
-                                            <img src="{{$r["avatar"]}}" class="cm-avatar">
+                                            <img src="{{$r["avatar"]}}" class="cm-avatar-md">
                                             <div class="content-section">
                                                 <div class="user-section">
-                                                    <a href="/user/{{$r["uid"]}}">{{$r["name"]}}</a> <strong>Reply:</strong>{{$r['reply_name']}} @ {{$r['created_at']}}
+                                                    <a href="/user/{{$r["uid"]}}">{{$r["name"]}}</a> &rtrif; {{$r['reply_name']}}
                                                     {{-- <button class="btn btn-primary float-right btn-rounded"><i class="MDI thumb-up-outline"></i>Like</button> --}}
-                                                    <button class="btn btn-primary float-right btn-rounded" onclick="reply({{$r['pdcid']}})"><i class="MDI reply"></i>Reply</button>
                                                 </div>
                                                 <markdown-content>
                                                     {!!$r["content"]!!}
                                                 </markdown-content>
+                                                <a href="javascript:reply({{$r['pdcid']}})"><i class="MDI reply"></i>Reply</a>
+                                                <p>@ {{$r['created_at']}}</p>
                                             </div>
                                         </div>
                                     @endforeach
