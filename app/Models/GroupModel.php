@@ -452,9 +452,20 @@ class GroupModel extends Model
             $problemsCount = DB::table('contest_problem')
                 ->where('cid',$c['cid'])
                 ->count();
-            $rank = 0;
+            $index = 1;
+            $rank = 1;
+            $last_cr = [];
+            $last_rank = 1;
             foreach ($contestRank as $cr) {
-                $rank++;
+                $last_rank = $index;
+                if(!empty($last_cr)){
+                    if($cr['solved'] == $last_cr['solved'] && $cr['penalty'] == $last_cr['penalty'] ){
+                        $rank = $last_rank;
+                    }else{
+                        $rank = $index;
+                        $last_rank = $rank;
+                    }
+                }
                 if(in_array($cr['uid'],array_keys($memberData))) {
                     $memberData[$cr['uid']]['solved_all'] += $cr['solved'];
                     $memberData[$cr['uid']]['problem_all'] += $problemsCount;
@@ -466,6 +477,8 @@ class GroupModel extends Model
                         'penalty' => $cr['penalty']
                     ];
                 }
+                $last_cr = $cr;
+                $index++;
             }
         }
         $new_memberData = [];
@@ -582,5 +595,17 @@ class GroupModel extends Model
         }
 
         return true;
+    }
+
+    public function getEloChangeLog($gid,$uid)
+    {
+        return DB::table('group_rated_change_log')
+            ->join('contest','group_rated_change_log.cid','=','contest.cid')
+            ->where([
+                'group_rated_change_log.gid' => $gid,
+                'group_rated_change_log.uid' => $uid
+            ])->select('group_rated_change_log.cid as cid', 'contest.name as name', 'ranking')
+            ->orderBy('contest.end_time')
+            ->get()->all();
     }
 }

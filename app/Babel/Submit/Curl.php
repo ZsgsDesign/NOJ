@@ -59,6 +59,7 @@ class Curl
         if(isset($all_data["headers"])) $headers = $all_data["headers"];    else $headers = [];
         if(isset($all_data["handle"]))  $handle = $all_data["handle"];      else $handle = "default";
         if(isset($all_data["follow"]))  $follow = $all_data["follow"];      else $follow = false;
+        if(isset($all_data["vcid"]))  $vcid = $all_data["vcid"];      else $vcid = "";
 
         $handle=urlencode($handle);
 
@@ -69,8 +70,8 @@ class Curl
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, $follow);
         curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36");
-        curl_setopt($ch, CURLOPT_COOKIEFILE, babel_path("Cookies/{$oj}_{$handle}.cookie"));
-        curl_setopt($ch, CURLOPT_COOKIEJAR, babel_path("Cookies/{$oj}_{$handle}.cookie"));
+        curl_setopt($ch, CURLOPT_COOKIEFILE, babel_path("Cookies/{$oj}_{$vcid}{$handle}.cookie"));
+        curl_setopt($ch, CURLOPT_COOKIEJAR, babel_path("Cookies/{$oj}_{$vcid}{$handle}.cookie"));
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_URL, $site);
         ob_start();
@@ -94,6 +95,7 @@ class Curl
         if(isset($all_data["postJson"]))     $postJson = $all_data["postJson"];         else $postJson = false;
         if(isset($all_data["extraHeaders"])) $extraHeaders = $all_data["extraHeaders"]; else $extraHeaders = [];
         if(isset($all_data["handle"]))       $handle = $all_data["handle"];             else $handle = "default";
+        if(isset($all_data["vcid"]))  $vcid = $all_data["vcid"];      else $vcid = "";
 
         $handle=urlencode($handle);
 
@@ -114,8 +116,8 @@ class Curl
         curl_setopt($datapost, CURLOPT_FOLLOWLOCATION, $follow);
 
         curl_setopt($datapost, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($datapost, CURLOPT_COOKIEFILE, babel_path("Cookies/{$oj}_{$handle}.cookie"));
-        curl_setopt($datapost, CURLOPT_COOKIEJAR, babel_path("Cookies/{$oj}_{$handle}.cookie"));
+        curl_setopt($datapost, CURLOPT_COOKIEFILE, babel_path("Cookies/{$oj}_{$vcid}{$handle}.cookie"));
+        curl_setopt($datapost, CURLOPT_COOKIEJAR, babel_path("Cookies/{$oj}_{$vcid}{$handle}.cookie"));
         ob_start();
         $response=curl_exec($datapost);
         if (curl_errno($datapost)) {
