@@ -193,6 +193,7 @@ class ProblemController extends Controller
         $main=$detail['main'];
         $paginator=$detail['paginator'];
         $comment=$detail['comment'];
+        $comment_count=$detail['comment_count'];
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.discussion_post', [
                                             'page_title'=> "Discussion",
                                             'site_title'=>config("app.name"),
@@ -200,7 +201,8 @@ class ProblemController extends Controller
                                             'detail' => $prob_detail,
                                             'main'=>$main,
                                             'paginator'=>$paginator,
-                                            'comment'=>$comment
+                                            'comment'=>$comment,
+                                            'comment_count'=>$comment_count
                                         ]);
     }
 }

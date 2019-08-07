@@ -562,6 +562,8 @@ class ProblemModel extends Model
         $main['created_at'] = $this->formatTime($main['created_at']);
         $main['content']=clean(Markdown::convertToHtml($main["content"]));
 
+        $comment_count = DB::table('problem_discussion_comment')->where('pdid','=',$pdid)->count();
+
         $paginator = DB::table('problem_discussion_comment')->join(
             "users",
             "id",
@@ -633,6 +635,7 @@ class ProblemModel extends Model
         }
         return [
             'main' => $main,
+            'comment_count' => $comment_count,
             'paginator' => $paginator,
             'comment' => $comment
         ];
