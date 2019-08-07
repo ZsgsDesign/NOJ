@@ -298,6 +298,18 @@
         </div>
     </div>
 </div>
+
+
+<script>
+@include('js.common.webHighLighter');
+const highlighter = new Highlighter();
+highlighter
+.on('selection:click', ({id}) => {
+    highlighter.removeClass('highlight-mengshou-wrap', id);
+})
+highlighter.run(); 
+</script>
+
 <script>
     window.addEventListener("load",function() {
 
