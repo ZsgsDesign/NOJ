@@ -49,9 +49,12 @@
         background-color: rgba(0, 0, 0, 0.2);
     }
 
-    .mundb-standard-container td:first-of-type,
-    .mundb-standard-container th:first-of-type{
+    .mundb-standard-container td:first-of-type,.td-name,.member-name,#th-sharp,.th-member{
         border-right: 1px solid rgb(241, 241, 241);
+    }
+
+    .t-left{
+        border-left: 1px solid rgb(241, 241, 241);
     }
 
     .table thead th,
@@ -97,7 +100,7 @@
         font-weight: normal;
     }
 
-    th{
+    th,td{
         white-space: nowrap;
     }
 
@@ -107,7 +110,8 @@
     .contest-solved,
     .tag-solved,
     .contest-rank,
-    .contest-elo{
+    .contest-elo,
+    .member-elo{
         cursor: pointer;
     }
 
@@ -150,6 +154,7 @@
                         </label>
                     </div>
                 </span>
+                <span style="font-size:1.5rem" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<p>something you can do.</p><p>Click the attribute name below total or each contest to sort.</p><p> Click on the name of a member to ignore/unignore him.</p><p> click on the Elo rate of a member to see his elo rate change history."><i class="MDI comment-question-outline"></i></span>
             </div>
             <div id="panels">
                 <div id="contest-panel"  style="display: none">
@@ -159,6 +164,29 @@
             </div>
         </settings-body>
     </settings-card>
+    <div id="historyModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content sm-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="MDI history"></i> Elo Change History</h5>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="text-left" scope="col">Contest Name</th>
+                                <th scope="col">After Contest Elo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history_container">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <script>
@@ -321,17 +349,19 @@
         }
 
         function displayTable({mode = 'contest',selector = '#contest-panel'}){
+            var scrollLeft = document.querySelector(`${selector} .table-responsive`) == null ? 0 : document.querySelector(`${selector} .table-responsive`).scrollLeft;
             if(mode == 'contest'){
                 var contest_list = data_contest.contest_list;
                 var member_data = data_contest.member_data;
+                //main table div
                 $(selector).html('').append(`
                 <div class="text-center">
-                    <div calss="table-responsive" style="overflow-x: auto">
+                    <div class="table-responsive" style="overflow-x: auto">
                         <table class="table">
                             <thead>
                                 <tr id="tr-1">
-                                    <th scope="col" rowspan="2" style="text-align: left;">#</th>
-                                    <th scope="col" rowspan="2" style="text-align: left;">Member</th>
+                                    <th id="th-sharp" scope="col" rowspan="2" style="text-align: left;">#</th>
+                                    <th class="td-name" scope="col" rowspan="2" style="text-align: left;">Member</th>
                                     <th scope="col" colspan="4" style="text-align: middle;">Total</th>
                                     <!-- here is contests -->
                                 </tr>
@@ -353,10 +383,12 @@
                 for(let contest_index in contest_list){
                     let contest_id = contest_list[contest_index]['cid'];
                     let contest_name = contest_list[contest_index]['name'];
+                    //thead
                     $(selector + ' #tr-1').append(`
-                        <th scope="col" colspan="2" style="max-width: 6rem; text-overflow: ellipsis; overflow: hidden; white-space:nowrap" class="contest-name" data-cid="${contest_id}" title="${contest_name}">${contest_name}</th>
+                        <th class="t-left" scope="col" colspan="3" style="max-width: 6rem; text-overflow: ellipsis; overflow: hidden; white-space:nowrap" class="contest-name" data-cid="${contest_id}" title="${contest_name}">${contest_name}</th>
                     `);
                     $(selector + ' #tr-2').append(`
+                        <th scope="col" class="contest-rank t-left" data-cid="${contest_id}">Rank</th>
                         <th scope="col" class="contest-solved" data-cid="${contest_id}">Solved</th>
                         <th scope="col" class="contest-penalty" data-cid="${contest_id}">Penalty</th>
                     `);
@@ -368,7 +400,7 @@
                         <tr id="uid-${member['uid']}">
                             <td>${member['index']}</td>
                             <td class="member-name" style="text-align: left;">${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}</span></td>
-                            <td>${member['elo']}</td>
+                            <td class="member-elo">${member['elo']}</td>
                             <td>${member['rank_ave'] == undefined ? '-' : parseFloat(member['rank_ave']).toFixed(1)}</span></td>
                             <td>${member['solved_all']}<span class="problem-maximum"> / ${member['problem_all']}</span></td>
                             <td>${Math.round(member['penalty'])}</td>
@@ -377,8 +409,9 @@
                     }else{
                         $(selector + ' tbody').append(`
                         <tr id="uid-${member['uid']}">
+                            <td>${member['index']}</td>
                             <td class="member-name" style="text-align: left;">${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}</span></td>
-                            <td>${member['elo']}</td>
+                            <td class="member-elo">${member['elo']}</td>
                             <td>${member['rank_ave'] == undefined ? '-' : parseFloat(member['rank_ave']).toFixed(1)}</span></td>
                             <td>${member['problem_all'] != 0 ? Math.round(member['solved_all'] / member['problem_all'] * 100) : '-'} %</td>
                             <td>${Math.round(member['penalty'])}</td>
@@ -390,12 +423,14 @@
                         if(Object.keys(member['contest_detial']).indexOf(`${contest_id}`) != -1){
                             if(contest_showPercent){
                                 $(selector + ' #uid-'+member['uid']).append(`
+                                <td class="t-left">${member['contest_detial'][contest_id]['rank']}</td>
                                 <td>${Math.round(1.0*member['contest_detial'][contest_id]['solved'] / member['contest_detial'][contest_id]['problems'] * 100)} %</td>
                                 <td>${Math.round(member['contest_detial'][contest_id]['penalty'])}</td>
                                 `
                                 );
                             }else{
                                 $(selector + ' #uid-'+member['uid']).append(`
+                                <td class="t-left">${member['contest_detial'][contest_id]['rank']}</td>
                                 <td>${member['contest_detial'][contest_id]['solved']} <span class="problem-maximum"> / ${member['contest_detial'][contest_id]['problems']}</span></td>
                                 <td>${Math.round(member['contest_detial'][contest_id]['penalty'])}</td>
                                 `
@@ -403,6 +438,7 @@
                             }
                         }else{
                             $(selector + ' #uid-'+member['uid']).append(`
+                            <td class="t-left">-</td>
                             <td>- <span class="problem-maximum"> / -</span></td>
                             <td>-</td>
                             `
@@ -425,11 +461,11 @@
                 var all_problems = data_tag['all_problems'];
                 $(selector).html('').append(`
                 <div class="text-center">
-                    <div calss="table-responsive" style="overflow-x: auto">
+                    <div class="table-responsive" style="overflow-x: auto">
                         <table class="table">
                             <thead>
                                 <tr id="tr-1">
-                                    <th scope="col" rowspan="2" style="text-align: left;">Member</th>
+                                    <th class="th-member" scope="col" rowspan="2" style="text-align: left;">Member</th>
                                     <!-- here is tags -->
                                 </tr>
                                 <tr id="tr-2">
@@ -477,6 +513,7 @@
                 }
                 registerTagOpr()
             }
+            document.querySelector(`${selector} .table-responsive`).scrollLeft = scrollLeft;
         }
 
         function sortContestData({byContest = 0,by = 'rank',desc = false}){
@@ -663,6 +700,82 @@
                 displayTable({
                     mode : 'contest',
                     selector : '#contest-panel'
+                });
+            });
+
+            $('.member-elo').unbind();
+            $('.member-elo').on('click',function(){
+                if(ajaxing) return;
+                ajaxing = true;
+                var uid = parseInt($(this).parent('tr').attr('id').split('-')[1]);
+                console.log(uid);
+                $.ajax({
+                    type: 'POST',
+                    url: '/ajax/group/eloChangeLog',
+                    data: {
+                        gid: {{ $group_info['gid'] }},
+                        uid: uid
+                    },
+                    dataType: 'json',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }, success: function(ret){
+                        if(ret.ret == '200'){
+                            console.log(ret);
+                            var data = ret.data;
+                            $('#historyModal #history_container').html('');
+                            //init 1500
+                            $('#historyModal #history_container').append(`
+                            <tr>
+                                <td class="text-left"></td>
+                                <td>1500</td>
+                            </tr>
+                            `)
+                            //for each any change
+                            for (const key in data) {
+                                var color_class;
+                                if(key == 0){
+                                    if(data[key]['ranking'] < 1500){
+                                        color_class = 'alert-danger';
+                                    }else if(data[key]['ranking'] == 1500){
+                                        color_class = '';
+                                    }else{
+                                        color_class = 'alert-success';
+                                    }
+                                }else{
+                                    if(data[key]['ranking'] < data[key-1]['ranking']){
+                                        color_class = 'alert-danger';
+                                    }else if(data[key]['ranking'] == data[key-1]['ranking']){
+                                        color_class = '';
+                                    }else{
+                                        color_class = 'alert-success';
+                                    }
+                                }
+                                $('#historyModal #history_container').prepend(`
+                                <tr class="${color_class}">
+                                    <td class="text-left">${data[key]['name']}</td>
+                                    <td>${data[key]['ranking']}</td>
+                                </tr>
+                                `)
+                            }
+                            $('#historyModal').modal();
+                            ajaxing = false;
+                        }
+                    }, error: function(xhr, type){
+                        console.log(xhr);
+                        switch(xhr.status) {
+                            case 422:
+                                alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                                break;
+                            case 429:
+                                alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                                break;
+                            default:
+                                alert("Server Connection Error");
+                        }
+                        console.log('Ajax error while posting to ' + type);
+                        ajaxing = false;
+                    }
                 });
             });
         }
