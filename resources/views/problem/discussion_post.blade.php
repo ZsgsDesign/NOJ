@@ -198,10 +198,15 @@
         align-items: center;
         color:rgba(0,0,0,0.60);
     }
+
     .user-section > a{
         color: rgba(0,0,0,0.75) !important;
         font-weight: 400;
         font-size: 18px;
+    }
+
+    .comment-section .user-section > a{
+        font-weight: 900;
     }
 
     .user-section > p{
@@ -235,11 +240,12 @@
         flex-grow: 1;
         width: 0;
     }
-    .content-section > a {
+    .content-section > button {
         margin-bottom: 0;
         text-decoration: none;
         font-size: 13px;
         color: #528AF1 !important;
+        padding: 0.1rem 0.5rem;
     }
     .content-section > p {
         display: inline;
@@ -248,7 +254,10 @@
     }
     .comment-section{
         display:flex;
-        margin: 0.1rem 0 0.1rem 0;
+        margin: 0.5rem 0 0.5rem 0;
+    }
+    paper-card > .comment-section{
+        margin: 1rem 0 1rem 0;
     }
 
     .comment-section:first-of-type{
@@ -307,6 +316,7 @@
         hyphens: auto;
         font-family: Roboto,Helvetica,Arial,sans-serif;
         color:rgba(0, 0, 0, 0.93);
+        margin:0.25rem 0;
     }
 
     markdown-content p {
@@ -455,8 +465,8 @@
                                     <markdown-content>
                                         {!!$c["content"]!!}
                                     </markdown-content>
-                                    <a href="javascript:reply({{$c['pdcid']}})"><i class="MDI reply"></i>@if(count($c['reply'])==0) Reply @else {{count($c['reply'])}} @endif</a>
-                                    <p>@ {{$c['created_at']}}</p>
+                                    <p><i class="MDI clock"></i> {{$c['created_at']}}</p>
+                                    <button class="btn" onclick="reply({{$c['pdcid']}})"><i class="MDI reply"></i>@if(count($c['reply'])==0) Reply @else {{count($c['reply'])}} @endif</button>
                                     @foreach($c['reply'] as $r)
                                         <div class="comment-section">
                                             <img src="{{$r["avatar"]}}" class="cm-avatar-md">
@@ -468,8 +478,8 @@
                                                 <markdown-content>
                                                     {!!$r["content"]!!}
                                                 </markdown-content>
-                                                <a href="javascript:reply({{$r['pdcid']}})"><i class="MDI reply"></i>Reply</a>
-                                                <p>@ {{$r['created_at']}}</p>
+                                                <p><i class="MDI clock"></i> {{$r['created_at']}}</p>
+                                                <button class="btn" onclick="reply({{$r['pdcid']}})"><i class="MDI reply"></i>Reply</button>
                                             </div>
                                         </div>
                                     @endforeach
