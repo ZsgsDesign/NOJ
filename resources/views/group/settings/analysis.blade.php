@@ -111,7 +111,8 @@
     .tag-solved,
     .contest-rank,
     .contest-elo,
-    .member-elo{
+    .member-elo,
+    .chart-tag{
         cursor: pointer;
     }
 
@@ -171,16 +172,23 @@
                     <h5 class="modal-title"><i class="MDI history"></i> Elo Change History</h5>
                 </div>
                 <div class="modal-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th class="text-left" scope="col">Contest Name</th>
-                                <th scope="col">After Contest Elo</th>
-                            </tr>
-                        </thead>
-                        <tbody id="history_container">
-                        </tbody>
-                    </table>
+                    <div class="row" style="width:60vw">
+                        <div class="col-7 col-sm-12 col-md-7">
+                            <canvas></canvas>
+                        </div>
+                        <div class="col-5 col-sm-12 col-md-5">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left" scope="col">Contest Name</th>
+                                        <th scope="col">After Contest Elo</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="history_container">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -188,7 +196,27 @@
             </div>
         </div>
     </div>
+
+    <div id="tagRadarModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content sm-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="MDI history"></i> Tag Radar</h5>
+                </div>
+                <div class="modal-body">
+                    <div style="width:60vw">
+                        <canvas></canvas>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+<script type="text/javascript" src="/static/library/chart.js/dist/Chart.bundle.min.js"></script>
 <script>
     let ajaxing = true;
 
@@ -205,6 +233,77 @@
     let contest_hideMax = false;
 
     let displaying = 'contest';
+
+    var elo_config =  {
+        type: 'line',
+        data: {
+            datasets: [{
+                label: 'Elo Rate',
+                fill: false,
+                data: [],
+            }]
+        },
+        options: {
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        var label = data.datasets[0].data[tooltipItem.index].contest_name || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        label += Math.round(tooltipItem.yLabel * 100) / 100;
+                        return label;
+                    }
+                },
+            },
+            responsive: true,
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Date'
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: ''
+                    }
+                }]
+            }
+        }
+    };
+    var tag_config =  {
+        type: 'radar',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Tag Complete',
+                data: []
+            }]
+        },
+        options: {
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        console.log(data);
+                        var label = data.labels[tooltipItem.index] || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        label += Math.round(tooltipItem.yLabel * 100) / 100 + ' %';
+                        return label;
+                    }
+                },
+            },
+            responsive: true,
+        }
+    };
 
     window.addEventListener("load",function() {
         $('#tab-contest').on('click',function(){
@@ -258,6 +357,13 @@
                 selector : '#' + displaying + '-panel'
             });
         });
+
+        var ctx = $('#historyModal canvas');
+        var elo_chart = new Chart(ctx,elo_config);
+
+        var ctx = $('#tagRadarModal canvas');
+        var tag_chart = new Chart(ctx,tag_config);
+
 
         $('#contest-contest').click();
         updataDownloadUrl();
@@ -465,7 +571,8 @@
                         <table class="table">
                             <thead>
                                 <tr id="tr-1">
-                                    <th class="th-member" scope="col" rowspan="2" style="text-align: left;">Member</th>
+                                    <th scope="col" rowspan="2" style="text-align: left;">Member</th>
+                                    <th class="th-member" scope="col" rowspan="2" style="text-align: left;"></th>
                                     <!-- here is tags -->
                                 </tr>
                                 <tr id="tr-2">
@@ -492,15 +599,23 @@
                     let member_completion = member_data[member_index]['completion'];
                     $(selector + ' tbody').append(`
                     <tr id="uid-${member['uid']}">
-                        <td class="member-name" style="text-align: left;">${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}</span></td>
+                        <td class="member-name" style="text-align: left;">
+                            ${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}
+                        </span></td>
+                        <td class="th-member chart-tag"><i style="font-size:1.25rem" class="MDI chart-pie float_right"></i></td>
                     </tr>
                     `);
                     for(let tag in tag_problems){
                         let tag_completion = member_completion[tag];
-                        $(selector + ' #uid-'+member['uid']).append(`
-                        <td>${eval(Object.values(tag_completion).join('+'))} <span class="problem-maximum"> / ${Object.keys(tag_completion).length}</span></td>
-                        `);
-
+                        if(contest_showPercent){
+                            $(selector + ' #uid-'+member['uid']).append(`
+                            <td>${ Math.round(100.0 * eval(Object.values(tag_completion).join('+')) / Object.keys(tag_completion).length,1) } %</td>
+                            `);
+                        }else{
+                            $(selector + ' #uid-'+member['uid']).append(`
+                            <td>${ eval(Object.values(tag_completion).join('+'))} <span class="problem-maximum"> / ${Object.keys(tag_completion).length }</span></td>
+                            `);
+                        }
                     }
                 }
                 for(let mi in member_ingore){
@@ -708,7 +823,6 @@
                 if(ajaxing) return;
                 ajaxing = true;
                 var uid = parseInt($(this).parent('tr').attr('id').split('-')[1]);
-                console.log(uid);
                 $.ajax({
                     type: 'POST',
                     url: '/ajax/group/eloChangeLog',
@@ -723,14 +837,19 @@
                         if(ret.ret == '200'){
                             console.log(ret);
                             var data = ret.data;
+                            //========================================chart
+                            let chart_data = [];
+                            for (const key in data) {
+                                chart_data.push({
+                                    x : data[key]['end_time'],
+                                    y : data[key]['ranking'],
+                                    contest_name : data[key]['name'],
+                                });
+                            }
+                            elo_chart.data.datasets[0].data = chart_data;
+                            elo_chart.update();
+                            //========================================table
                             $('#historyModal #history_container').html('');
-                            //init 1500
-                            $('#historyModal #history_container').append(`
-                            <tr>
-                                <td class="text-left"></td>
-                                <td>1500</td>
-                            </tr>
-                            `)
                             //for each any change
                             for (const key in data) {
                                 var color_class;
@@ -757,6 +876,7 @@
                                     <td>${data[key]['ranking']}</td>
                                 </tr>
                                 `)
+
                             }
                             $('#historyModal').modal();
                             ajaxing = false;
@@ -810,6 +930,32 @@
                     mode : displaying,
                     selector : '#' + displaying + '-panel'
                 });
+            });
+
+            $('.chart-tag').unbind();
+            $('.chart-tag').on('click',function(){
+                var uid = parseInt($(this).parent('tr').attr('id').split('-')[1]);
+                var tag_chart_data = {
+                    labels: [],
+                    datasets: [{
+                        label: 'Tag Complete',
+                        data: []
+                    }]
+                };
+
+                for (const m_key in data_tag['member_data']) {
+                    let member_data = data_tag['member_data'][m_key];
+                    if(member_data['uid'] == uid){
+                        for (const t_key in member_data['completion']) {
+                            tag_chart_data.labels.push(t_key);
+                            tag_chart_data.datasets[0]['data'].push(Math.round(100.0 * eval(Object.values(member_data['completion'][t_key]).join('+')) / Object.keys(member_data['completion'][t_key]).length,1));
+                        }
+                    }
+                }
+
+                tag_chart.data = tag_chart_data;
+                tag_chart.update();
+                $("#tagRadarModal").modal();
             });
         }
     }, false);
