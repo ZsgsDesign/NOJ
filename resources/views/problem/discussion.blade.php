@@ -197,7 +197,7 @@
     .user-section{
         display: flex;
         justify-content: flex-start;
-        align-items: center;
+        /* align-items: center; */
     }
     .user-section > a{
         color:#7a8e97!important;
@@ -362,7 +362,7 @@
                             <div class="post-title">
                             <h3><a href="/discussion/{{$d['pdid']}}">{{$d["title"]}}</a></h3>
                                 <div class="user-section">
-                                    <a href="/user/{{$d['uid']}}"><img src="{{$d['avatar']}}" class="cm-avatar-square">{{$d["name"]}}</a>@ {{$d['updated_at']}}
+                                    <a href="/user/{{$d['uid']}}" class="wemd-grey-text wemd-text-darken-3"><img src="{{$d['avatar']}}" class="cm-avatar-square">{{$d["name"]}}</a> <span class="pl-1 wemd-grey-text"><i class="MDI clock"></i> {{$d['updated_at']}}</span>
                                 </div>
                             </div>
                         </div>

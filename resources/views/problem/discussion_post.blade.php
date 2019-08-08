@@ -433,7 +433,7 @@
                     <h2>{{$main['title']}}</h2>
                 </div>
                 <div class="user-section mb-3">
-                    <a href="/user/{{$main["uid"]}}"><img src="{{$main["avatar"]}}" class="cm-avatar-sm">{{$main["name"]}}</a>@ {{$main['created_at']}}
+                    <a href="/user/{{$main["uid"]}}"><img src="{{$main["avatar"]}}" class="cm-avatar-sm">{{$main["name"]}}</a> <i class="MDI clock"></i> {{$main['created_at']}}
                 </div>
                 <markdown-content>
                     {!!$main["content"]!!}
