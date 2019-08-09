@@ -151,7 +151,25 @@
     <paper-card>
         <h5 data-cid="{{$basic_info['cid']}}">{{$basic_info['name']}}</h5>
         <div class="table-responsive">
-
+            <div class="text-center">
+                <div style="display:inline-block; width:40vw;">
+                    <form>
+                        <div class="form-group">
+                            <label for="gold-num" class="bmd-label-floating">Gold medal</label>
+                            <input type="integer" style="text-align:center" class="form-control" id="gold-num" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="silver-num" class="bmd-label-floating">Silver medal</label>
+                            <input type="integer" style="text-align:center" class="form-control" id="silver-num" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bronze-num" class="bmd-label-floating">Bronze medal</label>
+                            <input type="integer" style="text-align:center" class="form-control" id="bronze-num" required>
+                        </div>
+                        <button type="button" id="medal-confirm" class="btn btn-primary">Confirm</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </paper-card>
 </div>
@@ -168,68 +186,77 @@
     var board;
 
     window.addEventListener("load",function() {
-        ajaxing = true;
-        $.ajax({
-            type: 'POST',
-            url: '/ajax/contest/getScrollBoardData',
-            data: {
-                cid: $('.mundb-standard-container h5').attr('data-cid'),
-            },
-            dataType: 'json',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }, success: function(result){
-                if(result.ret == '200'){
-                    for (const p_key in result.data.problems) {
-                        var p = result.data.problems[p_key];
-                        problems['map'][p['pid']] = p['ncode'];
-                        problems['ncodes'].push(p['ncode']);
-                    }
-                    for (const m_key in result.data.members) {
-                        var member = result.data.members[m_key];
-                        members[member.uid] = new Member(member.uid, member.name, member.nick_name == null ? '' : member.nick_name);
-                    }
-                    for (const s_key in result.data.submissions) {
-                        var submission = result.data.submissions[s_key];
-                        submissions.push(new Submission(submission.sid, submission.uid, problems.map[submission.pid], submission.submission_date, submission.verdict));
-                    }
-                    contest = result.data.contest;
-                    board = new Board({
-                        selector : 'div.table-responsive',
-                        problemList : problems['ncodes'],
-                        medals : [1,1,1],
-                        contest : contest,
-                        members : members,
-                        submissions : submissions
-                    })
+        $('#medal-confirm').on('click',function(){
+            var gold = parseInt($('#gold-num').val());
+            var silver = parseInt($('#silver-num').val());
+            var bronze = parseInt($('#bronze-num').val());
+            if(gold != NaN && silver != NaN && bronze != NaN){
+                ajaxing = true;
+                $.ajax({
+                    type: 'POST',
+                    url: '/ajax/contest/getScrollBoardData',
+                    data: {
+                        cid: $('.mundb-standard-container h5').attr('data-cid'),
+                    },
+                    dataType: 'json',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }, success: function(result){
+                        if(result.ret == '200'){
+                            for (const p_key in result.data.problems) {
+                                var p = result.data.problems[p_key];
+                                problems['map'][p['pid']] = p['ncode'];
+                                problems['ncodes'].push(p['ncode']);
+                            }
+                            for (const m_key in result.data.members) {
+                                var member = result.data.members[m_key];
+                                members[member.uid] = new Member(member.uid, member.name, member.nick_name == null ? '' : member.nick_name);
+                            }
+                            for (const s_key in result.data.submissions) {
+                                var submission = result.data.submissions[s_key];
+                                submissions.push(new Submission(submission.sid, submission.uid, problems.map[submission.pid], submission.submission_date, submission.verdict));
+                            }
+                            contest = result.data.contest;
+                            board = new Board({
+                                selector : 'div.table-responsive',
+                                problemList : problems['ncodes'],
+                                medals : [gold,silver,bronze],
+                                contest : contest,
+                                members : members,
+                                submissions : submissions
+                            })
 
-                    board.showInitBoard();
-                }else{
-                    alert(result.desc);
-                }
-                ajaxing = false;
-            }, error: function(xhr, type){
-                console.log(xhr);
-                switch(xhr.status) {
-                    case 422:
-                        alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
-                        break;
-                    case 429:
-                        alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
-                        break;
-                    default:
-                        alert("Server Connection Error");
-                }
-                console.log('Ajax error while posting to ' + type);
-                ajaxing = false;
+                            board.showInitBoard();
+                            $('html').keydown(function(e) {
+                                if (e.keyCode == 13) {
+                                    board.keydown();
+                                }
+                            });
+                        }else{
+                            alert(result.desc);
+                        }
+                        ajaxing = false;
+                    }, error: function(xhr, type){
+                        console.log(xhr);
+                        switch(xhr.status) {
+                            case 422:
+                                alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                                break;
+                            case 429:
+                                alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                                break;
+                            default:
+                                alert("Server Connection Error");
+                        }
+                        console.log('Ajax error while posting to ' + type);
+                        ajaxing = false;
+                    }
+                });
+            }else{
+                alert("Please input Number");
             }
         });
 
-        $('html').keydown(function(e) {
-	        if (e.keyCode == 13) {
-	            board.keydown();
-	        }
-	    });
     }, false);
 
     function Member(uid, name, nick_name) {
@@ -481,7 +508,7 @@
                 if(mp != undefined){
                     if(mp.is_unkonwn){
                         $(`${this.selector} tbody tr#member-${member.uid}`).append(`
-                            <td class="col-problem"><span class="cm-unknown ncode-${mp.ncode}">${mp.tries} sub</span></td>
+                            <td class="col-problem"><span class="cm-unknown ncode-${mp.ncode}">${mp.tries} submit</span></td>
                         `);
                     }else{
                         $(`${this.selector} tbody tr#member-${member.uid}`).append(`
@@ -497,6 +524,9 @@
                     `);
                 }
             }
+
+            if (medal != -1)
+                $(`tr#member-${member.uid}`).addClass(this.medalStr[medal]);
         }
     }
 
