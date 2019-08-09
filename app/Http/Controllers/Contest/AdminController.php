@@ -33,6 +33,7 @@ class AdminController extends Controller
         $basicInfo=$contestModel->basic($cid);
         $contest_accounts=$accountModel->getContestAccount($cid);
         $gcode=$contestModel->gcode($cid);
+        $isEnd = $contestModel->remainingTime($cid) < 0;
         return view('contest.board.admin', [
             'page_title'=>"Admin",
             'navigation' => "Contest",
@@ -45,6 +46,7 @@ class AdminController extends Controller
             'verified'=>$verified,
             'gcode'=>$gcode,
             'basic'=>$basicInfo,
+            'is_end'=>$isEnd,
         ]);
     }
 
