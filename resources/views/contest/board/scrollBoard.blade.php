@@ -1,0 +1,634 @@
+@extends('layouts.app')
+
+@section('template')
+<style>
+       paper-card {
+        display: block;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
+        border-radius: 4px;
+        transition: .2s ease-out .0s;
+        color: #7a8e97;
+        background: #fff;
+        padding: 1rem;
+        position: relative;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        margin-bottom: 2rem;
+    }
+
+    paper-card:hover {
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
+    }
+
+    a:hover{
+        text-decoration: none!important;
+    }
+
+    h5{
+        margin-bottom: 1rem;
+        font-weight: bold;
+    }
+
+    .table thead th,
+    .table td,
+    .table tr{
+        vertical-align: middle;
+        text-align: center;
+        font-size:1.25rem;
+        font-weight: bold;
+        transition: .2s ease-out .0s;
+    }
+
+    .table tbody tr:hover{
+        background:rgba(0,0,0,0.05);
+    }
+
+    .table thead th.cm-problem-header{
+        max-width: 4rem!important;
+        padding-top: 0.25rem;
+        padding-bottom: 0.05rem;
+        border:none;
+    }
+
+    .table thead th.cm-problem-subheader{
+        font-size:0.75rem;
+        padding-bottom: 0.25rem;
+        padding-top: 0.05rem;
+    }
+
+    th[scope^="row"]{
+        vertical-align: middle;
+        text-align: left;
+    }
+
+    .cm-subtext{
+        color:rgba(0, 0, 0, 0.42);
+    }
+
+    .table td.wemd-teal-text{
+        font-weight: bold;
+    }
+
+    .table td.wemd-teal-text .cm-subtext{
+        font-weight: normal;
+    }
+
+    th,td{
+        white-space: nowrap;
+    }
+
+    .cm-tries{
+        font-weight: bold;
+        color:rgb(255, 0, 0);
+    }
+
+    .cm-unknown{
+        font-weight: bold;
+        color:rgba(0, 0, 0, 0.5);
+    }
+
+    .cm-ac{
+        background: rgba(76, 175, 80, 0.1);
+    }
+
+    .cm-fb{
+        background: rgba(0, 150, 136, 0.1);
+    }
+
+    .cm-me{
+        background: rgba(255, 193, 7, 0.1);
+    }
+
+    .cm-remote{
+        opacity: .4;
+    }
+
+    .alert.cm-notification{
+        margin:1rem
+    }
+
+    tbody > tr{
+        height: calc(36px + 1.5rem);
+    }
+
+    tr.hold{
+        box-shadow: inset 0 0 3px #03A9F4, 0px 0 20px #00BCD4;
+    }
+
+    .tr-absolute{
+        position: absolute;
+        height: 60px;
+    }
+
+    .tr-absolute td,
+    .tr-absolute th{
+        display: inline-block;
+    }
+
+    tr.gold{
+        background: #fff9c0;
+    }
+
+    tr.silver{
+        background: #f6f6f6;
+    }
+
+    tr.bronze{
+        background: #eddccf;
+    }
+
+    .col-account{
+        font-size: 1rem!important;
+        max-width: 10rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .col-problem{
+        max-width: 4rem;
+    }
+</style>
+<div class="container-fluid mundb-standard-container">
+    <paper-card>
+        <h5 data-cid="{{$basic_info['cid']}}">{{$basic_info['name']}}</h5>
+        <div class="table-responsive">
+
+        </div>
+    </paper-card>
+</div>
+<script>
+    let ajaxing = false;
+
+    let members = {};
+    let submissions = [];
+    let contest = {};
+    let problems = {
+        map : {},
+        ncodes : []
+    };
+    var board;
+
+    window.addEventListener("load",function() {
+        ajaxing = true;
+        $.ajax({
+            type: 'POST',
+            url: '/ajax/contest/getScrollBoardData',
+            data: {
+                cid: $('.mundb-standard-container h5').attr('data-cid'),
+            },
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }, success: function(result){
+                if(result.ret == '200'){
+                    for (const p_key in result.data.problems) {
+                        var p = result.data.problems[p_key];
+                        problems['map'][p['pid']] = p['ncode'];
+                        problems['ncodes'].push(p['ncode']);
+                    }
+                    for (const m_key in result.data.members) {
+                        var member = result.data.members[m_key];
+                        members[member.uid] = new Member(member.uid, member.name, member.nick_name == null ? '' : member.nick_name);
+                    }
+                    for (const s_key in result.data.submissions) {
+                        var submission = result.data.submissions[s_key];
+                        submissions.push(new Submission(submission.sid, submission.uid, problems.map[submission.pid], submission.submission_date, submission.verdict));
+                    }
+                    contest = result.data.contest;
+                    board = new Board({
+                        selector : 'div.table-responsive',
+                        problemList : problems['ncodes'],
+                        medals : [1,1,1],
+                        contest : contest,
+                        members : members,
+                        submissions : submissions
+                    })
+
+                    board.showInitBoard();
+                }else{
+                    alert(result.desc);
+                }
+                ajaxing = false;
+            }, error: function(xhr, type){
+                console.log(xhr);
+                switch(xhr.status) {
+                    case 422:
+                        alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                        break;
+                    case 429:
+                        alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                        break;
+                    default:
+                        alert("Server Connection Error");
+                }
+                console.log('Ajax error while posting to ' + type);
+                ajaxing = false;
+            }
+        });
+
+        $('html').keydown(function(e) {
+	        if (e.keyCode == 13) {
+	            board.keydown();
+	        }
+	    });
+    }, false);
+
+    function Member(uid, name, nick_name) {
+        this.uid = uid;
+        this.name = name;
+        this.nick_name = nick_name;
+        this.official = true;
+        this.solved = 0;
+        this.penalty = 0;
+        this.submitProblemList = []; //提交题目列表
+        this.unkonwnNcodeMap = new Array(); //未知的题目AlphabetId列表
+        this.submissions = []; //提交列表
+        this.lastRank = 0;
+        this.nowRank = 0;
+    }
+
+    Member.prototype.init = function(begin_time, freeze_time) {
+        this.submissions.sort(function(a, b) {
+            return a.submission_date - b.submission_date;
+        });
+        for (const key in this.submissions) {
+            var submission = this.submissions[key];
+            //create member problem object
+            // ====================================================================
+            var mp = this.submitProblemList[submission.ncode];
+            if (!mp) mp = new MemberProblem();
+            mp.ncode = submission.ncode;
+            if (mp.is_accepted) continue;
+            if (submission.submission_date > freeze_time) {
+                mp.is_unkonwn = true;
+                this.unkonwnNcodeMap[mp.ncode] = true;
+            }
+            mp.tries++;
+            mp.is_accepted = (submission.verdict == 'Accepted');
+            if (mp.is_accepted) {
+                mp.accepted_time =  submission.submission_date - begin_time;
+                mp.accepted_time_parsed = acceptedTimeFormat(mp.accepted_time);
+                if (mp.accepted_time < freeze_time - begin_time) {
+                    mp.penalty += (mp.accepted_time / 60) + (mp.tries - 1) * 20;
+                    this.solved++;
+                    this.penalty += mp.penalty;
+                }
+            }
+
+            //update submission problem list
+            this.submitProblemList[mp.ncode] = mp;
+        }
+    }
+
+    Member.prototype.countUnkonwnProblme = function() {
+        var count = 0;
+        for (var key in this.unkonwnNcodeMap) {
+            count++;
+        }
+        return count;
+    }
+
+    Member.prototype.updateOneProblem = function() {
+        for (const p_key in board.problemList) {
+            var ncode = board.problemList[p_key];
+            var mp = this.submitProblemList[ncode];
+            console.log(mp)
+            if(mp != undefined && mp.is_unkonwn){
+                mp.is_unkonwn = false;
+                delete this.unkonwnNcodeMap[mp.ncode];
+                if (mp.is_accepted) {
+                    mp.penalty += mp.accepted_time / 60 + (mp.tries - 1) * 20;
+                    this.solved++;
+                    this.penalty += mp.penalty;
+                }
+                return mp.ncode;
+            }
+        }
+    }
+
+    function MemberProblem() {
+        this.ncode = "";
+        this.is_accepted = false;
+        this.is_first_accepted = false;
+        this.penalty = 0;
+        this.accepted_time = 0;
+        this.accepted_time_parsed = '';
+        this.tries = 0;
+        this.is_unkonwn = false;
+    }
+
+    function acceptedTimeFormat(seconds) {
+        let times = []; //[hours,minutes,seconds]
+        times[0] = Math.floor(seconds / 3600);
+        times[1] = Math.floor((seconds - 3600 * times[0]) / 60);
+        times[2] = seconds - 3600 * times[0] - 60 * times[1];
+        for (const key in times) {
+            if((times[key] + '').length == 1){
+                times[key] = '0' + times[key];
+            }
+        }
+        return times[0] + ':' + times[1] + ':' + times[2];
+    }
+
+    function memberCompare(a, b) {
+        if (a.solved != b.solved)
+            return a.solved > b.solved ? -1 : 1;
+        if (a.penalty != b.penalty)
+            return a.penalty < b.penalty ? -1 : 1;
+        return 0;
+    }
+
+    function memberProblemCompare(a,b,ncode) {
+        var a_mp = a['submitProblemList'][ncode];
+        var b_mp = b['submitProblemList'][ncode];
+        if(!a_mp && !b_mp)
+            return 0;
+        if(!a_mp)
+            return 1;
+        if(!b_mp)
+            return -1;
+        if(a_mp.is_accepted && b_mp.is_accepted)
+            return a_mp.accepted_time > b_mp.accepted_time ? 1 : -1;
+        if(a_mp.is_accepted)
+            return -1;
+        if(b_mp.is_accepted)
+            return 1;
+    }
+
+    function Submission(sid, uid, ncode, submission_date, verdict) {
+        this.sid = sid;
+        this.uid = uid;
+        this.ncode = ncode;
+        this.submission_date = submission_date;
+        this.verdict = verdict;
+    }
+
+    function Board({selector = '', problemList = [], medals = [], contest = {}, members = [], submissions = []} = {}) {
+        this.selector = selector;
+        this.medals = medals;
+        this.medalRanks = [];
+        this.medalStr = ["gold", "silver", "bronze"];
+        this.problemList = problemList;
+        this.begin_time = Date.parse(contest['begin_time']) / 1000;
+        this.freeze_time = (Date.parse(contest['end_time']) - contest['froze_length'] * 1000) / 1000;
+        this.members = members;
+        this.submissions = submissions;
+        this.memberNowSequence = [];
+        this.memberNextSequence = [];
+        this.memberCount = 0;
+        this.displayMemberPos = 0;
+        this.noAnimate = true;
+
+        this.medalRanks[0] = medals[0];
+        for (var i = 1; i < this.medals.length; ++i) {
+            this.medalRanks[i] = this.medals[i] + this.medalRanks[i - 1];
+        }
+
+        //push submission into their owner
+        for (const key in this.submissions) {
+            var submission = this.submissions[key];
+            this.members[submission.uid].submissions.push(submission);
+        }
+
+        //init member object, push member id into sequence
+        for (const key in this.members) {
+            var member = this.members[key];
+            member.init(this.begin_time, this.freeze_time);
+            this.memberNowSequence.push(member);
+            this.memberCount++;
+        }
+
+        //get problem first solved
+        for (const key in this.problemList) {
+            let ncode = this.problemList[key];
+            this.memberNowSequence.sort(function(a, b) {
+                return memberProblemCompare(a, b, ncode);
+            });
+            let first_mp = this.memberNowSequence[0].submitProblemList[ncode];
+            if(first_mp && first_mp.is_accepted){
+                this.memberNowSequence[0].submitProblemList[ncode].is_first_accepted = true;
+            }
+        }
+
+        this.displayMemberPos = this.memberCount - 1;
+        //队伍排序
+        this.memberNowSequence.sort(function(a, b) {
+            return memberCompare(a, b);
+        });
+
+        this.memberNextSequence = this.memberNowSequence.slice(0);
+    }
+
+    Board.prototype.showInitBoard = function() {
+        $(this.selector).html('').append(`
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" style="text-align: left;">Rank</th>
+                        <th scope="col" id="col-account">Account</th>
+                        <th scope="col">Score</th>
+                        <th scope="col">Penalty</th>
+                        <!-- problems -->
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        `);
+
+        for (let i = 0; i < this.problemList.length; i++) {
+            var ncode = this.problemList[i];
+            $(`${this.selector} thead tr`).append(`
+                <th scope="col" class="col-problem cm-problem-header">${ncode}</th>
+            `);
+        }
+
+        let width = [];
+        $(`${this.selector} thead th`).each(function(index,elem){
+            width.push($(elem).innerWidth());
+        })
+
+        var maxRank = 0;
+
+        for (var i = 0; i < this.memberCount; i++) {
+            var member = this.memberNowSequence[i];
+
+            var rank = 0;
+            var medal = -1;
+            if (member.solved != 0) {
+                rank = i + 1;
+                maxRank = rank + 1;
+                for (var j = this.medalRanks.length - 1; j >= 0; j--) {
+                    if (rank <= this.medalRanks[j])
+                        medal = j;
+                }
+            } else {
+                rank = maxRank;
+                medal = -1;
+            }
+
+            $(`${this.selector} tbody`).append(`
+                <tr id="member-${member.uid}">
+                    <th class="rank" scope="row">${rank}</th>
+                    <td class="col-account">${member.name + (member.nick_name == 0 ? '' : '<span class="cm-subtext">('+ member.nick_name + ')</span>')}</td>
+                    <td class="solved">${member.solved}</td>
+                    <td class="penalty">${Math.round(member.penalty)}</td>
+                </tr>
+            `);
+
+            for (const key in this.problemList) {
+                mp = member.submitProblemList[this.problemList[key]];
+                if(mp != undefined){
+                    if(mp.is_unkonwn){
+                        $(`${this.selector} tbody tr#member-${member.uid}`).append(`
+                            <td class="col-problem"><span class="cm-unknown ncode-${mp.ncode}">${mp.tries} sub</span></td>
+                        `);
+                    }else{
+                        $(`${this.selector} tbody tr#member-${member.uid}`).append(`
+                            <td class="col-problem wemd-green-text">
+                            ${mp.accepted_time_parsed}
+                            ${mp.is_accepted && mp.tries >= 2 ? '<br />': ''}
+                            ${(mp.tries >= 2 && mp.is_accepted || mp.tries >= 1 && !mp.is_accepted) ? '<span class="cm-tries">( - ' + (mp.tries - (mp.is_accepted ? 1 : 0)) + ' )</span>' : ''}</td>
+                        `);
+                    }
+                }else{
+                    $(`${this.selector} tbody tr#member-${member.uid}`).append(`
+                        <td class="col-problem"></td>
+                    `);
+                }
+            }
+        }
+    }
+
+    //get the next show member
+    Board.prototype.UpdateOneMember = function() {
+        var updateMemberPos = this.memberCount - 1;
+        while (updateMemberPos >= 0 && this.memberNextSequence[updateMemberPos].countUnkonwnProblme() < 1){
+            updateMemberPos--;
+        }
+        if (updateMemberPos >= 0) {
+            while (this.memberNextSequence[updateMemberPos].countUnkonwnProblme() > 0) {
+                return {
+                    ncode : this.memberNextSequence[updateMemberPos].updateOneProblem(),
+                    member : this.memberNextSequence[updateMemberPos],
+                };
+            }
+        }
+        return null;
+    }
+
+    //update rank list and get the member insert position
+    Board.prototype.updateMemberSequence = function() {
+        var memberSequence = this.memberNextSequence.slice(0);
+        memberSequence.sort(function(a, b) {
+            return memberCompare(a, b);
+        });
+        var toPos = -1;
+        for (var i = 0; i < this.memberCount; i++) {
+            if (this.memberNextSequence[i].uid != memberSequence[i].uid) {
+                toPos = i;
+                break;
+            }
+        }
+        this.memberNowSequence = this.memberNextSequence.slice(0);
+        this.memberNextSequence = memberSequence.slice(0);
+        return toPos;
+    }
+
+    Board.prototype.keydown = function() {
+        if (this.noAnimate) {
+            this.noAnimate = false;
+            var ret = this.UpdateOneMember();
+            var member = ret['member'];
+            var ncode = ret['ncode'];
+            if (member) {
+                var toPos = this.updateMemberSequence();
+                this.updateMemberStatus(member,ncode);
+                if(toPos != -1){
+                    this.moveMember(member,toPos);
+                }
+            } else {
+                $('tr.hold').removeClass("hold");
+            }
+        }
+    }
+
+    Board.prototype.updateMemberStatus = function(member,ncode) {
+        var thisBoard = this;
+        var uid = member.uid;
+        var mp = member.submitProblemList[ncode];
+        var newHTML = `
+            ${mp.accepted_time_parsed}
+            ${mp.is_accepted && mp.tries >= 2 ? '<br />': ''}
+            ${(mp.tries >= 2 && mp.is_accepted || mp.tries >= 1 && !mp.is_accepted) ? '<span class="cm-tries">( - ' + (mp.tries - (mp.is_accepted ? 1 : 0)) + ' )</span>' : ''}
+        `;
+
+        $('tr.hold').removeClass("hold");
+        $(`tr#member-${uid}`).addClass("hold");
+
+        var clientHeight = document.documentElement.clientHeight || document.body.clientHeight || 0;
+        var trOffsetY = $(`tr#member-${uid}`).offset().top  - clientHeight + 100;
+
+        $('body,html').stop().animate({
+            scrollTop: trOffsetY
+        },500);
+
+        setTimeout(function(){
+            var speed = 100;
+            $(`tr#member-${uid} .cm-unknown.ncode-${mp.ncode}`).fadeOut(speed).fadeIn(speed).fadeOut(speed).fadeIn(speed, function() {
+                //callback 2
+                $(`tr#member-${uid} .cm-unknown.ncode-${mp.ncode}`).html(newHTML);
+                $(`tr#member-${uid} .cm-unknown.ncode-${mp.ncode}`).addClass('wemd-green-text');
+                //remove madel
+                for (var i in thisBoard.medalStr) {
+                    $("tr").removeClass(thisBoard.medalStr[i]);
+                }
+                //recalc rank
+                for (var i = 0; i < thisBoard.memberCount; i++) {
+                    var m = thisBoard.memberNextSequence[i];
+                    var medal = -1;
+                    var rank = 0;
+                    if (m.solved != 0) {
+                        rank = i + 1;
+                        maxRank = rank + 1;
+                        for (var j = thisBoard.medalRanks.length - 1; j >= 0; j--) {
+                            if (rank <= thisBoard.medalRanks[j])
+                                medal = j;
+                        }
+                    } else {
+                        rank = maxRank;
+                        medal = -1;
+                    }
+
+                    if (medal != -1)
+                        $(`tr#member-${m.uid}`).addClass(thisBoard.medalStr[medal]);
+
+                    $(`tr#member-${m.uid} th.rank`).html(rank);
+                }
+                $(`tr#member-${uid} td.solved`).text(member.solved);
+                $(`tr#member-${uid} td.penalty`).text(Math.round(member.penalty));
+                thisBoard.noAnimate = true;
+            });
+        },600)
+    }
+
+    Board.prototype.moveMember = function(member,toPos) {
+        var thisBoard = this;
+        setTimeout(function(){
+            $(`tr#member-${member.uid}`).fadeOut(400,function(){
+                var trOffsetY = $(`tbody tr`).eq(toPos).offset().top - 400;
+                $('body,html').stop().animate({
+                    scrollTop: trOffsetY
+                },500,function(){
+                    setTimeout(function(){
+                        $(`tbody tr`).eq(toPos).before($(`tr#member-${member.uid}`));
+                        $(`tr#member-${member.uid}`).fadeIn(400,function(){
+                            thisBoard.noAnimate = true;
+                        });
+                    },300);
+                });
+            });
+        },1200);
+    }
+</script>
+@endsection
