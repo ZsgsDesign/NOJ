@@ -155,15 +155,15 @@
                 <div style="display:inline-block; width:40vw;">
                     <form>
                         <div class="form-group">
-                            <label for="gold-num" class="bmd-label-floating">Gold medal</label>
+                            <label for="gold-num" style="font-size:0.75rem; top:1rem; left: 0" class="bmd-label-floating">Gold medal</label>
                             <input type="integer" style="text-align:center" class="form-control" id="gold-num" required>
                         </div>
                         <div class="form-group">
-                            <label for="silver-num" class="bmd-label-floating">Silver medal</label>
+                            <label for="silver-num" style="font-size:0.75rem; top:1rem; left: 0" class="bmd-label-floating">Silver medal</label>
                             <input type="integer" style="text-align:center" class="form-control" id="silver-num" required>
                         </div>
                         <div class="form-group">
-                            <label for="bronze-num" class="bmd-label-floating">Bronze medal</label>
+                            <label for="bronze-num" style="font-size:0.75rem; top:1rem; left: 0" class="bmd-label-floating">Bronze medal</label>
                             <input type="integer" style="text-align:center" class="form-control" id="bronze-num" required>
                         </div>
                         <button type="button" id="medal-confirm" class="btn btn-primary">Confirm</button>
