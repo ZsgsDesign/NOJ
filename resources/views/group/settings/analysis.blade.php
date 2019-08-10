@@ -177,16 +177,18 @@
                             <canvas></canvas>
                         </div>
                         <div class="col-5 col-sm-12 col-md-5">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="text-left" scope="col">Contest Name</th>
-                                        <th scope="col">After Contest Elo</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="history_container">
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left" scope="col">Contest Name</th>
+                                            <th scope="col">After Contest Elo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="history_container">
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
