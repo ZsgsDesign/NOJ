@@ -33,6 +33,35 @@
         $('.modal').on('shown.bs.modal', function (e) {
             changeDepth();
         });
+
+        if($('#nav-username').length != 0){
+            var uid = $('#nav-username').attr('data-uid');
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/message/unread',
+                data: {
+                    uid: uid
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(result){
+                    if(result.ret == '200' && result.data.length != 0){
+                        setInterval(() => {
+                            $("#message-tip").animate({
+                                opacity: !parseInt($('#message-tip').css('opacity'))
+                            },200)
+                        }, 400);
+                        $('a[href="/message"]').append(` (<span>${result.data.length}</span>)`);
+                    }
+                    console.log(result);
+                }, error: function(xhr, type){
+                    console.log('Ajax error!');
+                    ajaxing=false;
+                }
+            });
+        }
+
     }, false);
 
     function changeDepth(){
