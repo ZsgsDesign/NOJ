@@ -290,7 +290,6 @@
             tooltips: {
                 callbacks: {
                     label: function(tooltipItem, data) {
-                        console.log(data);
                         var label = data.labels[tooltipItem.index] || '';
 
                         if (label) {
@@ -304,6 +303,8 @@
             responsive: true,
         }
     };
+    var elo_chart;
+    var tag_chart;
 
     window.addEventListener("load",function() {
         $('#tab-contest').on('click',function(){
@@ -359,10 +360,10 @@
         });
 
         var ctx = $('#historyModal canvas');
-        var elo_chart = new Chart(ctx,elo_config);
+        elo_chart = new Chart(ctx,elo_config);
 
         var ctx = $('#tagRadarModal canvas');
-        var tag_chart = new Chart(ctx,tag_config);
+        tag_chart = new Chart(ctx,tag_config);
 
 
         $('#contest-contest').click();
@@ -388,7 +389,6 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
                     if(ret.ret == '200'){
-                        console.log(ret);
                         data_contest = ret.data;
                         ajaxing = false;
                         sortContestData({by : 'elo',desc : true})
@@ -823,6 +823,7 @@
                 if(ajaxing) return;
                 ajaxing = true;
                 var uid = parseInt($(this).parent('tr').attr('id').split('-')[1]);
+                var display_name = $(this).parent('tr').find('.member-name').text();
                 $.ajax({
                     type: 'POST',
                     url: '/ajax/group/eloChangeLog',
@@ -835,7 +836,6 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }, success: function(ret){
                         if(ret.ret == '200'){
-                            console.log(ret);
                             var data = ret.data;
                             //========================================chart
                             let chart_data = [];
@@ -846,6 +846,7 @@
                                     contest_name : data[key]['name'],
                                 });
                             }
+                            elo_chart.data.datasets[0].label = display_name;
                             elo_chart.data.datasets[0].data = chart_data;
                             elo_chart.update();
                             //========================================table
@@ -935,6 +936,7 @@
             $('.chart-tag').unbind();
             $('.chart-tag').on('click',function(){
                 var uid = parseInt($(this).parent('tr').attr('id').split('-')[1]);
+                var display_name = $(this).parent('tr').find('.member-name').text();
                 var tag_chart_data = {
                     labels: [],
                     datasets: [{
@@ -954,6 +956,7 @@
                 }
 
                 tag_chart.data = tag_chart_data;
+                tag_chart.config.data.datasets[0].label = display_name;
                 tag_chart.update();
                 $("#tagRadarModal").modal();
             });
