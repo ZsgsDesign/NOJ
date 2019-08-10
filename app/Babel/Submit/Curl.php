@@ -44,7 +44,7 @@ class Curl
         ob_start();
         $response=curl_exec($datapost);
         if (curl_errno($datapost)) {
-            die(curl_error($datapost));
+            throw new Exception(curl_error($datapost), 10000);
         }
         ob_end_clean();
         curl_close($datapost);
@@ -77,7 +77,7 @@ class Curl
         ob_start();
         $response=curl_exec($ch);
         if (curl_errno($ch)) {
-            die(curl_error($ch));
+            throw new Exception(curl_error($ch), 10000);
         }
         ob_end_clean();
         curl_close($ch);
@@ -121,7 +121,7 @@ class Curl
         ob_start();
         $response=curl_exec($datapost);
         if (curl_errno($datapost)) {
-            die(curl_error($datapost));
+            throw new Exception(curl_error($datapost), 10000);
         }
         ob_end_clean();
         curl_close($datapost);
