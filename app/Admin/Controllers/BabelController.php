@@ -72,6 +72,11 @@ class BabelController extends Controller
             });
     }
 
+    public function updateExtension($code, Content $content)
+    {
+        self::executeArtisan("babel:update $code");
+    }
+
     private static function installedView()
     {
         $installedExtensionList=ExtensionModel::localList();
@@ -105,5 +110,18 @@ class BabelController extends Controller
         return view('admin::babel.detail', [
             'details'=>$details
         ]);
+    }
+
+    private static function executeArtisan($command)
+    {
+        header("Connection: Keep-alive");
+
+        $fp = popen('"'.PHP_BINARY.'" "'.base_path('artisan').'" '.$command, "r");
+        while($b = fgets($fp, 2048)) {
+            echo $b."<br>";
+            flush();
+        }
+
+        pclose($fp);
     }
 }

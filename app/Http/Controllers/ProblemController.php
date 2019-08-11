@@ -148,4 +148,61 @@ class ProblemController extends Controller
                                             'editor_left_width'=>$editor_left_width,
                                         ]);
     }
+
+        /**
+     * Show the Problem Discussion Page.
+     *
+     * @return Response
+     */
+    public function discussion($pcode)
+    {
+        //TODO
+        $problem=new ProblemModel();
+        $prob_detail=$problem->detail($pcode);
+        if ($problem->isBlocked($prob_detail["pid"])) {
+            return abort('403');
+        }
+        $list=$problem->discussionList($prob_detail["pid"]);
+        $discussion=$list['list'];
+        $paginator=$list['paginator'];
+        return is_null($prob_detail) ?  redirect("/problem") : view('problem.discussion', [
+                                            'page_title'=> "Discussion",
+                                            'site_title'=>config("app.name"),
+                                            'navigation' => $prob_detail["title"],
+                                            'detail' => $prob_detail,
+                                            'discussion'=>$discussion,
+                                            'paginator'=>$paginator
+                                        ]);
+    }
+
+    /**
+     * Show the Problem Discussion Post Page.
+     *
+     * @return Response
+     */
+    public function discussionPost($dcode)
+    {
+        //TODO
+        $problem=new ProblemModel();
+        $pcode=$problem->pcodeByPdid($dcode);
+        $prob_detail=$problem->detail($pcode);
+        if ($problem->isBlocked($prob_detail["pid"])) {
+            return abort('403');
+        }
+        $detail=$problem->discussionDetail($dcode);
+        $main=$detail['main'];
+        $paginator=$detail['paginator'];
+        $comment=$detail['comment'];
+        $comment_count=$detail['comment_count'];
+        return is_null($prob_detail) ?  redirect("/problem") : view('problem.discussion_post', [
+                                            'page_title'=> "Discussion",
+                                            'site_title'=>config("app.name"),
+                                            'navigation' => $prob_detail["title"],
+                                            'detail' => $prob_detail,
+                                            'main'=>$main,
+                                            'paginator'=>$paginator,
+                                            'comment'=>$comment,
+                                            'comment_count'=>$comment_count
+                                        ]);
+    }
 }

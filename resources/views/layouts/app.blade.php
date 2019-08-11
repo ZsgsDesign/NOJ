@@ -242,10 +242,11 @@
                             <a class="nav-link @if ($navigation === "Account") active @endif" href="/account">Account</a>
                         @else
                             <li class="nav-item dropdown mundb-btn-ucenter">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{$greeting}}, <span id="nav-username">{{ Auth::user()["name"] }}</span></a>
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i style="opacity: 0" id="message-tip" class="MDI checkbox-blank-circle"></i> {{$greeting}}, <span id="nav-username" data-uid="{{Auth::user()->id}}">{{ Auth::user()["name"] }}</span></a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <div class="dropdown-header"><img src="{{ Auth::user()->avatar }}" class="mundb-avatar" id="atsast_nav_avatar" /><div><h6><span id="nav-dropdown-username">{{ Auth::user()["name"] }}</span><br/><small>{{ Auth::user()->email }}</small></h6></div></div>
                                     <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/message" id="message-link"><i class="MDI bell"></i> Message</a>
                                     <a class="dropdown-item" href="/account/dashboard"><i class="MDI account-circle"></i> Dashboard</a>
                                     <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> Settings</a>
                                     <!--

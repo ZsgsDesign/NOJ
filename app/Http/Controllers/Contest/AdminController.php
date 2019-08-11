@@ -33,6 +33,7 @@ class AdminController extends Controller
         $basicInfo=$contestModel->basic($cid);
         $contest_accounts=$accountModel->getContestAccount($cid);
         $gcode=$contestModel->gcode($cid);
+        $isEnd = $contestModel->remainingTime($cid) < 0;
         return view('contest.board.admin', [
             'page_title'=>"Admin",
             'navigation' => "Contest",
@@ -45,6 +46,7 @@ class AdminController extends Controller
             'verified'=>$verified,
             'gcode'=>$gcode,
             'basic'=>$basicInfo,
+            'is_end'=>$isEnd,
         ]);
     }
 
@@ -79,5 +81,23 @@ class AdminController extends Controller
             $contestModel->storeContestRankInMySQL($cid, $contestRankRaw);
         }
         return Redirect::route('contest.rank', ['cid' => $cid]);
+    }
+
+    public function scrollBoard($cid){
+        $contestModel=new ContestModel();
+        $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
+        if ($clearance <= 2) {
+            return Redirect::route('contest_detail', ['cid' => $cid]);
+        }
+        $basicInfo=$contestModel->basic($cid);
+        if($basicInfo['froze_length'] == 0){
+            return Redirect::route('contest.admin', ['cid' => $cid]);
+        }
+        return view('contest.board.scrollBoard', [
+            'page_title'=>"ScrollBoard",
+            'navigation' => "Contest",
+            'site_title' => config("app.name"),
+            'basic_info' => $basicInfo,
+        ]);
     }
 }
