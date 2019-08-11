@@ -246,7 +246,7 @@
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <div class="dropdown-header"><img src="{{ Auth::user()->avatar }}" class="mundb-avatar" id="atsast_nav_avatar" /><div><h6><span id="nav-dropdown-username">{{ Auth::user()["name"] }}</span><br/><small>{{ Auth::user()->email }}</small></h6></div></div>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/message"><i class="MDI bell"></i> Message</a>
+                                    <a class="dropdown-item" href="/message" id="message-link"><i class="MDI bell"></i> Message</a>
                                     <a class="dropdown-item" href="/account/dashboard"><i class="MDI account-circle"></i> Dashboard</a>
                                     <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> Settings</a>
                                     <!--

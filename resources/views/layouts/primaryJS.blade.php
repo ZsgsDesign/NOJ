@@ -52,7 +52,7 @@
                                 opacity: !parseInt($('#message-tip').css('opacity'))
                             },200)
                         }, 400);
-                        $('a[href="/message"]').append(` (<span>${result.data.length}</span>)`);
+                        $('a#message-link').append(` (<span>${result.data.length}</span>)`);
                     }
                     console.log(result);
                 }, error: function(xhr, type){

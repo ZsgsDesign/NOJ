@@ -26,7 +26,11 @@
         color: rgba(0, 0, 0, 0.62);
     }
 
-    div.content h5 {
+    div.content img{
+        max-width: calc(100% - 4rem);
+    }
+
+    h5.title  {
         font-weight: bold;
         font-family: 'Montserrat';
         margin-bottom: 1rem;
@@ -46,14 +50,14 @@
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
-        <button type="button" class="btn btn-primary"><i class="MDI arrow-left"></i></button>
+        <a class="btn btn-primary" href="/message" role="button"><i class="MDI arrow-left"></i></a>
         <div class="sender">
             <div>@if($message['official'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a official message"></i>@endif <span class="sender_name">{{$message['sender_name']}}</span> <small class="wemd-grey-text"> {{$message['time']}}</small></div>
             <div><img src="{{$message['sender_avatar']}}" class="cm-avatar"></div>
         </div>
+        <h5 class="title">{{$message["title"]}}</h5>
         <hr>
         <div class="content">
-            <h5>{{$message["title"]}}</h5>
             <p>{!! clean(convertMarkdownToHtml($message["content"])) !!}</p>
         </div>
         {{-- @if($message['allow_reply'])

@@ -18,7 +18,7 @@ class CreateMessageTable extends Migration
             $table->integer('sender');
             $table->integer('receiver');
             $table->string('title');
-            $table->string('content');
+            $table->text('content');
             $table->integer('reply')->nullable();
             $table->tinyInteger('allow_reply')->default(0);
             $table->tinyInteger('unread')->default(1);
