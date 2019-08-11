@@ -1908,4 +1908,23 @@ class ContestModel extends Model
     {
         return DB::table('contest')->where('cid','=',$cid)->pluck('verified')->first();
     }
+
+    public function judgeOver($cid)
+    {
+        $submissions =  DB::table('submission')
+            ->where(['cid' => $cid])
+            ->whereIn('verdict',['Waiting','Pending'])
+            ->select('sid')
+            ->get()->all();
+        if(empty($submissions)){
+            return [
+                'result' => true
+            ];
+        }else{
+            return [
+                'result' => false,
+                'sid' => $submissions
+            ];
+        }
+    }
 }

@@ -71,7 +71,7 @@ class IndexController extends Controller
      */
     public function create()
     {
-        $groupModel=new GroupModel();
+        //$groupModel=new GroupModel();
         //$basic_info=$groupModel->details($gcode);
         return view('group.create', [
             'page_title'=>"Group Create",
@@ -88,6 +88,10 @@ class IndexController extends Controller
      */
     public function analysis($gcode){
         $groupModel = new GroupModel();
+        $basic_info=$groupModel->details($gcode);
+        if(empty($basic_info)) return Redirect::route('group.index');
+        $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
+        if($clearance < 1) return Redirect::route('group.detail',['gcode' => $gcode]);
         $group_info = $groupModel->details($gcode);
         return view('group.settings.analysis', [
             'page_title'=>"Group Analysis",

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Cache;
 use Auth;
+use App\Models\Eloquent\ContestModel;
 
 class GroupModel extends Model
 {
@@ -563,6 +564,19 @@ class GroupModel extends Model
         return $ret;
     }
 
+    public function refreshAllElo()
+    {
+        $result = [];
+        $gids = DB::table('group')->select('gid','name')->get()->all();
+        foreach ($gids as $gid) {
+            $result[$gid['gid']] = [
+                'name' => $gid['name'],
+                'result' => $this->refreshElo($gid['gid']),
+            ];
+        }
+        return $result;
+    }
+
     public function refreshElo($gid)
     {
         DB::table('group_rated_change_log')
@@ -579,21 +593,37 @@ class GroupModel extends Model
                 'practice' => 1
             ])
             ->where('end_time','<',date("Y-m-d H:i:s"))
-            ->select('cid')
+            ->select('cid','name')
             ->orderBy('end_time')
             ->get()->all();
 
         if(empty($contests)) {
-            return true;
+            return [];
         }
-
+        $result = [];
+        $contestModel = new \App\Models\ContestModel();
         foreach ($contests as $contest) {
-            $calc = new GroupRatingCalculator($contest['cid']);
-            $calc->calculate();
-            $calc->storage();
+            $judge_status = $contestModel->judgeOver($contest['cid']);
+            if($judge_status['result'] == true){
+                $calc = new GroupRatingCalculator($contest['cid']);
+                $calc->calculate();
+                $calc->storage();
+                $result[] = [
+                    'ret' => 'success',
+                    'cid' => $contest['cid'],
+                    'name' => $contest['name']
+                ];
+            }else{
+                $result[] = [
+                    'ret' => 'judging',
+                    'cid' => $contest['cid'],
+                    'name' => $contest['name'],
+                    'submissions' => $judge_status['sid']
+                ];
+            }
         }
 
-        return true;
+        return $result;
     }
 
     public function getEloChangeLog($gid,$uid)
