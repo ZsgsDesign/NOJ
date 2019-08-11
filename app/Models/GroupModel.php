@@ -7,6 +7,8 @@ use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Cache;
+use Auth;
+use function GuzzleHttp\json_encode;
 
 class GroupModel extends Model
 {
@@ -176,7 +178,7 @@ class GroupModel extends Model
         $notice_item["name"]=$notice_author["name"];
         $notice_item["avatar"]=$notice_author["avatar"];
         $notice_item["post_date_parsed"]=$this->formatPostTime($notice_item["post_date"]);
-        $notice_item["content_parsed"]=clean(Markdown::convertToHtml($notice_item["content"]));
+        $notice_item["content_parsed"]=clean(convertMarkdownToHtml($notice_item["content"]));
         return $notice_item;
     }
 
@@ -250,16 +252,23 @@ class GroupModel extends Model
 
     public function problems($gid)
     {
+        $contestModel = new ContestModel();
         $problems = DB::table('contest_problem')
         ->join('contest','contest_problem.cid', '=', 'contest.cid')
         ->join('problem','contest_problem.pid', '=', 'problem.pid' )
-        ->select('problem.pid as pid', 'pcode', 'title')
+        ->select('contest_problem.cid as cid', 'problem.pid as pid', 'pcode', 'title')
         ->where('contest.gid',$gid)
         ->where('contest.practice',1)
+        ->orderBy('contest.create_time','desc')
         ->distinct()
         ->get()->all();
-        foreach($problems as &$value){
-            $value['tags'] = $this->problemTags($gid,$value['pid']);
+        $user_id = Auth::user()->id;
+        foreach($problems as $key => $value){
+            if($contestModel->judgeClearance($value['cid'],$user_id) != 3){
+                unset($problems[$key]);
+            }else{
+                $problems[$key]['tags'] = $this->problemTags($gid,$value['pid']);
+            }
         }
         return $problems;
     }
@@ -337,6 +346,16 @@ class GroupModel extends Model
         ]);
     }
 
+    public function changeGroup($uid, $gid, $sub)
+    {
+        return DB::table("group_member")->where([
+            "uid"=>$uid,
+            "gid"=>$gid
+        ])->update([
+            "sub_group"=>$sub
+        ]);
+    }
+
     public function isUser($email)
     {
         return DB::table("users")->where([
@@ -401,8 +420,6 @@ class GroupModel extends Model
     {
         $contestModel = new ContestModel();
 
-        $this->rankingUpdate($gid);
-
         $allPracticeContest = DB::table('contest')
             ->where([
                 'gid' => $gid,
@@ -423,16 +440,32 @@ class GroupModel extends Model
                 'penalty' => 0,
                 'contest_detial' => []
             ];
-
         }
         foreach ($allPracticeContest as $c) {
-            $contestRank = $contestModel->contestRank($c['cid'],0);
+            $contestRankRaw = $contestModel->contestRank($c['cid']);
+            foreach($contestRankRaw as $key => $contestRank){
+                if(isset($contestRank['remote']) && $contestRank['remote']){
+                    unset($contestRankRaw[$key]);
+                }
+            }
+            $contestRank = array_values($contestRankRaw);
             $problemsCount = DB::table('contest_problem')
                 ->where('cid',$c['cid'])
                 ->count();
-            $rank = 0;
+            $index = 1;
+            $rank = 1;
+            $last_cr = [];
+            $last_rank = 1;
             foreach ($contestRank as $cr) {
-                $rank++;
+                $last_rank = $index;
+                if(!empty($last_cr)){
+                    if($cr['solved'] == $last_cr['solved'] && $cr['penalty'] == $last_cr['penalty'] ){
+                        $rank = $last_rank;
+                    }else{
+                        $rank = $index;
+                        $last_rank = $rank;
+                    }
+                }
                 if(in_array($cr['uid'],array_keys($memberData))) {
                     $memberData[$cr['uid']]['solved_all'] += $cr['solved'];
                     $memberData[$cr['uid']]['problem_all'] += $problemsCount;
@@ -444,6 +477,8 @@ class GroupModel extends Model
                         'penalty' => $cr['penalty']
                     ];
                 }
+                $last_cr = $cr;
+                $index++;
             }
         }
         $new_memberData = [];
@@ -529,21 +564,27 @@ class GroupModel extends Model
         return $ret;
     }
 
-    public function rankingUpdate($gid)
+    public function refreshElo($gid)
     {
+        DB::table('group_rated_change_log')
+            ->where('gid',$gid)
+            ->delete();
+        DB::table('group_member')
+            ->where('gid',$gid)
+            ->update([
+                'ranking' => 1500
+            ]);
         $contests = DB::table('contest')
-            ->leftJoin('group_rated_change_log','contest.cid','=','group_rated_change_log.cid')
             ->where([
-                'contest.gid' => $gid,
+                'gid' => $gid,
                 'practice' => 1
-            ])->where('end_time','<',date('Y-m-d H:i:s'))
-            ->whereNull('contest.vcid')
-            ->select('contest.cid as cid','group_rated_change_log.cid as cid_rated')
-            ->whereNull('group_rated_change_log.cid')
+            ])
+            ->where('end_time','<',date("Y-m-d H:i:s"))
+            ->select('cid')
             ->orderBy('end_time')
             ->get()->all();
 
-        if(empty($contests)){
+        if(empty($contests)) {
             return true;
         }
 
@@ -554,5 +595,17 @@ class GroupModel extends Model
         }
 
         return true;
+    }
+
+    public function getEloChangeLog($gid,$uid)
+    {
+        return DB::table('group_rated_change_log')
+            ->join('contest','group_rated_change_log.cid','=','contest.cid')
+            ->where([
+                'group_rated_change_log.gid' => $gid,
+                'group_rated_change_log.uid' => $uid
+            ])->select('group_rated_change_log.cid as cid', 'contest.name as name', 'ranking')
+            ->orderBy('contest.end_time')
+            ->get()->all();
     }
 }

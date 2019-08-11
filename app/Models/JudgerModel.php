@@ -55,36 +55,13 @@ class JudgerModel extends Model
 
     public function server($oid=1)
     {
-        $serverList=DB::table("judge_server")->where(["oid"=>$oid, "available"=>1])->get()->all();
-        // return $serverList[0];
-        $bestServer=[
-            "load"=> 99999,
-            "server" => null
-        ];
-        foreach ($serverList as $server) {
-            $serverURL="http://".$server["host"].":".$server["port"];
-            try {
-                $pong=$this->ping($serverURL.'/ping', $server["port"], hash('sha256', $server["token"]));
-            } catch (Exception $exception) {
-                continue;
-            }
+        $serverList=DB::table("judge_server")->where([
+            "oid"=>$oid,
+            "available"=>1,
+            "status"=>0
+        ])->orderBy('usage','desc')->get()->first();
 
-            if (empty($pong)) {
-                continue;
-            }
-
-            if ($pong["status_code"]==200) {
-                $pong=$pong["body"];
-                $load=4 * $pong->data->cpu+0.6 * $pong->data->memory;
-                if ($load<$bestServer['load']) {
-                    $bestServer=[
-                        'server' => $server,
-                        'load' => $load
-                    ];
-                }
-            }
-        }
-        return $bestServer["server"];
+        return $serverList;
     }
 
     public function fetchServer($oid=1)
@@ -94,84 +71,5 @@ class JudgerModel extends Model
             $server["status_parsed"]=is_null($server["status"])?self::$status["-1"]:self::$status[$server["status"]];
         }
         return $serverList;
-    }
-
-    public function updateServerStatus($oid=1)
-    {
-        $serverList=DB::table("judge_server")->where(["oid"=>$oid])->get()->all();
-        foreach ($serverList as $server) {
-            if($server["available"]==0){
-                DB::table("judge_server")->where(["jsid"=>$server["jsid"]])->update([
-                    "status"=>-2,
-                    "status_update_at"=>date("Y-m-d H:i:s")
-                ]);
-                continue;
-            }
-
-            $serverURL="http://".$server["host"].":".$server["port"];
-            try {
-                $pong=$this->ping($serverURL.'/ping', $server["port"], hash('sha256', $server["token"]));
-            } catch (Exception $exception) {
-                DB::table("judge_server")->where(["jsid"=>$server["jsid"]])->update([
-                    "status"=>1,
-                    "status_update_at"=>date("Y-m-d H:i:s")
-                ]);
-                continue;
-            }
-
-            if (empty($pong)) {
-                DB::table("judge_server")->where(["jsid"=>$server["jsid"]])->update([
-                    "status"=>1,
-                    "status_update_at"=>date("Y-m-d H:i:s")
-                ]);
-                continue;
-            }
-
-            if ($pong["status_code"]==200) {
-                DB::table("judge_server")->where(["jsid"=>$server["jsid"]])->update([
-                    "status"=>0,
-                    "status_update_at"=>date("Y-m-d H:i:s")
-                ]);
-            }
-        }
-    }
-
-    public function ping($url, $port, $token)
-    {
-        $curl=curl_init();
-
-        if($curl===false) return [];
-
-        curl_setopt_array($curl, array(
-            CURLOPT_PORT => $port,
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "",
-            CURLOPT_HTTPHEADER => array(
-                "Content-Type: application/json",
-                "X-Judge-Server-Token: ".$token,
-                "cache-control: no-cache"
-            ),
-        ));
-
-        $response=curl_exec($curl);
-        $err=curl_error($curl);
-        $httpCode=curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
-        curl_close($curl);
-
-        if ($err) {
-            return [];
-        } else {
-            return [
-                "status_code"=>$httpCode,
-                "body"=>json_decode($response)
-            ];
-        }
     }
 }

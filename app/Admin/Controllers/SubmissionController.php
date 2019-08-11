@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\SubmissionModel;
+use App\Models\Eloquent\SubmissionModel as EloquentSubmissionModel;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -79,7 +79,7 @@ class SubmissionController extends Controller
      */
     protected function grid()
     {
-        $grid=new Grid(new SubmissionModel);
+        $grid=new Grid(new EloquentSubmissionModel);
         $grid->column('sid', "ID")->sortable();
         $grid->time("Time");
         $grid->memory("Memory");
@@ -110,7 +110,7 @@ class SubmissionController extends Controller
      */
     protected function detail($id)
     {
-        $show=new Show(SubmissionModel::findOrFail($id));
+        $show=new Show(EloquentSubmissionModel::findOrFail($id));
         return $show;
     }
 
@@ -121,7 +121,7 @@ class SubmissionController extends Controller
      */
     protected function form()
     {
-        $form=new Form(new SubmissionModel);
+        $form=new Form(new EloquentSubmissionModel);
         $form->model()->makeVisible('password');
         $form->tab('Basic', function(Form $form) {
             $form->display('sid');

@@ -2,7 +2,7 @@
 
 ![NOJ](/noj.png)
 
-NOJ's another online judge platform, stands for NJUPT Online Judge. It's written in PHP, GO, Python and other function-supporting languages.
+NOJ's another online judge platform, stands for NJUPT Online Judge. It's written in PHP, GO, Python and other function-supporting languages and supports both online judges and virtual judges, we called it **mixed judge**.
 
 ![License](https://img.shields.io/github/license/ZsgsDesign/NOJ.svg?style=flat-square)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/ZsgsDesign/NOJ.svg?style=flat-square)](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/?branch=master)
@@ -32,9 +32,9 @@ Till now, NOJ have been successfully deployed to the following systems:
 Here is detailed step about deploying NOJ:
 
 1. You need to have a server and installed the following:
-    - [PHP 7.3(Recommend 7.3.4)](http://php.net/downloads.php)
+    - [PHP 7.3(Recommend 7.3.6)](http://php.net/downloads.php)
     - [Composer 1.8.5(Recommend 1.8.5)](https://getcomposer.org)
-    - [MySQL 5.5.3(Recommend 8.0)](https://www.mysql.com/)
+    - [MySQL 5.7(Recommend 8.0)](https://www.mysql.com/)
     - [Redis 3.2.1(Recommend 5.0)](https://redis.io)
 
 2. Clone NOJ to your website folder;
@@ -114,13 +114,13 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hd
         - [X] Activities
         - [X] Profile
     - [X] Settings
-- [ ] Search System
+- [X] Search System
     - [X] Basic Redirect
-    - [ ] Problem Search
-    - [ ] Status Search
-    - [ ] Group Search
-    - [ ] Contest Search
-    - [ ] OnmiSearch Support
+    - [X] Problem Search
+    - [X] User Search
+    - [X] Group Search
+    - [X] Contest Search
+    - [X] OnmiSearch Support
 - [ ] Problem System
     - [X] Problem List
     - [X] Problem Tag
@@ -164,7 +164,6 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hd
     - [X] Professional Ranking List
 - [ ] Contest System
     - [X] Contest List
-    - [ ] Contest Tag
     - [X] Contest Ranking
     - [X] Contest Filter
     - [X] Contest Details
@@ -188,23 +187,23 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hd
     - [X] Group List
     - [X] Group Details
         - [X] Group Timeline
-        - [ ] Group Member Management
+        - [X] Group Member Management
             - [X] Invite
             - [X] Remove Members
             - [X] Approve Requests
-            - [ ] Sub Group
+            - [X] Sub Group
         - [X] Group Profile
         - [X] Group General Info
         - [ ] Group Functions
             - [X] Group Announcement
             - [ ] Group Posts
-            - [ ] Group Contests
+            - [X] Group Contests
                 - [X] Group-wide Contests
-                - [ ] Site-wide Contests
+                - [X] Site-wide Contests
             - [ ] Group Own ProblemSet
                 - [ ] Add Problem
             - [X] Group Settings
-- [ ] Admin Portal
+- [X] Admin Portal
     - [X] User Management
     - [X] Contest Management
     - [X] Problem Management

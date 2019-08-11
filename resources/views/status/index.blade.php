@@ -157,6 +157,10 @@
         transition: .2s ease-out .0s;
     }
 
+    .resubmit{
+        display: inline-block;
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
@@ -193,7 +197,7 @@
                             <th scope="row">{{$r["sid"]}}</th>
                             <td>{{$r["pcode"]}}</td>
                             <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
-                            <td class="{{$r["color"]}}">{{$r["verdict"]}}</td>
+                            <td class="{{$r["color"]}}">@if(Auth::check() && $r["uid"]==Auth::user()->id && $r["verdict"]=="Submission Error")<i class="MDI sync resubmit" data-sid="{{$r['sid']}}"></i>@endif <span>{{$r["verdict"]}}</span></td>
                             <td>{{$r["time"]}}ms</td>
                             <td>{{$r["memory"]}}k</td>
                             <td>{{$r["language"]}}</td>
@@ -216,7 +220,57 @@
 <script>
 
     window.addEventListener("load",function() {
+        $(".resubmit").on("click",function(event){
+            event.stopPropagation();
+            console.log(this);
+            $(this).addClass("cm-refreshing");
+            $(this).siblings().text("Submitting...");
+            $(this).parent().removeClass();
+            $(this).parent().addClass("wemd-blue-text");
+            var sid=$(this).attr("data-sid");
+            var that=this;
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/resubmitSolution',
+                data: {
+                    sid: sid
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if(ret.ret==200){
+                        // submitted
+                        $(that).siblings().text("Pending");
+                        $(that).remove();
+                    }else{
+                        console.log(ret.desc);
+                        $(that).siblings().text(ret.desc);
+                        $(that).removeClass("cm-refreshing");
+                        $(this).parent().removeClass();
+                        $(that).parent().addClass("wemd-black-text");
+                    }
+                }, error: function(xhr, type){
+                    console.log('Ajax error!');
+                    switch(xhr.status) {
+                        case 429:
+                            alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                            $(that).siblings().text("Submit Frequency Exceed");
+                            $(that).removeClass("cm-refreshing");
+                            $(this).parent().removeClass();
+                            $(that).parent().addClass("wemd-black-text");
+                            break;
 
+                        default:
+                            $(that).siblings().text("System Error");
+                            $(that).removeClass("cm-refreshing");
+                            $(this).parent().removeClass();
+                            $(that).parent().addClass("wemd-black-text");
+                    }
+                }
+            });
+        });
     }, false);
 
     function applyFilter(e,key){

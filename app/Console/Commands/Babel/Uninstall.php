@@ -39,21 +39,25 @@ class Uninstall extends Command
     public function handle()
     {
         $extension = $this->argument('extension');
-        $submitter=self::create($extension,$this);
-        if(!is_null($submitter)) $submitter->uninstall();
-        else throw new Exception("Uninstaller Not Provided");
+        $submitter=self::create($extension, $this);
+        if (!is_null($submitter)) {
+            $submitter->uninstall();
+        } else {
+            throw new Exception("Uninstaller Not Provided");
+        }
     }
 
-    public static function create($oj,$class) {
+    public static function create($oj, $class)
+    {
         $installerProvider="Installer";
         try {
             $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$oj/babel.json")), true);
             $installerProvider=$BabelConfig["provider"]["installer"];
-        } catch(ErrorException $e) {
-        } catch(Exception $e) {
+        } catch (ErrorException $e) {
+        } catch (Exception $e) {
         }
         $className = "App\\Babel\\Extension\\$oj\\$installerProvider";
-        if(class_exists($className)) {
+        if (class_exists($className)) {
             return new $className($class);
         } else {
             return null;

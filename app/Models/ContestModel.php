@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use GrahamCampbell\Markdown\Facades\Markdown;
+use App\Models\Submission\SubmissionModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Rating\RatingCalculator;
@@ -89,7 +90,7 @@ class ContestModel extends Model
                 "month_year"=>date_format(date_create($contest_detail["begin_time"]), 'M, Y'),
             ];
             $contest_detail["length"]=$this->calcLength($contest_detail["begin_time"], $contest_detail["end_time"]);
-            $contest_detail["description_parsed"]=clean(Markdown::convertToHtml($contest_detail["description"]));
+            $contest_detail["description_parsed"]=clean(convertMarkdownToHtml($contest_detail["description"]));
             $contest_detail["group_info"]=DB::table("group")->where(["gid"=>$contest_detail["gid"]])->first();
             $contest_detail["problem_count"]=DB::table("contest_problem")->where(["cid"=>$cid])->count();
             return [
@@ -807,7 +808,11 @@ class ContestModel extends Model
             if($clearance == 3){
                 $contestRankRaw=Cache::tags(['contest', 'rank'])->get("contestAdmin$cid");
                 if (!isset($contestRankRaw)) {
-                    $contestRankRaw=$this->contestRankCache($cid);
+                    $contestRankRaw=$this->getContestRankFromMySQL($cid);
+                    if(!isset($contestRankRaw)){
+                        $contestRankRaw=$this->contestRankCache($cid);
+                        $this->storeContestRankInMySQL($cid, $contestRankRaw);
+                    }
                 }
             }else{
                 $contestRankRaw=$this->getContestRankFromMySQL($cid);
@@ -969,6 +974,7 @@ class ContestModel extends Model
     public function remoteAnnouncement($remote_code) {
         return DB::table("contest_clarification")->where("remote_code", $remote_code)->get()->first();
     }
+
     public function isContestEnded($cid)
     {
         return DB::table("contest")->where("cid", $cid)->where("end_time", "<", date("Y-m-d H:i:s"))->count();
@@ -1039,7 +1045,7 @@ class ContestModel extends Model
         return $this->formatAbsTime($basicInfo["froze_length"]);
     }
 
-    public function getContestRecord($cid)
+    public function getContestRecord($filter, $cid)
     {
         $basicInfo=$this->basic($cid);
         $userInfo=DB::table('group_member')->where('gid',$basicInfo["gid"])->where('uid',Auth::user()->id)->get()->first();
@@ -1054,6 +1060,13 @@ class ContestModel extends Model
         $frozen_time=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
         $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
         $contestEnd=time()>$end_time;
+
+        $filter['pid'] = array_search($filter['ncode'], array_column($problemSet_temp, 'ncode'));
+        if($filter['pid']==false){
+            $filter['pid'] = null;
+        }else{
+            $filter['pid'] = $problemSet_temp[$filter['pid']]['pid'];
+        }
 
         if($userInfo==null || $userInfo["role"]!=3){
             if ($basicInfo["status_visibility"]==2) {
@@ -1094,7 +1107,21 @@ class ContestModel extends Model
                 )->orderBy(
                     'submission_date',
                     'desc'
-                )->paginate(50);
+                );
+
+                if($filter["pid"]){
+                    $paginator=$paginator->where(["pid"=>$filter["pid"]]);
+                }
+
+                if($filter["result"]){
+                    $paginator=$paginator->where(["verdict"=>$filter["result"]]);
+                }
+
+                if($filter["account"]){
+                    $paginator=$paginator->where(["name"=>$filter["account"]]);
+                }
+
+                $paginator=$paginator->paginate(50);
             } elseif ($basicInfo["status_visibility"]==1) {
                 $paginator=DB::table("submission")->where([
                     'cid'=>$cid,
@@ -1124,7 +1151,21 @@ class ContestModel extends Model
                 )->orderBy(
                     'submission_date',
                     'desc'
-                )->paginate(50);
+                );
+
+                if($filter["pid"]){
+                    $paginator=$paginator->where(["pid"=>$filter["pid"]]);
+                }
+
+                if($filter["result"]){
+                    $paginator=$paginator->where(["verdict"=>$filter["result"]]);
+                }
+
+                if($filter["account"]){
+                    $paginator=$paginator->where(["name"=>$filter["account"]]);
+                }
+
+                $paginator=$paginator->paginate(50);
             } else {
                 return [
                     "paginator"=>null,
@@ -1161,7 +1202,21 @@ class ContestModel extends Model
                 )->orderBy(
                     'submission_date',
                     'desc'
-                )->paginate(50);
+                );
+
+                if($filter["pid"]){
+                    $paginator=$paginator->where(["pid"=>$filter["pid"]]);
+                }
+
+                if($filter["result"]){
+                    $paginator=$paginator->where(["verdict"=>$filter["result"]]);
+                }
+
+                if($filter["account"]){
+                    $paginator=$paginator->where(["name"=>$filter["account"]]);
+                }
+
+                $paginator=$paginator->paginate(50);
             } elseif ($basicInfo["status_visibility"]==1) {
                 $paginator=DB::table("submission")->where([
                     'cid'=>$cid,
@@ -1191,7 +1246,21 @@ class ContestModel extends Model
                 )->orderBy(
                     'submission_date',
                     'desc'
-                )->paginate(50);
+                );
+
+                if($filter["pid"]){
+                    $paginator=$paginator->where(["pid"=>$filter["pid"]]);
+                }
+
+                if($filter["result"]){
+                    $paginator=$paginator->where(["verdict"=>$filter["result"]]);
+                }
+
+                if($filter["account"]){
+                    $paginator=$paginator->where(["name"=>$filter["account"]]);
+                }
+
+                $paginator=$paginator->paginate(50);
             } else {
                 return [
                     "paginator"=>null,
@@ -1428,7 +1497,8 @@ class ContestModel extends Model
 
     public function arrangeContest($gid, $config, $problems)
     {
-        DB::transaction(function () use ($gid, $config, $problems) {
+        $cid = -1;
+        DB::transaction(function () use ($gid, $config, $problems,&$cid) {
             $cid=DB::table($this->tableName)->insertGetId([
                 "gid"=>$gid,
                 "name"=>$config["name"],
@@ -1443,7 +1513,7 @@ class ContestModel extends Model
                 "begin_time"=>$config["begin_time"],
                 "end_time"=>$config["end_time"],
                 "vcid"=>isset($config["vcid"])?$config["vcid"]:null,
-                "public"=>0, //todo
+                "public"=>$config["public"],
                 "registration"=>0, //todo
                 "registration_due"=>null, //todo
                 "registant_type"=>0, //todo
@@ -1451,7 +1521,7 @@ class ContestModel extends Model
                 "status_visibility"=>2, //todo
                 "create_time"=>date("Y-m-d H:i:s"),
                 "crawled" => isset($config['vcid'])?$config['crawled'] : null,
-                "audit_status"=>1                       //todo
+                "audit_status"=>$config["public"] ? 0 : 1
             ]);
 
             foreach ($problems as $p) {
@@ -1466,6 +1536,7 @@ class ContestModel extends Model
                 ]);
             }
         }, 5);
+        return $cid;
     }
 
     public function updateContestRankTable($cid,$sub)
@@ -1474,8 +1545,14 @@ class ContestModel extends Model
         try{
             if($lock->get()){
                 if(Cache::tags(['contest','rank'])->get($cid) != null){
-                    $chache = Cache::tags(['contest','data'])->get($cid);
                     $ret = Cache::tags(['contest','rank'])->get($cid);
+                    $chache=[];
+                    $chache['contest_info']=DB::table("contest")->where("cid", $cid)->first();
+                    $chache['problemSet']=DB::table("contest_problem")->join("problem", "contest_problem.pid", "=", "problem.pid")->where([
+                        "cid"=>$cid
+                    ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title")->get()->all();
+                    $chache['frozen_time']=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
+                    $chache['end_time']=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
 
                     $id = 0;
 
@@ -1493,6 +1570,9 @@ class ContestModel extends Model
                         Cache::tags(['contest', 'rank'])->put($cid, $ret);
                     }
                     Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $ret);
+                    if(time() > $chache['end_time']){
+                        $this->storeContestRankInMySQL($cid, $ret);
+                    }
                 }
                 else{
                     $ret=[];
@@ -1503,8 +1583,6 @@ class ContestModel extends Model
                     ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title")->get()->all();
                     $chache['frozen_time']=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
                     $chache['end_time']=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
-
-                    Cache::tags(['contest', 'data'])->put($cid, $chache);
 
                     if ($chache['contest_info']["registration"]) {
                         $submissionUsers=DB::table("contest_participant")->where([
@@ -1610,34 +1688,49 @@ class ContestModel extends Model
                 $totScore=$ret[$id]['score'];
             };
 
-            $prob_stat=$this->contestProblemInfoACM($cid, $problem["pid"], $uid);
+            $ac_times=DB::table("submission")->where([
+                "cid"=>$cid,
+                "pid"=>$problem['pid'],
+                "uid"=>$uid,
+                "verdict"=>"Accepted"
+            ])->count();
 
-            $prob_detail[$problem['cpid']]=[
-                "ncode"=>$problem["ncode"],
-                "pid"=>$problem["pid"],
-                "color"=>$prob_stat["color"],
-                "wrong_doings"=>$prob_stat["wrong_doings"],
-                "solved_time_parsed"=>$prob_stat["solved_time_parsed"]
-            ];
-            if ($prob_stat["solved"]) {
-                $totPen+=$prob_stat["wrong_doings"] * 20;
-                $totPen+=$prob_stat["solved_time"] / 60;
-                $totScore+=$prob_stat["solved"];
-            }
+            $last_record=DB::table("submission")->where([
+                "cid"=>$cid,
+                "pid"=>$problem['pid'],
+                "uid"=>$uid,
+            ])->orderBy('submission_date', 'desc')->first();
 
-            $ret[$id]=[
-                "uid" => $uid,
-                "name" => DB::table("users")->where([
-                    "id"=>$uid
-                ])->first()["name"],
-                "nick_name" => DB::table("group_member")->where([
+            if ($ac_times<=1 && isset($last_record) && $last_record['verdict']!="Waiting" && $last_record['verdict']!="Submission Error" && $last_record['verdict']!="System Error"){
+                $prob_stat=$this->contestProblemInfoACM($cid, $problem["pid"], $uid);
+
+                $prob_detail[$problem['cpid']]=[
+                    "ncode"=>$problem["ncode"],
+                    "pid"=>$problem["pid"],
+                    "color"=>$prob_stat["color"],
+                    "wrong_doings"=>$prob_stat["wrong_doings"],
+                    "solved_time_parsed"=>$prob_stat["solved_time_parsed"]
+                ];
+                if ($prob_stat["solved"]) {
+                    $totPen+=$prob_stat["wrong_doings"] * 20;
+                    $totPen+=$prob_stat["solved_time"] / 60;
+                    $totScore+=$prob_stat["solved"];
+                }
+
+                $ret[$id]=[
                     "uid" => $uid,
-                    "gid" => $contest_info["gid"]
-                ])->where("role", ">", 0)->first()["nick_name"],
-                "score" => $totScore,
-                "penalty" => $totPen,
-                "problem_detail" => $prob_detail
-            ];
+                    "name" => DB::table("users")->where([
+                        "id"=>$uid
+                    ])->first()["name"],
+                    "nick_name" => DB::table("group_member")->where([
+                        "uid" => $uid,
+                        "gid" => $contest_info["gid"]
+                    ])->where("role", ">", 0)->first()["nick_name"],
+                    "score" => $totScore,
+                    "penalty" => $totPen,
+                    "problem_detail" => $prob_detail
+                ];
+            }
         } elseif ($contest_info["rule"]==2) {
             // OI Mode
             if($id == count($ret)){
@@ -1753,7 +1846,8 @@ class ContestModel extends Model
         return Cache::tags(['contest', 'account'])->get($cid);
     }
 
-    public function praticeAnalysis($cid){
+    public function praticeAnalysis($cid)
+    {
         $gid = DB::table('contest')
             ->where('cid',$cid)
             ->first()['gid'];
@@ -1815,5 +1909,35 @@ class ContestModel extends Model
     public function isVerified($cid)
     {
         return DB::table('contest')->where('cid','=',$cid)->pluck('verified')->first();
+    }
+
+    public function getScrollBoardData($cid)
+    {
+        $members = DB::table("submission")
+            ->join('users','users.id','=','submission.uid')
+            ->join('contest', 'contest.cid', '=', 'submission.cid')
+            ->join('group_member', 'users.id', '=', 'group_member.uid')
+            ->where('submission.cid', $cid)->select('users.id as uid','users.name as name','group_member.nick_name as nick_name')
+            ->groupBy('uid')->get()->all();
+        $submissions = DB::table("submission")
+            ->where('cid', $cid)
+            ->select('sid', 'verdict', 'submission_date', 'pid', 'uid')
+            ->orderBy('submission_date')
+            ->get()->all();
+        $problems = DB::table('contest_problem')
+            ->where('cid', $cid)
+            ->select('ncode','pid')
+            ->orderBy('ncode')
+            ->get()->all();
+        $contest = DB::table('contest')
+            ->where('cid',$cid)
+            ->select('begin_time','end_time','froze_length')
+            ->first();
+        return [
+            'members' => $members,
+            'submissions' => $submissions,
+            'problems' => $problems,
+            'contest' => $contest,
+        ];
     }
 }

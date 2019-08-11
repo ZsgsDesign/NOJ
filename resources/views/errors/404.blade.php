@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.errors')
 
 @section('template')
 <style>
 .error-container{
-    min-height: 40vh;
+    min-height: 70vh;
     min-width: 500px;
     margin: 0 auto;
     display: flex;
@@ -17,7 +17,7 @@
 }
 footer {
     bottom: 0;
-    position: absolute;
+    position: relative !important;
     width: 100%;
 }
 .error-container-right {
@@ -56,7 +56,6 @@ footer {
     }
 }
 </style>
-
 <div class="error-container">
     <div class="error-container-left">
         <div class="error-emoji">:-(</div>

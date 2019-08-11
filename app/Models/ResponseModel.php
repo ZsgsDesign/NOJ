@@ -78,6 +78,9 @@ class ResponseModel extends Model
             '4004' => "Registration Ended",
             '4005' => "Registration Denied",
             '4006' => "AlreadyRegistered",
+            '4007' => "A contest cannot be both a public and a practice contest",
+            '4008' => "The contest is not over.",
+            '4009' => 'Only freeze contest can join scrollboard',
 
             '5000' => "Status-Related Error",
             '5001' => "Status Not Found",
@@ -85,6 +88,7 @@ class ResponseModel extends Model
             '6000' => "Submission-Related Error",
             '6001' => "Cannot Find Available Judgers",
             '6002' => "Sharing Method Not Allowed",
+            '6003' => "No Need to Resubmit",
 
             '7000' => "Group-Related Error",
             '7001' => "Group Not Found",

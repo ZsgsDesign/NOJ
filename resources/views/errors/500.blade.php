@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.errors')
 
 @section('template')
 <style>
 .error-container{
-    min-height: 40vh;
+    min-height: 70vh;
     min-width: 500px;
     margin: 0 auto;
     display: flex;
@@ -14,10 +14,11 @@
     flex-direction: column;
     align-items: flex-start;
     padding-right: 0;
+    width: 70%;
 }
 footer {
     bottom: 0;
-    position: absolute;
+    position: relative !important;
     width: 100%;
 }
 .error-container-right {

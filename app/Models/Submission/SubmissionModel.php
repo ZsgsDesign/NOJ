@@ -1,17 +1,21 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Submission;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use App\Models\Tool\PastebinModel;
-use Cache;
+use App\Models\ContestModel;
+use App\Models\CompilerModel;
 
 class SubmissionModel extends Model
 {
     protected $tableName='submission';
     protected $table='submission';
     protected $primaryKey='sid';
+    protected $extractModels=[
+        "ShareModel"=>null,
+        "StatusModel"=>null
+    ];
     const DELETED_AT=null;
     const UPDATED_AT=null;
     const CREATED_AT=null;
@@ -40,6 +44,8 @@ class SubmissionModel extends Model
 
     public function __construct()
     {
+        $this->extractModels["ShareNodel"]=new ShareModel($this);
+        $this->extractModels["StatusModel"]=new StatusModel($this);
         $tempLangConfig=[[
             "id" => "plaintext",
             "extensions" => [".txt", ".gitignore"],
@@ -304,72 +310,24 @@ class SubmissionModel extends Model
         return $sid;
     }
 
+    public function basic($sid)
+    {
+        return DB::table($this->tableName)->where(['sid'=>$sid])->first();
+    }
+
     public function getJudgeStatus($sid, $uid)
     {
-        $status=DB::table($this->tableName)->where(['sid'=>$sid])->first();
-        if (empty($status)) {
-            return [];
-        }
-        if ($status["share"]==1 && $status["cid"]) {
-            $end_time=strtotime(DB::table("contest")->where(["cid"=>$status["cid"]])->select("end_time")->first()["end_time"]);
-            if (time()<$end_time) {
-                $status["solution"]=null;
-            }
-        }
-        if ($status["share"]==0 && $status["uid"]!=$uid) {
-            $status["solution"]=null;
-        }
-        $compilerModel=new CompilerModel();
-        $status["lang"]=$compilerModel->detail($status["coid"])["lang"];
-        $status["owner"]=$uid==$status["uid"];
-        return $status;
+        return $this->extractModels["StatusModel"]->getJudgeStatus($sid, $uid);
     }
 
     public function downloadCode($sid, $uid)
     {
-        $status=DB::table($this->tableName)->where(['sid'=>$sid])->first();
-        if (empty($status) || ($status["share"]==0 && $status["uid"]!=$uid)) {
-            return [];
-        }
-        $lang=DB::table("compiler")->where(['coid'=>$status["coid"]])->first()["lang"];
-        $curLang=isset($this->langConfig[$lang]) ? $this->langConfig[$lang] : $this->langConfig["plaintext"];
-        return [
-            "content"=>$status["solution"],
-            "name"=>$status["submission_date"].$curLang["extensions"][0],
-        ];
+        return $this->extractModels["StatusModel"]->downloadCode($sid, $uid);
     }
 
     public function getProblemStatus($pid, $uid, $cid=null)
     {
-        if ($cid) {
-            $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
-            // Get the very first AC record
-            $ac=DB::table($this->tableName)->where([
-                'pid'=>$pid,
-                'uid'=>$uid,
-                'cid'=>$cid,
-                'verdict'=>'Accepted'
-            ])->where("submission_date", "<", $end_time)->orderBy('submission_date', 'desc')->first();
-            if (empty($ac)) {
-                $pac=DB::table($this->tableName)->where([
-                    'pid'=>$pid,
-                    'uid'=>$uid,
-                    'cid'=>$cid,
-                    'verdict'=>'Partially Accepted'
-                ])->where("submission_date", "<", $end_time)->orderBy('submission_date', 'desc')->first();
-                return empty($pac) ? DB::table($this->tableName)->where(['pid'=>$pid, 'uid'=>$uid, 'cid'=>$cid])->where("submission_date", "<", $end_time)->orderBy('submission_date', 'desc')->first() : $pac;
-            } else {
-                return $ac;
-            }
-        } else {
-            $ac=DB::table($this->tableName)->where([
-                'pid'=>$pid,
-                'uid'=>$uid,
-                'cid'=>$cid,
-                'verdict'=>'Accepted'
-            ])->orderBy('submission_date', 'desc')->first();
-            return empty($ac) ? DB::table($this->tableName)->where(['pid'=>$pid, 'uid'=>$uid, 'cid'=>$cid])->orderBy('submission_date', 'desc')->first() : $ac;
-        }
+        return $this->extractModels["StatusModel"]->getProblemStatus($pid, $uid, $cid);
     }
 
     public function getProblemSubmission($pid, $uid, $cid=null)
@@ -432,18 +390,15 @@ class SubmissionModel extends Model
             $sub["color"]=$this->colorScheme[$sub['verdict']];
         }
         $result = DB::table($this->tableName)->where(['sid'=>$sid])->update($sub);
-        // $contestModel = new ContestModel();
-        // $submission_info = DB::table($this->tableName) -> where(['sid'=>$sid]) -> get() -> first();
-        // if ($result==1 && $submission_info['cid'] && $contestModel->isContestRunning($submission_info['cid'])){
-            // $sub['pid'] = $submission_info['pid'];
-            // $sub['uid'] = $submission_info['uid'];
-            // $sub['cid'] = $submission_info['cid'];
-            // $sub['sid'] = $sid;
-            // $contestModel->updateContestRankTable($submission_info['cid'],$sub);
-            // $contestRankRaw=$contestModel->contestRankCache($submission_info['cid']);
-            // Cache::tags(['contest', 'rank'])->put($submission_info['cid'], $contestRankRaw);
-            // Cache::tags(['contest', 'rank'])->put("contestAdmin{$submission_info['cid']}", $contestRankRaw);
-        // }
+        $contestModel = new ContestModel();
+        $submission_info = DB::table($this->tableName) -> where(['sid'=>$sid]) -> get() -> first();
+        if ($result==1 && $submission_info['cid'] && $contestModel->isContestRunning($submission_info['cid'])){
+            $sub['pid'] = $submission_info['pid'];
+            $sub['uid'] = $submission_info['uid'];
+            $sub['cid'] = $submission_info['cid'];
+            $sub['sid'] = $sid;
+            $contestModel->updateContestRankTable($submission_info['cid'],$sub);
+        }
         return $result;
     }
 
@@ -542,41 +497,11 @@ class SubmissionModel extends Model
 
     public function share($sid, $uid)
     {
-        $basic=DB::table($this->tableName)->where(['sid'=>$sid, 'uid'=>$uid])->first();
-        if (empty($basic)) {
-            return [];
-        }
-        DB::table($this->tableName)->where(['sid'=>$sid])->update([
-            "share"=>$basic["share"] ? 0 : 1
-        ]);
-        return [
-            "share"=>$basic["share"] ? 0 : 1
-        ];
+        return $this->extractModels["ShareNodel"]->share($sid, $uid);
     }
 
     public function sharePB($sid, $uid)
     {
-        $basic=DB::table($this->tableName)->where(['sid'=>$sid, 'uid'=>$uid])->first();
-        $problem=DB::table("problem")->where(['pid'=>$basic["pid"]])->first();
-        $compiler=DB::table("compiler")->where(['coid'=>$basic["coid"]])->first();
-        if (empty($basic)) {
-            return [];
-        }
-        $pastebinModel=new PastebinModel();
-        $ret=$pastebinModel->generate([
-            "syntax"=>$compiler["lang"],
-            "expiration"=>0,
-            "content"=>$basic["solution"],
-            "title"=>$problem["pcode"]." - ".$basic["verdict"],
-            "uid"=>$uid
-        ]);
-
-        if (is_null($ret)) {
-            return [];
-        } else {
-            return [
-                "code" => $ret
-            ];
-        }
+        return $this->extractModels["ShareNodel"]->sharePB($sid, $uid);
     }
 }

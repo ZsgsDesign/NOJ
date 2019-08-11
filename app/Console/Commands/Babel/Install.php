@@ -46,30 +46,31 @@ class Install extends Command
         $installerProvider="Installer";
         try {
             $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$extension/babel.json")), true);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>babel.json parse error, The extension may not exist.</>\n");
-            if($this->confirm("Would you like to download it from the marketspace first?")){
+            if ($this->confirm("Would you like to download it from the marketspace first?")) {
                 $this->call("babel:require", ['extension' => $extension]);
                 $output->fetch();
             }
             return;
         }
-        if(!isset($BabelConfig["provider"]["installer"]) || trim($BabelConfig["provider"]["installer"])=="" || is_null($BabelConfig["provider"]["installer"])){
+        if (!isset($BabelConfig["provider"]["installer"]) || trim($BabelConfig["provider"]["installer"])=="" || is_null($BabelConfig["provider"]["installer"])) {
             $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>Installer not provided.</>\n");
             return;
         }
         $installerProvider=$BabelConfig["provider"]["installer"];
-        $installer=self::create($extension,$installerProvider,$this);
-        if(!is_null($installer)) {
+        $installer=self::create($extension, $installerProvider, $this);
+        if (!is_null($installer)) {
             $installer->install();
         } else {
             $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>Installer initiation error.</>\n");
         }
     }
 
-    public static function create($oj,$installerProvider,$class) {
+    public static function create($oj, $installerProvider, $class)
+    {
         $className = "App\\Babel\\Extension\\$oj\\$installerProvider";
-        if(class_exists($className)) {
+        if (class_exists($className)) {
             return new $className($class);
         } else {
             return null;

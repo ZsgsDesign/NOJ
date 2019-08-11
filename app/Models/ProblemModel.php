@@ -5,6 +5,7 @@ namespace App\Models;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Models\Submission\SubmissionModel;
 use Cache;
 
 class ProblemModel extends Model
@@ -27,10 +28,10 @@ class ProblemModel extends Model
                 ];
             } elseif ($prob_detail["markdown"]) {
                 $prob_detail["parsed"]=[
-                    "description"=>clean(Markdown::convertToHtml($prob_detail["description"])),
-                    "input"=>clean(Markdown::convertToHtml($prob_detail["input"])),
-                    "output"=>clean(Markdown::convertToHtml($prob_detail["output"])),
-                    "note"=>clean(Markdown::convertToHtml($prob_detail["note"]))
+                    "description"=>clean(convertMarkdownToHtml($prob_detail["description"])),
+                    "input"=>clean(convertMarkdownToHtml($prob_detail["input"])),
+                    "output"=>clean(convertMarkdownToHtml($prob_detail["output"])),
+                    "note"=>clean(convertMarkdownToHtml($prob_detail["note"]))
                 ];
             } else {
                 $prob_detail["parsed"]=[
@@ -146,7 +147,7 @@ class ProblemModel extends Model
             unset($d);
         }
         foreach ($details as &$d) {
-            $d["content_parsed"]=clean(Markdown::convertToHtml($d["content"]));
+            $d["content_parsed"]=clean(convertMarkdownToHtml($d["content"]));
         }
         return $details;
     }
@@ -166,13 +167,24 @@ class ProblemModel extends Model
                 "pid"=>$pid,
                 "content"=>$content,
                 "votes"=>0,
-                "audit"=>0,
+                "audit"=>$this->inteliAudit($uid, $content),
                 "created_at"=>date("Y-m-d H:i:s"),
                 "updated_at"=>date("Y-m-d H:i:s"),
             ]);
             return true;
         }
         return false;
+    }
+
+    private function inteliAudit($uid, $content)
+    {
+        if (strpos($content, '```')!==false){
+            $userSolutionHistory=DB::table("problem_solution")->where(['uid'=>$uid])->orderByDesc('updated_at')->first();
+            if (!empty($userSolutionHistory) && $userSolutionHistory["audit"]==1){
+                return 1;
+            }
+        }
+        return 0;
     }
 
     public function voteSolution($psoid, $uid, $type)
@@ -232,7 +244,7 @@ class ProblemModel extends Model
         }
         DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->update([
             "content"=>$content,
-            "audit"=>0,
+            "audit"=>$this->inteliAudit($uid, $content),
             "updated_at"=>date("Y-m-d H:i:s"),
         ]);
         return true;
@@ -418,10 +430,12 @@ class ProblemModel extends Model
 
         if (!empty($data["sample"])) {
             foreach ($data["sample"] as $d) {
+                if(!isset($d['sample_note'])) $d['sample_note']=null;
                 DB::table("problem_sample")->insert([
                     'pid'=>$pid,
                     'sample_input'=>$d['sample_input'],
                     'sample_output'=>$d['sample_output'],
+                    'sample_note'=>$d['sample_note'],
                 ]);
             }
         }
@@ -462,10 +476,12 @@ class ProblemModel extends Model
 
         if (!empty($data["sample"])) {
             foreach ($data["sample"] as $d) {
+                if(!isset($d['sample_note'])) $d['sample_note']=null;
                 DB::table("problem_sample")->insert([
                     'pid'=>$pid,
                     'sample_input'=>$d['sample_input'],
                     'sample_output'=>$d['sample_output'],
+                    'sample_note'=>$d['sample_note'],
                 ]);
             }
         }

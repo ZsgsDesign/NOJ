@@ -19,6 +19,11 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="alternate icon" type="image/png" href="/favicon.png">
+    <!-- Mobile Display Declarations -->
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="theme-color" content="#3E4551">
+    <!-- Desktop App Declarations -->
+    <meta name="msapplication-TileColor" content="#3E4551">
     <!-- Loading Style -->
     <style>
         loading>div {
@@ -634,13 +639,17 @@
 
                         @foreach($detail["samples"] as $ps)
 
+                            @if (!is_null($ps['sample_input']) && $ps['sample_input'] !== '')
                             <h2>Sample Input:</h2>
-
                             <div class="cm-pre-wrapper"><pre id="input{{$loop->index}}">{!!$ps['sample_input']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#input{{$loop->index}}">Copy</button></div>
+                            @endif
 
+                            @if (!is_null($ps['sample_output']) && $ps['sample_output'] !== '')
                             <h2>Sample Output:</h2>
-
                             <div class="cm-pre-wrapper"><pre id="output{{$loop->index}}">{!!$ps['sample_output']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#output{{$loop->index}}">Copy</button></div>
+                            @endif
+
+                            @if ($ps['sample_note']) {!!$ps['sample_note']!!} @endif
 
                         @endforeach
 

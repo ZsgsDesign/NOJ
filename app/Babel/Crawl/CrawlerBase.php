@@ -73,7 +73,8 @@ class CrawlerBase
         ];
     }
 
-    public function importCommandLine($commandTemp){
+    public function importCommandLine($commandTemp)
+    {
         $this->command=$commandTemp;
     }
 
@@ -84,7 +85,7 @@ class CrawlerBase
 
     private function _cacheImage($data)
     {
-        if(!isset($data["ori"]) || !isset($data["path"]) || !isset($data["baseurl"]) || !isset($data["space_deli"]) || !isset($data["cookie"])){
+        if (!isset($data["ori"]) || !isset($data["path"]) || !isset($data["baseurl"]) || !isset($data["space_deli"]) || !isset($data["cookie"])) {
             throw new Exception("data is not completely exist in cacheImage");
         }
         $ori = $data["ori"];
@@ -104,7 +105,7 @@ class CrawlerBase
             $reg="/< *im[a]?g[^>]*src *= *[\"\\']?([^\"\\'>]*)[^>]*>/si";
         }
 
-        return preg_replace_callback($reg, function($matches) use ($para) {
+        return preg_replace_callback($reg, function ($matches) use ($para) {
             global $config;
             $url=trim($matches[1]);
             if (stripos($url, "http://")===false && stripos($url, "https://")===false) {
@@ -136,10 +137,26 @@ class CrawlerBase
 
     public function procInfo($data)
     {
-        if(isset($data["path"]))       $path = $data["path"];             else throw new Exception("path is not exist in data");
-        if(isset($data["baseurl"]))    $baseurl = $data["baseurl"];       else throw new Exception("baseurl is not exist in data");
-        if(isset($data["space_deli"])) $space_deli = $data["space_deli"]; else $space_deli = true;
-        if(isset($data["cookie"]))     $cookie = $data["cookie"];         else $cookie = "";
+        if (isset($data["path"])) {
+            $path = $data["path"];
+        } else {
+            throw new Exception("path is not exist in data");
+        }
+        if (isset($data["baseurl"])) {
+            $baseurl = $data["baseurl"];
+        } else {
+            throw new Exception("baseurl is not exist in data");
+        }
+        if (isset($data["space_deli"])) {
+            $space_deli = $data["space_deli"];
+        } else {
+            $space_deli = true;
+        }
+        if (isset($data["cookie"])) {
+            $cookie = $data["cookie"];
+        } else {
+            $cookie = "";
+        }
 
         $this->pro["description"]=$this->_cacheImage($this->pro["description"], $path, $baseurl, $space_deli, $cookie);
         $this->pro["input"]=$this->_cacheImage($this->pro["input"], $path, $baseurl, $space_deli, $cookie);
@@ -174,9 +191,9 @@ class CrawlerBase
 
     protected function line($line)
     {
-        if(is_null($this->command)){
+        if (is_null($this->command)) {
             echo $line;
-        }else{
+        } else {
             $this->command->line($line);
         }
     }

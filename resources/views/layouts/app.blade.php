@@ -25,6 +25,9 @@
     <meta name="developer" content="">
     <meta name="version" content="">
     <meta name="subversion" content="">
+    <!-- SEO Information -->
+    <meta name="keywords" content="NOJ,NJUPT Online Judge,noip,noi,OJ,acm,icpc,onlineJudge,NUPT Online Judge" />
+    <meta name="description" content="NOJ is yet another Online Judge providing you functions like problem solving, discussing, solutions, groups, contests and ranking system." />
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Necessarily Declarations -->
@@ -35,7 +38,12 @@
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="alternate icon" type="image/png" href="/favicon.png">
     <!-- OpenSearch -->
-    {{-- <link rel="search" type="application/opensearchdescription+xml" title="{{config("app.name")}}" href="/opensearch.xml"> --}}
+    <link rel="search" type="application/opensearchdescription+xml" title="{{config("app.name")}}" href="/opensearch.xml">
+    <!-- Mobile Display Declarations -->
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="theme-color" content="#3E4551">
+    <!-- Desktop App Declarations -->
+    <meta name="msapplication-TileColor" content="#3E4551">
     <!-- Third-Party Declarations -->
     <meta name="google-site-verification" content="{{ env("GOOGLE_SITE_VERIFICATION") }}" />
     <meta name="baidu-site-verification" content="{{ env("BAIDU_SITE_VERIFICATION") }}" />
@@ -180,36 +188,36 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
-                    <li class="nav-item />">
+                    <li class="nav-item">
                         <a class="nav-link @if ($navigation === "Home") active @endif" href="/">Home <span class="sr-only">(current)</span></a>
                     </li>
                     @endif
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
-                        <li class="nav-item />">
+                        <li class="nav-item">
                             <a class="nav-link @if ($navigation === "Problem") active @endif" href="/problem">Problem</a>
                         </li>
                     @endif
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
-                        <li class="nav-item />">
+                        <li class="nav-item">
                             <a class="nav-link @if ($navigation === "Status") active @endif" href="/status">Status</a>
                         </li>
                     @endif
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
-                        <li class="nav-item />">
+                        <li class="nav-item">
                             <a class="nav-link @if ($navigation === "Rank") active @endif" href="/rank">Rank</a>
                         </li>
                     @endif
-                    <li class="nav-item />">
+                    <li class="nav-item">
                         <a class="nav-link @if ($navigation === "Contest") active @endif" href="/contest">Contest</a>
                     </li>
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
-                    <li class="nav-item />">
+                    <li class="nav-item">
                         <a class="nav-link @if ($navigation === "Group") active @endif" href="/group">Group</a>
                     </li>
                     @endif
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
                         @foreach(getCustomUrl() as $u)
-                            <li class="nav-item />">
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{$u["url"]}}" target="{{$u["newtab"]?'_blank':''}}">{{$u["display_name"]}}</a>
                             </li>
                         @endforeach
@@ -219,7 +227,13 @@
                 <ul class="navbar-nav mundb-nav-right">
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
                     <form id="search-box" action="/search" method="get" class="form-inline my-2 my-lg-0 mundb-inline">
-                        <span class="bmd-form-group"><input id="search-key" class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" placeholder="Problem code" autocomplete="off" aria-label="search"></span>
+                        <span class="bmd-form-group"><input id="search-key" class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" value="{{$search_key ?? ''}}" placeholder="Onmi Search" autocomplete="off" aria-label="search"></span>
+                        <input type="hidden" name="tab" value="{{
+                            $navigation == 'DashBoard' ? 'users' :
+                            ($navigation == 'Group' ? 'groups' : (
+                            $navigation == 'Contest' ? 'contests' : 'problems'
+                            ))
+                        }}">
                     </form>
                     @endif
 

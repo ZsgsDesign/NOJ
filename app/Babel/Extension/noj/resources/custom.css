@@ -3,8 +3,8 @@ fresh-container *:not(pre) code::before, fresh-container *:not(pre) code::after 
     content: "\00a0";
 }
 
-fresh-container *:not(pre) code{
-    font-family: Menlo,Monaco,Consolas,'Courier New',monospace;
+fresh-container *:not(pre) code {
+    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
     font-size: .85em !important;
     color: #000;
     background-color: #f0f0f0;

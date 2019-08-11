@@ -25,7 +25,12 @@ class GroupRatingCalculator extends Model
     private function getRecord(){
         $contestModel = new ContestModel();
         $contestRankRaw = $contestModel->contestRank($this->cid);
-        $this->totParticipants = count($contestRankRaw);
+        foreach($contestRankRaw as $key => $contestRank){
+            if(isset($contestRank['remote']) && $contestRank['remote']){
+                unset($contestRankRaw[$key]);
+            }
+        }
+        $contestRankRaw = array_values($contestRankRaw);
         $members = array_column($contestRankRaw,'uid');
         $ratings_temp = DB::table('group_member')
             ->where([
@@ -38,12 +43,16 @@ class GroupRatingCalculator extends Model
             $ratings[$rating['uid']] = $rating['ranking'];
         }
         foreach($contestRankRaw as $c){
+            if(!isset($ratings[$c['uid']])){
+                continue;
+            }
             $this->contestants[]=[
                 "uid"=>$c["uid"],
                 "points"=>$c["score"],
                 "rating"=>$ratings[$c['uid']],
             ];
         }
+        $this->totParticipants = count($this->contestants);
     }
 
     private function reassignRank(){
@@ -188,14 +197,14 @@ class GroupRatingCalculator extends Model
             for($j=$i+1;$j<$this->totParticipants;$j++){
                 if($this->contestants[$i]["rating"] > $this->contestants[$j]["rating"]){
                     if($this->contestants[$i]["rating"] + $this->contestants[$i]["delta"] < $this->contestants[$j]["rating"] + $this->contestants[$j]["delta"]){
-                        Log::warning("First rating invariant failed: {$this->contestants[i]["uid"]} vs. {$this->contestants[j]["uid"]}.");
+                        Log::warning("First rating invariant failed: {$this->contestants[$i]["uid"]} vs. {$this->contestants[$j]["uid"]}.");
                         return false;
                     }
                 }
 
                 if($this->contestants[$i]["rating"] < $this->contestants[$j]["rating"]){
                     if($this->contestants[$i]["delta"] < $this->contestants[$j]["delta"]){
-                        Log::warning("Second rating invariant failed: {$this->contestants[i]["uid"]} vs.  {$this->contestants[j]["uid"]}.");
+                        Log::warning("Second rating invariant failed: {$this->contestants[$i]["uid"]} vs.  {$this->contestants[$j]["uid"]}.");
                         return false;
                     }
                 }

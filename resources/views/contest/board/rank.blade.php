@@ -109,9 +109,21 @@
         background: rgba(255, 193, 7, 0.1);
     }
 
+    .cm-remote{
+        opacity: .4;
+    }
+
     .alert.cm-notification{
         margin:1rem
     }
+
+    tbody > tr{
+        height: calc(36px + 1.5rem);
+    }
+
+    /* tbody{counter-reset: count 0;}
+    tbody > tr{counter-increment: count 1;}
+    tbody th::before{content:counter(count);} */
 
 </style>
 <div class="container mundb-standard-container">
@@ -172,8 +184,8 @@
                         @if($contest_rule==1)
                             {{-- ACM/ICPC Mode --}}
                             @foreach($contest_rank as $r)
-                            <tr class="@if($r["uid"]==Auth::user()->id) cm-me @endif">
-                                <th scope="row">{{$loop->iteration}}</th>
+                            <tr class="@if($r["uid"]==Auth::user()->id) cm-me @endif @if(isset($r["remote"]) && $r["remote"]) cm-remote @endif">
+                                <th scope="row">{{$r["rank"]}}</th>
                                 <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
                                 <td>{{$r["score"]}}</td>
                                 <td>{{round($r["penalty"])}}</td>
@@ -189,7 +201,7 @@
                         @else
                             {{-- OI Mode --}}
                             @foreach($contest_rank as $r)
-                            <tr class="@if($r["uid"]==Auth::user()->id) cm-me @endif">
+                            <tr class="@if($r["uid"]==Auth::user()->id) cm-me @endif @if(isset($r["remote"]) && $r["remote"]) cm-remote @endif">
                                 <th scope="row">{{$loop->iteration}}</th>
                                 <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
                                 <td>{{round($r["score"])}}</td>
@@ -214,4 +226,22 @@
 
 </script>
 @include('js.submission.detail')
+@endsection
+
+@section("additionJS")
+<script>
+    var changingRank=false;
+    var showRemote=true;
+
+    $("body").keydown(function(event) {
+        if(event.which==72){
+            if(changingRank) return;
+            else changingRank=true;
+            if(showRemote) $(".cm-remote").addClass("d-none");
+            else $(".cm-remote").removeClass("d-none");
+            showRemote=!showRemote;
+            changingRank=false;
+        }
+    });
+</script>
 @endsection

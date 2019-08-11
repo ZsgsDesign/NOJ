@@ -23,6 +23,8 @@ use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Contracts\Broadcasting\Factory as BroadcastFactory;
 use Illuminate\Support\Facades\DB;
+use GrahamCampbell\Markdown\Facades\Markdown;
+
 
 if (!function_exists('version')) {
     function version()
@@ -53,7 +55,7 @@ if (!function_exists('getCustomUrl')) {
 if (!function_exists('emailVerified')) {
     function emailVerified()
     {
-        if(Auth::check()){
+        if (Auth::check()) {
             return !is_null(Auth::user()->email_verified_at);
         }
 
@@ -89,5 +91,56 @@ if (! function_exists('glob_recursive')) {
             $files = array_merge($files, glob_recursive($dir.'/'.basename($pattern), $flags));
         }
         return $files;
+    }
+}
+
+if (!function_exists('adminMenu')) {
+    function adminMenu()
+    {
+        return json_decode(file_get_contents(app_path('Admin/menu.json')), true);
+    }
+}
+
+if (!function_exists('getOpenSearchXML')) {
+    function getOpenSearchXML()
+    {
+        $url=config("app.url");
+
+        return '<?xml version="1.0" encoding="UTF-8"?>
+        <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+            <ShortName>NOJ</ShortName>
+            <Description>Gracefully Search NOJ Problems and others.</Description>
+            <InputEncoding>UTF-8</InputEncoding>
+            <Image width="16" height="16" type="image/x-icon">'.$url.'/favicon.ico</Image>
+            <Url type="text/html" method="get" template="'.$url.'/search/?q={searchTerms}&amp;tab=problems&amp;opensearch=1" />
+            <moz:SearchForm>'.$url.'/search</moz:SearchForm>
+        </OpenSearchDescription>';
+    }
+}
+
+if (!function_exists('delFile')) {
+    function delFile($dirName)
+    {
+        if (file_exists($dirName) && $handle=opendir($dirName)) {
+            while (false!==($item = readdir($handle))) {
+                if ($item!= "." && $item != "..") {
+                    if (file_exists($dirName.'/'.$item) && is_dir($dirName.'/'.$item)) {
+                        delFile($dirName.'/'.$item);
+                    } else {
+                        if (unlink($dirName.'/'.$item)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            closedir($handle);
+        }
+    }
+}
+
+if (!function_exists('convertMarkdownToHtml')) {
+    function convertMarkdownToHtml($md)
+    {
+        return is_string($md)?Markdown::convertToHtml($md):'';
     }
 }
