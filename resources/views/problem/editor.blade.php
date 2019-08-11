@@ -813,10 +813,22 @@
     <script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     @include('layouts.primaryJS')
     @include('js.submission.detail')
+    @include('js.common.webHighLighter')
+
 
     @if(!$contest_mode)
     @include('components.congratulation')
     @endif
+    <script>
+        const highlighter = new Highlighter({
+            $root: document.querySelector('left-side')
+        });
+        highlighter
+        .on('selection:click', ({id}) => {
+            highlighter.removeClass('highlight-mengshou-wrap', id);
+        })
+        highlighter.run(); 
+    </script>
 
     <script>
         var historyOpen=false;

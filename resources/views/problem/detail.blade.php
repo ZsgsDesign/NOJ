@@ -208,7 +208,7 @@
 <div class="container mundb-standard-container">
     <div class="row">
         <div class="col-sm-12 col-lg-9">
-            <paper-card class="animated fadeInLeft p-5">
+            <paper-card id="hightLight-root" class="animated fadeInLeft p-5">
                 <link rel="stylesheet" href="/static/css/oj/{{$detail["oj_detail"]["ocode"]}}.css">
                 <fresh-container>
                     <h1>{{$detail["title"]}}</h1>
@@ -310,9 +310,11 @@
 </div>
 
 
-<script>
 @include('js.common.webHighLighter');
-const highlighter = new Highlighter();
+<script>
+const highlighter = new Highlighter({
+    $root:document.querySelector('#hightLight-root')
+});
 highlighter
 .on('selection:click', ({id}) => {
     highlighter.removeClass('highlight-mengshou-wrap', id);
