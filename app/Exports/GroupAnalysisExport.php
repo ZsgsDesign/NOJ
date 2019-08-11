@@ -58,8 +58,8 @@ class GroupAnalysisExport implements FromCollection, WithEvents, WithStrictNullC
             $row_1 = ['Member','Total','','',''];
             $row_2 = ['','Elo','Rank','Solved','Penalty'];
             foreach ($this->contest_data as $contest) {
-                array_push($row_1, $contest['name'], '');
-                array_push($row_2, 'Solved', 'Penalty');
+                array_push($row_1, $contest['name'], '','');
+                array_push($row_2, 'Rank','Solved', 'Penalty');
             }
             $data = [$row_1,$row_2];
             foreach ($this->member_data as $member) {
@@ -80,6 +80,7 @@ class GroupAnalysisExport implements FromCollection, WithEvents, WithStrictNullC
                         $contest_detial = $member['contest_detial'][$contest['cid']];
                         array_push(
                             $row,
+                            $contest_detial['rank'],
                             $percent === 'true' ? (round($contest_detial['solved'] / $contest_detial['problems'] * 100, 1) . ' %')
                                     : ($maxium === 'true' ? $contest_detial['solved'].' / '.$contest_detial['problems'] : $contest_detial['solved']),
                             round($contest_detial['penalty'])
@@ -87,6 +88,7 @@ class GroupAnalysisExport implements FromCollection, WithEvents, WithStrictNullC
                     } else {
                         array_push(
                             $row,
+                            '-',
                             $percent === 'true' ? '- %'
                                     : ($maxium === 'true' ? '- / -' : ' - '),
                             0
@@ -128,12 +130,12 @@ class GroupAnalysisExport implements FromCollection, WithEvents, WithStrictNullC
     private function mergeCellColumnNext()
     {
         static $columns = [
-            [3],[4]
+            [2],[4]
         ];
         $columns_str = ['',''];
         $chars = str_split('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
         foreach ($columns as $key => &$column) {
-            $column[0] += 2;
+            $column[0] += 3;
             if ($column[0] > 25) {
                 if (isset($column[1])) {
                     $column[1] += 1;

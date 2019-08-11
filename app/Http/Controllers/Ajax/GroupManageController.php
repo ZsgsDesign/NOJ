@@ -226,11 +226,13 @@ class GroupManageController extends Controller
         $groupModel=new GroupModel();
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         $targetClearance=$groupModel->judgeClearance($all_data["gid"], $all_data["uid"]);
-        if ($clearance>1 && $clearance>$targetClearance) {
-            $groupModel->removeClearance($all_data["uid"], $all_data["gid"]);
-            return ResponseModel::success(200);
+        if ($clearance <= 1 || $clearance <= $targetClearance){
+            return ResponseModel::err(7002);
         }
-        return ResponseModel::err(7002);
+
+        $groupModel->removeClearance($all_data["uid"], $all_data["gid"]);
+        $groupModel->refreshElo($all_data["gid"]);
+        return ResponseModel::success(200);
     }
 
     public function inviteMember(Request $request)

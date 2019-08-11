@@ -54,7 +54,7 @@ Route::group(['namespace' => 'Group', 'prefix' => 'group','as' => 'group.'], fun
     Route::get('/{gcode}', 'IndexController@detail')->middleware('auth', 'contest_account')->name('detail');
 
     Route::get('/{gcode}/analysis', 'IndexController@analysis')->middleware('auth', 'contest_account')->name('analysis');
-    Route::get('/{gcode}/analysisDownload', 'IndexController@analysisDownload')->middleware('auth', 'contest_account', 'privileged')->name('analysis.download');
+    Route::get('/{gcode}/analysisDownload', 'IndexController@analysisDownload')->middleware('auth', 'contest_account')->name('analysis.download');
     Route::group(['prefix' => '{gcode}/settings','as' => 'settings.', 'middleware' => ['privileged']], function () {
         Route::get('/', 'AdminController@settings')->middleware('auth', 'contest_account')->name('index');
         Route::get('/general', 'AdminController@settingsGeneral')->middleware('auth', 'contest_account')->name('general');
@@ -86,6 +86,7 @@ Route::group([
     Route::get('/{cid}/board/print', 'BoardController@print')->middleware('auth')->name('print');
     Route::get('/{cid}/board/analysis', 'BoardController@analysis')->middleware('auth')->name('analysis');
 
+    Route::get('/{cid}/scrollBoard', 'AdminController@scrollBoard')->middleware('auth', 'contest_account', 'privileged')->name('scrollboard');
     Route::get('/{cid}/board/admin', 'AdminController@admin')->middleware('auth', 'privileged')->name('admin');
     Route::get('/{cid}/admin/downloadContestAccountXlsx', 'AdminController@downloadContestAccountXlsx')->middleware('auth')->name('downloadContestAccountXlsx');
     Route::get('/{cid}/admin/refreshContestRank', 'AdminController@refreshContestRank')->middleware('auth')->name('refreshContestRank');
@@ -138,6 +139,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
         Route::post('changeNickName', 'GroupController@changeNickName')->middleware('auth');
         Route::post('createGroup', 'GroupController@createGroup')->middleware('auth');
         Route::post('getPracticeStat', 'GroupController@getPracticeStat')->middleware('auth');
+        Route::post('eloChangeLog', 'GroupController@eloChangeLog')->middleware('auth');
 
         Route::post('changeMemberClearance', 'GroupManageController@changeMemberClearance')->middleware('auth');
         Route::post('changeGroupImage', 'GroupManageController@changeGroupImage')->middleware('auth');
@@ -170,6 +172,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
         Route::post('replyClarification', 'ContestAdminController@replyClarification')->middleware('auth');
         Route::post('setClarificationPublic', 'ContestAdminController@setClarificationPublic')->middleware('auth');
         Route::post('generateContestAccount', 'ContestAdminController@generateContestAccount')->middleware('auth');
+        Route::post('getScrollBoardData', 'ContestAdminController@getScrollBoardData')->middleware('auth')->name('ajax.contest.getScrollBoardData');
     });
 
     Route::group(['prefix' => 'submission'], function () {

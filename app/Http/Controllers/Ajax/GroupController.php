@@ -92,7 +92,7 @@ class GroupController extends Controller
     public function getPracticeStat(Request $request)
     {
         $request->validate([
-            'gid' => 'required|string',
+            'gid' => 'required|integer',
             'mode' => 'required'
         ]);
 
@@ -116,5 +116,23 @@ class GroupController extends Controller
             return ResponseModel::success(200,null,$ret);
         }
         return ResponseModel::err(7002);
+    }
+
+    public function eloChangeLog(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|integer',
+            'uid' => 'required|integer',
+        ]);
+
+        $all_data=$request->all();
+
+        $groupModel=new GroupModel();
+        $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
+        if($clearance <= 0){
+            return ResponseModel::err(7002);
+        }
+        $ret = $groupModel->getEloChangeLog($all_data['gid'],$all_data['uid']);
+        return ResponseModel::success(200,null,$ret);
     }
 }
