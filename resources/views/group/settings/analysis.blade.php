@@ -110,7 +110,9 @@
     .contest-solved,
     .tag-solved,
     .contest-rank,
-    .contest-elo{
+    .contest-elo,
+    .member-elo,
+    .chart-tag{
         cursor: pointer;
     }
 
@@ -153,6 +155,7 @@
                         </label>
                     </div>
                 </span>
+                <span style="font-size:1.5rem" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<p>something you can do.</p><p>Click the attribute name below total or each contest to sort.</p><p> Click on the name of a member to ignore/unignore him.</p><p> click on the Elo rate of a member to see his elo rate change history."><i class="MDI comment-question-outline"></i></span>
             </div>
             <div id="panels">
                 <div id="contest-panel"  style="display: none">
@@ -162,8 +165,60 @@
             </div>
         </settings-body>
     </settings-card>
+    <div id="historyModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content sm-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="MDI history"></i> Elo Change History</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="width:60vw">
+                        <div class="col-7 col-sm-12 col-md-7">
+                            <canvas></canvas>
+                        </div>
+                        <div class="col-5 col-sm-12 col-md-5">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left" scope="col">Contest Name</th>
+                                            <th scope="col">After Contest Elo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="history_container">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <div id="tagRadarModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content sm-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="MDI history"></i> Tag Radar</h5>
+                </div>
+                <div class="modal-body">
+                    <div style="width:60vw">
+                        <canvas></canvas>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+<script type="text/javascript" src="/static/library/chart.js/dist/Chart.bundle.min.js"></script>
 <script>
     let ajaxing = true;
 
@@ -180,6 +235,78 @@
     let contest_hideMax = false;
 
     let displaying = 'contest';
+
+    var elo_config =  {
+        type: 'line',
+        data: {
+            datasets: [{
+                label: 'Elo Rate',
+                fill: false,
+                data: [],
+            }]
+        },
+        options: {
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        var label = data.datasets[0].data[tooltipItem.index].contest_name || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        label += Math.round(tooltipItem.yLabel * 100) / 100;
+                        return label;
+                    }
+                },
+            },
+            responsive: true,
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Date'
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: ''
+                    }
+                }]
+            }
+        }
+    };
+    var tag_config =  {
+        type: 'radar',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Tag Complete',
+                data: []
+            }]
+        },
+        options: {
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        var label = data.labels[tooltipItem.index] || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        label += Math.round(tooltipItem.yLabel * 100) / 100 + ' %';
+                        return label;
+                    }
+                },
+            },
+            responsive: true,
+        }
+    };
+    var elo_chart;
+    var tag_chart;
 
     window.addEventListener("load",function() {
         $('#tab-contest').on('click',function(){
@@ -234,6 +361,13 @@
             });
         });
 
+        var ctx = $('#historyModal canvas');
+        elo_chart = new Chart(ctx,elo_config);
+
+        var ctx = $('#tagRadarModal canvas');
+        tag_chart = new Chart(ctx,tag_config);
+
+
         $('#contest-contest').click();
         updataDownloadUrl();
         loadContestsData();
@@ -257,7 +391,6 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
                     if(ret.ret == '200'){
-                        console.log(ret);
                         data_contest = ret.data;
                         ajaxing = false;
                         sortContestData({by : 'elo',desc : true})
@@ -375,7 +508,7 @@
                         <tr id="uid-${member['uid']}">
                             <td>${member['index']}</td>
                             <td class="member-name" style="text-align: left;">${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}</span></td>
-                            <td>${member['elo']}</td>
+                            <td class="member-elo">${member['elo']}</td>
                             <td>${member['rank_ave'] == undefined ? '-' : parseFloat(member['rank_ave']).toFixed(1)}</span></td>
                             <td>${member['solved_all']}<span class="problem-maximum"> / ${member['problem_all']}</span></td>
                             <td>${Math.round(member['penalty'])}</td>
@@ -386,7 +519,7 @@
                         <tr id="uid-${member['uid']}">
                             <td>${member['index']}</td>
                             <td class="member-name" style="text-align: left;">${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}</span></td>
-                            <td>${member['elo']}</td>
+                            <td class="member-elo">${member['elo']}</td>
                             <td>${member['rank_ave'] == undefined ? '-' : parseFloat(member['rank_ave']).toFixed(1)}</span></td>
                             <td>${member['problem_all'] != 0 ? Math.round(member['solved_all'] / member['problem_all'] * 100) : '-'} %</td>
                             <td>${Math.round(member['penalty'])}</td>
@@ -440,7 +573,8 @@
                         <table class="table">
                             <thead>
                                 <tr id="tr-1">
-                                    <th class="th-member" scope="col" rowspan="2" style="text-align: left;">Member</th>
+                                    <th scope="col" rowspan="2" style="text-align: left;">Member</th>
+                                    <th class="th-member" scope="col" rowspan="2" style="text-align: left;"></th>
                                     <!-- here is tags -->
                                 </tr>
                                 <tr id="tr-2">
@@ -467,15 +601,23 @@
                     let member_completion = member_data[member_index]['completion'];
                     $(selector + ' tbody').append(`
                     <tr id="uid-${member['uid']}">
-                        <td class="member-name" style="text-align: left;">${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}</span></td>
+                        <td class="member-name" style="text-align: left;">
+                            ${member['name']} <span class="cm-subtext">${member['nick_name'] != null ? '('+member['nick_name']+')' : ''}
+                        </span></td>
+                        <td class="th-member chart-tag"><i style="font-size:1.25rem" class="MDI chart-pie float_right"></i></td>
                     </tr>
                     `);
                     for(let tag in tag_problems){
                         let tag_completion = member_completion[tag];
-                        $(selector + ' #uid-'+member['uid']).append(`
-                        <td>${eval(Object.values(tag_completion).join('+'))} <span class="problem-maximum"> / ${Object.keys(tag_completion).length}</span></td>
-                        `);
-
+                        if(contest_showPercent){
+                            $(selector + ' #uid-'+member['uid']).append(`
+                            <td>${ Math.round(100.0 * eval(Object.values(tag_completion).join('+')) / Object.keys(tag_completion).length,1) } %</td>
+                            `);
+                        }else{
+                            $(selector + ' #uid-'+member['uid']).append(`
+                            <td>${ eval(Object.values(tag_completion).join('+'))} <span class="problem-maximum"> / ${Object.keys(tag_completion).length }</span></td>
+                            `);
+                        }
                     }
                 }
                 for(let mi in member_ingore){
@@ -677,6 +819,88 @@
                     selector : '#contest-panel'
                 });
             });
+
+            $('.member-elo').unbind();
+            $('.member-elo').on('click',function(){
+                if(ajaxing) return;
+                ajaxing = true;
+                var uid = parseInt($(this).parent('tr').attr('id').split('-')[1]);
+                var display_name = $(this).parent('tr').find('.member-name').text();
+                $.ajax({
+                    type: 'POST',
+                    url: '/ajax/group/eloChangeLog',
+                    data: {
+                        gid: {{ $group_info['gid'] }},
+                        uid: uid
+                    },
+                    dataType: 'json',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }, success: function(ret){
+                        if(ret.ret == '200'){
+                            var data = ret.data;
+                            //========================================chart
+                            let chart_data = [];
+                            for (const key in data) {
+                                chart_data.push({
+                                    x : data[key]['end_time'],
+                                    y : data[key]['ranking'],
+                                    contest_name : data[key]['name'],
+                                });
+                            }
+                            elo_chart.data.datasets[0].label = display_name;
+                            elo_chart.data.datasets[0].data = chart_data;
+                            elo_chart.update();
+                            //========================================table
+                            $('#historyModal #history_container').html('');
+                            //for each any change
+                            for (const key in data) {
+                                var color_class;
+                                if(key == 0){
+                                    if(data[key]['ranking'] < 1500){
+                                        color_class = 'alert-danger';
+                                    }else if(data[key]['ranking'] == 1500){
+                                        color_class = '';
+                                    }else{
+                                        color_class = 'alert-success';
+                                    }
+                                }else{
+                                    if(data[key]['ranking'] < data[key-1]['ranking']){
+                                        color_class = 'alert-danger';
+                                    }else if(data[key]['ranking'] == data[key-1]['ranking']){
+                                        color_class = '';
+                                    }else{
+                                        color_class = 'alert-success';
+                                    }
+                                }
+                                $('#historyModal #history_container').prepend(`
+                                <tr class="${color_class}">
+                                    <td class="text-left">${data[key]['name']}</td>
+                                    <td>${data[key]['ranking']}</td>
+                                </tr>
+                                `)
+
+                            }
+                            $('#historyModal').modal();
+                            ajaxing = false;
+                        }
+                    }, error: function(xhr, type){
+                        console.log(xhr);
+                        switch(xhr.status) {
+                            case 422:
+                                alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                                break;
+                            case 429:
+                                alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                                break;
+                            default:
+                                alert("Server Connection Error");
+                        }
+                        console.log('Ajax error while posting to ' + type);
+                        ajaxing = false;
+                    }
+                });
+            });
         }
 
         function registerTagOpr(){
@@ -709,6 +933,34 @@
                     mode : displaying,
                     selector : '#' + displaying + '-panel'
                 });
+            });
+
+            $('.chart-tag').unbind();
+            $('.chart-tag').on('click',function(){
+                var uid = parseInt($(this).parent('tr').attr('id').split('-')[1]);
+                var display_name = $(this).parent('tr').find('.member-name').text();
+                var tag_chart_data = {
+                    labels: [],
+                    datasets: [{
+                        label: 'Tag Complete',
+                        data: []
+                    }]
+                };
+
+                for (const m_key in data_tag['member_data']) {
+                    let member_data = data_tag['member_data'][m_key];
+                    if(member_data['uid'] == uid){
+                        for (const t_key in member_data['completion']) {
+                            tag_chart_data.labels.push(t_key);
+                            tag_chart_data.datasets[0]['data'].push(Math.round(100.0 * eval(Object.values(member_data['completion'][t_key]).join('+')) / Object.keys(member_data['completion'][t_key]).length,1));
+                        }
+                    }
+                }
+
+                tag_chart.data = tag_chart_data;
+                tag_chart.config.data.datasets[0].label = display_name;
+                tag_chart.update();
+                $("#tagRadarModal").modal();
             });
         }
     }, false);

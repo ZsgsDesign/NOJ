@@ -559,6 +559,7 @@
             <right-side>
                 <div class="row">
                     <div class="col-sm-12 col-md-7">
+                        @if($group_clearance>=1)
                         <function-container>
                             <div>
                                 <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/analysis'">
@@ -589,6 +590,7 @@
                                 @endif
                             </div>
                         </function-container>
+                        @endif
                         @unless(empty($group_notice))
                             <timeline-container>
                                 <timeline-item data-type="notice">

@@ -45,6 +45,11 @@ return [
             'level' => 'debug',
         ],
 
+        'group_elo' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/group_elo_update.log'),
+        ],
+
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
