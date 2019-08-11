@@ -45,7 +45,11 @@ Route::group(['prefix' => 'problem'], function () {
     Route::get('/{pcode}', 'ProblemController@detail')->middleware('contest_account')->name('problem_detail');
     Route::get('/{pcode}/editor', 'ProblemController@editor')->middleware('auth', 'contest_account')->name('problem_editor');
     Route::get('/{pcode}/solution', 'ProblemController@solution')->middleware('auth', 'contest_account')->name('problem_solution');
+    Route::get('/{pcode}/discussion', 'ProblemController@discussion')->middleware('auth', 'contest_account')->name('problem.discussion');
 });
+
+Route::get('/discussion/{dcode}', 'ProblemController@discussionPost')->middleware('auth', 'contest_account')->name('problem.discussion.post');
+
 Route::get('/status', 'StatusController@index')->middleware('contest_account')->name('status_index');
 
 Route::group(['namespace' => 'Group', 'prefix' => 'group','as' => 'group.'], function () {
@@ -132,6 +136,8 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('updateSolutionDiscussion', 'ProblemController@updateSolutionDiscussion')->middleware('auth');
     Route::post('deleteSolutionDiscussion', 'ProblemController@deleteSolutionDiscussion')->middleware('auth');
     Route::post('voteSolutionDiscussion', 'ProblemController@voteSolutionDiscussion')->middleware('auth');
+    Route::post('postDiscussion', 'ProblemController@postDiscussion')->middleware('auth');
+    Route::post('addComment', 'ProblemController@addComment')->middleware('auth');
 
     Route::post('search', 'SearchController')->middleware('auth')->name('ajax.search');
 

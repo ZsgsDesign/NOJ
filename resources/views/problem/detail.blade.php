@@ -272,7 +272,7 @@
             <paper-card class="animated fadeInRight btn-group-vertical cm-action-group" role="group" aria-label="vertical button group">
                 <button type="button" class="btn btn-secondary" id="submitBtn"><i class="MDI send"></i>@guest Login & Submit @else Submit @endguest</button>
                 <separate-line class="ultra-thin"></separate-line>
-                <button type="button" class="btn btn-secondary" style="margin-top: 5px;"><i class="MDI comment-multiple-outline"></i> Discussion </button>
+                <button type="button" class="btn btn-secondary" id="discussionBtn" style="margin-top: 5px;"><i class="MDI comment-multiple-outline"></i> Discussion </button>
                 <button type="button" class="btn btn-secondary" id="solutionBtn"><i class="MDI comment-check-outline"></i> Solution </button>
             </paper-card>
             <paper-card class="animated fadeInRight">
@@ -325,6 +325,9 @@ highlighter.run();
         location.href="/problem/{{$detail["pcode"]}}/solution";
     },false)
 
+    document.getElementById("discussionBtn").addEventListener("click",function(){
+        location.href="/problem/{{$detail["pcode"]}}/discussion";
+    },false)
 </script>
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
