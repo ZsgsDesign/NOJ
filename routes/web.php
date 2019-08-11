@@ -22,6 +22,11 @@ Route::get('/', 'MainController@home')->middleware('contest_account')->name('hom
 
 Route::get('/search', 'SearchController')->middleware('auth')->name('search');
 
+Route::group(['prefix' => 'message','as' => 'message.'], function () {
+    Route::get('/', 'MessageController@index')->middleware('auth')->name('index');
+    Route::get('/{id}', 'MessageController@detail')->middleware('auth')->name('detail');
+});
+
 Route::group(['prefix' => 'account'], function () {
     Route::get('/', 'AccountController@index')->name('account_index');
     Route::get('/dashboard', 'AccountController@dashboard')->middleware('auth')->name('account_dashboard');
@@ -140,6 +145,12 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     Route::post('addComment', 'ProblemController@addComment')->middleware('auth');
 
     Route::post('search', 'SearchController')->middleware('auth')->name('ajax.search');
+
+    Route::group(['prefix' => 'message'], function () {
+        Route::post('unread', 'MessageController@unread')->middleware('auth');
+        Route::post('allRead', 'MessageController@allRead')->middleware('auth');
+        Route::post('allDelete', 'MessageController@deleteAll')->middleware('auth');
+    });
 
     Route::group(['prefix' => 'group'], function () {
         Route::post('changeNickName', 'GroupController@changeNickName')->middleware('auth');
