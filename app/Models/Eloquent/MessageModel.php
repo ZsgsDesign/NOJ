@@ -28,6 +28,9 @@ class MessageModel extends Model
         if(isset($config['allow_reply'])){
             $message->reply = $config['allow_reply'];
         }
+        if(isset($config['official'])){
+            $message->official = $config['official'];
+        }
         $message->save();
     }
 
