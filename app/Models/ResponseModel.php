@@ -80,6 +80,7 @@ class ResponseModel extends Model
             '4006' => "AlreadyRegistered",
             '4007' => "A contest cannot be both a public and a practice contest",
             '4008' => "The contest is not over.",
+            '4009' => 'Only freeze contest can join scrollboard',
 
             '5000' => "Status-Related Error",
             '5001' => "Status Not Found",

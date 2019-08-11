@@ -122,7 +122,7 @@
                 <ul class="list-group bmd-list-group p-0">
                     <a href="/contest/{{$cid}}/admin/refreshContestRank" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Refresh Contest Rank</a>
                 </ul>
-                @if($is_end)
+                @if($is_end && $basic['froze_length'] != 0)
                 <ul class="list-group bmd-list-group p-0">
                     <a href="/contest/{{$cid}}/scrollBoard" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Scroll Board</a>
                 </ul>

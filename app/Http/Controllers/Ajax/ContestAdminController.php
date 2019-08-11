@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use App\Jobs\ProcessSubmission;
 use Auth;
 use Cache;
-use App\Http\Middleware\ContestAccount;
 
 class ContestAdminController extends Controller
 {
@@ -253,6 +252,9 @@ class ContestAdminController extends Controller
         }
         if($contestModel->remainingTime($cid) >= 0){
             return ResponseModel::err(4008);
+        }
+        if($contestModel->basic($cid)['froze_length'] == 0){
+            return ResponseModel::err(4009);
         }
         $data = $contestModel->getScrollBoardData($cid);
         return ResponseModel::success(200, null, $data);
