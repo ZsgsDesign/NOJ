@@ -22,7 +22,7 @@ class MessageController extends Controller
 
     public function detail($id)
     {
-        $message = MessageModel::detail($id);
+        $message = MessageModel::read($id);
         if(empty($message || $message->receiver != Auth::user()->id)){
             return Redirect::route('message.index');
         }

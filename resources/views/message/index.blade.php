@@ -19,14 +19,6 @@
         box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
     }
 
-    .sender_avatar{
-        height: 1rem;
-        width: 1rem;
-        border-radius: 2000px;
-        object-fit: cover;
-        overflow: hidden;
-    }
-
     message-card{
         display: block;
         padding: 1rem;
@@ -110,9 +102,9 @@
         </div>
         @if($messages->count() != 0)
             @foreach($messages as $message)
-                <message-card class="@if($message['unread']) @if($message['official']) official @else unread @endif @else read @endif">
+                <message-card data-id="{{$message['id']}}" class="@if($message['unread']) @if($message['official']) official @else unread @endif @else read @endif">
                     <div>
-                        <div>@if($message['official'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif <span class="sender_name">{{$message['sender_name']}}</span> <small class="wemd-grey-text"> {{$message['time']}}</small></div>
+                        <div>@if($message['official'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a official message"></i>@endif <span class="sender_name">{{$message['sender_name']}}</span> <small class="wemd-grey-text"> {{$message['time']}}</small></div>
                         <div><img src="{{$message['sender_avatar']}}" class="cm-avatar"></div>
                     </div>
                     <div>
@@ -131,7 +123,11 @@
 </div>
 <script>
     window.addEventListener("load",function() {
-
+        $('message-card').on('click',function(){
+            var id = $(this).attr('data-id')
+            $(this).removeClass('unread').removeClass('official').addClass('read');
+            window.location = `/message/${id}`;
+        });
     }, false);
 </script>
 

@@ -81,6 +81,7 @@ class MessageModel extends Model
             )
             ->whereNull('message.deleted_at')
             ->orderByDesc('message.created_at')
+            ->orderByDesc('message.unread')
             ->paginate(30);
     }
 
@@ -91,10 +92,15 @@ class MessageModel extends Model
      * @param integer id
      * @return array result.
      */
-    public static function detail($mid)
+    public static function read($mid)
     {
+        $message = static::find($mid);
+        if(!empty($message)){
+            $message->unread = 0;
+            $message->save();
+        }
         return static::join('users','message.sender','=','users.id')
-            ->where('id',$mid)
+            ->where('message.id',$mid)
             ->select(
                 'message.id as id',
                 'users.name as sender_name',
@@ -103,7 +109,8 @@ class MessageModel extends Model
                 'message.content as content',
                 'message.created_at as time',
                 'message.official as official',
-                'message.unread as unread'
+                'message.unread as unread',
+                'message.allow_reply as allow_reply'
             )->first();
     }
 
