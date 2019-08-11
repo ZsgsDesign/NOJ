@@ -20,34 +20,64 @@ class ProblemModel extends Model
         // [Depreciated] Joint Query was depreciated here for code maintenance reasons
         if (!is_null($prob_detail)) {
             preg_match("/\"(.*)\"/",$prob_detail["description"],$pdf_url);
-            if ($prob_detail["force_raw"]) {
-                $prob_detail["parsed"]=[
-                    "description"=>$prob_detail["description"],
-                    "input"=>$prob_detail["input"],
-                    "output"=>$prob_detail["output"],
-                    "note"=>$prob_detail["note"],
-                    "file"=>$prob_detail["file"],
-                    "pdf_url"=>$pdf_url[1]
-                ];
-            } elseif ($prob_detail["markdown"]) {
-                $prob_detail["parsed"]=[
-                    "description"=>clean(convertMarkdownToHtml($prob_detail["description"])),
-                    "input"=>clean(convertMarkdownToHtml($prob_detail["input"])),
-                    "output"=>clean(convertMarkdownToHtml($prob_detail["output"])),
-                    "note"=>clean(convertMarkdownToHtml($prob_detail["note"])),
-                    "file"=>clean(convertMarkdownToHtml($prob_detail["file"])),
-                    "pdf_url"=>clean(convertMarkdownToHtml($pdf_url[1]))
-                ];
-            } else {
-                $prob_detail["parsed"]=[
-                    "description"=>$prob_detail["description"],
-                    "input"=>$prob_detail["input"],
-                    "output"=>$prob_detail["output"],
-                    "note"=>$prob_detail["note"],
-                    "file"=>$prob_detail["file"],
-                    "pdf_url"=>$pdf_url[1]
-                ];
+            if(count($pdf_url)>=2){
+                if ($prob_detail["force_raw"]) {
+                    $prob_detail["parsed"]=[
+                        "description"=>$prob_detail["description"],
+                        "input"=>$prob_detail["input"],
+                        "output"=>$prob_detail["output"],
+                        "note"=>$prob_detail["note"],
+                        "file"=>$prob_detail["file"],
+                        "pdf_url"=>$pdf_url[1]
+                    ];
+                } elseif ($prob_detail["markdown"]) {
+                    $prob_detail["parsed"]=[
+                        "description"=>clean(convertMarkdownToHtml($prob_detail["description"])),
+                        "input"=>clean(convertMarkdownToHtml($prob_detail["input"])),
+                        "output"=>clean(convertMarkdownToHtml($prob_detail["output"])),
+                        "note"=>clean(convertMarkdownToHtml($prob_detail["note"])),
+                        "file"=>clean(convertMarkdownToHtml($prob_detail["file"])),
+                        "pdf_url"=>clean(convertMarkdownToHtml($pdf_url[1]))
+                    ];
+                } else {
+                    $prob_detail["parsed"]=[
+                        "description"=>$prob_detail["description"],
+                        "input"=>$prob_detail["input"],
+                        "output"=>$prob_detail["output"],
+                        "note"=>$prob_detail["note"],
+                        "file"=>$prob_detail["file"],
+                        "pdf_url"=>$pdf_url[1]
+                    ];
+                }
             }
+            else {
+                if ($prob_detail["force_raw"]) {
+                    $prob_detail["parsed"]=[
+                        "description"=>$prob_detail["description"],
+                        "input"=>$prob_detail["input"],
+                        "output"=>$prob_detail["output"],
+                        "note"=>$prob_detail["note"],
+                        "file"=>$prob_detail["file"]
+                    ];
+                } elseif ($prob_detail["markdown"]) {
+                    $prob_detail["parsed"]=[
+                        "description"=>clean(convertMarkdownToHtml($prob_detail["description"])),
+                        "input"=>clean(convertMarkdownToHtml($prob_detail["input"])),
+                        "output"=>clean(convertMarkdownToHtml($prob_detail["output"])),
+                        "note"=>clean(convertMarkdownToHtml($prob_detail["note"])),
+                        "file"=>clean(convertMarkdownToHtml($prob_detail["file"]))
+                    ];
+                } else {
+                    $prob_detail["parsed"]=[
+                        "description"=>$prob_detail["description"],
+                        "input"=>$prob_detail["input"],
+                        "output"=>$prob_detail["output"],
+                        "note"=>$prob_detail["note"],
+                        "file"=>$prob_detail["file"]
+                    ];
+                }
+            }
+            
             $prob_detail["update_date"]=date_format(date_create($prob_detail["update_date"]), 'm/d/Y H:i:s');
             $prob_detail["oj_detail"]=DB::table("oj")->where("oid", $prob_detail["OJ"])->first();
             $prob_detail["samples"]=DB::table("problem_sample")->where("pid", $prob_detail["pid"])->get()->all();
