@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Jobs\ProcessSubmission;
 use Auth;
 use Cache;
+use App\Http\Middleware\ContestAccount;
 
 class ContestAdminController extends Controller
 {
@@ -238,5 +239,22 @@ class ContestAdminController extends Controller
         $cache_data[]=$ret;
         Cache::tags(['contest', 'account'])->put($all_data["cid"], $cache_data);
         return ResponseModel::success(200, null, $ret);
+    }
+
+    public function getScrollBoardData(Request $request)
+    {
+        $request->validate([
+            'cid' => 'required|integer',
+        ]);
+        $cid = $request->input('cid');
+        $contestModel = new ContestModel();
+        if($contestModel->judgeClearance($cid,Auth::user()->id) != 3){
+            return ResponseModel::err(2001);
+        }
+        if($contestModel->remainingTime($cid) >= 0){
+            return ResponseModel::err(4008);
+        }
+        $data = $contestModel->getScrollBoardData($cid);
+        return ResponseModel::success(200, null, $data);
     }
 }
