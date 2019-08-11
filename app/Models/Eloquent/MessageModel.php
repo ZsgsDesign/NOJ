@@ -3,9 +3,11 @@
 namespace App\Models\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MessageModel extends Model
 {
+    use SoftDeletes;
     protected $table='message';
 
     /**
@@ -22,6 +24,9 @@ class MessageModel extends Model
         $message->content = $config['content'];
         if(isset($config['reply'])){
             $message->reply = $config['reply'];
+        }
+        if(isset($config['allow_reply'])){
+            $message->reply = $config['allow_reply'];
         }
         $message->save();
     }
@@ -79,7 +84,6 @@ class MessageModel extends Model
                 'message.official as official',
                 'message.unread as unread'
             )
-            ->whereNull('message.deleted_at')
             ->orderByDesc('message.created_at')
             ->orderByDesc('message.unread')
             ->paginate(30);
@@ -124,7 +128,7 @@ class MessageModel extends Model
     public static function allRead($uid)
     {
         return static::where('receiver',$uid)
-            ->update(['unread',0]);
+            ->update(['unread' => 0]);
     }
 
     /**
@@ -136,8 +140,8 @@ class MessageModel extends Model
      */
     public static function removeAllRead($uid)
     {
-        $ret = static::where([
-            'id' => $uid,
+        return static::where([
+            'receiver' => $uid,
             'unread' => 0
         ])->delete();
     }

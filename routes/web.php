@@ -141,6 +141,8 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
 
     Route::group(['prefix' => 'message'], function () {
         Route::post('unread', 'MessageController@unread')->middleware('auth');
+        Route::post('allRead', 'MessageController@allRead')->middleware('auth');
+        Route::post('allDelete', 'MessageController@deleteAll')->middleware('auth');
     });
 
     Route::group(['prefix' => 'group'], function () {

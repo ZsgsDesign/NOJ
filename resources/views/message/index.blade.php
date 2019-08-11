@@ -97,28 +97,31 @@
     <paper-card>
         <p>Message List</p>
         <div class="text-right" id="opr">
-            <a class="btn btn-primary" role="button"> All Read</a>
-            <a class="btn btn-primary" role="button"> Remove All Read</a>
+            <a class="btn btn-primary" role="button" id="all-read"> All Read</a>
+            <a class="btn btn-primary" role="button" id="all-delete"> Delete Read-ed Message</a>
         </div>
-        @if($messages->count() != 0)
-            @foreach($messages as $message)
-                <message-card data-id="{{$message['id']}}" class="@if($message['unread']) @if($message['official']) official @else unread @endif @else read @endif">
-                    <div>
-                        <div>@if($message['official'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a official message"></i>@endif <span class="sender_name">{{$message['sender_name']}}</span> <small class="wemd-grey-text"> {{$message['time']}}</small></div>
-                        <div><img src="{{$message['sender_avatar']}}" class="cm-avatar"></div>
-                    </div>
-                    <div>
-                        <h5>{{$message["title"]}}</h5>
-                    </div>
-                </message-card>
-            @endforeach
-        @else
-            <empty-container>
-                <i class="MDI package-variant"></i>
-                <p>You have no message.</p>
-            </empty-container>
-        @endif
-        {{$messages->links()}}
+        <div id="list">
+            @if($messages->count() != 0)
+                @foreach($messages as $message)
+                    <message-card data-id="{{$message['id']}}" class="@if($message['unread']) @if($message['official']) official @else unread @endif @else read @endif">
+                        <div>
+                            <div>@if($message['official'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a official message"></i>@endif <span class="sender_name">{{$message['sender_name']}}</span> <small class="wemd-grey-text"> {{$message['time']}}</small></div>
+                            <div><img src="{{$message['sender_avatar']}}" class="cm-avatar"></div>
+                        </div>
+                        <div>
+                            <h5>{{$message["title"]}}</h5>
+                        </div>
+                    </message-card>
+                @endforeach
+            @else
+                <empty-container>
+                    <i class="MDI package-variant"></i>
+                    <p>You have no message.</p>
+                </empty-container>
+            @endif
+            {{$messages->links()}}
+        </div>
+
     </paper-card>
 </div>
 <script>
@@ -127,6 +130,54 @@
             var id = $(this).attr('data-id')
             $(this).removeClass('unread').removeClass('official').addClass('read');
             window.location = `/message/${id}`;
+        });
+
+        $('#all-read').on('click',function(){
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/message/allRead',
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(result){
+                    if(result.ret == '200'){
+                        $('.unread').removeClass('unread').addClass('read');
+                        $('.official').removeClass('official').addClass('read');
+                        $('a#message-link').html(`<i class="MDI bell"></i> Message`)
+                    }
+                }, error: function(xhr, type){
+                    console.log('Ajax error!');
+                    ajaxing=false;
+                }
+            });
+        });
+
+        $('#all-delete').on('click',function(){
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/message/allDelete',
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(result){
+                    if(result.ret == '200'){
+                        $('.read').fadeOut(200,function(){
+                            $('.read').remove();
+                            if($('message-card').length == 0){
+                                $('div#list').html('').append(`
+                                    <empty-container>
+                                        <i class="MDI package-variant"></i>
+                                        <p>You have no message.</p>
+                                    </empty-container>
+                                `);
+                            }
+                        });
+                    }
+                }, error: function(xhr, type){
+                    console.log('Ajax error!');
+                    ajaxing=false;
+                }
+            });
         });
     }, false);
 </script>

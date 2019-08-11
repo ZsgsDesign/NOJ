@@ -22,4 +22,18 @@ class MessageController extends Controller
         $ret = MessageModel::unread($uid);
         return ResponseModel::success(200,null,$ret);
     }
+
+    public function allRead()
+    {
+        $uid = Auth::user()->id;
+        MessageModel::allRead($uid);
+        return ResponseModel::success(200);
+    }
+
+    public function deleteAll()
+    {
+        $uid = Auth::user()->id;
+        MessageModel::removeAllRead($uid);
+        return ResponseModel::success(200);
+    }
 }
