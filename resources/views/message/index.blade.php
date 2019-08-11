@@ -97,8 +97,8 @@
     <paper-card>
         <p>Message List</p>
         <div class="text-right" id="opr">
-            <a class="btn btn-primary" role="button" id="all-read"> All Read</a>
-            <a class="btn btn-primary" role="button" id="all-delete"> Delete Read-ed Message</a>
+            <button class="btn btn-primary" role="button" id="all-read"> All Read</button>
+            <button class="btn btn-primary" role="button" id="all-delete"> Delete Read-ed Message</button>
         </div>
         <div id="list">
             @if($messages->count() != 0)

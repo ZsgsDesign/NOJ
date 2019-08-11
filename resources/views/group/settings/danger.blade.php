@@ -15,7 +15,7 @@
     <settings-body>
         <p>
             <span style="margin-right: 5rem">Group Elo Ranking</span>
-            <a id="elo-refresh" class="btn btn-outline-primary m-0"><i class="MDI refresh"></i> Refresh</a>
+            <button id="elo-refresh" class="btn btn-outline-danger m-0"><i class="MDI refresh"></i> Refresh</button>
         </p>
     </settings-body>
 </settings-card>

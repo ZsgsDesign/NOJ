@@ -50,7 +50,7 @@
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
-        <a class="btn btn-primary" href="/message" role="button"><i class="MDI arrow-left"></i></a>
+        <a class="btn btn-default" href="/message" role="button"><i class="MDI arrow-left"></i></a>
         <div class="sender">
             <div>@if($message['official'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a official message"></i>@endif <span class="sender_name">{{$message['sender_name']}}</span> <small class="wemd-grey-text"> {{$message['time']}}</small></div>
             <div><img src="{{$message['sender_avatar']}}" class="cm-avatar"></div>
