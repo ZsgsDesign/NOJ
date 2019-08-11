@@ -50,7 +50,8 @@
         "phar-io/version": "^2.0",
         "predis/predis": "^1.1",
         "rmccue/requests": "^1.7",
-        "sebastian/version": "^2.0"
+        "sebastian/version": "^2.0",
+        "goodnesskay/laravelpdfviewer": "^1.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

@@ -222,6 +222,14 @@
                     <h2>Description:</h2>
 
                     {!!$detail["parsed"]["description"]!!}
+                    @if($detail["parsed"]["file"]==1)
+                        <iframe 
+                            id="description_pdf"
+                            src ="{{ asset(  $detail['parsed']['pdf_url']  ) }}" 
+                            width="100%" height="800px" scrolling="auto" 
+                            frameborder="0" >
+                        </iframe>
+                    @endif
 
                     @endunless
 
