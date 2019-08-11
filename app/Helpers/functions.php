@@ -24,6 +24,7 @@ use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Contracts\Broadcasting\Factory as BroadcastFactory;
 use Illuminate\Support\Facades\DB;
 use GrahamCampbell\Markdown\Facades\Markdown;
+use App\Models\Eloquent\MessageModel;
 
 
 if (!function_exists('version')) {
@@ -142,5 +143,12 @@ if (!function_exists('convertMarkdownToHtml')) {
     function convertMarkdownToHtml($md)
     {
         return is_string($md)?Markdown::convertToHtml($md):'';
+    }
+}
+
+if (!function_exists('sendMessage')) {
+    function sendMessage($config)
+    {
+        return MessageModel::send($config);
     }
 }

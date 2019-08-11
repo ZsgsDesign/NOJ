@@ -32,6 +32,7 @@ class MessageModel extends Model
             $message->official = $config['official'];
         }
         $message->save();
+        return true;
     }
 
     /**
