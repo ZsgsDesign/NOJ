@@ -22,7 +22,9 @@ class CreateMessageTable extends Migration
             $table->integer('reply')->nullable();
             $table->tinyInteger('allow_reply')->default(0);
             $table->tinyInteger('unread')->default(1);
+            $table->tinyInteger('official')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

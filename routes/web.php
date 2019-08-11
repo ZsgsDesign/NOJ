@@ -22,9 +22,9 @@ Route::get('/', 'MainController@home')->middleware('contest_account')->name('hom
 
 Route::get('/search', 'SearchController')->middleware('auth')->name('search');
 
-Route::group(['prefix' => 'message'], function () {
-    Route::get('/', 'MessageController@index')->middleware('auth');
-    Route::get('/{id}', 'MessageController@details')->middleware('auth');
+Route::group(['prefix' => 'message','as' => 'message.'], function () {
+    Route::get('/', 'MessageController@index')->middleware('auth')->name('index');
+    Route::get('/{id}', 'MessageController@detail')->middleware('auth')->name('detail');
 });
 
 Route::group(['prefix' => 'account'], function () {
