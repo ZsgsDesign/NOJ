@@ -98,7 +98,7 @@
         <p>Message List</p>
         <div class="text-right" id="opr">
             <button class="btn btn-primary" role="button" id="all-read"> <i class="MDI email-open-outline"></i> Mark all as read</button>
-            <button class="btn btn-danger" role="button" id="all-delete"> <i class="MDI delete"></i> Erase all</button>
+            <button class="btn btn-danger" role="button" id="all-delete"> <i class="MDI delete"></i> Erase read</button>
         </div>
         <div id="list">
             @if($messages->count() != 0)
@@ -115,7 +115,7 @@
                 @endforeach
             @else
                 <empty-container>
-                    <i class="MDI package-variant"></i>
+                    <i class="MDI email-open"></i>
                     <p>You have no message.</p>
                 </empty-container>
             @endif
