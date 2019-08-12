@@ -270,7 +270,7 @@
                             @if($basic['public'] && !$basic['audit_status'])
                             <button type="button" class="btn btn-secondary">Under Review</button>
                             @else
-                                @if($clearance==3)
+                                @if($clearance==3 && time()<strtotime($basic['begin_time']))
                                     <a href="/contest/{{$detail['cid']}}/board/admin"><button type="button" class="btn btn-info">Manage</button></a>
                                 @else
                                     @if(strtotime($detail['begin_time']) > time())
