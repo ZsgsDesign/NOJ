@@ -75,7 +75,7 @@ class AdminController extends Controller
         Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
         Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $contestRankRaw);
         $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
-        if(time() > $end_time){
+        if(time() > strtotime($end_time)){
             $contestModel->storeContestRankInMySQL($cid, $contestRankRaw);
         }
         return Redirect::route('contest.rank', ['cid' => $cid]);
