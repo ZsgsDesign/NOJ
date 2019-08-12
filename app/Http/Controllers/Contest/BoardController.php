@@ -50,6 +50,9 @@ class BoardController extends Controller
         if ($remainingTime<=0) {
             $remainingTime=0;
         }
+        if($basicInfo['public'] && !$basicInfo['audit_status']){
+            return Redirect::route('contest.detail', ['cid' => $cid]);
+        }
         return view('contest.board.challenge', [
             'page_title'=>"Challenge",
             'navigation' => "Contest",
@@ -86,6 +89,10 @@ class BoardController extends Controller
             }else{
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
+        }
+        $basicInfo=$contestModel->basic($cid);
+        if($basicInfo['public'] && !$basicInfo['audit_status']){
+            return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
         $contest_rule=$contestModel->rule($cid);
@@ -157,6 +164,10 @@ class BoardController extends Controller
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
         }
+        $basicInfo=$contestModel->basic($cid);
+        if($basicInfo['public'] && !$basicInfo['audit_status']){
+            return Redirect::route('contest.detail', ['cid' => $cid]);
+        }
         $contest_name=$contestModel->contestName($cid);
         $contest_rule=$contestModel->contestRule($cid);
         $problemSet=$contestModel->contestProblems($cid, Auth::user()->id);
@@ -216,6 +227,10 @@ class BoardController extends Controller
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
         }
+        $basicInfo=$contestModel->basic($cid);
+        if($basicInfo['public'] && !$basicInfo['audit_status']){
+            return Redirect::route('contest.detail', ['cid' => $cid]);
+        }
         $contest_name=$contestModel->contestName($cid);
         $customInfo=$contestModel->getCustomInfo($cid);
         $submissionRecordSet=$contestModel->getContestRecord($filter, $cid);
@@ -254,6 +269,9 @@ class BoardController extends Controller
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
         }
+        if($basicInfo['public'] && !$basicInfo['audit_status']){
+            return Redirect::route('contest.detail', ['cid' => $cid]);
+        }
         $contest_name=$contestModel->contestName($cid);
         $customInfo=$contestModel->getCustomInfo($cid);
         $clarificationList=$contestModel->getClarificationList($cid);
@@ -289,6 +307,9 @@ class BoardController extends Controller
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
         }
+        if($basicInfo['public'] && !$basicInfo['audit_status']){
+            return Redirect::route('contest.detail', ['cid' => $cid]);
+        }
         $contest_name=$contestModel->contestName($cid);
         $customInfo=$contestModel->getCustomInfo($cid);
         return view('contest.board.print', [
@@ -313,6 +334,10 @@ class BoardController extends Controller
             }else{
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
+        }
+        $basicInfo=$contestModel->basic($cid);
+        if($basicInfo['public'] && !$basicInfo['audit_status']){
+            return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
         $customInfo=$contestModel->getCustomInfo($cid);

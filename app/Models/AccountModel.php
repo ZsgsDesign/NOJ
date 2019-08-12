@@ -61,7 +61,7 @@ class AccountModel extends Model
     public function generateContestAccount($cid, $ccode, $num)
     {
         $ret=[];
-        $starting=DB::table("users")->where(["contest_account"=>$cid])->count();
+        $starting=DB::table("users")->where('prefix','=',$ccode)->count();
         $contestModel=new ContestModel();
         for ($i=1; $i<=$num; $i++) {
             $pass=$this->generatePassword();
