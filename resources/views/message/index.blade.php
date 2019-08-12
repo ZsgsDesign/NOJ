@@ -143,7 +143,12 @@
                     if(result.ret == '200'){
                         $('.unread').removeClass('unread').addClass('read');
                         $('.official').removeClass('official').addClass('read');
-                        $('a#message-link').html(`<i class="MDI bell"></i> Message`)
+                        if(window['message_tip'] != undefined){
+                            $("#message-tip").animate({
+                                opacity: 1
+                            },200)
+                            clearInterval(window.message_tip);
+                        }
                     }
                 }, error: function(xhr, type){
                     console.log('Ajax error!');

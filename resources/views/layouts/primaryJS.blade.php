@@ -47,19 +47,18 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(result){
                     if(result.ret == '200' && result.data.length != 0){
-                        $('a#message-link').append(` (<span>${result.data.length}</span>)`);
-                        var message_tip = setInterval(() => {
-                            if($('a#message-link').html() != '<i class="MDI bell"></i> Message'){
-                                $("#message-tip").animate({
-                                    opacity: !parseInt($('#message-tip').css('opacity'))
-                                },200)
-                            }else{
-                                $("#message-tip").animate({
-                                    opacity: 0
-                                },200)
-                                clearInterval(message_tip)
-                            }
+                        $("#message-tip").attr('title',`You have ${result.data.length} new messages.`)
+                        $("#message-tip").tooltip('dispose');
+                        $("#message-tip").tooltip();
+                        window['message_tip'] = setInterval(() => {
+                            $("#message-tip").animate({
+                                opacity: !parseInt($('#message-tip').css('opacity'))
+                            },200)
                         }, 400);
+                    }else{
+                        $("#message-tip").attr('title',`You have no messages.`);
+                        $("#message-tip").tooltip('dispose');
+                        $("#message-tip").tooltip();
                     }
                     console.log(result);
                 }, error: function(xhr, type){
