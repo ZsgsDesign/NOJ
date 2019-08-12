@@ -267,63 +267,67 @@
                         @guest
                             <button type="button" class="btn btn-secondary">Please Login</button>
                         @else
-                        @if($clearance==3)
-                        <a href="/contest/{{$detail['cid']}}/board/admin"><button type="button" class="btn btn-info">Manage</button></a>
-                        @else
-                            @if(strtotime($detail['begin_time']) > time())
-                                @if($detail["registration"])
-                                    {{--
-                                        Means need register
-                                        if alerady registered show registered
-                                        else if passed registration time or registration do not open to you show no access
-                                        else show apply
-                                    --}}
-                                    @if($registration)
-                                        <button type="button" class="btn btn-info">Registered</button>
-                                    @else
-                                        @if( strtotime($detail['registration_due']) < time() || $detail["registant_type"]==0 || ($detail["registant_type"]==1 && !$inGroup) )
-                                            <button type="button" class="btn btn-secondary">No Access</button>
-                                        @else
-                                            <button type="button" class="btn btn-primary" onclick="registContest()">Apply</button>
-                                            <script>
-                                                var registing=false;
-                                                function registContest(){
-                                                    if(registing) return;
-                                                    else registing=true;
-                                                    $.ajax({
-                                                        type: 'POST',
-                                                        url: '{{route("ajax.contest.registContest")}}',
-                                                        data: {
-                                                            cid: "{{$detail['cid']}}"
-                                                        },
-                                                        dataType: 'json',
-                                                        headers: {
-                                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                                        }, success: function(ret){
-                                                            console.log(ret);
-                                                            if(ret.ret==200){
-                                                                location.reload();
-                                                            }else{
-                                                                alert(ret.desc);
-                                                                registing=false;
-                                                            }
+                            @if($basic['public'] && !$basic['audit_status'])
+                            <button type="button" class="btn btn-secondary">Under Review</button>
+                            @else
+                                @if($clearance==3)
+                                    <a href="/contest/{{$detail['cid']}}/board/admin"><button type="button" class="btn btn-info">Manage</button></a>
+                                @else
+                                    @if(strtotime($detail['begin_time']) > time())
+                                        @if($detail["registration"])
+                                            {{--
+                                                Means need register
+                                                if alerady registered show registered
+                                                else if passed registration time or registration do not open to you show no access
+                                                else show apply
+                                            --}}
+                                            @if($registration)
+                                                <button type="button" class="btn btn-info">Registered</button>
+                                            @else
+                                                @if( strtotime($detail['registration_due']) < time() || $detail["registant_type"]==0 || ($detail["registant_type"]==1 && !$inGroup) )
+                                                    <button type="button" class="btn btn-secondary">No Access</button>
+                                                @else
+                                                    <button type="button" class="btn btn-primary" onclick="registContest()">Apply</button>
+                                                    <script>
+                                                        var registing=false;
+                                                        function registContest(){
+                                                            if(registing) return;
+                                                            else registing=true;
+                                                            $.ajax({
+                                                                type: 'POST',
+                                                                url: '{{route("ajax.contest.registContest")}}',
+                                                                data: {
+                                                                    cid: "{{$detail['cid']}}"
+                                                                },
+                                                                dataType: 'json',
+                                                                headers: {
+                                                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                                }, success: function(ret){
+                                                                    console.log(ret);
+                                                                    if(ret.ret==200){
+                                                                        location.reload();
+                                                                    }else{
+                                                                        alert(ret.desc);
+                                                                        registing=false;
+                                                                    }
+                                                                }
+                                                            });
                                                         }
-                                                    });
-                                                }
-                                            </script>
+                                                    </script>
+                                                @endif
+                                            @endif
+                                        @else
+                                            <button type="button" class="btn btn-secondary">Not Started Yet</button>
+                                        @endif
+                                    @else
+                                        @if($clearance)
+                                            <a href="/contest/{{$detail['cid']}}/board"><button type="button" class="btn btn-info">Enter</button></a>
+                                        @else
+                                            <button type="button" class="btn btn-secondary">No Access</button>
                                         @endif
                                     @endif
-                                @else
-                                    <button type="button" class="btn btn-secondary">Not Started Yet</button>
-                                @endif
-                            @else
-                                @if($clearance)
-                                    <a href="/contest/{{$detail['cid']}}/board"><button type="button" class="btn btn-info">Enter</button></a>
-                                @else
-                                    <button type="button" class="btn btn-secondary">No Access</button>
                                 @endif
                             @endif
-                        @endif
                         @endguest
                     </div>
                 </div>
