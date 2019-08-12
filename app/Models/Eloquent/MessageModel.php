@@ -22,12 +22,14 @@ class MessageModel extends Model
         $message->receiver = $config['receiver'];
         $message->title = $config['title'];
         $message->content = $config['content'];
+        /*
         if(isset($config['reply'])){
             $message->reply = $config['reply'];
         }
         if(isset($config['allow_reply'])){
             $message->reply = $config['allow_reply'];
         }
+        */
         $message->official = 1;
         $message->save();
         return true;

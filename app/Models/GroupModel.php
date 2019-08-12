@@ -112,6 +112,12 @@ class GroupModel extends Model
         ]);
     }
 
+    public function basic($gid)
+    {
+        $basic_info=DB::table($this->tableName)->where(["gid"=>$gid])->first();
+        return $basic_info;
+    }
+
     public function details($gcode)
     {
         $basic_info=DB::table($this->tableName)->where(["gcode"=>$gcode])->first();
