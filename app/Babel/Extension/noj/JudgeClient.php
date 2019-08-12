@@ -32,6 +32,13 @@ class JudgeClient
         if (is_null($languageConfig)) {
             throw new Exception("don't support \"$language\" language!");
         }
+        if ($config['spj_config']) {
+            $spjLanguageConfig=$this->getLanguageConfigByLanguage($config['spj_config'], true);
+            if (is_null($spjLanguageConfig)) {
+                throw new Exception("don't support \"{$config['spj_config']}\" language!");
+            }
+            $config['spj_config']=$spjLanguageConfig;
+        }
         $default=[
             'language_config' => $languageConfig,
             'src' => $src,
@@ -55,9 +62,9 @@ class JudgeClient
         ];
         return $this->post($this->serverBaseUrl.'/compile_spj', $data);
     }
-    public function getLanguageConfigByLanguage($language)
+    public function getLanguageConfigByLanguage($language, $spj=false)
     {
-        return $this->getLanguageConfigByKey($language.'_lang_config');
+        return $this->getLanguageConfigByKey($language.$spj?'_lang_spj_config':'_lang_config');
     }
     public function getLanguageConfigByKey($key)
     {
