@@ -28,9 +28,7 @@ class MessageModel extends Model
         if(isset($config['allow_reply'])){
             $message->reply = $config['allow_reply'];
         }
-        if(isset($config['official'])){
-            $message->official = $config['official'];
-        }
+        $message->official = 1;
         $message->save();
         return true;
     }
@@ -83,6 +81,7 @@ class MessageModel extends Model
                 'message.id as id',
                 'users.name as sender_name',
                 'users.avatar as sender_avatar',
+                'message.sender as sender',
                 'message.title as title',
                 'message.created_at as time',
                 'message.official as official',
@@ -113,6 +112,7 @@ class MessageModel extends Model
                 'message.id as id',
                 'users.name as sender_name',
                 'users.avatar as sender_avatar',
+                'message.sender as sender',
                 'message.title as title',
                 'message.content as content',
                 'message.created_at as time',

@@ -105,7 +105,7 @@
                 @foreach($messages as $message)
                     <message-card data-id="{{$message['id']}}" class="@if($message['unread']) @if($message['official']) official @else unread @endif @else read @endif">
                         <div>
-                            <div>@if($message['official'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a official message"></i>@endif <span class="sender_name">{{$message['sender_name']}}</span> <small class="wemd-grey-text"> {{$message['time']}}</small></div>
+                            <div><span class="sender_name">@if($message['sender'] == 1) NOJ Official  @else {{$message['sender_name']}} @endif</span> <small class="wemd-grey-text"> {{formatHumanReadableTime($message['time'])}}</small></div>
                             <div><img src="{{$message['sender_avatar']}}" class="cm-avatar"></div>
                         </div>
                         <div>

@@ -26,6 +26,10 @@
         color: rgba(0, 0, 0, 0.62);
     }
 
+    .sender_name{
+        font-weight: bolder;
+    }
+
     div.content img{
         max-width: calc(100% - 4rem);
     }
@@ -52,7 +56,7 @@
     <paper-card>
         <a class="btn btn-default" href="/message" role="button"><i class="MDI arrow-left"></i></a>
         <div class="sender">
-            <div>@if($message['official'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a official message"></i>@endif <span class="sender_name">{{$message['sender_name']}}</span> <small class="wemd-grey-text"> {{$message['time']}}</small></div>
+            <div><span class="sender_name">@if($message['sender'] == 1) NOJ Official  @else {{$message['sender_name']}} @endif</span> <small class="wemd-grey-text"> {{$message['time']}}</small></div>
             <div><img src="{{$message['sender_avatar']}}" class="cm-avatar"></div>
         </div>
         <h5 class="title">{{$message["title"]}}</h5>
