@@ -268,7 +268,7 @@
                             <button type="button" class="btn btn-secondary">Please Login</button>
                         @else
                         @if($clearance==3)
-                        <a href="/contest/{{$detail['cid']}}/board/admin"><button type="button" class="btn btn-info">Enter</button></a>
+                        <a href="/contest/{{$detail['cid']}}/board/admin"><button type="button" class="btn btn-info">Manage</button></a>
                         @else
                             @if(strtotime($detail['begin_time']) > time())
                                 @if($detail["registration"])
