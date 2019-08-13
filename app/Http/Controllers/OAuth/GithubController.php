@@ -14,6 +14,10 @@ class GithubController extends Controller
     public function redirectTo()
     {
         $accountModel = new AccountModel();
+        $info=$accountModel->detail(Auth::user()->id);
+        if(Auth::check() && $info['contest_account']){
+            return redirect('/account/settings');
+        }
         if(Auth::check() && $accountModel->getExtra(Auth::user()->id ,'github_id')){
             return view('oauth.index',[
                 'page_title'=>"OAuth",
