@@ -14,7 +14,7 @@ class AddHideToProblemTable extends Migration
     public function up()
     {
         Schema::table('problem', function (Blueprint $table) {
-            $table->integer('hide')->nullable();
+            $table->boolean('hide')->default(0)->nullable();
         });
     }
 
