@@ -30,12 +30,12 @@ class JudgeClient
     {
         $languageConfig=$this->getLanguageConfigByLanguage($language);
         if (is_null($languageConfig)) {
-            throw new Exception("don't support \"$language\" language!");
+            throw new \Exception("don't support \"$language\" language!");
         }
         if ($config['spj_config']) {
             $spjLanguageConfig=$this->getLanguageConfigByLanguage($config['spj_config'], true);
             if (is_null($spjLanguageConfig)) {
-                throw new Exception("don't support \"{$config['spj_config']}\" language!");
+                throw new \Exception("don't support \"{$config['spj_config']}\" language!");
             }
             $config['spj_config']=$spjLanguageConfig;
         }
