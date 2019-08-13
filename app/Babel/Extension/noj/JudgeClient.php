@@ -64,7 +64,7 @@ class JudgeClient
     }
     public function getLanguageConfigByLanguage($language, $spj=false)
     {
-        return $this->getLanguageConfigByKey($language.$spj?'_lang_spj_config':'_lang_config');
+        return $this->getLanguageConfigByKey($language.($spj?'_lang_spj_config':'_lang_config'));
     }
     public function getLanguageConfigByKey($key)
     {
