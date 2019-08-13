@@ -72,7 +72,8 @@ class AccountModel extends Model
                 'email_verified_at' => date("Y-m-d H:i:s"),
                 'password' => $pass,
                 'avatar' => "/static/img/avatar/default.png",
-                'contest_account' => $cid
+                'contest_account' => $cid,
+                'prefix' => $ccode,
             ]);
             $contestModel->grantAccess($uid, $cid, 1);
             $ret[]=[
