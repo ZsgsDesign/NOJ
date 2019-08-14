@@ -121,7 +121,7 @@ class AccountModel extends Model
         $ret["solvedCount"]=count($ret["solved"]);
         // Casual
         $ret["rank"]=Cache::tags(['rank',$ret["id"]])->get("rank", "N/A");
-        $ret["rankTitle"]=Cache::tags(['rank',$ret["id"]])->get("title");
+        $ret["rankTitle"]=Cache::tags(['rank',$ret["id"]])->get("title", "Recruit");
         $ret["rankTitleColor"]=RankModel::getColor($ret["rankTitle"]);
         // Professional
         $ret["professionalTitle"]=RankModel::getProfessionalTitle($ret["professional_rate"]);
