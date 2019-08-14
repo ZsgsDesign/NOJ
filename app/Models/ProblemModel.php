@@ -276,7 +276,7 @@ class ProblemModel extends Model
     {
         // $prob_list = DB::table($this->table)->select("pid","pcode","title")->get()->all(); // return a array
         $submissionModel=new SubmissionModel();
-        $preQuery=DB::table($this->table);
+        $preQuery=DB::table($this->table)->where('hide','=',0);
         if ($filter['oj']) {
             $preQuery=$preQuery->where(["OJ"=>$filter['oj']]);
         }
@@ -487,5 +487,10 @@ class ProblemModel extends Model
         }
 
         return $pid;
+    }
+
+    public function isHidden($pid)
+    {
+        return DB::table('problem')->where('pid','=',$pid)->get()->first()['hide'];
     }
 }
