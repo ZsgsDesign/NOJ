@@ -64,7 +64,7 @@ class ProblemController extends Controller
     {
         $problem=new ProblemModel();
         $prob_detail=$problem->detail($pcode);
-        if ($problem->isBlocked($prob_detail["pid"])) {
+        if ($problem->isBlocked($prob_detail["pid"]) || $problem->isHidden($prob_detail["pid"])) {
             return abort('403');
         }
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.detail', [
@@ -84,7 +84,7 @@ class ProblemController extends Controller
     {
         $problem=new ProblemModel();
         $prob_detail=$problem->detail($pcode);
-        if ($problem->isBlocked($prob_detail["pid"])) {
+        if ($problem->isBlocked($prob_detail["pid"]) || $problem->isHidden($prob_detail["pid"])) {
             return abort('403');
         }
         $solution=$problem->solutionList($prob_detail["pid"], Auth::check() ?Auth::user()->id : null);
@@ -112,7 +112,7 @@ class ProblemController extends Controller
         $account=new AccountModel();
 
         $prob_detail=$problem->detail($pcode);
-        if ($problem->isBlocked($prob_detail["pid"])) {
+        if ($problem->isBlocked($prob_detail["pid"]) || $problem->isHidden($prob_detail["pid"])) {
             return abort('403');
         }
         $compiler_list=$compiler->list($prob_detail["OJ"], $prob_detail["pid"]);
