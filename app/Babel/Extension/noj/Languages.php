@@ -19,7 +19,8 @@ class Languages
                 'run' => [
                     'command' => '{exe_path}',
                     'seccomp_rule' => 'c_cpp',
-                    'env' => $default_env
+                    'env' => $default_env,
+                    'memory_limit_check_only' => 1
                 ]
             ],
             'c_lang_spj_compile' => [
@@ -49,6 +50,7 @@ class Languages
                 'run' => [
                     'command' => '{exe_path}',
                     'seccomp_rule' => 'c_cpp',
+                    'memory_limit_check_only' => 1
                 ]
             ],
             'java_lang_config' => [
