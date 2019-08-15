@@ -597,10 +597,11 @@
 <script type="text/javascript" src="/static/library/dompurify/dist/purify.min.js"></script>
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [ ['$$$','$$$'], ["\\(","\\)"] ],
-        processEscapes: true
-      }
+        tex2jax: {
+            inlineMath: [ ['$$$','$$$'], ["\\(","\\)"] ],
+            processEscapes: true
+        },
+        showMathMenu: false
     });
 </script>
 <script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
