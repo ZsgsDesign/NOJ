@@ -98,8 +98,8 @@ class SubmissionController extends Controller
         $grid->score("Raw Score");
         $grid->filter(function(Grid\Filter $filter) {
             $filter->like('verdict');
-            $filter->match('cid');
-            $filter->match('uid');
+            $filter->equal('cid', 'Contest ID');
+            $filter->equal('uid', 'User ID');
         });
         return $grid;
     }
