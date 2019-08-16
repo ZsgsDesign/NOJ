@@ -97,8 +97,10 @@ class SubmissionController extends Controller
         $grid->coid("COID");
         $grid->score("Raw Score");
         $grid->filter(function(Grid\Filter $filter) {
-            $filter->like('verdict');
-            $filter->column(4, function ($filter) {
+            $filter->column(6, function ($filter) {
+                $filter->like('verdict');
+            });
+            $filter->column(6, function ($filter) {
                 $filter->equal('cid', 'Contest ID');
                 $filter->equal('uid', 'User ID');
                 $filter->equal('pid', 'Problem ID');
