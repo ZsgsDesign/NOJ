@@ -135,7 +135,7 @@ class SubmissionController extends Controller
         $show->coid('COID');
         $show->vcid('VCID');
         $show->score();
-        $show->share();
+        $show->share()->using(['No','Yes']);
         return $show;
     }
 
