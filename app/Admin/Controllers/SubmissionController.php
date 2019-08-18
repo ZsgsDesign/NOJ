@@ -142,10 +142,11 @@ class SubmissionController extends Controller
     private function codify($field, $lang=null){
         $field->unescape()->as(function ($value) use ($field,$lang) {
             $field->border = false;
+            $hash=md5($value);
             if($value===null || $value==="") $value=" ";
             return "
                 <style>
-                #x".md5($value)." {
+                #x$hash {
                     background: #ffffff;
                     border-top-left-radius: 0;
                     border-top-right-radius: 0;
@@ -154,16 +155,16 @@ class SubmissionController extends Controller
                     padding: 10px;
                     border: 1px solid #d2d6de;
                 }
-                #x".md5($value)." code {
+                #x$hash code {
                     background: #ffffff;
                 }
                 </style>
-                <pre id='x".md5($value)."'><code class='$lang'>".htmlspecialchars($value)."</code></pre>
+                <pre id='x$hash'><code class='$lang'>".htmlspecialchars($value)."</code></pre>
                 <script>
                     try{
-                        hljs.highlightBlock(document.querySelector('#x".md5($value)." code'));
+                        hljs.highlightBlock(document.querySelector('#x$hash code'));
                     }catch(err){
-                        window.addEventListener('load', function(){hljs.highlightBlock(document.querySelector('#x".md5($value)." code'));});
+                        window.addEventListener('load', function(){hljs.highlightBlock(document.querySelector('#x$hash code'));});
                     }
                 </script>
             ";
