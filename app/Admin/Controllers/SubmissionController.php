@@ -118,7 +118,56 @@ class SubmissionController extends Controller
     protected function detail($id)
     {
         $show=new Show(EloquentSubmissionModel::findOrFail($id));
+        $show->sid('SID');
+        $show->time();
+        $show->memory();
+        $show->verdict();
+        $show->color();
+        $show->language();
+        $show->submission_date();
+        $show->remote_id();
+        $this->codify($show->solution(),$show->getModel()->compiler->lang);
+        if(!blank($show->getModel()->compile_info))$this->codify($show->compile_info());
+        $show->uid('UID');
+        $show->pid('PID');
+        $show->cid('CID');
+        $show->jid('JID');
+        $show->coid('COID');
+        $show->vcid('VCID');
+        $show->score();
+        $show->share();
         return $show;
+    }
+
+    private function codify($field, $lang=null){
+        $field->unescape()->as(function ($value) use ($field,$lang) {
+            $field->border = false;
+            if($value===null || $value==="") $value=" ";
+            return "
+                <style>
+                #x".md5($value)." {
+                    background: #ffffff;
+                    border-top-left-radius: 0;
+                    border-top-right-radius: 0;
+                    border-bottom-right-radius: 3px;
+                    border-bottom-left-radius: 3px;
+                    padding: 10px;
+                    border: 1px solid #d2d6de;
+                }
+                #x".md5($value)." code {
+                    background: #ffffff;
+                }
+                </style>
+                <pre id='x".md5($value)."'><code class='$lang'>".htmlspecialchars($value)."</code></pre>
+                <script>
+                    try{
+                        hljs.highlightBlock(document.querySelector('#x".md5($value)." code'));
+                    }catch(err){
+                        window.addEventListener('load', function(){hljs.highlightBlock(document.querySelector('#x".md5($value)." code'));});
+                    }
+                </script>
+            ";
+        });
     }
 
     /**
