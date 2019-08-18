@@ -83,20 +83,21 @@ class SubmissionController extends Controller
         $grid->column('sid', "ID")->sortable();
         $grid->time("Time");
         $grid->memory("Memory");
-        $grid->verdict("Verdict")->display(function($verdict) {
+        $grid->verdict("Verdict")->display(function ($verdict) {
             return '<i class="fa fa-circle '.$this->color.'"></i> '.$verdict;
         });
         $grid->language("Language");
-        $grid->submission_date("Submission Date")->display(function($submission_date) {
+        $grid->submission_date("Submission Date")->display(function ($submission_date) {
             return date("Y-m-d H:i:s", $submission_date);
-        }); ;
+        });
+        ;
         $grid->uid("UID");
         $grid->cid("CID");
         $grid->pid("PID");
         $grid->jid("JID");
         $grid->coid("COID");
         $grid->score("Raw Score");
-        $grid->filter(function(Grid\Filter $filter) {
+        $grid->filter(function (Grid\Filter $filter) {
             $filter->column(6, function ($filter) {
                 $filter->like('verdict');
             });
@@ -126,8 +127,10 @@ class SubmissionController extends Controller
         $show->language();
         $show->submission_date();
         $show->remote_id();
-        $this->codify($show->solution(),$show->getModel()->compiler->lang);
-        if(!blank($show->getModel()->compile_info))$this->codify($show->compile_info());
+        $this->codify($show->solution(), $show->getModel()->compiler->lang);
+        if (!blank($show->getModel()->compile_info)) {
+            $this->codify($show->compile_info());
+        }
         $show->uid('UID');
         $show->pid('PID');
         $show->cid('CID');
@@ -139,11 +142,14 @@ class SubmissionController extends Controller
         return $show;
     }
 
-    private function codify($field, $lang=null){
+    private function codify($field, $lang=null)
+    {
         $field->unescape()->as(function ($value) use ($field,$lang) {
             $field->border = false;
             $hash=md5($value);
-            if($value===null || $value==="") $value=" ";
+            if (blank($value)) {
+                $value=" ";
+            }
             return "
                 <style>
                 #x$hash {
@@ -180,7 +186,7 @@ class SubmissionController extends Controller
     {
         $form=new Form(new EloquentSubmissionModel);
         $form->model()->makeVisible('password');
-        $form->tab('Basic', function(Form $form) {
+        $form->tab('Basic', function (Form $form) {
             $form->display('sid');
             $form->text('time')->rules('required');
             $form->text('memory')->rules('required');
