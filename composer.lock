@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f2e8edf80e54fa91f83d74f4183e095c",
+    "content-hash": "3063235dca197e5d0e2a8d14a70e3f45",
     "packages": [
         {
             "name": "composer/installers",
@@ -3216,6 +3216,25 @@
                 "type": "tar",
                 "url": "https://registry.npmjs.org/jquery-ui/-/jquery-ui-1.12.1.tgz",
                 "reference": null,
+                "shasum": null
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "npm-asset/lodash",
+            "version": "4.17.15-patch1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lodash/lodash.git",
+                "reference": "f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lodash/lodash/zipball/f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30",
+                "reference": "f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30",
                 "shasum": null
             },
             "type": "npm-asset",
