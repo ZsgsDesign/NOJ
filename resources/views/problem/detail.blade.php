@@ -195,6 +195,59 @@
         font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
     }
 
+    file-card{
+        display: flex;
+        align-items: center;
+        max-width: 100%;
+        border-radius: 4px;
+        transition: .2s ease-out .0s;
+        color: #7a8e97;
+        background: #fff;
+        padding: 1rem;
+        position: relative;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+    }
+
+    file-card a:hover{
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    file-card > div:first-of-type{
+        display: flex;
+        align-items: center;
+        padding-right:1rem;
+        width:5rem;
+        height:5rem;
+        flex-shrink: 0;
+        flex-grow: 0;
+    }
+
+    file-card img{
+        display: block;
+        width:100%;
+    }
+
+    file-card > div:last-of-type{
+        flex-shrink: 1;
+        flex-grow: 1;
+    }
+
+    file-card p{
+        margin:0;
+        line-height: 1;
+        font-family: 'Roboto';
+    }
+
+    file-card h5{
+        margin:0;
+        font-size: 1.25rem;
+        margin-bottom: .5rem;
+        font-family: 'Roboto';
+        font-weight: 400;
+        line-height: 1.2;
+    }
+
     @media print{
         .no-print{
             display:none;
@@ -217,23 +270,31 @@
                         <info-badge data-toggle="tooltip" data-placement="top" title="Memory Limit"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
                     </info-div>
 
-                    @unless(trim($detail["parsed"]["description"])=="")
+                    @if($detail["file"])
+                        <file-card class="mt-4 mb-3">
+                            <div>
+                                <img src="https://cdn.mundb.xyz/img/files/unknown.svg">
+                            </div>
+                            <div>
+                                <h5 class="mundb-text-truncate-1">{{basename($detail["file_url"])}}</h5>
+                                <p><a class="text-info" href="{{asset($detail["file_url"])}}">Download</a></p>
+                            </div>
+                        </file-card>
+                    @endif
+
+                    @if($detail["file"] && $detail["pdf"] && $detail["viewerShow"])
+                        <iframe seamless="true" id="description_pdf" src ="{{asset($detail["file_url"])}}" width="100%" height="800px" scrolling="auto" frameborder="0" class="mt-3 mb-3"></iframe>
+                    @endif
+
+                    @unless(blank($detail["parsed"]["description"]))
 
                     <h2>Description:</h2>
 
                     {!!$detail["parsed"]["description"]!!}
-                    @if($detail["parsed"]["file"]==1)
-                        <iframe 
-                            id="description_pdf"
-                            src ="{{ asset(  $detail['parsed']['pdf_url']  ) }}" 
-                            width="100%" height="800px" scrolling="auto" 
-                            frameborder="0" >
-                        </iframe>
-                    @endif
 
                     @endunless
 
-                    @unless(trim($detail["parsed"]["input"])=="")
+                    @unless(blank($detail["parsed"]["input"]))
 
                     <h2>Input:</h2>
 
@@ -241,7 +302,7 @@
 
                     @endunless
 
-                    @unless(trim($detail["parsed"]["output"])=="")
+                    @unless(blank($detail["parsed"]["output"]))
 
                     <h2>Output:</h2>
 
@@ -261,11 +322,11 @@
                         <pre>{!!$ps['sample_output']!!}</pre>
                         @endif
 
-                        @if ($ps['sample_note']) {!!$ps['sample_note']!!} @endif
+                        @unless (blank($ps['sample_note'])) {!!$ps['sample_note']!!} @endunless
 
                     @endforeach
 
-                    @unless(trim($detail["parsed"]["note"])=="")
+                    @unless(blank($detail["parsed"]["note"]))
 
                     <h2>Note:</h2>
 
@@ -319,7 +380,7 @@ highlighter
 .on('selection:click', ({id}) => {
     highlighter.removeClass('highlight-mengshou-wrap', id);
 })
-highlighter.run(); 
+highlighter.run();
 </script>
 
 <script>
