@@ -47,9 +47,10 @@ class ProblemModel extends Model
             }
             $prob_detail["pdf"]=false;
             $prob_detail["viewerShow"]=false;
+            $prob_detail["file_ext"]=null;
             if($prob_detail['file'] && !blank($prob_detail['file_url'])){
-                // $fileExt=end(explode('.',basename($prob_detail['file_url'])));
-                // $prob_detail["pdf"]=strtolower($fileExt)=='pdf';
+                $prob_detail["file_ext"]=explode('.',basename($prob_detail['file_url']));
+                $prob_detail["file_ext"]=end($prob_detail["file_ext"]);
                 $prob_detail["pdf"]=Str::is("*.pdf", basename($prob_detail['file_url']));
                 $prob_detail["viewerShow"]= blank($prob_detail["parsed"]["description"]) &&
                                             blank($prob_detail["parsed"]["input"]) &&
