@@ -270,7 +270,7 @@
                         <info-badge data-toggle="tooltip" data-placement="top" title="Memory Limit"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
                     </info-div>
 
-                    @if($detail["file"])
+                    @if($detail["file"] && !blank($detail["file_url"]))
                         <file-card class="mt-4 mb-3">
                             <div>
                                 <img src="https://cdn.mundb.xyz/img/files/unknown.svg">
