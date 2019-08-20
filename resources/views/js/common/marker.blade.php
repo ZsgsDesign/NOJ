@@ -44,6 +44,7 @@
         padding: .5rem;
         color: #8395a1;
         position: relative;
+        line-height: 1;
     }
 
     .marker__action:hover {
