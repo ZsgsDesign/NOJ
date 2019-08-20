@@ -105,7 +105,7 @@
     }
 
     .cm-countdown{
-        font-family: 'Montserrat';
+        font-family: 'Roboto Slab';
         font-size: 3rem;
         text-align: center;
         color: rgba(0, 0, 0, 0.42);

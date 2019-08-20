@@ -974,6 +974,7 @@ class ContestModel extends Model
     public function remoteAnnouncement($remote_code) {
         return DB::table("contest_clarification")->where("remote_code", $remote_code)->get()->first();
     }
+
     public function isContestEnded($cid)
     {
         return DB::table("contest")->where("cid", $cid)->where("end_time", "<", date("Y-m-d H:i:s"))->count();
@@ -1845,7 +1846,8 @@ class ContestModel extends Model
         return Cache::tags(['contest', 'account'])->get($cid);
     }
 
-    public function praticeAnalysis($cid){
+    public function praticeAnalysis($cid)
+    {
         $gid = DB::table('contest')
             ->where('cid',$cid)
             ->first()['gid'];
@@ -1909,6 +1911,36 @@ class ContestModel extends Model
         return DB::table('contest')->where('cid','=',$cid)->pluck('verified')->first();
     }
 
+    public function getScrollBoardData($cid)
+    {
+        $members = DB::table("submission")
+            ->join('users','users.id','=','submission.uid')
+            ->join('contest', 'contest.cid', '=', 'submission.cid')
+            ->join('group_member', 'users.id', '=', 'group_member.uid')
+            ->where('submission.cid', $cid)->select('users.id as uid','users.name as name','group_member.nick_name as nick_name')
+            ->groupBy('uid')->get()->all();
+        $submissions = DB::table("submission")
+            ->where('cid', $cid)
+            ->select('sid', 'verdict', 'submission_date', 'pid', 'uid')
+            ->orderBy('submission_date')
+            ->get()->all();
+        $problems = DB::table('contest_problem')
+            ->where('cid', $cid)
+            ->select('ncode','pid')
+            ->orderBy('ncode')
+            ->get()->all();
+        $contest = DB::table('contest')
+            ->where('cid',$cid)
+            ->select('begin_time','end_time','froze_length')
+            ->first();
+        return [
+            'members' => $members,
+            'submissions' => $submissions,
+            'problems' => $problems,
+            'contest' => $contest,
+        ];
+    }
+  
     public function judgeOver($cid)
     {
         $submissions =  DB::table('submission')

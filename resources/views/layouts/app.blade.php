@@ -154,6 +154,7 @@
     <!-- Style -->
     <link rel="stylesheet" href="/static/fonts/Roboto/roboto.css">
     <link rel="stylesheet" href="/static/fonts/Montserrat/montserrat.css">
+    <link rel="stylesheet" href="/static/fonts/Roboto-Slab/roboto-slab.css">
     <link rel="stylesheet" href="/static/library/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
     <link rel="stylesheet" href="/static/css/wemd-color-scheme.css">
     <link rel="stylesheet" href="/static/css/main.css?version={{version()}}">
@@ -180,11 +181,10 @@
                 </a>
 
             @endif
-
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
@@ -236,13 +236,15 @@
                         }}">
                     </form>
                     @endif
-
+                    @if(Auth::check())
+                    <i style="color:hsla(0,0%,100%,.5);margin-left:0.9rem;margin-top:-0.05rem;cursor:pointer" onclick="window.location='/message'" id="message-tip" class="MDI bell" data-toggle="tooltip" data-placement="bottom" title="loading..."></i>
+                    @endif
                     <li class="nav-item mundb-no-shrink />">
                         @guest
                             <a class="nav-link @if ($navigation === "Account") active @endif" href="/account">Account</a>
                         @else
                             <li class="nav-item dropdown mundb-btn-ucenter">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{$greeting}}, <span id="nav-username">{{ Auth::user()["name"] }}</span></a>
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{$greeting}}, <span id="nav-username" data-uid="{{Auth::user()->id}}">{{ Auth::user()["name"] }}</span></a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <div class="dropdown-header"><img src="{{ Auth::user()->avatar }}" class="mundb-avatar" id="atsast_nav_avatar" /><div><h6><span id="nav-dropdown-username">{{ Auth::user()["name"] }}</span><br/><small>{{ Auth::user()->email }}</small></h6></div></div>
                                     <div class="dropdown-divider"></div>

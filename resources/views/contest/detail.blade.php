@@ -117,7 +117,7 @@
     fresh-container {
         display: block;
         all: initial;
-        font-family: 'Montserrat';
+        font-family: 'Roboto Slab';
     }
 
     fresh-container h1,

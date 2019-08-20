@@ -33,6 +33,41 @@
         $('.modal').on('shown.bs.modal', function (e) {
             changeDepth();
         });
+
+        if($('#nav-username').length != 0){
+            var uid = $('#nav-username').attr('data-uid');
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/message/unread',
+                data: {
+                    uid: uid
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(result){
+                    if(result.ret == '200' && result.data.length != 0){
+                        $("#message-tip").attr('title',`You have ${result.data.length} new messages.`)
+                        $("#message-tip").tooltip('dispose');
+                        $("#message-tip").tooltip();
+                        window['message_tip'] = setInterval(() => {
+                            $("#message-tip").animate({
+                                opacity: !parseInt($('#message-tip').css('opacity'))
+                            },200)
+                        }, 400);
+                    }else{
+                        $("#message-tip").attr('title',`You have no messages.`);
+                        $("#message-tip").tooltip('dispose');
+                        $("#message-tip").tooltip();
+                    }
+                    console.log(result);
+                }, error: function(xhr, type){
+                    console.log('Ajax error!');
+                    ajaxing=false;
+                }
+            });
+        }
+
     }, false);
 
     function changeDepth(){
@@ -167,5 +202,9 @@
         var exdate=new Date();
         exdate.setDate(exdate.getDate()+expiredays);
         document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString()) + ";domain={{env('SESSION_DOMAIN')}}";
+    }
+
+    function delay(ms){
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 </script>

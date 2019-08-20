@@ -1,0 +1,10 @@
+{
+    "modifications":[{
+        "code":"go",
+        "compability":"go",
+        "language":"go",
+        "icon":"devicon-go-plain",
+        "display":"Go",
+        "method":"add"
+    }]
+}

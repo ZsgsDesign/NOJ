@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use App\Models\Rating\GroupRatingCalculator;
-use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Cache;
 use Auth;
-use App\Models\Eloquent\ContestModel;
+use App\Models\ContestModel;
 
 class GroupModel extends Model
 {
@@ -110,6 +109,12 @@ class GroupModel extends Model
         return DB::table("group")->where('gid',$gid)->update([
             "join_policy"=>$JoinPolicy
         ]);
+    }
+
+    public function basic($gid)
+    {
+        $basic_info=DB::table($this->tableName)->where(["gid"=>$gid])->first();
+        return $basic_info;
     }
 
     public function details($gcode)
@@ -601,7 +606,7 @@ class GroupModel extends Model
             return [];
         }
         $result = [];
-        $contestModel = new \App\Models\ContestModel();
+        $contestModel = new ContestModel();
         foreach ($contests as $contest) {
             $judge_status = $contestModel->judgeOver($contest['cid']);
             if($judge_status['result'] == true){

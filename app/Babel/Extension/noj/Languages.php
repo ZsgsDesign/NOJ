@@ -118,6 +118,22 @@ class Languages
                     'seccomp_rule' => null,
                     'memory_limit_check_only' => 1
                 ]
+            ],
+            'go_lang_config' => [
+                'name' => 'go',
+                'compile' => [
+                    'src_name' => 'main.go',
+                    'exe_name' => 'main',
+                    'max_cpu_time' => 3000,
+                    'max_real_time' => 10000,
+                    'max_memory' => 1024 * 1024 * 1024,
+                    'compile_command' => '/usr/bin/go build -o {exe_path} {src_path}',
+                ],
+                'run' => [
+                    'command' => '{exe_path}',
+                    'seccomp_rule' => null,
+                    'env' => $default_env
+                ]
             ]
         ];
     }
