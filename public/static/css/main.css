@@ -328,3 +328,12 @@ input::-webkit-search-decoration,
 input::-webkit-search-cancel-button {
     display: none;
 }
+
+code {
+    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-size: .85em !important;
+    color: #000;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    padding: .2em .4em;
+}
