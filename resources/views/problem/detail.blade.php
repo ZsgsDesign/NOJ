@@ -261,7 +261,7 @@
 <div class="container mundb-standard-container">
     <div class="row">
         <div class="col-sm-12 col-lg-9">
-            <paper-card id="hightLight-root" class="animated fadeInLeft p-5">
+            <paper-card class="animated fadeInLeft p-5">
                 <link rel="stylesheet" href="/static/css/oj/{{$detail["oj_detail"]["ocode"]}}.css">
                 <fresh-container>
                     <h1>{{$detail["title"]}}</h1>
@@ -288,6 +288,8 @@
                     @if($detail["file"] && $detail["pdf"] && $detail["viewerShow"])
                         <iframe seamless="true" id="description_pdf" src ="{{asset($detail["file_url"])}}" width="100%" height="800px" scrolling="auto" frameborder="0" class="mt-3 mb-3"></iframe>
                     @endif
+
+                    <div data-marker-enabled>
 
                     @unless(blank($detail["parsed"]["description"]))
 
@@ -337,6 +339,8 @@
 
                     @endunless
 
+                    </div>
+
                 </fresh-container>
             </paper-card>
         </div>
@@ -374,21 +378,10 @@
 </div>
 
 
-@include('js.common.webHighLighter');
-<script>
-const highlighter = new Highlighter({
-    $root:document.querySelector('#hightLight-root')
-});
-highlighter
-.on('selection:click', ({id}) => {
-    highlighter.removeClass('highlight-mengshou-wrap', id);
-})
-highlighter.run();
-</script>
-
+@include('js.common.markerPen')
 <script>
     window.addEventListener("load",function() {
-
+        MarkerPen.initAll();
     }, false);
 
     document.getElementById("submitBtn").addEventListener("click",function(){
