@@ -253,13 +253,13 @@ class GroupManageController extends Controller
         $groupModel->inviteMember($all_data["gid"], $all_data["email"]);
         $basic = $groupModel->basic($all_data['gid']);
         $url = route('group.detail',['gcode' => $basic['gcode']]);
-        $receiver_id = UserModel::where('email',$all_data['email'])->first()['id'];
+        $receiverInfo = UserModel::where('email',$all_data['email'])->first();
         $sender_name = Auth::user()->name;
         sendMessage([
-            'receiver' => $receiver_id,
+            'receiver' => $receiverInfo["id"],
             'sender' => Auth::user()->id,
-            'title' => 'A group invitation.',
-            'content' => "{$sender_name} has just invited you to join the group **[{$basic['name']}]({$url})**."
+            'title' => "{$sender_name} invites you to group {$basic['name']}",
+            'content' => "Hi, dear **{$receiverInfo['name']}**.\n\n**{$sender_name}** has just invited you to join the group **[{$basic['name']}]({$url})**. Take a look and meet other fascinating people right now!\n\nSincerely, NOJ"
         ]);
         return ResponseModel::success(200);
     }
