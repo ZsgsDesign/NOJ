@@ -26,7 +26,7 @@ class ProblemSearchModel extends Model
         }
         $problemModel = new ProblemModel();
         foreach ($result as $p_index => $p) {
-            if($problemModel->isBlocked($p['pid'])){
+            if($problemModel->isBlocked($p['pid']) || $problemModel->isHidden($p["pid"])){
                 unset($result[$p_index]);
             }
         }

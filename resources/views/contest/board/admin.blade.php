@@ -94,6 +94,7 @@
     <paper-card>
         <h5>{{$contest_name}}</h5>
         <nav-div>
+            @if(time() >= strtotime($basic['begin_time']))
             <a href="/contest/{{$cid}}/board/challenge"><nav-item>Challenge</nav-item></a>
             <a href="/contest/{{$cid}}/board/rank"><nav-item>Rank</nav-item></a>
             <a href="/contest/{{$cid}}/board/status"><nav-item>Status</nav-item></a>
@@ -101,6 +102,7 @@
             <a href="/contest/{{$cid}}/board/print"><nav-item>Print</nav-item></a>
             @if($basic['practice'])
                 <a href="/contest/{{$cid}}/board/analysis"><nav-item>Analysis</nav-item></a>
+            @endif
             @endif
             @if($clearance>2)
             <a href="/contest/{{$cid}}/board/admin"><nav-item class="active">Admin</nav-item></a>
@@ -113,12 +115,15 @@
                     <a href="#" class="list-group-item admin-tab-text wemd-light-blue wemd-lighten-4"> Account Generate</a>
                 </ul>
                 @endif
+                @if(time() >= strtotime($basic['begin_time']))
                 <ul class="list-group bmd-list-group p-0">
                     <a href="/contest/{{$cid}}/board/clarification" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Issue Clarification</a>
                 </ul>
+                @endif
                 <ul class="list-group bmd-list-group p-0">
                     <a href="/group/{{$gcode}}/settings/contest" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Contest Management</a>
                 </ul>
+                @if(time() >= strtotime($basic['begin_time']))
                 <ul class="list-group bmd-list-group p-0">
                     <a href="/contest/{{$cid}}/admin/refreshContestRank" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Refresh Contest Rank</a>
                 </ul>

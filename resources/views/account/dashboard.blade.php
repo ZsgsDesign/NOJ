@@ -586,6 +586,7 @@
                             </div>
                         </form>
                     </extra-section>
+                    @if(!$info['contest_account'])
                     <socialite-setting class="paper-card">
                         <p>Socialite Account Binding</p>
                         <div class="text-center">
@@ -622,6 +623,7 @@
                             @endunless
                         </div>
                     </email-section>
+                    @endif
                     <password-section class="paper-card">
                         <p>Change password</p>
                         <div class="form-group">

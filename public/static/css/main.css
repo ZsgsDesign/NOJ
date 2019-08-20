@@ -289,6 +289,13 @@ version-badge > inline-div:last-of-type{
     cursor: auto;
 }
 
+/* Image Override */
+
+fresh-container img{
+    max-width: 100%;
+}
+
+
 /* Reply-Quote */
 
 fresh-container reply-quote{

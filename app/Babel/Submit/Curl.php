@@ -59,7 +59,7 @@ class Curl
         if(isset($all_data["headers"])) $headers = $all_data["headers"];    else $headers = [];
         if(isset($all_data["handle"]))  $handle = $all_data["handle"];      else $handle = "default";
         if(isset($all_data["follow"]))  $follow = $all_data["follow"];      else $follow = false;
-        if(isset($all_data["vcid"]))  $vcid = $all_data["vcid"];      else $vcid = "";
+        if(isset($all_data["vcid"]))  $vcid = $all_data["vcid"]."_";      else $vcid = "";
 
         $handle=urlencode($handle);
 
@@ -95,7 +95,7 @@ class Curl
         if(isset($all_data["postJson"]))     $postJson = $all_data["postJson"];         else $postJson = false;
         if(isset($all_data["extraHeaders"])) $extraHeaders = $all_data["extraHeaders"]; else $extraHeaders = [];
         if(isset($all_data["handle"]))       $handle = $all_data["handle"];             else $handle = "default";
-        if(isset($all_data["vcid"]))  $vcid = $all_data["vcid"];      else $vcid = "";
+        if(isset($all_data["vcid"]))  $vcid = $all_data["vcid"]."_";      else $vcid = "";
 
         $handle=urlencode($handle);
 

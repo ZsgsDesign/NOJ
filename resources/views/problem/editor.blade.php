@@ -748,7 +748,7 @@
             <middle-slider>
             </middle-slider>
             <right-side style="background: rgb(30, 30, 30);">
-                <div id="vscode_container" style="width:100%;height:100%;">
+                <div id="vscode_container" class="notranslate" style="width:100%;height:100%;">
                     <div id="vscode" style="width:100%;height:100%;"></div>
                 </div>
             </right-side>
@@ -874,10 +874,11 @@
     <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
-          tex2jax: {
-            inlineMath: [ ['$$$','$$$'], ["\\(","\\)"] ],
-            processEscapes: true
-          }
+            tex2jax: {
+                inlineMath: [ ['$$$','$$$'], ["\\(","\\)"] ],
+                processEscapes: true
+            },
+            showMathMenu: false
         });
     </script>
     <script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>

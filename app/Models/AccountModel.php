@@ -61,7 +61,7 @@ class AccountModel extends Model
     public function generateContestAccount($cid, $ccode, $num)
     {
         $ret=[];
-        $starting=DB::table("users")->where(["contest_account"=>$cid])->count();
+        $starting=DB::table("users")->where('prefix','=',$ccode)->count();
         $contestModel=new ContestModel();
         for ($i=1; $i<=$num; $i++) {
             $pass=$this->generatePassword();
@@ -72,7 +72,8 @@ class AccountModel extends Model
                 'email_verified_at' => date("Y-m-d H:i:s"),
                 'password' => $pass,
                 'avatar' => "/static/img/avatar/default.png",
-                'contest_account' => $cid
+                'contest_account' => $cid,
+                'prefix' => $ccode,
             ]);
             $contestModel->grantAccess($uid, $cid, 1);
             $ret[]=[
@@ -121,7 +122,7 @@ class AccountModel extends Model
         $ret["solvedCount"]=count($ret["solved"]);
         // Casual
         $ret["rank"]=Cache::tags(['rank',$ret["id"]])->get("rank", "N/A");
-        $ret["rankTitle"]=Cache::tags(['rank',$ret["id"]])->get("title");
+        $ret["rankTitle"]=Cache::tags(['rank',$ret["id"]])->get("title", "Recruit");
         $ret["rankTitleColor"]=RankModel::getColor($ret["rankTitle"]);
         // Professional
         $ret["professionalTitle"]=RankModel::getProfessionalTitle($ret["professional_rate"]);

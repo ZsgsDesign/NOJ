@@ -66,6 +66,7 @@ class IndexController extends Controller
         $contestModel=new ContestModel();
         $groupModel=new GroupModel();
         $clearance=Auth::check() ? $contestModel->judgeClearance($cid, Auth::user()->id) : 0;
+        $basic = $contestModel->basic($cid);
         if (Auth::check()) {
             $contest_detail=$contestModel->detail($cid, Auth::user()->id);
             $registration=$contestModel->registration($cid, Auth::user()->id);
@@ -85,7 +86,8 @@ class IndexController extends Controller
             'detail'=>$contest_detail["data"]["contest_detail"],
             'clearance' => $clearance,
             'registration' => $registration,
-            'inGroup' => $inGroup
+            'inGroup' => $inGroup,
+            'basic' => $basic,
         ]);
     }
 }
