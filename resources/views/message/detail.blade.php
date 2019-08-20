@@ -35,7 +35,7 @@
         max-width: calc(100% - 4rem);
     }
 
-    h5.title  {
+    h5.msg-title  {
         font-weight: bold;
         font-family: 'Roboto Slab';
         margin-bottom: 1rem;
@@ -56,7 +56,7 @@
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
-        <h5 class="title"><a class="btn btn-default" href="/message" role="button"><i class="MDI arrow-left"></i></a> {{$message["title"]}}</h5>
+        <h5 class="msg-title"><a class="btn btn-default" href="/message" role="button"><i class="MDI arrow-left"></i></a> {{$message["title"]}}</h5>
         <div class="sender">
             <div class="pr-3"><img src="{{$message['sender_avatar']}}" class="cm-avatar"></div>
             <div>
