@@ -1,3 +1,73 @@
+<style>
+    [data-marker-enabled] {
+        outline: 0
+    }
+
+    .marker {
+        position: fixed;
+        z-index: 100;
+        display: none;
+        box-shadow: 0 2px 7px rgba(0,0,0,.3);
+        font-size: .8125rem;
+        transition: opacity .1s ease-out,-webkit-transform .1s ease-out;
+        transition: transform .1s ease-out,opacity .1s ease-out;
+        transition: transform .1s ease-out,opacity .1s ease-out,-webkit-transform .1s ease-out;
+        -webkit-transform: scale(.8);
+        transform: scale(.8);
+        -webkit-transform-origin: 0 100%;
+        transform-origin: 0 100%;
+        pointer-events: none;
+        background: #fff;
+        padding: 1px;
+        border: 1px solid #aaa;
+    }
+
+    .marker.open {
+        -webkit-transform: none;
+        transform: none;
+        pointer-events: auto;
+    }
+
+    .marker__toolbar {
+        padding: 1px;
+        background: #f2f6f7;
+        white-space: nowrap;
+        font-size: 0;
+    }
+
+    .marker__action {
+        display: inline-block;
+        text-align: center;
+        font-size: 1rem;
+        vertical-align: top;
+        cursor: pointer;
+        padding: .5rem;
+        color: #8395a1;
+        position: relative;
+    }
+
+    .marker__action:hover {
+        background: #e3e7e8;
+        color: #5a6b75;
+    }
+
+    .marker__icon {
+        display: block;
+        margin: .125rem;
+        width: .75rem;
+        height: .75rem;
+        border-radius: 50%;
+    }
+
+    .marker__icon.icon-yellow {
+        background: #ffc100;
+    }
+
+    .marker__icon.icon-green {
+        background: #54d651;
+    }
+</style>
+
 @include('js.common.lodash')
 <script>
 const MARKER_ID = `marker_${Math.floor(Math.random() * 0xFFFFFF).toString(16)}`;
@@ -32,9 +102,9 @@ class Marker {
     }
     this.$dom = $(`
       <div class="marker" id="${MARKER_ID}"><div class="marker__toolbar">
-        <div class="marker__action" data-color="#ffff00" data-tooltip="Mark Yellow"><span class="marker__icon icon-yellow"></span></div>
-        <div class="marker__action" data-color="#47ff6f" data-tooltip="Mark Green"><span class="marker__icon icon-green"></span></div>
-        <div class="marker__action" data-color="transparent" data-tooltip="Clear Marks"><span class="icon icon-erase"></span></div>
+        <div class="marker__action" data-color="#ffeb3b" data-tooltip="Mark Yellow"><span class="MDI checkbox-blank-circle wemd-yellow-text"></span></div>
+        <div class="marker__action" data-color="#8bc34a" data-tooltip="Mark Green"><span class="MDI checkbox-blank-circle wemd-light-green-text"></span></div>
+        <div class="marker__action" data-color="transparent" data-tooltip="Clear Marks"><span class="MDI eraser"></span></div>
       </div></div>
     `)
       .appendTo('body');

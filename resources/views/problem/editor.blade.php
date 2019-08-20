@@ -685,6 +685,8 @@
                             <iframe seamless="true" id="description_pdf" src ="{{asset($detail["file_url"])}}" width="100%" height="800px" scrolling="auto" frameborder="0" class="mt-3 mb-3"></iframe>
                         @endif
 
+                        <div data-marker-enabled>
+
                         @unless(blank($detail["parsed"]["description"]))
 
                         <h2>Description:</h2>
@@ -732,6 +734,8 @@
                         {!!$detail["parsed"]["note"]!!}
 
                         @endunless
+
+                        </div>
 
                     </fresh-container>
                 </div>
@@ -862,6 +866,7 @@
             }, 2000);
         });
     </script>
+    @include('js.common.markerPen')
     <script src="/static/library/jquery/dist/jquery.min.js"></script>
     <script src="/static/library/popper.js/dist/umd/popper.min.js"></script>
     <script src="/static/library/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"></script>
@@ -877,7 +882,6 @@
     <script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     @include('layouts.primaryJS')
     @include('js.submission.detail')
-    @include('js.common.markerPen')
 
     @if(!$contest_mode)
     @include('components.congratulation')
