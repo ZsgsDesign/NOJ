@@ -235,7 +235,9 @@
                         }}">
                     </form>
                     @endif
+                    @if(Auth::check())
                     <i style="color:hsla(0,0%,100%,.5);margin-left:0.9rem;margin-top:-0.05rem;cursor:pointer" onclick="window.location='/message'" id="message-tip" class="MDI bell" data-toggle="tooltip" data-placement="bottom" title="loading..."></i>
+                    @endif
                     <li class="nav-item mundb-no-shrink />">
                         @guest
                             <a class="nav-link @if ($navigation === "Account") active @endif" href="/account">Account</a>
