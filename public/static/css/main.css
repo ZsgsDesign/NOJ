@@ -329,7 +329,7 @@ input::-webkit-search-cancel-button {
     display: none;
 }
 
-code {
+*:not(pre) > code {
     font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
     font-size: .85em !important;
     color: #000;

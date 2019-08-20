@@ -59,7 +59,7 @@
 
     timeline-item[data-type^="notice"] > div:last-of-type h5 {
         font-weight: bold;
-        font-family: 'Montserrat';
+        font-family: 'Roboto Slab';
         margin-bottom: 1rem;
     }
 

@@ -131,6 +131,7 @@
     <!-- Style -->
     <link rel="stylesheet" href="/static/fonts/Roboto/roboto.css">
     <link rel="stylesheet" href="/static/fonts/Montserrat/montserrat.css">
+    <link rel="stylesheet" href="/static/fonts/Roboto-Slab/roboto-slab.css">
     <link rel="stylesheet" href="/static/library/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
     <link rel="stylesheet" href="/static/css/wemd-color-scheme.css">
     <link rel="stylesheet" href="/static/css/main.css?version={{version()}}">
@@ -158,7 +159,7 @@
         fresh-container {
             display: block;
             all: initial;
-            font-family: 'Montserrat';
+            font-family: 'Roboto Slab';
         }
 
         fresh-container h1,

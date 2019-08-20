@@ -36,7 +36,7 @@
 
     h5.title  {
         font-weight: bold;
-        font-family: 'Montserrat';
+        font-family: 'Roboto Slab';
         margin-bottom: 1rem;
     }
 
