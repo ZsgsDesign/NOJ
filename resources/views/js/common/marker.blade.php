@@ -43,9 +43,9 @@ class Marker {
     this.isOpen = false;
     this.bindedHandlers = false;
     this._onKeyDown = this.onKeyDown.bind(this);
-    this._onScroll = throttle(this.onScroll.bind(this), 50);
+    this._onScroll = _.throttle(this.onScroll.bind(this), 50);
     this._onMouseDown = this.onMouseDown.bind(this);
-    this._onMouseMove = throttle(this.onMouseMove.bind(this), 50);
+    this._onMouseMove = _.throttle(this.onMouseMove.bind(this), 50);
     markerInstance = this;
   }
 
@@ -90,7 +90,6 @@ class Marker {
       return;
     }
     this.isOpen = false;
-    this.closeTooltipsImmediately();
     this.unbindEventHandlers();
     this.$dom
       .css({ opacity: 0 })
@@ -99,17 +98,6 @@ class Marker {
     if (!this.isOpen) {
       this.$dom.hide();
     }
-  }
-
-  closeTooltipsImmediately() {
-    const $elements = this.$dom.find('[data-tooltip]');
-    $elements.get().forEach((element) => {
-      const $el = $(element);
-      const tooltipInstance = Tooltip.get($el);
-      if (tooltipInstance) {
-        tooltipInstance.detach();
-      }
-    });
   }
 
   bindEventHandlersForClosing() {
