@@ -37,6 +37,7 @@
         "npm-asset/chart.js": "^2.8",
         "npm-asset/clipboard": "^2.0",
         "npm-asset/dompurify": "^1.0",
+        "npm-asset/fileicon-svg": "^1.0",
         "npm-asset/highlightjs": "^9.12",
         "npm-asset/jquery": "^3.3",
         "npm-asset/jquery-datetimepicker": "^2.5",

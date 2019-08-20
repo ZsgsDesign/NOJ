@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b6668d8fb68f95633efb90dabb2888e",
+    "content-hash": "f2e8edf80e54fa91f83d74f4183e095c",
     "packages": [
         {
             "name": "composer/installers",
@@ -3118,6 +3118,20 @@
             "type": "npm-asset",
             "license": [
                 "MPL-2.0 OR Apache-2.0"
+            ]
+        },
+        {
+            "name": "npm-asset/fileicon-svg",
+            "version": "1.0.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/fileicon-svg/-/fileicon-svg-1.0.0.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
             ]
         },
         {
