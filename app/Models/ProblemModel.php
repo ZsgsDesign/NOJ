@@ -421,6 +421,7 @@ class ProblemModel extends Model
         $pid=DB::table($this->table)->insertGetId([
             'difficulty'=>-1,
             'file'=>$data['file'],
+            'file_url'=>$data['file_url'],
             'title'=>$data['title'],
             'time_limit'=>$data['time_limit'],
             'memory_limit'=>$data['memory_limit'],
@@ -464,6 +465,7 @@ class ProblemModel extends Model
         DB::table($this->table)->where(["pcode"=>$data['pcode']])->update([
             'difficulty'=>-1,
             'file'=>$data['file'],
+            'file_url'=>$data['file_url'],
             'title'=>$data['title'],
             'time_limit'=>$data['time_limit'],
             'memory_limit'=>$data['memory_limit'],
@@ -728,7 +730,7 @@ class ProblemModel extends Model
         ]);
         return $pdcid;
     }
-  
+
     public function isHidden($pid)
     {
         return DB::table('problem')->where('pid','=',$pid)->get()->first()['hide'];
