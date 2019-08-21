@@ -40,9 +40,9 @@
                             <p class="extension-title">@if($extension["details"]["official"])<i class="MDI marker-check wemd-light-blue-text"></i>@endif {{$extension["details"]["name"]}}</p>
                             <p class="extension-action">
                                 @if($extension["status"]==1)
-                                    <a onclick="alert('php artisan babel:install {{$extension["details"]["code"]}}')">Install</a>
+                                    <a href="/admin/babel/install/{{$extension["details"]["code"]}}">Install</a>
                                     @if($extension["updatable"])
-                                        <a onclick="alert('php artisan babel:update {{$extension["details"]["code"]}}')">Update</a>
+                                        <a href="/admin/babel/update/{{$extension["details"]["code"]}}">Update</a>
                                     @endif
                                     @if($extension["details"]["code"]!="noj")
                                         <a onclick="alert('php artisan babel:uninstall {{$extension["details"]["code"]}}')" class="text-danger">Delete</a>
@@ -57,10 +57,10 @@
                                         <a>Settings</a>
                                     @endif
                                     @if($extension["updatable"])
-                                        <a onclick="alert('php artisan babel:update {{$extension["details"]["code"]}}')">Update</a>
+                                        <a href="/admin/babel/update/{{$extension["details"]["code"]}}">Update</a>
                                     @endif
                                     @if($extension["details"]["code"]!="noj")
-                                        <a  onclick="alert('php artisan babel:uninstall {{$extension["details"]["code"]}}')" class="text-danger">Delete</a>
+                                        <a onclick="alert('php artisan babel:uninstall {{$extension["details"]["code"]}}')" class="text-danger">Delete</a>
                                     @endif
                                 @endif
                             </p>
@@ -76,47 +76,3 @@
     </div>
     <!-- /.box-body -->
 </div>
-
-<script>
-    function updateExtension(extension){
-        if (!window.XMLHttpRequest){
-            console.error("Your browser does not support the native XMLHttpRequest object.");
-            return;
-        }
-        try{
-            var xhr = new XMLHttpRequest();
-            var $i=0;
-            xhr.previous_text = '';
-            xhr.onerror = function() { console.warn("[XHR] Fatal Error."); };
-            xhr.onreadystatechange = function() {
-                try{
-                    if (xhr.readyState > 2){
-                        var responseArr = xhr.responseText.split("\n");
-                        while(1){
-                            try{
-                                var result = JSON.parse(responseArr[$i]);
-                            }catch(e){
-                                break;
-                            }
-                            $i++;
-                            console.log(result.data.message);
-                            xhr.previous_text = xhr.responseText;
-                        }
-                    }
-                    if (xhr.readyState == 4){
-                        console.log('[XHR] Done')
-                    }
-                }
-                catch (e){
-                    console.warn("[XHR STATECHANGE] Exception: " + e);
-                }
-            };
-            xhr.open("POST", `/admin/babel/update/${extension}`, true);
-            xhr.send();
-        }
-        catch (e){
-            console.warn("[XHR REQUEST] Exception: " + e);
-        }
-    }
-
-</script>
