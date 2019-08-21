@@ -112,7 +112,6 @@
                 @endforeach
             </div>
             <p class="cm-trending"><i class="MDI menu"></i> Details</p>
-            <div>
             <div class="facts">
                 <p class="cm-trending mundb-text-truncate-1"><i class="MDI github-circle"></i> <a href="{{$details["repository"]}}">{{explode("https://github.com/",$details["repository"])[1]}}</a></p>
                 <p class="cm-trending mundb-text-truncate-1"><i class="MDI git"></i> <a href="{{$details["repository"]}}/archive/master.zip">Source</a></p>
