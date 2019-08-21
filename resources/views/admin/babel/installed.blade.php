@@ -112,7 +112,7 @@
                     console.warn("[XHR STATECHANGE] Exception: " + e);
                 }
             };
-            xhr.open("GET", `/admin/babel/update/${extension}`, true);
+            xhr.open("POST", `/admin/babel/update/${extension}`, true);
             xhr.send();
         }
         catch (e){
