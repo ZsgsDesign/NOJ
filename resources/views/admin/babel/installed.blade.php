@@ -78,7 +78,6 @@
 </div>
 
 <script>
-    var XMLIncomplete=false;
     function updateExtension(extension){
         if (!window.XMLHttpRequest){
             console.error("Your browser does not support the native XMLHttpRequest object.");
