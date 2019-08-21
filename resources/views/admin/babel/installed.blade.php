@@ -76,3 +76,48 @@
     </div>
     <!-- /.box-body -->
 </div>
+
+<script>
+    var XMLIncomplete=false;
+    function updateExtension(extension){
+        if (!window.XMLHttpRequest){
+            console.error("Your browser does not support the native XMLHttpRequest object.");
+            return;
+        }
+        try{
+            var xhr = new XMLHttpRequest();
+            var $i=0;
+            xhr.previous_text = '';
+            xhr.onerror = function() { console.warn("[XHR] Fatal Error."); };
+            xhr.onreadystatechange = function() {
+                try{
+                    if (xhr.readyState > 2){
+                        var responseArr = xhr.responseText.split("\n");
+                        while(1){
+                            try{
+                                var result = JSON.parse(responseArr[$i]);
+                            }catch(e){
+                                break;
+                            }
+                            $i++;
+                            console.log(result.data.message);
+                            xhr.previous_text = xhr.responseText;
+                        }
+                    }
+                    if (xhr.readyState == 4){
+                        console.log('[XHR] Done')
+                    }
+                }
+                catch (e){
+                    console.warn("[XHR STATECHANGE] Exception: " + e);
+                }
+            };
+            xhr.open("GET", `/admin/babel/update/${extension}`, true);
+            xhr.send();
+        }
+        catch (e){
+            console.warn("[XHR REQUEST] Exception: " + e);
+        }
+    }
+
+</script>

@@ -74,7 +74,7 @@ class BabelController extends Controller
 
     public function updateExtension($code, Content $content)
     {
-        self::executeArtisan("babel:update $code");
+        self::executeArtisan("babel:update $code --no-interaction");
     }
 
     private static function installedView()
@@ -114,11 +114,16 @@ class BabelController extends Controller
 
     private static function executeArtisan($command)
     {
-        header("Connection: Keep-alive");
-
-        $fp = popen('"'.PHP_BINARY.'" "'.base_path('artisan').'" '.$command, "r");
+        $fp = popen('php "'.base_path('artisan').'" '.$command, "r");
         while($b = fgets($fp, 2048)) {
-            echo $b."<br>";
+            echo str_pad(json_encode([
+                "ret"=>200,
+                "desc"=>"Succeed",
+                "data"=>[
+                    "message"=>$b
+                ]
+            ])."\n",4096);
+            @ob_flush();
             flush();
         }
 
