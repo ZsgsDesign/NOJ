@@ -22,7 +22,10 @@ Route::group([
         $router->get('installed', 'BabelController@installed')->name('admin.babel.installed');
         $router->get('marketspace', 'BabelController@marketspace')->name('admin.babel.marketspace');
         $router->get('marketspace/{code}', 'BabelController@detail')->name('admin.babel.detail');
-        $router->post('update/{code}', 'BabelController@updateExtension')->name('admin.babel.update');
+        $router->get('update/{extension}', 'BabelController@update')->name('admin.babel.update');
+        $router->post('update/{extension}', 'BabelController@updateExtension')->name('admin.babel.updateExtension');
+        $router->get('install/{extension}', 'BabelController@install')->name('admin.babel.install');
+        $router->post('install/{extension}', 'BabelController@installExtension')->name('admin.babel.installExtension');
     });
 
 });
