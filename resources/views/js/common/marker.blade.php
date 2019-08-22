@@ -90,10 +90,6 @@ class Marker {
     return markerInstance && document.getElementById(MARKER_ID);
   }
 
-  aaa() {
-      return 1;
-  }
-
   constructor() {
     if (Marker.exists()) {
       return markerInstance;
