@@ -286,7 +286,7 @@
                     @endif
 
                     @if($detail["file"] && $detail["pdf"] && $detail["viewerShow"])
-                        <iframe seamless="true" id="description_pdf" src ="{{asset($detail["file_url"])}}" width="100%" height="800px" scrolling="auto" frameborder="0" class="mt-3 mb-3"></iframe>
+                        @include("components.pdfViewer",["pdfSrc"=>asset($detail["file_url"])])
                     @endif
 
                     <div data-marker-enabled>
