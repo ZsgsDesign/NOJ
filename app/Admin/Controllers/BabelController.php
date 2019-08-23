@@ -8,6 +8,7 @@ use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
 
 class BabelController extends Controller
 {
@@ -72,9 +73,50 @@ class BabelController extends Controller
             });
     }
 
-    public function updateExtension($code, Content $content)
+    /**
+     * Show the Extension Update Page.
+     *
+     * @return Response
+     */
+    public function update($extension, Content $content)
     {
-        self::executeArtisan("babel:update $code");
+        return $this->execute('update', $extension, $content);
+    }
+
+    /**
+     * Show the Extension Install Page.
+     *
+     * @return Response
+     */
+    public function install($extension, Content $content)
+    {
+        return $this->execute('install', $extension, $content);
+    }
+
+    public function execute($command, $extension, Content $content)
+    {
+        return $content
+            ->header(Str::title($command)." $extension")
+            ->row(function(Row $row) use ($extension) {
+                $row->column(12, function(Column $column) use ($extension) {
+                    $column->append(Self::executingView($extension));
+                });
+            });
+    }
+
+    public function updateExtension($extension, Content $content)
+    {
+        $this->operateExtension('update', $extension, $content);
+    }
+
+    public function installExtension($extension, Content $content)
+    {
+        $this->operateExtension('install', $extension, $content);
+    }
+
+    public function operateExtension($command, $extension, Content $content)
+    {
+        self::executeArtisan("babel:$command $extension --no-interaction");
     }
 
     private static function installedView()
@@ -112,13 +154,31 @@ class BabelController extends Controller
         ]);
     }
 
+    private static function executingView($extension)
+    {
+        $details=ExtensionModel::remoteDetail($extension);
+
+        if(empty($details)){
+            return view('admin::babel.empty');
+        }
+
+        return view('admin::babel.execute', [
+            'extension'=>$extension
+        ]);
+    }
+
     private static function executeArtisan($command)
     {
-        header("Connection: Keep-alive");
-
-        $fp = popen('"'.PHP_BINARY.'" "'.base_path('artisan').'" '.$command, "r");
+        $fp = popen('php "'.base_path('artisan').'" '.$command, "r");
         while($b = fgets($fp, 2048)) {
-            echo $b."<br>";
+            echo str_pad(json_encode([
+                "ret"=>200,
+                "desc"=>"Succeed",
+                "data"=>[
+                    "message"=>$b
+                ]
+            ])."\n",4096);
+            @ob_flush();
             flush();
         }
 

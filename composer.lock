@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3063235dca197e5d0e2a8d14a70e3f45",
+    "content-hash": "3f640b4c9ce1c46b3ea89e775f32e075",
     "packages": [
         {
             "name": "composer/installers",
@@ -850,40 +850,6 @@
                 "trusted proxy"
             ],
             "time": "2019-07-29T16:49:45+00:00"
-        },
-        {
-            "name": "goodnesskay/laravelpdfviewer",
-            "version": "v1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/goodnesskay/LARAVEL-PDF-VIEWER.git",
-                "reference": "f0808b98aab3c3dc080847e22ee7cc614bb6ed19"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/goodnesskay/LARAVEL-PDF-VIEWER/zipball/f0808b98aab3c3dc080847e22ee7cc614bb6ed19",
-                "reference": "f0808b98aab3c3dc080847e22ee7cc614bb6ed19",
-                "shasum": ""
-            },
-            "type": "laravel-package",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Goodness Toluwanimi Kayode",
-                    "email": "gtkbrain@gmail.com"
-                }
-            ],
-            "description": "A Laravel Package for viewing PDF files or documents on Web App",
-            "keywords": [
-                "ViewerJS",
-                "laravel",
-                "laravel-viewerJS",
-                "pdf-viewer"
-            ],
-            "time": "2017-05-23T07:24:26+00:00"
         },
         {
             "name": "graham-campbell/markdown",
@@ -2941,7 +2907,9 @@
             "version": "3.7.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/animate.css/-/animate.css-3.7.2.tgz"
+                "url": "https://registry.npmjs.org/animate.css/-/animate.css-3.7.2.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -2953,7 +2921,9 @@
             "version": "4.1.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/bootstrap-material-design/-/bootstrap-material-design-4.1.2.tgz"
+                "url": "https://registry.npmjs.org/bootstrap-material-design/-/bootstrap-material-design-4.1.2.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -2965,7 +2935,9 @@
             "version": "2.8.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/chart.js/-/chart.js-2.8.0.tgz"
+                "url": "https://registry.npmjs.org/chart.js/-/chart.js-2.8.0.tgz",
+                "reference": null,
+                "shasum": null
             },
             "require": {
                 "npm-asset/chartjs-color": ">=2.1.0,<3.0.0",
@@ -2981,7 +2953,9 @@
             "version": "2.3.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/chartjs-color/-/chartjs-color-2.3.0.tgz"
+                "url": "https://registry.npmjs.org/chartjs-color/-/chartjs-color-2.3.0.tgz",
+                "reference": null,
+                "shasum": null
             },
             "require": {
                 "npm-asset/chartjs-color-string": ">=0.6.0,<0.7.0",
@@ -2997,7 +2971,9 @@
             "version": "0.6.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/chartjs-color-string/-/chartjs-color-string-0.6.0.tgz"
+                "url": "https://registry.npmjs.org/chartjs-color-string/-/chartjs-color-string-0.6.0.tgz",
+                "reference": null,
+                "shasum": null
             },
             "require": {
                 "npm-asset/color-name": ">=1.0.0,<2.0.0"
@@ -3012,7 +2988,9 @@
             "version": "2.0.4",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/clipboard/-/clipboard-2.0.4.tgz"
+                "url": "https://registry.npmjs.org/clipboard/-/clipboard-2.0.4.tgz",
+                "reference": null,
+                "shasum": null
             },
             "require": {
                 "npm-asset/good-listener": ">=1.2.2,<2.0.0",
@@ -3029,7 +3007,9 @@
             "version": "5.48.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/codemirror/-/codemirror-5.48.2.tgz"
+                "url": "https://registry.npmjs.org/codemirror/-/codemirror-5.48.2.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3041,7 +3021,9 @@
             "version": "1.1.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/codemirror-spell-checker/-/codemirror-spell-checker-1.1.2.tgz"
+                "url": "https://registry.npmjs.org/codemirror-spell-checker/-/codemirror-spell-checker-1.1.2.tgz",
+                "reference": null,
+                "shasum": null
             },
             "require": {
                 "npm-asset/typo-js": "*"
@@ -3056,7 +3038,9 @@
             "version": "0.5.3",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/color-convert/-/color-convert-0.5.3.tgz"
+                "url": "https://registry.npmjs.org/color-convert/-/color-convert-0.5.3.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset"
         },
@@ -3065,7 +3049,9 @@
             "version": "1.1.4",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz"
+                "url": "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3077,7 +3063,9 @@
             "version": "3.2.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/delegate/-/delegate-3.2.0.tgz"
+                "url": "https://registry.npmjs.org/delegate/-/delegate-3.2.0.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3089,7 +3077,9 @@
             "version": "1.0.11",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/dompurify/-/dompurify-1.0.11.tgz"
+                "url": "https://registry.npmjs.org/dompurify/-/dompurify-1.0.11.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3113,7 +3103,9 @@
             "version": "1.2.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/good-listener/-/good-listener-1.2.2.tgz"
+                "url": "https://registry.npmjs.org/good-listener/-/good-listener-1.2.2.tgz",
+                "reference": null,
+                "shasum": null
             },
             "require": {
                 "npm-asset/delegate": ">=3.1.2,<4.0.0"
@@ -3128,7 +3120,9 @@
             "version": "9.12.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/highlightjs/-/highlightjs-9.12.0.tgz"
+                "url": "https://registry.npmjs.org/highlightjs/-/highlightjs-9.12.0.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3140,7 +3134,9 @@
             "version": "3.4.1",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/jquery/-/jquery-3.4.1.tgz"
+                "url": "https://registry.npmjs.org/jquery/-/jquery-3.4.1.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3152,7 +3148,9 @@
             "version": "2.5.21",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/jquery-datetimepicker/-/jquery-datetimepicker-2.5.21.tgz"
+                "url": "https://registry.npmjs.org/jquery-datetimepicker/-/jquery-datetimepicker-2.5.21.tgz",
+                "reference": null,
+                "shasum": null
             },
             "require": {
                 "npm-asset/jquery": ">=1.7.2",
@@ -3169,7 +3167,9 @@
             "version": "3.1.13",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/jquery-mousewheel/-/jquery-mousewheel-3.1.13.tgz"
+                "url": "https://registry.npmjs.org/jquery-mousewheel/-/jquery-mousewheel-3.1.13.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset"
         },
@@ -3178,7 +3178,9 @@
             "version": "1.12.1",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/jquery-ui/-/jquery-ui-1.12.1.tgz"
+                "url": "https://registry.npmjs.org/jquery-ui/-/jquery-ui-1.12.1.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3208,7 +3210,9 @@
             "version": "0.6.3",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/marked/-/marked-0.6.3.tgz"
+                "url": "https://registry.npmjs.org/marked/-/marked-0.6.3.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3220,7 +3224,9 @@
             "version": "2.7.5",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/mathjax/-/mathjax-2.7.5.tgz"
+                "url": "https://registry.npmjs.org/mathjax/-/mathjax-2.7.5.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3232,7 +3238,9 @@
             "version": "2.24.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/moment/-/moment-2.24.0.tgz"
+                "url": "https://registry.npmjs.org/moment/-/moment-2.24.0.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3252,6 +3260,20 @@
             ]
         },
         {
+            "name": "npm-asset/pdfobject",
+            "version": "2.1.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/pdfobject/-/pdfobject-2.1.1.tgz",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
             "name": "npm-asset/php-date-formatter",
             "version": "v1.3.5",
             "source": {
@@ -3262,7 +3284,8 @@
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/kartik-v/php-date-formatter/zipball/d842e1c4e6a8d6108017b726321c305bb5ae4fb5",
-                "reference": "d842e1c4e6a8d6108017b726321c305bb5ae4fb5"
+                "reference": "d842e1c4e6a8d6108017b726321c305bb5ae4fb5",
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3274,7 +3297,9 @@
             "version": "1.15.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/popper.js/-/popper.js-1.15.0.tgz"
+                "url": "https://registry.npmjs.org/popper.js/-/popper.js-1.15.0.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3286,7 +3311,9 @@
             "version": "1.1.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/select/-/select-1.1.2.tgz"
+                "url": "https://registry.npmjs.org/select/-/select-1.1.2.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3298,7 +3325,9 @@
             "version": "1.11.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/simplemde/-/simplemde-1.11.2.tgz"
+                "url": "https://registry.npmjs.org/simplemde/-/simplemde-1.11.2.tgz",
+                "reference": null,
+                "shasum": null
             },
             "require": {
                 "npm-asset/codemirror": "*",
@@ -3315,7 +3344,9 @@
             "version": "2.1.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/tiny-emitter/-/tiny-emitter-2.1.0.tgz"
+                "url": "https://registry.npmjs.org/tiny-emitter/-/tiny-emitter-2.1.0.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3327,7 +3358,9 @@
             "version": "1.0.3",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/typo-js/-/typo-js-1.0.3.tgz"
+                "url": "https://registry.npmjs.org/typo-js/-/typo-js-1.0.3.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [

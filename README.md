@@ -52,7 +52,7 @@ git clone https://github.com/ZsgsDesign/NOJ ./
 composer install
 ```
 
-> Notice: you may find this step(or others) fails with message like "func() has been disabled for security reasons", it means you need to remove restrictions on those functions, basically Laravel and Composer require proc_open and proc_get_status to work properly.
+> Notice: you may find this step(or others) fails with message like "func() has been disabled for security reasons", it means you need to remove restrictions on those functions, basically Laravel and Composer require `proc_open()`, `popen()` and `proc_get_status()` to work properly.
 
 5. Almost done, you still got to modify a few folders and give them permission to write;
 

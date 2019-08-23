@@ -44,7 +44,6 @@ class JudgeClient
             'src' => $src,
             'test_case_id' => $testCaseId,
             'max_cpu_time' => $languageConfig['compile']['max_cpu_time'],
-            'max_real_time' => 5000,
             'max_memory' => $languageConfig['compile']['max_memory'],
             'spj_version' => null,
             'spj_config' => null,
