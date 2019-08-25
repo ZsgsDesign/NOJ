@@ -76,12 +76,16 @@
         },
         "installer-types": [
             "bower-asset",
-            "npm-asset"
+            "npm-asset",
+            "fonts-asset"
         ],
         "installer-paths": {
             "public/static/library/{$name}": [
                 "type:bower-asset",
                 "type:npm-asset"
+            ],
+            "public/static/fonts/{$name}": [
+                "type:fonts-asset"
             ]
         }
     },
