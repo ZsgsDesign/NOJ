@@ -1,9 +1,8 @@
 @include('js.common.marker')
 <script>
-class MarkerPen {
-  static DOMAttachKey = 'nojMarkerPenInstance';
-  static uniqueIdCounter = 0;
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+class MarkerPen {
   static initFromDOM($dom) {
     return MarkerPen.getOrConstruct($dom);
   }
@@ -81,4 +80,6 @@ class MarkerPen {
     this.detached = true;
   }
 }
+_defineProperty(MarkerPen, "DOMAttachKey", 'nojMarkerPenInstance');
+_defineProperty(MarkerPen, "uniqueIdCounter", 0);
 </script>

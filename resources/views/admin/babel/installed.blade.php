@@ -40,9 +40,9 @@
                             <p class="extension-title">@if($extension["details"]["official"])<i class="MDI marker-check wemd-light-blue-text"></i>@endif {{$extension["details"]["name"]}}</p>
                             <p class="extension-action">
                                 @if($extension["status"]==1)
-                                    <a onclick="alert('php artisan babel:install {{$extension["details"]["code"]}}')">Install</a>
+                                    <a href="/admin/babel/install/{{$extension["details"]["code"]}}">Install</a>
                                     @if($extension["updatable"])
-                                        <a onclick="alert('php artisan babel:update {{$extension["details"]["code"]}}')">Update</a>
+                                        <a href="/admin/babel/update/{{$extension["details"]["code"]}}">Update</a>
                                     @endif
                                     @if($extension["details"]["code"]!="noj")
                                         <a onclick="alert('php artisan babel:uninstall {{$extension["details"]["code"]}}')" class="text-danger">Delete</a>
@@ -57,10 +57,10 @@
                                         <a>Settings</a>
                                     @endif
                                     @if($extension["updatable"])
-                                        <a onclick="alert('php artisan babel:update {{$extension["details"]["code"]}}')">Update</a>
+                                        <a href="/admin/babel/update/{{$extension["details"]["code"]}}">Update</a>
                                     @endif
                                     @if($extension["details"]["code"]!="noj")
-                                        <a  onclick="alert('php artisan babel:uninstall {{$extension["details"]["code"]}}')" class="text-danger">Delete</a>
+                                        <a onclick="alert('php artisan babel:uninstall {{$extension["details"]["code"]}}')" class="text-danger">Delete</a>
                                     @endif
                                 @endif
                             </p>
