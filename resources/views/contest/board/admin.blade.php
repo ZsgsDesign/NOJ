@@ -122,6 +122,9 @@
                 <ul class="list-group bmd-list-group p-0">
                     <a href="/contest/{{$cid}}/admin/refreshContestRank" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Refresh Contest Rank</a>
                 </ul>
+                <ul class="list-group bmd-list-group p-0">
+                    <a class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="downloaAllCode()" href="/ajax/contest/downloadCode?cid={{$cid}}"  download> Download All Code</a>
+                </ul>
                 @if($is_end && $basic['froze_length'] != 0)
                 <ul class="list-group bmd-list-group p-0">
                     <a href="/contest/{{$cid}}/scrollBoard" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Scroll Board</a>
@@ -218,6 +221,23 @@
                 console.log('Ajax error while posting to ' + type);
                 sending=false;
                 $("#generateAccountBtn > i").addClass("d-none");
+            }
+        });
+    }
+
+    function downloaAllCode(){
+        $.ajax({
+            type: 'GET',
+            url: '/ajax/contest/downloadCode',
+            data: {
+                cid: {{$cid}},
+            },dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }, success: function(ret){
+
+            }, error: function(xhr, type){
+                
             }
         });
     }

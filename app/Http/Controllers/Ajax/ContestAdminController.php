@@ -9,8 +9,12 @@ use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Jobs\ProcessSubmission;
+use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Storage;
+use Log;
 use Auth;
 use Cache;
+use Response;
 
 class ContestAdminController extends Controller
 {
@@ -258,5 +262,31 @@ class ContestAdminController extends Controller
         }
         $data = $contestModel->getScrollBoardData($cid);
         return ResponseModel::success(200, null, $data);
+    }
+
+    public function downloadCode(Request $request)
+    {
+        $request->validate([
+            "cid"=>"required|integer",
+        ]);
+        $cid = $request->input('cid');
+        $groupModel=new GroupModel();
+        $contestModel=new ContestModel();
+        if($contestModel->judgeClearance($cid,Auth::user()->id) != 3){
+            return ResponseModel::err(2001);
+        }
+
+        $zip_name=$contestModel->zipName($cid);
+        if(!(Storage::disk("private")->exists("contestCodeZip/$cid/".$cid.".zip"))){
+            $contestModel->GenerateZip("contestCodeZip/$cid/",$cid,"contestCode/$cid/",$zip_name);
+        }
+
+        $files=Storage::disk("private")->files("contestCodeZip/$cid/");
+        response()->download(base_path("/storage/app/private/".$files[0]),$zip_name,[
+            "Content-Transfer-Encoding" => "binary",
+            "Content-Type"=>"application/octet-stream",
+            "filename"=>$zip_name
+        ])->send();
+        
     }
 }
