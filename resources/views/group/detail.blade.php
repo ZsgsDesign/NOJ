@@ -501,7 +501,23 @@
                         </div>
                         <h3>@if($basic_info['verified'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif <span id="group-name-display">{{$basic_info['name']}}</span></h3>
                         <p><i class="MDI tag-multiple"></i> Tags : @foreach($basic_info['tags'] as $t){{$t['tag']}}@unless($loop->last),@endif @endforeach</p>
-                        @if($basic_info['join_policy']==3)
+                        @if($basic_info['join_policy']==1)
+                            @if($group_clearance==-1)
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-success"><i class="MDI autorenew cm-refreshing d-none"></i> Accept Invitation</button>
+                            @elseif($group_clearance>0)
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Joined</button>
+                            @else
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Invite Only</button>
+                            @endif
+                        @elseif($basic_info['join_policy']==2)
+                            @if($group_clearance==-3)
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-success"><i class="MDI autorenew cm-refreshing d-none"></i> Join</button>
+                            @elseif($group_clearance==0)
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Waiting</button>
+                            @elseif($group_clearance>0)
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Joined</button>
+                            @endif
+                        @else
                             @if($group_clearance==-3)
                                 <button type="button" id="joinGroup" class="btn btn-raised btn-success"><i class="MDI autorenew cm-refreshing d-none"></i> Join</button>
                             @elseif($group_clearance==-1)

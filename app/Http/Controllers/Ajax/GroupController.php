@@ -46,7 +46,17 @@ class GroupController extends Controller
             return ResponseModel::err(7001);
         }
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
-        if ($join_policy==3) {
+        if ($join_policy==1) {
+            if ($clearance==-1) {
+                $groupModel->changeClearance(Auth::user()->id, $all_data["gid"], 1);
+            }
+            return ResponseModel::success(200);
+        } elseif ($join_policy==2) {
+            if ($clearance==-3) {
+                $groupModel->addClearance(Auth::user()->id, $all_data["gid"], 0);
+            }
+            return ResponseModel::success(200);
+        } elseif ($join_policy==3) {
             if ($clearance==-1) {
                 $groupModel->changeClearance(Auth::user()->id, $all_data["gid"], 1);
             } elseif ($clearance==-3) {
