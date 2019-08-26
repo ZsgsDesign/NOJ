@@ -131,6 +131,7 @@
     <!-- Style -->
     <link rel="stylesheet" href="/static/fonts/Roboto/roboto.css">
     <link rel="stylesheet" href="/static/fonts/Montserrat/montserrat.css">
+    <link rel="stylesheet" href="/static/fonts/Roboto-Slab/roboto-slab.css">
     <link rel="stylesheet" href="/static/library/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
     <link rel="stylesheet" href="/static/css/wemd-color-scheme.css">
     <link rel="stylesheet" href="/static/css/main.css?version={{version()}}">
@@ -158,7 +159,7 @@
         fresh-container {
             display: block;
             all: initial;
-            font-family: 'Montserrat';
+            font-family: 'Roboto Slab';
         }
 
         fresh-container h1,
@@ -577,6 +578,59 @@
             from{transform: rotate(0deg)}
             to{transform: rotate(359deg)}
         }
+
+        file-card{
+            display: flex;
+            align-items: center;
+            max-width: 100%;
+            border-radius: 4px;
+            transition: .2s ease-out .0s;
+            color: #7a8e97;
+            background: #fff;
+            padding: 1rem;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+        }
+
+        file-card a:hover{
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        file-card > div:first-of-type{
+            display: flex;
+            align-items: center;
+            padding-right:1rem;
+            width:5rem;
+            height:5rem;
+            flex-shrink: 0;
+            flex-grow: 0;
+        }
+
+        file-card img{
+            display: block;
+            width:100%;
+        }
+
+        file-card > div:last-of-type{
+            flex-shrink: 1;
+            flex-grow: 1;
+        }
+
+        file-card p{
+            margin:0;
+            line-height: 1;
+            font-family: 'Roboto';
+        }
+
+        file-card h5{
+            margin:0;
+            font-size: 1.25rem;
+            margin-bottom: .5rem;
+            font-family: 'Roboto';
+            font-weight: 400;
+            line-height: 1.2;
+        }
     </style>
 
     <div id="editor-container" class="immersive-container">
@@ -613,23 +667,36 @@
                             </div>
                             @endif {{$detail["title"]}}</h1>
 
-                        @unless(trim($detail["parsed"]["description"])=="")
+                            @if($detail["file"] && !blank($detail["file_url"]))
+                            <file-card class="mt-4 mb-3">
+                                <div>
+                                    <img src="/static/library/fileicon-svg/svg/{{$detail["file_ext"]}}.svg" onerror="this.src=unknown_svg;">
+                                    <script>
+                                        var unknown_svg='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 56 56" style="enable-background:new 0 0 56 56" xml:space="preserve"><g><path style="fill:%23e9e9e0" d="M36.985,0H7.963C7.155,0,6.5,0.655,6.5,1.926V55c0,0.345,0.655,1,1.463,1h40.074 c0.808,0,1.463-0.655,1.463-1V12.978c0-0.696-0.093-0.92-0.257-1.085L37.607,0.257C37.442,0.093,37.218,0,36.985,0z"/><polygon style="fill:%23d9d7ca" points="37.5,0.151 37.5,12 49.349,12"/><path style="fill:%23c8bdb8" d="M48.037,56H7.963C7.155,56,6.5,55.345,6.5,54.537V39h43v15.537C49.5,55.345,48.845,56,48.037,56z"/><circle style="fill:%23fff" cx="18.5" cy="47" r="3"/><circle style="fill:%23fff" cx="28.5" cy="47" r="3"/><circle style="fill:%23fff" cx="38.5" cy="47" r="3"/></g></svg>';
+                                    </script>
+                                </div>
+                                <div>
+                                    <h5 class="mundb-text-truncate-1">{{basename($detail["file_url"])}}</h5>
+                                    <p><a class="text-info" href="{{asset($detail["file_url"])}}">Download</a></p>
+                                </div>
+                            </file-card>
+                        @endif
+
+                        @if($detail["file"] && $detail["pdf"] && $detail["viewerShow"])
+                            @include("components.pdfViewer",["pdfSrc"=>asset($detail["file_url"])])
+                        @endif
+
+                        <div data-marker-enabled>
+
+                        @unless(blank($detail["parsed"]["description"]))
 
                         <h2>Description:</h2>
 
                         {!!$detail["parsed"]["description"]!!}
-                        @if($detail["parsed"]["file"]==1)
-                            <iframe 
-                                id="description_pdf"
-                                src ="{{ asset(  $detail['parsed']['pdf_url']  ) }}" 
-                                width="100%" height="800px" scrolling="auto" 
-                                frameborder="0" >
-                            </iframe>
-                        @endif
 
                         @endunless
 
-                        @unless(trim($detail["parsed"]["input"])=="")
+                        @unless(blank($detail["parsed"]["input"]))
 
                         <h2>Input:</h2>
 
@@ -637,7 +704,7 @@
 
                         @endunless
 
-                        @unless(trim($detail["parsed"]["output"])=="")
+                        @unless(blank($detail["parsed"]["output"]))
 
                         <h2>Output:</h2>
 
@@ -649,25 +716,27 @@
 
                             @if (!is_null($ps['sample_input']) && $ps['sample_input'] !== '')
                             <h2>Sample Input:</h2>
-                            <div class="cm-pre-wrapper"><pre id="input{{$loop->index}}">{!!$ps['sample_input']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#input{{$loop->index}}">Copy</button></div>
+                            <pre>{!!$ps['sample_input']!!}</pre>
                             @endif
 
                             @if (!is_null($ps['sample_output']) && $ps['sample_output'] !== '')
                             <h2>Sample Output:</h2>
-                            <div class="cm-pre-wrapper"><pre id="output{{$loop->index}}">{!!$ps['sample_output']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#output{{$loop->index}}">Copy</button></div>
+                            <pre>{!!$ps['sample_output']!!}</pre>
                             @endif
 
-                            @if ($ps['sample_note']) {!!$ps['sample_note']!!} @endif
+                            @unless (blank($ps['sample_note'])) {!!$ps['sample_note']!!} @endunless
 
                         @endforeach
 
-                        @unless(trim($detail["parsed"]["note"])=="")
+                        @unless(blank($detail["parsed"]["note"]))
 
                         <h2>Note:</h2>
 
                         {!!$detail["parsed"]["note"]!!}
 
                         @endunless
+
+                        </div>
 
                     </fresh-container>
                 </div>
@@ -679,7 +748,7 @@
             <middle-slider>
             </middle-slider>
             <right-side style="background: rgb(30, 30, 30);">
-                <div id="vscode_container" style="width:100%;height:100%;">
+                <div id="vscode_container" class="notranslate" style="width:100%;height:100%;">
                     <div id="vscode" style="width:100%;height:100%;"></div>
                 </div>
             </right-side>
@@ -798,37 +867,27 @@
             }, 2000);
         });
     </script>
+    @include('js.common.markerPen')
     <script src="/static/library/jquery/dist/jquery.min.js"></script>
     <script src="/static/library/popper.js/dist/umd/popper.min.js"></script>
     <script src="/static/library/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"></script>
     <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
-          tex2jax: {
-            inlineMath: [ ['$$$','$$$'], ["\\(","\\)"] ],
-            processEscapes: true
-          }
+            tex2jax: {
+                inlineMath: [ ['$$$','$$$'], ["\\(","\\)"] ],
+                processEscapes: true
+            },
+            showMathMenu: false
         });
     </script>
     <script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     @include('layouts.primaryJS')
     @include('js.submission.detail')
-    @include('js.common.webHighLighter')
-
 
     @if(!$contest_mode)
     @include('components.congratulation')
     @endif
-    <script>
-        const highlighter = new Highlighter({
-            $root: document.querySelector('left-side')
-        });
-        highlighter
-        .on('selection:click', ({id}) => {
-            highlighter.removeClass('highlight-mengshou-wrap', id);
-        })
-        highlighter.run(); 
-    </script>
 
     <script>
         var historyOpen=false;
@@ -1128,6 +1187,8 @@
         },false);
 
         window.addEventListener("load",function() {
+
+            MarkerPen.initAll();
 
             $(".pre-animated").addClass("fadeInLeft");
             @if($status["verdict"]=="Compile Error")$("#verdict_text").addClass("cm-popover-decoration");@endif

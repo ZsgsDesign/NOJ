@@ -203,4 +203,8 @@
         exdate.setDate(exdate.getDate()+expiredays);
         document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString()) + ";domain={{env('SESSION_DOMAIN')}}";
     }
+
+    function delay(ms){
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 </script>

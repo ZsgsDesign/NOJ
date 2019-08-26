@@ -36,13 +36,16 @@
         "npm-asset/chart.js": "^2.8",
         "npm-asset/clipboard": "^2.0",
         "npm-asset/dompurify": "^1.0",
+        "npm-asset/fileicon-svg": "^1.0",
         "npm-asset/highlightjs": "^9.12",
         "npm-asset/jquery": "^3.3",
         "npm-asset/jquery-datetimepicker": "^2.5",
         "npm-asset/jquery-ui": "^1.12",
+        "npm-asset/lodash": "^4.17",
         "npm-asset/marked": "^0.6.2",
         "npm-asset/mathjax": "^2.7",
-        "npm-asset/monaco-editor": "^0.16.2",
+        "npm-asset/monaco-editor": "0.17.1",
+        "npm-asset/pdfobject": "^2.1",
         "npm-asset/popper.js": "^1.5",
         "npm-asset/simplemde": "^1.11",
         "oomphinc/composer-installers-extender": "^1.1",
@@ -50,8 +53,7 @@
         "phar-io/version": "^2.0",
         "predis/predis": "^1.1",
         "rmccue/requests": "^1.7",
-        "sebastian/version": "^2.0",
-        "goodnesskay/laravelpdfviewer": "^1.0"
+        "sebastian/version": "^2.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
@@ -74,12 +76,16 @@
         },
         "installer-types": [
             "bower-asset",
-            "npm-asset"
+            "npm-asset",
+            "fonts-asset"
         ],
         "installer-paths": {
             "public/static/library/{$name}": [
                 "type:bower-asset",
                 "type:npm-asset"
+            ],
+            "public/static/fonts/{$name}": [
+                "type:fonts-asset"
             ]
         }
     },

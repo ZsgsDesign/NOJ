@@ -10,6 +10,7 @@ class CrawlerBase
 {
     public $pro=[
         'file'=> 0,
+        'file_url'=> null,
         'pcode'=>'',
         'solved_count'=>'',
         'time_limit'=>'',

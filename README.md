@@ -52,7 +52,7 @@ git clone https://github.com/ZsgsDesign/NOJ ./
 composer install
 ```
 
-> Notice: you may find this step(or others) fails with message like "func() has been disabled for security reasons", it means you need to remove restrictions on those functions, basically Laravel and Composer require proc_open and proc_get_status to work properly.
+> Notice: you may find this step(or others) fails with message like "func() has been disabled for security reasons", it means you need to remove restrictions on those functions, basically Laravel and Composer require `proc_open()`, `popen()` and `proc_get_status()` to work properly.
 
 5. Almost done, you still got to modify a few folders and give them permission to write;
 
@@ -101,6 +101,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hd
     - [X] Queue Support
     - [X] Notification Support
         - [X] Browser
+        - [X] MessageBox
         - [X] Mail
     - [X] System Version
     - [x] System Bug Report
@@ -121,13 +122,13 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hd
     - [X] Group Search
     - [X] Contest Search
     - [X] OnmiSearch Support
-- [ ] Problem System
+- [X] Problem System
     - [X] Problem List
     - [X] Problem Tag
     - [X] Problem Filter
     - [X] Problem Details
     - [X] Problem Solution
-    - [ ] Problem Discussion
+    - [X] Problem Discussion
     - [X] Problem Submit
         - [X] Problem Immersive Mode
         - [X] Problem Editor
@@ -178,6 +179,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hd
             - [X] Account Generate
             - [X] Judge Status
             - [X] Issue Announcements
+            - [X] ScrollBoard
         - [X] In-Contest Problem Switch
         - [X] Problem Temp Block
     - [X] Contest Ranking System
@@ -196,7 +198,6 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hd
         - [X] Group General Info
         - [ ] Group Functions
             - [X] Group Announcement
-            - [ ] Group Posts
             - [X] Group Contests
                 - [X] Group-wide Contests
                 - [X] Site-wide Contests

@@ -1985,6 +1985,11 @@ class ContestModel extends Model
         }
     }
 
+    public function deleteZip($path)
+    {
+        Storage::disk("private")->deleteDirectory($path);
+    }
+
     public function GenerateZip($path,$cid,$code_path,$outputFilename)
     {
         Storage::disk("private")->deleteDirectory($code_path);
@@ -2024,5 +2029,24 @@ class ContestModel extends Model
             "cid"=>$cid
         ])->first();
         return $outputFilename=(string)($contest["cid"])."-".$contest["name"].".zip";
+    }
+  
+    public function judgeOver($cid)
+    {
+        $submissions =  DB::table('submission')
+            ->where(['cid' => $cid])
+            ->whereIn('verdict',['Waiting','Pending'])
+            ->select('sid')
+            ->get()->all();
+        if(empty($submissions)){
+            return [
+                'result' => true
+            ];
+        }else{
+            return [
+                'result' => false,
+                'sid' => $submissions
+            ];
+        }
     }
 }

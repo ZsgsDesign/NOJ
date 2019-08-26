@@ -21,23 +21,25 @@
 
     paper-card > div.sender{
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
         color: rgba(0, 0, 0, 0.62);
     }
 
     .sender_name{
         font-weight: bolder;
+        margin: 0;
     }
 
     div.content img{
         max-width: calc(100% - 4rem);
     }
 
-    h5.title  {
+    h5.msg-title  {
         font-weight: bold;
-        font-family: 'Montserrat';
+        font-family: 'Roboto Slab';
         margin-bottom: 1rem;
+        color: #000;
     }
 
     div.content p{
@@ -54,12 +56,14 @@
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
-        <a class="btn btn-default" href="/message" role="button"><i class="MDI arrow-left"></i></a>
+        <h5 class="msg-title"><a class="btn btn-default" href="/message" role="button"><i class="MDI arrow-left"></i></a> {{$message["title"]}}</h5>
         <div class="sender">
-            <div><span class="sender_name">@if($message['sender'] == 1) NOJ Official  @else {{$message['sender_name']}} @endif</span> <small class="wemd-grey-text"> {{$message['time']}}</small></div>
-            <div><img src="{{$message['sender_avatar']}}" class="cm-avatar"></div>
+            <div class="pr-3"><img src="{{$message['sender_avatar']}}" class="cm-avatar"></div>
+            <div>
+                <p class="sender_name">@if($message['sender'] == 1) NOJ Official  @else {{$message['sender_name']}} @endif</p>
+                <small class="wemd-grey-text">{{$message['time']}}</small>
+            </div>
         </div>
-        <h5 class="title">{{$message["title"]}}</h5>
         <hr>
         <div class="content">
             <p>{!! clean(convertMarkdownToHtml($message["content"])) !!}</p>
