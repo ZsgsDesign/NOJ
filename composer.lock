@@ -3156,13 +3156,13 @@
             "version": "4.17.15-patch1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/lodash/lodash.git",
-                "reference": "f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30"
+                "url": "git@github.com:lodash/lodash.git",
+                "reference": "10681716750bfbd9ed862817e4dec70963adc492"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lodash/lodash/zipball/f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30",
-                "reference": "f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30"
+                "url": "https://api.github.com/repos/lodash/lodash/zipball/10681716750bfbd9ed862817e4dec70963adc492",
+                "reference": "10681716750bfbd9ed862817e4dec70963adc492"
             },
             "type": "npm-asset",
             "license": [
@@ -3183,10 +3183,16 @@
         },
         {
             "name": "npm-asset/mathjax",
-            "version": "2.7.5",
+            "version": "2.7.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mathjax/MathJax.git",
+                "reference": "d9d24224046bc55eefca3f4793963902d3d88726"
+            },
             "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/mathjax/-/mathjax-2.7.5.tgz"
+                "type": "zip",
+                "url": "https://api.github.com/repos/mathjax/MathJax/zipball/d9d24224046bc55eefca3f4793963902d3d88726",
+                "reference": "d9d24224046bc55eefca3f4793963902d3d88726"
             },
             "type": "npm-asset",
             "license": [
