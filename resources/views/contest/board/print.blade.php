@@ -34,7 +34,11 @@
 <div class="container mundb-standard-container">
     <paper-card>
         <h5>{{$contest_name}}</h5>
-        @include('contest.board.nav',['nav'=>'print'])
+        @include('contest.board.nav',[
+            'nav'=>'print',
+            'basic'=>$basic,
+            'clearance'=>$clearance
+        ])
         <div class="p-3">
             <p style="text-align: center;">Not Supported</p>
         </div>
