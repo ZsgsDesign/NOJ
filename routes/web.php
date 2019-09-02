@@ -110,6 +110,10 @@ Route::group(['prefix' => 'rank'], function () {
     Route::get('/', 'RankController@index')->middleware('contest_account')->name('rank_index');
 });
 
+Route::group(['prefix' => 'term'], function () {
+    Route::get('/user', 'TermController@user')->name('term.user');
+});
+
 Route::group(['namespace' => 'Tool', 'middleware' => ['contest_account']], function () {
     Route::group(['prefix' => 'tool'], function () {
         Route::redirect('/', '/', 301);
