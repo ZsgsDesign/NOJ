@@ -111,6 +111,7 @@ Route::group(['prefix' => 'rank'], function () {
 });
 
 Route::group(['prefix' => 'term'], function () {
+    Route::redirect('/', '/term/user', 301);
     Route::get('/user', 'TermController@user')->name('term.user');
 });
 
