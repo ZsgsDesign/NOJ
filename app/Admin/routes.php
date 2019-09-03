@@ -13,6 +13,7 @@ Route::group([
     $router->get('/', 'HomeController@index');
     $router->resource('users', UserController::class);
     $router->resource('problems', ProblemController::class);
+    $router->resource('solutions', SolutionController::class);
     $router->resource('submissions', SubmissionController::class);
     $router->resource('contests', ContestController::class);
     $router->resource('groups', GroupController::class);

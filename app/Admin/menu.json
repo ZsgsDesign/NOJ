@@ -62,6 +62,18 @@
         "roles": []
     },
     {
+        "id": 27,
+        "parent_id": 0,
+        "order": 27,
+        "title": "Solutions",
+        "icon": "MDI comment-check-outline",
+        "uri": "\/solutions",
+        "permission": null,
+        "created_at": "2019-09-03 13:13:13",
+        "updated_at": "2019-09-03 13:13:13",
+        "roles": []
+    },
+    {
         "id": 10,
         "parent_id": 0,
         "order": 10,
