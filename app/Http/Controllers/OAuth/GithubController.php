@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Oauth;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountModel;
 use App\Models\UserModel;
@@ -14,9 +13,11 @@ class GithubController extends Controller
     public function redirectTo()
     {
         $accountModel = new AccountModel();
-        $info=$accountModel->detail(Auth::user()->id);
-        if(Auth::check() && $info['contest_account']){
-            return redirect('/account/settings');
+        if(Auth::check()){
+            $info=$accountModel->detail(Auth::user()->id);
+            if(Auth::check() && $info['contest_account']){
+                return redirect('/account/settings');
+            }
         }
         if(Auth::check() && $accountModel->getExtra(Auth::user()->id ,'github_id')){
             return view('oauth.index',[
@@ -29,7 +30,7 @@ class GithubController extends Controller
                 'buttons' => [
                     [
                         'text' => 'unbind',
-                        'href' => route('oauth_github_unbind'),
+                        'href' => route('oauth.github.unbind'),
                         'style' => 'btn-danger'
                     ],
                     [
@@ -124,6 +125,9 @@ class GithubController extends Controller
 
     public function unbind()
     {
+        if(!Auth::check()){
+            return redirect('/');
+        }
         $accountModel = new AccountModel();
         if($accountModel->getExtra(Auth::user()->id ,'github_id')){
             return view('oauth.index',[
@@ -138,7 +142,7 @@ class GithubController extends Controller
                 'buttons' => [
                     [
                         'text' => 'confirm',
-                        'href' => route('oauth_github_unbind_confirm'),
+                        'href' => route('oauth.github.unbind.confirm'),
                         'style' => 'btn-danger'
                     ],
                     [
@@ -166,6 +170,9 @@ class GithubController extends Controller
 
     public function confirmUnbind()
     {
+        if(!Auth::check()){
+            return redirect('/');
+        }
         $accountModel = new AccountModel();
         $user_id = Auth::user()->id;
         if($accountModel->getExtra($user_id ,'github_id')){
