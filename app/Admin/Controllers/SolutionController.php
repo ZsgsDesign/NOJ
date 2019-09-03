@@ -84,23 +84,24 @@ class SolutionController extends Controller
         $grid->psoid("ID")->sortable();
         $grid->uid("Uid")->editable();
         $grid->pid("Pid")->editable();
-        $grid->content("Content")->editable();
-        $grid->audit("Audit")->editable();
-        $grid->votes("Votes")->editable();
-        $grid->created_at();
-        $grid->updated_at();
-        $grid->partial("Partial")->display(function($partial) {
-            return $partial ? 'Yes' : 'No';
+        $grid->content("Content")->display(function($content) {
+            $contentParsed=clean(convertMarkdownToHtml($content));
+            return "$contentParsed";
         });
-        $grid->markdown("Markdown")->display(function($markdown) {
-            return $markdown ? 'Yes' : 'No';
-        });
+        $grid->audit("Audit")->editable('select', [0 => 'Waiting', 1 => 'Accepted', 2 => 'Declined']);
+        $grid->votes("Votes");
         $grid->filter(function(Grid\Filter $filter) {
             $filter->disableIdFilter();
             $filter->equal('uid');
             $filter->equal('pid');
-            $filter->equal('audit');
+            $filter->equal('audit')->radio([
+                ''    => 'All',
+                '0'   => 'Waiting',
+                '1'   => 'Accepted',
+                '2'   => 'Declined',
+            ]);
         });
+        $grid->expandFilter();
         return $grid;
     }
 
