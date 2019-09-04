@@ -54,7 +54,7 @@
         "predis/predis": "^1.1",
         "rmccue/requests": "^1.7",
         "sebastian/version": "^2.0",
-        "zsgsdesign/laravel-pdf-latex": "^2.0"
+        "zsgsdesign/laravel-pdf-latex": "^2.1"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
