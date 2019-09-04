@@ -16,6 +16,7 @@ use App\Models\ProblemModel;
 use App\Models\CarouselModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use ZsgsDesign\PDFConverter\Latex;
 use Auth;
 use Log;
 use Redirect;
@@ -40,6 +41,7 @@ class MainController extends Controller
      */
     public function home(Request $request)
     {
+        return (new Latex)->dryRun();
         $announcementModel=new AnnouncementModel();
         $announcements=$announcementModel->fetch();
         $problem=new ProblemModel();
