@@ -6015,16 +6015,16 @@
         },
         {
             "name": "zsgsdesign/laravel-pdf-latex",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ZsgsDesign/laravel-pdf-latex.git",
-                "reference": "fc0d91ded9d3dfe76abad242b225c61011b9fc37"
+                "reference": "d579ff552c3080c586b8f399d3db106ca829c4c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ZsgsDesign/laravel-pdf-latex/zipball/fc0d91ded9d3dfe76abad242b225c61011b9fc37",
-                "reference": "fc0d91ded9d3dfe76abad242b225c61011b9fc37",
+                "url": "https://api.github.com/repos/ZsgsDesign/laravel-pdf-latex/zipball/d579ff552c3080c586b8f399d3db106ca829c4c4",
+                "reference": "d579ff552c3080c586b8f399d3db106ca829c4c4",
                 "shasum": ""
             },
             "require": {
@@ -6054,7 +6054,7 @@
                 }
             ],
             "description": "A latex package for laravel to generate pdfs",
-            "time": "2019-09-04T12:35:36+00:00"
+            "time": "2019-09-04T12:56:48+00:00"
         }
     ],
     "packages-dev": [
