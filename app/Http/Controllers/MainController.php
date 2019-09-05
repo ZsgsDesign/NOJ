@@ -46,13 +46,13 @@ class MainController extends Controller
         $ojs=$problem->ojs();
         // Log::debug(["info"=>"User Viewed Home!"]);
         return view('home', [
-                'page_title'=>"Home",
-                'site_title'=>config("app.name"),
-                'navigation' => "Home",
-                'announcements' => $announcements,
-                'ojs' => $ojs,
-                'carousel' => CarouselModel::list()
-            ]);
+            'page_title'=>"Home",
+            'site_title'=>config("app.name"),
+            'navigation' => "Home",
+            'announcements' => $announcements,
+            'ojs' => $ojs,
+            'carousel' => CarouselModel::list()
+        ]);
     }
 
 
