@@ -28,19 +28,19 @@
 
 <problem-container>
     @unless(blank($problem["parsed"]["description"])))
-        <div class="description">
+        <div data-section="description">
             {{$problem["parsed"]["description"]}}
         </div>
     @endunless
 
     @unless(blank($problem["parsed"]["input"])))
-        <div class="input">
+        <div data-section="input">
             {{$problem["parsed"]["input"]}}
         </div>
     @endunless
 
     @unless(blank($problem["parsed"]["output"])))
-        <div class="output">
+        <div data-section="output">
             {{$problem["parsed"]["output"]}}
         </div>
     @endunless
@@ -54,7 +54,7 @@
     @endforeach
 
     @unless(blank($problem["parsed"]["note"])))
-        <div class="note">
+        <div data-section="note">
             {{$problem["parsed"]["note"]}}
         </div>
     @endunless
