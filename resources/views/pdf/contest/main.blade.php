@@ -7,7 +7,7 @@
 ?>
 
 <style>
-    page-breaker {
+    div.page-breaker {
         page-break-after: always;
     }
 
@@ -27,6 +27,6 @@
 
     @include('pdf.contest.problem', ['problem'=>$problem])
 
-    <page-breaker></page-breaker>
+    @unless($loop->last)<div class="page-breaker"></div>@endunless
 
 @endforeach

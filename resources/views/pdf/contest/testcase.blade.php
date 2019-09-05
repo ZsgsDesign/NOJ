@@ -1,34 +1,38 @@
 <style>
-    sample-container{
+    div.sample-container{
         display: block;
     }
 
-    sample-content table{
+    div.sample-content table{
         width: 100%;
     }
 
-    sample-content th{
+    div.sample-content th{
         text-align: left;
     }
 
-    sample-content tr > td{
+    div.sample-content tr > td{
         border-right: 1px solid #000;
         border-bottom: 1px solid #000;
         border-top: 1px solid #000;
     }
 
-    sample-content tr > td:first-of-type{
+    div.sample-content tr > td:first-of-type{
         border-left: 1px solid #000;
     }
 
-    sample-content th,
-    sample-content td{
+    div.sample-content th,
+    div.sample-content td{
         padding: 0.5rem;
+    }
+
+    pre{
+        margin:0;
     }
 </style>
 
-<sample-container>
-    <sample-content>
+<div class="sample-container">
+    <div class="sample-content">
         <table cellspacing="0">
             <tr>
                 <th>Sample Input {{$index}}</th>
@@ -39,5 +43,5 @@
                 <td><pre>{!!$output!!}</pre></td>
             </tr>
         </table>
-    </sample-content>
-</sample-container>
+    </div>
+</div>
