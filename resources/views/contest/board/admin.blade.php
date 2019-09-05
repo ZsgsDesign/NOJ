@@ -93,6 +93,9 @@
                 <ul class="list-group bmd-list-group p-0">
                     <a href="/group/{{$gcode}}/settings/contest" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Contest Management</a>
                 </ul>
+                <ul class="list-group bmd-list-group p-0">
+                    <a href="#" class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="generatePDF()"> Generate PDF</a>
+                </ul>
                 @if(time() >= strtotime($basic['begin_time']))
                 <ul class="list-group bmd-list-group p-0">
                     <a href="/contest/{{$cid}}/admin/refreshContestRank" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Refresh Contest Rank</a>
@@ -197,6 +200,43 @@
                 console.log('Ajax error while posting to ' + type);
                 sending=false;
                 $("#generateAccountBtn > i").addClass("d-none");
+            }
+        });
+    }
+
+    var generatingPDF=false;
+
+    function generatePDF(){
+        if(generatingPDF) return;
+        generatingPDF = true;
+        $.ajax({
+            type: 'POST',
+            url: '/ajax/contest/generatePDF',
+            data: {
+                cid: {{$cid}},
+            },dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }, success: function(ret){
+                console.log(ret);
+                if (ret.ret==200) {
+                    alert("PDF generated successfully.");
+                } else {
+                    alert(ret.desc);
+                }
+                generatingPDF=false;
+            }, error: function(xhr, type){
+                console.log(xhr);
+                switch(xhr.status) {
+                    case 422:
+                        alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                        break;
+
+                    default:
+                        alert("Server Connection Error");
+                }
+                console.log('Ajax error while posting to ' + type);
+                generatingPDF=false;
             }
         });
     }
