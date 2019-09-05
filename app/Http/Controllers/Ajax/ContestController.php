@@ -109,4 +109,9 @@ class ContestController extends Controller
         }
         return ResponseModel::success(200,null,$contestModel->praticeAnalysis($cid));
     }
+
+    public function downloadPDF(Request $request)
+    {
+
+    }
 }
