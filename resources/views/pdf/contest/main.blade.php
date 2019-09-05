@@ -1,3 +1,13 @@
+<style>
+    page-breaker {
+        page-break-after: always;
+    }
+
+    * {
+        font-family: "Times New Roman", serif;
+    }
+</style>
+
 {{-- Cover Page --}}
 @if($conf['cover']) @include('pdf.contest.cover') @endif
 
@@ -9,8 +19,6 @@
 
     @include('pdf.contest.problem', ['problem'=>$problem['details']])
 
-    @foreach ($problem['testcases'] as $testcase)
-        @include('pdf.contest.testcase', ['testcase'=>$testcase])
-    @endforeach
+    <page-breaker></page-breaker>
 
 @endforeach
