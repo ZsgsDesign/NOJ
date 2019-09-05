@@ -1411,21 +1411,21 @@
         },
         {
             "name": "laracasts/utilities",
-            "version": "3.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laracasts/PHP-Vars-To-Js-Transformer.git",
-                "reference": "298fb3c6f29901a4550c4f98b57c05f368341d04"
+                "reference": "490c6cf4d23c26c94e01867265c84921863a5f19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laracasts/PHP-Vars-To-Js-Transformer/zipball/298fb3c6f29901a4550c4f98b57c05f368341d04",
-                "reference": "298fb3c6f29901a4550c4f98b57c05f368341d04",
+                "url": "https://api.github.com/repos/laracasts/PHP-Vars-To-Js-Transformer/zipball/490c6cf4d23c26c94e01867265c84921863a5f19",
+                "reference": "490c6cf4d23c26c94e01867265c84921863a5f19",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "~5.0",
-                "php": ">=5.4.0"
+                "illuminate/support": "^5.0|^6.0",
+                "php": ">=5.5.0"
             },
             "require-dev": {
                 "phpspec/phpspec": "~2.0"
@@ -1464,7 +1464,7 @@
                 "javascript",
                 "laravel"
             ],
-            "time": "2017-09-01T17:25:57+00:00"
+            "time": "2019-09-04T12:55:27+00:00"
         },
         {
             "name": "laravel-admin-ext/api-tester",
