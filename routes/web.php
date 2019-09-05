@@ -185,6 +185,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
         Route::post('requestClarification', 'ContestController@requestClarification')->middleware('auth', 'throttle:1,0.34');
         Route::post('registContest', 'ContestController@registContest')->middleware('auth')->name('ajax.contest.registContest');
         Route::post('getAnalysisData', 'ContestController@getAnalysisData')->middleware('auth')->name('ajax.contest.getAnalysisData');
+        Route::get('downloadPDF', 'ContestController@downloadPDF')->middleware('auth')->name('ajax.contest.downloadPDF');
 
         Route::get('rejudge', 'ContestAdminController@rejudge')->middleware('auth');
         Route::post('details', 'ContestAdminController@details')->middleware('auth');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ajax;
 
 use App\Models\ContestModel;
+use App\Models\Eloquent\ContestModel as EloquentContestModel;
 use App\Models\GroupModel;
 use App\Models\ResponseModel;
 use App\Http\Controllers\Controller;
@@ -112,6 +113,17 @@ class ContestController extends Controller
 
     public function downloadPDF(Request $request)
     {
+        $request->validate([
+            'cid' => 'required|integer'
+        ]);
+        $cid = $request->input('cid');
 
+        $info=EloquentContestModel::find($cid);
+
+        if (!$info->pdf){
+            return abort('403');
+        }
+
+        return response()->download(storage_path("app/contest/pdf/$cid.pdf"),"$info->name.pdf");
     }
 }
