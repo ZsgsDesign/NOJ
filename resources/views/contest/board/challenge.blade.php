@@ -100,6 +100,31 @@
         border: 1px solid #6c757d;
         cursor: pointer;
     }
+
+    .cm-action-group {
+        margin: 0;
+        margin-bottom: 2rem;
+        padding: 0;
+        display: flex;
+    }
+
+    .cm-action-group>a {
+        display: block;
+        width:100%;
+    }
+
+    .cm-action-group>a>button {
+        text-align: left;
+        margin: .3125rem 0;
+        border-radius: 0;
+        width:100%;
+    }
+
+    .cm-action-group i {
+        display: inline-block;
+        transform: scale(1.5);
+        margin-right: 0.75rem;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -142,6 +167,11 @@
             </paper-card>
         </div>
         <div class="col-sm-12 col-md-4">
+            @if($basic['pdf'])
+                <paper-card class="btn-group-vertical cm-action-group" role="group" aria-label="vertical button group">
+                    <a href="/ajax/contest/downloadPDF?cid={{$cid}}" target="_blank"><button type="button" class="btn btn-secondary"><i class="MDI file-pdf"></i> Download PDF</button></a>
+                </paper-card>
+            @endif
             <paper-card>
                 <h5 style="text-align:center" id="contest_status">Contest is running</h5>
                 <div>

@@ -124,6 +124,6 @@ class ContestController extends Controller
             return abort('403');
         }
 
-        return response()->download(storage_path("app/contest/pdf/$cid.pdf"),"$info->name.pdf");
+        return response()->download(storage_path("app/contest/pdf/$cid.pdf"),urlencode("$info->name.pdf"));
     }
 }
