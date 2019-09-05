@@ -39,8 +39,8 @@
                 <th>Sample Output {{$index}}</th>
             </tr>
             <tr>
-                <td><pre>{!!$input!!}</pre></td>
-                <td><pre>{!!$output!!}</pre></td>
+                <td valign="top"><pre>{!!$input!!}</pre></td>
+                <td valign="top"><pre>{!!$output!!}</pre></td>
             </tr>
         </table>
     </div>

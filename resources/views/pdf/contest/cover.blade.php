@@ -34,7 +34,7 @@
         @foreach($problemset as $problem)
         <tr>
             <td>{{$problem['index']}}</td>
-            <td>{{$problem['title']}}</td>
+            <td style="white-space: nowrap;">{{$problem['title']}}</td>
         </tr>
         @endforeach
     </table>

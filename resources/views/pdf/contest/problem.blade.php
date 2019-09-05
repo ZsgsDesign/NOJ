@@ -29,36 +29,36 @@
 <div class="problem-container">
     @unless(blank($problem["parsed"]["description"]))
         <div data-section="description">
-            {{$problem["parsed"]["description"]}}
+            {!!$problem["parsed"]["description"]!!}
         </div>
     @endunless
 
     @unless(blank($problem["parsed"]["input"]))
         <h3>Input</h3>
         <div data-section="input">
-            {{$problem["parsed"]["input"]}}
+            {!!$problem["parsed"]["input"]!!}
         </div>
     @endunless
 
     @unless(blank($problem["parsed"]["output"]))
         <h3>Output</h3>
         <div data-section="output">
-            {{$problem["parsed"]["output"]}}
+            {!!$problem["parsed"]["output"]!!}
         </div>
     @endunless
 
     @foreach ($problem['testcases'] as $testcase)
         @include('pdf.contest.testcase', [
             'index'=>$loop->iteration,
-            'input'=>$testcase['input'],
-            'output'=>$testcase['output'],
+            'input'=>$testcase['sample_input'],
+            'output'=>$testcase['sample_output'],
         ])
     @endforeach
 
     @unless(blank($problem["parsed"]["note"]))
         <h3>Note</h3>
         <div data-section="note">
-            {{$problem["parsed"]["note"]}}
+            {!!$problem["parsed"]["note"]!!}
         </div>
     @endunless
 </div>

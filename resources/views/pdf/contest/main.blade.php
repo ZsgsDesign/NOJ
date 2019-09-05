@@ -6,6 +6,11 @@
     $conf=array_merge($default,$conf);
 ?>
 
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+</head>
+
 <style>
     .pagenum:before {
         content: counter(page);
@@ -37,7 +42,16 @@
     }
 
     * {
-        font-family: "Times New Roman", serif;
+        font-family: "DejaVu Serif", serif;
+    }
+
+    body{
+        font-size: 20px;
+    }
+
+    div.sample-container,
+    img.sample-container{
+        page-break-inside: avoid;
     }
 </style>
 
