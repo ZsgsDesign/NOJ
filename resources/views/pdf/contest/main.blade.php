@@ -1,3 +1,11 @@
+<?php
+    $default=[
+        'cover'=>false,
+        'advice'=>false,
+    ];
+    $conf=array_merge($default,$conf);
+?>
+
 <style>
     page-breaker {
         page-break-after: always;
@@ -17,7 +25,7 @@
 {{-- ProblemSet --}}
 @foreach ($problemset as $problem)
 
-    @include('pdf.contest.problem', ['problem'=>$problem['details']])
+    @include('pdf.contest.problem', ['problem'=>$problem])
 
     <page-breaker></page-breaker>
 

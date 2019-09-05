@@ -27,19 +27,21 @@
 </problem-header>
 
 <problem-container>
-    @unless(blank($problem["parsed"]["description"])))
+    @unless(blank($problem["parsed"]["description"]))
         <div data-section="description">
             {{$problem["parsed"]["description"]}}
         </div>
     @endunless
 
-    @unless(blank($problem["parsed"]["input"])))
+    @unless(blank($problem["parsed"]["input"]))
+        <h3>Input</h5>
         <div data-section="input">
             {{$problem["parsed"]["input"]}}
         </div>
     @endunless
 
-    @unless(blank($problem["parsed"]["output"])))
+    @unless(blank($problem["parsed"]["output"]))
+        <h3>Output</h5>
         <div data-section="output">
             {{$problem["parsed"]["output"]}}
         </div>
@@ -53,7 +55,8 @@
         ])
     @endforeach
 
-    @unless(blank($problem["parsed"]["note"])))
+    @unless(blank($problem["parsed"]["note"]))
+        <h3>Note</h5>
         <div data-section="note">
             {{$problem["parsed"]["note"]}}
         </div>
