@@ -9,6 +9,7 @@ use App\Models\ResponseModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
+use PDF;
 
 class ContestController extends Controller
 {
@@ -124,6 +125,10 @@ class ContestController extends Controller
             return abort('403');
         }
 
-        return response()->download(storage_path("app/contest/pdf/$cid.pdf"),urlencode("$info->name.pdf"));
+        return response()->file(storage_path("app/contest/pdf/$cid.pdf"), [
+            'Content-Disposition' => "inline; filename=\"$info->name.pdf\"",
+            'Content-Type' => 'application/pdf',
+            'Cache-Control' => 'no-cache',
+        ]);
     }
 }

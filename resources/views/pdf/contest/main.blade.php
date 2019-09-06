@@ -9,6 +9,9 @@
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
+    <title>{{$contest["name"]}}</title>
+    <meta name="author" content="{{config('app.name')}}">
+    <meta name="keywords" content="problemset,{{$contest["shortName"]}}">
 </head>
 
 <style>
@@ -72,3 +75,14 @@
 @unless($loop->last)<div class="page-breaker"></div>@endunless
 
 @endforeach
+
+<script type="text/php">
+    if (isset($pdf))
+    {
+        $pdf->add_info('Subject', "{{$contest["shortName"]}} ProblemSet");
+        $pdf->add_info('Producer', "{{config('app.displayName')}}");
+        $pdf->add_info('Creator', "{{config('app.name')}} Contest PDF Auto-Generater");
+        $pdf->add_info('CreatorTool', "{{config('app.url')}}");
+        $pdf->add_info('BaseURL', "{{route('contest.detail',['cid'=>$cid])}}");
+    }
+</script>

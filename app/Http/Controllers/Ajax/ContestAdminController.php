@@ -311,7 +311,7 @@ class ContestAdminController extends Controller
         $record=EloquentContestModel::find($cid);
         // dd(EloquentContestModel::getProblemSet($cid));
 
-        PDF::setOptions([
+        $pdf=PDF::setOptions([
             'dpi' => 150,
             'isPhpEnabled' => true,
             'isHtml5ParserEnabled' => true,
@@ -327,7 +327,13 @@ class ContestAdminController extends Controller
                 'date'=>date("F j, Y", strtotime($record->begin_time)),
             ],
             'problemset'=>EloquentContestModel::getProblemSet($cid),
-        ])->save(storage_path("app/contest/pdf/$cid.pdf"));
+        ]);
+        // $pdf->getDomPDF()->add_info('Subject', "$record->name ProblemSet");
+        // $pdf->getDomPDF()->add_info('Producer', config('app.displayName'));
+        // $pdf->getDomPDF()->add_info('Creator', config('app.name').' Contest PDF Auto-Generater');
+        // $pdf->getDomPDF()->add_info('CreatorTool', config('app.url'));
+        // $pdf->getDomPDF()->add_info('BaseURL', route('contest.detail',['cid'=>$cid]));
+        $pdf->save(storage_path("app/contest/pdf/$cid.pdf"));
 
         $record->pdf=1;
         $record->save();
