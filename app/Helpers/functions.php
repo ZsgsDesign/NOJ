@@ -187,3 +187,28 @@ if (!function_exists('formatHumanReadableTime')) {
         return "$difference $periods[$j] {$tense}";
     }
 }
+
+if (!function_exists('latex2Image')) {
+    function latex2Image($content)
+    {
+        $callback = function ($matches) use (&$patch, &$display) {
+            return '<img src="http://www.tlhiv.org/ltxpreview/ltxpreview.cgi?' . http_build_query([
+                'width' => 10,
+                'height' => 10,
+                'ltx' => '',
+                'ltxsource' => "$patch$matches[1]$patch",
+                'result' => 'preview',
+                'init' => 0,
+            ]) . "\" style=\"display: $display;\">";
+        };
+        $patch = '$';
+        $display = 'inline-block';
+        $content = preg_replace_callback('/\\$\\$\\$(.*?)\\$\\$\\$/', $callback, $content);
+        $content = preg_replace_callback('/\\\\\\((.*?)\\\\\\)/', $callback, $content);
+        $patch = '$$';
+        $display = 'block';
+        $content = preg_replace_callback('/\\$\\$(.*?)\\$\\$/', $callback, $content);
+        $content = preg_replace_callback('/\\\\\\[(.*?)\\\\\\]/', $callback, $content);
+        return $content;
+    }
+}
