@@ -12,11 +12,11 @@ use Illuminate\Http\Request;
 use App\Jobs\ProcessSubmission;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Storage;
+use App\Jobs\GeneratePDF;
 use Log;
 use Auth;
 use Cache;
 use Response;
-use PDF;
 
 class ContestAdminController extends Controller
 {
@@ -298,45 +298,12 @@ class ContestAdminController extends Controller
             "cid"=>"required|integer",
         ]);
         $cid = $request->input('cid');
-        $groupModel=new GroupModel();
         $contestModel=new ContestModel();
         if ($contestModel->judgeClearance($cid,Auth::user()->id) != 3){
             return ResponseModel::err(2001);
         }
 
-        if (!is_dir(storage_path("app/contest/pdf/"))){
-            mkdir(storage_path("app/contest/pdf/"), 0777, true);
-        }
-
-        $record=EloquentContestModel::find($cid);
-        // dd(EloquentContestModel::getProblemSet($cid));
-
-        $pdf=PDF::setOptions([
-            'dpi' => 150,
-            'isPhpEnabled' => true,
-            'isHtml5ParserEnabled' => true,
-            'isRemoteEnabled' => true
-        ])->setWarnings(true)->loadView('pdf.contest.main', [
-            'conf'=>[
-                'cover'=>true,
-                'advice'=>true,
-            ],
-            'contest' => [
-                'name'=>$record->name,
-                'shortName'=>$record->name,
-                'date'=>date("F j, Y", strtotime($record->begin_time)),
-            ],
-            'problemset'=>EloquentContestModel::getProblemSet($cid),
-        ]);
-        // $pdf->getDomPDF()->add_info('Subject', "$record->name ProblemSet");
-        // $pdf->getDomPDF()->add_info('Producer', config('app.displayName'));
-        // $pdf->getDomPDF()->add_info('Creator', config('app.name').' Contest PDF Auto-Generater');
-        // $pdf->getDomPDF()->add_info('CreatorTool', config('app.url'));
-        // $pdf->getDomPDF()->add_info('BaseURL', route('contest.detail',['cid'=>$cid]));
-        $pdf->save(storage_path("app/contest/pdf/$cid.pdf"));
-
-        $record->pdf=1;
-        $record->save();
+        dispatch(new GeneratePDF($cid))->onQueue('normal');
 
         return ResponseModel::success(200);
     }

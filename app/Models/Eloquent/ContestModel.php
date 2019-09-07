@@ -14,13 +14,18 @@ class ContestModel extends Model
     const UPDATED_AT=null;
     const CREATED_AT=null;
 
-    public static function getProblemSet($cid)
+    public static function getProblemSet($cid, $renderLatex=false)
     {
         $ret=[];
         $problemset=ContestProblemModel::where('cid', $cid)->orderBy('number','asc')->get();
         foreach($problemset as $problem){
             $problemDetail=ProblemModel::find($problem->pid);
             $problemRet=(new OutdatedProblemModel())->detail($problemDetail->pcode);
+            if ($renderLatex){
+                foreach (['description','input','output','note'] as $section){
+                    $problemRet['parsed'][$section]=latex2Image($problemRet['parsed'][$section]);
+                }
+            }
             $problemRet['index']=$problem->ncode;
             $problemRet['testcases']=$problemRet['samples'];
             unset($problemRet['samples']);
