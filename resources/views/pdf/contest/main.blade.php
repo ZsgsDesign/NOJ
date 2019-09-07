@@ -44,12 +44,13 @@
         page-break-after: always;
     }
 
-    * {
+    body{
+        font-size: 20px;
         font-family: "DejaVu Serif", serif;
     }
 
-    body{
-        font-size: 20px;
+    h1,h2,h3,h4,h5,h6{
+        font-family: "DejaVu Sans", sans-serif;
     }
 
     div.sample-container,

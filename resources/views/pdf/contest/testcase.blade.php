@@ -9,6 +9,7 @@
 
     div.sample-content th{
         text-align: left;
+        margin: 0;
     }
 
     div.sample-content tr > td{
@@ -35,8 +36,8 @@
     <div class="sample-content">
         <table cellspacing="0">
             <tr>
-                <th>Sample Input {{$index}}</th>
-                <th>Sample Output {{$index}}</th>
+                <th><h4>Sample Input {{$index}}</h4></th>
+                <th><h4>Sample Output {{$index}}</h4></th>
             </tr>
             <tr>
                 <td valign="top"><pre>{!!$input!!}</pre></td>
