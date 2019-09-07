@@ -15,6 +15,7 @@
         "graham-campbell/markdown": "^11.0",
         "grubersjoe/bing-daily-photo": "^2.0",
         "illuminate/support": "^5.7",
+        "intervention/image": "^2.5",
         "kub-at/php-simple-html-dom-parser": "~1.7.0",
         "laracasts/utilities": "^3.0",
         "laravel-admin-ext/api-tester": "^1.0",
@@ -54,8 +55,7 @@
         "phar-io/version": "^2.0",
         "predis/predis": "^1.1",
         "rmccue/requests": "^1.7",
-        "sebastian/version": "^2.0",
-        "zsgsdesign/laravel-pdf-latex": "^2.1"
+        "sebastian/version": "^2.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f8630d0f7c843a40bc3bf0be7b48868b",
+    "content-hash": "4d302cf6babb4dee7eebc13e2a16b8ca",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1276,6 +1276,76 @@
             "time": "2019-07-01T23:21:34+00:00"
         },
         {
+            "name": "intervention/image",
+            "version": "2.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Intervention/image.git",
+                "reference": "39eaef720d082ecc54c64bf54541c55f10db546d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/39eaef720d082ecc54c64bf54541c55f10db546d",
+                "reference": "39eaef720d082ecc54c64bf54541c55f10db546d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-fileinfo": "*",
+                "guzzlehttp/psr7": "~1.1",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.2",
+                "phpunit/phpunit": "^4.8 || ^5.7"
+            },
+            "suggest": {
+                "ext-gd": "to use GD library based image processing.",
+                "ext-imagick": "to use Imagick based image processing.",
+                "intervention/imagecache": "Caching extension for the Intervention Image library"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Intervention\\Image\\ImageServiceProvider"
+                    ],
+                    "aliases": {
+                        "Image": "Intervention\\Image\\Facades\\Image"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Intervention\\Image\\": "src/Intervention/Image"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oliver Vogel",
+                    "email": "oliver@olivervogel.com",
+                    "homepage": "http://olivervogel.com/"
+                }
+            ],
+            "description": "Image handling and manipulation library with support for Laravel integration",
+            "homepage": "http://image.intervention.io/",
+            "keywords": [
+                "gd",
+                "image",
+                "imagick",
+                "laravel",
+                "thumbnail",
+                "watermark"
+            ],
+            "time": "2019-06-24T14:06:31+00:00"
+        },
+        {
             "name": "jakub-onderka/php-console-color",
             "version": "v0.2",
             "source": {
@@ -2240,9 +2310,9 @@
             "authors": [
                 {
                     "name": "Colin O'Dell",
-                    "role": "Lead Developer",
                     "email": "colinodell@gmail.com",
-                    "homepage": "https://www.colinodell.com"
+                    "homepage": "https://www.colinodell.com",
+                    "role": "Lead Developer"
                 }
             ],
             "description": "PHP Markdown parser based on the CommonMark spec",
@@ -2440,9 +2510,9 @@
             "authors": [
                 {
                     "name": "Ben Corlett",
-                    "role": "Developer",
                     "email": "bencorlett@me.com",
-                    "homepage": "http://www.webcomm.com.au"
+                    "homepage": "http://www.webcomm.com.au",
+                    "role": "Developer"
                 }
             ],
             "description": "OAuth 1.0 Client Library",
@@ -2752,9 +2822,9 @@
             "authors": [
                 {
                     "name": "Muharrem ERİN",
-                    "role": "Developer",
                     "email": "me@mewebstudio.com",
-                    "homepage": "https://github.com/mewebstudio"
+                    "homepage": "https://github.com/mewebstudio",
+                    "role": "Developer"
                 }
             ],
             "description": "Laravel 5 HtmlPurifier Package",
@@ -3030,7 +3100,9 @@
             "version": "3.7.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/animate.css/-/animate.css-3.7.2.tgz"
+                "url": "https://registry.npmjs.org/animate.css/-/animate.css-3.7.2.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3042,7 +3114,9 @@
             "version": "4.1.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/bootstrap-material-design/-/bootstrap-material-design-4.1.2.tgz"
+                "url": "https://registry.npmjs.org/bootstrap-material-design/-/bootstrap-material-design-4.1.2.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3054,7 +3128,9 @@
             "version": "2.8.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/chart.js/-/chart.js-2.8.0.tgz"
+                "url": "https://registry.npmjs.org/chart.js/-/chart.js-2.8.0.tgz",
+                "reference": null,
+                "shasum": null
             },
             "require": {
                 "npm-asset/chartjs-color": ">=2.1.0,<3.0.0",
@@ -3070,7 +3146,9 @@
             "version": "2.3.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/chartjs-color/-/chartjs-color-2.3.0.tgz"
+                "url": "https://registry.npmjs.org/chartjs-color/-/chartjs-color-2.3.0.tgz",
+                "reference": null,
+                "shasum": null
             },
             "require": {
                 "npm-asset/chartjs-color-string": ">=0.6.0,<0.7.0",
@@ -3086,7 +3164,9 @@
             "version": "0.6.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/chartjs-color-string/-/chartjs-color-string-0.6.0.tgz"
+                "url": "https://registry.npmjs.org/chartjs-color-string/-/chartjs-color-string-0.6.0.tgz",
+                "reference": null,
+                "shasum": null
             },
             "require": {
                 "npm-asset/color-name": ">=1.0.0,<2.0.0"
@@ -3101,7 +3181,9 @@
             "version": "2.0.4",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/clipboard/-/clipboard-2.0.4.tgz"
+                "url": "https://registry.npmjs.org/clipboard/-/clipboard-2.0.4.tgz",
+                "reference": null,
+                "shasum": null
             },
             "require": {
                 "npm-asset/good-listener": ">=1.2.2,<2.0.0",
@@ -3118,7 +3200,9 @@
             "version": "5.48.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/codemirror/-/codemirror-5.48.2.tgz"
+                "url": "https://registry.npmjs.org/codemirror/-/codemirror-5.48.2.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3130,7 +3214,9 @@
             "version": "1.1.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/codemirror-spell-checker/-/codemirror-spell-checker-1.1.2.tgz"
+                "url": "https://registry.npmjs.org/codemirror-spell-checker/-/codemirror-spell-checker-1.1.2.tgz",
+                "reference": null,
+                "shasum": null
             },
             "require": {
                 "npm-asset/typo-js": "*"
@@ -3145,7 +3231,9 @@
             "version": "0.5.3",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/color-convert/-/color-convert-0.5.3.tgz"
+                "url": "https://registry.npmjs.org/color-convert/-/color-convert-0.5.3.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset"
         },
@@ -3154,7 +3242,9 @@
             "version": "1.1.4",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz"
+                "url": "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3166,7 +3256,9 @@
             "version": "3.2.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/delegate/-/delegate-3.2.0.tgz"
+                "url": "https://registry.npmjs.org/delegate/-/delegate-3.2.0.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3178,7 +3270,9 @@
             "version": "1.0.11",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/dompurify/-/dompurify-1.0.11.tgz"
+                "url": "https://registry.npmjs.org/dompurify/-/dompurify-1.0.11.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3190,7 +3284,9 @@
             "version": "1.0.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/fileicon-svg/-/fileicon-svg-1.0.0.tgz"
+                "url": "https://registry.npmjs.org/fileicon-svg/-/fileicon-svg-1.0.0.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3202,7 +3298,9 @@
             "version": "1.2.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/good-listener/-/good-listener-1.2.2.tgz"
+                "url": "https://registry.npmjs.org/good-listener/-/good-listener-1.2.2.tgz",
+                "reference": null,
+                "shasum": null
             },
             "require": {
                 "npm-asset/delegate": ">=3.1.2,<4.0.0"
@@ -3217,7 +3315,9 @@
             "version": "9.12.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/highlightjs/-/highlightjs-9.12.0.tgz"
+                "url": "https://registry.npmjs.org/highlightjs/-/highlightjs-9.12.0.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3229,7 +3329,9 @@
             "version": "3.4.1",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/jquery/-/jquery-3.4.1.tgz"
+                "url": "https://registry.npmjs.org/jquery/-/jquery-3.4.1.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3241,7 +3343,9 @@
             "version": "2.5.21",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/jquery-datetimepicker/-/jquery-datetimepicker-2.5.21.tgz"
+                "url": "https://registry.npmjs.org/jquery-datetimepicker/-/jquery-datetimepicker-2.5.21.tgz",
+                "reference": null,
+                "shasum": null
             },
             "require": {
                 "npm-asset/jquery": ">=1.7.2",
@@ -3258,7 +3362,9 @@
             "version": "3.1.13",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/jquery-mousewheel/-/jquery-mousewheel-3.1.13.tgz"
+                "url": "https://registry.npmjs.org/jquery-mousewheel/-/jquery-mousewheel-3.1.13.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset"
         },
@@ -3267,7 +3373,9 @@
             "version": "1.12.1",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/jquery-ui/-/jquery-ui-1.12.1.tgz"
+                "url": "https://registry.npmjs.org/jquery-ui/-/jquery-ui-1.12.1.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3279,13 +3387,14 @@
             "version": "4.17.15-patch1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/lodash/lodash.git",
+                "url": "git@github.com:lodash/lodash.git",
                 "reference": "f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/lodash/lodash/zipball/f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30",
-                "reference": "f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30"
+                "reference": "f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30",
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3297,7 +3406,9 @@
             "version": "0.6.3",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/marked/-/marked-0.6.3.tgz"
+                "url": "https://registry.npmjs.org/marked/-/marked-0.6.3.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3307,15 +3418,11 @@
         {
             "name": "npm-asset/mathjax",
             "version": "2.7.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mathjax/MathJax.git",
-                "reference": "d9d24224046bc55eefca3f4793963902d3d88726"
-            },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/mathjax/MathJax/zipball/d9d24224046bc55eefca3f4793963902d3d88726",
-                "reference": "d9d24224046bc55eefca3f4793963902d3d88726"
+                "reference": "d9d24224046bc55eefca3f4793963902d3d88726",
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3327,7 +3434,9 @@
             "version": "2.24.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/moment/-/moment-2.24.0.tgz"
+                "url": "https://registry.npmjs.org/moment/-/moment-2.24.0.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3339,7 +3448,9 @@
             "version": "0.17.1",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.17.1.tgz"
+                "url": "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.17.1.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3351,7 +3462,9 @@
             "version": "2.1.1",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/pdfobject/-/pdfobject-2.1.1.tgz"
+                "url": "https://registry.npmjs.org/pdfobject/-/pdfobject-2.1.1.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3369,7 +3482,8 @@
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/kartik-v/php-date-formatter/zipball/d842e1c4e6a8d6108017b726321c305bb5ae4fb5",
-                "reference": "d842e1c4e6a8d6108017b726321c305bb5ae4fb5"
+                "reference": "d842e1c4e6a8d6108017b726321c305bb5ae4fb5",
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3381,7 +3495,9 @@
             "version": "1.15.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/popper.js/-/popper.js-1.15.0.tgz"
+                "url": "https://registry.npmjs.org/popper.js/-/popper.js-1.15.0.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3393,7 +3509,9 @@
             "version": "1.1.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/select/-/select-1.1.2.tgz"
+                "url": "https://registry.npmjs.org/select/-/select-1.1.2.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3405,7 +3523,9 @@
             "version": "1.11.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/simplemde/-/simplemde-1.11.2.tgz"
+                "url": "https://registry.npmjs.org/simplemde/-/simplemde-1.11.2.tgz",
+                "reference": null,
+                "shasum": null
             },
             "require": {
                 "npm-asset/codemirror": "*",
@@ -3422,7 +3542,9 @@
             "version": "2.1.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/tiny-emitter/-/tiny-emitter-2.1.0.tgz"
+                "url": "https://registry.npmjs.org/tiny-emitter/-/tiny-emitter-2.1.0.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -3434,7 +3556,9 @@
             "version": "1.0.3",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/typo-js/-/typo-js-1.0.3.tgz"
+                "url": "https://registry.npmjs.org/typo-js/-/typo-js-1.0.3.tgz",
+                "reference": null,
+                "shasum": null
             },
             "type": "npm-asset",
             "license": [
@@ -4525,9 +4649,9 @@
             "authors": [
                 {
                     "name": "Freek Van der Herten",
-                    "role": "Developer",
                     "email": "freek@spatie.be",
-                    "homepage": "https://spatie.be"
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
                 }
             ],
             "description": "Dump databases",
@@ -6132,8 +6256,8 @@
             "authors": [
                 {
                     "name": "Tijs Verkoyen",
-                    "role": "Developer",
-                    "email": "css_to_inline_styles@verkoyen.eu"
+                    "email": "css_to_inline_styles@verkoyen.eu",
+                    "role": "Developer"
                 }
             ],
             "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
@@ -6196,49 +6320,6 @@
                 "environment"
             ],
             "time": "2019-08-27T17:00:38+00:00"
-        },
-        {
-            "name": "zsgsdesign/laravel-pdf-latex",
-            "version": "2.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ZsgsDesign/laravel-pdf-latex.git",
-                "reference": "d579ff552c3080c586b8f399d3db106ca829c4c4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ZsgsDesign/laravel-pdf-latex/zipball/d579ff552c3080c586b8f399d3db106ca829c4c4",
-                "reference": "d579ff552c3080c586b8f399d3db106ca829c4c4",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/filesystem": "5.4.x|5.5.X|5.6.X|5.7.X|5.8.X",
-                "illuminate/support": "5.4.x|5.5.X|5.6.X|5.7.X|5.8.X",
-                "php": ">=5.4.0",
-                "symfony/process": "v2.x|v3.x|v4.x"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "ZsgsDesign\\PDFConverter\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mihir Bhende",
-                    "email": "techsemicolon@gmail.com"
-                },
-                {
-                    "name": "John Zhang",
-                    "email": "zsgsdesign@gmail.com"
-                }
-            ],
-            "description": "A latex package for laravel to generate pdfs",
-            "time": "2019-09-04T12:56:48+00:00"
         }
     ],
     "packages-dev": [
@@ -6290,9 +6371,9 @@
             "authors": [
                 {
                     "name": "Marcel Pociot",
+                    "role": "Developer",
                     "email": "marcel@beyondco.de",
-                    "homepage": "https://beyondco.de",
-                    "role": "Developer"
+                    "homepage": "https://beyondco.de"
                 }
             ],
             "description": "Symfony Var-Dump Server for Laravel",
@@ -6733,18 +6814,18 @@
             "authors": [
                 {
                     "name": "Arne Blankerts",
-                    "role": "Developer",
-                    "email": "arne@blankerts.de"
+                    "email": "arne@blankerts.de",
+                    "role": "Developer"
                 },
                 {
                     "name": "Sebastian Heuer",
-                    "role": "Developer",
-                    "email": "sebastian@phpeople.de"
+                    "email": "sebastian@phpeople.de",
+                    "role": "Developer"
                 },
                 {
                     "name": "Sebastian Bergmann",
-                    "role": "Developer",
-                    "email": "sebastian@phpunit.de"
+                    "email": "sebastian@phpunit.de",
+                    "role": "Developer"
                 }
             ],
             "description": "Component for reading phar.io manifest information from a PHP Archive (PHAR)",
@@ -7857,8 +7938,8 @@
             "authors": [
                 {
                     "name": "Arne Blankerts",
-                    "role": "Developer",
-                    "email": "arne@blankerts.de"
+                    "email": "arne@blankerts.de",
+                    "role": "Developer"
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
