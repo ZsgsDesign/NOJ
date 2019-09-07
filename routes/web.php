@@ -17,7 +17,10 @@ Route::get('/acmhome/problemdetail.do','MainController@oldRedirect')->name('old.
 Route::get('/opensearch.xml', function () {
     return response(getOpenSearchXML(), 200)->header("Content-type","text/xml");
 });
-Route::get('/latex.svg','LatexController@latex')->name('latex.svg');
+Route::group(['as' => 'latex.'], function () {
+    Route::get('/latex.svg','LatexController@svg')->name('svg');
+    Route::get('/latex.png','LatexController@png')->name('png');
+});
 
 Route::get('/', 'MainController@home')->middleware('contest_account')->name('home');
 
