@@ -220,7 +220,7 @@
             }, success: function(ret){
                 console.log(ret);
                 if (ret.ret==200) {
-                    alert("PDF generated successfully.");
+                    alert("PDF generating in background, check status later.");
                 } else {
                     alert(ret.desc);
                 }
