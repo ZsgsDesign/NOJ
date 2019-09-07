@@ -40,7 +40,6 @@ class MainController extends Controller
      */
     public function home(Request $request)
     {
-        return view('pdf.contest.advice');
         $announcementModel=new AnnouncementModel();
         $announcements=$announcementModel->fetch();
         $problem=new ProblemModel();
