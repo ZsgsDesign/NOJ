@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Storage;
 use Requests;
+use Imagick;
 
 class LatexController extends Controller
 {
@@ -38,6 +39,20 @@ class LatexController extends Controller
         if (!Storage::exists('latex-svg/'.urlencode($ltxsource).'.svg')) {
             self::generateSVG($ltxsource);
         }
+        $image = new Imagick();
+        $image->readImageBlob(Storage::get('latex-svg/'.urlencode($ltxsource).'.svg'));
+        $res = $image->getImageResolution();
+        $x_ratio = $res['x'] / $image->getImageWidth();
+        $y_ratio = $res['y'] / $image->getImageHeight();
+        $ratio=intval(200/$image->getImageHeight());
+        $width=$image->getImageWidth()*$ratio;
+        $height=$image->getImageHeight()*$ratio;
+        $image->removeImage();
+        $image->setResolution($width*$x_ratio, $height*$y_ratio);
+        $image->setBackgroundColor(new \ImagickPixel('transparent'));
+        $image->readImageBlob(Storage::get('latex-svg/'.urlencode($ltxsource).'.svg'));
+        $image->setImageFormat("png32");
+        Storage::put('latex-png/'.urlencode($ltxsource).'.png', $image->getImageBlob());
     }
 
     private static function generateSVG($ltxsource)
