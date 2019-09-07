@@ -44,7 +44,8 @@ class LatexController extends Controller
         $res = $image->getImageResolution();
         $x_ratio = $res['x'] / $image->getImageWidth();
         $y_ratio = $res['y'] / $image->getImageHeight();
-        $ratio=intval(200/$image->getImageHeight());
+        // $ratio=intval(200/$image->getImageHeight());
+        $ratio=10;
         $width=$image->getImageWidth()*$ratio;
         $height=$image->getImageHeight()*$ratio;
         $image->removeImage();

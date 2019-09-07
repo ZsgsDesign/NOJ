@@ -25,7 +25,7 @@ use Illuminate\Contracts\Broadcasting\Factory as BroadcastFactory;
 use Illuminate\Support\Facades\DB;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use App\Models\Eloquent\MessageModel;
-
+use App\Models\Latex\LatexModel;
 
 if (!function_exists('version')) {
     function version()
@@ -192,9 +192,8 @@ if (!function_exists('latex2Image')) {
     function latex2Image($content)
     {
         $callback = function ($matches) use (&$patch, &$display) {
-            return '<img src="' . route('latex.png', [
-                'ltxsource' => "$patch$matches[1]$patch"
-            ]) . "\" style=\"display: $display; height: 1em;\">";
+            [$url,$width,$height]=LatexModel::info("$patch$matches[1]$patch");
+            return "<img src=\"$url\" style=\"display: $display;\" class=\"rendered-tex\" width=\"$width\" height=\"$height\">";
         };
         $patch = '$';
         $display = 'inline-block';
