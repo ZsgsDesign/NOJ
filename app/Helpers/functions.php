@@ -192,7 +192,7 @@ if (!function_exists('latex2Image')) {
     function latex2Image($content)
     {
         $callback = function ($matches) use (&$patch, &$display) {
-            return '<img src="' . route('latex.svg', [
+            return '<img src="' . route('latex.png', [
                 'ltxsource' => "$patch$matches[1]$patch"
             ]) . "\" style=\"display: $display;\">";
         };
