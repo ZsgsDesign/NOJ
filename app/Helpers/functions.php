@@ -192,13 +192,8 @@ if (!function_exists('latex2Image')) {
     function latex2Image($content)
     {
         $callback = function ($matches) use (&$patch, &$display) {
-            return '<img src="http://www.tlhiv.org/ltxpreview/ltxpreview.cgi?' . http_build_query([
-                'width' => 10,
-                'height' => 10,
-                'ltx' => '',
-                'ltxsource' => "$patch$matches[1]$patch",
-                'result' => 'preview',
-                'init' => 0,
+            return '<img src="' . route('latex.svg', [
+                'ltxsource' => "$patch$matches[1]$patch"
             ]) . "\" style=\"display: $display;\">";
         };
         $patch = '$';
