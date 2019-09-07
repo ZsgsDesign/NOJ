@@ -83,6 +83,6 @@
         $pdf->add_info('Producer', "{{config('app.displayName')}}");
         $pdf->add_info('Creator', "{{config('app.name')}} Contest PDF Auto-Generater");
         $pdf->add_info('CreatorTool', "{{config('app.url')}}");
-        $pdf->add_info('BaseURL', "{{route('contest.detail',['cid'=>$cid])}}");
+        $pdf->add_info('BaseURL', "{{route('contest.detail',['cid'=>$contest["cid"]])}}");
     }
 </script>
