@@ -82,7 +82,7 @@
             <div class="col-3 admin-list p-0">
                 @if($verified)
                 <ul class="list-group bmd-list-group p-0">
-                    <a href="#" class="list-group-item admin-tab-text wemd-light-blue wemd-lighten-4"> Account Generate</a>
+                    <a href="#" class="list-group-item admin-tab-text wemd-light-blue wemd-lighten-4" onclick="showPanel('account_generate')"> Account Generate</a>
                 </ul>
                 @endif
                 @if(time() >= strtotime($basic['begin_time']))
@@ -94,7 +94,7 @@
                     <a href="/group/{{$gcode}}/settings/contest" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Contest Management</a>
                 </ul>
                 <ul class="list-group bmd-list-group p-0">
-                    <a href="#" class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="generatePDF()"> Generate PDF</a>
+                    <a href="#" class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="showPanel('generate_pdf')"> Generate PDF</a>
                 </ul>
                 @if(time() >= strtotime($basic['begin_time']))
                 <ul class="list-group bmd-list-group p-0">
@@ -110,46 +110,57 @@
                 </ul>
                 @endif
             </div>
-
             <div class="col-9 pt-3">
-                @if($verified)
-                <h3 class="tab-title">Account Generate</h3>
-                <form class="form-inline">
-                    <div class="form-group mr-3">
-                        <label for="account_prefix" class="bmd-label-floating">Account Prefix</label>
-                        <input type="text" class="form-control" id="account_prefix">
+
+                <panel id="account_generate" class="d-block">
+                    @if($verified)
+                    <h3 class="tab-title">Account Generate</h3>
+                    <form class="form-inline">
+                        <div class="form-group mr-3">
+                            <label for="account_prefix" class="bmd-label-floating">Account Prefix</label>
+                            <input type="text" class="form-control" id="account_prefix">
+                        </div>
+                        <div class="form-group">
+                            <label for="account_count" class="bmd-label-floating">Account Count</label>
+                            <input class="form-control" id="account_count">
+                        </div>
+                    </form>
+                    <button id="generateAccountBtn" class="btn btn-warning float-right" onclick="generateAccount()"><i class="MDI autorenew cm-refreshing d-none"></i>Generate</button>
+                    <div class="pt-2">
+                        <a href="/contest/{{$cid}}/admin/downloadContestAccountXlsx">Download as xlsx...</a>
                     </div>
-                    <div class="form-group">
-                        <label for="account_count" class="bmd-label-floating">Account Count</label>
-                        <input class="form-control" id="account_count">
-                    </div>
-                </form>
-                <button id="generateAccountBtn" class="btn btn-warning float-right" onclick="generateAccount()"><i class="MDI autorenew cm-refreshing d-none"></i>Generate</button>
-                <div class="pt-2">
-                    <a href="/contest/{{$cid}}/admin/downloadContestAccountXlsx">Download as xlsx...</a>
-                </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col" rowspan="2">Name</th>
-                            <th scope="col" rowspan="2">Account</th>
-                            <th scope="col" rowspan="2">Password</th>
-                        </tr>
-                    </thead>
-                    <tbody id="account_table">
-                        @foreach ($contest_accounts as $item)
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td>{{$item['name']}}</td><td>{{$item['email']}}</td><td>********</td>
+                                <th scope="col" rowspan="2">Name</th>
+                                <th scope="col" rowspan="2">Account</th>
+                                <th scope="col" rowspan="2">Password</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                @endif
+                        </thead>
+                        <tbody id="account_table">
+                            @foreach ($contest_accounts as $item)
+                                <tr>
+                                    <td>{{$item['name']}}</td><td>{{$item['email']}}</td><td>********</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    @endif
+                </panel>
+
+                <panel id="generate_pdf" class="d-none">
+                    <p>TODO</p>
+                </panel>
+
             </div>
         </div>
     </paper-card>
 </div>
 <script>
+    function showPanel(id){
+        $('panel').removeClass('d-block').addClass('d-none');
+        $('#' + id).addClass('d-block').removeClass('d-none');
+    }
 
     window.addEventListener("load",function() {
 
