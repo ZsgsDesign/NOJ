@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b90368877f78386273289887f61349d0",
+    "content-hash": "79795f70ee21f9a748208d38959f5296",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1274,6 +1274,63 @@
                 "url"
             ],
             "time": "2019-07-01T23:21:34+00:00"
+        },
+        {
+            "name": "imtigger/laravel-job-status",
+            "version": "v0.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/imTigger/laravel-job-status.git",
+                "reference": "034507e9b9bbc59396b4da7bdc0614d1d7c64e7a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/imTigger/laravel-job-status/zipball/034507e9b9bbc59396b4da7bdc0614d1d7c64e7a",
+                "reference": "034507e9b9bbc59396b4da7bdc0614d1d7c64e7a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": ">=5.3",
+                "illuminate/database": ">=5.3",
+                "illuminate/queue": ">=5.3",
+                "illuminate/support": ">=5.3",
+                "nesbot/carbon": ">=1.21",
+                "php": ">=5.6.4"
+            },
+            "require-dev": {
+                "orchestra/testbench": ">=3.4",
+                "phpunit/phpunit": ">=5.7"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Imtigger\\LaravelJobStatus\\LaravelJobStatusServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Imtigger\\LaravelJobStatus\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tiger",
+                    "email": "tiger@tiger-workshop.com"
+                }
+            ],
+            "description": "Laravel Job Status",
+            "keywords": [
+                "job",
+                "laravel",
+                "queue"
+            ],
+            "time": "2019-02-12T18:33:24+00:00"
         },
         {
             "name": "intervention/image",
