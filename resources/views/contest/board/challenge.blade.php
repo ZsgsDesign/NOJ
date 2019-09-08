@@ -169,7 +169,7 @@
         <div class="col-sm-12 col-md-4">
             @if($basic['pdf'])
                 <paper-card class="btn-group-vertical cm-action-group" role="group" aria-label="vertical button group">
-                    <a href="/ajax/contest/downloadPDF?cid={{$cid}}" target="_blank"><button type="button" class="btn btn-secondary"><i class="MDI file-pdf"></i> Download PDF</button></a>
+                    <a href="{{route('ajax.contest.downloadPDF',['cid'=>$cid])}}" target="_blank"><button type="button" class="btn btn-secondary"><i class="MDI file-pdf"></i> Download PDF</button></a>
                 </paper-card>
             @endif
             <paper-card>
