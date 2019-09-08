@@ -27,7 +27,7 @@
         padding: 0.5rem;
     }
 
-    pre{
+    .sample-container pre{
         margin:0;
     }
 </style>

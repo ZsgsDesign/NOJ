@@ -17,6 +17,7 @@ class GeneratePDF implements ShouldQueue
 
     public $tries = 5;
     protected $cid;
+    protected $config;
 
     /**
      * Create a new job instance.
@@ -24,10 +25,15 @@ class GeneratePDF implements ShouldQueue
      * @return void
      */
 
-    public function __construct($cid)
+    public function __construct($cid, $config)
     {
         $this->prepareStatus();
         $this->cid=$cid;
+        $default=[
+            'cover'=>false,
+            'advice'=>false,
+        ];
+        $this->config=array_merge($default,$config);
     }
 
     /**
@@ -38,6 +44,7 @@ class GeneratePDF implements ShouldQueue
     public function handle()
     {
         $cid=$this->cid;
+        $config=$this->config;
 
         if (!is_dir(storage_path("app/contest/pdf/"))){
             mkdir(storage_path("app/contest/pdf/"), 0777, true);
@@ -52,10 +59,7 @@ class GeneratePDF implements ShouldQueue
             'isHtml5ParserEnabled' => true,
             'isRemoteEnabled' => true
         ])->setWarnings(true)->loadView('pdf.contest.main', [
-            'conf'=>[
-                'cover'=>true,
-                'advice'=>true,
-            ],
+            'conf'=>$config,
             'contest' => [
                 'cid'=>$cid,
                 'name'=>$record->name,

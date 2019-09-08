@@ -16,7 +16,7 @@
         display: block;
     }
 
-    h3{
+    .problem-container h3{
         margin-bottom: 0.5rem;
     }
 </style>

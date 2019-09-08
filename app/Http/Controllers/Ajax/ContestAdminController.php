@@ -296,13 +296,19 @@ class ContestAdminController extends Controller
     {
         $request->validate([
             "cid"=>"required|integer",
+            "config.cover"=>"required",
+            "config.advice"=>"required",
         ]);
         $cid = $request->input('cid');
+        $config = [
+            'cover'=>$request->input('config.cover')=='true',
+            'advice'=>$request->input('config.advice')=='true'
+        ];
         $contestModel=new ContestModel();
         if ($contestModel->judgeClearance($cid,Auth::user()->id) != 3){
             return ResponseModel::err(2001);
         }
-        $generateProcess=new GeneratePDF($cid);
+        $generateProcess=new GeneratePDF($cid,$config);
         dispatch($generateProcess)->onQueue('normal');
         Cache::tags(['contest', 'admin', 'PDFGenerate'])->put($cid, $generateProcess->getJobStatusId());
         return ResponseModel::success(200, null, [

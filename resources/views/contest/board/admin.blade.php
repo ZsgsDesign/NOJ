@@ -245,10 +245,10 @@
                         </div>
                         <p>Generate Options</p>
                         <div class="switch">
-                            <label><input type="checkbox" checked> Cover Page</label>
+                            <label><input type="checkbox" id="PDFOptionsCoverPage" checked> Cover Page</label>
                         </div>
                         <div class="switch">
-                            <label><input type="checkbox" checked> Advice Section</label>
+                            <label><input type="checkbox" id="PDFOptionsAdvicePage" checked> Advice Section</label>
                         </div>
                         <div class="mt-3" id="generatePDF_actions">
                             @if(in_array($generatePDFStatus,['queued','executing']))
@@ -339,9 +339,13 @@
         generatingPDF = true;
         $.ajax({
             type: 'POST',
-            url: '/ajax/contest/generatePDF',
+            url: "{{route('ajax.contest.generatePDF')}}",
             data: {
                 cid: {{$cid}},
+                config: {
+                    cover:$('#PDFOptionsCoverPage').prop('checked'),
+                    advice:$('#PDFOptionsAdvicePage').prop('checked')
+                }
             },dataType: 'json',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

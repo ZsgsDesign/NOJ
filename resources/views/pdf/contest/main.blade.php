@@ -1,11 +1,3 @@
-<?php
-    $default=[
-        'cover'=>false,
-        'advice'=>false,
-    ];
-    $conf=array_merge($default,$conf);
-?>
-
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
