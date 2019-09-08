@@ -171,6 +171,7 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Imtigger\LaravelJobStatus\LaravelJobStatusServiceProvider::class,
         /*
          * Application Service Providers...
          */

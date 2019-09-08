@@ -8,11 +8,12 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Models\Eloquent\ContestModel as EloquentContestModel;
+use Imtigger\LaravelJobStatus\Trackable;
 use PDF;
 
 class GeneratePDF implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Trackable;
 
     public $tries = 5;
     protected $cid;
@@ -25,6 +26,7 @@ class GeneratePDF implements ShouldQueue
 
     public function __construct($cid)
     {
+        $this->prepareStatus();
         $this->cid=$cid;
     }
 

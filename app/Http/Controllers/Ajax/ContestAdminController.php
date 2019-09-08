@@ -302,9 +302,10 @@ class ContestAdminController extends Controller
         if ($contestModel->judgeClearance($cid,Auth::user()->id) != 3){
             return ResponseModel::err(2001);
         }
-
-        dispatch(new GeneratePDF($cid))->onQueue('normal');
-
-        return ResponseModel::success(200);
+        $generateProcess=new GeneratePDF($cid);
+        dispatch($generateProcess)->onQueue('normal');
+        return ResponseModel::success(200,null,[
+            'JobStatusId'=>$generateProcess->getJobStatusId()
+        ]);
     }
 }
