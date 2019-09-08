@@ -38,9 +38,15 @@
         color: rgba(0, 0, 0, 0.65) !important;
         font-weight: 500;
     }
+
     .tab-title{
         color: rgba(0, 0, 0, 0.8) !important;
         font-weight: 600;
+    }
+
+    .tab-body{
+        margin-top: 1rem;
+        padding: 1rem;
     }
 
     .table thead th,
@@ -69,6 +75,63 @@
         padding-top: 0.05rem;
     }
 
+    .admin-list a{
+        transition: .2s ease-out .0s;
+    }
+
+    file-card{
+        display: flex;
+        align-items: center;
+        max-width: 100%;
+        border-radius: 4px;
+        transition: .2s ease-out .0s;
+        color: #7a8e97;
+        background: #fff;
+        padding: 1rem;
+        position: relative;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+    }
+
+    file-card a:hover{
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    file-card > div:first-of-type{
+        display: flex;
+        align-items: center;
+        padding-right:1rem;
+        width:5rem;
+        height:5rem;
+        flex-shrink: 0;
+        flex-grow: 0;
+    }
+
+    file-card img{
+        display: block;
+        width:100%;
+    }
+
+    file-card > div:last-of-type{
+        flex-shrink: 1;
+        flex-grow: 1;
+    }
+
+    file-card p{
+        margin:0;
+        line-height: 1;
+        font-family: 'Roboto';
+    }
+
+    file-card h5{
+        margin:0;
+        font-size: 1.25rem;
+        margin-bottom: .5rem;
+        font-family: 'Roboto';
+        font-weight: 400;
+        line-height: 1.2;
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
@@ -82,7 +145,7 @@
             <div class="col-3 admin-list p-0">
                 @if($verified)
                 <ul class="list-group bmd-list-group p-0">
-                    <a href="#" class="list-group-item admin-tab-text wemd-light-blue wemd-lighten-4" onclick="showPanel('account_generate')"> Account Generate</a>
+                    <a data-panel="account_generate" href="#" class="list-group-item admin-tab-text wemd-light-blue wemd-lighten-4" onclick="showPanel('account_generate')"> Account Generate</a>
                 </ul>
                 @endif
                 @if(time() >= strtotime($basic['begin_time']))
@@ -94,7 +157,7 @@
                     <a href="/group/{{$gcode}}/settings/contest" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Contest Management</a>
                 </ul>
                 <ul class="list-group bmd-list-group p-0">
-                    <a href="#" class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="showPanel('generate_pdf')"> Generate PDF</a>
+                    <a data-panel="generate_pdf" href="#" class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="showPanel('generate_pdf')"> Generate PDF</a>
                 </ul>
                 @if(time() >= strtotime($basic['begin_time']))
                 <ul class="list-group bmd-list-group p-0">
@@ -112,7 +175,7 @@
             </div>
             <div class="col-9 pt-3">
 
-                <panel id="account_generate" class="d-block">
+                <section-panel id="account_generate" class="d-block">
                     @if($verified)
                     <h3 class="tab-title">Account Generate</h3>
                     <form class="form-inline">
@@ -146,11 +209,54 @@
                         </tbody>
                     </table>
                     @endif
-                </panel>
+                </section-panel>
 
-                <panel id="generate_pdf" class="d-none">
-                    <p>TODO</p>
-                </panel>
+                <section-panel id="generate_pdf" class="d-none">
+                    <h3 class="tab-title">Generate PDF</h3>
+                    <div class="tab-body">
+                        <p>Current PDF</p>
+                        <div>
+                            @if($basic['pdf'])
+                                <file-card class="mt-4 mb-3">
+                                    <div>
+                                        <img src="/static/library/fileicon-svg/svg/pdf.svg" onerror="this.src=unknown_svg;">
+                                        <script>
+                                            var unknown_svg='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 56 56" style="enable-background:new 0 0 56 56" xml:space="preserve"><g><path style="fill:%23e9e9e0" d="M36.985,0H7.963C7.155,0,6.5,0.655,6.5,1.926V55c0,0.345,0.655,1,1.463,1h40.074 c0.808,0,1.463-0.655,1.463-1V12.978c0-0.696-0.093-0.92-0.257-1.085L37.607,0.257C37.442,0.093,37.218,0,36.985,0z"/><polygon style="fill:%23d9d7ca" points="37.5,0.151 37.5,12 49.349,12"/><path style="fill:%23c8bdb8" d="M48.037,56H7.963C7.155,56,6.5,55.345,6.5,54.537V39h43v15.537C49.5,55.345,48.845,56,48.037,56z"/><circle style="fill:%23fff" cx="18.5" cy="47" r="3"/><circle style="fill:%23fff" cx="28.5" cy="47" r="3"/><circle style="fill:%23fff" cx="38.5" cy="47" r="3"/></g></svg>';
+                                        </script>
+                                    </div>
+                                    <div>
+                                        <h5 class="mundb-text-truncate-1">{{$contest_name}}.pdf</h5>
+                                        <p><a class="text-info" href="{{route('ajax.contest.downloadPDF',['cid'=>$cid])}}">Download</a></p>
+                                    </div>
+                                </file-card>
+                            @else
+                                <file-card class="mt-4 mb-3">
+                                    <div>
+                                        <img src="/static/library/fileicon-svg/svg/unknown.svg" onerror="this.src=unknown_svg;">
+                                        <script>
+                                            var unknown_svg='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 56 56" style="enable-background:new 0 0 56 56" xml:space="preserve"><g><path style="fill:%23e9e9e0" d="M36.985,0H7.963C7.155,0,6.5,0.655,6.5,1.926V55c0,0.345,0.655,1,1.463,1h40.074 c0.808,0,1.463-0.655,1.463-1V12.978c0-0.696-0.093-0.92-0.257-1.085L37.607,0.257C37.442,0.093,37.218,0,36.985,0z"/><polygon style="fill:%23d9d7ca" points="37.5,0.151 37.5,12 49.349,12"/><path style="fill:%23c8bdb8" d="M48.037,56H7.963C7.155,56,6.5,55.345,6.5,54.537V39h43v15.537C49.5,55.345,48.845,56,48.037,56z"/><circle style="fill:%23fff" cx="18.5" cy="47" r="3"/><circle style="fill:%23fff" cx="28.5" cy="47" r="3"/><circle style="fill:%23fff" cx="38.5" cy="47" r="3"/></g></svg>';
+                                        </script>
+                                    </div>
+                                    <div>
+                                        <h5 class="mundb-text-truncate-1">Upload your own or generate below</h5>
+                                    </div>
+                                </file-card>
+                            @endif
+                        </div>
+                        <p>Generate Options</p>
+                        <div class="switch">
+                            <label><input type="checkbox" checked> Cover Page</label>
+                        </div>
+                        <div class="switch">
+                            <label><input type="checkbox" checked> Advice Section</label>
+                        </div>
+                        <div class="mt-3">
+                            <button type="button" class="btn btn-outline-info"><i class="MDI checkbox-blank-circle-outline"></i> Checking Availability</button>
+                            <button type="button" class="btn btn-outline-danger"><i class="MDI close-circle-outline"></i> Unable to Generate</button>
+                            <button type="button" class="btn btn-outline-success"><i class="MDI checkbox-marked-circle-outline"></i> Generate PDF</button>
+                        </div>
+                    </div>
+                </section-panel>
 
             </div>
         </div>
@@ -158,7 +264,9 @@
 </div>
 <script>
     function showPanel(id){
-        $('panel').removeClass('d-block').addClass('d-none');
+        $('section-panel').removeClass('d-block').addClass('d-none');
+        $('.admin-list a').removeClass('wemd-light-blue').addClass('wemd-white');
+        $(`.admin-list a[data-panel="${id}"]`).addClass('wemd-light-blue').removeClass('wemd-white');
         $('#' + id).addClass('d-block').removeClass('d-none');
     }
 
