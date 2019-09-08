@@ -3,14 +3,13 @@
 namespace App\Models\Latex;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 use Imagick;
 
 class LatexModel extends Model
 {
     public static function info($ltxsource, $type="png")
     {
-        if(!Arr::has(['png','svg'],$type)) return [];
+        if(!in_array($type,['png','svg'])) return [];
         $url=route("latex.$type", ['ltxsource' => $ltxsource]);
         $image = new Imagick();
         $image->readImageBlob(Storage::get('latex-svg/'.urlencode($ltxsource).'.svg'));
