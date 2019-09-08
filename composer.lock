@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d302cf6babb4dee7eebc13e2a16b8ca",
+    "content-hash": "b90368877f78386273289887f61349d0",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -3094,6 +3094,42 @@
                 "php"
             ],
             "time": "2019-08-12T20:17:41+00:00"
+        },
+        {
+            "name": "njuptaaa/moss",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NJUPTAAA/MOSS.git",
+                "reference": "68048251a739a05506b6d817ddb0a09ff0e3ec76"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NJUPTAAA/MOSS/zipball/68048251a739a05506b6d817ddb0a09ff0e3ec76",
+                "reference": "68048251a739a05506b6d817ddb0a09ff0e3ec76",
+                "shasum": ""
+            },
+            "require": {
+                "kub-at/php-simple-html-dom-parser": "~1.7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MOSS\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ZsgsDesign",
+                    "email": "zsgsdesign@gmail.com"
+                }
+            ],
+            "description": "Stanford MOSS Interface, for a Measure Of Software Similarity.",
+            "time": "2019-09-08T08:26:04+00:00"
         },
         {
             "name": "npm-asset/animate.css",
