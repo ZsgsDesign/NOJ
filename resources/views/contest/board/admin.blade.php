@@ -250,10 +250,19 @@
                         <div class="switch">
                             <label><input type="checkbox" checked> Advice Section</label>
                         </div>
-                        <div class="mt-3">
-                            <button type="button" class="btn btn-outline-info"><i class="MDI checkbox-blank-circle-outline"></i> Checking Availability</button>
-                            <button type="button" class="btn btn-outline-danger"><i class="MDI close-circle-outline"></i> Unable to Generate</button>
-                            <button type="button" class="btn btn-outline-success"><i class="MDI checkbox-marked-circle-outline"></i> Generate PDF</button>
+                        <div class="mt-3" id="generatePDF_actions">
+                            @if(in_array($generatePDFStatus,['queued','executing']))
+                                <button type="button" class="btn btn-outline-info"><i class="MDI timer-sand"></i> Processing</button>
+                            @endif
+                            @if($generatePDFStatus=='failed')
+                                <button type="button" class="btn btn-outline-danger"><i class="MDI close-circle-outline"></i> Unable to Generate</button>
+                            @endif
+                            @if($generatePDFStatus=='finished')
+                                <button type="button" class="btn btn-outline-info"><i class="MDI checkbox-marked-circle-outline"></i> PDF Generating Completed</button>
+                            @endif
+                            @if(in_array($generatePDFStatus, ['finished','failed','empty']))
+                                <button type="button" class="btn btn-outline-success" onclick="generatePDF()"><i class="MDI file-pdf-box"></i> Generate PDF</button>
+                            @endif
                         </div>
                     </div>
                 </section-panel>
@@ -340,6 +349,7 @@
                 console.log(ret);
                 if (ret.ret==200) {
                     alert("PDF generating in background, check status later.");
+                    $('#generatePDF_actions').html(`<button type="button" class="btn btn-outline-info"><i class="MDI timer-sand"></i> Processing</button>`);
                 } else {
                     alert(ret.desc);
                 }

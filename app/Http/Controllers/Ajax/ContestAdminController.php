@@ -304,7 +304,8 @@ class ContestAdminController extends Controller
         }
         $generateProcess=new GeneratePDF($cid);
         dispatch($generateProcess)->onQueue('normal');
-        return ResponseModel::success(200,null,[
+        Cache::tags(['contest', 'admin', 'PDFGenerate'])->put($cid, $generateProcess->getJobStatusId());
+        return ResponseModel::success(200, null, [
             'JobStatusId'=>$generateProcess->getJobStatusId()
         ]);
     }
