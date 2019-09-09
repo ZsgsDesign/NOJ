@@ -149,10 +149,7 @@
     }
 
     #anticheated .tab-body button{
-        margin-right: 0.5rem;
-    }
-    #anticheated .tab-body button:last-of-type{
-        margin-right: 0;
+        margin-right: 1rem;
     }
 
     section-panel .btn{
