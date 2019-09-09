@@ -149,7 +149,7 @@
                     </div>
                 </div>
                 <div class="text-center card-bottom socialite-section">
-                <a href="{{route('oauth_github')}}"><button class="btn btn-dark bmd-btn-icon"><i class="MDI github-circle"></i></button></a>
+                <a href="{{route('oauth.github.index')}}"><button class="btn btn-dark bmd-btn-icon"><i class="MDI github-circle"></i></button></a>
                 </div>
             </div>
         </div>
