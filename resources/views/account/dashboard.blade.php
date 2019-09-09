@@ -704,7 +704,7 @@
         });
 
         $('account-bind.github').on('click',function(){
-            window.location= '{{ route('oauth_github') }}' ;
+            window.location= '{{ route('oauth.github.index') }}' ;
         });
 
         $('#basic-info-update').on('click',function(){
