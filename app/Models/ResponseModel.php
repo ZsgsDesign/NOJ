@@ -99,6 +99,9 @@ class ResponseModel extends Model
             '7005' => "Don't play just for fun",//gcode=="create"
             '7006' => "A group with the same gcode already exists",
             '7007' => "Group Problem Tag Exist",
+
+            '8000' => "Job-Related Error",
+            '8001' => "Job Still Running"
         ];
         return isset($errDesc[$errCode]) ? $errDesc[$errCode] : $errDesc['1000'];
     }

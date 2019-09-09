@@ -293,6 +293,22 @@ class ContestAdminController extends Controller
 
     }
 
+    public function downloadPlagiarismReport(Request $request)
+    {
+        $request->validate([
+            "cid"=>"required|integer",
+        ]);
+        $cid = $request->input('cid');
+        $contestModel=new ContestModel();
+
+        if($contestModel->judgeClearance($cid,Auth::user()->id) != 3){
+            return ResponseModel::err(2001);
+        }
+        $name=$contestModel->basic($cid)["name"];
+
+        return response()->download(storage_path("app/contest/anticheat/$cid/report/report.zip"), "$name Code Plagiarism.zip");
+    }
+
     public function generatePDF(Request $request)
     {
         $request->validate([
@@ -309,6 +325,7 @@ class ContestAdminController extends Controller
         if ($contestModel->judgeClearance($cid,Auth::user()->id) != 3){
             return ResponseModel::err(2001);
         }
+        if(!is_null(Cache::tags(['contest', 'admin', 'PDFGenerate'])->get($cid))) return ResponseModel::err(8001);
         $generateProcess=new GeneratePDF($cid,$config);
         dispatch($generateProcess)->onQueue('normal');
         Cache::tags(['contest', 'admin', 'PDFGenerate'])->put($cid, $generateProcess->getJobStatusId());
@@ -327,7 +344,7 @@ class ContestAdminController extends Controller
         if ($contestModel->judgeClearance($cid,Auth::user()->id) != 3){
             return ResponseModel::err(2001);
         }
-
+        if(!is_null(Cache::tags(['contest', 'admin', 'anticheat'])->get($cid))) return ResponseModel::err(8001);
         if(EloquentContestModel::find($cid)->isJudgingComplete()) {
             $anticheatProcess=new AntiCheat($cid);
             dispatch($anticheatProcess)->onQueue('normal');

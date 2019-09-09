@@ -149,10 +149,13 @@
     }
 
     #anticheated .tab-body button{
-        margin-bottom: 0.5rem;
+        margin-right: 0.5rem;
+    }
+    #anticheated .tab-body button:last-of-type{
+        margin-right: 0;
     }
 
-    .btn{
+    section-panel .btn{
         border-radius: 2000px;
     }
 
@@ -299,20 +302,25 @@
                 <section-panel id="anticheated" class="d-none">
                     <div class="tab-body">
                         <div class="text-center">
+                            <div>
                             @if(in_array($anticheat['status'],['queued','executing']))
-                                <div><button data-role="progress" class="btn btn-outline-info" style="background-image: linear-gradient(to right, var(--wemd-light-blue-lighten-4) {{$anticheat['progress']}}%,#fff {{$anticheat['progress']}}%);"><i class="MDI coffee-outline"></i> Running Code Plagiarism Detection</button></div>
+                                <button data-role="progress" class="btn btn-outline-info" style="background-image: linear-gradient(to right, var(--wemd-light-blue-lighten-4) {{$anticheat['progress']}}%,#fff {{$anticheat['progress']}}%);"><i class="MDI coffee-outline"></i> Running Code Plagiarism Check</button>
                             @else
-                                <div><button data-role="progress" class="btn btn-outline-info d-none" style="background-image: linear-gradient(to right, var(--wemd-light-blue-lighten-4) 0%,#fff 0%);"><i class="MDI coffee-outline"></i> Running Code Plagiarism Detection</button></div>
+                                <button data-role="progress" class="btn btn-outline-info d-none" style="background-image: linear-gradient(to right, var(--wemd-light-blue-lighten-4) 0%,#fff 0%);"><i class="MDI coffee-outline"></i> Running Code Plagiarism Check</button>
                             @endif
                             @if($anticheat['status']=='failed')
-                                <div><button data-role="error" class="btn btn-outline-danger" style="background-image: linear-gradient(to right, var(--wemd-red-lighten-4) {{$anticheat['progress']}}%,#fff {{$anticheat['progress']}}%);"><i class="MDI alert-circle-outline"></i> View Exception Info</button></div>
+                                <button data-role="error" class="btn btn-outline-danger" style="background-image: linear-gradient(to right, var(--wemd-red-lighten-4) {{$anticheat['progress']}}%,#fff {{$anticheat['progress']}}%);"><i class="MDI alert-circle-outline"></i> Plagiarism Check Failed</button>
                             @endif
                             @if($anticheat['status']=='finished')
-                                <div><button data-role="report" class="btn btn-outline-success" style="background-image: linear-gradient(to right, var(--wemd-light-green-lighten-4) 100%,#fff 100%);"><i class="MDI checkbox-multiple-marked-circle-outline"></i> View Code Plagiarism Report</button></div>
+                                <a href="{{route('ajax.contest.downloadPlagiarismReport',['cid'=>$cid])}}"><button data-role="report" class="btn btn-outline-success" style="background-image: linear-gradient(to right, var(--wemd-light-green-lighten-4) 100%,#fff 100%);" onclick="downloadPlagiarismReport()"><i class="MDI checkbox-multiple-marked-circle-outline"></i> View Code Plagiarism Report</button></a>
                             @endif
-                            @if(in_array($anticheat['status'], ['finished','failed','empty']))
-                                <div><button data-role="action" class="btn btn-outline-info" onclick="anticheat()"><i class="MDI code-tags-check"></i> Run Code Plagiarism Detection</button></div>
+                            @if(in_array($anticheat['status'], ['finished','failed']))
+                                <button data-role="action" class="btn btn-outline-info" onclick="anticheat()"><i class="MDI code-tags-check"></i> Rerun</button>
                             @endif
+                            @if($anticheat['status']=='empty')
+                                <button data-role="action" class="btn btn-outline-info" onclick="anticheat()"><i class="MDI code-tags-check"></i> Run Code Plagiarism Detection</button>
+                            @endif
+                            </div>
                         </div>
                     </div>
                 </section-panel>

@@ -12,6 +12,7 @@ use Redirect;
 use Excel;
 use Cache;
 use DB;
+use Storage;
 
 class AdminController extends Controller
 {
@@ -38,13 +39,17 @@ class AdminController extends Controller
         $generatePDFStatus = JobStatus::find(Cache::tags(['contest', 'admin', 'PDFGenerate'])->get($cid, 0));
         $generatePDFStatus = is_null($generatePDFStatus)?'empty':$generatePDFStatus->status;
         if(in_array($generatePDFStatus,['finished','failed'])){
-            Cache::tags(['contest', 'admin', 'PDFGenerate'])->put($cid, 0);
+            Cache::tags(['contest', 'admin', 'PDFGenerate'])->forget($cid);
         }
         $anticheatStatus = JobStatus::find(Cache::tags(['contest', 'admin', 'anticheat'])->get($cid, 0));
         $anticheatProgress = is_null($anticheatStatus)?0:$anticheatStatus->progress_percentage;
         $anticheatStatus = is_null($anticheatStatus)?'empty':$anticheatStatus->status;
+        if(Storage::disk('local')->exists("contest/anticheat/$cid/report/report.zip")) {
+            $anticheatStatus='finished';
+            $anticheatProgress=100;
+        }
         if(in_array($anticheatStatus, ['finished','failed'])){
-            Cache::tags(['contest', 'admin', 'anticheat'])->put($cid, 0);
+            Cache::tags(['contest', 'admin', 'anticheat'])->forget($cid);
         }
         return view('contest.board.admin', [
             'page_title'=>"Admin",

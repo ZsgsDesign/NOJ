@@ -205,6 +205,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
         Route::get('downloadCode', 'ContestAdminController@downloadCode')->middleware('auth');
         Route::post('generatePDF', 'ContestAdminController@generatePDF')->middleware('auth')->name('ajax.contest.generatePDF');
         Route::post('anticheat', 'ContestAdminController@anticheat')->middleware('auth')->name('ajax.contest.anticheat');
+        Route::get('downloadPlagiarismReport', 'ContestAdminController@downloadPlagiarismReport')->middleware('auth')->name('ajax.contest.downloadPlagiarismReport');
     });
 
     Route::group(['prefix' => 'submission'], function () {
