@@ -137,8 +137,6 @@
         overflow-y: auto;
     }
 
-    /* GRID STYLING */
-
     #anticheated .tab-body{
         display: flex;
         justify-content: center;
