@@ -132,6 +132,95 @@
         line-height: 1.2;
     }
 
+    section-panel{
+        height: 60vh;
+        overflow-y: auto;
+    }
+
+    /* GRID STYLING */
+
+    .spinner-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    .loader {
+        width: 20em;
+        height: 20em;
+        font-size: 10px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .loader .face {
+        position: absolute;
+        border-radius: 50%;
+        border-style: solid;
+        animation: animate 3s linear infinite;
+    }
+
+    .loader .face:nth-child(1) {
+        width: 100%;
+        height: 100%;
+        color: gold;
+        border-color: currentColor transparent transparent currentColor;
+        border-width: 0.2em 0.2em 0em 0em;
+        --deg: -45deg;
+        animation-direction: normal;
+    }
+
+    .loader .face:nth-child(2) {
+        width: 70%;
+        height: 70%;
+        color: lime;
+        border-color: currentColor currentColor transparent transparent;
+        border-width: 0.2em 0em 0em 0.2em;
+        --deg: -135deg;
+        animation-direction: reverse;
+    }
+
+    .loader .face .circle {
+        position: absolute;
+        width: 50%;
+        height: 0.1em;
+        top: 50%;
+        left: 50%;
+        background-color: transparent;
+        transform: rotate(var(--deg));
+        transform-origin: left;
+    }
+
+    .loader .face .circle::before {
+        position: absolute;
+        top: -0.5em;
+        right: -0.5em;
+        content: '';
+        width: 1em;
+        height: 1em;
+        background-color: currentColor;
+        border-radius: 50%;
+        box-shadow: 0 0 2em,
+                    0 0 4em,
+                    0 0 6em,
+                    0 0 8em,
+                    0 0 10em,
+                    0 0 0 0.5em rgba(255, 255, 0, 0.1);
+    }
+
+    @keyframes animate {
+        to {
+            transform: rotate(1turn);
+        }
+    }
+
+    .btn{
+        border-radius: 2000px;
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
@@ -159,6 +248,11 @@
                 <ul class="list-group bmd-list-group p-0">
                     <a data-panel="generate_pdf" href="#" class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="showPanel('generate_pdf')"> Generate PDF</a>
                 </ul>
+                @if($verified && $basic['anticheated'])
+                <ul class="list-group bmd-list-group p-0">
+                    <a data-panel="anticheated" href="#" class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="showPanel('anticheated')"> Anti Cheat</a>
+                </ul>
+                @endif
                 @if(time() >= strtotime($basic['begin_time']))
                 <ul class="list-group bmd-list-group p-0">
                     <a href="/contest/{{$cid}}/admin/refreshContestRank" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Refresh Contest Rank</a>
@@ -267,6 +361,20 @@
                     </div>
                 </section-panel>
 
+                <section-panel id="anticheated" class="d-none">
+                    <div class="spinner-container">
+                        <div class="loader d-none">
+                            <div class="face">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="face">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-info" onclick="anticheat()"><i class="MDI code-tags-check"></i> Run Code Plagiarism Detection</button>
+                    </div>
+                </section-panel>
+
             </div>
         </div>
     </paper-card>
@@ -370,6 +478,45 @@
                 }
                 console.log('Ajax error while posting to ' + type);
                 generatingPDF=false;
+            }
+        });
+    }
+
+    var anticheatRunning=false;
+
+    function anticheat(){
+        if(anticheatRunning) return;
+        anticheatRunning = true;
+        $.ajax({
+            type: 'POST',
+            url: "{{route('ajax.contest.anticheat')}}",
+            data: {
+                cid: {{$cid}}
+            },dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }, success: function(ret){
+                console.log(ret);
+                if (ret.ret==200) {
+                    alert("Code plagiarism detection currently in background, check status later.");
+                    $('#anticheated .loader').removeClass('d-none');
+                    $('#anticheated button').addClass('d-none');
+                } else {
+                    alert(ret.desc);
+                }
+                anticheatRunning=false;
+            }, error: function(xhr, type){
+                console.log(xhr);
+                switch(xhr.status) {
+                    case 422:
+                        alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                        break;
+
+                    default:
+                        alert("Server Connection Error");
+                }
+                console.log('Ajax error while posting to ' + type);
+                anticheatRunning=false;
             }
         });
     }
