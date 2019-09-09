@@ -13,6 +13,7 @@ use App\Jobs\ProcessSubmission;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Storage;
 use App\Jobs\GeneratePDF;
+use App\Jobs\AntiCheat;
 use Log;
 use Auth;
 use Cache;
@@ -314,5 +315,27 @@ class ContestAdminController extends Controller
         return ResponseModel::success(200, null, [
             'JobStatusId'=>$generateProcess->getJobStatusId()
         ]);
+    }
+
+    public function anticheat(Request $request)
+    {
+        $request->validate([
+            "cid"=>"required|integer"
+        ]);
+        $cid = $request->input('cid');
+        $contestModel=new ContestModel();
+        if ($contestModel->judgeClearance($cid,Auth::user()->id) != 3){
+            return ResponseModel::err(2001);
+        }
+
+        if(EloquentContestModel::isJudgingComplete($cid)) {
+            $anticheatProcess=new AntiCheat($cid);
+            dispatch($anticheatProcess)->onQueue('normal');
+            Cache::tags(['contest', 'admin', 'anticheat'])->put($cid, $anticheatProcess->getJobStatusId());
+            return ResponseModel::success(200, null, [
+                'JobStatusId'=>$anticheatProcess->getJobStatusId()
+            ]);
+        }
+        return ResponseModel::err(4010);
     }
 }
