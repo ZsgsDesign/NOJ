@@ -12,4 +12,9 @@ class ContestProblemModel extends Model
     const DELETED_AT=null;
     const UPDATED_AT=null;
     const CREATED_AT=null;
+
+    public function problem()
+    {
+        return $this->belongsTo('App\Models\Eloquent\ProblemModel', 'pid');
+    }
 }

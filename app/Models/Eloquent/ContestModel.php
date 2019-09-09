@@ -14,6 +14,16 @@ class ContestModel extends Model
     const UPDATED_AT=null;
     const CREATED_AT=null;
 
+    public function problems()
+    {
+        return $this->hasMany('App\Models\Eloquent\ContestProblemModel', 'cid');
+    }
+
+    public function submissions()
+    {
+        return $this->hasMany('App\Models\Eloquent\SubmissionModel', 'cid');
+    }
+
     public static function getProblemSet($cid, $renderLatex=false)
     {
         $ret=[];
@@ -32,5 +42,10 @@ class ContestModel extends Model
             $ret[]=$problemRet;
         }
         return $ret;
+    }
+
+    public function isJudgingComplete()
+    {
+        return $this->submissions->whereIn('verdict',['Waiting','Pending'])->count()==0;
     }
 }
