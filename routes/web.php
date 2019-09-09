@@ -202,6 +202,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
         Route::post('getScrollBoardData', 'ContestAdminController@getScrollBoardData')->middleware('auth')->name('ajax.contest.getScrollBoardData');
         Route::get('downloadCode', 'ContestAdminController@downloadCode')->middleware('auth');
         Route::post('generatePDF', 'ContestAdminController@generatePDF')->middleware('auth')->name('ajax.contest.generatePDF');
+        Route::post('anticheat', 'ContestAdminController@anticheat')->middleware('auth')->name('ajax.contest.anticheat');
     });
 
     Route::group(['prefix' => 'submission'], function () {
