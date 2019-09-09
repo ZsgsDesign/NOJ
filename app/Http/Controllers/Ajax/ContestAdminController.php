@@ -328,7 +328,7 @@ class ContestAdminController extends Controller
             return ResponseModel::err(2001);
         }
 
-        if(EloquentContestModel::isJudgingComplete($cid)) {
+        if(EloquentContestModel::find($cid)->isJudgingComplete()) {
             $anticheatProcess=new AntiCheat($cid);
             dispatch($anticheatProcess)->onQueue('normal');
             Cache::tags(['contest', 'admin', 'anticheat'])->put($cid, $anticheatProcess->getJobStatusId());

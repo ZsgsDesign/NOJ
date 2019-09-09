@@ -36,9 +36,15 @@ class AdminController extends Controller
         $gcode=$contestModel->gcode($cid);
         $isEnd = $contestModel->remainingTime($cid) < 0;
         $generatePDFStatus = JobStatus::find(Cache::tags(['contest', 'admin', 'PDFGenerate'])->get($cid, 0));
-        $generatePDFStatus=is_null($generatePDFStatus)?'empty':$generatePDFStatus->status;
+        $generatePDFStatus = is_null($generatePDFStatus)?'empty':$generatePDFStatus->status;
         if(in_array($generatePDFStatus,['finished','failed'])){
             Cache::tags(['contest', 'admin', 'PDFGenerate'])->put($cid, 0);
+        }
+        $anticheatStatus = JobStatus::find(Cache::tags(['contest', 'admin', 'anticheat'])->get($cid, 0));
+        $anticheatProgress = is_null($anticheatStatus)?0:$anticheatStatus->progress_percentage;
+        $anticheatStatus = is_null($anticheatStatus)?'empty':$anticheatStatus->status;
+        if(in_array($anticheatStatus, ['finished','failed'])){
+            Cache::tags(['contest', 'admin', 'anticheat'])->put($cid, 0);
         }
         return view('contest.board.admin', [
             'page_title'=>"Admin",
@@ -53,7 +59,11 @@ class AdminController extends Controller
             'gcode'=>$gcode,
             'basic'=>$basicInfo,
             'is_end'=>$isEnd,
-            'generatePDFStatus'=>$generatePDFStatus
+            'generatePDFStatus'=>$generatePDFStatus,
+            'anticheat'=>[
+                'status'=>$anticheatStatus,
+                'progress'=>$anticheatProgress
+            ]
         ]);
     }
 
