@@ -3,18 +3,17 @@
 @section('template')
 <style>
 .error-container{
-    min-height: 70vh;
-    min-width: 500px;
     margin: 0 auto;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 .error-container-left{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     padding-right: 0;
-    width: 70%;
+    width: 40%;
 }
 footer {
     bottom: 0;
@@ -58,7 +57,7 @@ footer {
 }
 </style>
 
-<div class="error-container">
+<div class="container mundb-standard-container error-container">
     <div class="error-container-left">
         <div class="error-emoji">:-(</div>
         <div class="error-title"><span style="font-weight:500;color:black">500. </span>That’s an error.</div>

@@ -3,11 +3,11 @@
 @section('template')
 <style>
 .error-container{
-    min-height: 70vh;
     min-width: 500px;
     margin: 0 auto;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 .error-container-left{
     display: flex;
@@ -60,7 +60,7 @@ footer{
 }
 </style>
 
-<div class="error-container">
+<div class="container mundb-standard-container error-container">
     <div class="error-container-left">
         <div class="error-emoji">:-)</div>
         <div class="error-title"><span style="font-weight:500;color:black">NOJ </span>is upgrading.</div>
