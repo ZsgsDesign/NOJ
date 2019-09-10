@@ -20,6 +20,7 @@ class GroupModel extends Model
 
     /*
         join_policy:
+            0:a user can join this group by both invitation and application // old version default value
             1:a user can join this group only by invitation
             2:a user can join this group only by application
             3:a user can join this group by both invitation and application

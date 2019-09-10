@@ -153,7 +153,7 @@
                                         <a class="dropdown-item gender-select" onclick="$('#join-policy').text('Both');$('#policy').val(3);$('#join-policy').fadeIn(200);">Both</a>
                                     </div>
                                 </div>
-                                <input style="display:none;" id="policy" name="policy" type="text" class="form-control" value="0" aria-label="gender input box">
+                                <input style="display:none;" id="policy" name="policy" type="text" class="form-control" value="3" aria-label="gender input box">
                             </div>
                         </div>
                         <div class="form-group">

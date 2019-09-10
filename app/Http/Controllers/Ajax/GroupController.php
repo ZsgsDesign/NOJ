@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\Ajax;
 
-use App\Models\ContestModel;
-use App\Models\GroupModel;
+use App\Models\GroupModel as OutdatedGroupModel;
+use App\Models\Eloquent\GroupModel;
 use App\Models\ResponseModel;
-use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
 use Auth;
 
 class GroupController extends Controller
@@ -23,7 +20,7 @@ class GroupController extends Controller
 
         $all_data=$request->all();
 
-        $groupModel=new GroupModel();
+        $groupModel=new OutdatedGroupModel();
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         if ($clearance<1) {
             return ResponseModel::err(2001);
@@ -40,7 +37,7 @@ class GroupController extends Controller
 
         $all_data=$request->all();
 
-        $groupModel=new GroupModel();
+        $groupModel=new OutdatedGroupModel();
         $join_policy=$groupModel->joinPolicy($all_data["gid"]);
         if (is_null($join_policy)) {
             return ResponseModel::err(7001);
@@ -49,6 +46,12 @@ class GroupController extends Controller
         if ($join_policy==1) {
             if ($clearance==-1) {
                 $groupModel->changeClearance(Auth::user()->id, $all_data["gid"], 1);
+                return ResponseModel::success(200,null,[
+                    'uid'            => Auth::user()->id,
+                    'role_color_old' => $groupModel->role_color[-1],
+                    'role_color'     => $groupModel->role_color[1],
+                    'role'           => $groupModel->role[1],
+                ]);
             }
             return ResponseModel::success(200);
         } elseif ($join_policy==2) {
@@ -56,14 +59,32 @@ class GroupController extends Controller
                 $groupModel->addClearance(Auth::user()->id, $all_data["gid"], 0);
             }
             return ResponseModel::success(200);
-        } elseif ($join_policy==3) {
+        } elseif ($join_policy==3 || $join_policy==0) {  //The default value of join_policy when you create a group will be 0 in old version.
             if ($clearance==-1) {
                 $groupModel->changeClearance(Auth::user()->id, $all_data["gid"], 1);
+                return ResponseModel::success(200,null,[
+                    'uid'            => Auth::user()->id,
+                    'role_color_old' => $groupModel->role_color[-1],
+                    'role_color'     => $groupModel->role_color[1],
+                    'role'           => $groupModel->role[1]
+                ]);
             } elseif ($clearance==-3) {
                 $groupModel->addClearance(Auth::user()->id, $all_data["gid"], 0);
             }
             return ResponseModel::success(200);
         }
+    }
+
+    public function exitGroup(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|integer',
+        ]);
+        $uid = Auth::user()->id;
+        $gid = $request->input('gid');
+        $groupModel = new OutdatedGroupModel();
+        $groupModel->removeClearance($uid,$gid);
+        return ResponseModel::success(200);
     }
 
     public function createGroup(Request $request)
@@ -78,7 +99,7 @@ class GroupController extends Controller
 
         $all_data=$request->all();
 
-        $groupModel=new GroupModel();
+        $groupModel=new OutdatedGroupModel();
         if($all_data["gcode"]=="create") return ResponseModel::err(7005);
         $is_group=$groupModel->isGroup($all_data["gcode"]);
         if($is_group) return ResponseModel::err(7006);
@@ -108,7 +129,7 @@ class GroupController extends Controller
 
         $all_data=$request->all();
 
-        $groupModel=new GroupModel();
+        $groupModel=new OutdatedGroupModel();
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         if ($clearance > 0) {
             switch($all_data['mode']){
@@ -137,7 +158,7 @@ class GroupController extends Controller
 
         $all_data=$request->all();
 
-        $groupModel=new GroupModel();
+        $groupModel=new OutdatedGroupModel();
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         if($clearance <= 0){
             return ResponseModel::err(7002);
