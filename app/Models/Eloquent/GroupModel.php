@@ -3,8 +3,6 @@
 namespace App\Models\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-
 class GroupModel extends Model
 {
     protected $table='group';
