@@ -506,6 +506,7 @@
                                 <button type="button" id="joinGroup" class="btn btn-raised btn-success"><i class="MDI autorenew cm-refreshing d-none"></i> Accept Invitation</button>
                             @elseif($group_clearance>0)
                                 <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Joined</button>
+                                <button type="button" id="exitGroup" class="btn btn-danger"><i class="MDI autorenew cm-refreshing d-none"></i> Exit</button>
                             @else
                                 <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Invite Only</button>
                             @endif
@@ -516,6 +517,7 @@
                                 <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Waiting</button>
                             @elseif($group_clearance>0)
                                 <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Joined</button>
+                                <button type="button" id="exitGroup" class="btn btn-danger"><i class="MDI autorenew cm-refreshing d-none"></i> Exit</button>
                             @endif
                         @else
                             @if($group_clearance==-3)
@@ -526,6 +528,7 @@
                                 <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Waiting</button>
                             @elseif($group_clearance>0)
                                 <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Joined</button>
+                                <button type="button" id="exitGroup" class="btn btn-danger"><i class="MDI autorenew cm-refreshing d-none"></i> Exit</button>
                             @endif
                         @endif
                     </info-div>
@@ -1088,6 +1091,46 @@
                     alert("Server Connection Error");
                     ajaxing=false;
                     $("#joinGroup > i").addClass("d-none");
+                }
+            });
+        });
+
+        $("#exitGroup").click(function() {
+            if(ajaxing) return;
+            confirm({
+                backdrop : true,
+                content : 'Are you really, really sure you want to quit the group?',
+                noText : 'Let me think again',
+                yesText : 'Yes I am sure'
+            },function(deny){
+                if(!deny){
+                    ajaxing=true;
+                    $("#exitGroup > i").removeClass("d-none");
+                    $.ajax({
+                        type: 'POST',
+                        url: '/ajax/exitGroup',
+                        data: {
+                            gid: {{$basic_info["gid"]}}
+                        },
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }, success: function(result){
+                            console.log(result);
+                            if (result.ret===200) {
+                                window.location = '/group'
+                            } else {
+                                alert(result.desc);
+                            }
+                            ajaxing=false;
+                            $("#exitGroup > i").addClass("d-none");
+                        }, error: function(xhr, type){
+                            console.log('Ajax error while posting to joinGroup!');
+                            alert("Server Connection Error");
+                            ajaxing=false;
+                            $("#exitGroup > i").addClass("d-none");
+                        }
+                    });
                 }
             });
         });

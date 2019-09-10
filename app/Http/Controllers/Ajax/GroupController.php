@@ -75,6 +75,18 @@ class GroupController extends Controller
         }
     }
 
+    public function exitGroup(Request $request)
+    {
+        $request->validate([
+            'gid' => 'required|integer',
+        ]);
+        $uid = Auth::user()->id;
+        $gid = $request->input('gid');
+        $groupModel = new OutdatedGroupModel();
+        $groupModel->removeClearance($uid,$gid);
+        return ResponseModel::success(200);
+    }
+
     public function createGroup(Request $request)
     {
         $request->validate([
