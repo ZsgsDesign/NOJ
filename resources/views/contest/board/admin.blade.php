@@ -192,7 +192,7 @@
                 </ul>
                 @endif
                 <ul class="list-group bmd-list-group p-0">
-                    <a class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="downloaAllCode()" href="/ajax/contest/downloadCode?cid={{$cid}}"  download> Download All Code</a>
+                    <a class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="downloaAllCode()" href="/ajax/contest/downloadCode?cid={{$cid}}" download> Download All Code</a>
                 </ul>
                 @if($is_end && $basic['froze_length'] != 0)
                 <ul class="list-group bmd-list-group p-0">
@@ -307,13 +307,13 @@
                                 <button data-role="error" class="btn btn-outline-danger" style="background-image: linear-gradient(to right, var(--wemd-red-lighten-4) {{$anticheat['progress']}}%,#fff {{$anticheat['progress']}}%);"><i class="MDI alert-circle-outline"></i> Plagiarism Check Failed</button>
                             @endif
                             @if($anticheat['status']=='finished')
-                                <a href="{{route('ajax.contest.downloadPlagiarismReport',['cid'=>$cid])}}"><button data-role="report" class="btn btn-outline-success" style="background-image: linear-gradient(to right, var(--wemd-light-green-lighten-4) 100%,#fff 100%);" onclick="downloadPlagiarismReport()"><i class="MDI checkbox-multiple-marked-circle-outline"></i> View Code Plagiarism Report</button></a>
+                                <a href="{{route('ajax.contest.downloadPlagiarismReport',['cid'=>$cid])}}"><button data-role="report" class="btn btn-outline-success" onclick="downloadPlagiarismReport()" download><i class="MDI code-tags-check"></i> Download Code Plagiarism Report</button></a>
                             @endif
                             @if(in_array($anticheat['status'], ['finished','failed']))
-                                <button data-role="action" class="btn btn-outline-info" onclick="anticheat()"><i class="MDI code-tags-check"></i> Rerun</button>
+                                <button data-role="action" class="btn btn-outline-info" onclick="anticheat()"><i class="MDI refresh"></i> Rerun</button>
                             @endif
                             @if($anticheat['status']=='empty')
-                                <button data-role="action" class="btn btn-outline-info" onclick="anticheat()"><i class="MDI code-tags-check"></i> Run Code Plagiarism Detection</button>
+                                <button data-role="action" class="btn btn-outline-info" onclick="anticheat()"><i class="MDI code-tags"></i> Run Code Plagiarism Detection</button>
                             @endif
                             </div>
                         </div>
