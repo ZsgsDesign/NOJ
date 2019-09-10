@@ -303,6 +303,9 @@ class ProblemModel extends Model
             "OJ",
             "ASC"
         )->orderBy(
+            "order_index",
+            "ASC"
+        )->orderBy(
             DB::raw("length(contest_id)"),
             "ASC"
         )->orderBy(
