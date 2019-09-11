@@ -83,6 +83,10 @@ class GroupController extends Controller
         $uid = Auth::user()->id;
         $gid = $request->input('gid');
         $groupModel = new OutdatedGroupModel();
+        $clearance = $groupModel->judgeClearance($gid,$uid);
+        if($clearance == 3) {
+            return ResponseModel::success(7008);
+        }
         $groupModel->removeClearance($uid,$gid);
         return ResponseModel::success(200);
     }

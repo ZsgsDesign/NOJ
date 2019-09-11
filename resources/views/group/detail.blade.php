@@ -506,7 +506,7 @@
                                 <button type="button" id="joinGroup" class="btn btn-raised btn-success"><i class="MDI autorenew cm-refreshing d-none"></i> Accept Invitation</button>
                             @elseif($group_clearance>0)
                                 <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Joined</button>
-                                <button type="button" id="exitGroup" class="btn btn-danger"><i class="MDI autorenew cm-refreshing d-none"></i> Exit</button>
+                                @if($group_clearance!=3) @if($group_clearance!=3) <button type="button" id="exitGroup" class="btn btn-danger"><i class="MDI autorenew cm-refreshing d-none"></i> Exit</button> @endif @endif
                             @else
                                 <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Invite Only</button>
                             @endif
@@ -517,7 +517,7 @@
                                 <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Waiting</button>
                             @elseif($group_clearance>0)
                                 <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Joined</button>
-                                <button type="button" id="exitGroup" class="btn btn-danger"><i class="MDI autorenew cm-refreshing d-none"></i> Exit</button>
+                                @if($group_clearance!=3) <button type="button" id="exitGroup" class="btn btn-danger"><i class="MDI autorenew cm-refreshing d-none"></i> Exit</button> @endif
                             @endif
                         @else
                             @if($group_clearance==-3)
@@ -528,7 +528,7 @@
                                 <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Waiting</button>
                             @elseif($group_clearance>0)
                                 <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Joined</button>
-                                <button type="button" id="exitGroup" class="btn btn-danger"><i class="MDI autorenew cm-refreshing d-none"></i> Exit</button>
+                                @if($group_clearance!=3) <button type="button" id="exitGroup" class="btn btn-danger"><i class="MDI autorenew cm-refreshing d-none"></i> Exit</button> @endif
                             @endif
                         @endif
                     </info-div>

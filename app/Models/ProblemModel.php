@@ -303,6 +303,9 @@ class ProblemModel extends Model
             "OJ",
             "ASC"
         )->orderBy(
+            "order_index",
+            "ASC"
+        )->orderBy(
             DB::raw("length(contest_id)"),
             "ASC"
         )->orderBy(
@@ -443,6 +446,7 @@ class ProblemModel extends Model
             'partial'=>$data['partial'],
             'markdown'=>$data['markdown'],
             'special_compiler'=>$data['special_compiler'],
+            'order_index'=>$data['order_index'],
         ]);
 
         if (!empty($data["sample"])) {
@@ -486,6 +490,7 @@ class ProblemModel extends Model
             'partial'=>$data['partial'],
             'markdown'=>$data['markdown'],
             'special_compiler'=>$data['special_compiler'],
+            'order_index'=>$data['order_index'],
         ]);
 
         $pid=$this->pid($data['pcode']);
