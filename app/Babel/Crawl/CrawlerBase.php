@@ -71,6 +71,7 @@ class CrawlerBase
             'tot_score'=>1,
             'partial'=>0,
             'special_compiler'=>null,
+            'order_index'=>null,
         ];
     }
 
