@@ -27,7 +27,13 @@
     <meta name="subversion" content="">
     <!-- SEO Information -->
     <meta name="keywords" content="NOJ,NJUPT Online Judge,noip,noi,OJ,acm,icpc,onlineJudge,NUPT Online Judge" />
-    <meta name="description" content="NOJ is yet another Online Judge providing you functions like problem solving, discussing, solutions, groups, contests and ranking system." />
+    <meta name="description" itemprop="description" content="NOJ is yet another Online Judge providing you functions like problem solving, discussing, solutions, groups, contests and ranking system." />
+    <!-- Share Title -->
+    <meta itemprop="name" content="{{str_replace('"', '\"', "$page_title | $site_title")}}" />
+    <!-- Share Image -->
+    <meta itemprop="image" content="https://acm.njupt.edu.cn/favicon.png" />
+    <!-- Share Description -->
+    <meta itemprop="description" itemprop="description" content="NOJ is yet another Online Judge providing you functions like problem solving, discussing, solutions, groups, contests and ranking system." />
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Necessarily Declarations -->
