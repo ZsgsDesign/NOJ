@@ -15,6 +15,11 @@ class CreateAbusesTable extends Migration
     {
         Schema::create('abuses', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('title')->nullable();
+            $table->integer('cause')->nullable();
+            $table->text('supplement')->nullable();
+            $table->text('link')->nullable();
+            $table->boolean('audit')->nullable()->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
