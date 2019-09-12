@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1cbe5e6ec59aa2035e2c43b61a35be19",
+    "content-hash": "0b7f807979e7ca922beb5b45fb3a6c4e",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -3189,6 +3189,42 @@
             "time": "2019-09-08T08:26:04+00:00"
         },
         {
+            "name": "njuptaaa/poem",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NJUPTAAA/POEM_Composer.git",
+                "reference": "eb3df2f9d7832b948f3ea77230daae90b5703a45"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NJUPTAAA/POEM_Composer/zipball/eb3df2f9d7832b948f3ea77230daae90b5703a45",
+                "reference": "eb3df2f9d7832b948f3ea77230daae90b5703a45",
+                "shasum": ""
+            },
+            "require": {
+                "nelexa/zip": "^3.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "POEM\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ZsgsDesign",
+                    "email": "zsgsdesign@gmail.com"
+                }
+            ],
+            "description": "parser for Problem-Oriented Exchangeable Mechanism.",
+            "time": "2019-09-12T18:04:09+00:00"
+        },
+        {
             "name": "npm-asset/animate.css",
             "version": "3.7.2",
             "dist": {
@@ -3480,7 +3516,7 @@
             "version": "4.17.15-patch1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:lodash/lodash.git",
+                "url": "https://github.com/lodash/lodash.git",
                 "reference": "f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30"
             },
             "dist": {
