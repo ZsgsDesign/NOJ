@@ -75,6 +75,12 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/private'),
             'visibility' => 'private',
+        ],
+
+        'admin' => [
+            'driver' => 'local',
+            'root' => storage_path('app/admin'),
+            'visibility' => 'public',
         ]
     ],
 
