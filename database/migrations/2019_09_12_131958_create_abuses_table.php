@@ -20,6 +20,7 @@ class CreateAbusesTable extends Migration
             $table->text('supplement')->nullable();
             $table->text('link')->nullable();
             $table->boolean('audit')->nullable()->default(0);
+            $table->integer('user_id')->nullable()->index('abuses_user_id');
             $table->timestamps();
             $table->softDeletes();
         });
