@@ -77,11 +77,6 @@ return [
             'visibility' => 'private',
         ],
 
-        'admin' => [
-            'driver' => 'local',
-            'root' => storage_path('app/admin'),
-            'visibility' => 'public',
-        ]
     ],
 
 ];
