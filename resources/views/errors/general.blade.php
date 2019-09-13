@@ -54,6 +54,7 @@
         }
     }
 </style>
+
 <div class="container mundb-standard-container error-container">
     <div>
         <div class="error-emoji">{{$emoji}}</div>
