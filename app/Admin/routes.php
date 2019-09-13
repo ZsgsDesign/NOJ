@@ -12,6 +12,7 @@ Route::group([
 
     $router->get('/', 'HomeController@index');
     $router->resource('users', UserController::class);
+    $router->get('problems/import', 'ProblemController@import');
     $router->resource('problems', ProblemController::class);
     $router->resource('solutions', SolutionController::class);
     $router->resource('submissions', SubmissionController::class);
