@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\Eloquent\ProblemModel as EloquentProblemModel;
 use App\Http\Controllers\Controller;
+use App\Admin\Forms\ImportPOEM;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -59,6 +60,20 @@ class ProblemController extends Controller
             ->header('Edit Problem')
             ->description('edit the detail of problems')
             ->body($this->form()->edit($id));
+    }
+
+    /**
+     * Import interface.
+     *
+     * @param Content $content
+     * @return Content
+     */
+    public function import(Content $content)
+    {
+        return $content
+            ->header('Import New Problem')
+            ->description('import a new problem from POEM or POETRY')
+            ->body(new ImportPOEM());
     }
 
     /**
@@ -128,7 +143,7 @@ class ProblemController extends Controller
     {
         $form=new Form(new EloquentProblemModel);
         $form->model()->makeVisible('password');
-        $form->tab('Basic', function(Form $form) use ($create){
+        $form->tab('Basic', function(Form $form){
             $form->text('pid')->readonly();
             $form->text('pcode')->rules('required');
             $form->text('title')->rules('required');
@@ -214,22 +229,6 @@ class ProblemController extends Controller
                 Storage::makeDirectory(base_path().'/storage/app/admin/test_case/'.$pcode);
                 $zip->extractTo(base_path().'/storage/app/admin/test_case/'.$pcode.'/');
             }
-        });
-        return $form;
-    }
-
-    /**
-     * Make a form builder for upload file.
-     *
-     * @return Form
-     */
-    protected function form_file()
-    {
-        $form=new Form(new EloquentProblemModel);
-        $form->file('pcode','POEM_file')->help('Import problems from POEM or POETRY files');
-        $form->submitted(function (Form $form) {
-            dd($form->POEM_file);
-            //resolved the files
         });
         return $form;
     }
