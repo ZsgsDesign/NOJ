@@ -39,7 +39,8 @@
 
     .error-emoji{
         font-size: 7.5rem;
-        padding-bottom: 0.5rem;
+        padding-bottom: 4.25rem;
+        line-height: 1;
     }
 
     @media screen and (max-width: 1160px){
