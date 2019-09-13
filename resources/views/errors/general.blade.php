@@ -52,10 +52,6 @@
             min-width: 0;
             width: 80%;
         }
-
-        .error-container > div{
-            margin-bottom: 300px;
-        }
     }
 </style>
 <div class="container mundb-standard-container error-container">
