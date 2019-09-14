@@ -102,7 +102,10 @@ class ResponseModel extends Model
             '7008' => "The group leader cannot leave the group",
 
             '8000' => "Job-Related Error",
-            '8001' => "Job Still Running"
+            '8001' => "Job Still Running",
+
+            '9000' => "Abuse-Related Error",
+            '9001' => "Abuse Invalid",
         ];
         return isset($errDesc[$errCode]) ? $errDesc[$errCode] : $errDesc['1000'];
     }
