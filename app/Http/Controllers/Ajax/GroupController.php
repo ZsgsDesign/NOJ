@@ -85,7 +85,7 @@ class GroupController extends Controller
         $groupModel = new OutdatedGroupModel();
         $clearance = $groupModel->judgeClearance($gid,$uid);
         if($clearance == 3) {
-            return ResponseModel::success(7008);
+            return ResponseModel::err(7008);
         }
         $groupModel->removeClearance($uid,$gid);
         return ResponseModel::success(200);
