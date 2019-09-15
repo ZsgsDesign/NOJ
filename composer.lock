@@ -4,8 +4,56 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b7f807979e7ca922beb5b45fb3a6c4e",
+    "content-hash": "1f8def87010b45d4d52d379a3c1e04db",
     "packages": [
+        {
+            "name": "albertofem/rsync-lib",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/albertofem/rsync-lib.git",
+                "reference": "6f7e31a15d5a2fe712136c367a35d2599bb5dbe5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/albertofem/rsync-lib/zipball/6f7e31a15d5a2fe712136c367a35d2599bb5dbe5",
+                "reference": "6f7e31a15d5a2fe712136c367a35d2599bb5dbe5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=4.0,<6"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "AFM": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alberto Fernandez",
+                    "email": "albertofem@gmail.com"
+                }
+            ],
+            "description": "A simple PHP rsync wrapper library",
+            "homepage": "http://albertofem.com",
+            "keywords": [
+                "rsync library"
+            ],
+            "time": "2018-01-13T20:13:12+00:00"
+        },
         {
             "name": "barryvdh/laravel-dompdf",
             "version": "v0.8.5",
