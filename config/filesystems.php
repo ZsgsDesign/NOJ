@@ -77,6 +77,12 @@ return [
             'visibility' => 'private',
         ],
 
+        'test_case' => [
+            'driver' => 'local',
+            'root' => storage_path('testcase'),
+            'visibility' => 'private',
+        ],
+
     ],
 
 ];
