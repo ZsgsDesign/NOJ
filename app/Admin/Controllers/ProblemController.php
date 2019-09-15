@@ -164,7 +164,8 @@ class ProblemController extends Controller
                 0 => "No",
                 1 => "Yes"
             ])->rules('required');
-            $form->file('test_case')->uniqueName();
+            $form->file('test_case');
+            $form->ignore(['test_case']);
         });
         if($create){
             $form->tools(function (Form\Tools $tools) {
@@ -189,12 +190,12 @@ class ProblemController extends Controller
                 ]);
                 return back()->with(compact('error'));
             }
-
-            if($form->test_case != null){
-                if($form->test_case->extension() != 'zip'){
+            $test_case = \request()->file('test_case');
+            if(!empty($test_case)){
+                if($test_case->extension() != 'zip'){
                     $err('You must upload a zip file iuclude test case info and content.');
                 }
-                $path = $form->test_case->path();
+                $path = $test_case->path();
                 $zip = new ZipArchive;
                 if($zip->open($path) !== true) {
                     $err('You must upload a zip file without encrypt and can open successfully.');
@@ -223,11 +224,12 @@ class ProblemController extends Controller
                     $pcode = $form->pcode;
                 }
 
-                if(Storage::exists(base_path().'/storage/app/admin/test_case/'.$pcode)){
-                    Storage::deleteDirectory(base_path().'/storage/app/admin/test_case/'.$pcode);
+                if(Storage::exists(base_path().'/storage/test_case/'.$pcode)){
+                    Storage::deleteDirectory(base_path().'/storage/test_case/'.$pcode);
                 }
-                Storage::makeDirectory(base_path().'/storage/app/admin/test_case/'.$pcode);
-                $zip->extractTo(base_path().'/storage/app/admin/test_case/'.$pcode.'/');
+                Storage::makeDirectory(base_path().'/storage/test_case/'.$pcode);
+                $zip->extractTo(base_path().'/storage/test_case/'.$pcode.'/');
+
             }
         });
         return $form;

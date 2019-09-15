@@ -116,10 +116,10 @@ class ImportPOEM extends Form
             }
 
             //create test case file
-            if(Storage::exists(storage_path().'/app/admin/test_case/'.$pro['pcode'])){
-                Storage::deleteDirectory(storage_path().'/app/admin/test_case/'.$pro['pcode']);
+            if(Storage::exists(storage_path().'/test_case/'.$pro['pcode'])){
+                Storage::deleteDirectory(storage_path().'/test_case/'.$pro['pcode']);
             }
-            Storage::makeDirectory(storage_path().'/app/admin/test_case/'.$pro['pcode']);
+            Storage::makeDirectory(storage_path().'/test_case/'.$pro['pcode']);
             $test_case_count = 0;
             $test_case_info = [
                 'spj'        => false,
@@ -135,16 +135,32 @@ class ImportPOEM extends Form
                     'stripped_output_md5' => md5(trim($test_case['output']))
                 ];
                 array_push($test_case_info['test_cases'],$test_case_arr);
-                Storage::disk('admin')->put('test_case/'.$pro['pcode'].'/'.$test_case_arr['input_name'], $test_case['input']);
-                Storage::disk('admin')->put('test_case/'.$pro['pcode'].'/'.$test_case_arr['output_name'], $test_case['output']);
+                Storage::disk('test_case')->put('/'.$pro['pcode'].'/'.$test_case_arr['input_name'], $test_case['input']);
+                Storage::disk('test_case')->put('/'.$pro['pcode'].'/'.$test_case_arr['output_name'], $test_case['output']);
             }
-            file_put_contents(storage_path().'/app/admin/test_case/'.$pro['pcode'].'/info',json_encode($test_case_info));
+            Storage::disk('test_case')->put('/'.$pro['pcode'].'/info', json_encode($test_case_info));
+
+            //migrate solutions
+            $solution_count = 0;
+            foreach($problem['solution'] as $solution) {
+                $s = [
+                    'uid' => 1,
+                    'pid' => $pid,
+                    'content' => '``` '.$solution['source'],
+                    'audit' => 1,
+                    'votes' => 0,
+                    'created_at' => date('Y-m-d H:i:s')
+                ];
+                DB::table('problem_solution')->insert($s);
+                $solution_count += 1;
+            }
 
             $success_message .= '&nbsp;&nbsp;&nbsp;&nbsp;'.
                 $pro['pcode'].': "
                 '.$title.'" with
                 '.$sample_count.' samples,
                 '.$test_case_count.' test cases,
+                '.$solution_count.' solutions
                 <br />';
         }
         admin_success('Import successfully',$success_message);

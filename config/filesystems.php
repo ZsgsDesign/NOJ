@@ -79,7 +79,7 @@ return [
 
         'test_case' => [
             'driver' => 'local',
-            'root' => storage_path('testcase'),
+            'root' => storage_path('test_case'),
             'visibility' => 'private',
         ],
 
