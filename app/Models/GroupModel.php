@@ -54,7 +54,7 @@ class GroupModel extends Model
 
     public function cacheTrendingGroups()
     {
-        $trending_groups=DB::table($this->tableName)->where(["public"=>1])->orderBy('create_time', 'desc')->select("gid", "gcode", "img", "name", "verified")->get()->all();
+        $trending_groups=DB::table($this->tableName)->where(["public"=>1])->orderBy('created_at', 'desc')->select("gid", "gcode", "img", "name", "verified")->get()->all();
         foreach ($trending_groups as &$t) {
             $t["members"]=$this->countGroupMembers($t["gid"]);
         }
@@ -124,7 +124,7 @@ class GroupModel extends Model
         if(empty($basic_info)) return [];
         $basic_info["members"]=$this->countGroupMembers($basic_info["gid"]);
         $basic_info["tags"]=$this->getGroupTags($basic_info["gid"]);
-        $basic_info["create_time_foramt"]=date_format(date_create($basic_info["create_time"]), 'M jS, Y');
+        $basic_info["create_time_foramt"]=date_format(date_create($basic_info["created_at"]), 'M jS, Y');
         $basic_info["contest_stat"]=$this->countGroupContest($basic_info["gid"]);
         return $basic_info;
     }
@@ -183,7 +183,7 @@ class GroupModel extends Model
         $notice_author=DB::table("users")->where(["id"=>$notice_item["uid"]])->first();
         $notice_item["name"]=$notice_author["name"];
         $notice_item["avatar"]=$notice_author["avatar"];
-        $notice_item["post_date_parsed"]=$this->formatPostTime($notice_item["post_date"]);
+        $notice_item["post_date_parsed"]=$this->formatPostTime($notice_item["created_at"]);
         $notice_item["content_parsed"]=clean(convertMarkdownToHtml($notice_item["content"]));
         return $notice_item;
     }
@@ -218,7 +218,7 @@ class GroupModel extends Model
             "uid"=>$uid,
             "gid"=>$gid,
             "role"=>$clearance,
-            "join_time"=>date("Y-m-d H:i:s")
+            "created_at"=>date("Y-m-d H:i:s")
         ]);
     }
 
@@ -265,7 +265,7 @@ class GroupModel extends Model
         ->select('contest_problem.cid as cid', 'problem.pid as pid', 'pcode', 'title')
         ->where('contest.gid',$gid)
         ->where('contest.practice',1)
-        ->orderBy('contest.create_time','desc')
+        ->orderBy('contest.created_at','desc')
         ->distinct()
         ->get()->all();
         $user_id = Auth::user()->id;
@@ -348,7 +348,7 @@ class GroupModel extends Model
             "uid"=>$uid["id"],
             "gid"=>$gid,
             "role"=>-1,
-            "join_time"=>date("Y-m-d H:i:s")
+            "created_at"=>date("Y-m-d H:i:s")
         ]);
     }
 
@@ -388,13 +388,13 @@ class GroupModel extends Model
             "join_policy"=>$join_policy,
             "custom_icon"=>null,
             "custom_title"=>null,
-            "create_time"=>date("Y-m-d H:i:s")
+            "created_at"=>date("Y-m-d H:i:s")
         ]);
         return DB::table("group_member")->insert([
             "uid"=>$uid,
             "gid"=>$gid,
             "role"=>3,
-            "join_time"=>date("Y-m-d H:i:s")
+            "created_at"=>date("Y-m-d H:i:s")
         ]);
     }
 

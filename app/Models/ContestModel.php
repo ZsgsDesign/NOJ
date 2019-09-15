@@ -899,7 +899,7 @@ class ContestModel extends Model
         if($clearance == 3){
             return DB::table("contest_clarification")->where([
                 "cid"=>$cid
-            ])->orderBy('create_time', 'desc')->get()->all();
+            ])->orderBy('created_up', 'desc')->get()->all();
         }else{
             return DB::table("contest_clarification")->where([
                 "cid"=>$cid
@@ -909,7 +909,7 @@ class ContestModel extends Model
                 ])->orWhere([
                     "uid" => Auth::user()->id
                 ]);
-            })->orderBy('create_time', 'desc')->get()->all();
+            })->orderBy('created_up', 'desc')->get()->all();
         }
     }
 
@@ -920,7 +920,7 @@ class ContestModel extends Model
             "type"=>0,
             "public"=>1
         ])->whereBetween(
-            'create_time',
+            'created_up',
             [
                 date("Y-m-d H:i:s", time()-59),
                 date("Y-m-d H:i:s")
@@ -934,7 +934,7 @@ class ContestModel extends Model
             "cid"=>$cid,
             "type"=>0,
             "public"=>1
-        ])->orderBy('create_time', 'desc')->first();
+        ])->orderBy('created_up', 'desc')->first();
     }
 
     public function getClarificationDetail($ccid)
@@ -954,7 +954,7 @@ class ContestModel extends Model
             "content"=>$content,
             "public"=>"0",
             "uid"=>$uid,
-            "create_time"=>date("Y-m-d H:i:s")
+            "created_up"=>date("Y-m-d H:i:s")
         ]);
     }
 
@@ -967,7 +967,7 @@ class ContestModel extends Model
             "content"=>$content,
             "public"=>"1",
             "uid"=>$uid,
-            "create_time"=>date("Y-m-d H:i:s"),
+            "created_up"=>date("Y-m-d H:i:s"),
             "remote_code"=>$remote_code
         ]);
     }
@@ -1520,7 +1520,7 @@ class ContestModel extends Model
                 "registant_type"=>0, //todo
                 "froze_length"=>0, //todo
                 "status_visibility"=>2, //todo
-                "create_time"=>date("Y-m-d H:i:s"),
+                "created_up"=>date("Y-m-d H:i:s"),
                 "crawled" => isset($config['vcid'])?$config['crawled'] : null,
                 "audit_status"=>$config["public"] ? 0 : 1
             ]);
@@ -1944,7 +1944,7 @@ class ContestModel extends Model
 
     public function storageCode($path,$cid)
     {
-        
+
         Storage::disk("private")->makeDirectory($path);
 
         //example:A-The 3n + 1 problem-UVa100
@@ -1997,14 +1997,14 @@ class ContestModel extends Model
         $this->storageCode($code_path,$cid);
 
         Storage::disk("private")->makeDirectory($path);
-        
+
         // create new archive
         $zipFile = new \PhpZip\ZipFile();
         $directories = Storage::disk("private")->allDirectories($code_path);
         try{
             foreach($directories as $directorie)
             {
-                
+
                 preg_match("/contestCode\/\d+(.*)/",$directorie,$problem_name);
                 $zipFile->addDir(base_path('storage/app/private/'.$directorie),urldecode($problem_name[1]));// add files from the directory
             }
@@ -2030,7 +2030,7 @@ class ContestModel extends Model
         ])->first();
         return $outputFilename=(string)($contest["cid"])."-".$contest["name"].".zip";
     }
-  
+
     public function judgeOver($cid)
     {
         $submissions =  DB::table('submission')
