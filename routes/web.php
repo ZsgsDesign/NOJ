@@ -63,6 +63,10 @@ Route::get('/discussion/{dcode}', 'ProblemController@discussionPost')->middlewar
 
 Route::get('/status', 'StatusController@index')->middleware('contest_account')->name('status_index');
 
+Route::group(['prefix' => 'dojo','as' => 'dojo.'], function () {
+    Route::get('/', 'DojoController@index')->middleware('contest_account')->name('index');
+});
+
 Route::group(['namespace' => 'Group', 'prefix' => 'group','as' => 'group.'], function () {
     Route::get('/', 'IndexController@index')->middleware('contest_account')->name('index');
     Route::get('/create', 'IndexController@create')->middleware('contest_account')->name('create');
