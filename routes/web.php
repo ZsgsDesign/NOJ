@@ -222,6 +222,10 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
         Route::post('check_email_cooldown', 'AccountController@checkEmailCooldown')->middleware('auth')->name('account_check_email_cooldown');
         Route::post('save_editor_width', 'AccountController@saveEditorWidth')->middleware('auth')->name('account_save_editor_width');
     });
+
+    Route::group(['prefix' => 'abuse'], function () {
+        Route::post('report', 'AbuseController@report')->name('ajax.abuse.report');
+    });
 });
 
 Auth::routes(['verify' => true]);

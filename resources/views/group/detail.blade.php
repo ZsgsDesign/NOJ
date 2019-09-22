@@ -491,7 +491,7 @@
                         <div class="dropdown-menu">
                             <button class="dropdown-item"><i class="MDI github-circle"></i> GitHub</button>
                             <div class="dropdown-divider"></div>
-                            <button class="dropdown-item wemd-red-text" onclick="alert('???')"><i class="MDI alert-circle wemd-red-text"></i> Report Abuse</button>
+                            <button class="dropdown-item wemd-red-text" onclick="reportAbuse()"><i class="MDI alert-circle wemd-red-text"></i> Report Abuse</button>
                         </div>
                     </shadow-button>
 
@@ -959,6 +959,10 @@
 @section('additionJS')
 
     @include("js.common.hljsLight")
+    @include("js.common.abuse",[
+        'category' => 'group',
+        'subject_id' => $basic_info["gid"]
+    ])
     <script src="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
     <script src="/static/js/jquery-ui-sortable.min.js"></script>
     <script type="text/javascript" src="/static/library/simplemde/dist/simplemde.min.js"></script>
