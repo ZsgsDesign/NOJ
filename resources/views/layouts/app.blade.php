@@ -142,6 +142,7 @@
             }
         }
     </style>
+    @stack('custom:css')
 </head>
 
 <body style="display: flex;flex-direction: column;min-height: 100vh;">
@@ -201,6 +202,11 @@
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
                         <li class="nav-item">
                             <a class="nav-link @if ($navigation === "Problem") active @endif" href="/problem">Problem</a>
+                        </li>
+                    @endif
+                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                        <li class="nav-item">
+                            <a class="nav-link @if ($navigation === "Dojo") active @endif" href="/dojo">Dojo</a>
                         </li>
                     @endif
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
@@ -299,7 +305,7 @@
         <div class="alert alert-info mb-0" role="alert">
             <strong>Boost your security!</strong> You have not verified your email address, please verify it in your Settings Page.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="setCookie('isEmailVerifiedNoticed',1,1)">
-                <span aria-hidden="true">×</span>
+                <span aria-hidden="true">&#xD7;</span>
             </button>
         </div>
         @endif
