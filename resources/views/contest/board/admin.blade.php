@@ -192,7 +192,7 @@
                 </ul>
                 @endif
                 <ul class="list-group bmd-list-group p-0">
-                    <a class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="downloaAllCode()" href="/ajax/contest/downloadCode?cid={{$cid}}" download> Download All Code</a>
+                    <button class="list-group-item admin-tab-text wemd-white wemd-lighten-4" id="downloaAllCode" download> Download All Code</button>
                 </ul>
                 @if($is_end && $basic['froze_length'] != 0)
                 <ul class="list-group bmd-list-group p-0">
@@ -468,21 +468,10 @@
         });
     }
 
-    function downloaAllCode(){
-        $.ajax({
-            type: 'GET',
-            url: '/ajax/contest/downloadCode',
-            data: {
-                cid: {{$cid}},
-            },dataType: 'json',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }, success: function(ret){
-
-            }, error: function(xhr, type){
-
-            }
+    window.addEventListener('load',function(){
+        document.querySelector('#downloaAllCode').addEventListener('click',() => {
+            window.open("/ajax/contest/downloadCode?cid={{$cid}}");
         });
-    }
+    });
 </script>
 @endsection
