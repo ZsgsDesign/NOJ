@@ -156,7 +156,7 @@
                     </div>
                     <div class="dojo-body">
                         <p class="wemd-grey-text wemd-text-darken-2"><i class="MDI book-multiple"></i> {{$dojo->problems->count()}} {{Str::plural('problem', $dojo->problems->count())}}</p>
-                        <p class="wemd-grey-text mb-0">{{$dojo->description}}</p>
+                        <p class="wemd-grey-text mb-0 mundb-text-truncate-2">{{$dojo->description}}</p>
                     </div>
                 </dojo-card>
             </div>
@@ -165,7 +165,8 @@
                     <h3 class="dojo-phase">{{$dojo->name}}</h3>
                     <p>{{$dojo->description}}</p>
                     <hr>
-                    <challenge-container>
+                    <p>You need to complete no less than <strong>{{$dojo->passline}} {{Str::plural('problem', $dojo->passline)}}</strong> to complete this mission.</p>
+                    <challenge-container class="mb-3">
                         @foreach($dojo->problems->sortBy('order') as $problem)
                             @php $problem=$problem->problem; @endphp
                             <challenge-item class="btn">
@@ -178,6 +179,11 @@
                             </challenge-item>
                         @endforeach
                     </challenge-container>
+                    @if(false)
+                        <button type="button" class="btn btn-raised btn-primary">Complete this mission</button>
+                    @else
+                        <button type="button" class="btn btn-raised btn-secondary" disabled>Keep Working!</button>
+                    @endif
                 </challenge-card>
             </div>
             @endforeach
