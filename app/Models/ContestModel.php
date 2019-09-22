@@ -899,7 +899,7 @@ class ContestModel extends Model
         if($clearance == 3){
             return DB::table("contest_clarification")->where([
                 "cid"=>$cid
-            ])->orderBy('created_up', 'desc')->get()->all();
+            ])->orderBy('created_at', 'desc')->get()->all();
         }else{
             return DB::table("contest_clarification")->where([
                 "cid"=>$cid
@@ -909,7 +909,7 @@ class ContestModel extends Model
                 ])->orWhere([
                     "uid" => Auth::user()->id
                 ]);
-            })->orderBy('created_up', 'desc')->get()->all();
+            })->orderBy('created_at', 'desc')->get()->all();
         }
     }
 
@@ -920,7 +920,7 @@ class ContestModel extends Model
             "type"=>0,
             "public"=>1
         ])->whereBetween(
-            'created_up',
+            'created_at',
             [
                 date("Y-m-d H:i:s", time()-59),
                 date("Y-m-d H:i:s")
@@ -934,7 +934,7 @@ class ContestModel extends Model
             "cid"=>$cid,
             "type"=>0,
             "public"=>1
-        ])->orderBy('created_up', 'desc')->first();
+        ])->orderBy('created_at', 'desc')->first();
     }
 
     public function getClarificationDetail($ccid)
@@ -954,7 +954,7 @@ class ContestModel extends Model
             "content"=>$content,
             "public"=>"0",
             "uid"=>$uid,
-            "created_up"=>date("Y-m-d H:i:s")
+            "created_at"=>date("Y-m-d H:i:s")
         ]);
     }
 
@@ -967,7 +967,7 @@ class ContestModel extends Model
             "content"=>$content,
             "public"=>"1",
             "uid"=>$uid,
-            "created_up"=>date("Y-m-d H:i:s"),
+            "created_at"=>date("Y-m-d H:i:s"),
             "remote_code"=>$remote_code
         ]);
     }
