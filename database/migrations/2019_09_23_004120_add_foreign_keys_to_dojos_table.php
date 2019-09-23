@@ -14,7 +14,7 @@ class AddForeignKeysToDojosTable extends Migration {
     {
         Schema::table('dojos', function(Blueprint $table)
         {
-            $table->foreign('dojo_phase_id', 'dojo_phase_id')->references('id')->on('dojo_phases')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign('dojos_dojo_phase_id', 'dojo_phase_id')->references('id')->on('dojo_phases')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 
@@ -28,7 +28,7 @@ class AddForeignKeysToDojosTable extends Migration {
     {
         Schema::table('dojos', function(Blueprint $table)
         {
-            $table->dropForeign('dojo_phase_id');
+            $table->dropForeign('dojos_dojo_phase_id');
         });
     }
 
