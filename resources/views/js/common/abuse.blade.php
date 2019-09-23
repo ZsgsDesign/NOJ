@@ -1,3 +1,10 @@
+@guest
+<script>
+    function reportAbuse(){
+        alert('Please Login First');
+    }
+</script>
+@else
 <script>
     var abusereporting=false;
     function reportAbuse(){
@@ -40,3 +47,4 @@
         });
     }
 </script>
+@endguest
