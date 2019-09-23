@@ -93,9 +93,10 @@
 
     challenge-container{
         display: block;
+        margin: 0 -1rem;
     }
 
-    challenge-item.btn{
+    .challenge-item.btn{
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
@@ -108,30 +109,30 @@
         font-size: 1rem;
     }
 
-    challenge-item:nth-of-type(even){
+    .challenge-item:nth-of-type(even){
         background: #f5f5f5;
     }
 
-    challenge-item > div:first-of-type{
+    .challenge-item > div:first-of-type{
         padding-right: 1rem;
         flex-grow: 0;
         flex-shrink: 0;
     }
 
-    challenge-item > div:last-of-type{
+    .challenge-item > div:last-of-type{
         flex-grow: 1;
         flex-shrink: 1;
     }
 
-    challenge-item small{
+    .challenge-item small{
         color: rgba(0, 0, 0, 0.42);
     }
 
-    challenge-item p{
+    .challenge-item p{
         color: rgba(0, 0, 0, 0.63);
     }
 
-    challenge-item span{
+    .challenge-item span{
         color: rgba(0, 0, 0, 0.63);
         font-weight: bolder;
     }
@@ -174,14 +175,14 @@
                     <challenge-container class="mb-3">
                         @foreach($dojo->problems->sortBy('order') as $problem)
                             @php $problem=$problem->problem; @endphp
-                            <challenge-item class="btn">
+                            <a target="_blank" href="{{route('problem.detail', ['pcode' => $problem->pcode])}}" class="challenge-item btn">
                                 <div>
                                     <i class="MDI {{$problem->problem_status['icon']}} {{$problem->problem_status['color']}}"></i>
                                 </div>
                                 <div style="display: inline-block">
                                     <p class="mb-0"><span>{{$problem->pcode}}.</span> {{$problem->title}}</p>
                                 </div>
-                            </challenge-item>
+                            </a>
                         @endforeach
                     </challenge-container>
                     @if($dojo->passed)
