@@ -14,7 +14,7 @@ class CreateDojoPassesTable extends Migration {
     {
         Schema::create('dojo_passes', function(Blueprint $table)
         {
-            $table->integer('id')->primary();
+            $table->integer('id', true);
             $table->integer('dojo_id')->nullable()->index('dojo_passes_dojo_id');
             $table->integer('user_id')->nullable()->index('dojo_passes_user_id');
             $table->timestamps();
