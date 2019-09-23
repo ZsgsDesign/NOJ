@@ -228,7 +228,11 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
     });
 
     Route::group(['prefix' => 'abuse'], function () {
-        Route::post('report', 'AbuseController@report')->name('ajax.abuse.report');
+        Route::post('report', 'AbuseController@report')->middleware('auth')->name('ajax.abuse.report');
+    });
+
+    Route::group(['prefix' => 'dojo'], function () {
+        Route::post('dojo', 'DojoController@complete')->middleware('auth')->name('ajax.dojo.complete');
     });
 });
 
