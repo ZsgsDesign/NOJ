@@ -106,6 +106,10 @@ class ResponseModel extends Model
 
             '9000' => "Abuse-Related Error",
             '9001' => "Abuse Invalid",
+
+            '10000' => "Dojo-Related Error",
+            '10001' => "Dojo Cannot Complete",
+            '10002' => "Dojo Not Found",
         ];
         return isset($errDesc[$errCode]) ? $errDesc[$errCode] : $errDesc['1000'];
     }
