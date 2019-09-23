@@ -156,7 +156,7 @@
                 <dojo-card class="{{$dojo->availability}}" data-challenge="{{$dojo->id}}">
                     <div class="dojo-title">
                         <span>{{$dojo->name}}</span>
-                        <small><i class="MDI account-multiple"></i> 0 passed</small>
+                        <small><i class="MDI account-multiple"></i> {{$dojo->passes->count()}} passed</small>
                     </div>
                     <div class="dojo-body">
                         <p class="wemd-grey-text wemd-text-darken-2"><i class="MDI book-multiple"></i> {{$dojo->problems->count()}} {{Str::plural('problem', $dojo->problems->count())}}</p>
@@ -186,7 +186,7 @@
                     @if($dojo->passed)
                         <button type="button" class="btn btn-raised btn-primary" disabled>Completed</button>
                     @elseif($dojo->canPass())
-                        <button type="button" class="btn btn-raised btn-primary">Complete this Mission</button>
+                        <button type="button" class="btn btn-raised btn-primary" data-challenge="{{$dojo->id}}" data-dojo-complete-button>Complete this Mission</button>
                     @else
                         <button type="button" class="btn btn-raised btn-secondary" disabled>Keep Working!</button>
                     @endif
@@ -200,10 +200,52 @@
 <script>
 
     window.addEventListener("load",function() {
+
+        var currentChallenge=null;
+        var processing=false;
+
         $('dojo-card:not(.locked)').click(function(){
             let challenge = $(this).data('challenge');
             $(`.challenge-card-container`).addClass("d-none");
-            $(`.challenge-card-container[data-challenge="${challenge}"]`).removeClass("d-none");
+            if (currentChallenge!=challenge) {
+                $(`.challenge-card-container[data-challenge="${challenge}"]`).removeClass("d-none");
+                currentChallenge=challenge;
+            } else currentChallenge=null;
+        });
+
+        $(`[data-dojo-complete-button]`).click(function() {
+            let ele=$(this);
+            let challenge = ele.data('challenge');
+            if(processing) return;
+            else processing=true;
+            $.ajax({
+                type: 'POST',
+                url: "{{route('ajax.dojo.complete')}}",
+                data: {
+                    dojo_id: challenge
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(result){
+                    console.log(result);
+                    if (result.ret===200) {
+                        ele.removeAttr('data-dojo-complete-button');
+                        ele.removeAttr('data-challenge');
+                        ele.text('Completed');
+                        ele.attr('disabled','');
+                        $(`dojo-card[data-challenge="${challenge}"]`).removeClass('available');
+                        $(`dojo-card[data-challenge="${challenge}"]`).addClass('passed');
+                    } else {
+                        alert(result.desc);
+                    }
+                    processing=false;
+                }, error: function(xhr, type){
+                    console.log('Ajax error!');
+                    alert("Server Connection Error");
+                    processing=false;
+                }
+            });
         });
     }, false);
 

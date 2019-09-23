@@ -19,6 +19,11 @@ class Dojo extends Model
         return $this->hasMany('App\Models\Eloquent\Dojo\DojoProblem', 'dojo_id');
     }
 
+    public function passes()
+    {
+        return $this->hasMany('App\Models\Eloquent\Dojo\DojoPass', 'dojo_id');
+    }
+
     public function canPass()
     {
         $tot=0;
@@ -31,12 +36,16 @@ class Dojo extends Model
 
     public function getPassedAttribute()
     {
-        return $this->availability=='passed';
+        return DojoPass::isPassed($this->id);
     }
 
     public function getAvailabilityAttribute()
     {
-        return 'locked';
+        foreach(explode(',', $this->precondition) as $dojo_id){
+            if(blank($dojo_id)) continue;
+            if(!DojoPass::isPassed($dojo_id)) return 'locked';
+        }
+        return $this->passed?'passed':'available';
     }
 
 }
