@@ -18,4 +18,25 @@ class Dojo extends Model
     {
         return $this->hasMany('App\Models\Eloquent\Dojo\DojoProblem', 'dojo_id');
     }
+
+    public function canPass()
+    {
+        $tot=0;
+        foreach($this->problems->sortBy('order') as $problem){
+            $problem=$problem->problem;
+            $tot+=$problem->problem_status['color']=='wemd-green-text';
+        }
+        return $tot>=$this->passline;
+    }
+
+    public function getPassedAttribute()
+    {
+        return $this->availability=='passed';
+    }
+
+    public function getAvailabilityAttribute()
+    {
+        return 'locked';
+    }
+
 }

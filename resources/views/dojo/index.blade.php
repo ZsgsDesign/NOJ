@@ -43,6 +43,10 @@
         height: 8rem;
     }
 
+    dojo-card.locked{
+        cursor: auto;
+    }
+
     dojo-card.passed{
         border: 1px solid rgba(139, 195, 74, 0.62);
         box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
@@ -149,7 +153,7 @@
         <div class="row">
             @foreach($phase->dojos->sortBy('order') as $dojo)
             <div class="col-12 col-sm-6 col-md-4">
-                <dojo-card data-challenge="{{$dojo->id}}">
+                <dojo-card class="{{$dojo->availability}}" data-challenge="{{$dojo->id}}">
                     <div class="dojo-title">
                         <span>{{$dojo->name}}</span>
                         <small><i class="MDI account-multiple"></i> 0 passed</small>
@@ -171,7 +175,7 @@
                             @php $problem=$problem->problem; @endphp
                             <challenge-item class="btn">
                                 <div>
-                                    <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
+                                    <i class="MDI {{$problem->problem_status['icon']}} {{$problem->problem_status['color']}}"></i>
                                 </div>
                                 <div style="display: inline-block">
                                     <p class="mb-0"><span>{{$problem->pcode}}.</span> {{$problem->title}}</p>
@@ -179,8 +183,10 @@
                             </challenge-item>
                         @endforeach
                     </challenge-container>
-                    @if(false)
-                        <button type="button" class="btn btn-raised btn-primary">Complete this mission</button>
+                    @if($dojo->passed)
+                        <button type="button" class="btn btn-raised btn-primary" disabled>Completed</button>
+                    @elseif($dojo->canPass())
+                        <button type="button" class="btn btn-raised btn-primary">Complete this Mission</button>
                     @else
                         <button type="button" class="btn btn-raised btn-secondary" disabled>Keep Working!</button>
                     @endif
@@ -194,7 +200,7 @@
 <script>
 
     window.addEventListener("load",function() {
-        $('dojo-card').click(function(){
+        $('dojo-card:not(.locked)').click(function(){
             let challenge = $(this).data('challenge');
             $(`.challenge-card-container`).addClass("d-none");
             $(`.challenge-card-container[data-challenge="${challenge}"]`).removeClass("d-none");
