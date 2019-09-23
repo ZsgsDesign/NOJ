@@ -26,6 +26,7 @@
         padding: 1rem;
         border: 1px solid rgba(0, 0, 0, 0.15);
         margin-bottom: 30px;
+        background: #fff;
     }
 
     dojo-card .dojo-title{
