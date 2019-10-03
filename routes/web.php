@@ -11,6 +11,8 @@
 |
 */
 
+use App\Models\Eloquent\Group;
+
 Route::redirect('/home', '/', 301);
 Route::redirect('/acmhome/welcome.do', '/', 301);
 Route::get('/acmhome/problemdetail.do','MainController@oldRedirect')->name('old.redirect');
@@ -22,6 +24,11 @@ Route::group(['as' => 'latex.'], function () {
     Route::get('/latex.png','LatexController@png')->name('png');
 });
 
+/* Route::get('/', function() {
+    $g = Group::find(3);
+    dd($g->leader->user);
+});
+ */
 Route::get('/', 'MainController@home')->middleware('contest_account')->name('home');
 
 Route::get('/search', 'SearchController')->middleware('auth')->name('search');
@@ -46,9 +53,9 @@ Route::group(['prefix' => 'oauth', 'namespace' => 'OAuth', 'as' => 'oauth.'], fu
     });
 });
 
-Route::group(['prefix' => 'user'], function () {
+Route::group(['prefix' => 'user','as' => 'user.'], function () {
     Route::redirect('/', '/', 301);
-    Route::get('/{uid}', 'UserController@view')->middleware('contest_account')->name('user_view');
+    Route::get('/{uid}', 'UserController@view')->middleware('contest_account')->name('view');
 });
 
 Route::group(['prefix' => 'problem'], function () {

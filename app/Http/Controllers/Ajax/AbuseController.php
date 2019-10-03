@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Ajax;
 use App\Http\Controllers\Controller;
 use App\Models\ResponseModel;
 use App\Models\Eloquent\Abuse;
-use App\Models\Eloquent\GroupModel;
+use App\Models\Eloquent\Group;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Auth;
@@ -35,7 +35,7 @@ class AbuseController extends Controller
         ]);
         $category2link=[
             'group'=>function($id){
-                return route('group.detail',['gcode'=>GroupModel::findOrFail($id)->gcode]);
+                return route('group.detail',['gcode'=>Group::findOrFail($id)->gcode]);
             },
         ];
         $supplement = $request->input('supplement');
