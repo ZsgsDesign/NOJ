@@ -43,7 +43,6 @@ class AdminController extends Controller
     {
         $groupModel=new GroupModel();
         $basic_info=$groupModel->details($gcode);
-        if(empty($basic_info)) return Redirect::route('group.index');
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
         $member_list=$groupModel->userList($basic_info["gid"]);
         return view('group.settings.general', [
@@ -85,7 +84,6 @@ class AdminController extends Controller
     {
         $groupModel=new GroupModel();
         $basic_info=$groupModel->details($gcode);
-        if(empty($basic_info)) return Redirect::route('group.index');
         return view('group.settings.danger', [
             'page_title'=>"Group Setting danger",
             'site_title'=>config("app.name"),
@@ -102,9 +100,7 @@ class AdminController extends Controller
     public function settingsMember($gcode)
     {
         $groupModel=new GroupModel();
-        $contestModel=new ContestModel();
         $basic_info=$groupModel->details($gcode);
-        if(empty($basic_info)) return Redirect::route('group.index');
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
         $member_list=$groupModel->userList($basic_info["gid"]);
         $group_notice=$groupModel->detailNotice($gcode);
@@ -124,7 +120,6 @@ class AdminController extends Controller
         $groupModel=new GroupModel();
         $contestModel=new ContestModel();
         $basic_info=$groupModel->details($gcode);
-        if(empty($basic_info)) return Redirect::route('group.index');
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
         $contest_list=$contestModel->listForSetting($basic_info["gid"]);
         $member_list=$groupModel->userList($basic_info["gid"]);

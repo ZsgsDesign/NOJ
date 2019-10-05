@@ -43,7 +43,6 @@ class IndexController extends Controller
         $groupModel=new GroupModel();
         $contestModel=new ContestModel();
         $basic_info=$groupModel->details($gcode);
-        if(empty($basic_info)) return Redirect::route('group.index');
         $my_profile=$groupModel->userProfile(Auth::user()->id, $basic_info["gid"]);
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
         $member_list=$groupModel->userList($basic_info["gid"]);
@@ -89,7 +88,6 @@ class IndexController extends Controller
     public function analysis($gcode){
         $groupModel = new GroupModel();
         $basic_info=$groupModel->details($gcode);
-        if(empty($basic_info)) return Redirect::route('group.index');
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
         if($clearance < 1) return Redirect::route('group.detail',['gcode' => $gcode]);
         $group_info = $groupModel->details($gcode);
