@@ -62,6 +62,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'contest_account' => \App\Http\Middleware\ContestAccount::class,
         'privileged' => \App\Http\Middleware\Privileged::class,
+        'group.banned' => \App\Http\Middleware\Group\Banned::class
     ];
 
     /**

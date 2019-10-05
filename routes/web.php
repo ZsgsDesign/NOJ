@@ -77,11 +77,11 @@ Route::group(['prefix' => 'dojo','as' => 'dojo.'], function () {
 Route::group(['namespace' => 'Group', 'prefix' => 'group','as' => 'group.'], function () {
     Route::get('/', 'IndexController@index')->middleware('contest_account')->name('index');
     Route::get('/create', 'IndexController@create')->middleware('contest_account')->name('create');
-    Route::get('/{gcode}', 'IndexController@detail')->middleware('auth', 'contest_account')->name('detail');
+    Route::get('/{gcode}', 'IndexController@detail')->middleware('auth', 'contest_account', 'group.banned')->name('detail');
 
-    Route::get('/{gcode}/analysis', 'IndexController@analysis')->middleware('auth', 'contest_account')->name('analysis');
-    Route::get('/{gcode}/analysisDownload', 'IndexController@analysisDownload')->middleware('auth', 'contest_account')->name('analysis.download');
-    Route::group(['prefix' => '{gcode}/settings','as' => 'settings.', 'middleware' => ['privileged']], function () {
+    Route::get('/{gcode}/analysis', 'IndexController@analysis')->middleware('auth', 'contest_account', 'group.banned')->name('analysis');
+    Route::get('/{gcode}/analysisDownload', 'IndexController@analysisDownload')->middleware('auth', 'contest_account', 'group.banned')->name('analysis.download');
+    Route::group(['prefix' => '{gcode}/settings','as' => 'settings.', 'middleware' => ['privileged', 'group.banned']], function () {
         Route::get('/', 'AdminController@settings')->middleware('auth', 'contest_account')->name('index');
         Route::get('/general', 'AdminController@settingsGeneral')->middleware('auth', 'contest_account')->name('general');
         Route::get('/return', 'AdminController@settingsReturn')->middleware('auth', 'contest_account')->name('return');
