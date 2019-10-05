@@ -113,7 +113,7 @@ class AbuseController extends AdminController
                     'sender'    => 1,
                     'receiver'  => $group->leader->id,
                     'title'     => "Your group {$group->name} has been banned.",
-                    'content'   => "Hi, Dear **{$abuse->user->name}**,\n\n For the following reasons: \n\n {$abuse->supplement}\n\n your group **[{$group->name}]({$group->link})** is currently banned and will continue until {$ban_time}({$ban_time_parse}).\n\n Before this, only you can enter the group. \n\n Please rectify before this, or you may be subjected to more serious treatment.\n\n Thank you for your contribution to our community environment.\n\n Sincerely, NOJ"
+                    'content'   => "Hi, Dear **{$group->leader->name}**,\n\n For the following reasons: \n\n {$abuse->supplement}\n\n your group **[{$group->name}]({$group->link})** is currently banned and will continue until {$ban_time}({$ban_time_parse}).\n\n Before this, only you can enter the group. \n\n Please rectify before this, or you may be subjected to more serious treatment.\n\n Thank you for your contribution to our community environment.\n\n Sincerely, NOJ"
                 ]);
                 $abuse->delete();
                 GroupBanned::create([
