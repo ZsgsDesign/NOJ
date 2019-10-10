@@ -11,6 +11,8 @@
 |
 */
 
+use App\Models\Eloquent\Group;
+
 Route::redirect('/home', '/', 301);
 Route::redirect('/acmhome/welcome.do', '/', 301);
 Route::get('/acmhome/problemdetail.do','MainController@oldRedirect')->name('old.redirect');
@@ -22,6 +24,11 @@ Route::group(['as' => 'latex.'], function () {
     Route::get('/latex.png','LatexController@png')->name('png');
 });
 
+/* Route::get('/', function() {
+    $g = Group::find(3);
+    dd($g->leader->user);
+});
+ */
 Route::get('/', 'MainController@home')->middleware('contest_account')->name('home');
 
 Route::get('/search', 'SearchController')->middleware('auth')->name('search');
@@ -46,9 +53,9 @@ Route::group(['prefix' => 'oauth', 'namespace' => 'OAuth', 'as' => 'oauth.'], fu
     });
 });
 
-Route::group(['prefix' => 'user'], function () {
+Route::group(['prefix' => 'user','as' => 'user.'], function () {
     Route::redirect('/', '/', 301);
-    Route::get('/{uid}', 'UserController@view')->middleware('contest_account')->name('user_view');
+    Route::get('/{uid}', 'UserController@view')->middleware('contest_account')->name('view');
 });
 
 Route::group(['prefix' => 'problem'], function () {
@@ -70,11 +77,11 @@ Route::group(['prefix' => 'dojo','as' => 'dojo.'], function () {
 Route::group(['namespace' => 'Group', 'prefix' => 'group','as' => 'group.'], function () {
     Route::get('/', 'IndexController@index')->middleware('contest_account')->name('index');
     Route::get('/create', 'IndexController@create')->middleware('contest_account')->name('create');
-    Route::get('/{gcode}', 'IndexController@detail')->middleware('auth', 'contest_account')->name('detail');
+    Route::get('/{gcode}', 'IndexController@detail')->middleware('auth', 'contest_account', 'group.exist', 'group.banned')->name('detail');
 
-    Route::get('/{gcode}/analysis', 'IndexController@analysis')->middleware('auth', 'contest_account')->name('analysis');
-    Route::get('/{gcode}/analysisDownload', 'IndexController@analysisDownload')->middleware('auth', 'contest_account')->name('analysis.download');
-    Route::group(['prefix' => '{gcode}/settings','as' => 'settings.', 'middleware' => ['privileged']], function () {
+    Route::get('/{gcode}/analysis', 'IndexController@analysis')->middleware('auth', 'contest_account', 'group.exist', 'group.banned')->name('analysis');
+    Route::get('/{gcode}/analysisDownload', 'IndexController@analysisDownload')->middleware('auth', 'contest_account', 'group.exist', 'group.banned')->name('analysis.download');
+    Route::group(['prefix' => '{gcode}/settings','as' => 'settings.', 'middleware' => ['privileged', 'group.exist', 'group.banned']], function () {
         Route::get('/', 'AdminController@settings')->middleware('auth', 'contest_account')->name('index');
         Route::get('/general', 'AdminController@settingsGeneral')->middleware('auth', 'contest_account')->name('general');
         Route::get('/return', 'AdminController@settingsReturn')->middleware('auth', 'contest_account')->name('return');

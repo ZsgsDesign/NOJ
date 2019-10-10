@@ -9,7 +9,4 @@ class SolutionModel extends Model
 {
     protected $table='problem_solution';
     protected $primaryKey='psoid';
-    const DELETED_AT=null;
-    const UPDATED_AT="update_date";
-    const CREATED_AT=null;
 }

@@ -117,11 +117,37 @@
         "order": 12,
         "title": "Groups",
         "icon": "MDI account-multiple",
-        "uri": "\/groups",
+        "uri": "",
         "permission": null,
         "created_at": "2019-04-10 17:00:29",
         "updated_at": "2019-04-10 17:01:18",
-        "roles": []
+        "roles": [],
+        "children": [
+            {
+                "id": 14,
+                "parent_id": 13,
+                "order": 14,
+                "title": "Groups",
+                "icon": "MDI account-multiple",
+                "uri": "\/groups",
+                "permission": null,
+                "created_at": "2019-04-11 12:53:03",
+                "updated_at": "2019-04-12 09:30:12",
+                "roles": []
+            },
+            {
+                "id": 15,
+                "parent_id": 13,
+                "order": 15,
+                "title": "Abuses",
+                "icon": "MDI alert-circle-outline",
+                "uri": "\/abuses",
+                "permission": null,
+                "created_at": "2019-04-11 12:53:03",
+                "updated_at": "2019-04-12 09:30:12",
+                "roles": []
+            }
+        ]
     },
     {
         "id": 13,

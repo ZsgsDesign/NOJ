@@ -56,17 +56,17 @@
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
-        <h5 class="msg-title"><a class="btn btn-default" href="/message" role="button"><i class="MDI arrow-left"></i></a> {{$message["title"]}}</h5>
+        <h5 class="msg-title"><a class="btn btn-default" href="/message" role="button"><i class="MDI arrow-left"></i></a> {{$message->title}}</h5>
         <div class="sender">
-            <div class="pr-3"><img src="{{$message['sender_avatar']}}" class="cm-avatar"></div>
+            <div class="pr-3"><img src="{{$message->sender_user->avatar}}" class="cm-avatar"></div>
             <div>
-                <p class="sender_name">@if($message['sender'] == 1) NOJ Official  @else {{$message['sender_name']}} @endif</p>
-                <small class="wemd-grey-text">{{$message['time']}}</small>
+                <p class="sender_name">@if($message->sender_user->id == 1) NOJ Official  @else {{$message->sender_user->name }} @endif</p>
+                <small class="wemd-grey-text">{{$message->updated_at}}</small>
             </div>
         </div>
         <hr>
         <div class="content">
-            <p>{!! clean(convertMarkdownToHtml($message["content"])) !!}</p>
+            <p>{!! clean(convertMarkdownToHtml($message->content)) !!}</p>
         </div>
         {{-- @if($message['allow_reply'])
             <hr>

@@ -207,10 +207,10 @@ class ProblemController extends Controller
                 $test_cases = $test_case_info['test_cases'];
                 foreach($test_cases as $index => $case) {
                     if(!isset($case['input_name']) || !isset($case['output_name'])) {
-                        $err("Iest case index {$index}: configuration missing input/output files name.");
+                        $err("Test case index {$index}: configuration missing input/output files name.");
                     }
                     if($zip->getFromName($case['input_name']) === false || $zip->getFromName($case['output_name']) === false ) {
-                        $err("Iest case index {$index}: missing input/output files that record in the configuration.");
+                        $err("Test case index {$index}: missing input/output files that record in the configuration.");
                     }
                 }
                 if(!empty($form->pid)){

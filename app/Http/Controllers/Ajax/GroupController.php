@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Ajax;
 
 use App\Models\GroupModel as OutdatedGroupModel;
-use App\Models\Eloquent\GroupModel;
+use App\Models\Eloquent\Group;
 use App\Models\ResponseModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -42,10 +42,31 @@ class GroupController extends Controller
         if (is_null($join_policy)) {
             return ResponseModel::err(7001);
         }
+        $group  = Group::find($all_data['gid']);
+        $leader = $group->leader;
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         if ($join_policy==1) {
             if ($clearance==-1) {
                 $groupModel->changeClearance(Auth::user()->id, $all_data["gid"], 1);
+                sendMessage([
+                    'sender'   => 1,
+                    'receiver' => $leader->id,
+                    'title'    => "Some users agreed to join your group {$group->name}.",
+                    'type'     => 2,
+                    'data'     => [
+                        'group' => [
+                            'gcode' => $group->gcode,
+                            'name'  => $group->name,
+                            'url'   => route('group.detail',['gcode' => $group->gcode])
+                        ],
+                        'user'  => [
+                            [
+                                'name'  => Auth::user()->name,
+                                'url'   => route('user.view',['uid' => Auth::user()->id])
+                            ]
+                        ]
+                    ]
+                ]);
                 return ResponseModel::success(200,null,[
                     'uid'            => Auth::user()->id,
                     'role_color_old' => $groupModel->role_color[-1],
@@ -57,11 +78,50 @@ class GroupController extends Controller
         } elseif ($join_policy==2) {
             if ($clearance==-3) {
                 $groupModel->addClearance(Auth::user()->id, $all_data["gid"], 0);
+                //send message to leader
+                sendMessage([
+                    'sender'   => 1,
+                    'receiver' => $leader->id,
+                    'title'    => 'Someone applied to join your group.',
+                    'type'     => 1,
+                    'data'     => [
+                        'group' => [
+                            'gcode' => $group->gcode,
+                            'name'  => $group->name,
+                            'url'   => route('group.detail',['gcode' => $group->gcode])
+                        ],
+                        'user'  => [
+                            [
+                                'name'  => Auth::user()->name,
+                                'url'   => route('user.view',['uid' => Auth::user()->id])
+                            ]
+                        ]
+                    ]
+                ]);
             }
             return ResponseModel::success(200);
         } elseif ($join_policy==3 || $join_policy==0) {  //The default value of join_policy when you create a group will be 0 in old version.
             if ($clearance==-1) {
                 $groupModel->changeClearance(Auth::user()->id, $all_data["gid"], 1);
+                sendMessage([
+                    'sender'   => 1,
+                    'receiver' => $leader->id,
+                    'title'    => "Some users agreed to join your group {$group->name}.",
+                    'type'     => 2,
+                    'data'     => [
+                        'group' => [
+                            'gcode' => $group->gcode,
+                            'name'  => $group->name,
+                            'url'   => route('group.detail',['gcode' => $group->gcode])
+                        ],
+                        'user'  => [
+                            [
+                                'name'  => Auth::user()->name,
+                                'url'   => route('user.view',['uid' => Auth::user()->id])
+                            ]
+                        ]
+                    ]
+                ]);
                 return ResponseModel::success(200,null,[
                     'uid'            => Auth::user()->id,
                     'role_color_old' => $groupModel->role_color[-1],
@@ -70,6 +130,26 @@ class GroupController extends Controller
                 ]);
             } elseif ($clearance==-3) {
                 $groupModel->addClearance(Auth::user()->id, $all_data["gid"], 0);
+                //send message to leader
+                sendMessage([
+                    'sender'   => 1,
+                    'receiver' => $leader->id,
+                    'title'    => "Some users applied to join your group {$group->name}.",
+                    'type'     => 1,
+                    'data'     => [
+                        'group' => [
+                            'gcode' => $group->gcode,
+                            'name'  => $group->name,
+                            'url'   => route('group.detail',['gcode' => $group->gcode])
+                        ],
+                        'user'  => [
+                            [
+                                'name'  => Auth::user()->name,
+                                'url'   => route('user.view',['uid' => Auth::user()->id])
+                            ]
+                        ]
+                    ]
+                ]);
             }
             return ResponseModel::success(200);
         }

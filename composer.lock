@@ -1753,16 +1753,16 @@
         },
         {
             "name": "laravel-admin-ext/helpers",
-            "version": "v1.1.1",
+            "version": "v1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-admin-extensions/helpers.git",
-                "reference": "67b2573029f90ca1873e1598a2d46ae8d9acca66"
+                "reference": "773b6441d653a46f78fb3d99502bd0fe84e20d79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-admin-extensions/helpers/zipball/67b2573029f90ca1873e1598a2d46ae8d9acca66",
-                "reference": "67b2573029f90ca1873e1598a2d46ae8d9acca66",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/helpers/zipball/773b6441d653a46f78fb3d99502bd0fe84e20d79",
+                "reference": "773b6441d653a46f78fb3d99502bd0fe84e20d79",
                 "shasum": ""
             },
             "require": {
@@ -1801,7 +1801,7 @@
                 "helpers",
                 "laravel-admin"
             ],
-            "time": "2018-10-24T15:21:11+00:00"
+            "time": "2019-09-27T07:33:13+00:00"
         },
         {
             "name": "laravel-admin-ext/log-viewer",
@@ -2415,9 +2415,9 @@
             "authors": [
                 {
                     "name": "Colin O'Dell",
-                    "role": "Lead Developer",
                     "email": "colinodell@gmail.com",
-                    "homepage": "https://www.colinodell.com"
+                    "homepage": "https://www.colinodell.com",
+                    "role": "Lead Developer"
                 }
             ],
             "description": "PHP Markdown parser based on the CommonMark spec",
@@ -2615,9 +2615,9 @@
             "authors": [
                 {
                     "name": "Ben Corlett",
-                    "role": "Developer",
                     "email": "bencorlett@me.com",
-                    "homepage": "http://www.webcomm.com.au"
+                    "homepage": "http://www.webcomm.com.au",
+                    "role": "Developer"
                 }
             ],
             "description": "OAuth 1.0 Client Library",
@@ -3065,8 +3065,8 @@
             "authors": [
                 {
                     "name": "Ne-Lexa",
-                    "role": "Developer",
-                    "email": "alexey@nelexa.ru"
+                    "email": "alexey@nelexa.ru",
+                    "role": "Developer"
                 }
             ],
             "description": "PhpZip is a php-library for extended work with ZIP-archives. Open, create, update, delete, extract and get info tool. Supports appending to existing ZIP files, WinZip AES encryption, Traditional PKWARE Encryption, ZipAlign tool, BZIP2 compression, external file attributes and ZIP64 extensions. Alternative ZipArchive. It does not require php-zip extension.",
@@ -3526,13 +3526,13 @@
             "version": "4.17.15-patch1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/lodash/lodash.git",
-                "reference": "f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30"
+                "url": "git@github.com:lodash/lodash.git",
+                "reference": "10681716750bfbd9ed862817e4dec70963adc492"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lodash/lodash/zipball/f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30",
-                "reference": "f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30"
+                "url": "https://api.github.com/repos/lodash/lodash/zipball/10681716750bfbd9ed862817e4dec70963adc492",
+                "reference": "10681716750bfbd9ed862817e4dec70963adc492"
             },
             "type": "npm-asset",
             "license": [
@@ -4778,9 +4778,9 @@
             "authors": [
                 {
                     "name": "Freek Van der Herten",
-                    "role": "Developer",
                     "email": "freek@spatie.be",
-                    "homepage": "https://spatie.be"
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
                 }
             ],
             "description": "Dump databases",
@@ -6730,16 +6730,16 @@
         },
         {
             "name": "mockery/mockery",
-            "version": "1.2.3",
+            "version": "1.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
-                "reference": "4eff936d83eb809bde2c57a3cea0ee9643769031"
+                "reference": "b3453f75fd23d9fd41685f2148f4abeacabc6405"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/4eff936d83eb809bde2c57a3cea0ee9643769031",
-                "reference": "4eff936d83eb809bde2c57a3cea0ee9643769031",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/b3453f75fd23d9fd41685f2148f4abeacabc6405",
+                "reference": "b3453f75fd23d9fd41685f2148f4abeacabc6405",
                 "shasum": ""
             },
             "require": {
@@ -6753,7 +6753,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.2.x-dev"
                 }
             },
             "autoload": {
@@ -6791,7 +6791,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2019-08-07T15:01:07+00:00"
+            "time": "2019-09-30T08:30:27+00:00"
         },
         {
             "name": "myclabs/deep-copy",
