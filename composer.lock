@@ -3238,16 +3238,16 @@
         },
         {
             "name": "njuptaaa/poem",
-            "version": "1.0.3",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NJUPTAAA/POEM_Composer.git",
-                "reference": "eb3df2f9d7832b948f3ea77230daae90b5703a45"
+                "reference": "e6bffef766e90c626cadd459ead75db73445c9dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NJUPTAAA/POEM_Composer/zipball/eb3df2f9d7832b948f3ea77230daae90b5703a45",
-                "reference": "eb3df2f9d7832b948f3ea77230daae90b5703a45",
+                "url": "https://api.github.com/repos/NJUPTAAA/POEM_Composer/zipball/e6bffef766e90c626cadd459ead75db73445c9dc",
+                "reference": "e6bffef766e90c626cadd459ead75db73445c9dc",
                 "shasum": ""
             },
             "require": {
@@ -3270,7 +3270,7 @@
                 }
             ],
             "description": "parser for Problem-Oriented Exchangeable Mechanism.",
-            "time": "2019-09-12T18:04:09+00:00"
+            "time": "2019-10-10T12:19:21+00:00"
         },
         {
             "name": "npm-asset/animate.css",
@@ -3526,13 +3526,13 @@
             "version": "4.17.15-patch1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:lodash/lodash.git",
-                "reference": "10681716750bfbd9ed862817e4dec70963adc492"
+                "url": "https://github.com/lodash/lodash.git",
+                "reference": "f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lodash/lodash/zipball/10681716750bfbd9ed862817e4dec70963adc492",
-                "reference": "10681716750bfbd9ed862817e4dec70963adc492"
+                "url": "https://api.github.com/repos/lodash/lodash/zipball/f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30",
+                "reference": "f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30"
             },
             "type": "npm-asset",
             "license": [
