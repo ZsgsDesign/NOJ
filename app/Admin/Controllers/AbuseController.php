@@ -102,18 +102,17 @@ class AbuseController extends AdminController
             }
             if($form->audit) {
                 $ban_time = request()->created_at;
-                $ban_time_parse = formatHumanReadableTime($ban_time);
                 sendMessage([
                     'sender'    => 1,
                     'receiver'  => $abuse->user_id,
                     'title'     => "Your abuse report about group {$group->name} was passed",
-                    'content'   => "Hi, Dear **{$abuse->user->name}**,\n\nWe have checked your Abuse report about group **[{$group->name}]({$group->link})**.\n\n And we think you're right.\n\n So we decided to temporarily ban the group and order it to rectify.\n\n Thank you for your contribution to our community environment.\n\n Sincerely, NOJ"
+                    'content'   => "Hi, Dear **{$abuse->user->name}**,\n\nWe have checked your Abuse report about group **[{$group->name}]({$group->link})**.\n\n We think you're right.\n\n So as the consequence leading to a temporary/permanent sanction against the group.\n\n Thank you for your contribution to our community environment.\n\n Sincerely, NOJ"
                 ]);
                 sendMessage([
                     'sender'    => 1,
                     'receiver'  => $group->leader->id,
                     'title'     => "Your group {$group->name} has been banned.",
-                    'content'   => "Hi, Dear **{$group->leader->name}**,\n\n For the following reasons: \n\n {$abuse->supplement}\n\n your group **[{$group->name}]({$group->link})** is currently banned and will continue until {$ban_time}({$ban_time_parse}).\n\n Before this, only you can enter the group. \n\n Please rectify before this, or you may be subjected to more serious treatment.\n\n Thank you for your contribution to our community environment.\n\n Sincerely, NOJ"
+                    'content'   => "Hi, Dear **{$group->leader->name}**,\n\n For the following reasons: \n\n {$abuse->supplement}\n\n your group **[{$group->name}]({$group->link})** is currently banned and will continue until {$ban_time}.\n\n Before this, only you can enter the group. \n\n Please rectify before this, or you may be subjected to more serious treatment.\n\n Thank you for your contribution to our community environment.\n\n Sincerely, NOJ"
                 ]);
                 $abuse->delete();
                 GroupBanned::create([
