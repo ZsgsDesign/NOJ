@@ -1911,21 +1911,21 @@
         },
         {
             "name": "laravel-admin-ext/redis-manager",
-            "version": "v1.1",
+            "version": "v1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-admin-extensions/redis-manager.git",
-                "reference": "b8cd06887229645b05cc0a3dab85ba30bf25207d"
+                "reference": "e72e2e27569211b6b01a9d057a3de5eba84ddd9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-admin-extensions/redis-manager/zipball/b8cd06887229645b05cc0a3dab85ba30bf25207d",
-                "reference": "b8cd06887229645b05cc0a3dab85ba30bf25207d",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/redis-manager/zipball/e72e2e27569211b6b01a9d057a3de5eba84ddd9b",
+                "reference": "e72e2e27569211b6b01a9d057a3de5eba84ddd9b",
                 "shasum": ""
             },
             "require": {
                 "encore/laravel-admin": "~1.5",
-                "laravel/framework": "~5.5",
+                "laravel/framework": "~5.5 | ^6",
                 "php": ">=7.0.0",
                 "predis/predis": "~1.0"
             },
@@ -1963,7 +1963,7 @@
                 "manager",
                 "redis"
             ],
-            "time": "2019-07-10T10:32:29+00:00"
+            "time": "2019-10-29T03:18:33+00:00"
         },
         {
             "name": "laravel-admin-ext/scheduling",
