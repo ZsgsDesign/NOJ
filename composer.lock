@@ -1858,25 +1858,23 @@
         },
         {
             "name": "laravel-admin-ext/media-manager",
-            "version": "v1.0.2",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-admin-extensions/media-manager.git",
-                "reference": "3545f3b88893ad4787ba89925503678b55b689c8"
+                "reference": "08ef816da82e543f7519d6b17aa34f1ef13adaab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-admin-extensions/media-manager/zipball/3545f3b88893ad4787ba89925503678b55b689c8",
-                "reference": "3545f3b88893ad4787ba89925503678b55b689c8",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/media-manager/zipball/08ef816da82e543f7519d6b17aa34f1ef13adaab",
+                "reference": "08ef816da82e543f7519d6b17aa34f1ef13adaab",
                 "shasum": ""
             },
             "require": {
-                "encore/laravel-admin": "~1.5",
-                "laravel/framework": "~5.5",
+                "encore/laravel-admin": "~1.6",
                 "php": ">=7.0.0"
             },
             "require-dev": {
-                "laravel/laravel": "~5.5",
                 "phpunit/phpunit": "~6.0"
             },
             "type": "library",
@@ -1909,7 +1907,7 @@
                 "manager",
                 "media"
             ],
-            "time": "2018-09-23T06:02:37+00:00"
+            "time": "2019-10-14T09:05:25+00:00"
         },
         {
             "name": "laravel-admin-ext/redis-manager",
