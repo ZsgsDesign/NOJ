@@ -33,11 +33,13 @@ Route::group(['prefix' => 'account'], function () {
     Route::get('/settings', 'AccountController@settings')->middleware('auth')->name('account_settings');
 });
 
-Route::group(['prefix' => 'oauth', 'namespace' => 'OAuth'], function () {
-    Route::get('/github', 'GithubController@redirectTo')->name('oauth_github');
-    Route::get('/github/unbind','GithubController@unbind')->name('oauth_github_unbind');
-    Route::get('/github/unbind/confirm','GithubController@confirmUnbind')->name('oauth_github_unbind_confirm');
-    Route::get('/github/callback', 'GithubController@handleCallback')->name('oauth_github_callback');
+Route::group(['prefix' => 'oauth', 'namespace' => 'OAuth', 'as' => 'oauth.'], function () {
+    Route::group(['prefix' => 'github', 'as' => 'github.'], function () {
+        Route::get('/', 'GithubController@redirectTo')->name('index');
+        Route::get('/unbind','GithubController@unbind')->name('unbind');
+        Route::get('/unbind/confirm','GithubController@confirmUnbind')->name('unbind.confirm');
+        Route::get('/callback', 'GithubController@handleCallback')->name('callback');
+    });
 });
 
 Route::group(['prefix' => 'user'], function () {
