@@ -1188,7 +1188,7 @@
 
         window.addEventListener("load",function() {
 
-            MarkerPen.initAll();
+            // MarkerPen.initAll();
 
             $(".pre-animated").addClass("fadeInLeft");
             @if($status["verdict"]=="Compile Error")$("#verdict_text").addClass("cm-popover-decoration");@endif
