@@ -867,7 +867,7 @@
             }, 2000);
         });
     </script>
-    @include('js.common.markerPen')
+    {{-- @include('js.common.markerPen') --}}
     <script src="/static/library/jquery/dist/jquery.min.js"></script>
     <script src="/static/library/popper.js/dist/umd/popper.min.js"></script>
     <script src="/static/js/bootstrap-material-design.js"></script>
