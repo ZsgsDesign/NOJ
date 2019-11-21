@@ -3316,10 +3316,10 @@
         },
         {
             "name": "npm-asset/chart.js",
-            "version": "2.9.2",
+            "version": "2.9.3",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/chart.js/-/chart.js-2.9.2.tgz"
+                "url": "https://registry.npmjs.org/chart.js/-/chart.js-2.9.3.tgz"
             },
             "require": {
                 "npm-asset/chartjs-color": ">=2.1.0,<3.0.0",
