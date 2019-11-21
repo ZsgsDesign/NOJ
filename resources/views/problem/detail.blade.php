@@ -378,10 +378,10 @@
 </div>
 
 
-{{-- @include('js.common.markerPen') --}}
+@include('js.common.markerPen')
 <script>
     window.addEventListener("load",function() {
-        // MarkerPen.initAll();
+        MarkerPen.initAll();
     }, false);
 
     document.getElementById("submitBtn").addEventListener("click",function(){

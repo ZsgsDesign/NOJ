@@ -344,7 +344,7 @@
     </footer>
     <script src="/static/library/jquery/dist/jquery.min.js"></script>
     <script src="/static/library/popper.js/dist/umd/popper.min.js"></script>
-    <script src="/static/js/bootstrap-material-design.js"></script>
+    <script src="/static/library/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"></script>
     @include('layouts.primaryJS')
     @yield('additionJS')
 </body>
