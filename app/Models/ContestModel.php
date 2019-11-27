@@ -20,7 +20,7 @@ class ContestModel extends Model
     const UPDATED_AT=null;
     const CREATED_AT=null;
 
-    public $rule=["Unknown", "ICPC", "OI", "Custom ICPC", "Custom OI"];
+    public $rule=["Unknown", "ICPC", "IOI", "Custom ICPC", "Custom IOI"];
 
     public function calcLength($a, $b)
     {
@@ -464,7 +464,7 @@ class ContestModel extends Model
                     $p["ac_rate"]=round($prob_stat["ac_rate"], 2);
                 }
             } else {
-                $prob_stat=$this->contestProblemInfoOI($cid, $p["pid"], $uid);
+                $prob_stat=$this->contestProblemInfoIOI($cid, $p["pid"], $uid);
                 $p["points"]=$prob_stat["points"];
                 $p["score"]=empty($prob_stat["score_parsed"]) ? 0 : $prob_stat["score_parsed"];
             }
@@ -523,7 +523,7 @@ class ContestModel extends Model
         return $time;
     }
 
-    public function contestProblemInfoOI($cid, $pid, $uid)
+    public function contestProblemInfoIOI($cid, $pid, $uid)
     {
         $ret=[
             "color"=>"",
@@ -719,13 +719,13 @@ class ContestModel extends Model
                 }
             });
         } elseif ($contest_info["rule"]==2) {
-            // OI Mode
+            // IOI Mode
             foreach ($submissionUsers as $s) {
                 $prob_detail=[];
                 $totScore=0;
                 $totSolved=0;
                 foreach ($problemSet as $p) {
-                    $prob_stat=$this->contestProblemInfoOI($cid, $p["pid"], $s["uid"]);
+                    $prob_stat=$this->contestProblemInfoIOI($cid, $p["pid"], $s["uid"]);
                     $prob_detail[]=[
                         "ncode"=>$p["ncode"],
                         "pid"=>$p["pid"],
@@ -1732,7 +1732,7 @@ class ContestModel extends Model
                 ];
             }
         } elseif ($contest_info["rule"]==2) {
-            // OI Mode
+            // IOI Mode
             if($id == count($ret)){
                 $prob_detail = [];
                 $totSolved = 0;
@@ -1743,7 +1743,7 @@ class ContestModel extends Model
                 $totScore=$ret[$id]['score'];
             };
 
-            $prob_stat=$this->contestProblemInfoOI($cid, $problem["pid"], $uid);
+            $prob_stat=$this->contestProblemInfoIOI($cid, $problem["pid"], $uid);
             $prob_detail[$problem['cpid']]=[
                 "ncode"=>$problem["ncode"],
                 "pid"=>$problem["pid"],
@@ -1940,7 +1940,7 @@ class ContestModel extends Model
             'contest' => $contest,
         ];
     }
-  
+
     public function judgeOver($cid)
     {
         $submissions =  DB::table('submission')

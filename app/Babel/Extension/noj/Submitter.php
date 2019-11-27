@@ -84,7 +84,7 @@ class Submitter extends Curl
         if (isset($this->post_data["contest"])) {
             $this->sub['cid']=$this->post_data["contest"];
             if ($contestModel->rule($this->sub['cid'])==2) {
-                // OI Mode
+                // IOI Mode
                 $this->sub['verdict']="Accepted";
                 if (!is_null($temp["err"])) {
                     if (strpos($temp["data"], 'Compiler runtime error, info: ')!==false) {
