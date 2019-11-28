@@ -131,6 +131,31 @@
         margin-bottom:0;
     }
 
+    @-webkit-keyframes hue {
+        from {
+            -webkit-filter: hue-rotate(0deg);
+        }
+        to {
+            -webkit-filter: hue-rotate(-360deg);
+        }
+    }
+
+    :not(img).cm-colorful-text {
+        color: #f35626;
+        background: coral;
+        background-image: -webkit-linear-gradient(45deg,#f35626,#feab3a);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        -webkit-animation: hue 6s infinite linear;
+    }
+
+    img.cm-colorful-text {
+        border-color: #3e4551;
+        box-shadow: 0 0 4px 0 rgba(0,0,0,.14), 0 3px 4px 0 rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2);
+        margin-top:20px;
+        margin-bottom:20px;
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
