@@ -345,7 +345,7 @@ input::-webkit-search-cancel-button {
     padding: .2em .4em;
 }
 
-@keyframes hue {
+@-webkit-keyframes hue {
     from {
         -webkit-filter: hue-rotate(0deg);
     }
@@ -358,9 +358,9 @@ input::-webkit-search-cancel-button {
     color: #f35626;
     background: coral;
     background-image: -webkit-linear-gradient(45deg,#f35626,#feab3a);
-    background-clip: text;
+    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: hue 6s infinite linear;
+    -webkit-animation: hue 6s infinite linear;
 }
 
 img.cm-colorful-text {
@@ -371,4 +371,3 @@ img.cm-colorful-text {
     height: 5rem;
     width: 5rem;
 }
-
