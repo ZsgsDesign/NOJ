@@ -14,6 +14,7 @@
         border: 1px solid rgba(0, 0, 0, 0.15);
         margin-bottom: 2rem;
         overflow:hidden;
+        height: 20rem;
     }
 
     a:hover{
@@ -79,7 +80,7 @@
     }
 
     .cm-group-action{
-        height: 4rem;
+        /* height: 4rem; */
     }
 
 </style>
