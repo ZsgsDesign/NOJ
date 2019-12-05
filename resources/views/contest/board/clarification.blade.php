@@ -86,7 +86,7 @@
     fresh-container {
         display: block;
         all: initial;
-        font-family: 'Montserrat';
+        font-family: 'Roboto Slab';
     }
 
     fresh-container h1,
@@ -209,7 +209,7 @@
                         </div>
                         <div>
                             <p>{{$c["title"]}}</p>
-                            <small>{{$c["content"]}}</small>
+                            <small class="mundb-text-truncate-1">{{$c["content"]}}</small>
                         </div>
                     </message-card>
                     @endforeach

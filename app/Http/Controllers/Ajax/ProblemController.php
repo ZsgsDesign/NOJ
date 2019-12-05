@@ -235,6 +235,47 @@ class ProblemController extends Controller
 
         return ResponseModel::success(200, null, ["history"=>$history]);
     }
+
+    public function postDiscussion(Request $request)
+    {
+        $request->validate([
+            'pid' => 'required|integer',
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+        $all_data=$request->all();
+        $problemModel=new ProblemModel();
+        $pid=$all_data["pid"];
+        $title=$all_data["title"];
+        $content=$all_data["content"];
+        $basic=$problemModel->basic($pid);
+        if (empty($basic)) {
+            return ResponseModel::err(3001);
+        }
+        $ret=$problemModel->addDiscussion(Auth::user()->id,$pid,$title,$content);
+        return $ret?ResponseModel::success(200, null, $ret):ResponseModel::err(3003);
+    }
+
+    public function addComment(Request $request)
+    {
+        $request->validate([
+            'pdid' => 'required|integer',
+            'content' => 'required'
+        ]);
+        $all_data=$request->all();
+        $problemModel=new ProblemModel();
+        $pdid=$all_data['pdid'];
+        $content=$all_data['content'];
+        $reply_id=$all_data['reply_id'];
+        $pid=$problemModel->pidByPdid($pdid);
+        $basic=$problemModel->basic($pid);
+        if (empty($basic)) {
+            return ResponseModel::err(3001);
+        }
+        $ret=$problemModel->addComment(Auth::user()->id,$pdid,$content,$reply_id);
+        return $ret?ResponseModel::success(200, null, $ret):ResponseModel::err(3003);
+    }
+  
     /**
      * Resubmit Submission Error Problems.
      *

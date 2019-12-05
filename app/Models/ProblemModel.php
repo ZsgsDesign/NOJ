@@ -6,6 +6,7 @@ use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Submission\SubmissionModel;
+use Illuminate\Support\Str;
 use Cache;
 
 class ProblemModel extends Model
@@ -24,22 +25,37 @@ class ProblemModel extends Model
                     "description"=>$prob_detail["description"],
                     "input"=>$prob_detail["input"],
                     "output"=>$prob_detail["output"],
-                    "note"=>$prob_detail["note"]
+                    "note"=>$prob_detail["note"],
+                    "file"=>$prob_detail["file"]
                 ];
             } elseif ($prob_detail["markdown"]) {
                 $prob_detail["parsed"]=[
                     "description"=>clean(convertMarkdownToHtml($prob_detail["description"])),
                     "input"=>clean(convertMarkdownToHtml($prob_detail["input"])),
                     "output"=>clean(convertMarkdownToHtml($prob_detail["output"])),
-                    "note"=>clean(convertMarkdownToHtml($prob_detail["note"]))
+                    "note"=>clean(convertMarkdownToHtml($prob_detail["note"])),
+                    "file"=>clean(convertMarkdownToHtml($prob_detail["file"]))
                 ];
             } else {
                 $prob_detail["parsed"]=[
                     "description"=>$prob_detail["description"],
                     "input"=>$prob_detail["input"],
                     "output"=>$prob_detail["output"],
-                    "note"=>$prob_detail["note"]
+                    "note"=>$prob_detail["note"],
+                    "file"=>$prob_detail["file"]
                 ];
+            }
+            $prob_detail["pdf"]=false;
+            $prob_detail["viewerShow"]=false;
+            $prob_detail["file_ext"]=null;
+            if($prob_detail['file'] && !blank($prob_detail['file_url'])){
+                $prob_detail["file_ext"]=explode('.',basename($prob_detail['file_url']));
+                $prob_detail["file_ext"]=end($prob_detail["file_ext"]);
+                $prob_detail["pdf"]=Str::is("*.pdf", basename($prob_detail['file_url']));
+                $prob_detail["viewerShow"]= blank($prob_detail["parsed"]["description"]) &&
+                                            blank($prob_detail["parsed"]["input"]) &&
+                                            blank($prob_detail["parsed"]["output"]) &&
+                                            blank($prob_detail["parsed"]["note"]);
             }
             $prob_detail["update_date"]=date_format(date_create($prob_detail["update_date"]), 'm/d/Y H:i:s');
             $prob_detail["oj_detail"]=DB::table("oj")->where("oid", $prob_detail["OJ"])->first();
@@ -405,6 +421,7 @@ class ProblemModel extends Model
         $pid=DB::table($this->table)->insertGetId([
             'difficulty'=>-1,
             'file'=>$data['file'],
+            'file_url'=>$data['file_url'],
             'title'=>$data['title'],
             'time_limit'=>$data['time_limit'],
             'memory_limit'=>$data['memory_limit'],
@@ -448,6 +465,7 @@ class ProblemModel extends Model
         DB::table($this->table)->where(["pcode"=>$data['pcode']])->update([
             'difficulty'=>-1,
             'file'=>$data['file'],
+            'file_url'=>$data['file_url'],
             'title'=>$data['title'],
             'time_limit'=>$data['time_limit'],
             'memory_limit'=>$data['memory_limit'],
@@ -487,6 +505,230 @@ class ProblemModel extends Model
         }
 
         return $pid;
+    }
+
+    public function discussionList($pid)
+    {
+        $paginator = DB::table('problem_discussion')->join(
+            "users",
+            "id",
+            "=",
+            "problem_discussion.uid"
+        )->where([
+            'problem_discussion.pid'=>$pid,
+            'problem_discussion.audit'=>1
+        ])->orderBy(
+            'problem_discussion.created_at',
+            'desc'
+        )->select([
+            'problem_discussion.pdid',
+            'problem_discussion.title',
+            'problem_discussion.updated_at',
+            'users.avatar',
+            'users.name',
+            'users.id as uid'
+        ])->paginate(15);
+        $list = $paginator->all();
+        foreach($list as &$l){
+            $l['updated_at'] = $this->formatTime($l['updated_at']);
+            $l['comment_count'] = DB::table('problem_discussion_comment')->where('pdid','=',$l['pdid'])->count();
+        }
+        return [
+            'paginator' => $paginator,
+            'list' => $list,
+        ];
+    }
+
+    public function formatTime($date)
+    {
+        $periods=["second", "minute", "hour", "day", "week", "month", "year", "decade"];
+        $lengths=["60", "60", "24", "7", "4.35", "12", "10"];
+
+        $now=time();
+        $unix_date=strtotime($date);
+
+        if (empty($unix_date)) {
+            return "Bad date";
+        }
+
+        if ($now>$unix_date) {
+            $difference=$now-$unix_date;
+            $tense="ago";
+        } else {
+            $difference=$unix_date-$now;
+            $tense="from now";
+        }
+
+        for ($j=0; $difference>=$lengths[$j] && $j<count($lengths)-1; $j++) {
+            $difference/=$lengths[$j];
+        }
+
+        $difference=round($difference);
+
+        if ($difference!=1) {
+            $periods[$j].="s";
+        }
+
+        return "$difference $periods[$j] {$tense}";
+    }
+
+    public function discussionDetail($pdid)
+    {
+        $main = DB::table('problem_discussion')->join(
+            "users",
+            "id",
+            "=",
+            "problem_discussion.uid"
+        )->where(
+            'problem_discussion.pdid',
+            '=',
+            $pdid
+        )->select([
+            'problem_discussion.pdid',
+            'problem_discussion.title',
+            'problem_discussion.content',
+            'problem_discussion.votes',
+            'problem_discussion.created_at',
+            'users.avatar',
+            'users.name',
+            'users.id as uid'
+        ])->get()->first();
+        $main['created_at'] = $this->formatTime($main['created_at']);
+        $main['content']=clean(Markdown::convertToHtml($main["content"]));
+
+        $comment_count = DB::table('problem_discussion_comment')->where('pdid','=',$pdid)->count();
+
+        $paginator = DB::table('problem_discussion_comment')->join(
+            "users",
+            "id",
+            "=",
+            "problem_discussion_comment.uid"
+        )->where([
+            'problem_discussion_comment.pdid'=>$pdid,
+            'problem_discussion_comment.reply_id'=>null,
+            'problem_discussion_comment.audit'=>1
+        ])->select([
+            'problem_discussion_comment.pdcid',
+            'problem_discussion_comment.pdid',
+            'problem_discussion_comment.content',
+            'problem_discussion_comment.votes',
+            'problem_discussion_comment.created_at',
+            'users.avatar',
+            'users.name',
+            'users.id as uid'
+        ])->paginate(10);
+        $comment = $paginator->all();
+        foreach($comment as &$c){
+            $c['content']=clean(Markdown::convertToHtml($c["content"]));
+            $c['created_at'] = $this->formatTime($c['created_at']);
+            $c['reply'] = DB::table('problem_discussion_comment')->join(
+                "users",
+                "id",
+                "=",
+                "problem_discussion_comment.uid"
+            )->where(
+                'problem_discussion_comment.pdid',
+                '=',
+                $pdid
+            )->where(
+                'problem_discussion_comment.reply_id',
+                '!=',
+                null
+            )->where(
+                'problem_discussion_comment.audit',
+                '=',
+                1
+            )->select([
+                'problem_discussion_comment.pdcid',
+                'problem_discussion_comment.pdid',
+                'problem_discussion_comment.content',
+                'problem_discussion_comment.reply_id',
+                'problem_discussion_comment.votes',
+                'problem_discussion_comment.created_at',
+                'users.avatar',
+                'users.name',
+                'users.id as uid'
+            ])->get()->all();
+            foreach($c['reply'] as $k=>&$cr){
+                $cr['content']=clean(Markdown::convertToHtml($cr["content"]));
+                $cr['reply_uid'] = DB::table('problem_discussion_comment')->where(
+                    'pdcid',
+                    '=',
+                    $cr['reply_id']
+                )->get()->first()['uid'];
+                $cr['reply_name'] = DB::table('users')->where(
+                    'id',
+                    '=',
+                    $cr['reply_uid']
+                )->get()->first()['name'];
+                $cr['created_at'] = $this->formatTime($cr['created_at']);
+                if($this->replyParent($cr['pdcid'])!=$c['pdcid']){
+                    unset($c['reply'][$k]);
+                }
+            }
+        }
+        return [
+            'main' => $main,
+            'comment_count' => $comment_count,
+            'paginator' => $paginator,
+            'comment' => $comment
+        ];
+    }
+
+    public function replyParent($pdcid)
+    {
+        $reply_id=DB::table('problem_discussion_comment')->where('pdcid','=',$pdcid)->get()->first()['reply_id'];
+        $top=DB::table('problem_discussion_comment')->where('pdcid','=',$reply_id)->get()->first()['reply_id'];
+        if(isset($top)){
+            return $this->replyParent($reply_id);
+        }else{
+            return $reply_id;
+        }
+    }
+
+    public function pcodeByPdid($dcode)
+    {
+        $pid = DB::table('problem_discussion')->where('pdid','=',$dcode)->get()->first()['pid'];
+        $pcode = $this->pcode($pid);
+        return $pcode;
+    }
+
+    public function addDiscussion($uid, $pid, $title, $content)
+    {
+        $pdid=DB::table("problem_discussion")->insertGetId([
+            "uid"=>$uid,
+            "pid"=>$pid,
+            "title"=>$title,
+            "content"=>$content,
+            "votes"=>0,
+            "audit"=>1,
+            "created_at"=>date("Y-m-d H:i:s"),
+            "updated_at"=>date("Y-m-d H:i:s"),
+        ]);
+        return $pdid;
+    }
+
+    public function pidByPdid($pdid)
+    {
+        $pid = DB::table('problem_discussion')->where('pdid','=',$pdid)->get()->first()['pid'];
+        return $pid;
+    }
+
+    public function addComment($uid,$pdid,$content,$reply_id)
+    {
+        $pid=$this->pidByPdid($pdid);
+        $pdcid=DB::table('problem_discussion_comment')->insertGetId([
+            'pdid'=>$pdid,
+            'uid'=>$uid,
+            'pid'=>$pid,
+            'content'=>$content,
+            'reply_id'=>$reply_id,
+            'votes'=>0,
+            'audit'=>1,
+            'created_at'=>date("Y-m-d H:i:s"),
+            'updated_at'=>date("Y-m-d H:i:s"),
+        ]);
+        return $pdcid;
     }
 
     public function isHidden($pid)

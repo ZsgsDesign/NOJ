@@ -2,7 +2,7 @@
 
 ![NOJ](/noj.png)
 
-NOJ's another online judge platform, stands for NJUPT Online Judge. It's written in PHP, GO, Python and other function-supporting languages.
+NOJ's another online judge platform, stands for NJUPT Online Judge. It's written in PHP, GO, Python and other function-supporting languages and supports both online judges and virtual judges, we called it **mixed judge**.
 
 ![License](https://img.shields.io/github/license/ZsgsDesign/NOJ.svg?style=flat-square)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/ZsgsDesign/NOJ.svg?style=flat-square)](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/?branch=master)
@@ -13,9 +13,9 @@ NOJ's another online judge platform, stands for NJUPT Online Judge. It's written
 ![Stars](https://img.shields.io/github/stars/zsgsdesign/noj.svg?style=flat-square)
 ![Forks](https://img.shields.io/github/forks/zsgsdesign/noj.svg?style=flat-square)
 
-### Community Contributors
+## NOJ Development Team
 
-| [<img src="https://github.com/ZsgsDesign.png?s=64" width="100px;"/><br /><sub><b>John Zhang</b></sub>](https://github.com/ZsgsDesign)<br />**Leader**   | [<img src="https://github.com/DavidDiao.png?s=64" width="100px;"/><br /><sub><b>David Diao</b></sub>](https://github.com/DavidDiao)<br />**Deaputy**<br />  | [<img src="https://github.com/pikanglong.png?s=64" width="100px;"/><br /><sub><b>Cone Pi</b></sub>](https://github.com/pikanglong)<br />**BackEnd**  | [<img src="https://github.com/X3ZvaWQ.png?s=64" width="100px;"/><br /><sub><b>X3ZvaWQ</b></sub>](https://github.com/X3ZvaWQ)<br />**BackEnd** | [<img src="https://github.com/Brethland.png?s=64" width="100px;"/><br /><sub><b>Brethland</b></sub>](https://github.com/Brethland)<br />**VirtualJudge** | [<img src="https://github.com/goufaan.png?s=64" width="100px;"/><br /><sub><b>goufaan</b></sub>](https://github.com/goufaan)<br />**FrontEnd**   |  [<img src="https://github.com/ChenKS12138.png?s=64" width="100px;"/><br /><sub><b>ChenKS12138</b></sub>](https://github.com/ChenKS12138)<br />**FrontEnd** |
+| [<img src="https://github.com/ZsgsDesign.png?s=64" width="100px;"/><br /><sub><b>John Zhang</b></sub>](https://github.com/ZsgsDesign)<br />**Leader**   | [<img src="https://github.com/DavidDiao.png?s=64" width="100px;"/><br /><sub><b>David Diao</b></sub>](https://github.com/DavidDiao)<br />**Deaputy**<br />  | [<img src="https://github.com/pikanglong.png?s=64" width="100px;"/><br /><sub><b>Cone Pi</b></sub>](https://github.com/pikanglong)<br />**BackEnd**  | [<img src="https://github.com/X3ZvaWQ.png?s=64" width="100px;"/><br /><sub><b>X3ZvaWQ</b></sub>](https://github.com/X3ZvaWQ)<br />**BackEnd** | [<img src="https://github.com/Alicefantay.png?s=64" width="100px;"/><br /><sub><b>Alice</b></sub>](https://github.com/Alicefantay)<br />**Design** | [<img src="https://github.com/goufaan.png?s=64" width="100px;"/><br /><sub><b>goufaan</b></sub>](https://github.com/goufaan)<br />**FrontEnd**   |  [<img src="https://github.com/ChenKS12138.png?s=64" width="100px;"/><br /><sub><b>ChenKS12138</b></sub>](https://github.com/ChenKS12138)<br />**FrontEnd** |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | [<img src="https://github.com/Rp12138.png?s=64" width="100px;"/><br /><sub><b>Rp12138</b></sub>](https://github.com/Rp12138)<br />**BackEnd**   |
 
@@ -52,7 +52,7 @@ git clone https://github.com/ZsgsDesign/NOJ ./
 composer install
 ```
 
-> Notice: you may find this step(or others) fails with message like "func() has been disabled for security reasons", it means you need to remove restrictions on those functions, basically Laravel and Composer require proc_open and proc_get_status to work properly.
+> Notice: you may find this step(or others) fails with message like "func() has been disabled for security reasons", it means you need to remove restrictions on those functions, basically Laravel and Composer require `proc_open()`, `popen()` and `proc_get_status()` to work properly.
 
 5. Almost done, you still got to modify a few folders and give them permission to write;
 
@@ -101,6 +101,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hd
     - [X] Queue Support
     - [X] Notification Support
         - [X] Browser
+        - [X] MessageBox
         - [X] Mail
     - [X] System Version
     - [x] System Bug Report
@@ -121,13 +122,13 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hd
     - [X] Group Search
     - [X] Contest Search
     - [X] OnmiSearch Support
-- [ ] Problem System
+- [X] Problem System
     - [X] Problem List
     - [X] Problem Tag
     - [X] Problem Filter
     - [X] Problem Details
     - [X] Problem Solution
-    - [ ] Problem Discussion
+    - [X] Problem Discussion
     - [X] Problem Submit
         - [X] Problem Immersive Mode
         - [X] Problem Editor
@@ -178,6 +179,7 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hd
             - [X] Account Generate
             - [X] Judge Status
             - [X] Issue Announcements
+            - [X] ScrollBoard
         - [X] In-Contest Problem Switch
         - [X] Problem Temp Block
     - [X] Contest Ranking System
@@ -196,7 +198,6 @@ php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hd
         - [X] Group General Info
         - [ ] Group Functions
             - [X] Group Announcement
-            - [ ] Group Posts
             - [X] Group Contests
                 - [X] Group-wide Contests
                 - [X] Site-wide Contests

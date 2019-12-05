@@ -168,7 +168,7 @@
                                 @endforeach
                             </tr>
                             @else
-                                {{-- OI Mode --}}
+                                {{-- IOI Mode --}}
                                 <tr>
                                     <th scope="col" style="text-align: left;">Rank</th>
                                     <th scope="col">Account</th>
@@ -199,7 +199,7 @@
                             </tr>
                             @endforeach
                         @else
-                            {{-- OI Mode --}}
+                            {{-- IOI Mode --}}
                             @foreach($contest_rank as $r)
                             <tr class="@if($r["uid"]==Auth::user()->id) cm-me @endif @if(isset($r["remote"]) && $r["remote"]) cm-remote @endif">
                                 <th scope="row">{{$loop->iteration}}</th>

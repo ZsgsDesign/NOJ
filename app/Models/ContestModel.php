@@ -4,6 +4,7 @@ namespace App\Models;
 
 use GrahamCampbell\Markdown\Facades\Markdown;
 use App\Models\Submission\SubmissionModel;
+use App\Models\Eloquent\UserModel as User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Rating\RatingCalculator;
@@ -20,7 +21,7 @@ class ContestModel extends Model
     const UPDATED_AT=null;
     const CREATED_AT=null;
 
-    public $rule=["Unknown", "ICPC", "OI", "Custom ICPC", "Custom OI"];
+    public $rule=["Unknown", "ICPC", "IOI", "Custom ICPC", "Custom IOI"];
 
     public function calcLength($a, $b)
     {
@@ -380,6 +381,15 @@ class ContestModel extends Model
                 "uid"=>$uid,
                 "audit"=>1
             ]);
+            $name=User::find($uid)->name;
+            $contest=$this->basic($cid);
+            $url=route('contest.detail',['cid' => $cid]);
+            sendMessage([
+                'receiver' => $uid,
+                'sender' => 1, // potential bugs
+                'title' => "You have successfully registered {$contest['name']}",
+                'content' => "Hi, Dear **$name**,\n\n  You have successfully registered [**{$contest['name']}**]($url), don't forget to participate!\n\n  **Contest:** {$contest['name']}\n\n  **Begin Time:** {$contest['begin_time']}\n\nSincerely, NOJ"
+            ]);
             return true;
         }
         return false;
@@ -464,7 +474,7 @@ class ContestModel extends Model
                     $p["ac_rate"]=round($prob_stat["ac_rate"], 2);
                 }
             } else {
-                $prob_stat=$this->contestProblemInfoOI($cid, $p["pid"], $uid);
+                $prob_stat=$this->contestProblemInfoIOI($cid, $p["pid"], $uid);
                 $p["points"]=$prob_stat["points"];
                 $p["score"]=empty($prob_stat["score_parsed"]) ? 0 : $prob_stat["score_parsed"];
             }
@@ -523,7 +533,7 @@ class ContestModel extends Model
         return $time;
     }
 
-    public function contestProblemInfoOI($cid, $pid, $uid)
+    public function contestProblemInfoIOI($cid, $pid, $uid)
     {
         $ret=[
             "color"=>"",
@@ -719,13 +729,13 @@ class ContestModel extends Model
                 }
             });
         } elseif ($contest_info["rule"]==2) {
-            // OI Mode
+            // IOI Mode
             foreach ($submissionUsers as $s) {
                 $prob_detail=[];
                 $totScore=0;
                 $totSolved=0;
                 foreach ($problemSet as $p) {
-                    $prob_stat=$this->contestProblemInfoOI($cid, $p["pid"], $s["uid"]);
+                    $prob_stat=$this->contestProblemInfoIOI($cid, $p["pid"], $s["uid"]);
                     $prob_detail[]=[
                         "ncode"=>$p["ncode"],
                         "pid"=>$p["pid"],
@@ -974,6 +984,7 @@ class ContestModel extends Model
     public function remoteAnnouncement($remote_code) {
         return DB::table("contest_clarification")->where("remote_code", $remote_code)->get()->first();
     }
+
     public function isContestEnded($cid)
     {
         return DB::table("contest")->where("cid", $cid)->where("end_time", "<", date("Y-m-d H:i:s"))->count();
@@ -1731,7 +1742,7 @@ class ContestModel extends Model
                 ];
             }
         } elseif ($contest_info["rule"]==2) {
-            // OI Mode
+            // IOI Mode
             if($id == count($ret)){
                 $prob_detail = [];
                 $totSolved = 0;
@@ -1742,7 +1753,7 @@ class ContestModel extends Model
                 $totScore=$ret[$id]['score'];
             };
 
-            $prob_stat=$this->contestProblemInfoOI($cid, $problem["pid"], $uid);
+            $prob_stat=$this->contestProblemInfoIOI($cid, $problem["pid"], $uid);
             $prob_detail[$problem['cpid']]=[
                 "ncode"=>$problem["ncode"],
                 "pid"=>$problem["pid"],
@@ -1845,7 +1856,8 @@ class ContestModel extends Model
         return Cache::tags(['contest', 'account'])->get($cid);
     }
 
-    public function praticeAnalysis($cid){
+    public function praticeAnalysis($cid)
+    {
         $gid = DB::table('contest')
             ->where('cid',$cid)
             ->first()['gid'];
@@ -1907,6 +1919,36 @@ class ContestModel extends Model
     public function isVerified($cid)
     {
         return DB::table('contest')->where('cid','=',$cid)->pluck('verified')->first();
+    }
+
+    public function getScrollBoardData($cid)
+    {
+        $members = DB::table("submission")
+            ->join('users','users.id','=','submission.uid')
+            ->join('contest', 'contest.cid', '=', 'submission.cid')
+            ->join('group_member', 'users.id', '=', 'group_member.uid')
+            ->where('submission.cid', $cid)->select('users.id as uid','users.name as name','group_member.nick_name as nick_name')
+            ->groupBy('uid')->get()->all();
+        $submissions = DB::table("submission")
+            ->where('cid', $cid)
+            ->select('sid', 'verdict', 'submission_date', 'pid', 'uid')
+            ->orderBy('submission_date')
+            ->get()->all();
+        $problems = DB::table('contest_problem')
+            ->where('cid', $cid)
+            ->select('ncode','pid')
+            ->orderBy('ncode')
+            ->get()->all();
+        $contest = DB::table('contest')
+            ->where('cid',$cid)
+            ->select('begin_time','end_time','froze_length')
+            ->first();
+        return [
+            'members' => $members,
+            'submissions' => $submissions,
+            'problems' => $problems,
+            'contest' => $contest,
+        ];
     }
 
     public function judgeOver($cid)

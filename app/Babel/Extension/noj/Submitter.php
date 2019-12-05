@@ -39,7 +39,9 @@ class Submitter extends Curl
         return $judgeClient->judge($data["solution"], $data["language"], $data["test_case_id"], [
             'output' => false,
             'max_cpu_time'=>$data['max_cpu_time'],
-            'max_memory'=>$data['max_memory']
+            'max_memory'=>$data['max_memory'],
+            'spj_version'=>$data['spj_version'],
+            'spj_config'=>$data['spj_config']
         ]);
     }
     public function submit()
@@ -70,13 +72,19 @@ class Submitter extends Curl
             "max_cpu_time" => $probBasic["time_limit"] * ($this->post_data["lang"]=="java" ? 3 : 1),
             "max_memory" => $probBasic["memory_limit"] * 1024,
             "test_case_id" => $probBasic["pcode"],
-            "token" => $bestServer["token"]
+            "token" => $bestServer["token"],
+            "spj_version" => null,
+            "spj_config" => null
         ];
+        if($probBasic["spj"] && $probBasic["spj_version"]){
+            $submit_data["spj_version"]=$probBasic["spj_version"];
+            $submit_data["spj_config"]=$probBasic["spj_lang"];
+        }
         $temp=$this->submitJudger($submitURL, $submit_data);
         if (isset($this->post_data["contest"])) {
             $this->sub['cid']=$this->post_data["contest"];
             if ($contestModel->rule($this->sub['cid'])==2) {
-                // OI Mode
+                // IOI Mode
                 $this->sub['verdict']="Accepted";
                 if (!is_null($temp["err"])) {
                     if (strpos($temp["data"], 'Compiler runtime error, info: ')!==false) {
@@ -85,9 +93,10 @@ class Submitter extends Curl
                         $this->sub['time']=$tempRes["cpu_time"];
                         $this->sub['memory']=round($tempRes["memory"] / 1024);
                     } else {
-                        $this->sub['verdict']="Compile Error";
+                        $this->sub['verdict']=$this->verdictDict["-2"];
                         $this->sub['time']=0;
                         $this->sub['memory']=0;
+                        $this->sub['compile_info']=$temp["data"];
                     }
                     return;
                 }

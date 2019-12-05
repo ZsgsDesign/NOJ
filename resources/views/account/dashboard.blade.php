@@ -112,7 +112,7 @@
 
     user-card statistic-block{
         display: block;
-        font-family: 'Montserrat';
+        font-family: 'Roboto Slab';
     }
 
     user-card statistic-block p{

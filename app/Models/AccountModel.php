@@ -101,6 +101,7 @@ class AccountModel extends Model
             'avatar' => $data["avatar"],
             'contest_account' => $data["contest_account"],
             'remember_token'=>null,
+            'prefix' => $data["prefix"],
             'created_at'=>date("Y-m-d H:i:s"),
             'updated_at'=>date("Y-m-d H:i:s")
         ]);
@@ -122,7 +123,7 @@ class AccountModel extends Model
         $ret["solvedCount"]=count($ret["solved"]);
         // Casual
         $ret["rank"]=Cache::tags(['rank',$ret["id"]])->get("rank", "N/A");
-        $ret["rankTitle"]=Cache::tags(['rank',$ret["id"]])->get("title");
+        $ret["rankTitle"]=Cache::tags(['rank',$ret["id"]])->get("title", "Recruit");
         $ret["rankTitleColor"]=RankModel::getColor($ret["rankTitle"]);
         // Professional
         $ret["professionalTitle"]=RankModel::getProfessionalTitle($ret["professional_rate"]);

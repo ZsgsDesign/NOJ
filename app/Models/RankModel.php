@@ -38,29 +38,29 @@ class RankModel extends Model
     ];
 
     private static $casualRanking=[
-        "Community Star"=>"cm-colorful-text",
-        "Community Assistant"=>"wemd-pink-text",
-        "Deputy Community Assistant"=>"wemd-red-text",
-        "Community Contributor"=>"wemd-deep-orange-text",
-        "Deputy Community Contributor"=>"wemd-orange-text",
-        "Community Helper"=>"wemd-purple-text",
-        "Deputy Community Helper"=>"wemd-blue-text",
-        "Community Participant"=>"wemd-cyan-text",
-        "Community Trainee"=>"wemd-green-text",
-        "Brand New"=>"wemd-gray-text",
+        "Fleet Admiral"=>"cm-colorful-text",
+        "Admiral"=>"wemd-pink-text",
+        "Vice Admiral"=>"wemd-red-text",
+        "Captain"=>"wemd-deep-orange-text",
+        "Commander"=>"wemd-orange-text",
+        "Lieutenant Commander"=>"wemd-purple-text",
+        "Lieutenant"=>"wemd-blue-text",
+        "Ensign"=>"wemd-cyan-text",
+        "Apprentice"=>"wemd-green-text",
+        "Recruit"=>"wemd-gray-text",
     ];
 
     public $casualRankingPer=[
-        "Community Star"=>1,
-        "Community Assistant"=>5,
-        "Deputy Community Assistant"=>10,
-        "Community Contributor"=>10,
-        "Deputy Community Contributor"=>50,
-        "Community Helper"=>100,
-        "Deputy Community Helper"=>300,
-        "Community Participant"=>700,
-        "Community Trainee"=>1000,
-        "Brand New"=>400,
+        "Fleet Admiral"=>1,
+        "Admiral"=>5,
+        "Vice Admiral"=>10,
+        "Captain"=>10,
+        "Commander"=>50,
+        "Lieutenant Commander"=>100,
+        "Lieutenant"=>300,
+        "Ensign"=>700,
+        "Apprentice"=>1000,
+        "Recruit"=>400,
     ];
 
     public static function getColor($rankTitle)

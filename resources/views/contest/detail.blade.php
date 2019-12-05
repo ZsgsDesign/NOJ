@@ -117,7 +117,7 @@
     fresh-container {
         display: block;
         all: initial;
-        font-family: 'Montserrat';
+        font-family: 'Roboto Slab';
     }
 
     fresh-container h1,
@@ -287,7 +287,7 @@
                                                 @if( strtotime($detail['registration_due']) < time() || $detail["registant_type"]==0 || ($detail["registant_type"]==1 && !$inGroup) )
                                                     <button type="button" class="btn btn-secondary">No Access</button>
                                                 @else
-                                                    <button type="button" class="btn btn-primary" onclick="registContest()">Apply</button>
+                                                    <button type="button" class="btn btn-primary" onclick="registContest()">Regist</button>
                                                     <script>
                                                         var registing=false;
                                                         function registContest(){

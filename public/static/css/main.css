@@ -289,6 +289,13 @@ version-badge > inline-div:last-of-type{
     cursor: auto;
 }
 
+/* Image Override */
+
+fresh-container img{
+    max-width: 100%;
+}
+
+
 /* Reply-Quote */
 
 fresh-container reply-quote{
@@ -327,4 +334,40 @@ body{
 input::-webkit-search-decoration,
 input::-webkit-search-cancel-button {
     display: none;
+}
+
+*:not(pre) > code {
+    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-size: .85em !important;
+    color: #000;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    padding: .2em .4em;
+}
+
+@-webkit-keyframes hue {
+    from {
+        -webkit-filter: hue-rotate(0deg);
+    }
+    to {
+        -webkit-filter: hue-rotate(-360deg);
+    }
+}
+
+:not(img).cm-colorful-text {
+    color: #f35626;
+    background: coral;
+    background-image: -webkit-linear-gradient(45deg,#f35626,#feab3a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-animation: hue 6s infinite linear;
+}
+
+img.cm-colorful-text {
+    border-color: #3e4551;
+    box-shadow: 0 0 4px 0 rgba(0,0,0,.14), 0 3px 4px 0 rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2);
+    margin-top:20px;
+    margin-bottom:20px;
+    height: 5rem;
+    width: 5rem;
 }

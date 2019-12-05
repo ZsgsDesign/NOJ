@@ -83,21 +83,29 @@ class SubmissionController extends Controller
         $grid->column('sid', "ID")->sortable();
         $grid->time("Time");
         $grid->memory("Memory");
-        $grid->verdict("Verdict")->display(function($verdict) {
+        $grid->verdict("Verdict")->display(function ($verdict) {
             return '<i class="fa fa-circle '.$this->color.'"></i> '.$verdict;
         });
         $grid->language("Language");
-        $grid->submission_date("Submission Date")->display(function($submission_date) {
+        $grid->submission_date("Submission Date")->display(function ($submission_date) {
             return date("Y-m-d H:i:s", $submission_date);
-        }); ;
+        });
+        ;
         $grid->uid("UID");
         $grid->cid("CID");
         $grid->pid("PID");
         $grid->jid("JID");
         $grid->coid("COID");
         $grid->score("Raw Score");
-        $grid->filter(function(Grid\Filter $filter) {
-            $filter->like('verdict');
+        $grid->filter(function (Grid\Filter $filter) {
+            $filter->column(6, function ($filter) {
+                $filter->like('verdict');
+            });
+            $filter->column(6, function ($filter) {
+                $filter->equal('cid', 'Contest ID');
+                $filter->equal('uid', 'User ID');
+                $filter->equal('pid', 'Problem ID');
+            });
         });
         return $grid;
     }
@@ -111,7 +119,62 @@ class SubmissionController extends Controller
     protected function detail($id)
     {
         $show=new Show(EloquentSubmissionModel::findOrFail($id));
+        $show->sid('SID');
+        $show->time();
+        $show->memory();
+        $show->verdict();
+        $show->color();
+        $show->language();
+        $show->submission_date();
+        $show->remote_id();
+        $this->codify($show->solution(), $show->getModel()->compiler->lang);
+        if (!blank($show->getModel()->compile_info)) {
+            $this->codify($show->compile_info());
+        }
+        $show->uid('UID');
+        $show->pid('PID');
+        $show->cid('CID');
+        $show->jid('JID');
+        $show->coid('COID');
+        $show->vcid('VCID');
+        $show->score();
+        $show->share()->using(['No','Yes']);
         return $show;
+    }
+
+    private function codify($field, $lang=null)
+    {
+        $field->unescape()->as(function ($value) use ($field,$lang) {
+            $field->border = false;
+            $hash=md5($value);
+            if (blank($value)) {
+                $value=" ";
+            }
+            return "
+                <style>
+                #x$hash {
+                    background: #ffffff;
+                    border-top-left-radius: 0;
+                    border-top-right-radius: 0;
+                    border-bottom-right-radius: 3px;
+                    border-bottom-left-radius: 3px;
+                    padding: 10px;
+                    border: 1px solid #d2d6de;
+                }
+                #x$hash code {
+                    background: #ffffff;
+                }
+                </style>
+                <pre id='x$hash'><code class='$lang'>".htmlspecialchars($value)."</code></pre>
+                <script>
+                    try{
+                        hljs.highlightBlock(document.querySelector('#x$hash code'));
+                    }catch(err){
+                        window.addEventListener('load', function(){hljs.highlightBlock(document.querySelector('#x$hash code'));});
+                    }
+                </script>
+            ";
+        });
     }
 
     /**
@@ -123,7 +186,7 @@ class SubmissionController extends Controller
     {
         $form=new Form(new EloquentSubmissionModel);
         $form->model()->makeVisible('password');
-        $form->tab('Basic', function(Form $form) {
+        $form->tab('Basic', function (Form $form) {
             $form->display('sid');
             $form->text('time')->rules('required');
             $form->text('memory')->rules('required');

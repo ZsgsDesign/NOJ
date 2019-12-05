@@ -177,7 +177,7 @@ class BoardController extends Controller
         // To determine the ranking
         foreach ($contestRank as $i => &$r) {
             if($i != 0) {
-                if($r['score'] == $contestRank[$i-1]['score'] && $r['penalty'] == $contestRank[$i-1]['penalty']){
+                if($r['score'] == $contestRank[$i-1]['score'] && ($contest_rule == 1 ? ($r['penalty'] == $contestRank[$i-1]['penalty']) : 1) ){
                     $r['rank'] = $contestRank[$i-1]['rank'];
                 }else{
                     $r['rank'] = $i + 1;

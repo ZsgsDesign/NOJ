@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Ajax;
 use App\Models\ContestModel;
 use App\Models\GroupModel;
 use App\Models\ResponseModel;
-use App\Models\AccountModel;
+use App\Models\UserModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Auth;
 
@@ -252,6 +251,16 @@ class GroupManageController extends Controller
         $targetClearance=$groupModel->judgeEmailClearance($all_data["gid"], $all_data["email"]);
         if($targetClearance!=-3) return ResponseModel::err(7003);
         $groupModel->inviteMember($all_data["gid"], $all_data["email"]);
+        $basic = $groupModel->basic($all_data['gid']);
+        $url = route('group.detail',['gcode' => $basic['gcode']]);
+        $receiverInfo = UserModel::where('email',$all_data['email'])->first();
+        $sender_name = Auth::user()->name;
+        sendMessage([
+            'receiver' => $receiverInfo["id"],
+            'sender' => Auth::user()->id,
+            'title' => "{$sender_name} invites you to group {$basic['name']}",
+            'content' => "Hi, Dear **{$receiverInfo['name']}**,\n\n  **{$sender_name}** has just invited you to join the group **[{$basic['name']}]({$url})**. Take a look and meet other fascinating people right now!\n\nSincerely, NOJ"
+        ]);
         return ResponseModel::success(200);
     }
 

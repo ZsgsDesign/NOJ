@@ -19,7 +19,8 @@ class Languages
                 'run' => [
                     'command' => '{exe_path}',
                     'seccomp_rule' => 'c_cpp',
-                    'env' => $default_env
+                    'env' => $default_env,
+                    'memory_limit_check_only' => 1
                 ]
             ],
             'c_lang_spj_compile' => [
@@ -49,6 +50,7 @@ class Languages
                 'run' => [
                     'command' => '{exe_path}',
                     'seccomp_rule' => 'c_cpp',
+                    'memory_limit_check_only' => 1
                 ]
             ],
             'java_lang_config' => [
@@ -115,6 +117,22 @@ class Languages
                     'command' => '/usr/bin/jsc {exe_path}',
                     'seccomp_rule' => null,
                     'memory_limit_check_only' => 1
+                ]
+            ],
+            'go_lang_config' => [
+                'name' => 'go',
+                'compile' => [
+                    'src_name' => 'main.go',
+                    'exe_name' => 'main',
+                    'max_cpu_time' => 3000,
+                    'max_real_time' => 10000,
+                    'max_memory' => 1024 * 1024 * 1024,
+                    'compile_command' => '/usr/bin/go build -o {exe_path} {src_path}',
+                ],
+                'run' => [
+                    'command' => '{exe_path}',
+                    'seccomp_rule' => null,
+                    'env' => $default_env
                 ]
             ]
         ];
