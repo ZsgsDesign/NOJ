@@ -193,7 +193,7 @@ window.addEventListener('load',function(){
             return;
         }
 
-        if(img&&img.size/1024 > 1024){
+        if(img&&img.size/1024/1024 > 8){
             $('#tip-text').text('The selected img id too large');
             return;
         }
