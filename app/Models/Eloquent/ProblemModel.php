@@ -12,4 +12,9 @@ class ProblemModel extends Model
     const DELETED_AT=null;
     const UPDATED_AT="update_date";
     const CREATED_AT=null;
+
+    public function submissions()
+    {
+        return $this->hasMany('App\Models\Eloquent\SubmissionModel','pid','pid');
+    }
 }

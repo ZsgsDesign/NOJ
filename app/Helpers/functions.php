@@ -187,3 +187,17 @@ if (!function_exists('formatHumanReadableTime')) {
         return "$difference $periods[$j] {$tense}";
     }
 }
+
+if (!function_exists('formatProblemSolvedTime')) {
+    function formatProblemSolvedTime($seconds)
+    {
+        if ($seconds>3600) {
+            $hours=intval($seconds / 3600);
+            $minutes=$seconds % 3600;
+            $time=$hours.":".gmstrftime('%M:%S', $minutes);
+        } else {
+            $time=gmstrftime('%H:%M:%S', $seconds);
+        }
+        return $time;
+    }
+}
