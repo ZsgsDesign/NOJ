@@ -1988,21 +1988,20 @@
         },
         {
             "name": "laravel-admin-ext/scheduling",
-            "version": "v1.0.1",
+            "version": "v1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-admin-extensions/scheduling.git",
-                "reference": "663ef072b65e8c01c004c3c4577a9428904ba78c"
+                "reference": "72bd03a2917a7d479b019ccc64e991c7d5bec7bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-admin-extensions/scheduling/zipball/663ef072b65e8c01c004c3c4577a9428904ba78c",
-                "reference": "663ef072b65e8c01c004c3c4577a9428904ba78c",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/scheduling/zipball/72bd03a2917a7d479b019ccc64e991c7d5bec7bb",
+                "reference": "72bd03a2917a7d479b019ccc64e991c7d5bec7bb",
                 "shasum": ""
             },
             "require": {
                 "encore/laravel-admin": "~1.5",
-                "laravel/framework": "~5.5",
                 "php": ">=7.0.0"
             },
             "require-dev": {
@@ -2039,7 +2038,7 @@
                 "scheduling",
                 "task"
             ],
-            "time": "2018-05-07T02:07:14+00:00"
+            "time": "2019-12-11T02:46:10+00:00"
         },
         {
             "name": "laravel/framework",
