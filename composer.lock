@@ -1774,16 +1774,16 @@
         },
         {
             "name": "laravel-admin-ext/helpers",
-            "version": "v1.1.2",
+            "version": "v1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-admin-extensions/helpers.git",
-                "reference": "773b6441d653a46f78fb3d99502bd0fe84e20d79"
+                "reference": "47fac9ad239da56a444af86a0fa53b213209dd6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-admin-extensions/helpers/zipball/773b6441d653a46f78fb3d99502bd0fe84e20d79",
-                "reference": "773b6441d653a46f78fb3d99502bd0fe84e20d79",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/helpers/zipball/47fac9ad239da56a444af86a0fa53b213209dd6d",
+                "reference": "47fac9ad239da56a444af86a0fa53b213209dd6d",
                 "shasum": ""
             },
             "require": {
@@ -1822,7 +1822,7 @@
                 "helpers",
                 "laravel-admin"
             ],
-            "time": "2019-09-27T07:33:13+00:00"
+            "time": "2019-12-11T02:59:06+00:00"
         },
         {
             "name": "laravel-admin-ext/log-viewer",
