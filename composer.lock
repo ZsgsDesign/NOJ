@@ -1719,23 +1719,22 @@
         },
         {
             "name": "laravel-admin-ext/backup",
-            "version": "v1.0.2",
+            "version": "v1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-admin-extensions/backup.git",
-                "reference": "9477a6ad6d345333cc3f39285a9b786836715bfe"
+                "reference": "d3ac91864d6a15e090b34460613710c9ab3526d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-admin-extensions/backup/zipball/9477a6ad6d345333cc3f39285a9b786836715bfe",
-                "reference": "9477a6ad6d345333cc3f39285a9b786836715bfe",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/backup/zipball/d3ac91864d6a15e090b34460613710c9ab3526d5",
+                "reference": "d3ac91864d6a15e090b34460613710c9ab3526d5",
                 "shasum": ""
             },
             "require": {
-                "encore/laravel-admin": "~1.5",
-                "laravel/framework": "~5.5",
+                "encore/laravel-admin": ">=1.5",
                 "php": ">=7.0.0",
-                "spatie/laravel-backup": "^5.0"
+                "spatie/laravel-backup": ">=5.0"
             },
             "require-dev": {
                 "laravel/laravel": "~5.5",
@@ -1770,7 +1769,7 @@
                 "backup",
                 "laravel-admin"
             ],
-            "time": "2018-04-24T11:45:17+00:00"
+            "time": "2019-12-11T02:50:11+00:00"
         },
         {
             "name": "laravel-admin-ext/helpers",
@@ -2510,16 +2509,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.55",
+            "version": "1.0.61",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "33c91155537c6dc899eacdc54a13ac6303f156e6"
+                "reference": "4fb13c01784a6c9f165a351e996871488ca2d8c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/33c91155537c6dc899eacdc54a13ac6303f156e6",
-                "reference": "33c91155537c6dc899eacdc54a13ac6303f156e6",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/4fb13c01784a6c9f165a351e996871488ca2d8c9",
+                "reference": "4fb13c01784a6c9f165a351e996871488ca2d8c9",
                 "shasum": ""
             },
             "require": {
@@ -2590,7 +2589,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2019-08-24T11:17:19+00:00"
+            "time": "2019-12-08T21:46:50+00:00"
         },
         {
             "name": "league/oauth1-client",
@@ -4770,20 +4769,20 @@
         },
         {
             "name": "spatie/db-dumper",
-            "version": "2.14.2",
+            "version": "2.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/db-dumper.git",
-                "reference": "093750d69c383fb14d9e7cd6caa052ea7b35e5b5"
+                "reference": "ccb7dd7557cd119b21ea853a893da4d1b0ff08b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/db-dumper/zipball/093750d69c383fb14d9e7cd6caa052ea7b35e5b5",
-                "reference": "093750d69c383fb14d9e7cd6caa052ea7b35e5b5",
+                "url": "https://api.github.com/repos/spatie/db-dumper/zipball/ccb7dd7557cd119b21ea853a893da4d1b0ff08b6",
+                "reference": "ccb7dd7557cd119b21ea853a893da4d1b0ff08b6",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.3",
+                "php": "^7.2",
                 "symfony/process": "^4.2"
             },
             "require-dev": {
@@ -4816,42 +4815,44 @@
                 "mysqldump",
                 "spatie"
             ],
-            "time": "2019-06-28T08:23:04+00:00"
+            "time": "2019-11-11T10:40:42+00:00"
         },
         {
             "name": "spatie/laravel-backup",
-            "version": "5.12.1",
+            "version": "6.7.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-backup.git",
-                "reference": "553562557ef13fda0e823cc609cd7d4f2c4f2552"
+                "reference": "81e10ccb9f22307fb0ed548f895264ba5dcfff82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-backup/zipball/553562557ef13fda0e823cc609cd7d4f2c4f2552",
-                "reference": "553562557ef13fda0e823cc609cd7d4f2c4f2552",
+                "url": "https://api.github.com/repos/spatie/laravel-backup/zipball/81e10ccb9f22307fb0ed548f895264ba5dcfff82",
+                "reference": "81e10ccb9f22307fb0ed548f895264ba5dcfff82",
                 "shasum": ""
             },
             "require": {
-                "illuminate/console": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
-                "illuminate/contracts": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
-                "illuminate/events": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
-                "illuminate/filesystem": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
-                "illuminate/notifications": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
-                "illuminate/support": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
-                "league/flysystem": "^1.0.27",
-                "php": "^7.1",
-                "spatie/db-dumper": "^2.11.1",
+                "illuminate/console": "^5.8.15|^6.0",
+                "illuminate/contracts": "^5.8.15|^6.0",
+                "illuminate/events": "^5.8.15|^6.0",
+                "illuminate/filesystem": "^5.8.15|^6.0",
+                "illuminate/notifications": "^5.8.15|^6.0",
+                "illuminate/support": "^5.8.15|^6.0",
+                "league/flysystem": "^1.0.49",
+                "php": "^7.2",
+                "spatie/db-dumper": "^2.12",
                 "spatie/temporary-directory": "^1.1",
-                "symfony/finder": "^3.3|^4.0"
+                "symfony/finder": "^4.2"
             },
             "require-dev": {
+                "laravel/slack-notification-channel": "^1.0",
+                "league/flysystem-aws-s3-v3": "^1.0",
                 "mockery/mockery": "^1.0",
-                "orchestra/testbench": "~3.5.0|~3.6.0|~3.7.0|~3.8.0",
-                "phpunit/phpunit": "^7.3"
+                "orchestra/testbench": "3.8.*|4.*",
+                "phpunit/phpunit": "^8.0"
             },
             "suggest": {
-                "guzzlehttp/guzzle": "Allows notifications to be sent via Slack"
+                "laravel/slack-notification-channel": "Required for sending notifications via Slack"
             },
             "type": "library",
             "extra": {
@@ -4881,7 +4882,7 @@
                     "role": "Developer"
                 }
             ],
-            "description": "A Laravel 5 package to backup your application",
+            "description": "A Laravel package to backup your application",
             "homepage": "https://github.com/spatie/laravel-backup",
             "keywords": [
                 "backup",
@@ -4889,20 +4890,20 @@
                 "laravel-backup",
                 "spatie"
             ],
-            "time": "2019-04-04T12:00:30+00:00"
+            "time": "2019-12-02T21:58:43+00:00"
         },
         {
             "name": "spatie/temporary-directory",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/temporary-directory.git",
-                "reference": "8a23b99619babb782d6e99796efb4f3d4949a0d8"
+                "reference": "3e51af9a8361f85cffc1fb2c52135f3e064758cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/temporary-directory/zipball/8a23b99619babb782d6e99796efb4f3d4949a0d8",
-                "reference": "8a23b99619babb782d6e99796efb4f3d4949a0d8",
+                "url": "https://api.github.com/repos/spatie/temporary-directory/zipball/3e51af9a8361f85cffc1fb2c52135f3e064758cc",
+                "reference": "3e51af9a8361f85cffc1fb2c52135f3e064758cc",
                 "shasum": ""
             },
             "require": {
@@ -4935,7 +4936,7 @@
                 "spatie",
                 "temporary-directory"
             ],
-            "time": "2019-07-16T20:42:32+00:00"
+            "time": "2019-08-28T06:53:51+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -5374,16 +5375,16 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v4.3.4",
+            "version": "v4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "86c1c929f0a4b24812e1eb109262fc3372c8e9f2"
+                "reference": "ce8743441da64c41e2a667b8eb66070444ed911e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/86c1c929f0a4b24812e1eb109262fc3372c8e9f2",
-                "reference": "86c1c929f0a4b24812e1eb109262fc3372c8e9f2",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/ce8743441da64c41e2a667b8eb66070444ed911e",
+                "reference": "ce8743441da64c41e2a667b8eb66070444ed911e",
                 "shasum": ""
             },
             "require": {
@@ -5392,7 +5393,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.3-dev"
+                    "dev-master": "4.4-dev"
                 }
             },
             "autoload": {
@@ -5419,7 +5420,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2019-08-14T12:26:46+00:00"
+            "time": "2019-11-17T21:56:56+00:00"
         },
         {
             "name": "symfony/http-foundation",
@@ -5980,16 +5981,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v4.3.4",
+            "version": "v4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "e89969c00d762349f078db1128506f7f3dcc0d4a"
+                "reference": "51c0135ef3f44c5803b33dc60e96bf4f77752726"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/e89969c00d762349f078db1128506f7f3dcc0d4a",
-                "reference": "e89969c00d762349f078db1128506f7f3dcc0d4a",
+                "url": "https://api.github.com/repos/symfony/process/zipball/51c0135ef3f44c5803b33dc60e96bf4f77752726",
+                "reference": "51c0135ef3f44c5803b33dc60e96bf4f77752726",
                 "shasum": ""
             },
             "require": {
@@ -5998,7 +5999,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.3-dev"
+                    "dev-master": "4.4-dev"
                 }
             },
             "autoload": {
@@ -6025,7 +6026,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2019-08-26T08:26:39+00:00"
+            "time": "2019-11-28T13:33:56+00:00"
         },
         {
             "name": "symfony/routing",
