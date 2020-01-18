@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Eloquent\ContestModel as EloquentContestModel;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use App\Models\Submission\SubmissionModel;
 use App\Models\Eloquent\UserModel as User;
@@ -790,7 +791,6 @@ class ContestModel extends Model
         // [ToDo] Performance Opt
         // [Todo] Ajaxization - Should have done in controller
         // [Todo] Authorization ( Public / Private ) - Should have done in controller
-
         $ret=[];
 
         $contest_info=DB::table("contest")->where("cid", $cid)->first();
@@ -804,6 +804,7 @@ class ContestModel extends Model
 
         /** New Version With MySQL */
         $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+        $contest_eloquent = EloquentContestModel::find($cid);
 
         if(time() < $end_time){
             if($clearance == 3){
@@ -812,7 +813,7 @@ class ContestModel extends Model
                 $contestRankRaw=Cache::tags(['contest', 'rank'])->get($cid);
             }
             if(!isset($contestRankRaw)){
-                $contestRankRaw=$this->contestRankCache($cid);
+                $contestRankRaw=$contest_eloquent->rankRefresh();
             }
         }else{
             if($clearance == 3){
@@ -820,7 +821,7 @@ class ContestModel extends Model
                 if (!isset($contestRankRaw)) {
                     $contestRankRaw=$this->getContestRankFromMySQL($cid);
                     if(!isset($contestRankRaw)){
-                        $contestRankRaw=$this->contestRankCache($cid);
+                        $contestRankRaw=$contest_eloquent->rankRefresh();
                         $this->storeContestRankInMySQL($cid, $contestRankRaw);
                     }
                 }
@@ -829,7 +830,7 @@ class ContestModel extends Model
                 if(!isset($contestRankRaw)){
                     $contestRankRaw=Cache::tags(['contest', 'rank'])->get($cid);
                     if(!isset($contestRankRaw)){
-                        $contestRankRaw=$this->contestRankCache($cid);
+                        $contestRankRaw=$contest_eloquent->rankRefresh();
                     }
                     $this->storeContestRankInMySQL($cid, $contestRankRaw);
                 }

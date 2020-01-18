@@ -8,6 +8,7 @@ use App\Models\Eloquent\JudgeServerModel as EloquentJudgeServerModel;
 use App\Models\RankModel;
 use App\Models\SiteMapModel;
 use App\Models\ContestModel;
+use App\Models\Eloquent\ContestModel as EloquentContestModel;
 use App\Models\GroupModel;
 use App\Models\OJModel;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -86,7 +87,8 @@ class Kernel extends ConsoleKernel
             $syncList = $contestModel->runningContest();
             foreach ($syncList as $syncContest) {
                 if (!isset($syncContest['vcid'])) {
-                    $contestRankRaw=$contestModel->contestRankCache($syncContest['cid']);
+                    $contest = EloquentContestModel::find($syncContest['cid']);
+                    $contestRankRaw = $contest->rankRefresh();
                     $cid=$syncContest['cid'];
                     Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
                     Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $contestRankRaw);

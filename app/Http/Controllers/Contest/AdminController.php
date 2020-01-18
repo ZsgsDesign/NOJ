@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use Redirect;
 use App\Exports\AccountExport;
+use App\Models\Eloquent\ContestModel as EloquentContestModel;
 use Excel;
 use Cache;
 use DB;
@@ -73,7 +74,8 @@ class AdminController extends Controller
         if ($clearance <= 2) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
-        $contestRankRaw=$contestModel->contestRankCache($cid);
+        $contest_eloquent = EloquentContestModel::find($cid);
+        $contestRankRaw=$contest_eloquent->rankRefresh();
         Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
         Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $contestRankRaw);
         $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);

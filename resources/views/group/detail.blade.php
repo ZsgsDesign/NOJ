@@ -1368,9 +1368,9 @@
                     console.log(ret);
                     if (ret.ret==200) {
                         confirm({
-                            contest : 'Successful!',
-                            yesText : 'jump to',
-                            noText : 'return'
+                            content: 'Contest arrange successful, do you need to jump to the contest page?',
+                            yesText: 'jump to',
+                            noText: 'return'
                         },function(deny){
                             if(deny){
                                 $('#contestModal').modal('hide');

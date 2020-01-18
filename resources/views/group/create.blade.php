@@ -145,7 +145,7 @@
                             <div class="input-group text-center" style="display: flex;justify-content: center; align-items: center;">
                                 <div class="input-group-prepend">
                                     <button id="join-policy" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Default
+                                        Both
                                     </button>
                                     <div class="dropdown-menu" style="font-size: .75rem">
                                         <a class="dropdown-item gender-select" onclick="$('#join-policy').text('Invite Only');$('#policy').val(1);$('#join-policy').fadeIn(200);">Invite Only</a>
@@ -153,7 +153,7 @@
                                         <a class="dropdown-item gender-select" onclick="$('#join-policy').text('Both');$('#policy').val(3);$('#join-policy').fadeIn(200);">Both</a>
                                     </div>
                                 </div>
-                                <input style="display:none;" id="policy" name="policy" type="text" class="form-control" value="0" aria-label="gender input box">
+                                <input style="display:none;" id="policy" name="policy" type="text" class="form-control" value="3" aria-label="gender input box">
                             </div>
                         </div>
                         <div class="form-group">
@@ -185,7 +185,7 @@ window.addEventListener('load',function(){
         const description = document.querySelector("#groupDescription").value;
         const joinPolicy = document.querySelector("#policy").value;
         const data = new FormData();
-        if(name.length < 3 || name.length > 50 || gcode.length < 3 || gcode.length > 50 || description > 60000){
+        if(name.length < 3 || name.length > 50 || gcode.length < 3 || gcode.length > 50 || description.length > 60000){
             alert(`
             The length of the name and short code should be less than 50 and greater than 3 <br />
             The description length should be less than 60000
@@ -193,7 +193,7 @@ window.addEventListener('load',function(){
             return;
         }
 
-        if(img&&img.size/1024 > 1024){
+        if(img&&img.size/1024/1024 > 8){
             $('#tip-text').text('The selected img id too large');
             return;
         }
