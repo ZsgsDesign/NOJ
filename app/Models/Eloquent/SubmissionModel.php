@@ -17,4 +17,9 @@ class SubmissionModel extends Model
     {
         return $this->belongsTo('App\Models\Eloquent\CompilerModel', 'coid');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\Eloquent\UserModel', 'uid');
+    }
 }

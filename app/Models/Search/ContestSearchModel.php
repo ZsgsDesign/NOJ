@@ -11,7 +11,7 @@ class ContestSearchModel extends Model
     protected $table='contest';
     protected $primaryKey='cid';
 
-    private $rule=["Unknown", "ICPC", "OI", "Custom ICPC", "Custom OI"];
+    private $rule=["Unknown", "ICPC", "IOI", "Custom ICPC", "Custom IOI"];
 
     public function search($key)
     {

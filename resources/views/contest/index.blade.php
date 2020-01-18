@@ -240,7 +240,7 @@
                 <p class="cm-trending mb-3"><i class="MDI filter"></i> Filter</p>
                 <div>
                     <span class="badge badge-rule @if($filter['rule']==1) selected @endif" onclick="applyFilter('rule',this)" data-rule="1"><i class="MDI trophy"></i> ICPC</span>
-                    <span class="badge badge-rule @if($filter['rule']==2) selected @endif" onclick="applyFilter('rule',this)" data-rule="2"><i class="MDI trophy"></i> OI</span>
+                    <span class="badge badge-rule @if($filter['rule']==2) selected @endif" onclick="applyFilter('rule',this)" data-rule="2"><i class="MDI trophy"></i> IOI</span>
                     @if(Auth::check())<span class="badge badge-public @if($filter['public']=='1') selected @endif" onclick="applyFilter('public',this)" data-public="1"><i class="MDI incognito"></i> Public</span>@endif
                     @if(Auth::check())<span class="badge badge-public @if($filter['public']=='0') selected @endif" onclick="applyFilter('public',this)" data-public="0"><i class="MDI incognito"></i> Private</span>@endif
                     <span class="badge badge-verified @if($filter['verified']==1) selected @endif" onclick="applyFilter('verified',this)" data-verified="1"><i class="MDI marker-check"></i> Verified</span>

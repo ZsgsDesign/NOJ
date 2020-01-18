@@ -19,6 +19,7 @@ class ProblemModel extends Model
     {
         return $this->hasMany('App\Models\Eloquent\SubmissionModel','pid','pid');
     }
+
     public function getProblemStatusAttribute()
     {
         if(Auth::check()){

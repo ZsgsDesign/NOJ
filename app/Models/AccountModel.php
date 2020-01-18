@@ -101,6 +101,7 @@ class AccountModel extends Model
             'avatar' => $data["avatar"],
             'contest_account' => $data["contest_account"],
             'remember_token'=>null,
+            'prefix' => $data["prefix"],
             'created_at'=>date("Y-m-d H:i:s"),
             'updated_at'=>date("Y-m-d H:i:s")
         ]);
