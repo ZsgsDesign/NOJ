@@ -9,6 +9,8 @@ use App\Exports\AccountExport;
 use Imtigger\LaravelJobStatus\JobStatus;
 use Auth;
 use Redirect;
+use App\Exports\AccountExport;
+use App\Models\Eloquent\ContestModel as EloquentContestModel;
 use Excel;
 use Cache;
 use DB;
