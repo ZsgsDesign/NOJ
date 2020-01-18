@@ -84,7 +84,7 @@ class Submitter extends Curl
         if (isset($this->post_data["contest"])) {
             $this->sub['cid']=$this->post_data["contest"];
             if ($contestModel->rule($this->sub['cid'])==2) {
-                // OI Mode
+                // IOI Mode
                 $this->sub['verdict']="Accepted";
                 if (!is_null($temp["err"])) {
                     if (strpos($temp["data"], 'Compiler runtime error, info: ')!==false) {
@@ -93,9 +93,10 @@ class Submitter extends Curl
                         $this->sub['time']=$tempRes["cpu_time"];
                         $this->sub['memory']=round($tempRes["memory"] / 1024);
                     } else {
-                        $this->sub['verdict']="Compile Error";
+                        $this->sub['verdict']=$this->verdictDict["-2"];
                         $this->sub['time']=0;
                         $this->sub['memory']=0;
+                        $this->sub['compile_info']=$temp["data"];
                     }
                     return;
                 }
