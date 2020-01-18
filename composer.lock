@@ -2767,8 +2767,8 @@
             "authors": [
                 {
                     "name": "Ne-Lexa",
-                    "role": "Developer",
-                    "email": "alexey@nelexa.ru"
+                    "email": "alexey@nelexa.ru",
+                    "role": "Developer"
                 }
             ],
             "description": "PhpZip is a php-library for extended work with ZIP-archives. Open, create, update, delete, extract and get info tool. Supports appending to existing ZIP files, WinZip AES encryption, Traditional PKWARE Encryption, ZipAlign tool, BZIP2 compression, external file attributes and ZIP64 extensions. Alternative ZipArchive. It does not require php-zip extension.",
@@ -2907,9 +2907,7 @@
             "version": "3.7.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/animate.css/-/animate.css-3.7.2.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/animate.css/-/animate.css-3.7.2.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -2921,9 +2919,7 @@
             "version": "4.1.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/bootstrap-material-design/-/bootstrap-material-design-4.1.2.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/bootstrap-material-design/-/bootstrap-material-design-4.1.2.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -2935,9 +2931,7 @@
             "version": "2.8.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/chart.js/-/chart.js-2.8.0.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/chart.js/-/chart.js-2.8.0.tgz"
             },
             "require": {
                 "npm-asset/chartjs-color": ">=2.1.0,<3.0.0",
@@ -2953,9 +2947,7 @@
             "version": "2.3.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/chartjs-color/-/chartjs-color-2.3.0.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/chartjs-color/-/chartjs-color-2.3.0.tgz"
             },
             "require": {
                 "npm-asset/chartjs-color-string": ">=0.6.0,<0.7.0",
@@ -2971,9 +2963,7 @@
             "version": "0.6.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/chartjs-color-string/-/chartjs-color-string-0.6.0.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/chartjs-color-string/-/chartjs-color-string-0.6.0.tgz"
             },
             "require": {
                 "npm-asset/color-name": ">=1.0.0,<2.0.0"
@@ -2988,9 +2978,7 @@
             "version": "2.0.4",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/clipboard/-/clipboard-2.0.4.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/clipboard/-/clipboard-2.0.4.tgz"
             },
             "require": {
                 "npm-asset/good-listener": ">=1.2.2,<2.0.0",
@@ -3007,9 +2995,7 @@
             "version": "5.48.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/codemirror/-/codemirror-5.48.2.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/codemirror/-/codemirror-5.48.2.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -3021,9 +3007,7 @@
             "version": "1.1.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/codemirror-spell-checker/-/codemirror-spell-checker-1.1.2.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/codemirror-spell-checker/-/codemirror-spell-checker-1.1.2.tgz"
             },
             "require": {
                 "npm-asset/typo-js": "*"
@@ -3038,9 +3022,7 @@
             "version": "0.5.3",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/color-convert/-/color-convert-0.5.3.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/color-convert/-/color-convert-0.5.3.tgz"
             },
             "type": "npm-asset"
         },
@@ -3049,9 +3031,7 @@
             "version": "1.1.4",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -3063,9 +3043,7 @@
             "version": "3.2.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/delegate/-/delegate-3.2.0.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/delegate/-/delegate-3.2.0.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -3077,9 +3055,7 @@
             "version": "1.0.11",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/dompurify/-/dompurify-1.0.11.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/dompurify/-/dompurify-1.0.11.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -3091,9 +3067,7 @@
             "version": "1.0.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/fileicon-svg/-/fileicon-svg-1.0.0.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/fileicon-svg/-/fileicon-svg-1.0.0.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -3105,9 +3079,7 @@
             "version": "1.2.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/good-listener/-/good-listener-1.2.2.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/good-listener/-/good-listener-1.2.2.tgz"
             },
             "require": {
                 "npm-asset/delegate": ">=3.1.2,<4.0.0"
@@ -3122,9 +3094,7 @@
             "version": "9.12.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/highlightjs/-/highlightjs-9.12.0.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/highlightjs/-/highlightjs-9.12.0.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -3136,9 +3106,7 @@
             "version": "3.4.1",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/jquery/-/jquery-3.4.1.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/jquery/-/jquery-3.4.1.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -3150,9 +3118,7 @@
             "version": "2.5.21",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/jquery-datetimepicker/-/jquery-datetimepicker-2.5.21.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/jquery-datetimepicker/-/jquery-datetimepicker-2.5.21.tgz"
             },
             "require": {
                 "npm-asset/jquery": ">=1.7.2",
@@ -3169,9 +3135,7 @@
             "version": "3.1.13",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/jquery-mousewheel/-/jquery-mousewheel-3.1.13.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/jquery-mousewheel/-/jquery-mousewheel-3.1.13.tgz"
             },
             "type": "npm-asset"
         },
@@ -3180,9 +3144,7 @@
             "version": "1.12.1",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/jquery-ui/-/jquery-ui-1.12.1.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/jquery-ui/-/jquery-ui-1.12.1.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -3194,14 +3156,13 @@
             "version": "4.17.15-patch1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/lodash/lodash.git",
-                "reference": "f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30"
+                "url": "git@github.com:lodash/lodash.git",
+                "reference": "10681716750bfbd9ed862817e4dec70963adc492"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lodash/lodash/zipball/f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30",
-                "reference": "f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30",
-                "shasum": null
+                "url": "https://api.github.com/repos/lodash/lodash/zipball/10681716750bfbd9ed862817e4dec70963adc492",
+                "reference": "10681716750bfbd9ed862817e4dec70963adc492"
             },
             "type": "npm-asset",
             "license": [
@@ -3213,9 +3174,7 @@
             "version": "0.6.3",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/marked/-/marked-0.6.3.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/marked/-/marked-0.6.3.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -3227,9 +3186,7 @@
             "version": "2.7.5",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/mathjax/-/mathjax-2.7.5.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/mathjax/-/mathjax-2.7.5.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -3241,9 +3198,7 @@
             "version": "2.24.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/moment/-/moment-2.24.0.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/moment/-/moment-2.24.0.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -3255,9 +3210,7 @@
             "version": "0.17.1",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.17.1.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.17.1.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -3269,9 +3222,7 @@
             "version": "2.1.1",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/pdfobject/-/pdfobject-2.1.1.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/pdfobject/-/pdfobject-2.1.1.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -3289,8 +3240,7 @@
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/kartik-v/php-date-formatter/zipball/d842e1c4e6a8d6108017b726321c305bb5ae4fb5",
-                "reference": "d842e1c4e6a8d6108017b726321c305bb5ae4fb5",
-                "shasum": null
+                "reference": "d842e1c4e6a8d6108017b726321c305bb5ae4fb5"
             },
             "type": "npm-asset",
             "license": [
@@ -3302,9 +3252,7 @@
             "version": "1.15.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/popper.js/-/popper.js-1.15.0.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/popper.js/-/popper.js-1.15.0.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -3316,9 +3264,7 @@
             "version": "1.1.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/select/-/select-1.1.2.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/select/-/select-1.1.2.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -3330,9 +3276,7 @@
             "version": "1.11.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/simplemde/-/simplemde-1.11.2.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/simplemde/-/simplemde-1.11.2.tgz"
             },
             "require": {
                 "npm-asset/codemirror": "*",
@@ -3349,9 +3293,7 @@
             "version": "2.1.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/tiny-emitter/-/tiny-emitter-2.1.0.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/tiny-emitter/-/tiny-emitter-2.1.0.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -3363,9 +3305,7 @@
             "version": "1.0.3",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/typo-js/-/typo-js-1.0.3.tgz",
-                "reference": null,
-                "shasum": null
+                "url": "https://registry.npmjs.org/typo-js/-/typo-js-1.0.3.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -5103,16 +5043,16 @@
         },
         {
             "name": "symfony/mime",
-            "version": "v4.3.3",
+            "version": "v4.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mime.git",
-                "reference": "6b7148029b1dd5eda1502064f06d01357b7b2d8b"
+                "reference": "010cc488e56cafe5f7494dea70aea93100c234df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mime/zipball/6b7148029b1dd5eda1502064f06d01357b7b2d8b",
-                "reference": "6b7148029b1dd5eda1502064f06d01357b7b2d8b",
+                "url": "https://api.github.com/repos/symfony/mime/zipball/010cc488e56cafe5f7494dea70aea93100c234df",
+                "reference": "010cc488e56cafe5f7494dea70aea93100c234df",
                 "shasum": ""
             },
             "require": {
@@ -5120,14 +5060,17 @@
                 "symfony/polyfill-intl-idn": "^1.10",
                 "symfony/polyfill-mbstring": "^1.0"
             },
+            "conflict": {
+                "symfony/mailer": "<4.4"
+            },
             "require-dev": {
-                "egulias/email-validator": "^2.0",
-                "symfony/dependency-injection": "~3.4|^4.1"
+                "egulias/email-validator": "^2.1.10",
+                "symfony/dependency-injection": "^3.4|^4.1|^5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.3-dev"
+                    "dev-master": "4.4-dev"
                 }
             },
             "autoload": {
@@ -5158,7 +5101,7 @@
                 "mime",
                 "mime-type"
             ],
-            "time": "2019-07-19T16:21:19+00:00"
+            "time": "2019-11-30T08:27:26+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -5279,16 +5222,16 @@
         },
         {
             "name": "symfony/polyfill-intl-idn",
-            "version": "v1.12.0",
+            "version": "v1.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-idn.git",
-                "reference": "6af626ae6fa37d396dc90a399c0ff08e5cfc45b2"
+                "reference": "6f9c239e61e1b0c9229a28ff89a812dc449c3d46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/6af626ae6fa37d396dc90a399c0ff08e5cfc45b2",
-                "reference": "6af626ae6fa37d396dc90a399c0ff08e5cfc45b2",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/6f9c239e61e1b0c9229a28ff89a812dc449c3d46",
+                "reference": "6f9c239e61e1b0c9229a28ff89a812dc449c3d46",
                 "shasum": ""
             },
             "require": {
@@ -5302,7 +5245,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.12-dev"
+                    "dev-master": "1.13-dev"
                 }
             },
             "autoload": {
@@ -5337,20 +5280,20 @@
                 "portable",
                 "shim"
             ],
-            "time": "2019-08-06T08:03:45+00:00"
+            "time": "2019-11-27T13:56:44+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.12.0",
+            "version": "v1.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "b42a2f66e8f1b15ccf25652c3424265923eb4f17"
+                "reference": "7b4aab9743c30be783b73de055d24a39cf4b954f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/b42a2f66e8f1b15ccf25652c3424265923eb4f17",
-                "reference": "b42a2f66e8f1b15ccf25652c3424265923eb4f17",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/7b4aab9743c30be783b73de055d24a39cf4b954f",
+                "reference": "7b4aab9743c30be783b73de055d24a39cf4b954f",
                 "shasum": ""
             },
             "require": {
@@ -5362,7 +5305,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.12-dev"
+                    "dev-master": "1.13-dev"
                 }
             },
             "autoload": {
@@ -5396,20 +5339,20 @@
                 "portable",
                 "shim"
             ],
-            "time": "2019-08-06T08:03:45+00:00"
+            "time": "2019-11-27T14:18:11+00:00"
         },
         {
             "name": "symfony/polyfill-php72",
-            "version": "v1.12.0",
+            "version": "v1.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php72.git",
-                "reference": "04ce3335667451138df4307d6a9b61565560199e"
+                "reference": "66fea50f6cb37a35eea048d75a7d99a45b586038"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/04ce3335667451138df4307d6a9b61565560199e",
-                "reference": "04ce3335667451138df4307d6a9b61565560199e",
+                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/66fea50f6cb37a35eea048d75a7d99a45b586038",
+                "reference": "66fea50f6cb37a35eea048d75a7d99a45b586038",
                 "shasum": ""
             },
             "require": {
@@ -5418,7 +5361,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.12-dev"
+                    "dev-master": "1.13-dev"
                 }
             },
             "autoload": {
@@ -5451,7 +5394,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2019-08-06T08:03:45+00:00"
+            "time": "2019-11-27T13:56:44+00:00"
         },
         {
             "name": "symfony/polyfill-php73",
@@ -6052,9 +5995,9 @@
             "authors": [
                 {
                     "name": "Marcel Pociot",
-                    "role": "Developer",
                     "email": "marcel@beyondco.de",
-                    "homepage": "https://beyondco.de"
+                    "homepage": "https://beyondco.de",
+                    "role": "Developer"
                 }
             ],
             "description": "Symfony Var-Dump Server for Laravel",
@@ -6166,8 +6109,8 @@
             "authors": [
                 {
                     "name": "Filipe Dobreira",
-                    "role": "Developer",
-                    "homepage": "https://github.com/filp"
+                    "homepage": "https://github.com/filp",
+                    "role": "Developer"
                 }
             ],
             "description": "php error handling for cool kids",
