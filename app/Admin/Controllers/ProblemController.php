@@ -119,6 +119,9 @@ class ProblemController extends Controller
             $filter->like('pcode');
             $filter->like('title');
         });
+
+        $grid->disableCreateButton();
+
         return $grid;
     }
 
