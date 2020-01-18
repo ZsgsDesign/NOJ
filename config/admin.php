@@ -151,12 +151,12 @@ return [
     'upload' => [
 
         // Disk in `config/filesystem.php`.
-        'disk' => 'admin',
+        'disk' => 'NOJPublic',
 
         // Image and file upload path under the disk above.
         'directory' => [
-            'image' => 'images',
-            'file'  => 'files',
+            'image' => 'static/admin/images',
+            'file'  => 'static/admin/files',
         ],
     ],
 

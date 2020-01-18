@@ -17,7 +17,7 @@ class AnnouncementModel extends Model
 
     public function fetch()
     {
-        $list=DB::table($this->table)->orderBy('post_date','desc')->get()->all();
+        $list=DB::table($this->table)->orderBy('created_at','desc')->get()->all();
         if (empty($list)) {
             return [];
         }
@@ -25,7 +25,7 @@ class AnnouncementModel extends Model
             $notice_author=DB::table("users")->where(["id"=>$item["uid"]])->first();
             $item["name"]=$notice_author["name"];
             $item["avatar"]=$notice_author["avatar"];
-            $item["post_date_parsed"]=formatHumanReadableTime($item["post_date"]);
+            $item["post_date_parsed"]=formatHumanReadableTime($item["created_at"]);
             $item["content_parsed"]=clean(convertMarkdownToHtml($item["content"]));
         }
         return $list;

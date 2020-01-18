@@ -58,7 +58,7 @@ class PastebinModel extends Model
                 'title' => $title,
                 'content' => $content,
                 'code' => $code,
-                'create_date' => date("Y-m-d H:i:s"),
+                'created_at' => date("Y-m-d H:i:s"),
             ]);
             return $code;
         } else {

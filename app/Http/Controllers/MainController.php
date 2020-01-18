@@ -46,13 +46,13 @@ class MainController extends Controller
         $ojs=$problem->ojs();
         // Log::debug(["info"=>"User Viewed Home!"]);
         return view('home', [
-                'page_title'=>"Home",
-                'site_title'=>config("app.name"),
-                'navigation' => "Home",
-                'announcements' => $announcements,
-                'ojs' => $ojs,
-                'carousel' => CarouselModel::list()
-            ]);
+            'page_title'=>"Home",
+            'site_title'=>config("app.name"),
+            'navigation' => "Home",
+            'announcements' => $announcements,
+            'ojs' => $ojs,
+            'carousel' => CarouselModel::list()
+        ]);
     }
 
 
@@ -63,7 +63,7 @@ class MainController extends Controller
         $id=isset($all_data["id"])?$all_data["id"]:null;
         if($method=="showdetail" && !is_null($id)){
             $problemModel=new ProblemModel();
-            return ($problemModel->existPCode("NOJ$id"))?Redirect::route('problem_detail', ['pcode' => "NOJ$id"]):Redirect::route('problem_index');
+            return ($problemModel->existPCode("NOJ$id"))?Redirect::route('problem.detail', ['pcode' => "NOJ$id"]):Redirect::route('problem_index');
         }
         return Redirect::route('home');
     }

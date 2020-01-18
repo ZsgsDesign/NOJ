@@ -9,6 +9,7 @@ use App\Models\Eloquent\UserModel as User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Rating\RatingCalculator;
+use Illuminate\Support\Facades\Storage;
 use Auth;
 use Cache;
 use Log;
@@ -909,7 +910,7 @@ class ContestModel extends Model
         if($clearance == 3){
             return DB::table("contest_clarification")->where([
                 "cid"=>$cid
-            ])->orderBy('create_time', 'desc')->get()->all();
+            ])->orderBy('created_at', 'desc')->get()->all();
         }else{
             return DB::table("contest_clarification")->where([
                 "cid"=>$cid
@@ -919,7 +920,7 @@ class ContestModel extends Model
                 ])->orWhere([
                     "uid" => Auth::user()->id
                 ]);
-            })->orderBy('create_time', 'desc')->get()->all();
+            })->orderBy('created_at', 'desc')->get()->all();
         }
     }
 
@@ -930,7 +931,7 @@ class ContestModel extends Model
             "type"=>0,
             "public"=>1
         ])->whereBetween(
-            'create_time',
+            'created_at',
             [
                 date("Y-m-d H:i:s", time()-59),
                 date("Y-m-d H:i:s")
@@ -944,7 +945,7 @@ class ContestModel extends Model
             "cid"=>$cid,
             "type"=>0,
             "public"=>1
-        ])->orderBy('create_time', 'desc')->first();
+        ])->orderBy('created_at', 'desc')->first();
     }
 
     public function getClarificationDetail($ccid)
@@ -964,7 +965,7 @@ class ContestModel extends Model
             "content"=>$content,
             "public"=>"0",
             "uid"=>$uid,
-            "create_time"=>date("Y-m-d H:i:s")
+            "created_at"=>date("Y-m-d H:i:s")
         ]);
     }
 
@@ -977,7 +978,7 @@ class ContestModel extends Model
             "content"=>$content,
             "public"=>"1",
             "uid"=>$uid,
-            "create_time"=>date("Y-m-d H:i:s"),
+            "created_at"=>date("Y-m-d H:i:s"),
             "remote_code"=>$remote_code
         ]);
     }
@@ -1530,7 +1531,7 @@ class ContestModel extends Model
                 "registant_type"=>0, //todo
                 "froze_length"=>0, //todo
                 "status_visibility"=>2, //todo
-                "create_time"=>date("Y-m-d H:i:s"),
+                "created_up"=>date("Y-m-d H:i:s"),
                 "crawled" => isset($config['vcid'])?$config['crawled'] : null,
                 "audit_status"=>$config["public"] ? 0 : 1
             ]);
@@ -1950,6 +1951,95 @@ class ContestModel extends Model
             'problems' => $problems,
             'contest' => $contest,
         ];
+    }
+
+    public function storageCode($path,$cid)
+    {
+
+        Storage::disk("private")->makeDirectory($path);
+
+        //example:A-The 3n + 1 problem-UVa100
+
+        $contest_problems=DB::table("contest_problem")->where([
+            "cid"=>$cid
+        ])->get();
+        $problem_info=array();
+        foreach($contest_problems as $contest_problem) {
+            $problem_info[$contest_problem["pid"]]=DB::table("problem")->where([
+                "pid"=>$contest_problem["pid"]
+            ])->first();
+            $problem_info[$contest_problem["pid"]]["ncode"]=$contest_problem["ncode"];
+            $problem_info[$contest_problem["pid"]]["path"]=$problem_info[$contest_problem["pid"]]["ncode"]."-".$problem_info[$contest_problem["pid"]]["pcode"]."-".$problem_info[$contest_problem["pid"]]["title"];
+            Storage::disk("private")->makeDirectory($path."/".urlencode($problem_info[$contest_problem["pid"]]["path"])."/");
+        }
+
+        $compilers=DB::table("compiler")->get();
+        $language=array();
+        foreach($compilers as $compiler) {
+            $language[$compiler["coid"]]=$compiler["lang"];
+        }
+
+        //example:12345-admin-A-Accepted.cpp
+
+        $submissions=DB::table("submission")->where([
+            "cid"=>$cid,
+        ])->get();
+        foreach($submissions as $submission) {
+            $user_name=DB::table("users")->where([
+                "id"=>$submission["uid"]
+            ])->first();
+            $SubmissionModel=new SubmissionModel();
+            $suffix_name=isset($SubmissionModel->langConfig[$language[$submission["coid"]]]) ? $SubmissionModel->langConfig[$language[$submission["coid"]]]["extensions"][0] : $SubmissionModel->langConfig["plaintext"]["extensions"][0];
+            //die($submission["sid"]);
+            $file_name=(string)($submission["sid"])."-".$user_name["name"]."-".$problem_info[$submission["pid"]]["ncode"]."-".$submission["verdict"].$suffix_name;
+            Storage::disk("private")->put($path."/".urlencode($problem_info[$submission["pid"]]["path"])."/".$file_name, $submission["solution"]);
+        }
+    }
+
+    public function deleteZip($path)
+    {
+        Storage::disk("private")->deleteDirectory($path);
+    }
+
+    public function GenerateZip($path,$cid,$code_path,$outputFilename)
+    {
+        Storage::disk("private")->deleteDirectory($code_path);
+
+        $this->storageCode($code_path,$cid);
+
+        Storage::disk("private")->makeDirectory($path);
+
+        // create new archive
+        $zipFile = new \PhpZip\ZipFile();
+        $directories = Storage::disk("private")->allDirectories($code_path);
+        try{
+            foreach($directories as $directorie)
+            {
+
+                preg_match("/contestCode\/\d+(.*)/",$directorie,$problem_name);
+                $zipFile->addDir(base_path('storage/app/private/'.$directorie),urldecode($problem_name[1]));// add files from the directory
+            }
+            $zipFile
+                ->saveAsFile(base_path('storage/app/private/'.$path.$cid.".zip")); // save the archive to a file
+                //->extractTo(base_path('storage/app/private/'.$path)); // extract files to the specified directory
+        }
+        catch(\PhpZip\Exception\ZipException $e){
+            // handle exception
+            Log::debug($e);
+        }
+        finally{
+            $zipFile->close();
+        }
+    }
+
+    public function zipName($cid)
+    {
+        //example:12345-name-2019-08-15 20:41:00.zip
+
+        $contest=DB::table("contest")->where([
+            "cid"=>$cid
+        ])->first();
+        return $outputFilename=(string)($contest["cid"])."-".$contest["name"].".zip";
     }
 
     public function judgeOver($cid)

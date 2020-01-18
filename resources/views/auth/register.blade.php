@@ -83,6 +83,31 @@
     label[for="agreement"] {
         display: inline-block;
     }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    .form-control.is-invalid {
+        border-color: none;
+        background-position: inherit;
+        background-size: inherit;
+        background-image: linear-gradient(0deg,#f44336 2px,rgba(0,150,136,0) 0),linear-gradient(0deg,rgba(0,0,0,.26) 1px,transparent 0);
+    }
+
+    @-webkit-keyframes autofill {
+        to {
+            background-color: transparent;
+            background: no-repeat bottom,50% calc(100% - 1px);
+            background-image: linear-gradient(0deg,#03a9f4 2px,rgba(3,169,244,1) 0),linear-gradient(0deg,rgba(3,169,244,1) 1px,transparent 0);
+            background-size: 0 100%,100% 100%;
+        }
+    }
+
+    input:-webkit-autofill {
+        animation-name: autofill;
+        animation-fill-mode: both;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row justify-content-sm-center">
@@ -141,7 +166,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="checkbox">
-                                        <label for="agreement"><input class="form-control" type="checkbox" name="agreement" id="agreement" required><span>I agree with the terms</span></label>
+                                        <label for="agreement"><input class="form-control" type="checkbox" name="agreement" id="agreement" required><span style="transition: .2s ease-out .0s;">I agree with the <a href="{{route('term.user')}}" target="_blank">terms</a></span></label>
                                     </div>
                                 </div>
 

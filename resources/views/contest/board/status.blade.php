@@ -25,26 +25,6 @@
         text-decoration: none!important;
     }
 
-    nav-div{
-        display: block;
-        margin-bottom: 0;
-        border-bottom: 2px solid rgba(0, 0, 0, 0.15);
-    }
-
-    nav-item{
-        display: inline-block;
-        color: rgba(0, 0, 0, 0.42);
-        padding: 0.25rem 0.75rem;
-        font-size: 0.85rem;
-    }
-
-    nav-item.active{
-        color: rgba(0, 0, 0, 0.93);
-        color: #03a9f4;
-        border-bottom: 2px solid #03a9f4;
-        margin-bottom: -2px;
-    }
-
     h5{
         margin-bottom: 1rem;
         font-weight: bold;
@@ -158,23 +138,19 @@
         color: rgba(0, 0, 0, 0.42);
         transition: .2s ease-out .0s;
     }
+
+    .resubmit{
+        display: inline-block;
+    }
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
         <h5>{{$contest_name}}</h5>
-        <nav-div>
-            <a href="/contest/{{$cid}}/board/challenge"><nav-item>Challenge</nav-item></a>
-            <a href="/contest/{{$cid}}/board/rank"><nav-item>Rank</nav-item></a>
-            <a href="/contest/{{$cid}}/board/status"><nav-item class="active">Status</nav-item></a>
-            <a href="/contest/{{$cid}}/board/clarification"><nav-item>Clarification</nav-item></a>
-            <a href="/contest/{{$cid}}/board/print"><nav-item>Print</nav-item></a>
-            @if($basic_info['practice'])
-                <a href="/contest/{{$cid}}/board/analysis"><nav-item>Analysis</nav-item></a>
-            @endif
-            @if($clearance>2)
-            <a href="/contest/{{$cid}}/board/admin"><nav-item>Admin</nav-item></a>
-            @endif
-        </nav-div>
+        @include('contest.board.nav',[
+            'nav'=>'status',
+            'basic'=>$basic_info,
+            'clearance'=>$clearance
+        ])
         @if($rank_frozen)
         <div class="alert alert-info cm-notification" role="alert">
             <i class="MDI information-outline"></i> The statusboard is now frozen as we enter the last {{$frozen_time}} of the competition. You can still see your attempts as they occur.
@@ -213,7 +189,7 @@
                             <th scope="row">{{$r["sid"]}}</th>
                             <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
                             <td>{{$r["ncode"]}}</td>
-                            <td class="{{$r["color"]}}">{{$r["verdict"]}}</td>
+                            <td class="{{$r["color"]}}">@if(Auth::check() && $r["uid"]==Auth::user()->id && $r["verdict"]=="Submission Error")<i class="MDI sync resubmit" data-sid="{{$r['sid']}}"></i>@endif {{$r["verdict"]}}</td>
                             <td>{{$r["time"]}}ms</td>
                             <td>{{$r["memory"]}}k</td>
                             <td>{{$r["language"]}}</td>
@@ -236,7 +212,57 @@
 <script>
 
     window.addEventListener("load",function() {
+        $(".resubmit").on("click",function(event){
+            event.stopPropagation();
+            console.log(this);
+            $(this).addClass("cm-refreshing");
+            $(this).siblings().text("Submitting...");
+            $(this).parent().removeClass();
+            $(this).parent().addClass("wemd-blue-text");
+            var sid=$(this).attr("data-sid");
+            var that=this;
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/resubmitSolution',
+                data: {
+                    sid: sid
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    console.log(ret);
+                    if(ret.ret==200){
+                        // submitted
+                        $(that).siblings().text("Pending");
+                        $(that).remove();
+                    }else{
+                        console.log(ret.desc);
+                        $(that).siblings().text(ret.desc);
+                        $(that).removeClass("cm-refreshing");
+                        $(this).parent().removeClass();
+                        $(that).parent().addClass("wemd-black-text");
+                    }
+                }, error: function(xhr, type){
+                    console.log('Ajax error!');
+                    switch(xhr.status) {
+                        case 429:
+                            alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                            $(that).siblings().text("Submit Frequency Exceed");
+                            $(that).removeClass("cm-refreshing");
+                            $(this).parent().removeClass();
+                            $(that).parent().addClass("wemd-black-text");
+                            break;
 
+                        default:
+                            $(that).siblings().text("System Error");
+                            $(that).removeClass("cm-refreshing");
+                            $(this).parent().removeClass();
+                            $(that).parent().addClass("wemd-black-text");
+                    }
+                }
+            });
+        });
     }, false);
 
     function applyFilter(e,key){

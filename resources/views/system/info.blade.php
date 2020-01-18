@@ -43,6 +43,10 @@ paper-card:hover {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
 }
 
+.decommissioned{
+    opacity: 0.4;
+}
+
 </style>
 <div class="container mundb-standard-container">
     <system-info data-catg="general">
@@ -63,7 +67,7 @@ paper-card:hover {
             </div>
             <div>
                 <div class="row justify-content-center">
-                    <div class="col-sm-12 col-md-4 col-lg-3 mb-5">
+                    <div class="col-sm-12 col-md-4 col-lg-3 mb-5 decommissioned">
                         <h1 id="sys_title" class="wemd-grey-text wemd-text-darken-3">Brethland</h1>
                         <p id="sys_subtitle"><a target="_blank" href="https://github.com/Brethland"><i class="MDI github-circle"></i></a> <a target="_blank" href="http://www.brethland.com/blog/"><i class="MDI web"></i></a> BackEnd Engineer</p>
                     </div>

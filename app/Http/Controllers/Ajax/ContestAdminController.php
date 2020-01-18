@@ -3,14 +3,21 @@
 namespace App\Http\Controllers\Ajax;
 
 use App\Models\ContestModel;
+use App\Models\Eloquent\ContestModel as EloquentContestModel;
 use App\Models\GroupModel;
 use App\Models\ResponseModel;
 use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Jobs\ProcessSubmission;
+use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Storage;
+use App\Jobs\GeneratePDF;
+use App\Jobs\AntiCheat;
+use Log;
 use Auth;
 use Cache;
+use Response;
 
 class ContestAdminController extends Controller
 {
@@ -258,5 +265,94 @@ class ContestAdminController extends Controller
         }
         $data = $contestModel->getScrollBoardData($cid);
         return ResponseModel::success(200, null, $data);
+    }
+
+    public function downloadCode(Request $request)
+    {
+        $request->validate([
+            "cid"=>"required|integer",
+        ]);
+        $cid = $request->input('cid');
+        $groupModel=new GroupModel();
+        $contestModel=new ContestModel();
+        if($contestModel->judgeClearance($cid,Auth::user()->id) != 3){
+            return ResponseModel::err(2001);
+        }
+
+        $zip_name=$contestModel->zipName($cid);
+        if(!(Storage::disk("private")->exists("contestCodeZip/$cid/".$cid.".zip"))){
+            $contestModel->GenerateZip("contestCodeZip/$cid/",$cid,"contestCode/$cid/",$zip_name);
+        }
+
+        $files=Storage::disk("private")->files("contestCodeZip/$cid/");
+        response()->download(base_path("/storage/app/private/".$files[0]),$zip_name,[
+            "Content-Transfer-Encoding" => "binary",
+            "Content-Type"=>"application/octet-stream",
+            "filename"=>$zip_name
+        ])->send();
+
+    }
+
+    public function downloadPlagiarismReport(Request $request)
+    {
+        $request->validate([
+            "cid"=>"required|integer",
+        ]);
+        $cid = $request->input('cid');
+        $contestModel=new ContestModel();
+
+        if($contestModel->judgeClearance($cid,Auth::user()->id) != 3){
+            return ResponseModel::err(2001);
+        }
+        $name=$contestModel->basic($cid)["name"];
+
+        return response()->download(storage_path("app/contest/anticheat/$cid/report/report.zip"), "$name Code Plagiarism.zip");
+    }
+
+    public function generatePDF(Request $request)
+    {
+        $request->validate([
+            "cid"=>"required|integer",
+            "config.cover"=>"required",
+            "config.advice"=>"required",
+        ]);
+        $cid = $request->input('cid');
+        $config = [
+            'cover'=>$request->input('config.cover')=='true',
+            'advice'=>$request->input('config.advice')=='true'
+        ];
+        $contestModel=new ContestModel();
+        if ($contestModel->judgeClearance($cid,Auth::user()->id) != 3){
+            return ResponseModel::err(2001);
+        }
+        if(!is_null(Cache::tags(['contest', 'admin', 'PDFGenerate'])->get($cid))) return ResponseModel::err(8001);
+        $generateProcess=new GeneratePDF($cid,$config);
+        dispatch($generateProcess)->onQueue('normal');
+        Cache::tags(['contest', 'admin', 'PDFGenerate'])->put($cid, $generateProcess->getJobStatusId());
+        return ResponseModel::success(200, null, [
+            'JobStatusId'=>$generateProcess->getJobStatusId()
+        ]);
+    }
+
+    public function anticheat(Request $request)
+    {
+        $request->validate([
+            "cid"=>"required|integer"
+        ]);
+        $cid = $request->input('cid');
+        $contestModel=new ContestModel();
+        if ($contestModel->judgeClearance($cid,Auth::user()->id) != 3){
+            return ResponseModel::err(2001);
+        }
+        if(!is_null(Cache::tags(['contest', 'admin', 'anticheat'])->get($cid))) return ResponseModel::err(8001);
+        if(EloquentContestModel::find($cid)->isJudgingComplete()) {
+            $anticheatProcess=new AntiCheat($cid);
+            dispatch($anticheatProcess)->onQueue('normal');
+            Cache::tags(['contest', 'admin', 'anticheat'])->put($cid, $anticheatProcess->getJobStatusId());
+            return ResponseModel::success(200, null, [
+                'JobStatusId'=>$anticheatProcess->getJobStatusId()
+            ]);
+        }
+        return ResponseModel::err(4010);
     }
 }

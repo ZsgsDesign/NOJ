@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Contest;
 use App\Models\ContestModel;
 use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
+use App\Exports\AccountExport;
+use Imtigger\LaravelJobStatus\JobStatus;
 use Auth;
 use Redirect;
 use App\Exports\AccountExport;
@@ -12,6 +14,7 @@ use App\Models\Eloquent\ContestModel as EloquentContestModel;
 use Excel;
 use Cache;
 use DB;
+use Storage;
 
 class AdminController extends Controller
 {
@@ -35,6 +38,21 @@ class AdminController extends Controller
         $contest_accounts=$accountModel->getContestAccount($cid);
         $gcode=$contestModel->gcode($cid);
         $isEnd = $contestModel->remainingTime($cid) < 0;
+        $generatePDFStatus = JobStatus::find(Cache::tags(['contest', 'admin', 'PDFGenerate'])->get($cid, 0));
+        $generatePDFStatus = is_null($generatePDFStatus)?'empty':$generatePDFStatus->status;
+        if(in_array($generatePDFStatus,['finished','failed'])){
+            Cache::tags(['contest', 'admin', 'PDFGenerate'])->forget($cid);
+        }
+        $anticheatStatus = JobStatus::find(Cache::tags(['contest', 'admin', 'anticheat'])->get($cid, 0));
+        $anticheatProgress = is_null($anticheatStatus)?0:$anticheatStatus->progress_percentage;
+        $anticheatStatus = is_null($anticheatStatus)?'empty':$anticheatStatus->status;
+        if(Storage::disk('local')->exists("contest/anticheat/$cid/report/report.zip")) {
+            $anticheatStatus='finished';
+            $anticheatProgress=100;
+        }
+        if(in_array($anticheatStatus, ['finished','failed'])){
+            Cache::tags(['contest', 'admin', 'anticheat'])->forget($cid);
+        }
         return view('contest.board.admin', [
             'page_title'=>"Admin",
             'navigation' => "Contest",
@@ -48,6 +66,11 @@ class AdminController extends Controller
             'gcode'=>$gcode,
             'basic'=>$basicInfo,
             'is_end'=>$isEnd,
+            'generatePDFStatus'=>$generatePDFStatus,
+            'anticheat'=>[
+                'status'=>$anticheatStatus,
+                'progress'=>$anticheatProgress
+            ]
         ]);
     }
 
@@ -82,6 +105,7 @@ class AdminController extends Controller
         if(time() > strtotime($end_time)){
             $contestModel->storeContestRankInMySQL($cid, $contestRankRaw);
         }
+        $contestModel->deleteZip("contestCodeZip/$cid/");
         return Redirect::route('contest.rank', ['cid' => $cid]);
     }
 
