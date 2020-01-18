@@ -13,6 +13,7 @@
 
 use App\Models\Eloquent\Group;
 
+
 Route::redirect('/home', '/', 301);
 Route::redirect('/acmhome/welcome.do', '/', 301);
 Route::get('/acmhome/problemdetail.do','MainController@oldRedirect')->name('old.redirect');
@@ -24,27 +25,22 @@ Route::group(['as' => 'latex.'], function () {
     Route::get('/latex.png','LatexController@png')->name('png');
 });
 
-/* Route::get('/', function() {
-    $g = Group::find(3);
-    dd($g->leader->user);
-});
- */
 Route::get('/', 'MainController@home')->middleware('contest_account')->name('home');
 
 Route::get('/search', 'SearchController')->middleware('auth')->name('search');
 
-Route::group(['prefix' => 'message','as' => 'message.'], function () {
-    Route::get('/', 'MessageController@index')->middleware('auth')->name('index');
-    Route::get('/{id}', 'MessageController@detail')->middleware('auth')->name('detail');
+Route::group(['prefix' => 'message','as' => 'message.','middleware' => ['user.banned','auth']], function () {
+    Route::get('/', 'MessageController@index')->name('index');
+    Route::get('/{id}', 'MessageController@detail')->name('detail');
 });
 
-Route::group(['prefix' => 'account'], function () {
+Route::group(['prefix' => 'account','middleware' => ['user.banned','auth']], function () {
     Route::get('/', 'AccountController@index')->name('account_index');
-    Route::get('/dashboard', 'AccountController@dashboard')->middleware('auth')->name('account_dashboard');
-    Route::get('/settings', 'AccountController@settings')->middleware('auth')->name('account_settings');
+    Route::get('/dashboard', 'AccountController@dashboard')->name('account_dashboard');
+    Route::get('/settings', 'AccountController@settings')->name('account_settings');
 });
 
-Route::group(['prefix' => 'oauth', 'namespace' => 'OAuth', 'as' => 'oauth.'], function () {
+Route::group(['prefix' => 'oauth', 'namespace' => 'OAuth', 'as' => 'oauth.', 'middleware' => ['user.banned','auth']], function () {
     Route::group(['prefix' => 'github', 'as' => 'github.'], function () {
         Route::get('/', 'GithubController@redirectTo')->name('index');
         Route::get('/unbind','GithubController@unbind')->name('unbind');
@@ -53,42 +49,42 @@ Route::group(['prefix' => 'oauth', 'namespace' => 'OAuth', 'as' => 'oauth.'], fu
     });
 });
 
-Route::group(['prefix' => 'user','as' => 'user.'], function () {
+Route::group(['prefix' => 'user','as' => 'user.', 'middleware' => ['user.banned','auth','contest_account']], function () {
     Route::redirect('/', '/', 301);
-    Route::get('/{uid}', 'UserController@view')->middleware('contest_account')->name('view');
+    Route::get('/{uid}', 'UserController@view')->name('view');
 });
 
-Route::group(['prefix' => 'problem'], function () {
-    Route::get('/', 'ProblemController@index')->middleware('contest_account')->name('problem_index');
-    Route::get('/{pcode}', 'ProblemController@detail')->middleware('contest_account')->name('problem.detail');
-    Route::get('/{pcode}/editor', 'ProblemController@editor')->middleware('auth', 'contest_account')->name('problem_editor');
-    Route::get('/{pcode}/solution', 'ProblemController@solution')->middleware('auth', 'contest_account')->name('problem_solution');
-    Route::get('/{pcode}/discussion', 'ProblemController@discussion')->middleware('auth', 'contest_account')->name('problem.discussion');
+Route::group(['prefix' => 'problem', 'middleware' => ['user.banned', 'contest_account']], function () {
+    Route::get('/', 'ProblemController@index')->name('problem_index');
+    Route::get('/{pcode}', 'ProblemController@detail')->name('problem.detail');
+    Route::get('/{pcode}/editor', 'ProblemController@editor')->middleware('auth')->name('problem_editor');
+    Route::get('/{pcode}/solution', 'ProblemController@solution')->middleware('auth')->name('problem_solution');
+    Route::get('/{pcode}/discussion', 'ProblemController@discussion')->middleware('auth')->name('problem.discussion');
 });
 
-Route::get('/discussion/{dcode}', 'ProblemController@discussionPost')->middleware('auth', 'contest_account')->name('problem.discussion.post');
+Route::get('/discussion/{dcode}', 'ProblemController@discussionPost')->middleware('auth', 'contest_account', 'user.banned')->name('problem.discussion.post');
 
-Route::get('/status', 'StatusController@index')->middleware('contest_account')->name('status_index');
+Route::get('/status', 'StatusController@index')->middleware('contest_account', 'user.banned')->name('status_index');
 
-Route::group(['prefix' => 'dojo','as' => 'dojo.'], function () {
-    Route::get('/', 'DojoController@index')->middleware('contest_account')->name('index');
+Route::group(['prefix' => 'dojo','as' => 'dojo.','middleware' => ['user.banned', 'contest_account']], function () {
+    Route::get('/', 'DojoController@index')->name('index');
 });
 
-Route::group(['namespace' => 'Group', 'prefix' => 'group','as' => 'group.'], function () {
-    Route::get('/', 'IndexController@index')->middleware('contest_account')->name('index');
-    Route::get('/create', 'IndexController@create')->middleware('contest_account')->name('create');
-    Route::get('/{gcode}', 'IndexController@detail')->middleware('auth', 'contest_account', 'group.exist', 'group.banned')->name('detail');
+Route::group(['namespace' => 'Group', 'prefix' => 'group','as' => 'group.','middleware' => ['contest_account', 'user.banned']], function () {
+    Route::get('/', 'IndexController@index')->name('index');
+    Route::get('/create', 'IndexController@create')->name('create');
+    Route::get('/{gcode}', 'IndexController@detail')->middleware('auth', 'group.exist', 'group.banned')->name('detail');
 
-    Route::get('/{gcode}/analysis', 'IndexController@analysis')->middleware('auth', 'contest_account', 'group.exist', 'group.banned')->name('analysis');
-    Route::get('/{gcode}/analysisDownload', 'IndexController@analysisDownload')->middleware('auth', 'contest_account', 'group.exist', 'group.banned')->name('analysis.download');
+    Route::get('/{gcode}/analysis', 'IndexController@analysis')->middleware('auth', 'group.exist', 'group.banned')->name('analysis');
+    Route::get('/{gcode}/analysisDownload', 'IndexController@analysisDownload')->middleware('auth', 'group.exist', 'group.banned')->name('analysis.download');
     Route::group(['prefix' => '{gcode}/settings','as' => 'settings.', 'middleware' => ['privileged', 'group.exist', 'group.banned']], function () {
-        Route::get('/', 'AdminController@settings')->middleware('auth', 'contest_account')->name('index');
-        Route::get('/general', 'AdminController@settingsGeneral')->middleware('auth', 'contest_account')->name('general');
-        Route::get('/return', 'AdminController@settingsReturn')->middleware('auth', 'contest_account')->name('return');
-        Route::get('/danger', 'AdminController@settingsDanger')->middleware('auth', 'contest_account')->name('danger');
-        Route::get('/member', 'AdminController@settingsMember')->middleware('auth', 'contest_account')->name('member');
-        Route::get('/contest', 'AdminController@settingsContest')->middleware('auth', 'contest_account')->name('contest');
-        Route::get('/problems', 'AdminController@problems')->middleware('auth', 'contest_account')->name('problems');
+        Route::get('/', 'AdminController@settings')->middleware('auth')->name('index');
+        Route::get('/general', 'AdminController@settingsGeneral')->middleware('auth')->name('general');
+        Route::get('/return', 'AdminController@settingsReturn')->middleware('auth')->name('return');
+        Route::get('/danger', 'AdminController@settingsDanger')->middleware('auth')->name('danger');
+        Route::get('/member', 'AdminController@settingsMember')->middleware('auth')->name('member');
+        Route::get('/contest', 'AdminController@settingsContest')->middleware('auth')->name('contest');
+        Route::get('/problems', 'AdminController@problems')->middleware('auth')->name('problems');
     });
 });
 
@@ -97,7 +93,8 @@ Route::group([
     'prefix' => 'contest',
     'as' => 'contest.',
     'middleware' => [
-        'contest_account'
+        'contest_account',
+        'user.banned'
     ]
 ], function () {
     Route::get('/', 'IndexController@index')->name('index');
@@ -118,21 +115,21 @@ Route::group([
     Route::get('/{cid}/admin/refreshContestRank', 'AdminController@refreshContestRank')->middleware('auth')->name('refreshContestRank');
 });
 
-Route::group(['prefix' => 'system'], function () {
+Route::group(['prefix' => 'system', 'middleware' => ['user.banned']], function () {
     Route::redirect('/', '/system/info', 301);
     Route::get('/info', 'SystemController@info')->name('system_info');
 });
 
-Route::group(['prefix' => 'rank'], function () {
+Route::group(['prefix' => 'rank', 'middleware' => ['user.banned']], function () {
     Route::get('/', 'RankController@index')->middleware('contest_account')->name('rank_index');
 });
 
-Route::group(['prefix' => 'term'], function () {
+Route::group(['prefix' => 'term', 'middleware' => ['user.banned']], function () {
     Route::redirect('/', '/term/user', 301);
     Route::get('/user', 'TermController@user')->name('term.user');
 });
 
-Route::group(['namespace' => 'Tool', 'middleware' => ['contest_account']], function () {
+Route::group(['namespace' => 'Tool', 'middleware' => ['contest_account', 'user.banned']], function () {
     Route::group(['prefix' => 'tool'], function () {
         Route::redirect('/', '/', 301);
         Route::group(['prefix' => 'pastebin'], function () {
@@ -149,7 +146,7 @@ Route::group(['namespace' => 'Tool', 'middleware' => ['contest_account']], funct
     Route::get('/pb/{code}', 'PastebinController@view')->name('tool_pastebin_view_shortlink');
 });
 
-Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
+Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.banned']], function () {
     Route::post('submitSolution', 'ProblemController@submitSolution')->middleware('auth', 'throttle:1,0.17');
     Route::post('resubmitSolution', 'ProblemController@resubmitSolution')->middleware('auth', 'throttle:1,0.17');
     Route::post('judgeStatus', 'ProblemController@judgeStatus')->middleware('auth');

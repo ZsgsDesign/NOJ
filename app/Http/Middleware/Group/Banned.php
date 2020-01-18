@@ -22,7 +22,9 @@ class Banned
         $banneds = $group->banneds()->where('removed_at','>',date('Y-m-d H:i:s'))->first();
         $user = Auth::user();
         if(!empty($banneds) && $user->id != $group->leader->id) {
-            return redirect('/group');
+            return response()->view('errors.451',[
+                'description' => 'This group is currently banned. Please contact the group administrator.'
+            ]);
         }
         return $next($request);
     }

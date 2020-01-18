@@ -39,6 +39,8 @@
         <button class="dropdown-item wemd-red-text" onclick="reportAbuse()"><i class="MDI alert-circle wemd-red-text"></i> Report Abuse</button>
     </div>
 </shadow-button>
-<script>
 
-</script>
+@include("js.common.abuse",[
+    'category' => 'user',
+    'subject_id' => $info["uid"]
+])

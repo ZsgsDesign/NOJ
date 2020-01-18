@@ -9,13 +9,13 @@ class Abuse extends Model
 {
     use SoftDeletes;
 
-    public static $supportCategory=['group'];
+    public static $supportCategory=['group', 'user'];
     public static $cause=[
         '0'=>'General'
     ];
 
     protected $fillable=[
-        'title', 'cause', 'supplement', 'link', 'user_id'
+        'title', 'category', 'cause', 'supplement', 'link', 'user_id'
     ];
 
     public function user()

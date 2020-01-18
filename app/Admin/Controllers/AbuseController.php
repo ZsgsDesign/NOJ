@@ -2,9 +2,11 @@
 
 namespace App\Admin\Controllers;
 
+use App\User;
 use App\Models\Eloquent\Abuse;
 use App\Models\Eloquent\Group;
 use App\Models\Eloquent\GroupBanned;
+use App\Models\Eloquent\UserBanned;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -92,46 +94,67 @@ class AbuseController extends AdminController
 
         $form->saving(function (Form $form) {
             $abuse = $form->model();
-            $regex = '/^Group #(\d+)/';
+            //get gategory and subject id
+            $regex = '/^([A-Za-z]+) #(\d+)/';
             $matches = [];
             preg_match($regex,$abuse->title,$matches);
-            $gid = (int) $matches[1];
-            $group = Group::find($gid);
-            if(empty($group)) {
-                return ;
+            $category = array_search(strtolower($matches[1]),Abuse::$supportCategory);
+            $subject_id = (int)$matches[2];
+            switch($abuse->category) {
+                case 0:
+                    $gid = $subject_id;
+                    $group = Group::find($gid);
+                    if(empty($group)) {
+                        return ;
+                    }
+                    if($form->audit) {
+                        $ban_time = request()->created_at;
+                        sendMessage([
+                            'sender'    => 1,
+                            'receiver'  => $abuse->user_id,
+                            'title'     => "Your abuse report about group {$group->name} was passed",
+                            'content'   => "Hi, Dear **{$abuse->user->name}**,\n\nWe have checked your Abuse report about group **[{$group->name}]({$group->link})**.\n\n We think you're right.\n\n So as the consequence leading to a temporary/permanent sanction against the group.\n\n Thank you for your contribution to our community environment.\n\n Sincerely, NOJ"
+                        ]);
+                        sendMessage([
+                            'sender'    => 1,
+                            'receiver'  => $group->leader->id,
+                            'title'     => "Your group {$group->name} has been banned.",
+                            'content'   => "Hi, Dear **{$group->leader->name}**,\n\n For the following reasons: \n\n {$abuse->supplement}\n\n your group **[{$group->name}]({$group->link})** is currently banned and will continue until {$ban_time}.\n\n Before this, only you can enter the group. \n\n Please rectify before this, or you may be subjected to more serious treatment.\n\n Thank you for your contribution to our community environment.\n\n Sincerely, NOJ"
+                        ]);
+                        $abuse->delete();
+                        GroupBanned::create([
+                            'abuse_id'   => $abuse->id,
+                            'group_id'   => $group->gid,
+                            'reason'     => $abuse->supplement,
+                            'removed_at' => $ban_time
+                        ]);
+                        return ;
+                    }else{
+                        sendMessage([
+                            'sender'    => 1,
+                            'receiver'  => $abuse->user_id,
+                            'title'     => "Your abuse report about group {$group->name} was rejected",
+                            'content'   => "Hi, Dear **{$abuse->user->name}**,\n\n We have checked your Abuse report about group **[{$group->name}]({$group->link})**.\n\n However, we regret to say that the information you submitted is not sufficient for us to take action.\n\n Of course, we will continue to follow up the investigation.\n\n Thank you for your contribution to our community environment.\n\n Sincerely, NOJ"
+                        ]);
+                        $abuse->delete();
+                        return ;
+                    }
+                    return;
+                case 1:
+                    $ban_time = request()->created_at;
+                    UserBanned::create([
+                        'abuse_id'   => $abuse->id,
+                        'user_id'    => $subject_id,
+                        'reason'     => $abuse->supplement,
+                        'removed_at' => $ban_time
+                    ]);
+                    $abuse->delete();
+                    return;
+                default:
+                    return;
             }
-            if($form->audit) {
-                $ban_time = request()->created_at;
-                sendMessage([
-                    'sender'    => 1,
-                    'receiver'  => $abuse->user_id,
-                    'title'     => "Your abuse report about group {$group->name} was passed",
-                    'content'   => "Hi, Dear **{$abuse->user->name}**,\n\nWe have checked your Abuse report about group **[{$group->name}]({$group->link})**.\n\n We think you're right.\n\n So as the consequence leading to a temporary/permanent sanction against the group.\n\n Thank you for your contribution to our community environment.\n\n Sincerely, NOJ"
-                ]);
-                sendMessage([
-                    'sender'    => 1,
-                    'receiver'  => $group->leader->id,
-                    'title'     => "Your group {$group->name} has been banned.",
-                    'content'   => "Hi, Dear **{$group->leader->name}**,\n\n For the following reasons: \n\n {$abuse->supplement}\n\n your group **[{$group->name}]({$group->link})** is currently banned and will continue until {$ban_time}.\n\n Before this, only you can enter the group. \n\n Please rectify before this, or you may be subjected to more serious treatment.\n\n Thank you for your contribution to our community environment.\n\n Sincerely, NOJ"
-                ]);
-                $abuse->delete();
-                GroupBanned::create([
-                    'abuse_id'   => $abuse->id,
-                    'group_id'   => $group->gid,
-                    'reason'     => $abuse->supplement,
-                    'removed_at' => $ban_time
-                ]);
-                return ;
-            }else{
-                sendMessage([
-                    'sender'    => 1,
-                    'receiver'  => $abuse->user_id,
-                    'title'     => "Your abuse report about group {$group->name} was rejected",
-                    'content'   => "Hi, Dear **{$abuse->user->name}**,\n\n We have checked your Abuse report about group **[{$group->name}]({$group->link})**.\n\n However, we regret to say that the information you submitted is not sufficient for us to take action.\n\n Of course, we will continue to follow up the investigation.\n\n Thank you for your contribution to our community environment.\n\n Sincerely, NOJ"
-                ]);
-                $abuse->delete();
-                return ;
-            }
+
+
         });
 
         return $form;

@@ -37,6 +37,9 @@ class AbuseController extends Controller
             'group'=>function($id){
                 return route('group.detail',['gcode'=>Group::findOrFail($id)->gcode]);
             },
+            'user'=>function($id){
+                return route('user.view',['uid' => $id]);
+            }
         ];
         $supplement = $request->input('supplement');
         $category = $request->input('category');
@@ -50,6 +53,7 @@ class AbuseController extends Controller
         [$causeID, $causeDesc] = self::findCause('General');
         $abuseRecord = Abuse::create([
             'title' => Str::title($category)." #$subject_id Abused - $causeDesc",
+            'category' => array_search($category, Abuse::$supportCategory),
             'cause' => $causeID,
             'supplement' => $supplement,
             'link' => $link,

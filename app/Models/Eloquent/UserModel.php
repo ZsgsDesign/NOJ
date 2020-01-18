@@ -25,4 +25,8 @@ class UserModel extends Model
     protected $hidden=[
         'password', 'remember_token',
     ];
+
+    public function banneds() {
+        return $this->hasMany('App\Models\Eloquent\UserBanned');
+    }
 }

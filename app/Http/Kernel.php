@@ -63,7 +63,8 @@ class Kernel extends HttpKernel
         'contest_account' => \App\Http\Middleware\ContestAccount::class,
         'privileged' => \App\Http\Middleware\Privileged::class,
         'group.exist' => \App\Http\Middleware\Group\Exists::class,
-        'group.banned' => \App\Http\Middleware\Group\Banned::class
+        'group.banned' => \App\Http\Middleware\Group\Banned::class,
+        'user.banned' => \App\Http\Middleware\User\Banned::class,
     ];
 
     /**
