@@ -1042,36 +1042,36 @@
         },
         {
             "name": "graham-campbell/markdown",
-            "version": "v11.1.0",
+            "version": "v11.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-Markdown.git",
-                "reference": "80f545b417db2103122c7f094bfa5bb2444b28e1"
+                "reference": "f6271cb869fcf91a9066cd61729750641f5299e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Markdown/zipball/80f545b417db2103122c7f094bfa5bb2444b28e1",
-                "reference": "80f545b417db2103122c7f094bfa5bb2444b28e1",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Markdown/zipball/f6271cb869fcf91a9066cd61729750641f5299e9",
+                "reference": "f6271cb869fcf91a9066cd61729750641f5299e9",
                 "shasum": ""
             },
             "require": {
-                "illuminate/contracts": "^5.5|^6.0",
-                "illuminate/support": "^5.5|^6.0",
-                "illuminate/view": "^5.5|^6.0",
+                "illuminate/contracts": "^5.5|^6.0|^7.0",
+                "illuminate/support": "^5.5|^6.0|^7.0",
+                "illuminate/view": "^5.5|^6.0|^7.0",
                 "league/commonmark": "^1.0",
                 "php": "^7.1.3"
             },
             "require-dev": {
-                "graham-campbell/analyzer": "^2.1",
-                "graham-campbell/testbench": "^5.2",
+                "graham-campbell/analyzer": "^2.4",
+                "graham-campbell/testbench": "^5.4",
                 "league/commonmark-extras": "^1.0",
-                "mockery/mockery": "^1.0",
+                "mockery/mockery": "^1.3.1",
                 "phpunit/phpunit": "^6.5|^7.0|^8.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "11.1-dev"
+                    "dev-master": "11.2-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -1094,7 +1094,7 @@
                     "email": "graham@alt-three.com"
                 }
             ],
-            "description": "Markdown Is A CommonMark Wrapper For Laravel 5",
+            "description": "Markdown Is A CommonMark Wrapper For Laravel",
             "keywords": [
                 "Graham Campbell",
                 "GrahamCampbell",
@@ -1106,7 +1106,7 @@
                 "laravel",
                 "markdown"
             ],
-            "time": "2019-08-26T16:31:24+00:00"
+            "time": "2020-01-25T13:19:30+00:00"
         },
         {
             "name": "grubersjoe/bing-daily-photo",
@@ -2376,16 +2376,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "1.0.0",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "7a40f2b0931602c504c2a9692d9f1e33635fd5ef"
+                "reference": "34cf4ddb3892c715ae785c880e6691d839cff88d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/7a40f2b0931602c504c2a9692d9f1e33635fd5ef",
-                "reference": "7a40f2b0931602c504c2a9692d9f1e33635fd5ef",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/34cf4ddb3892c715ae785c880e6691d839cff88d",
+                "reference": "34cf4ddb3892c715ae785c880e6691d839cff88d",
                 "shasum": ""
             },
             "require": {
@@ -2397,8 +2397,9 @@
             },
             "require-dev": {
                 "cebe/markdown": "~1.0",
-                "commonmark/commonmark.js": "0.29.0",
+                "commonmark/commonmark.js": "0.29.1",
                 "erusev/parsedown": "~1.0",
+                "ext-json": "*",
                 "michelf/php-markdown": "~1.4",
                 "mikehaertl/php-shellcommand": "^1.4",
                 "phpstan/phpstan-shim": "^0.11.5",
@@ -2415,7 +2416,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1-dev"
+                    "dev-master": "1.3-dev"
                 }
             },
             "autoload": {
@@ -2442,7 +2443,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2019-06-29T11:19:01+00:00"
+            "time": "2020-01-16T01:18:13+00:00"
         },
         {
             "name": "league/commonmark-ext-strikethrough",
