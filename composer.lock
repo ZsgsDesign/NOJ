@@ -1510,6 +1510,7 @@
                     "email": "jakub.onderka@gmail.com"
                 }
             ],
+            "abandoned": "php-parallel-lint/php-console-color",
             "time": "2018-09-29T17:23:10+00:00"
         },
         {
@@ -1556,6 +1557,7 @@
                 }
             ],
             "description": "Highlight PHP code in terminal",
+            "abandoned": "php-parallel-lint/php-console-highlighter",
             "time": "2018-09-29T18:48:56+00:00"
         },
         {
@@ -2503,6 +2505,7 @@
                 "strikeout",
                 "strikethrough"
             ],
+            "abandoned": "league/commonmark",
             "time": "2019-06-29T11:34:00+00:00"
         },
         {
@@ -3653,10 +3656,10 @@
         },
         {
             "name": "npm-asset/popper.js",
-            "version": "1.16.0",
+            "version": "1.16.1-patch1",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/popper.js/-/popper.js-1.16.0.tgz"
+                "url": "https://registry.npmjs.org/popper.js/-/popper.js-1.16.1-lts.tgz"
             },
             "type": "npm-asset",
             "license": [
