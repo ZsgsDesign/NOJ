@@ -3657,10 +3657,10 @@
         },
         {
             "name": "npm-asset/popper.js",
-            "version": "1.16.0",
+            "version": "1.16.1-patch1",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/popper.js/-/popper.js-1.16.0.tgz"
+                "url": "https://registry.npmjs.org/popper.js/-/popper.js-1.16.1-lts.tgz"
             },
             "type": "npm-asset",
             "license": [
