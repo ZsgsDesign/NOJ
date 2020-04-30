@@ -178,13 +178,13 @@
                 <ul class="list-group bmd-list-group p-0">
                     <a href="/group/{{$gcode}}/settings/contest" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Contest Management</a>
                 </ul>
-                <ul class="list-group bmd-list-group p-0">
+                {{-- <ul class="list-group bmd-list-group p-0">
                     <a data-panel="generate_pdf" href="#" class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="showPanel('generate_pdf')"> Generate PDF</a>
-                </ul>
+                </ul> --}}
                 @if($verified && $basic['anticheated'])
-                <ul class="list-group bmd-list-group p-0">
+                {{-- <ul class="list-group bmd-list-group p-0">
                     <a data-panel="anticheated" href="#" class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="showPanel('anticheated')"> Anti Cheat</a>
-                </ul>
+                </ul> --}}
                 @endif
                 @if(time() >= strtotime($basic['begin_time']))
                 <ul class="list-group bmd-list-group p-0">
