@@ -122,7 +122,7 @@ class ContestModel extends Model
 
     public function group()
     {
-        return $this->hasOne('App\Models\Eloquent\GroupModel','gid','gid');
+        return $this->hasOne('App\Models\Eloquent\Group','gid','gid');
     }
 
     public function getFrozenTimeAttribute()
