@@ -2319,12 +2319,12 @@
             "version": "v3.1.1",
             "source": {
                 "type": "git",
-                "url": "https://gitlab.com/Laravelium/Sitemap.git",
+                "url": "https://github.com/Laravelium/laravel-sitemap.git",
                 "reference": "260c4a6473c542f77250d4cd8cb822f3453f2b49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://gitlab.com/api/v4/projects/Laravelium%2FSitemap/repository/archive.zip?sha=260c4a6473c542f77250d4cd8cb822f3453f2b49",
+                "url": "https://api.github.com/repos/Laravelium/laravel-sitemap/zipball/260c4a6473c542f77250d4cd8cb822f3453f2b49",
                 "reference": "260c4a6473c542f77250d4cd8cb822f3453f2b49",
                 "shasum": ""
             },
@@ -3431,7 +3431,7 @@
             "version": "1.1.3",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz"
+                "url": "https://registry.npmjs.org/color-name/-/color-name-1.1.3.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -3556,13 +3556,13 @@
             "version": "4.17.15-patch1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:lodash/lodash.git",
-                "reference": "10681716750bfbd9ed862817e4dec70963adc492"
+                "url": "https://github.com/lodash/lodash.git",
+                "reference": "f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lodash/lodash/zipball/10681716750bfbd9ed862817e4dec70963adc492",
-                "reference": "10681716750bfbd9ed862817e4dec70963adc492"
+                "url": "https://api.github.com/repos/lodash/lodash/zipball/f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30",
+                "reference": "f9cd8f552b7c8dc4aaa6be48eb9adf026ce4cd30"
             },
             "type": "npm-asset",
             "license": [
@@ -3583,10 +3583,10 @@
         },
         {
             "name": "npm-asset/mathjax",
-            "version": "2.7.7",
+            "version": "2.7.8",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/mathjax/-/mathjax-2.7.7.tgz"
+                "url": "https://registry.npmjs.org/mathjax/-/mathjax-2.7.8.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -5550,7 +5550,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2020-03-30T14:07:33+00:00"
+            "time": "2020-04-18T20:40:08+00:00"
         },
         {
             "name": "symfony/http-kernel",
