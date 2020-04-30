@@ -34,6 +34,18 @@
                 "created_at": null,
                 "updated_at": null,
                 "roles": []
+            },
+            {
+                "id": 15,
+                "parent_id": 2,
+                "order": 15,
+                "title": "Abuses",
+                "icon": "MDI alert-circle-outline",
+                "uri": "\/abuses",
+                "permission": null,
+                "created_at": "2019-04-11 12:53:03",
+                "updated_at": "2019-04-12 09:30:12",
+                "roles": []
             }
         ]
     },
@@ -55,11 +67,37 @@
         "order": 9,
         "title": "Problems",
         "icon": "MDI book-multiple",
-        "uri": "\/problems",
+        "uri": "",
         "permission": null,
         "created_at": "2019-04-10 16:57:47",
         "updated_at": "2019-04-10 17:01:18",
-        "roles": []
+        "roles": [],
+        "children": [
+            {
+                "id": 9,
+                "parent_id": 0,
+                "order": 9,
+                "title": "Problems",
+                "icon": "MDI apple-keyboard-command",
+                "uri": "\/problems",
+                "permission": null,
+                "created_at": "2019-04-10 16:57:47",
+                "updated_at": "2019-04-10 17:01:18",
+                "roles": []
+            },
+            {
+                "id": 27,
+                "parent_id": 0,
+                "order": 27,
+                "title": "Solutions",
+                "icon": "MDI comment-check-outline",
+                "uri": "\/solutions",
+                "permission": null,
+                "created_at": "2019-09-03 13:13:13",
+                "updated_at": "2019-09-03 13:13:13",
+                "roles": []
+            }
+        ]
     },
     {
         "id": 10,
@@ -91,7 +129,7 @@
         "order": 12,
         "title": "Groups",
         "icon": "MDI account-multiple",
-        "uri": "\/groups",
+        "uri": "\/group",
         "permission": null,
         "created_at": "2019-04-10 17:00:29",
         "updated_at": "2019-04-10 17:01:18",

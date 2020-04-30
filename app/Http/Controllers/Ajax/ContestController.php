@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Ajax;
 
 use App\Models\ContestModel;
+use App\Models\Eloquent\ContestModel as EloquentContestModel;
 use App\Models\GroupModel;
 use App\Models\ResponseModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
+use PDF;
 
 class ContestController extends Controller
 {
@@ -108,5 +110,25 @@ class ContestController extends Controller
             return ResponseModel::err(7002);
         }
         return ResponseModel::success(200,null,$contestModel->praticeAnalysis($cid));
+    }
+
+    public function downloadPDF(Request $request)
+    {
+        $request->validate([
+            'cid' => 'required|integer'
+        ]);
+        $cid = $request->input('cid');
+
+        $info=EloquentContestModel::find($cid);
+
+        if (!$info->pdf){
+            return abort('403');
+        }
+
+        return response()->file(storage_path("app/contest/pdf/$cid.pdf"), [
+            'Content-Disposition' => "inline; filename=\"$info->name.pdf\"",
+            'Content-Type' => 'application/pdf',
+            'Cache-Control' => 'no-cache',
+        ]);
     }
 }

@@ -107,7 +107,7 @@ class ContestController extends Controller
         });
         $grid->registration_due("Registration Due");
         $grid->filter(function(Grid\Filter $filter) {
-            $filter->match('gid');
+            $filter->equal('gid');
             $filter->like('name');
         });
         return $grid;

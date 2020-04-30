@@ -15,13 +15,13 @@ class DashboardController
 
         $status = [
             ['name' => 'NOJ Version',       'value' => version()],
-            ['name' => 'Lastest Version',       'value' => is_null($version)?'Failed to fetch latest version':$version["name"]],
+            ['name' => 'Lastest Version',   'value' => is_null($version)?'Failed to fetch latest version':$version["name"]],
             ['name' => 'Problems',          'value' => \App\Models\Eloquent\ProblemModel::count()],
             ['name' => 'Solutions',         'value' => \App\Models\Eloquent\ProblemSolutionModel::count()],
             ['name' => 'Submissions',       'value' => \App\Models\Eloquent\SubmissionModel::count()],
             ['name' => 'Contests',          'value' => \App\Models\Eloquent\ContestModel::count()],
             ['name' => 'Users',             'value' => \App\Models\Eloquent\UserModel::count()],
-            ['name' => 'Groups',            'value' => \App\Models\Eloquent\GroupModel::count()],
+            ['name' => 'Groups',            'value' => \App\Models\Eloquent\Group::count()],
         ];
 
         return view('admin::dashboard.general', [

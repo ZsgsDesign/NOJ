@@ -27,7 +27,13 @@
     <meta name="subversion" content="">
     <!-- SEO Information -->
     <meta name="keywords" content="NOJ,NJUPT Online Judge,noip,noi,OJ,acm,icpc,onlineJudge,NUPT Online Judge" />
-    <meta name="description" content="NOJ is yet another Online Judge providing you functions like problem solving, discussing, solutions, groups, contests and ranking system." />
+    <meta name="description" itemprop="description" content="NOJ is yet another Online Judge providing you functions like problem solving, discussing, solutions, groups, contests and ranking system." />
+    <!-- Share Title -->
+    <meta itemprop="name" content="{{str_replace('"', '\"', "$page_title | $site_title")}}" />
+    <!-- Share Image -->
+    <meta itemprop="image" content="https://acm.njupt.edu.cn/favicon.png" />
+    <!-- Share Description -->
+    <meta itemprop="description" itemprop="description" content="NOJ is yet another Online Judge providing you functions like problem solving, discussing, solutions, groups, contests and ranking system." />
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Necessarily Declarations -->
@@ -136,6 +142,7 @@
             }
         }
     </style>
+    @stack('custom:css')
 </head>
 
 <body style="display: flex;flex-direction: column;min-height: 100vh;">
@@ -195,6 +202,11 @@
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
                         <li class="nav-item">
                             <a class="nav-link @if ($navigation === "Problem") active @endif" href="/problem">Problem</a>
+                        </li>
+                    @endif
+                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                        <li class="nav-item">
+                            <a class="nav-link @if ($navigation === "Dojo") active @endif" href="/dojo">Dojo</a>
                         </li>
                     @endif
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
@@ -293,7 +305,7 @@
         <div class="alert alert-info mb-0" role="alert">
             <strong>Boost your security!</strong> You have not verified your email address, please verify it in your Settings Page.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="setCookie('isEmailVerifiedNoticed',1,1)">
-                <span aria-hidden="true">×</span>
+                <span aria-hidden="true"><i class="MDI close"></i></span>
             </button>
         </div>
         @endif

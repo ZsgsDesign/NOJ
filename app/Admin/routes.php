@@ -12,10 +12,13 @@ Route::group([
 
     $router->get('/', 'HomeController@index');
     $router->resource('users', UserController::class);
+    $router->get('problems/import', 'ProblemController@import');
     $router->resource('problems', ProblemController::class);
+    $router->resource('solutions', SolutionController::class);
     $router->resource('submissions', SubmissionController::class);
     $router->resource('contests', ContestController::class);
     $router->resource('groups', GroupController::class);
+    $router->resource('abuses', AbuseController::class);
 
     Route::group(['prefix' => 'babel'], function (Router $router) {
         $router->get('/', 'BabelController@index')->name('admin.babel.index');

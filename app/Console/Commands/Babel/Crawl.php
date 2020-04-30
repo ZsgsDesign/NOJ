@@ -14,7 +14,12 @@ class Crawl extends Command
      *
      * @var string
      */
-    protected $signature = 'babel:crawl {extension : The package name of the extension} {--action=crawl_problem : The action of the Crawler} {--con=all : The target problemset of the Crawler} {--cached : Whether cached or not}';
+    protected $signature = 'babel:crawl
+        {extension : The package name of the extension}
+        {--action=crawl_problem : The action of the Crawler}
+        {--con=all : The target problemset of the Crawler}
+        {--range= : The range of crawling problems}
+        {--cached : Whether cached or not}';
 
     /**
      * The console command description.
@@ -43,12 +48,14 @@ class Crawl extends Command
         $extension = $this->argument('extension');
         $action = $this->option('action');
         $con = $this->option('con');
+        [$from, $to] = sscanf($this->option('range'),"%d:%d");
         $cached = $this->option('cached');
         $babel=new Babel();
         $babel->crawl([
             "name" => $extension,
             "action" => $action,
             "con" => $con,
+            "range" => [$from, $to],
             "cached" => $cached,
         ], $this);
     }

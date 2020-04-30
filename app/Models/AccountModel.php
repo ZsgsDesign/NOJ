@@ -110,6 +110,7 @@ class AccountModel extends Model
     public function detail($uid)
     {
         $ret=DB::table("users")->where(["id"=>$uid])->first();
+        $ret["uid"]=$uid;
         $ret["submissionCount"]=DB::table("submission")->where([
             "uid"=>$uid,
         ])->whereNotIn('verdict', [

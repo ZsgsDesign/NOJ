@@ -25,26 +25,6 @@
         text-decoration: none!important;
     }
 
-    nav-div{
-        display: block;
-        margin-bottom: 0;
-        border-bottom: 2px solid rgba(0, 0, 0, 0.15);
-    }
-
-    nav-item{
-        display: inline-block;
-        color: rgba(0, 0, 0, 0.42);
-        padding: 0.25rem 0.75rem;
-        font-size: 0.85rem;
-    }
-
-    nav-item.active{
-        color: rgba(0, 0, 0, 0.93);
-        color: #03a9f4;
-        border-bottom: 2px solid #03a9f4;
-        margin-bottom: -2px;
-    }
-
     h5{
         margin-bottom: 1rem;
         font-weight: bold;
@@ -129,19 +109,11 @@
 <div class="container mundb-standard-container">
     <paper-card>
         <h5>{{$contest_name}}</h5>
-        <nav-div>
-            <a href="/contest/{{$cid}}/board/challenge"><nav-item>Challenge</nav-item></a>
-            <a href="/contest/{{$cid}}/board/rank"><nav-item class="active">Rank</nav-item></a>
-            <a href="/contest/{{$cid}}/board/status"><nav-item>Status</nav-item></a>
-            <a href="/contest/{{$cid}}/board/clarification"><nav-item>Clarification</nav-item></a>
-            <a href="/contest/{{$cid}}/board/print"><nav-item>Print</nav-item></a>
-            @if($basic['practice'])
-                <a href="/contest/{{$cid}}/board/analysis"><nav-item>Analysis</nav-item></a>
-            @endif
-            @if($clearance>2)
-            <a href="/contest/{{$cid}}/board/admin"><nav-item>Admin</nav-item></a>
-            @endif
-        </nav-div>
+        @include('contest.board.nav',[
+            'nav'=>'rank',
+            'basic'=>$basic,
+            'clearance'=>$clearance
+        ])
         @if($rank_frozen)
         <div class="alert alert-info cm-notification" role="alert">
             <i class="MDI information-outline"></i> The scoreboard is now frozen as we enter the last {{$frozen_time}} of the competition.
