@@ -2319,12 +2319,12 @@
             "version": "v3.1.1",
             "source": {
                 "type": "git",
-                "url": "https://gitlab.com/Laravelium/Sitemap.git",
+                "url": "https://github.com/Laravelium/laravel-sitemap.git",
                 "reference": "260c4a6473c542f77250d4cd8cb822f3453f2b49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://gitlab.com/api/v4/projects/Laravelium%2FSitemap/repository/archive.zip?sha=260c4a6473c542f77250d4cd8cb822f3453f2b49",
+                "url": "https://api.github.com/repos/Laravelium/laravel-sitemap/zipball/260c4a6473c542f77250d4cd8cb822f3453f2b49",
                 "reference": "260c4a6473c542f77250d4cd8cb822f3453f2b49",
                 "shasum": ""
             },
@@ -3510,10 +3510,10 @@
         },
         {
             "name": "npm-asset/jquery",
-            "version": "3.4.1",
+            "version": "3.5.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/jquery/-/jquery-3.4.1.tgz"
+                "url": "https://registry.npmjs.org/jquery/-/jquery-3.5.0.tgz"
             },
             "type": "npm-asset",
             "license": [
