@@ -3836,25 +3836,25 @@
         },
         {
             "name": "orangehill/iseed",
-            "version": "v2.6.2",
+            "version": "v2.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orangehill/iseed.git",
-                "reference": "fe8fbf51ab57bcc28282c6b1109e610c4a44fad9"
+                "reference": "454d4aa0eacedf02d7bcbb2633e363170d3db49b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orangehill/iseed/zipball/fe8fbf51ab57bcc28282c6b1109e610c4a44fad9",
-                "reference": "fe8fbf51ab57bcc28282c6b1109e610c4a44fad9",
+                "url": "https://api.github.com/repos/orangehill/iseed/zipball/454d4aa0eacedf02d7bcbb2633e363170d3db49b",
+                "reference": "454d4aa0eacedf02d7bcbb2633e363170d3db49b",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0",
+                "illuminate/support": "~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0",
                 "php": "^7.2"
             },
             "require-dev": {
-                "illuminate/filesystem": "~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0",
-                "laravel/framework": "~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0",
+                "illuminate/filesystem": "~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0",
+                "laravel/framework": "~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0",
                 "mockery/mockery": "^1.0.0",
                 "phpunit/phpunit": "^8.0"
             },
@@ -3891,7 +3891,7 @@
                 "laravel",
                 "seed"
             ],
-            "time": "2019-09-09T13:18:41+00:00"
+            "time": "2020-03-06T08:28:39+00:00"
         },
         {
             "name": "paragonie/random_compat",
