@@ -16,3 +16,17 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['prefix' => 'system','as' => 'system.'], function () {
+    Route::get('/info', function (Request $request) {
+        return response()->json([
+            'success' => true,
+            'message' => 'To Boldly Go.',
+            'ret' => [
+                'product' => "NOJ",
+                'version' => version()
+            ],
+            'err' => []
+        ]);
+    })->name("info");
+});
