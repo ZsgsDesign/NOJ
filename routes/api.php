@@ -33,6 +33,10 @@ Route::group(['prefix' => 'system','as' => 'system.'], function () {
 
 Route::group(['prefix' => 'account','as' => 'account.'], function () {
     Route::post('/login', function (Request $request) {
+        // {
+        //     email: arg.email,
+        //     password: arg.password
+        // }
         if(rand(0,1)){
             return response()->json([
                 'success' => false,
@@ -67,4 +71,24 @@ Route::group(['prefix' => 'account','as' => 'account.'], function () {
             ]);
         }
     })->name("login");
+});
+
+Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
+    Route::post('/info', function (Request $request) {
+        return response()->json([
+            'success' => true,
+            'message' => 'Succeed.',
+            'ret' => [
+                "cid" => 1,
+                "name" => "“扇贝杯”南京邮电大学第四届软件和信息技术专业人才大赛-现场赛",
+                "img" => url("/static/img/contest/default.jpg"),
+                "begin_time" => "2020-05-04 01:18:00",
+                "end_time" => "2020-05-04 03:00:00",
+                "problems" => "10",
+                "organizer" => "NOJ Official",
+                "description" => "#### “扇贝杯”南京邮电大学第四届软件和信息技术专业人才大赛-现场赛\n\n密码：www.njupt.edU.Cn"
+            ],
+            'err' => []
+        ]);
+    })->name("info");
 });
