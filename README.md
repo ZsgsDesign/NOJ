@@ -1,6 +1,6 @@
-# NOJ (CodeMaster)
+# NOJ  - Automatic Algorithm Test Platform
 
-![NOJ](/noj.png)
+![NOJ](/noj2.png)
 
 NOJ's another online judge platform, stands for NJUPT Online Judge. It's written in PHP, GO, Python and other function-supporting languages and supports both online judges and virtual judges, we called it **mixed judge**.
 
@@ -25,73 +25,11 @@ CentOS will be recommended for hosting NOJ, but all major operating systems are 
 
 Till now, NOJ have been successfully deployed to the following systems:
 
-- Ubuntu 16.04.3 LTS
-- CentOS Linux release 7.6.1810 (Core)
-- Windows 10 Professional 10.0.17134 Build 17134
+- **Ubuntu 16.04** and above
+- **CentOS Linux release 7.1** and above
+- **Windows 10 Professional**
 
-Here is detailed step about deploying NOJ:
-
-1. You need to have a server and installed the following:
-    - [PHP 7.3(Recommend 7.3.6)](http://php.net/downloads.php)
-    - [Composer 1.8.5(Recommend 1.8.5)](https://getcomposer.org)
-    - [MySQL 5.7(Recommend 8.0)](https://www.mysql.com/)
-    - [Redis 3.2.1(Recommend 5.0)](https://redis.io)
-
-2. Clone NOJ to your website folder;
-
-```
-cd /path-to-noj/
-git clone https://github.com/ZsgsDesign/NOJ ./
-```
-
-3. Change your website root to `public` folder and then, if there is a `open_basedir` restriction, remove it;
-
-4. Now run the following commands at the root folder of NOJ;
-
-```
-composer install
-```
-
-> Notice: you may find this step(or others) fails with message like "func() has been disabled for security reasons", it means you need to remove restrictions on those functions, basically Laravel and Composer require `proc_open()`, `popen()` and `proc_get_status()` to work properly.
-
-5. Almost done, you still got to modify a few folders and give them permission to write;
-
-```
-chmod -R 775 storage/
-chmod -R 775 bootstrap/
-chmod -R 775 app/Http/Controllers/VirtualCrawler/
-chmod -R 775 app/Http/Controllers/VirtualJudge/
-```
-
-6. OK, right now we still need to configure environment, a typical `.env` just like the `.env.example`, you simply need to type the following codes;
-
-```
-cp .env.example .env
-vim .env
-```
-
-After editing `.env`, use this to generate a new key:
-
-```
-php artisan key:generate
-```
-
-7. Now, we need to configure the database, thankfully Laravel have migration already;
-
-```
-php artisan migrate
-```
-
-8. Lastly, we need to configure the virtual judger and online judger;
-
-```
-crontab -e
-* * * * * php /path-to-noj/artisan schedule:run
-
-php artisan queue:work --queue=noj,codeforces,contesthunter,poj,vijos,pta,uva,hdu,uvalive
-```
-
-9. NOJ's up-and-running, enjoy!
+For installation options and troubleshooting tips, see [installation](https://njuptaaa.github.io/docs/).
 
 ## Supported Feature
 
