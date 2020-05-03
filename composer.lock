@@ -3590,10 +3590,10 @@
         },
         {
             "name": "npm-asset/mathjax",
-            "version": "2.7.7",
+            "version": "2.7.8",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/mathjax/-/mathjax-2.7.7.tgz"
+                "url": "https://registry.npmjs.org/mathjax/-/mathjax-2.7.8.tgz"
             },
             "type": "npm-asset",
             "license": [
