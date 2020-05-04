@@ -157,121 +157,284 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
         // {
         //     cid: 1
         // }
-        // oi
-        return response()->json([
-            'success' => true,
-            'message' => 'Succeed.',
-            'ret' => [
-                "header" => [
-                    "rank" => "Rank",
-                    "normal" => [
-                        "Account",
-                        "Score",
-                        "Solved"
+        // acm
+        if(rand(0,1)) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Succeed.',
+                'ret' => [
+                    "header" => [
+                        "rank" => "Rank",
+                        "normal" => [
+                            "Account",
+                            "Score",
+                            "Penalty"
+                        ],
+                        "subHeader" => true,
+                        "problems" => [
+                            "A",
+                            "B",
+                            "C",
+                            "D",
+                            "E",
+                            "F",
+                            "G",
+                            "H",
+                        ],
+                        "problemsSubHeader" => [
+                            "1 / 114",
+                            "2 / 114",
+                            "12 / 114",
+                            "0 / 0",
+                            "0 / 0",
+                            "0 / 0",
+                            "0 / 0",
+                            "0 / 0",
+                        ]
                     ],
-                    "subHeader" => true,
-                    "problems" => [
-                        "A",
-                        "B",
-                        "C",
-                        "D",
-                        "E",
-                        "F",
-                        "G",
-                        "H",
-                    ],
-                    "problemsSubHeader" => [
-                        "1 / 114",
-                        "1 / 114",
-                        "1 / 114",
-                        "0 / 0",
-                        "0 / 0",
-                        "0 / 0",
-                        "0 / 0",
-                        "0 / 0",
-                    ]
+                    "body" => [[
+                        "rank" => 1,
+                        "normal" => [
+                            "NJUST006",
+                            6,
+                            600,
+                        ],
+                        "problems" => [
+                            [
+                                "mainColor" => null,
+                                "mainScore" => null,
+                                "subColor" => null,
+                                "subScore" => -5
+                            ],[
+                                "mainColor" => "wemd-teal-text",
+                                "mainScore" => "1:22:01",
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
+                                "mainColor" => "wemd-green-text",
+                                "mainScore" => "1:14:30",
+                                "subColor" => null,
+                                "subScore" => -1
+                            ],[
+                                "mainColor" => null,
+                                "mainScore" => null,
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
+                                "mainColor" => null,
+                                "mainScore" => null,
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
+                                "mainColor" => null,
+                                "mainScore" => null,
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
+                                "mainColor" => null,
+                                "mainScore" => null,
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
+                                "mainColor" => null,
+                                "mainScore" => null,
+                                "subColor" => null,
+                                "subScore" => null
+                            ]
+                        ],
+                        "extra" => [
+                            "owner" => false,
+                            "remote" => false
+                        ]
+                    ],[
+                        "rank" => 2,
+                        "normal" => [
+                            "NUAA001",
+                            5,
+                            437,
+                        ],
+                        "problems" => [
+                            [
+                                "mainColor" => null,
+                                "mainScore" => null,
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
+                                "mainColor" => "wemd-green-text",
+                                "mainScore" => "2:41:52",
+                                "subColor" => null,
+                                "subScore" => "-1"
+                            ],[
+                                "mainColor" => "wemd-teal-text",
+                                "mainScore" => "2:34:05",
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
+                                "mainColor" => null,
+                                "mainScore" => null,
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
+                                "mainColor" => null,
+                                "mainScore" => null,
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
+                                "mainColor" => null,
+                                "mainScore" => null,
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
+                                "mainColor" => null,
+                                "mainScore" => null,
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
+                                "mainColor" => null,
+                                "mainScore" => null,
+                                "subColor" => null,
+                                "subScore" => null
+                            ]
+                        ],
+                        "extra" => [
+                            "owner" => true,
+                            "remote" => false
+                        ]
+                    ]]
                 ],
-                "body" => [[
-                    "rank" => 1,
-                    "normal" => [
-                        "SHAN04276",
-                        660,
-                        6,
+                'err' => []
+            ]);
+        } else {
+            return response()->json([
+                'success' => true,
+                'message' => 'Succeed.',
+                'ret' => [
+                    "header" => [
+                        "rank" => "Rank",
+                        "normal" => [
+                            "Account",
+                            "Score",
+                            "Solved"
+                        ],
+                        "subHeader" => false,
+                        "problems" => [
+                            "A",
+                            "B",
+                            "C",
+                            "D",
+                            "E",
+                            "F",
+                            "G",
+                            "H",
+                        ],
+                        // "problemsSubHeader" => [
+                        //     "1 / 114",
+                        //     "1 / 114",
+                        //     "1 / 114",
+                        //     "0 / 0",
+                        //     "0 / 0",
+                        //     "0 / 0",
+                        //     "0 / 0",
+                        //     "0 / 0",
+                        // ]
                     ],
-                    "problems" => [
-                        [
-                            "mainColor" => "wemd-green-text",
-                            "mainScore" => "0",
-                            "subColor" => null,
-                            "subScore" => null
-                        ],[
-                            "mainColor" => "wemd-teal-text",
-                            "mainScore" => "100",
-                            "subColor" => null,
-                            "subScore" => null
-                        ],[
-                            "mainColor" => "wemd-green-text",
-                            "mainScore" => "60",
-                            "subColor" => null,
-                            "subScore" => null
-                        ],[
-
-                        ],[
-
-                        ],[
-
-                        ],[
-
-                        ],[
-
+                    "body" => [[
+                        "rank" => 1,
+                        "normal" => [
+                            "SHAN04276",
+                            660,
+                            6,
+                        ],
+                        "problems" => [
+                            [
+                                "mainColor" => "wemd-green-text",
+                                "mainScore" => "0",
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
+                                "mainColor" => "wemd-teal-text",
+                                "mainScore" => "100",
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
+                                "mainColor" => "wemd-green-text",
+                                "mainScore" => "60",
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
+                                "mainColor" => null,
+                                "mainScore" => null,
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
+                                "mainColor" => null,
+                                "mainScore" => null,
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
+                                "mainColor" => null,
+                                "mainScore" => null,
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
+                                "mainColor" => null,
+                                "mainScore" => null,
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
+                                "mainColor" => null,
+                                "mainScore" => null,
+                                "subColor" => null,
+                                "subScore" => null
+                            ]
+                        ],
+                        "extra" => [
+                            "owner" => false,
+                            "remote" => false
                         ]
-                    ],
-                    "extra" => [
-                        "owner" => true,
-                        "remote" => false
-                    ]
-                ],[
-                    "rank" => 2,
-                    "normal" => [
-                        "SHAN04112",
-                        620,
-                        6,
-                    ],
-                    "problems" => [
-                        [
-                            "mainColor" => "wemd-green-text",
-                            "mainScore" => "0",
-                            "subColor" => null,
-                            "subScore" => null
-                        ],[
-                            "mainColor" => "wemd-green-text",
-                            "mainScore" => "80",
-                            "subColor" => null,
-                            "subScore" => null
-                        ],[
-                            "mainColor" => "wemd-green-text",
-                            "mainScore" => "60",
-                            "subColor" => null,
-                            "subScore" => null
-                        ],[
+                    ],[
+                        "rank" => 2,
+                        "normal" => [
+                            "SHAN04112",
+                            620,
+                            6,
+                        ],
+                        "problems" => [
+                            [
+                                "mainColor" => "wemd-green-text",
+                                "mainScore" => "0",
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
+                                "mainColor" => "wemd-green-text",
+                                "mainScore" => "80",
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
+                                "mainColor" => "wemd-green-text",
+                                "mainScore" => "60",
+                                "subColor" => null,
+                                "subScore" => null
+                            ],[
 
-                        ],[
+                            ],[
 
-                        ],[
+                            ],[
 
-                        ],[
+                            ],[
 
-                        ],[
+                            ],[
 
+                            ]
+                        ],
+                        "extra" => [
+                            "owner" => true,
+                            "remote" => false
                         ]
-                    ],
-                    "extra" => [
-                        "owner" => true,
-                        "remote" => false
-                    ]
-                ]]
-            ],
-            'err' => []
-        ]);
+                    ]]
+                ],
+                'err' => []
+            ]);
+        }
     })->name("scoreboard");
 });
