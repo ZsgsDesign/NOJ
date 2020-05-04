@@ -504,7 +504,6 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
         ]);
     })->name("requestClarification");
 
-
     Route::post('/problems', function (Request $request) {
         // {
         //     cid: 1,
@@ -538,6 +537,33 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
                             "color" => "wemd-green-color",
                             "last_submitted_code" => "#include<stdio.h>\n\nint main(){\n    return 0;\n}",
                             "last_submitted_language_coid" => 1
+                        ],
+                        "compilers" => [
+                            [
+                                "coid" => 1,
+                                "oid" => 1,
+                                "comp" => "c",
+                                "lang" => "c",
+                                "lcode" => "c",
+                                "icon" => "devicon-c-plain",
+                                "display_name" => "C",
+                            ], [
+                                "coid" => 2,
+                                "oid" => 1,
+                                "comp" => "c",
+                                "lang" => "cpp",
+                                "lcode" => "cpp",
+                                "icon" => "devicon-cplusplus-plain",
+                                "display_name" => "C++",
+                            ], [
+                                "coid" => 3,
+                                "oid" => 1,
+                                "comp" => "java",
+                                "lang" => "java",
+                                "lcode" => "java",
+                                "icon" => "devicon-java-plain",
+                                "display_name" => "Java",
+                            ]
                         ]
                     ],[
                         "pid" => 1235,
@@ -558,6 +584,33 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
                             "color" => null,
                             "last_submitted_code" => null,
                             "last_submitted_language_coid" => null
+                        ],
+                        "compilers" => [
+                            [
+                                "coid" => 1,
+                                "oid" => 1,
+                                "comp" => "c",
+                                "lang" => "c",
+                                "lcode" => "c",
+                                "icon" => "devicon-c-plain",
+                                "display_name" => "C",
+                            ], [
+                                "coid" => 2,
+                                "oid" => 1,
+                                "comp" => "c",
+                                "lang" => "cpp",
+                                "lcode" => "cpp",
+                                "icon" => "devicon-cplusplus-plain",
+                                "display_name" => "C++",
+                            ], [
+                                "coid" => 3,
+                                "oid" => 1,
+                                "comp" => "java",
+                                "lang" => "java",
+                                "lcode" => "java",
+                                "icon" => "devicon-java-plain",
+                                "display_name" => "Java",
+                            ]
                         ]
                     ],[
                         "pid" => 1236,
@@ -578,6 +631,33 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
                             "color" => "wemd-red-text",
                             "last_submitted_code" => "#include<bits/stdc++.h>\n\nint main(){\n    return 1;\n}",
                             "last_submitted_language_coid" => 2
+                        ],
+                        "compilers" => [
+                            [
+                                "coid" => 1,
+                                "oid" => 1,
+                                "comp" => "c",
+                                "lang" => "c",
+                                "lcode" => "c",
+                                "icon" => "devicon-c-plain",
+                                "display_name" => "C",
+                            ], [
+                                "coid" => 2,
+                                "oid" => 1,
+                                "comp" => "c",
+                                "lang" => "cpp",
+                                "lcode" => "cpp",
+                                "icon" => "devicon-cplusplus-plain",
+                                "display_name" => "C++",
+                            ], [
+                                "coid" => 3,
+                                "oid" => 1,
+                                "comp" => "java",
+                                "lang" => "java",
+                                "lcode" => "java",
+                                "icon" => "devicon-java-plain",
+                                "display_name" => "Java",
+                            ]
                         ]
                     ]
                 ]
