@@ -486,4 +486,21 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
             'err' => []
         ]);
     })->name("clarification");
+
+
+    Route::post('/requestClarification', function (Request $request) {
+        // {
+        //     cid: 1,
+        //     title: 1,
+        //     content: 1,
+        // }
+        return response()->json([
+            'success' => true,
+            'message' => 'Succeed.',
+            'ret' => [
+                "ccid" => 5,
+            ],
+            'err' => []
+        ]);
+    })->name("requestClarification");
 });
