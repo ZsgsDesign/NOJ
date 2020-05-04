@@ -157,8 +157,9 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
         // {
         //     cid: 1
         // }
-        // acm
+
         if(rand(0,1)) {
+            // oi
             return response()->json([
                 'success' => true,
                 'message' => 'Succeed.',
@@ -305,6 +306,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
                 'err' => []
             ]);
         } else {
+            // oi
             return response()->json([
                 'success' => true,
                 'message' => 'Succeed.',
@@ -326,17 +328,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
                             "F",
                             "G",
                             "H",
-                        ],
-                        // "problemsSubHeader" => [
-                        //     "1 / 114",
-                        //     "1 / 114",
-                        //     "1 / 114",
-                        //     "0 / 0",
-                        //     "0 / 0",
-                        //     "0 / 0",
-                        //     "0 / 0",
-                        //     "0 / 0",
-                        // ]
+                        ]
                     ],
                     "body" => [[
                         "rank" => 1,
@@ -437,4 +429,61 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
             ]);
         }
     })->name("scoreboard");
+
+
+    Route::post('/clarification', function (Request $request) {
+        // {
+        //     cid: 1,
+        // }
+        return response()->json([
+            'success' => true,
+            'message' => 'Succeed.',
+            'ret' => [
+                "clarifications" => [
+                    [
+                        "ccid" => 4,
+                        "cid" => 1,
+                        "type" => 1,
+                        "title" => "Don't Ask Dummy Questions...",
+                        "content" => "Dude, not cool.",
+                        "reply" => null,
+                        "create_at" => "2019-03-16 11:28:34",
+                        "public" => true,
+                        "uid" => 1
+                    ],[
+                        "ccid" => 3,
+                        "cid" => 1,
+                        "type" => 0,
+                        "title" => "Can Huawei Cup support BrainFuck?",
+                        "content" => "If so, python2 or python3.",
+                        "reply" => null,
+                        "create_at" => "2019-03-16 10:58:34",
+                        "public" => false,
+                        "uid" => 1
+                    ],[
+                        "ccid" => 2,
+                        "cid" => 1,
+                        "type" => 0,
+                        "title" => "Will Reply support LaTex Formula?",
+                        "content" => "How to use it? Like $$$1+1=2$$$ or?",
+                        "reply" => "Yes, you can! BUT NOT HERE!",
+                        "create_at" => "2019-03-16 10:28:34",
+                        "public" => true,
+                        "uid" => 1
+                    ],[
+                        "ccid" => 1,
+                        "cid" => 1,
+                        "type" => 0,
+                        "title" => "Will Huawei Cup support Python?",
+                        "content" => "If so, python2 or python3.",
+                        "reply" => "Sorry, Huawei Cup only supports C/C++ and Java.",
+                        "create_at" => "2019-03-16 09:58:34",
+                        "public" => true,
+                        "uid" => 1
+                    ]
+                ]
+            ],
+            'err' => []
+        ]);
+    })->name("clarification");
 });
