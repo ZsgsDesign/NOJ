@@ -503,4 +503,86 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
             'err' => []
         ]);
     })->name("requestClarification");
+
+
+    Route::post('/problems', function (Request $request) {
+        // {
+        //     cid: 1,
+        // }
+
+        // icpc
+        return response()->json([
+            'success' => true,
+            'message' => 'Succeed.',
+            'ret' => [
+                "file" => true,
+                "file_name" => "Problem Set", // null
+                "file_url" => url("/external/SHAN2019.zip"),// null
+                "problems" => [
+                    [
+                        "pid" => 1234,
+                        "pcode" => "NOJ1001",
+                        "ncode" => "A",
+                        "title" => "Ancient Myth",
+                        "limitations" => [
+                            "time_limit" => 1000,
+                            "memory_limit" => 65536
+                        ],
+                        "statistics" => [
+                            "accepted" => 1,
+                            "attempted" => 114,
+                            "score" => null
+                        ],
+                        "status" => [
+                            "verdict" => "Accepted",
+                            "color" => "wemd-green-color",
+                            "last_submitted_code" => "#include<stdio.h>\n\nint main(){\n    return 0;\n}",
+                            "last_submitted_language_coid" => 1
+                        ]
+                    ],[
+                        "pid" => 1235,
+                        "pcode" => "NOJ1002",
+                        "ncode" => "B",
+                        "title" => "Sdl and Interview Questions",
+                        "limitations" => [
+                            "time_limit" => 1000,
+                            "memory_limit" => 65536
+                        ],
+                        "statistics" => [
+                            "accepted" => 0,
+                            "attempted" => 0,
+                            "score" => null
+                        ],
+                        "status" => [
+                            "verdict" => null,
+                            "color" => null,
+                            "last_submitted_code" => null,
+                            "last_submitted_language_coid" => null
+                        ]
+                    ],[
+                        "pid" => 1236,
+                        "pcode" => "NOJ1003",
+                        "ncode" => "C",
+                        "title" => "Sdl and Network Flows",
+                        "limitations" => [
+                            "time_limit" => 1000,
+                            "memory_limit" => 65536
+                        ],
+                        "statistics" => [
+                            "accepted" => 8,
+                            "attempted" => 159,
+                            "score" => null
+                        ],
+                        "status" => [
+                            "verdict" => "Wrong Answer",
+                            "color" => "wemd-red-text",
+                            "last_submitted_code" => "#include<bits/stdc++.h>\n\nint main(){\n    return 1;\n}",
+                            "last_submitted_language_coid" => 2
+                        ]
+                    ]
+                ]
+            ],
+            'err' => []
+        ]);
+    })->name("problems");
 });
