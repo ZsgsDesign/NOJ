@@ -539,10 +539,17 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
                         ],
                         "status" => [
                             "verdict" => "Accepted",
-                            "verdict_info" => null,
                             "color" => "wemd-green-text",
-                            "last_submitted_code" => "#include<stdio.h>\n\nint main(){\n    return 0;\n}",
-                            "last_submitted_language_coid" => 1
+                            "last_submission" => [
+                                "sid" => 1234,
+                                "verdict" => "Accepted",
+                                "compile_info" => null,
+                                "color" => "wemd-green-text",
+                                "solution" => "#include<stdio.h>\n\nint main(){\n    return 0;\n}",
+                                "coid" => 1,
+                                "submission_date" => 1575178535,
+                                // other useless terms
+                            ]
                         ],
                         "compilers" => [
                             [
@@ -587,10 +594,8 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
                         ],
                         "status" => [
                             "verdict" => null,
-                            "verdict_info" => null,
                             "color" => null,
-                            "last_submitted_code" => null,
-                            "last_submitted_language_coid" => null
+                            "last_submission" => null
                         ],
                         "compilers" => [
                             [
@@ -635,10 +640,17 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
                         ],
                         "status" => [
                             "verdict" => "Wrong Answer",
-                            "verdict_info" => null,
                             "color" => "wemd-red-text",
-                            "last_submitted_code" => "#include<bits/stdc++.h>\n\nint main(){\n    return 1;\n}",
-                            "last_submitted_language_coid" => 2
+                            "last_submission" => [
+                                "sid" => 12345,
+                                "verdict" => "Wrong Answer",
+                                "compile_info" => null,
+                                "verdict" => "Wrong Answer",
+                                "solution" => "#include<bits/stdc++.h>\n\nint main(){\n    return 1;\n}",
+                                "coid" => 1,
+                                "submission_date" => 1575178538,
+                                // other useless terms
+                            ]
                         ],
                         "compilers" => [
                             [
@@ -719,4 +731,42 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
         }
 
     })->name("submitSolution");
+});
+
+Route::group(['prefix' => 'problem','as' => 'problem.'], function () {
+    Route::post('/fetchVerdict', function (Request $request) {
+        // {
+        //     sid: 1234,
+        // }
+        return response()->json([
+            'success' => true,
+            'message' => 'Succeed',
+            'ret' => [
+                "cid" => null,
+                "coid" => 8,
+                "color" => "wemd-blue-text",
+                "compile_info" => "",
+                "created_at" => null,
+                "deleted_at" => null,
+                "jid" => null,
+                "lang" => "cpp",
+                "language" => "GNU G++17 7.3.0",
+                "memory" => 0,
+                "owner" => true,
+                "pid" => 20,
+                "remote_id" => "",
+                "score" => 0,
+                "share" => 0,
+                "sid" => 65784,
+                "solution" => "fg",
+                "submission_date" => 1588684755,
+                "time" => 0,
+                "uid" => 1,
+                "updated_at" => null,
+                "vcid" => null,
+                "verdict" => "Pending",
+            ],
+            'err' => []
+        ]);
+    })->name("fetchVerdict");
 });
