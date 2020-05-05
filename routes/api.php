@@ -16,66 +16,23 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::group(['namespace' => 'Api'], function () {
+    Route::group(['prefix' => 'account','as' => 'account.'], function () {
+        Route::post('/login', 'AccountController@login')->name("login");
+    });
 
-Route::group(['prefix' => 'system','as' => 'system.'], function () {
-    Route::post('/info', function (Request $request) {
-        return response()->json([
-            'success' => true,
-            'message' => 'To Boldly Go',
-            'ret' => [
-                'product' => "NOJ",
-                'version' => version()
-            ],
-            'err' => []
-        ]);
-    })->name("info");
+    Route::group(['prefix' => 'system','as' => 'system.'], function () {
+        Route::post('/info', 'SystemController@info')->name("info");
+    });
+
+    Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
+        Route::post('/info', 'ContestController@info')->middleware(['auth:api', 'api.contest.clearance:visible'])->name("info");
+    });
 });
 
-Route::group(['prefix' => 'account','as' => 'account.'], function () {
-    Route::post('/login', function (Request $request) {
-        // {
-        //     email: arg.email,
-        //     password: arg.password
-        // }
-        if(rand(0,1)){
-            return response()->json([
-                'success' => false,
-                'message' => 'Email/Password Wrong',
-                'ret' => [],
-                'err' => [
-                    'code' => 1100,
-                    'msg' => 'Email/Password Wrong',
-                    'data'=>[]
-                ]
-            ]);
-        } else {
-            return response()->json([
-                'success' => true,
-                'message' => 'Successfully Login',
-                'ret' => [
-                    "token" => md5(time()),
-                    "user" => [
-                        "id" => 1,
-                        "name" => "admin",
-                        "avatar" => url("/static/img/avatar/SDL0ohVXn85VzcpCfu5QQMVvdGpg2F0BFbriLQnI.jpeg"),
-                        "email" => "admin@code.master",
-                        "email_verified_at" => null,
-                        "professional_rate" => 1628,
-                        "contest_account" => 1,
-                        "created_at" => "2019-02-10 10:53:04",
-                        "updated_at" => "2019-07-19 00:43:26",
-                        "describes" => "# 123",
-                        "prefix" => null
-                    ]
-                ],
-                'err' => []
-            ]);
-        }
-    })->name("login");
-});
 
 Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
-    Route::post('/info', function (Request $request) {
+/*      Route::post('/info', function (Request $request) {
         // {
         //     cid: 1
         // }
@@ -103,7 +60,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
             ],
             'err' => []
         ]);
-    })->name("info");
+    })->name("info"); */
 
     Route::post('/status', function (Request $request) {
         // {

@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Models\Eloquent\ContestModel as EloquentContestModel;
+use App\Models\Eloquent\Contest as EloquentContestModel;
 use App\Models\Eloquent\UserModel as EloquentUserModel;
 use Imtigger\LaravelJobStatus\Trackable;
 use KubAT\PhpSimple\HtmlDomParser;

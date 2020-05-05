@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Eloquent\ContestModel as EloquentContestModel;
+use App\Models\Eloquent\Contest as EloquentContestModel;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use App\Models\Submission\SubmissionModel;
 use App\Models\Eloquent\UserModel as User;

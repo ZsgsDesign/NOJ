@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\ContestModel as OutdatedContestModel;
 use Cache;
 
-class ContestModel extends Model
+class Contest extends Model
 {
     protected $table='contest';
     protected $primaryKey='cid';
