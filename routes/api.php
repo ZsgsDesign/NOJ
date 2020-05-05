@@ -782,3 +782,41 @@ Route::group(['prefix' => 'problem','as' => 'problem.'], function () {
         ]);
     })->name("fetchVerdict");
 });
+
+Route::group(['prefix' => 'submission','as' => 'submission.'], function () {
+    Route::post('/info', function (Request $request) {
+        // {
+        //     sid: 1234,
+        // }
+        return response()->json([
+            'success' => true,
+            'message' => 'Succeed',
+            'ret' => [
+                "cid" => null,
+                "coid" => 2,
+                "color" => "wemd-orange-text",
+                "compile_info" => "111",
+                "created_at" => null,
+                "deleted_at" => null,
+                "jid" => null,
+                "lang" => "cpp",
+                "language" => "GNU G++17 7.3.0",
+                "memory" => 0,
+                "owner" => true,
+                "pid" => 1234,
+                "remote_id" => "",
+                "score" => 0,
+                "share" => 0,
+                "sid" => 1234,
+                "solution" => "fg",
+                "submission_date" => 2588684755,
+                "time" => 0,
+                "uid" => 1,
+                "updated_at" => null,
+                "vcid" => null,
+                "verdict" => "Compile Error",
+            ],
+            'err' => []
+        ]);
+    })->name("info");
+});
