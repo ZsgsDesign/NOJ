@@ -117,7 +117,7 @@ class Contest extends Model
 
     public function submissions()
     {
-        return $this->hasMany('App\Models\Eloquent\SubmissionModel','cid','cid');
+        return $this->hasMany('App\Models\Eloquent\Submission','cid','cid');
     }
 
     public function group()

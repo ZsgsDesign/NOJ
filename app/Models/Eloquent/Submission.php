@@ -5,7 +5,7 @@ namespace App\Models\Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class SubmissionModel extends Model
+class Submission extends Model
 {
     protected $table='submission';
     protected $primaryKey='sid';
@@ -21,5 +21,15 @@ class SubmissionModel extends Model
     public function user()
     {
         return $this->belongsTo('App\Models\Eloquent\UserModel', 'uid');
+    }
+
+    public function contest()
+    {
+        return $this->belongsTo('App\Models\Eloquent\Contest', 'cid');
+    }
+
+    public function problem()
+    {
+        return $this->belongsTo('App\Models\Eloquent\Problem', 'pid');
     }
 }

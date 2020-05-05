@@ -17,7 +17,7 @@ class ProblemModel extends Model
 
     public function submissions()
     {
-        return $this->hasMany('App\Models\Eloquent\SubmissionModel','pid','pid');
+        return $this->hasMany('App\Models\Eloquent\Submission','pid','pid');
     }
 
     public function getProblemStatusAttribute()
