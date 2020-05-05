@@ -21,7 +21,7 @@ Route::group(['prefix' => 'system','as' => 'system.'], function () {
     Route::post('/info', function (Request $request) {
         return response()->json([
             'success' => true,
-            'message' => 'To Boldly Go.',
+            'message' => 'To Boldly Go',
             'ret' => [
                 'product' => "NOJ",
                 'version' => version()
@@ -40,17 +40,18 @@ Route::group(['prefix' => 'account','as' => 'account.'], function () {
         if(rand(0,1)){
             return response()->json([
                 'success' => false,
-                'message' => 'Email/Password Wrong.',
+                'message' => 'Email/Password Wrong',
                 'ret' => [],
                 'err' => [
                     'code' => 1100,
-                    'msg' => 'Email/Password Wrong.'
+                    'msg' => 'Email/Password Wrong',
+                    'data'=>[]
                 ]
             ]);
         } else {
             return response()->json([
                 'success' => true,
-                'message' => 'Successfully Login.',
+                'message' => 'Successfully Login',
                 'ret' => [
                     "token" => md5(time()),
                     "user" => [
@@ -80,7 +81,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
         // }
         return response()->json([
             'success' => true,
-            'message' => 'Succeed.',
+            'message' => 'Succeed',
             'ret' => [
                 "cid" => 1,
                 "name" => "“扇贝杯”南京邮电大学第四届软件和信息技术专业人才大赛-现场赛",
@@ -136,7 +137,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
         }
         return response()->json([
             'success' => true,
-            'message' => 'Succeed.',
+            'message' => 'Succeed',
             'ret' => [
                 "pagination" => [
                     "current_page" => 1,
@@ -162,7 +163,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
             // oi
             return response()->json([
                 'success' => true,
-                'message' => 'Succeed.',
+                'message' => 'Succeed',
                 'ret' => [
                     "header" => [
                         "rank" => "Rank",
@@ -309,7 +310,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
             // oi
             return response()->json([
                 'success' => true,
-                'message' => 'Succeed.',
+                'message' => 'Succeed',
                 'ret' => [
                     "header" => [
                         "rank" => "Rank",
@@ -437,7 +438,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
         // }
         return response()->json([
             'success' => true,
-            'message' => 'Succeed.',
+            'message' => 'Succeed',
             'ret' => [
                 "clarifications" => [
                     [
@@ -504,6 +505,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
         ]);
     })->name("requestClarification");
 
+
     Route::post('/problems', function (Request $request) {
         // {
         //     cid: 1,
@@ -512,7 +514,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
         // icpc
         return response()->json([
             'success' => true,
-            'message' => 'Succeed.',
+            'message' => 'Succeed',
             'ret' => [
                 "file" => [
                     "enable" => true,
@@ -671,4 +673,50 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
             'err' => []
         ]);
     })->name("problems");
+
+    Route::post('/submitSolution', function (Request $request) {
+        // {
+        //     cid: 1,
+        //     pid: 1,
+        //     coid: 1,
+        //     solution:'#include<lalala>',
+        // }
+        if(rand(0,1)){
+            return response()->json([
+                'success' => true,
+                'message' => 'Succeed',
+                'ret' => [
+                    "sid" => rand(12345,67890),
+                ],
+                'err' => []
+            ]);
+        } else {
+            if(rand(0,1)){
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Submit Frequency Exceed',
+                    'ret' => [],
+                    'err' => [
+                        'code' => rand(1000,1099),
+                        'msg' => 'Some Balabala System Error',
+                        'data'=>[
+                            'retry_after' => rand(1,10)
+                        ]
+                    ]
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'System Error',
+                    'ret' => [],
+                    'err' => [
+                        'code' => rand(1000,1099),
+                        'msg' => 'Some Balabala System Error',
+                        'data'=>[]
+                    ]
+                ]);
+            }
+        }
+
+    })->name("submitSolution");
 });
