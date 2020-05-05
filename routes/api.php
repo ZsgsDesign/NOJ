@@ -514,9 +514,12 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
             'success' => true,
             'message' => 'Succeed.',
             'ret' => [
-                "file" => true,
-                "file_name" => "Problem Set", // null
-                "file_url" => url("/external/SHAN2019.zip"),// null
+                "file" => [
+                    "enable" => true,
+                    "name" => "Problem Set", // null
+                    "url" => url("/external/SHAN2019.zip"), // null
+                    "extension" => "zip", // null
+                ],
                 "problems" => [
                     [
                         "pid" => 1234,
@@ -534,7 +537,8 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
                         ],
                         "status" => [
                             "verdict" => "Accepted",
-                            "color" => "wemd-green-color",
+                            "verdict_info" => null,
+                            "color" => "wemd-green-text",
                             "last_submitted_code" => "#include<stdio.h>\n\nint main(){\n    return 0;\n}",
                             "last_submitted_language_coid" => 1
                         ],
@@ -581,6 +585,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
                         ],
                         "status" => [
                             "verdict" => null,
+                            "verdict_info" => null,
                             "color" => null,
                             "last_submitted_code" => null,
                             "last_submitted_language_coid" => null
@@ -628,6 +633,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
                         ],
                         "status" => [
                             "verdict" => "Wrong Answer",
+                            "verdict_info" => null,
                             "color" => "wemd-red-text",
                             "last_submitted_code" => "#include<bits/stdc++.h>\n\nint main(){\n    return 1;\n}",
                             "last_submitted_language_coid" => 2
