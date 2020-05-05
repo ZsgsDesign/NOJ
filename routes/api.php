@@ -698,8 +698,8 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
                     'ret' => [],
                     'err' => [
                         'code' => rand(1000,1099),
-                        'msg' => 'Some Balabala System Error',
-                        'data'=>[
+                        'msg' => 'Submit Frequency Exceed, please try later',
+                        'data'=> [
                             'retry_after' => rand(1,10)
                         ]
                     ]
