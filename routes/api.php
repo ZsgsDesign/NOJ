@@ -165,6 +165,10 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
                 'success' => true,
                 'message' => 'Succeed',
                 'ret' => [
+                    "frozen" => [
+                        "enable" => true,
+                        "frozen_length" => 1800,
+                    ],
                     "header" => [
                         "rank" => "Rank",
                         "normal" => [
@@ -312,6 +316,10 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
                 'success' => true,
                 'message' => 'Succeed',
                 'ret' => [
+                    "frozen" => [
+                        "enable" => true,
+                        "frozen_length" => 1800,
+                    ],
                     "header" => [
                         "rank" => "Rank",
                         "normal" => [
