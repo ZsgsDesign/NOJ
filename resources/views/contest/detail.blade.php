@@ -378,9 +378,9 @@
                                 <i class="MDI download"></i> Download
                             </button>
                             <div class="dropdown-menu" aria-labelledby="downloadDesktopButton">
-                                <a class="dropdown-item" style="color: #00adef;" target="blank" href="https://google.com"><i class="MDI windows pr-2"></i> Windows</a>
-                                <a class="dropdown-item" style="color: #000;" target="blank" href="https://google.com"><i class="MDI apple pr-2"></i> MacOS</a>
-                                <a class="dropdown-item" style="color: #dd4814;" target="blank" href="https://google.com"><i class="MDI ubuntu pr-2"></i> Ubuntu</a>
+                                <a class="dropdown-item" style="color: #00adef;" target="blank" href="https://github.com/NJUPTAAA/NOJ_Desktop/releases"><i class="MDI windows pr-2"></i> Windows</a>
+                                <a class="dropdown-item" style="color: #000;" target="blank" href="https://github.com/NJUPTAAA/NOJ_Desktop/releases"><i class="MDI apple pr-2"></i> MacOS</a>
+                                <a class="dropdown-item" style="color: #dd4814;" target="blank" href="https://github.com/NJUPTAAA/NOJ_Desktop/releases"><i class="MDI ubuntu pr-2"></i> Ubuntu</a>
                             </div>
                         </div>
                     </div>
