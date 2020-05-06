@@ -22,6 +22,9 @@ nav.navbar{
     margin-right: 1rem;
     display: flex;
 }
+.navbar-brand > img {
+    margin-right: 1rem;
+}
 .mundb-inline{
     display:inline;
 }
