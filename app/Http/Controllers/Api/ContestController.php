@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Eloquent\Submission;
 use Illuminate\Http\Request;
 
 class ContestController extends Controller
@@ -30,6 +31,97 @@ class ContestController extends Controller
                     "anticheated" => $contest->anticheated ? true : false,
                     "desktop" => $contest->desktop ? true : false,
                 ]
+            ],
+            'err' => []
+        ]);
+    }
+
+    public function status(Request $request) {
+        $page = $request->page ?? 1;
+        $filter = $request->filter;
+        $contest = $request->contest;
+
+        $account = $filter['account'] ?? null;
+        $problem = $filter['problem'] ?? null;
+        $result = $filter['result'] ?? null;
+
+        //filter
+        $builder = $contest->submissions()->with(['user', 'contest.group']);
+        if($account !== null) {
+            $participants = $contest->participants();
+            $user = null;
+            foreach($participants as $participant) {
+                if($participant->name == $account){
+                    $user = $participant;
+                    break;
+                }
+            }
+            $builder = $builder->where('uid', $user->id);
+        }
+        if($problem !== null){
+            $problem = $contest->problems()->where('ncode', $problem)->first();
+            $builder = $builder->where('pid', $problem->pid ?? null);
+        }
+        if($result !== null) {
+            $builder = $builder->where('verdict', $result);
+        }
+
+        //status_visibility
+        if($contest->status_visibility == 1){
+            if(auth()->check()){
+                $builder = $builder->where('uid', auth()->user()->id);
+            }else{
+                $builder = $builder->where('uid', -1);
+            }
+        }
+        if($contest->status_visibility == 0){
+            $builder = $builder->where('uid', -1);
+        }
+
+        $submissions = $builder->paginate(3);
+
+        $regex = '/\?page=([\d+])$/';
+        $matches = [];
+        $pagination = [
+            'current_page' => $submissions->currentPage(),
+            'has_next_page' => $submissions->nextPageUrl() === null ? false : true,
+            'has_previous_page' => $submissions->previousPageUrl() === null ? false : true,
+            'next_page' => null,
+            'previous_page' => null,
+            'num_pages' => $submissions->lastPage(),
+            'num_items' => $submissions->count(),
+        ];
+        if($pagination['has_next_page']) {
+            $next_page = preg_match($regex, $submissions->nextPageUrl(), $matches);
+            $pagination['next_page'] = intval($matches[1]);
+        }
+        if($pagination['has_previous_page']) {
+            $next_page = preg_match($regex, $submissions->previousPageUrl(), $matches);
+            $pagination['previous_page'] = intval($matches[1]);
+        }
+
+        $data = [];
+        foreach($submissions->items() as $submission) {
+            $data[] = [
+                'sid' => $submission->sid,
+                'name' => $submission->user->name,
+                'nickname' => $submission->nick_name,
+                'ncode' => $submission->ncode,
+                'color' => $submission->color,
+                'verdict' => $submission->verdict,
+                'time' => $submission->time,
+                'memory' => $submission->memory,
+                'language' => $submission->language,
+                'submission_date' => date('Y-m-d H:i:s', $submission->submission_date),
+                'submission_date_parsed' => $submission->submission_date_parsed
+            ];
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Succeed',
+            'ret' => [
+                'pagination' => $pagination,
+                'data' => $data
             ],
             'err' => []
         ]);

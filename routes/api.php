@@ -27,6 +27,8 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
         Route::post('/info', 'ContestController@info')->middleware(['auth:api', 'api.contest.clearance:visible'])->name("info");
+        Route::post('/status', 'ContestController@status')->middleware(['auth:api', 'api.contest.clearance:visible'])->name("status");
+
     });
 });
 
@@ -62,7 +64,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
         ]);
     })->name("info"); */
 
-    Route::post('/status', function (Request $request) {
+   /*  Route::post('/status', function (Request $request) {
         // {
         //     cid: 1,
         //     filter: {
@@ -109,7 +111,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
             ],
             'err' => []
         ]);
-    })->name("status");
+    })->name("status"); */
 
     Route::post('/scoreboard', function (Request $request) {
         // {
