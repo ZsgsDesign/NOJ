@@ -209,6 +209,36 @@
     .list-group-item{
         flex-flow: initial;
     }
+
+    paper-card.cm-desktop{
+        display: flex;
+        align-items: center;
+        color: rgba(0,0,0,0.54);
+    }
+    paper-card.cm-desktop .cm-desktop-icon{
+        width: 5rem;
+        height: 5rem;
+        padding: 0.5rem;
+        flex-shrink: 0;
+        flex-grow: 0;
+        margin-right: 1rem;
+    }
+
+    paper-card.cm-desktop .cm-desktop-icon img{
+        width: 100%;
+        height: 100%;
+        flex-shrink: 1;
+        flex-grow: 1;
+    }
+
+    paper-card.cm-desktop .cm-desktop-desc h5{
+        color:rgba(0,0,0,0.93);
+        font-weight: bolder;
+    }
+
+    .show .dropdown-toggle.btn-info{
+        color: #03a9f4;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -334,6 +364,29 @@
             </contest-card>
         </div>
         <div class="col-sm-12 col-md-8">
+            @if(true)
+            <paper-card class="cm-desktop">
+                <div class="cm-desktop-icon d-none d-sm-block">
+                    <img src="{{url('/static/img/icon/icon-blue.png')}}">
+                </div>
+                <div class="cm-desktop-desc">
+                    <h5><i class="MDI lan-connect"></i> NOJ Desktop</h5>
+                    <p>This contest uses <strong>NOJ Desktop</strong>, a robust cross-platform contest client dedicated for OI/ICPC contests, supporting <i class="MDI windows"></i> Windows, <i class="MDI apple"></i> MacOS and <i class="MDI ubuntu"></i> Ubuntu.</p>
+                    <div style="text-align:right;">
+                        <div class="dropdown">
+                            <button class="btn btn-info dropdown-toggle" type="button" id="downloadDesktopButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="MDI download"></i> Download
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="downloadDesktopButton">
+                                <a class="dropdown-item" style="color: #00adef;" target="blank" href="https://google.com"><i class="MDI windows pr-2"></i> Windows</a>
+                                <a class="dropdown-item" style="color: #000;" target="blank" href="https://google.com"><i class="MDI apple pr-2"></i> MacOS</a>
+                                <a class="dropdown-item" style="color: #dd4814;" target="blank" href="https://google.com"><i class="MDI ubuntu pr-2"></i> Ubuntu</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </paper-card>
+            @endif
             <paper-card>
                 <fresh-container>{!!$detail["description_parsed"]!!}</fresh-container>
             </paper-card>
