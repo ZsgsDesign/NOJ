@@ -109,7 +109,7 @@ class AccountModel extends Model
 
     public function detail($uid)
     {
-        if (!is_int($uid)) {
+        if (filter_var($uid, FILTER_VALIDATE_INT) === false) {
             return null;
         }
         $ret=DB::table("users")->where(["id"=>$uid])->first();
