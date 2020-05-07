@@ -3,6 +3,7 @@
 namespace App\Models\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Eloquent\Compiler;
 
 class ContestProblem extends Model
 {
@@ -26,6 +27,20 @@ class ContestProblem extends Model
     public function submissions()
     {
         return $this->problem->submissions()->where('cid',$this->contest->cid);
+    }
+
+    public function getCompilersAttribute()
+    {
+        $special = $this->problem->special_compiler;
+        $compilers = Compiler::where([
+            'oid' => $this->problem->OJ,
+            'available' => 1,
+            'deleted' => 0
+        ]);
+        if(!empty($special)) {
+            $compilers = $compilers->whereIn('coid', explode(',', $special));
+        }
+        return $compilers->get();
     }
 
     //This should be a repository...or service function ?

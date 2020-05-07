@@ -292,4 +292,73 @@ class ContestController extends Controller
             'err' => []
         ]);
     }
+
+    public function problems(Request $request) {
+        $contest = $request->contest;
+        $contestProblems = $contest->problems()->with('problem')->get();
+        $problems = [];
+        foreach($contestProblems as $contestProblem) {
+            //get status
+            $ac_submission = $contestProblem->submissions()->where('uid', auth()->user()->id)->where('verdict', 'Accepted')->orderBy('submission_date', 'desc')->first();
+            $last_submission = $contestProblem->submissions()->where('uid', auth()->user()->id)->orderBy('submission_date', 'desc')->first();
+            //get compilers
+            $compilers_info = [];
+            $compilers = $contestProblem->compilers;
+            foreach($compilers as $compiler) {
+                $compilers_info[] = [
+                    'coid' => $compiler->coid,
+                    'oid' => $compiler->oid,
+                    'comp' => $compiler->comp,
+                    'lang' => $compiler->lang,
+                    'lcode' => $compiler->lcode,
+                    'icon' => $compiler->icon,
+                    'display_name' => $compiler->display_name
+                ];
+            }
+            //build array
+            $problems[] = [
+                'pid' => $contestProblem->pid,
+                'pcode' => $contestProblem->problem->pcode,
+                'ncode' => $contestProblem->ncode,
+                'title' => $contestProblem->problem->title,
+                'limitations' => [
+                    'time_limit' => $contestProblem->problem->time_limit,
+                    'memory_limit' => $contestProblem->problem->memory_limit,
+                ],
+                'statistics' => [
+                    'accepted' => $contestProblem->submissions()->where('submission_date', '<=', $contest->frozen_time)->where('verdict', 'Accepted')->count(),
+                    'attempted' => $contestProblem->submissions()->where('submission_date', '<=', $contest->frozen_time)->count(),
+                    'score' => null
+                ],
+                'status' => [
+                    'verdict' => !empty($ac_submission) ? $ac_submission->color : (!empty($last_submission) ? $last_submission->verdict : 'NOT SUBMIT'),
+                    'color' => !empty($ac_submission) ? $ac_submission->color : (!empty($last_submission) ? $last_submission->color : ''),
+                    'last_submission' => !empty($last_submission) ? [
+                        'sid' => $last_submission->sid,
+                        'verdict' => $last_submission->verdict,
+                        'compile_info' => $last_submission->compile_info,
+                        'color' => $last_submission->color,
+                        'solution' => $last_submission->solution,
+                        'coid' => $last_submission->coid,
+                        'submission_date' => $last_submission->submission_date
+                    ] : false
+                ],
+                'compilers' => $compilers_info
+            ];
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Succeed',
+            'ret' => [
+                "file" => [
+                    "enable" => false,
+                    "name" => null,
+                    "url" => null,
+                    "extension" => null
+                ],
+                'problems' => $problems
+            ],
+            'err' => []
+        ]);
+    }
 }

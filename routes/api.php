@@ -31,7 +31,7 @@ Route::group(['namespace' => 'Api'], function () {
         Route::post('/scoreboard', 'ContestController@scoreboard')->middleware(['auth:api', 'api.contest.clearance:visible'])->name("scoreboard");
         Route::post('/clarification', 'ContestController@clarification')->middleware(['auth:api', 'api.contest.clearance:participated'])->name("clarification");
         Route::post('/requestClarification', 'ContestController@requestClarification')->middleware(['auth:api', 'api.contest.clearance:participated'])->name("requestClarification");
-
+        Route::post('/problems', 'ContestController@problems')->middleware(['auth:api', 'api.contest.clearance:participated'])->name("problems");
     });
 });
 
@@ -475,7 +475,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
         ]);
     })->name("requestClarification"); */
 
-
+/*
     Route::post('/problems', function (Request $request) {
         // {
         //     cid: 1,
@@ -654,7 +654,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
             ],
             'err' => []
         ]);
-    })->name("problems");
+    })->name("problems"); */
 
     Route::post('/submitSolution', function (Request $request) {
         // {

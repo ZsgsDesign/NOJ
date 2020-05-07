@@ -5,7 +5,7 @@ namespace App\Models\Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class CompilerModel extends Model
+class Compiler extends Model
 {
     protected $table='compiler';
     protected $primaryKey='coid';

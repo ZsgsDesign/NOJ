@@ -32,6 +32,17 @@ class Clearance
                     'contest' => $contest
                 ]);
                 return $next($request);
+            }else{
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Contest Not Found',
+                    'ret' => [],
+                    'err' => [
+                        'code' => 1100,
+                        'msg' => 'Contest Not Found',
+                        'data'=>[]
+                    ]
+                ]);
             }
         }else if($contest->judgeClearance($request->cid,$user->id) >= $clearance) {
             $contest = Contest::find($request->cid);
@@ -39,17 +50,17 @@ class Clearance
                 'contest' => $contest
             ]);
             return $next($request);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Permission Denied',
+                'ret' => [],
+                'err' => [
+                    'code' => 1100,
+                    'msg' => 'Permission Denied',
+                    'data'=>[]
+                ]
+            ]);
         }
-
-        return response()->json([
-            'success' => false,
-            'message' => 'Contest Not Found',
-            'ret' => [],
-            'err' => [
-                'code' => 1100,
-                'msg' => 'Contest Not Found',
-                'data'=>[]
-            ]
-        ]);
     }
 }

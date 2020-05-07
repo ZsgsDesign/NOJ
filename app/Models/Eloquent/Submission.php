@@ -15,7 +15,7 @@ class Submission extends Model
 
     public function compiler()
     {
-        return $this->belongsTo('App\Models\Eloquent\CompilerModel', 'coid');
+        return $this->belongsTo('App\Models\Eloquent\Compiler', 'coid');
     }
 
     public function user()
