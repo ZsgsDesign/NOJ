@@ -268,6 +268,7 @@
                         </date-div>
                         <info-div>
                             <h5 class="sm-contest-title">
+                                @if($contest['desktop'])<span><i class="MDI lan-connect wemd-pink-text" data-toggle="tooltip" data-placement="left" title="NOJ Desktop"></i></span>@endif
                                 @unless($contest["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="left" title="This contest is under review"></i></span>@endif
                                 @unless($contest["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="left" title="This is a private contest"></i></span>@endif
                                 @if($contest['verified'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="left" title="This is a verified contest"></i>@endif

@@ -253,6 +253,7 @@
                     <h5>{{$detail['name']}}</h5>
                     <badge-div>
                         <span class="badge badge-pill wemd-amber sm-contest-type"><i class="MDI trophy"></i> {{$detail['rule_parsed']}}</span>
+                        @if($detail['desktop'])<span><i class="MDI lan-connect wemd-pink-text" data-toggle="tooltip" data-placement="top" title="NOJ Desktop"></i></span>@endif
                         @unless($detail["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="top" title="This contest is under review"></i></span>@endif
                         @unless($detail["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="top" title="This is a private contest"></i></span>@endif
                         @if($detail['verified'])<span><i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a verified contest"></i></span>@endif
@@ -364,7 +365,7 @@
             </contest-card>
         </div>
         <div class="col-sm-12 col-md-8">
-            @if(true)
+            @if($detail['desktop'])
             <paper-card class="cm-desktop">
                 <div class="cm-desktop-icon d-none d-sm-block">
                     <img src="{{url('/static/img/icon/icon-blue.png')}}">
