@@ -322,7 +322,7 @@
 
                     <div class="col-md-4">
                         <h5 class="cm-footer-title mb-4 mt-3 font-bold">{{config("app.name")}}</h5>
-                        <p>{{config("app.name")}} is an online judge developed by Fangtang Zhixing Network Technology(Nanjing) Co,Ltd together with the ICPC Team of NJUPT.</p>
+                        <p>{{config("app.name")}} is an online judge developed by Fangtang Zhixing Network Technology together with the ICPC Team of NJUPT.</p>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">
