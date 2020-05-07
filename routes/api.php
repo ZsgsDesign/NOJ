@@ -28,7 +28,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
         Route::post('/info', 'ContestController@info')->middleware(['auth:api', 'api.contest.clearance:visible'])->name("info");
         Route::post('/status', 'ContestController@status')->middleware(['auth:api', 'api.contest.clearance:visible'])->name("status");
-
+        Route::post('/scoreboard', 'ContestController@scoreboard')->middleware(['auth:api', 'api.contest.clearance:visible'])->name("scoreboard");
     });
 });
 
@@ -113,7 +113,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
         ]);
     })->name("status"); */
 
-    Route::post('/scoreboard', function (Request $request) {
+    /* Route::post('/scoreboard', function (Request $request) {
         // {
         //     cid: 1
         // }
@@ -396,7 +396,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
                 'err' => []
             ]);
         }
-    })->name("scoreboard");
+    })->name("scoreboard"); */
 
 
     Route::post('/clarification', function (Request $request) {

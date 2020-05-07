@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Eloquent\Submission;
+use App\Models\ContestModel as OutdatedContestModel;
 use Illuminate\Http\Request;
 
 class ContestController extends Controller
@@ -122,6 +123,54 @@ class ContestController extends Controller
             'ret' => [
                 'pagination' => $pagination,
                 'data' => $data
+            ],
+            'err' => []
+        ]);
+    }
+
+    public function scoreboard(Request $request) {
+        $contest = $request->contest;
+        $contestModel = new OutdatedContestModel();
+        $contestRank = $contestModel->contestRank($contest->cid, auth()->check() ? auth()->user()->id : 0);
+
+        //frozen about
+        if($contest->forze_length != 0) {
+            $frozen = [
+                'enable' => true,
+                'frozen_length' => $contest->forze_length
+            ];
+        }else{
+            $frozen = [
+                'enable' => false,
+                'frozen_length' => 0
+            ];
+        }
+
+        //header
+        $header = [
+            'rank' => 'Rank',
+            'normal' => [
+                'Account', 'Score', 'Penalty'
+            ],
+            'subHeader' => true,
+            'problems' => [],
+            'problemsSubHeader' => []
+        ];
+        $problems = $contest->problems;
+        foreach($problems as $problem) {
+            $header['problems'][] = $problem->ncode;
+            $header['problemsSubHeader'][] = $problem->submissions()->where('verdict', 'Accepted')->count()
+                                             . ' / ' . $problem->submissions->count();
+        }
+        //body
+
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Succeed',
+            'ret' => [
+                'frozen' => $frozen,
+                'header' => $header
             ],
             'err' => []
         ]);

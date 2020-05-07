@@ -41,7 +41,11 @@ class Submission extends Model
 
     public function getNickNameAttribute()
     {
-        return $this->contest->group->members()->where('uid', $this->user->id)->first()->nickname;
+        $member = $this->contest->group->members()->where('uid', $this->user->id)->first();
+        if(!empty($member)) {
+            return $member->nickname;
+        }
+        return null;
     }
 
     public function getColorAttribute()
