@@ -32,4 +32,45 @@ class Submission extends Model
     {
         return $this->belongsTo('App\Models\Eloquent\Problem', 'pid');
     }
+
+    public function getNcodeAttribute()
+    {
+        $contest = $this->contest;
+        return $contest->problems->where('pid', $this->pid)->first()->ncode;
+    }
+
+    public function getNickNameAttribute()
+    {
+        return $this->contest->group->members()->where('uid', $this->user->id)->first()->nickname;
+    }
+
+    public function getColorAttribute()
+    {
+        return [
+            "Waiting"                => "wemd-blue-text",
+            "Judge Error"            => "wemd-black-text",
+            "System Error"           => "wemd-black-text",
+            "Compile Error"          => "wemd-orange-text",
+            "Runtime Error"          => "wemd-red-text",
+            "Wrong Answer"           => "wemd-red-text",
+            "Time Limit Exceed"      => "wemd-deep-purple-text",
+            "Real Time Limit Exceed" => "wemd-deep-purple-text",
+            "Accepted"               => "wemd-green-text",
+            "Memory Limit Exceed"    => "wemd-deep-purple-text",
+            "Presentation Error"     => "wemd-red-text",
+            "Submitted"              => "wemd-blue-text",
+            "Pending"                => "wemd-blue-text",
+            "Judging"                => "wemd-blue-text",
+            "Partially Accepted"     => "wemd-cyan-text",
+            'Submission Error'       => 'wemd-black-text',
+            'Output Limit Exceeded'  => 'wemd-deep-purple-text',
+            "Idleness Limit Exceed"  => 'wemd-deep-purple-text'
+        ][$this->verdict];
+    }
+
+    public function getSubmissionDateParsedAttribute()
+    {
+        $submission_date = date('Y-m-d H:i:s', $this->submission_date);
+        return formatHumanReadableTime($submission_date);
+    }
 }

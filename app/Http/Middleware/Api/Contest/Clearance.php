@@ -24,13 +24,22 @@ class Clearance
         ][$clearance];
         $user = auth()->user();
         $contest = new OutdatedContestModel();
-        if($contest->judgeClearance($request->cid,$user->id) > $clearance) {
+        if($clearance == 1) {
+            if($contest->judgeOutsideClearance($request->cid,$user->id)){
+                $contest = Contest::find($request->cid);
+                $request->merge([
+                    'contest' => $contest
+                ]);
+                return $next($request);
+            }
+        }else if($contest->judgeClearance($request->cid,$user->id) >= $clearance) {
             $contest = Contest::find($request->cid);
-            $request->merge([
-                'contest' => $contest
-            ]);
-            return $next($request);
+                $request->merge([
+                    'contest' => $contest
+                ]);
+                return $next($request);
         }
+
         return response()->json([
             'success' => false,
             'message' => 'Contest Not Found',
