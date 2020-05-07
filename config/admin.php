@@ -398,15 +398,15 @@ return [
             // Select a local disk that you configured in `config/filesystem.php`
             'disk' => 'NOJPublic'
         ],
-        'api-tester' => [
+        // 'api-tester' => [
 
-            'prefix' => 'api',
+        //     'prefix' => 'api',
 
-            'guard'  => 'api',
+        //     'guard'  => 'api',
 
-            'user_retriever' => function ($id) {
-                return \App\User::find($id);
-            },
-        ]
+        //     'user_retriever' => function ($id) {
+        //         return \App\User::find($id);
+        //     },
+        // ]
     ],
 ];
