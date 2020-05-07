@@ -322,7 +322,7 @@
 
                     <div class="col-md-4">
                         <h5 class="cm-footer-title mb-4 mt-3 font-bold">{{config("app.name")}}</h5>
-                        <p>{{config("app.name")}} is an online judge developed by ICPC Team of Nanjing Universify of Posts and Telecommunications.</p>
+                        <p>{{config("app.name")}} is an online judge developed by Fangtang Zhixing Network Technology together with the ICPC Team of NJUPT.</p>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">
@@ -346,7 +346,7 @@
 
                     <div class="col-md-2 mx-auto">
                         <h5 class="title mb-4 mt-3 font-bold ">Support</h5>
-                        <p class="mb-0"><i class="MDI email"></i> acm@njupt.edu.cn</p>
+                        <p class="mb-0"><i class="MDI email"></i> noj@njupt.edu.cn</p>
                         <p class="mb-0"><i class="MDI qqchat"></i> Group 668108264</p>
                     </div>
                 </div>

@@ -713,6 +713,7 @@
                                             </date-div>
                                             <info-div>
                                                 <h5 class="sm-contest-title">
+                                                    ${item['desktop'] == 1 ? '<i class="MDI lan-connect wemd-pink-text" title="NOJ Desktop"></i>' : ''}
                                                     ${item['audit_status'] == 0 ? '<i class="MDI gavel wemd-brown-text" title="This contest is under review"></i>' : ''}
                                                     ${item['public'] == 0 ? '<i class="MDI incognito wemd-red-text" title="This is a private contest"></i>' : ''}
                                                     ${item['verified'] == 1 ? '<i class="MDI marker-check wemd-light-blue-text" title="This is a verified contest"></i>' : ''}
