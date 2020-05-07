@@ -1321,7 +1321,7 @@ class ContestModel extends Model
          * 2 stands for participant*
          * 3 stands for admin      *
          ***************************/
-        if ($uid==0) {
+        if ($uid==0 || !is_int($cid)) {
             return 0;
         }
         $groupModel = new GroupModel();
@@ -1399,6 +1399,9 @@ class ContestModel extends Model
 
     public function judgeOutsideClearance($cid, $uid=0)
     {
+        if (!is_int($cid)) {
+            return 0;
+        }
         $contest_info=DB::table("contest")->where("cid", $cid)->first();
         if (empty($contest_info)) {
             return 0;

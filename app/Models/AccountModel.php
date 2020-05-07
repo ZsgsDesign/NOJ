@@ -109,7 +109,13 @@ class AccountModel extends Model
 
     public function detail($uid)
     {
+        if (!is_int($uid)) {
+            return null;
+        }
         $ret=DB::table("users")->where(["id"=>$uid])->first();
+        if (empty($ret)) {
+            return null;
+        }
         $ret["uid"]=$uid;
         $ret["submissionCount"]=DB::table("submission")->where([
             "uid"=>$uid,

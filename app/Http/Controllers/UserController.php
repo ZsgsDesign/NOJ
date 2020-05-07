@@ -27,6 +27,9 @@ class UserController extends Controller
     {
         $accountModel=new AccountModel();
         $info=$accountModel->detail($uid);
+        if($info == null) {
+            return redirect("/");
+        }
         $feed=$accountModel->feed($uid);
         $extraInfo = $accountModel->getExtra($uid, ['gender', 'contanct', 'school', 'country', 'location'],0);
         $socialiteInfo = $accountModel->getSocialiteInfo($uid,0);
