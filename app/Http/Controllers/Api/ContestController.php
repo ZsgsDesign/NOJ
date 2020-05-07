@@ -57,7 +57,7 @@ class ContestController extends Controller
                     break;
                 }
             }
-            $builder = $builder->where('uid', $user->id);
+            $builder = $builder->where('uid', $user == null ? -1 : $user->id);
         }
         if($problem !== null){
             $problem = $contest->problems()->where('ncode', $problem)->first();
@@ -79,7 +79,7 @@ class ContestController extends Controller
             $builder = $builder->where('uid', -1);
         }
 
-        $submissions = $builder->paginate(3);
+        $submissions = $builder->paginate(50);
 
         $regex = '/\?page=([\d+])$/';
         $matches = [];
@@ -147,22 +147,94 @@ class ContestController extends Controller
         }
 
         //header
-        $header = [
-            'rank' => 'Rank',
-            'normal' => [
-                'Account', 'Score', 'Penalty'
-            ],
-            'subHeader' => true,
-            'problems' => [],
-            'problemsSubHeader' => []
-        ];
-        $problems = $contest->problems;
-        foreach($problems as $problem) {
-            $header['problems'][] = $problem->ncode;
-            $header['problemsSubHeader'][] = $problem->submissions()->where('verdict', 'Accepted')->count()
-                                             . ' / ' . $problem->submissions->count();
+        if($contest->rule == 1){
+            $header = [
+                'rank' => 'Rank',
+                'normal' => [
+                    'Account', 'Score', 'Penalty'
+                ],
+                'subHeader' => true,
+                'problems' => [],
+                'problemsSubHeader' => []
+            ];
+            $problems = $contest->problems;
+            foreach($problems as $problem) {
+                $header['problems'][] = $problem->ncode;
+                $header['problemsSubHeader'][] = $problem->submissions()->where('submission_date', '<=', $contest->frozen_time)->where('verdict', 'Accepted')->count()
+                                                . ' / ' . $problem->submissions()->where('submission_date', '<=', $contest->frozen_time)->count();
+            }
+        }else if($contest->rule == 2){
+            $header = [
+                'rank' => 'Rank',
+                'normal' => [
+                    'Account', 'Score', 'Solved'
+                ],
+                'subHeader' => false,
+                'problems' => []
+            ];
+            $problems = $contest->problems;
+            foreach($problems as $problem) {
+                $header['problems'][] = $problem->ncode;
+            }
         }
+
+
         //body
+        if($contest->rule == 1){
+            $body = [];
+            $lastRank = null;
+            $rank = 1;
+            foreach($contestRank as $userRank) {
+                if(!empty($lastRank)) {
+                    if($lastRank['score'] != $userRank['score'] || $lastRank['penalty'] != $userRank['penalty']) {
+                        $rank += 1;
+                    }
+                }
+                $userBody = [
+                    'rank'   => $rank,
+                    'normal' => [
+                        $userRank['name'], $userRank['score'], intval($userRank['penalty'])
+                    ],
+                    'problems' => []
+                ];
+                foreach($userRank['problem_detail'] as $problem) {
+                    $userBody['problem'][] = [
+                        'mainColor' => $problem['color'] === "" ? null : $problem['color'],
+                        'mainScore' => $problem['solved_time_parsed'] === "" ? null : $problem['solved_time_parsed'],
+                        'subColor' => null,
+                        'subScore' => $problem['wrong_doings'] == 0 ? null : '- '.$problem['wrong_doings']
+                    ];
+                }
+                $body[] = $userBody;
+            }
+        }else if($contest->rule == 2){
+            $body = [];
+            $lastRank = null;
+            $rank = 1;
+            foreach($contestRank as $userRank) {
+                if(!empty($lastRank)) {
+                    if($lastRank['score'] != $userRank['score'] || $lastRank['penalty'] != $userRank['penalty']) {
+                        $rank += 1;
+                    }
+                }
+                $userBody = [
+                    'rank'   => $rank,
+                    'normal' => [
+                        $userRank['name'], $userRank['score'], intval($userRank['solved'])
+                    ],
+                    'problems' => []
+                ];
+                foreach($userRank['problem_detail'] as $problem) {
+                    $userBody['problem'][] = [
+                        'mainColor' => $problem['color'] === "" ? null : $problem['color'],
+                        'mainScore' => $problem['score'] === "" ? null : $problem['score'],
+                        'subColor' => null,
+                        'subScore' => null
+                    ];
+                }
+                $body[] = $userBody;
+            }
+        }
 
 
         return response()->json([
@@ -170,7 +242,8 @@ class ContestController extends Controller
             'message' => 'Succeed',
             'ret' => [
                 'frozen' => $frozen,
-                'header' => $header
+                'header' => $header,
+                'body' => $body
             ],
             'err' => []
         ]);

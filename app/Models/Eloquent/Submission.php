@@ -77,4 +77,6 @@ class Submission extends Model
         $submission_date = date('Y-m-d H:i:s', $this->submission_date);
         return formatHumanReadableTime($submission_date);
     }
+
+
 }
