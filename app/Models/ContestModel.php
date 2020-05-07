@@ -997,39 +997,6 @@ class ContestModel extends Model
         return DB::table("contest")->where("cid", $cid)->where("begin_time", "<", date("Y-m-d H:i:s"))->where("end_time", ">", date("Y-m-d H:i:s"))->count();
     }
 
-    public function formatSubmitTime($date)
-    {
-        $periods=["second", "minute", "hour", "day", "week", "month", "year", "decade"];
-        $lengths=["60", "60", "24", "7", "4.35", "12", "10"];
-
-        $now=time();
-        $unix_date=strtotime($date);
-
-        if (empty($unix_date)) {
-            return "Bad date";
-        }
-
-        if ($now>$unix_date) {
-            $difference=$now-$unix_date;
-            $tense="ago";
-        } else {
-            $difference=$unix_date-$now;
-            $tense="from now";
-        }
-
-        for ($j=0; $difference>=$lengths[$j] && $j<count($lengths)-1; $j++) {
-            $difference/=$lengths[$j];
-        }
-
-        $difference=round($difference);
-
-        if ($difference!=1) {
-            $periods[$j].="s";
-        }
-
-        return "$difference $periods[$j] {$tense}";
-    }
-
     public function formatAbsTime($sec)
     {
         $periods=["second", "minute", "hour", "day", "week", "month", "year", "decade"];
@@ -1283,7 +1250,7 @@ class ContestModel extends Model
 
         $records=$paginator->all();
         foreach ($records as &$r) {
-            $r["submission_date_parsed"]=$this->formatSubmitTime(date('Y-m-d H:i:s', $r["submission_date"]));
+            $r["submission_date_parsed"]=formatHumanReadableTime(date('Y-m-d H:i:s', $r["submission_date"]));
             $r["submission_date"]=date('Y-m-d H:i:s', $r["submission_date"]);
             $r["nick_name"]="";
             $r["ncode"]=$problemSet[(string) $r["pid"]]["ncode"];

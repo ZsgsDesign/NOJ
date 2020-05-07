@@ -539,46 +539,13 @@ class ProblemModel extends Model
         ])->paginate(15);
         $list = $paginator->all();
         foreach($list as &$l){
-            $l['updated_at'] = $this->formatTime($l['updated_at']);
+            $l['updated_at'] = formatHumanReadableTime($l['updated_at']);
             $l['comment_count'] = DB::table('problem_discussion_comment')->where('pdid','=',$l['pdid'])->count();
         }
         return [
             'paginator' => $paginator,
             'list' => $list,
         ];
-    }
-
-    public function formatTime($date)
-    {
-        $periods=["second", "minute", "hour", "day", "week", "month", "year", "decade"];
-        $lengths=["60", "60", "24", "7", "4.35", "12", "10"];
-
-        $now=time();
-        $unix_date=strtotime($date);
-
-        if (empty($unix_date)) {
-            return "Bad date";
-        }
-
-        if ($now>$unix_date) {
-            $difference=$now-$unix_date;
-            $tense="ago";
-        } else {
-            $difference=$unix_date-$now;
-            $tense="from now";
-        }
-
-        for ($j=0; $difference>=$lengths[$j] && $j<count($lengths)-1; $j++) {
-            $difference/=$lengths[$j];
-        }
-
-        $difference=round($difference);
-
-        if ($difference!=1) {
-            $periods[$j].="s";
-        }
-
-        return "$difference $periods[$j] {$tense}";
     }
 
     public function discussionDetail($pdid)
@@ -602,7 +569,7 @@ class ProblemModel extends Model
             'users.name',
             'users.id as uid'
         ])->get()->first();
-        $main['created_at'] = $this->formatTime($main['created_at']);
+        $main['created_at'] = formatHumanReadableTime($main['created_at']);
         $main['content']=clean(Markdown::convertToHtml($main["content"]));
 
         $comment_count = DB::table('problem_discussion_comment')->where('pdid','=',$pdid)->count();
@@ -629,7 +596,7 @@ class ProblemModel extends Model
         $comment = $paginator->all();
         foreach($comment as &$c){
             $c['content']=clean(Markdown::convertToHtml($c["content"]));
-            $c['created_at'] = $this->formatTime($c['created_at']);
+            $c['created_at'] = formatHumanReadableTime($c['created_at']);
             $c['reply'] = DB::table('problem_discussion_comment')->join(
                 "users",
                 "id",
@@ -670,7 +637,7 @@ class ProblemModel extends Model
                     '=',
                     $cr['reply_uid']
                 )->get()->first()['name'];
-                $cr['created_at'] = $this->formatTime($cr['created_at']);
+                $cr['created_at'] = formatHumanReadableTime($cr['created_at']);
                 if($this->replyParent($cr['pdcid'])!=$c['pdcid']){
                     unset($c['reply'][$k]);
                 }

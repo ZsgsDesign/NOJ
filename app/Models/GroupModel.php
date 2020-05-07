@@ -183,7 +183,7 @@ class GroupModel extends Model
         $notice_author=DB::table("users")->where(["id"=>$notice_item["uid"]])->first();
         $notice_item["name"]=$notice_author["name"];
         $notice_item["avatar"]=$notice_author["avatar"];
-        $notice_item["post_date_parsed"]=$this->formatPostTime($notice_item["created_at"]);
+        $notice_item["post_date_parsed"]=formatHumanReadableTime($notice_item["created_at"]);
         $notice_item["content_parsed"]=clean(convertMarkdownToHtml($notice_item["content"]));
         return $notice_item;
     }
@@ -295,39 +295,6 @@ class GroupModel extends Model
             "pid"=>$pid,
             "tag"=>$tag
         ])->delete();
-    }
-
-    public function formatPostTime($date)
-    {
-        $periods=["second", "minute", "hour", "day", "week", "month", "year", "decade"];
-        $lengths=["60", "60", "24", "7", "4.35", "12", "10"];
-
-        $now=time();
-        $unix_date=strtotime($date);
-
-        if (empty($unix_date)) {
-            return "Bad date";
-        }
-
-        if ($now>$unix_date) {
-            $difference=$now-$unix_date;
-            $tense="ago";
-        } else {
-            $difference=$unix_date-$now;
-            $tense="from now";
-        }
-
-        for ($j=0; $difference>=$lengths[$j] && $j<count($lengths)-1; $j++) {
-            $difference/=$lengths[$j];
-        }
-
-        $difference=round($difference);
-
-        if ($difference!=1) {
-            $periods[$j].="s";
-        }
-
-        return "$difference $periods[$j] {$tense}";
     }
 
     public function judgeEmailClearance($gid, $email)
