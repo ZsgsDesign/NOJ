@@ -239,6 +239,26 @@
     .show .dropdown-toggle.btn-info{
         color: #03a9f4;
     }
+
+    beta-badge{
+        display: inline-block;
+        vertical-align: super;
+        border-radius: 2px;
+        background: #000;
+        opacity: 0.9;
+        color: #fff;
+        font-size: 0.5rem;
+        line-height: 1;
+        padding:0.1rem 0.25rem;
+        margin:0;
+        align-self: flex-start;
+        margin-left: 0.25rem;
+        font-variant: small-caps;
+    }
+
+    .dropdown-menu .dropdown-item{
+        flex-flow: nowrap;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -379,9 +399,9 @@
                                 <i class="MDI download"></i> Download
                             </button>
                             <div class="dropdown-menu" aria-labelledby="downloadDesktopButton">
-                                <a class="dropdown-item" style="color: #00adef;" target="blank" href="https://github.com/NJUPTAAA/NOJ_Desktop/releases"><i class="MDI windows pr-2"></i> Windows</a>
-                                <a class="dropdown-item" style="color: #000;" target="blank" href="https://github.com/NJUPTAAA/NOJ_Desktop/releases"><i class="MDI apple pr-2"></i> MacOS</a>
-                                <a class="dropdown-item" style="color: #dd4814;" target="blank" href="https://github.com/NJUPTAAA/NOJ_Desktop/releases"><i class="MDI ubuntu pr-2"></i> Ubuntu</a>
+                                <a class="dropdown-item" style="color: #00adef;" target="blank" href="https://github.com/NJUPTAAA/NOJ_Desktop/releases"><i class="MDI windows pr-2"></i> Windows<beta-badge class="wemd-orange">Stable</beta-badge></a>
+                                <a class="dropdown-item" style="color: #000;" target="blank" href="https://github.com/NJUPTAAA/NOJ_Desktop/releases"><i class="MDI apple pr-2"></i> MacOS<beta-badge class="wemd-teal">Beta</beta-badge></a>
+                                <a class="dropdown-item" style="color: #dd4814;" target="blank" href="https://github.com/NJUPTAAA/NOJ_Desktop/releases"><i class="MDI ubuntu pr-2"></i> Ubuntu<beta-badge class="wemd-teal">Beta</beta-badge></a>
                             </div>
                         </div>
                     </div>
