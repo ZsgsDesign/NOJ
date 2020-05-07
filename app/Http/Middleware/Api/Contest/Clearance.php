@@ -18,13 +18,14 @@ class Clearance
     public function handle($request, Closure $next, $clearance)
     {
         $clearance = [
-            'visible'      => 1,
-            'participated' => 2,
-            'admin'        => 3
+            'visible'        => 1,
+            'participated'   => 2,
+            'admin'          => 3,
+            'public_visible' => 4
         ][$clearance];
         $user = auth()->user();
         $contest = new OutdatedContestModel();
-        if($clearance == 1) {
+        if($clearance == 4) {
             if($contest->judgeOutsideClearance($request->cid,$user->id)){
                 $contest = Contest::find($request->cid);
                 $request->merge([
@@ -34,10 +35,10 @@ class Clearance
             }
         }else if($contest->judgeClearance($request->cid,$user->id) >= $clearance) {
             $contest = Contest::find($request->cid);
-                $request->merge([
-                    'contest' => $contest
-                ]);
-                return $next($request);
+            $request->merge([
+                'contest' => $contest
+            ]);
+            return $next($request);
         }
 
         return response()->json([

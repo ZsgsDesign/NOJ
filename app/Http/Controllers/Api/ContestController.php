@@ -248,4 +248,48 @@ class ContestController extends Controller
             'err' => []
         ]);
     }
+
+    public function clarification(Request $request) {
+        $contest = $request->contest;
+        return response()->json([
+            'success' => true,
+            'message' => 'Succeed',
+            'ret' => [
+                'clarifications' => $contest->clarifications
+            ],
+            'err' => []
+        ]);
+    }
+
+    public function requestClarification(Request $request) {
+        if(empty($request->title) || empty($request->contest)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Parameter Missing',
+                'ret' => [],
+                'err' => [
+                    'code' => 1100,
+                    'msg' => 'Parameter Missing',
+                    'data'=>[]
+                ]
+            ]);
+        }
+        $contest = $request->contest;
+        $clarification = $contest->clarifications()->create([
+            'cid' => $contest->cid,
+            'type' => 1,
+            'title' => $request->title,
+            'content' => $request->content,
+            'public' => 0,
+            'uid' => auth()->user()->id
+        ]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Succeed.',
+            'ret' => [
+                "ccid" => $clarification->ccid,
+            ],
+            'err' => []
+        ]);
+    }
 }

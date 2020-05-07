@@ -110,6 +110,11 @@ class Contest extends Model
         }
     }
 
+    public function clarifications()
+    {
+        return $this->hasMany('App\Models\Eloquent\ContestClarification','cid','cid');
+    }
+
     public function problems()
     {
         return $this->hasMany('App\Models\Eloquent\ContestProblem','cid','cid');
