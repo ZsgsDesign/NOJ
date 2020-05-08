@@ -295,7 +295,7 @@ class ContestController extends Controller
 
     public function problems(Request $request) {
         $contest = $request->contest;
-        $contestProblems = $contest->problems()->with('problem')->get();
+        $contestProblems = $contest->problems()->with('problem')->orderBy('ncode', 'asc')->get();
         $problems = [];
         foreach($contestProblems as $contestProblem) {
             //get status
