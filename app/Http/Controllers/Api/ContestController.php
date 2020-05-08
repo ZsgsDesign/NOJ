@@ -47,7 +47,7 @@ class ContestController extends Controller
         $result = $filter['result'] ?? null;
 
         //filter
-        $builder = $contest->submissions()->with(['user', 'contest.group']);
+        $builder = $contest->submissions()->orderBy('submission_date', 'desc')->with(['user', 'contest.group']);
         if($account !== null) {
             $participants = $contest->participants();
             $user = null;
@@ -103,6 +103,14 @@ class ContestController extends Controller
 
         $data = [];
         foreach($submissions->items() as $submission) {
+            $score_parse = 0;
+            if($contest->rule == 2){
+                if($submission->verdict == 'Accepted') {
+                    $score_parse = 100;
+                }else if($submission->verdict == 'Partially Accepted') {
+                    $score_parse = round($submission->score / $submission->problem->tot_score * $contest->problems()->where('pid', $submission->problem->pid)->first()->scores, 1);
+                }
+            }
             $data[] = [
                 'sid' => $submission->sid,
                 'name' => $submission->user->name,
@@ -110,6 +118,7 @@ class ContestController extends Controller
                 'ncode' => $submission->ncode,
                 'color' => $submission->color,
                 'verdict' => $submission->verdict,
+                'score_parse' => $score_parse,
                 'time' => $submission->time,
                 'memory' => $submission->memory,
                 'language' => $submission->language,
@@ -190,6 +199,7 @@ class ContestController extends Controller
                         $rank += 1;
                     }
                 }
+                $lastRank = $userRank;
                 $userBody = [
                     'rank'   => $rank,
                     'normal' => [
@@ -198,7 +208,7 @@ class ContestController extends Controller
                     'problems' => []
                 ];
                 foreach($userRank['problem_detail'] as $problem) {
-                    $userBody['problem'][] = [
+                    $userBody['problems'][] = [
                         'mainColor' => $problem['color'] === "" ? null : $problem['color'],
                         'mainScore' => $problem['solved_time_parsed'] === "" ? null : $problem['solved_time_parsed'],
                         'subColor' => null,
@@ -213,10 +223,11 @@ class ContestController extends Controller
             $rank = 1;
             foreach($contestRank as $userRank) {
                 if(!empty($lastRank)) {
-                    if($lastRank['score'] != $userRank['score'] || $lastRank['penalty'] != $userRank['penalty']) {
+                    if($lastRank['score'] != $userRank['score'] || $lastRank['solved'] != $userRank['solved']) {
                         $rank += 1;
                     }
                 }
+                $lastRank = $userRank;
                 $userBody = [
                     'rank'   => $rank,
                     'normal' => [
@@ -255,7 +266,7 @@ class ContestController extends Controller
             'success' => true,
             'message' => 'Succeed',
             'ret' => [
-                'clarifications' => $contest->clarifications
+                'clarifications' => $contest->clarifications()->orderBy('created_at', 'desc')->get()
             ],
             'err' => []
         ]);
