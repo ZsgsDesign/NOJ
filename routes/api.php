@@ -701,6 +701,32 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
         }
 
     })->name("submitSolution");
+
+    Route::post('/fetchAnnouncement', function (Request $request) {
+        // {
+        //     cid: 1,
+        // }
+        return response()->json([
+            'success' => true,
+            'message' => 'Succeed',
+            'ret' => [
+                "clarifications" => [
+                    [
+                        "ccid" => 100,
+                        "cid" => 1,
+                        "type" => 1,
+                        "title" => "Don't Ask Dummy Questions...",
+                        "content" => "Dude, not cool.",
+                        "reply" => null,
+                        "create_at" => "2019-03-16 11:28:34",
+                        "public" => true,
+                        "uid" => 1
+                    ]
+                ]
+            ],
+            'err' => []
+        ]);
+    })->name("fetchAnnouncement");
 });
 
 Route::group(['prefix' => 'problem','as' => 'problem.'], function () {
