@@ -729,6 +729,7 @@ Route::group(['prefix' => 'problem','as' => 'problem.'], function () {
                     "pid" => 1234,
                     "remote_id" => "",
                     "score" => 0,
+                    "score_parsed" => 0, // if has ioi contest set to score parsed, else 0
                     "share" => 0,
                     "sid" => 95784,
                     "solution" => "fg",
