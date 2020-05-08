@@ -331,7 +331,7 @@ class ContestController extends Controller
                     'score' => null
                 ],
                 'status' => [
-                    'verdict' => !empty($ac_submission) ? $ac_submission->color : (!empty($last_submission) ? $last_submission->verdict : 'NOT SUBMIT'),
+                    'verdict' => !empty($ac_submission) ? $ac_submission->verdict : (!empty($last_submission) ? $last_submission->verdict : 'NOT SUBMIT'),
                     'color' => !empty($ac_submission) ? $ac_submission->color : (!empty($last_submission) ? $last_submission->color : ''),
                     'last_submission' => !empty($last_submission) ? [
                         'sid' => $last_submission->sid,
