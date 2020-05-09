@@ -65,6 +65,9 @@ class Kernel extends HttpKernel
 
         'group.exist' => \App\Http\Middleware\Group\Exists::class,
         'group.banned' => \App\Http\Middleware\Group\Banned::class,
+
+        'contest.desktop' => \App\Http\Middleware\Contest\IsDesktop::class,
+
         'user.banned' => \App\Http\Middleware\User\Banned::class,
 
         'api.contest.clearance' => \App\Http\Middleware\Api\Contest\Clearance::class,
