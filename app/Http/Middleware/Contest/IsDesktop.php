@@ -4,6 +4,7 @@ namespace App\Http\Middleware\Contest;
 
 use Closure;
 use App\Models\Eloquent\Contest;
+use App\Models\ContestModel as OutdatedContestModel;
 
 class IsDesktop
 {
@@ -18,6 +19,13 @@ class IsDesktop
     {
         $contest = Contest::find($request->cid);
         if(!empty($contest) && $contest->desktop) {
+            if(auth()->check()) {
+                $user = auth()->user();
+                $contestModel = new OutdatedContestModel();
+                if($contestModel->judgeClearance($contest->cid, $user->id) == 3){
+                    return $next($request);
+                }
+            }
             if(strtolower($request->method()) == 'get'){
                 return response()->redirectToRoute('contest.detail',['cid' => $contest->cid]);
             }else{
