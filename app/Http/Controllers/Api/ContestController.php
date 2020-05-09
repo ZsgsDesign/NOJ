@@ -109,7 +109,7 @@ class ContestController extends Controller
                 if($submission->verdict == 'Accepted') {
                     $score_parse = 100;
                 }else if($submission->verdict == 'Partially Accepted') {
-                    $score_parse = round($submission->score / $submission->problem->tot_score * $contest->problems()->where('pid', $submission->problem->pid)->first()->scores, 1);
+                    $score_parse = round($submission->score / $submission->problem->tot_score * $contest->problems()->where('pid', $submission->problem->pid)->first()->points, 1);
                 }
             }
             $data[] = [
@@ -248,7 +248,7 @@ class ContestController extends Controller
                     ];
                 }
                 $userBody['extra'] = [
-                    'owner' => isset($userBody['remote']) && $userBody['remote'] ? false : auth()->user()->id == $userRank['uid'],
+                    'owner' => isset($userBody['remote']) && $userBody['remote'] ? false : $user->id == $userRank['uid'],
                     'remote' => $userBody['remote'] ?? false
                 ];
                 $body[] = $userBody;
