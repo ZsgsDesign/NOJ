@@ -194,6 +194,7 @@ class ContestController extends Controller
             $lastRank = null;
             $rank = 1;
             foreach($contestRank as $userRank) {
+                $user = $contest->participants()->where('id', $userRank['uid'])->first();
                 if(!empty($lastRank)) {
                     if($lastRank['score'] != $userRank['score'] || $lastRank['penalty'] != $userRank['penalty']) {
                         $rank += 1;
@@ -212,9 +213,13 @@ class ContestController extends Controller
                         'mainColor' => $problem['color'] === "" ? null : $problem['color'],
                         'mainScore' => $problem['solved_time_parsed'] === "" ? null : $problem['solved_time_parsed'],
                         'subColor' => null,
-                        'subScore' => $problem['wrong_doings'] == 0 ? null : '- '.$problem['wrong_doings']
+                        'subScore' => $problem['wrong_doings'] == 0 ? null : '-'.$problem['wrong_doings']
                     ];
                 }
+                $userBody['extra'] = [
+                    'owner' => isset($userBody['remote']) && $userBody['remote'] ? false : auth()->user()->id == $user->id,
+                    'remote' => $userBody['remote'] ?? false
+                ];
                 $body[] = $userBody;
             }
         }else if($contest->rule == 2){
@@ -222,6 +227,7 @@ class ContestController extends Controller
             $lastRank = null;
             $rank = 1;
             foreach($contestRank as $userRank) {
+                $user = $contest->participants()->where('id', $userRank['uid'])->first();
                 if(!empty($lastRank)) {
                     if($lastRank['score'] != $userRank['score'] || $lastRank['solved'] != $userRank['solved']) {
                         $rank += 1;
@@ -236,13 +242,17 @@ class ContestController extends Controller
                     'problems' => []
                 ];
                 foreach($userRank['problem_detail'] as $problem) {
-                    $userBody['problem'][] = [
+                    $userBody['problems'][] = [
                         'mainColor' => $problem['color'] === "" ? null : $problem['color'],
-                        'mainScore' => $problem['score'] === "" ? null : $problem['score'],
+                        'mainScore' => $problem['score'] === "" ? null : $problem['score_parsed'],
                         'subColor' => null,
                         'subScore' => null
                     ];
                 }
+                $userBody['extra'] = [
+                    'owner' => isset($userBody['remote']) && $userBody['remote'] ? false : auth()->user()->id == $user->name,
+                    'remote' => $userBody['remote'] ?? false
+                ];
                 $body[] = $userBody;
             }
         }
@@ -327,35 +337,40 @@ class ContestController extends Controller
                 ];
             }
             //build array
-            $problems[] = [
-                'pid' => $contestProblem->pid,
-                'pcode' => $contestProblem->problem->pcode,
-                'ncode' => $contestProblem->ncode,
-                'title' => $contestProblem->problem->title,
-                'limitations' => [
-                    'time_limit' => $contestProblem->problem->time_limit,
-                    'memory_limit' => $contestProblem->problem->memory_limit,
-                ],
-                'statistics' => [
-                    'accepted' => $contestProblem->submissions()->where('submission_date', '<=', $contest->frozen_time)->where('verdict', 'Accepted')->count(),
-                    'attempted' => $contestProblem->submissions()->where('submission_date', '<=', $contest->frozen_time)->count(),
-                    'score' => null
-                ],
-                'status' => [
-                    'verdict' => !empty($ac_submission) ? $ac_submission->verdict : (!empty($last_submission) ? $last_submission->verdict : 'NOT SUBMIT'),
-                    'color' => !empty($ac_submission) ? $ac_submission->color : (!empty($last_submission) ? $last_submission->color : ''),
-                    'last_submission' => !empty($last_submission) ? [
-                        'sid' => $last_submission->sid,
-                        'verdict' => $last_submission->verdict,
-                        'compile_info' => $last_submission->compile_info,
-                        'color' => $last_submission->color,
-                        'solution' => $last_submission->solution,
-                        'coid' => $last_submission->coid,
-                        'submission_date' => $last_submission->submission_date
-                    ] : false
-                ],
-                'compilers' => $compilers_info
-            ];
+            if($contest->rule == 1 || $contest->rule == 3){
+                $problems[] = [
+                    'pid' => $contestProblem->pid,
+                    'pcode' => $contestProblem->problem->pcode,
+                    'ncode' => $contestProblem->ncode,
+                    'title' => $contestProblem->problem->title,
+                    'limitations' => [
+                        'time_limit' => $contestProblem->problem->time_limit,
+                        'memory_limit' => $contestProblem->problem->memory_limit,
+                    ],
+                    'statistics' => [
+                        'accepted' => $contestProblem->submissions()->where('submission_date', '<=', $contest->frozen_time)->where('verdict', 'Accepted')->count(),
+                        'attempted' => $contestProblem->submissions()->where('submission_date', '<=', $contest->frozen_time)->count(),
+                        'score' => null
+                    ],
+                    'status' => [
+                        'verdict' => !empty($ac_submission) ? $ac_submission->verdict : (!empty($last_submission) ? $last_submission->verdict : 'NOT SUBMIT'),
+                        'color' => !empty($ac_submission) ? $ac_submission->color : (!empty($last_submission) ? $last_submission->color : ''),
+                        'last_submission' => !empty($last_submission) ? [
+                            'sid' => $last_submission->sid,
+                            'verdict' => $last_submission->verdict,
+                            'compile_info' => $last_submission->compile_info,
+                            'color' => $last_submission->color,
+                            'solution' => $last_submission->solution,
+                            'coid' => $last_submission->coid,
+                            'submission_date' => $last_submission->submission_date
+                        ] : false
+                    ],
+                    'compilers' => $compilers_info
+                ];
+            }else if($contest->rule == 2 || $contest->rule == 4){
+
+            }
+
         }
         return response()->json([
             'success' => true,

@@ -35,7 +35,7 @@ class StatusModel extends Model
         }
         $compilerModel=new CompilerModel();
         $status["lang"]=$compilerModel->detail($status["coid"])["lang"];
-        $status["owner"]=$uid==$status["uid"];
+        $status["owner"]= $uid==$status["uid"];
         return $status;
     }
 
