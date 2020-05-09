@@ -29,6 +29,9 @@ class HasCompiler
                 ]
             ]);
         }
+        $request->merge([
+            'compiler' => $compiler
+        ]);
         return $next($request);
     }
 }

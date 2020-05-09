@@ -657,7 +657,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
         ]);
     })->name("problems"); */
 
-    Route::post('/submitSolution', function (Request $request) {
+ /*    Route::post('/submitSolution', function (Request $request) {
         // {
         //     cid: 1,
         //     pid: 1,
@@ -702,7 +702,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
         }
 
     })->name("submitSolution");
-
+ */
     Route::post('/fetchAnnouncement', function (Request $request) {
         // {
         //     cid: 1,
