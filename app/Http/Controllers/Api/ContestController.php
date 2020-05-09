@@ -167,7 +167,7 @@ class ContestController extends Controller
                 'problems' => [],
                 'problemsSubHeader' => []
             ];
-            $problems = $contest->problems()->ordby('ncode', 'asc')->get();
+            $problems = $contest->problems()->orderBy('ncode', 'asc')->get();
             foreach($problems as $problem) {
                 $header['problems'][] = $problem->ncode;
                 $header['problemsSubHeader'][] = $problem->submissions()->where('submission_date', '<=', $contest->frozen_time)->where('verdict', 'Accepted')->count()
@@ -182,7 +182,7 @@ class ContestController extends Controller
                 'subHeader' => false,
                 'problems' => []
             ];
-            $problems = $contest->problems()->ordby('ncode', 'asc')->get();
+            $problems = $contest->problems()->orderBy('ncode', 'asc')->get();
             foreach($problems as $problem) {
                 $header['problems'][] = $problem->ncode;
             }
