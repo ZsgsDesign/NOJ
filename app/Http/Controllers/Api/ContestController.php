@@ -337,41 +337,42 @@ class ContestController extends Controller
                     'display_name' => $compiler->display_name
                 ];
             }
-            //build array
-            if($contest->rule == 1 || $contest->rule == 3){
-                $problems[] = [
-                    'pid' => $contestProblem->pid,
-                    'pcode' => $contestProblem->problem->pcode,
-                    'ncode' => $contestProblem->ncode,
-                    'title' => $contestProblem->problem->title,
-                    'limitations' => [
-                        'time_limit' => $contestProblem->problem->time_limit,
-                        'memory_limit' => $contestProblem->problem->memory_limit,
-                    ],
-                    'statistics' => [
-                        'accepted' => $contestProblem->submissions()->where('submission_date', '<=', $contest->frozen_time)->where('verdict', 'Accepted')->count(),
-                        'attempted' => $contestProblem->submissions()->where('submission_date', '<=', $contest->frozen_time)->count(),
-                        'score' => null
-                    ],
-                    'status' => [
-                        'verdict' => !empty($ac_submission) ? $ac_submission->verdict : (!empty($last_submission) ? $last_submission->verdict : 'NOT SUBMIT'),
-                        'color' => !empty($ac_submission) ? $ac_submission->color : (!empty($last_submission) ? $last_submission->color : ''),
-                        'last_submission' => !empty($last_submission) ? [
-                            'sid' => $last_submission->sid,
-                            'verdict' => $last_submission->verdict,
-                            'compile_info' => $last_submission->compile_info,
-                            'color' => $last_submission->color,
-                            'solution' => $last_submission->solution,
-                            'coid' => $last_submission->coid,
-                            'submission_date' => $last_submission->submission_date
-                        ] : false
-                    ],
-                    'compilers' => $compilers_info
-                ];
-            }else if($contest->rule == 2 || $contest->rule == 4){
-
-            }
-
+            $highest_submit = $contestProblem->submissions()->where(['uid', auth()->user()->id])->orderBy('score', 'desc')->first();
+            $problems[] = [
+                'pid' => $contestProblem->pid,
+                'pcode' => $contestProblem->problem->pcode,
+                'ncode' => $contestProblem->ncode,
+                'title' => $contestProblem->problem->title,
+                'limitations' => [
+                    'time_limit' => $contestProblem->problem->time_limit,
+                    'memory_limit' => $contestProblem->problem->memory_limit,
+                ],
+                'statistics' => $contest->rule == 1 ? [
+                    'accepted' => $contestProblem->submissions()->where('submission_date', '<=', $contest->frozen_time)->where('verdict', 'Accepted')->count(),
+                    'attempted' => $contestProblem->submissions()->where('submission_date', '<=', $contest->frozen_time)->count(),
+                    'score' => null,
+                    'current_score' => null
+                ] : [
+                    'accepted' => null,
+                    'attempted' => null,
+                    'score' => $contestProblem->score,
+                    'current_score' => empty($highest_submit) ? 0 : $highest_submit->score / $contestProblem->problem->tot_score * $contestProblem->scores
+                ],
+                'status' => [
+                    'verdict' => !empty($ac_submission) ? $ac_submission->verdict : (!empty($last_submission) ? $last_submission->verdict : 'NOT SUBMIT'),
+                    'color' => !empty($ac_submission) ? $ac_submission->color : (!empty($last_submission) ? $last_submission->color : ''),
+                    'last_submission' => !empty($last_submission) ? [
+                        'sid' => $last_submission->sid,
+                        'verdict' => $last_submission->verdict,
+                        'compile_info' => $last_submission->compile_info,
+                        'color' => $last_submission->color,
+                        'solution' => $last_submission->solution,
+                        'coid' => $last_submission->coid,
+                        'submission_date' => $last_submission->submission_date
+                    ] : false
+                ],
+                'compilers' => $compilers_info
+            ];
         }
         return response()->json([
             'success' => true,
