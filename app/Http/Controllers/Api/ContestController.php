@@ -188,14 +188,12 @@ class ContestController extends Controller
             }
         }
 
-
         //body
         if($contest->rule == 1){
             $body = [];
             $lastRank = null;
             $rank = 1;
             foreach($contestRank as $userRank) {
-                $user = $contest->participants()->where('id', $userRank['uid'])->first();
                 if(!empty($lastRank)) {
                     if($lastRank['score'] != $userRank['score'] || $lastRank['penalty'] != $userRank['penalty']) {
                         $rank += 1;
@@ -218,7 +216,7 @@ class ContestController extends Controller
                     ];
                 }
                 $userBody['extra'] = [
-                    'owner' => isset($userBody['remote']) && $userBody['remote'] ? false : auth()->user()->id == $user->id,
+                    'owner' => isset($userBody['remote']) && $userBody['remote'] ? false : auth()->user()->id == $userRank['uid'],
                     'remote' => $userBody['remote'] ?? false
                 ];
                 $body[] = $userBody;
@@ -228,7 +226,6 @@ class ContestController extends Controller
             $lastRank = null;
             $rank = 1;
             foreach($contestRank as $userRank) {
-                $user = $contest->participants()->where('id', $userRank['uid'])->first();
                 if(!empty($lastRank)) {
                     if($lastRank['score'] != $userRank['score'] || $lastRank['solved'] != $userRank['solved']) {
                         $rank += 1;
@@ -251,13 +248,12 @@ class ContestController extends Controller
                     ];
                 }
                 $userBody['extra'] = [
-                    'owner' => isset($userBody['remote']) && $userBody['remote'] ? false : auth()->user()->id == $user->name,
+                    'owner' => isset($userBody['remote']) && $userBody['remote'] ? false : auth()->user()->id == $userRank['uid'],
                     'remote' => $userBody['remote'] ?? false
                 ];
                 $body[] = $userBody;
             }
         }
-
 
         return response()->json([
             'success' => true,
@@ -265,7 +261,7 @@ class ContestController extends Controller
             'ret' => [
                 'frozen' => $frozen,
                 'header' => $header,
-                'body' => $body
+                'body' => $body,
             ],
             'err' => []
         ]);
