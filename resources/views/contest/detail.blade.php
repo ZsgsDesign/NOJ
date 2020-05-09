@@ -372,7 +372,11 @@
                                         @endif
                                     @else
                                         @if($clearance)
-                                            <a href="/contest/{{$detail['cid']}}/board"><button type="button" class="btn btn-info">Enter</button></a>
+                                            @if($detail['desktop'] && $clearance != 3)
+                                                <a href="#"><button type="button" class="btn btn-danger">Desktop Only</button></a>
+                                            @else
+                                                <a href="/contest/{{$detail['cid']}}/board"><button type="button" class="btn btn-info">Enter</button></a>
+                                            @endif
                                         @else
                                             <button type="button" class="btn btn-secondary">No Access</button>
                                         @endif
