@@ -18,7 +18,7 @@ class IsDesktop
     public function handle($request, Closure $next)
     {
         $contest = Contest::find($request->cid);
-        if(!empty($contest) && $contest->desktop) {
+        if(!empty($contest) && $contest->desktop && !$contest->is_end) {
             if(auth()->check()) {
                 $user = auth()->user();
                 $contestModel = new OutdatedContestModel();

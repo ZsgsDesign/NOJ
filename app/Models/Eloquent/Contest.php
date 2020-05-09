@@ -136,6 +136,11 @@ class Contest extends Model
         return $end_time - $this->froze_length;
     }
 
+    public function getIsEndAttribute()
+    {
+        return strtotime($this->end_time) < time();
+    }
+
     public static function getProblemSet($cid, $renderLatex=false)
     {
         $ret=[];
