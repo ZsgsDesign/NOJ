@@ -2,7 +2,7 @@
 
 namespace App\Admin\Forms;
 
-use App\Models\Eloquent\ProblemModel;
+use App\Models\Eloquent\Problem;
 use Encore\Admin\Widgets\Form;
 use Illuminate\Support\MessageBag;
 use Illuminate\Http\Request;

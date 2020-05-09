@@ -35,6 +35,10 @@ Route::group(['namespace' => 'Api'], function () {
         Route::post('/requestClarification', 'ContestController@requestClarification')->middleware(['api.contest.clearance:participated'])->name("requestClarification");
         Route::post('/fetchAnnouncement', 'ContestController@fetchAnnouncement')->middleware(['api.contest.clearance:visible'])->name("fetchAnnouncement");
     });
+
+    Route::group(['prefix' => 'problem','as' => 'problem.','middleware' => ['auth:api']], function () {
+        Route::post('/fetchVerdict', 'ProblemController@fetchVerdict')->middleware(['api.submission.exist'])->name("fetchVerdict");
+    });
 });
 
 
@@ -732,7 +736,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
     })->name("fetchAnnouncement"); */
 });
 
-Route::group(['prefix' => 'problem','as' => 'problem.'], function () {
+/* Route::group(['prefix' => 'problem','as' => 'problem.'], function () {
     Route::post('/fetchVerdict', function (Request $request) {
         // {
         //     sid: 1234,
@@ -741,9 +745,8 @@ Route::group(['prefix' => 'problem','as' => 'problem.'], function () {
             'success' => true,
             'message' => 'Succeed',
             'ret' => [
-                'cid' => 1,
-                'ncode' => "A", //null
                 'submission' => [
+                    'ncode' => "A", //null
                     "cid" => null,
                     "coid" => 2,
                     "color" => "wemd-orange-text",
@@ -774,7 +777,7 @@ Route::group(['prefix' => 'problem','as' => 'problem.'], function () {
         ]);
     })->name("fetchVerdict");
 });
-
+ */
 Route::group(['prefix' => 'submission','as' => 'submission.'], function () {
     Route::post('/info', function (Request $request) {
         // {

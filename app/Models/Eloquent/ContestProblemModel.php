@@ -15,6 +15,6 @@ class ContestProblemModel extends Model
 
     public function problem()
     {
-        return $this->belongsTo('App\Models\Eloquent\ProblemModel', 'pid');
+        return $this->belongsTo('App\Models\Eloquent\Problem', 'pid');
     }
 }

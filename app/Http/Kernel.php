@@ -70,6 +70,8 @@ class Kernel extends HttpKernel
         'api.contest.clearance' => \App\Http\Middleware\Api\Contest\Clearance::class,
         'api.contest.hasProblem' => \App\Http\Middleware\Api\Contest\HasProblem::class,
         'api.contest.hasCompiler' => \App\Http\Middleware\Api\Contest\HasCompiler::class,
+
+        'api.submission.exist' => \App\Http\Middleware\Api\Submission\Exist::class,
     ];
 
     /**

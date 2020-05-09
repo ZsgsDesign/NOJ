@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Submission\SubmissionModel as OutdatedSubmissionModel;
 use Auth;
 
-class ProblemModel extends Model
+class Problem extends Model
 {
     protected $table='problem';
     protected $primaryKey='pid';
