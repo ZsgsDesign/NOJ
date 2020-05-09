@@ -74,6 +74,11 @@ class Submission extends Model
         ][$this->verdict];
     }
 
+    public function getLangAttribute()
+    {
+        return $this->compiler->lang;
+    }
+
     public function getSubmissionDateParsedAttribute()
     {
         $submission_date = date('Y-m-d H:i:s', $this->submission_date);

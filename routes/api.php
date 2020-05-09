@@ -39,6 +39,10 @@ Route::group(['namespace' => 'Api'], function () {
     Route::group(['prefix' => 'problem','as' => 'problem.','middleware' => ['auth:api']], function () {
         Route::post('/fetchVerdict', 'ProblemController@fetchVerdict')->middleware(['api.submission.exist'])->name("fetchVerdict");
     });
+
+    Route::group(['prefix' => 'submission','as' => 'submission.','middleware' => ['auth:api']], function () {
+        Route::post('/info', 'SubmissionController@info')->middleware(['api.submission.exist'])->name("info");
+    });
 });
 
 
@@ -778,7 +782,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
     })->name("fetchVerdict");
 });
  */
-Route::group(['prefix' => 'submission','as' => 'submission.'], function () {
+/* Route::group(['prefix' => 'submission','as' => 'submission.'], function () {
     Route::post('/info', function (Request $request) {
         // {
         //     sid: 1234,
@@ -815,5 +819,5 @@ Route::group(['prefix' => 'submission','as' => 'submission.'], function () {
         ]);
     })->name("info");
 });
-
+ */
 
