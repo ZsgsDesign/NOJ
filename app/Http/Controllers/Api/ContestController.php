@@ -187,7 +187,7 @@ class ContestController extends Controller
                 $header['problems'][] = $problem->ncode;
             }
         }
-
+        $user = auth()->user();
         //body
         if($contest->rule == 1){
             $body = [];
@@ -216,7 +216,7 @@ class ContestController extends Controller
                     ];
                 }
                 $userBody['extra'] = [
-                    'owner' => isset($userBody['remote']) && $userBody['remote'] ? false : auth()->user()->id == $userRank['uid'],
+                    'owner' => isset($userBody['remote']) && $userBody['remote'] ? false : $user->id == $userRank['uid'],
                     'remote' => $userBody['remote'] ?? false
                 ];
                 $body[] = $userBody;
