@@ -351,8 +351,8 @@ class ContestController extends Controller
                 ] : [
                     'accepted' => null,
                     'attempted' => null,
-                    'score' => $contestProblem->score,
-                    'current_score' => empty($highest_submit) ? 0 : $highest_submit->score / $contestProblem->problem->tot_score * $contestProblem->scores
+                    'score' => $contestProblem->points,
+                    'current_score' => empty($highest_submit) ? 0 : $highest_submit->score / $contestProblem->problem->tot_score * $contestProblem->points
                 ],
                 'status' => [
                     'verdict' => !empty($ac_submission) ? $ac_submission->verdict : (!empty($last_submission) ? $last_submission->verdict : 'NOT SUBMIT'),
