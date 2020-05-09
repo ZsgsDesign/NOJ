@@ -337,7 +337,7 @@ class ContestController extends Controller
                     'display_name' => $compiler->display_name
                 ];
             }
-            $highest_submit = $contestProblem->submissions()->where(['uid', auth()->user()->id])->orderBy('score', 'desc')->first();
+            $highest_submit = $contestProblem->submissions()->where('uid', auth()->user()->id)->orderBy('score', 'desc')->first();
             $problems[] = [
                 'pid' => $contestProblem->pid,
                 'pcode' => $contestProblem->problem->pcode,
