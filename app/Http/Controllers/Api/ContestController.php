@@ -459,4 +459,21 @@ class ContestController extends Controller
             'err' => []
         ]);
     }
+
+    public function fetchAnnouncement(Request $request){
+        $contest = $request->contest;
+        $clarification = $contest->clarifications()->where(['type' => 0, 'public' => 1])
+            ->whereBetween('created_at',[date("Y-m-d H:i:s", time()-59), date("Y-m-d H:i:s")])
+            ->first();
+        return response()->json([
+            'success' => true,
+            'message' => 'Succeed',
+            'ret' => [
+                "clarifications" => [
+                    $clarification
+                ]
+            ],
+            'err' => []
+        ]);
+    }
 }

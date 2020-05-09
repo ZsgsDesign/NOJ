@@ -30,9 +30,10 @@ Route::group(['namespace' => 'Api'], function () {
         Route::post('/problems', 'ContestController@problems')->middleware(['api.contest.clearance:visible'])->name("problems");
         Route::post('/status', 'ContestController@status')->middleware(['api.contest.clearance:visible'])->name("status");
         Route::post('/scoreboard', 'ContestController@scoreboard')->middleware(['api.contest.clearance:visible'])->name("scoreboard");
+        Route::post('/submitSolution', 'ContestController@submitSolution')->middleware(['api.contest.clearance:participated', 'api.contest.hasProblem', 'api.contest.hasCompiler'])->name("submitSolution");
         Route::post('/clarification', 'ContestController@clarification')->middleware(['api.contest.clearance:visible'])->name("clarification");
         Route::post('/requestClarification', 'ContestController@requestClarification')->middleware(['api.contest.clearance:participated'])->name("requestClarification");
-        Route::post('/submitSolution', 'ContestController@submitSolution')->middleware(['api.contest.clearance:participated', 'api.contest.hasProblem', 'api.contest.hasCompiler'])->name("submitSolution");
+        Route::post('/fetchAnnouncement', 'ContestController@fetchAnnouncement')->middleware(['api.contest.clearance:visible'])->name("fetchAnnouncement");
     });
 });
 
@@ -703,7 +704,8 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
 
     })->name("submitSolution");
  */
-    Route::post('/fetchAnnouncement', function (Request $request) {
+
+/*     Route::post('/fetchAnnouncement', function (Request $request) {
         // {
         //     cid: 1,
         // }
@@ -727,7 +729,7 @@ Route::group(['prefix' => 'contest','as' => 'contest.'], function () {
             ],
             'err' => []
         ]);
-    })->name("fetchAnnouncement");
+    })->name("fetchAnnouncement"); */
 });
 
 Route::group(['prefix' => 'problem','as' => 'problem.'], function () {
