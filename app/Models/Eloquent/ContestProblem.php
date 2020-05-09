@@ -40,7 +40,7 @@ class ContestProblem extends Model
         if(!empty($special)) {
             $compilers = $compilers->whereIn('coid', explode(',', $special));
         }
-        return $compilers->get();
+        return $compilers;
     }
 
     //This should be a repository...or service function ?

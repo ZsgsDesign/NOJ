@@ -27,11 +27,12 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::group(['prefix' => 'contest','as' => 'contest.','middleware' => ['auth:api']], function () {
         Route::post('/info', 'ContestController@info')->middleware(['api.contest.clearance:public_visible'])->name("info");
+        Route::post('/problems', 'ContestController@problems')->middleware(['api.contest.clearance:visible'])->name("problems");
         Route::post('/status', 'ContestController@status')->middleware(['api.contest.clearance:visible'])->name("status");
         Route::post('/scoreboard', 'ContestController@scoreboard')->middleware(['api.contest.clearance:visible'])->name("scoreboard");
         Route::post('/clarification', 'ContestController@clarification')->middleware(['api.contest.clearance:visible'])->name("clarification");
         Route::post('/requestClarification', 'ContestController@requestClarification')->middleware(['api.contest.clearance:participated'])->name("requestClarification");
-        Route::post('/problems', 'ContestController@problems')->middleware(['api.contest.clearance:visible'])->name("problems");
+        Route::post('/submitSolution', 'ContestController@submitSolution')->middleware(['api.contest.clearance:participated', 'api.contest.hasProblem', 'api.contest.hasCompiler'])->name("submitSolution");
     });
 });
 

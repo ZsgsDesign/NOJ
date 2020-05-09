@@ -13,6 +13,8 @@ class Submission extends Model
     const UPDATED_AT=null;
     const CREATED_AT=null;
 
+    protected $guarded = [];
+
     public function compiler()
     {
         return $this->belongsTo('App\Models\Eloquent\Compiler', 'coid');

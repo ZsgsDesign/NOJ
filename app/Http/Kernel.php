@@ -68,6 +68,8 @@ class Kernel extends HttpKernel
         'user.banned' => \App\Http\Middleware\User\Banned::class,
 
         'api.contest.clearance' => \App\Http\Middleware\Api\Contest\Clearance::class,
+        'api.contest.hasProblem' => \App\Http\Middleware\Api\Contest\HasProblem::class,
+        'api.contest.hasCompiler' => \App\Http\Middleware\Api\Contest\HasCompiler::class,
     ];
 
     /**
@@ -84,7 +86,12 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\AuthenticateSession::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \Illuminate\Auth\Middleware\Authorize::class,
+
         \App\Http\Middleware\Group\Exists::class,
-        \App\Http\Middleware\Group\Banned::class
+        \App\Http\Middleware\Group\Banned::class,
+
+        \App\Http\Middleware\Api\Contest\Clearance::class,
+        \App\Http\Middleware\Api\Contest\HasProblem::class,
+        \App\Http\Middleware\Api\Contest\HasCompiler::class,
     ];
 }

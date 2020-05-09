@@ -324,7 +324,7 @@ class ContestController extends Controller
             $last_submission = $contestProblem->submissions()->where('uid', auth()->user()->id)->orderBy('submission_date', 'desc')->first();
             //get compilers
             $compilers_info = [];
-            $compilers = $contestProblem->compilers;
+            $compilers = $contestProblem->compilers->get();
             foreach($compilers as $compiler) {
                 $compilers_info[] = [
                     'coid' => $compiler->coid,
@@ -383,6 +383,77 @@ class ContestController extends Controller
                     "extension" => null
                 ],
                 'problems' => $problems
+            ],
+            'err' => []
+        ]);
+    }
+
+    public function submitSolution(Request $request) {
+        $contest = $request->contest;
+        $contest_problem = $request->contest_problem;
+        $problem = $request->problem;
+        $compiler = $request->compiler;
+
+        if(empty($request->solution) || strlen($request->solution) > 65535) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Parameter \'solution\' Invalid',
+                'ret' => [],
+                'err' => [
+                    'code' => 1100,
+                    'msg' => 'Parameter \'solution\' Invalid',
+                    'data'=>[]
+                ]
+            ]);
+        }
+        $submission = Submission::create([
+            'time'=>'0',
+            'memory'=>'0',
+            'verdict'=>'Pending',
+            'solution'=>$request->solution,
+            'language'=>$compiler->display_name,
+            'submission_date'=>time(),
+            'uid'=>auth()->user()->id,
+            'pid'=>$problem->pid,
+            'remote_id'=>'',
+            'coid'=>$compiler->coid,
+            'cid'=>$contest->cid,
+            'vcid'=>$request->vcid,
+            'jid'=>null,
+            'score'=>0
+        ]);
+        $all_data = [
+            'lang' => $compiler->lcode,
+            'pid' => $problem->pid,
+            'pcode' => $problem->pcode,
+            'cid' => $problem->contest_id,
+            'vcid' => $request->vcid,
+            'iid' => $problem->index_id,
+            'oj' => $problem->oj,
+            'coid' => $compiler->coid,
+            'solution' => $request->solution,
+            'contest' => $contest->cid,
+            'sid' => $submission->sid
+        ];
+        try{
+            dispatch(new ProcessSubmission($all_data))->onQueue($problem->oj);
+        }catch(\Throwable $e){
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'ret' => [],
+                'err' => [
+                    'code' => 1100,
+                    'msg' => $e->getMessage(),
+                    'data'=> []
+                ]
+            ]);
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Succeed',
+            'ret' => [
+                "sid" => $submission->sid,
             ],
             'err' => []
         ]);
