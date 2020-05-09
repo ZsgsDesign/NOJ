@@ -46,6 +46,18 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if(!env("APP_DEBUG") && $request->is('api/*')) {
+            return response(json_encode([
+                'success' => false,
+                'message' => 'Server Error',
+                'ret' => [],
+                'err' => [
+                    'code' => 500,
+                    'msg' => 'Server Error',
+                    'data'=>[]
+                ]
+            ]),500)->header('Content-Type','application/json');
+        };
         return parent::render($request, $exception);
     }
 }

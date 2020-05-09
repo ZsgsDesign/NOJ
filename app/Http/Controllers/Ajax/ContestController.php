@@ -18,7 +18,6 @@ class ContestController extends Controller
         $request->validate([
             'cid' => 'required|integer',
         ]);
-
         $all_data=$request->all();
 
         $contestModel=new ContestModel();
