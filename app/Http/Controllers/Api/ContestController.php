@@ -48,7 +48,7 @@ class ContestController extends Controller
         $result = $filter['result'] ?? null;
 
         //filter
-        $builder = $contest->submissions()->orderBy('submission_date', 'desc')->with(['user', 'contest.group']);
+        $builder = $contest->submissions()->orderBy('submission_date', 'desc')->with(['user', 'contest.group', 'problem']);
         if($account !== null) {
             $participants = $contest->participants();
             $user = null;
@@ -119,7 +119,7 @@ class ContestController extends Controller
                 'ncode' => $submission->ncode,
                 'color' => $submission->color,
                 'verdict' => $submission->verdict,
-                'score_parse' => $score_parse,
+                'score_parsed' => $score_parse,
                 'time' => $submission->time,
                 'memory' => $submission->memory,
                 'language' => $submission->language,
