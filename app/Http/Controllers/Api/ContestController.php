@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Eloquent\Submission;
 use App\Models\ContestModel as OutdatedContestModel;
+use App\Jobs\ProcessSubmission;
 use Illuminate\Http\Request;
 
 class ContestController extends Controller
