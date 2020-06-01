@@ -125,7 +125,7 @@
                 <div></div>
                 <div></div>
             </div>
-            <p>Preparing {{config("app.name")}}</p>
+            <p>{{__('splash.loading', ['name' => config("app.name")])}}</p>
         </div>
     </loading>
     <!-- Style -->
