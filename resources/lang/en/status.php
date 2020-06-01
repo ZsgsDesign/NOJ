@@ -6,7 +6,7 @@ return [
     "result"        => "Verdict",
     "time"          => "Time",
     "memory"        => "Memory",
-    "languages"     => "Languages",
+    "language"      => "Language",
     "submittime"    => "Submit Time",
     "submitdetail"  => "Submission Detail",
     "empty"         => "Nothing matches.",

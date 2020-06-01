@@ -7,7 +7,7 @@ return [
     "result"        => "评测结果",
     "time"          => "时间占用",
     "memory"        => "内存占用",
-    "languages"     => "提交语言",
+    "language"      => "提交语言",
     "submittime"    => "提交时间",
     "submitdetail"  => "提交详情",
     "empty"         => "未找到相关提交。",

@@ -187,7 +187,7 @@
                             </th>
                             <th scope="col">{{__("status.time")}}</th>
                             <th scope="col">{{__("status.memory")}}</th>
-                            <th scope="col">{{__("status.languages")}}</th>
+                            <th scope="col">{{__("status.language")}}</th>
                             <th scope="col">{{__("status.submittime")}}</th>
                         </tr>
                     </thead>
