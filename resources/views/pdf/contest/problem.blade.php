@@ -23,7 +23,7 @@
 <div class="problem-header">
     <h1>Problem {{$problem['index']}}</h1>
     <h2>{{$problem['title']}}</h2>
-    <p>Time Limit: {{$problem['time_limit']}} ms<br>Memory Limit: {{$problem['memory_limit']}} kb</p>
+    <p>{{__("problem.timelimit")}}: {{$problem['time_limit']}} ms<br>{{__("problem.memorylimit")}}: {{$problem['memory_limit']}} kb</p>
 </div>
 
 <div class="problem-container">

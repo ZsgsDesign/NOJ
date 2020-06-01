@@ -266,8 +266,8 @@
                 <fresh-container>
                     <h1>{{$detail["title"]}}</h1>
                     <info-div>
-                        <info-badge data-toggle="tooltip" data-placement="top" title="Time Limit"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
-                        <info-badge data-toggle="tooltip" data-placement="top" title="Memory Limit"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
+                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.timelimit")}}"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
+                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.memorylimit")}}"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
                     </info-div>
 
                     @if($detail["file"] && !blank($detail["file_url"]))
@@ -280,7 +280,7 @@
                             </div>
                             <div>
                                 <h5 class="mundb-text-truncate-1">{{basename($detail["file_url"])}}</h5>
-                                <p><a class="text-info" href="{{asset($detail["file_url"])}}">Download</a></p>
+                                <p><a class="text-info" href="{{asset($detail["file_url"])}}">{{__("problem.download")}}</a></p>
                             </div>
                         </file-card>
                     @endif
@@ -293,7 +293,7 @@
 
                     @unless(blank($detail["parsed"]["description"]))
 
-                    <h2>Description:</h2>
+                    <h2>{{__("problem.section.description")}}:</h2>
 
                     {!!$detail["parsed"]["description"]!!}
 
@@ -301,7 +301,7 @@
 
                     @unless(blank($detail["parsed"]["input"]))
 
-                    <h2>Input:</h2>
+                    <h2>{{__("problem.section.input")}}:</h2>
 
                     {!!$detail["parsed"]["input"]!!}
 
@@ -309,7 +309,7 @@
 
                     @unless(blank($detail["parsed"]["output"]))
 
-                    <h2>Output:</h2>
+                    <h2>{{__("problem.section.output")}}:</h2>
 
                     {!!$detail["parsed"]["output"]!!}
 
@@ -318,12 +318,12 @@
                     @foreach($detail["samples"] as $ps)
 
                         @if (!is_null($ps['sample_input']) && $ps['sample_input'] !== '')
-                        <h2>Sample Input:</h2>
+                        <h2>{{__("problem.section.sampleinput")}}:</h2>
                         <pre>{!!$ps['sample_input']!!}</pre>
                         @endif
 
                         @if (!is_null($ps['sample_output']) && $ps['sample_output'] !== '')
-                        <h2>Sample Output:</h2>
+                        <h2>{{__("problem.section.sampleoutput")}}:</h2>
                         <pre>{!!$ps['sample_output']!!}</pre>
                         @endif
 
@@ -333,7 +333,7 @@
 
                     @unless(blank($detail["parsed"]["note"]))
 
-                    <h2>Note:</h2>
+                    <h2>{{__("problem.section.note")}}:</h2>
 
                     {!!$detail["parsed"]["note"]!!}
 
@@ -346,31 +346,31 @@
         </div>
         <div class="col-sm-12 col-lg-3 no-print">
             <paper-card class="animated fadeInRight btn-group-vertical cm-action-group" role="group" aria-label="vertical button group">
-                <button type="button" class="btn btn-secondary" id="submitBtn"><i class="MDI send"></i>@guest Login & Submit @else Submit @endguest</button>
+                <button type="button" class="btn btn-secondary" id="submitBtn"><i class="MDI send"></i>@guest {{__("problem.action.loginsubmit")}} @else {{__("problem.action.submit")}} @endguest</button>
                 <separate-line class="ultra-thin"></separate-line>
-                <button type="button" class="btn btn-secondary" id="discussionBtn" style="margin-top: 5px;"><i class="MDI comment-multiple-outline"></i> Discussion </button>
-                <button type="button" class="btn btn-secondary" id="solutionBtn"><i class="MDI comment-check-outline"></i> Solution </button>
+                <button type="button" class="btn btn-secondary" id="discussionBtn" style="margin-top: 5px;"><i class="MDI comment-multiple-outline"></i> {{__("problem.action.discussion")}} </button>
+                <button type="button" class="btn btn-secondary" id="solutionBtn"><i class="MDI comment-check-outline"></i> {{__("problem.action.solution")}} </button>
             </paper-card>
             <paper-card class="animated fadeInRight">
-                <p>Info</p>
+                <p>{{__("problem.info.title")}}</p>
                 <div>
                     <a href="{{$detail["oj_detail"]["home_page"]}}" target="_blank"><img src="{{$detail["oj_detail"]["logo"]}}" alt="{{$detail["oj_detail"]["name"]}}" class="img-fluid mb-3"></a>
-                    <p>Provider <span class="wemd-black-text">{{$detail["oj_detail"]["name"]}}</span></p>
-                    @unless($detail['OJ']==1) <p><span>Origin</span> <a href="{{$detail["origin"]}}" target="_blank"><i class="MDI link-variant"></i> {{$detail['source']}}</a></p> @endif
+                    <p>{{__("problem.info.provider")}} <span class="wemd-black-text">{{$detail["oj_detail"]["name"]}}</span></p>
+                    @unless($detail['OJ']==1) <p><span>{{__("problem.info.origin")}}</span> <a href="{{$detail["origin"]}}" target="_blank"><i class="MDI link-variant"></i> {{$detail['source']}}</a></p> @endif
                     <separate-line class="ultra-thin mb-3 mt-3"></separate-line>
-                    <p><span>Code </span> <span class="wemd-black-text"> {{$detail["pcode"]}}</span></p>
-                    <p class="mb-0"><span>Tags </span></p>
+                    <p><span>{{__("problem.info.code")}} </span> <span class="wemd-black-text"> {{$detail["pcode"]}}</span></p>
+                    <p class="mb-0"><span>{{__("problem.info.tags")}} </span></p>
                     <div class="mb-3">@foreach($detail['tags'] as $t)<span class="badge badge-secondary badge-tag">{{$t["tag"]}}</span>@endforeach</div>
-                    <p><span>Submitted </span> <span class="wemd-black-text"> {{$detail['submission_count']}}</span></p>
-                    <p><span>Passed </span> <span class="wemd-black-text"> {{$detail['passed_count']}}</span></p>
-                    <p><span>AC Rate </span> <span class="wemd-black-text"> {{$detail['ac_rate']}}%</span></p>
-                    <p><span>Date </span> <span class="wemd-black-text"> {{$detail['update_date']}}</span></p>
+                    <p><span>{{__("problem.info.submitted")}} </span> <span class="wemd-black-text"> {{$detail['submission_count']}}</span></p>
+                    <p><span>{{__("problem.info.passed")}} </span> <span class="wemd-black-text"> {{$detail['passed_count']}}</span></p>
+                    <p><span>{{__("problem.info.acrate")}} </span> <span class="wemd-black-text"> {{$detail['ac_rate']}}%</span></p>
+                    <p><span>{{__("problem.info.date")}} </span> <span class="wemd-black-text"> {{$detail['update_date']}}</span></p>
                 </div>
             </paper-card>
             <paper-card class="animated fadeInRight">
-                <p>Related</p>
+                <p>{{__("problem.related.title")}}</p>
                 <div class="cm-empty">
-                    <badge>Nothing Yet</badge>
+                    <badge>{{__("problem.related.empty")}}</badge>
                 </div>
             </paper-card>
         </div>
