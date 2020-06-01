@@ -128,15 +128,15 @@
                     </div>
                     <a class="carousel-control-prev" href="#NOJFocusCarousel" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
+                        <span class="sr-only">{{__('pagination.previous')}}</span>
                     </a>
                     <a class="carousel-control-next" href="#NOJFocusCarousel" role="button" data-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
+                        <span class="sr-only">{{__('pagination.next')}}</span>
                     </a>
                 </div>
             @else
-                <p class="mb-5">{{config("app.name")}} is an Online Judge, and yet have features of Virtual Judges as well as an perspective to hold contests over several OJs without knowing the tests and outcomes dataset to enable multiple possibilities like ICPC team routine training and internal contest holding and so on.</p>
+                <p class="mb-5">{{__('home.description', ['name' => config("app.name")])}}</p>
             @endunless
             <p class="cm-anno mt-5"><i class="MDI power-plug"></i> {{__('home.babel')}}</p>
             <div class="row">
@@ -148,7 +148,7 @@
             </div>
         </div>
         <div class="col-sm-12 col-lg-4">
-            <p class="cm-anno"><i class="MDI newspaper"></i> {{__('home.announcements')}}</p>
+            <p class="cm-anno"><i class="MDI newspaper"></i> {{__('home.announcements.title')}}</p>
             <div>
                 @unless(empty($announcements))
                     @foreach($announcements as $announcement)
@@ -168,7 +168,7 @@
                 @else
                     <empty-container>
                         <i class="MDI package-variant"></i>
-                        <p>Currently no announcements.</p>
+                        <p>{{__("home.announcements.empty")}}</p>
                     </empty-container>
                 @endunless
             </div>
