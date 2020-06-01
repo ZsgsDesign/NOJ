@@ -322,30 +322,30 @@
 
                     <div class="col-md-4">
                         <h5 class="cm-footer-title mb-4 mt-3 font-bold">{{config("app.name")}}</h5>
-                        <p>{{config("app.name")}} is an online judge developed by Fangtang Zhixing Network Technology together with the ICPC Team of NJUPT.</p>
+                        <p>{{__('footer.description', ['name' => config("app.name")])}}</p>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">
 
                     <div class="col-md-2 mx-auto">
-                        <h5 class="title mb-4 mt-3 font-bold">Services</h5>
-                        <p class="mb-1"><a href="/status">Judging Queue</a></p>
-                        <p class="mb-1"><a href="/system/info">System Info</a></p>
-                        <p class="mb-1"><a href="/tool/pastebin/create">PasteBin</a></p>
+                        <h5 class="title mb-4 mt-3 font-bold">{{__('footer.services')}}</h5>
+                        <p class="mb-1"><a href="/status">{{__('footer.queue')}}</a></p>
+                        <p class="mb-1"><a href="/system/info">{{__('navigation.systeminfo')}}</a></p>
+                        <p class="mb-1"><a href="/tool/pastebin/create">{{__('navigation.pastebin')}}</a></p>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">
 
                     <div class="col-md-2 mx-auto">
-                        <h5 class="title mb-4 mt-3 font-bold">Developments</h5>
-                        <p class="mb-1"><a href="https://github.com/ZsgsDesign/NOJ">Open Source</a></p>
-                        <p class="mb-1"><a href="#">API</a></p>
+                        <h5 class="title mb-4 mt-3 font-bold">{{__('footer.developments')}}</h5>
+                        <p class="mb-1"><a href="https://github.com/ZsgsDesign/NOJ">{{__('footer.opensource')}}</a></p>
+                        <p class="mb-1"><a href="#">{{__('footer.api')}}</a></p>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">
 
                     <div class="col-md-2 mx-auto">
-                        <h5 class="title mb-4 mt-3 font-bold ">Support</h5>
+                        <h5 class="title mb-4 mt-3 font-bold ">{{__('footer.supports')}}</h5>
                         <p class="mb-0"><i class="MDI email"></i> noj@njupt.edu.cn</p>
                         <p class="mb-0"><i class="MDI qqchat"></i> Group 668108264</p>
                     </div>
