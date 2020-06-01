@@ -110,6 +110,14 @@
     <script>
         require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});
 
+        require.config({
+            'vs/nls' : {
+                availableLanguages: {
+                    '*': '{{Str::lower(App::getLocale())}}'
+                }
+            }
+        });
+
         window.MonacoEnvironment = {
             getWorkerUrl: function(workerId, label) {
                 return `data:text/javascript;charset=utf-8,${encodeURIComponent(`

@@ -106,6 +106,14 @@
 
         require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});
 
+        require.config({
+            'vs/nls' : {
+                availableLanguages: {
+                    '*': '{{Str::lower(App::getLocale())}}'
+                }
+            }
+        });
+
         // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
         // the default worker url location (used when creating WebWorkers). The problem here is that
         // HTML5 does not allow cross-domain web workers, so we need to proxy the instantiation of

@@ -5,6 +5,9 @@ return [
     "submitted"        => "提交",
     "passed"           => "通过",
     "acrate"           => "通过率",
+    "totalpoints"      => "题目总分",
+    "acratio"          => "通过数量 / 提交数量",
+    "back"             => "返回",
     "filter"           => "筛选器",
     "empty"            => "未找到相关题目。",
     "timelimit"        => "时间限制",
@@ -16,6 +19,7 @@ return [
         "output"       => "输出",
         "sampleinput"  => "样例输入",
         "sampleoutput" => "样例输出",
+        "samplecopy"   => "复制",
         "note"         => "注释",
     ],
     "action" => [

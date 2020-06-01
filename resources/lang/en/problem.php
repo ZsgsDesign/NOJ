@@ -5,6 +5,9 @@ return [
     "submitted"        => "Submitted",
     "passed"           => "Passed",
     "acrate"           => "AC Rate",
+    "totalpoints"      => "Total Points",
+    "acratio"          => "Passed / Submission",
+    "back"             => "Back",
     "filter"           => "Filter",
     "empty"            => "Nothing matches your search.",
     "timelimit"        => "Time Limit",
@@ -16,6 +19,7 @@ return [
         "output"       => "Output",
         "sampleinput"  => "Sample Input",
         "sampleoutput" => "Sample Output",
+        "samplecopy"   => "Copy",
         "note"         => "Note",
     ],
     "action" => [
