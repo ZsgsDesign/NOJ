@@ -44,6 +44,17 @@ return [
         "title"        => "Related",
         "empty"        => "Nothing Yet",
     ],
+    "editor" => [
+        "history" => [
+            "button"   => "History",
+            "title"    => "Submit History",
+            "close"    => "Close",
+            "time"     => "Time",
+            "memory"   => "Memory",
+            "language" => "Language",
+            "result"   => "Verdict",
+        ],
+    ],
     "discussion" => [
         "action"       => "Post Discussion",
         "empty"        => "Nothing Yet",

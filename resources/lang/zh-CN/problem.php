@@ -44,6 +44,17 @@ return [
         "title"        => "相关题目",
         "empty"        => "暂无相关",
     ],
+    "editor" => [
+        "history" => [
+            "button"   => "提交历史",
+            "title"    => "提交历史",
+            "close"    => "关闭",
+            "time"     => "时间",
+            "memory"   => "内存",
+            "language" => "语言",
+            "result"   => "结果",
+        ],
+    ],
     "discussion" => [
         "action"       => "发起讨论",
         "empty"        => "暂无讨论",

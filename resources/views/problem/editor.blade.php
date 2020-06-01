@@ -758,7 +758,7 @@
             <div>
                 <button type="button" class="btn btn-secondary cm-active" id="problemBtn"> <i class="MDI book"></i></button>
                 <button type="button" class="btn btn-secondary cm-active" id="editorBtn"> <i class="MDI pencil"></i></button>
-                <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> History</button>
+                <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> {{__("problem.editor.history.button")}}</button>
                 <div class="btn-group dropup">
                     @if(count($compiler_list))
                         <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_lang_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -823,16 +823,16 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content sm-modal">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="MDI history"></i> Submit History</h5>
+                    <h5 class="modal-title"><i class="MDI history"></i> {{__("problem.editor.history.title")}}</h5>
                 </div>
                 <div class="modal-body">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Time</th>
-                                <th scope="col">Memory</th>
-                                <th scope="col">Language</th>
-                                <th scope="col">Result</th>
+                                <th scope="col">{{__("status.time")}}</th>
+                                <th scope="col">{{__("status.memory")}}</th>
+                                <th scope="col">{{__("status.language")}}</th>
+                                <th scope="col">{{__("status.result")}}</th>
                             </tr>
                         </thead>
                         <tbody id="history_container">
@@ -840,7 +840,7 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">{{__("problem.editor.history.close")}}</button>
                 </div>
             </div>
         </div>
