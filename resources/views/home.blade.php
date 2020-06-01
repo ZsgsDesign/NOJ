@@ -107,9 +107,9 @@
     <div class="row">
         <div class="col-sm-12 col-lg-8">
             <div class="cm-title-section">
-                <h1>Welcome to {{config("app.name")}}!</h1>
+                <h1>{{__('home.welcome', ['name' => config("app.name")])}}</h1>
                 <version-badge class="mb-5">
-                    <inline-div>Version</inline-div><inline-div>{{version()}}</inline-div>
+                    <inline-div>{{__('home.version')}}</inline-div><inline-div>{{version()}}</inline-div>
                 </version-badge>
             </div>
             @unless(empty($carousel))
@@ -138,7 +138,7 @@
             @else
                 <p class="mb-5">{{config("app.name")}} is an Online Judge, and yet have features of Virtual Judges as well as an perspective to hold contests over several OJs without knowing the tests and outcomes dataset to enable multiple possibilities like ICPC team routine training and internal contest holding and so on.</p>
             @endunless
-            <p class="cm-anno mt-5"><i class="MDI power-plug"></i> We have currently support the following Babel Extensions:</p>
+            <p class="cm-anno mt-5"><i class="MDI power-plug"></i> {{__('home.babel')}}</p>
             <div class="row">
                 @foreach ($ojs as $oj)
                 <div class="col-12 col-sm-6 col-md-4 col-xl-3">
@@ -148,7 +148,7 @@
             </div>
         </div>
         <div class="col-sm-12 col-lg-4">
-            <p class="cm-anno"><i class="MDI newspaper"></i> Announcements</p>
+            <p class="cm-anno"><i class="MDI newspaper"></i> {{__('home.announcements')}}</p>
             <div>
                 @unless(empty($announcements))
                     @foreach($announcements as $announcement)
