@@ -150,7 +150,7 @@
                         <small class="cm-group-info">{{__("group.create.description")}}</small>
                         <div class="cm-group-action">
 
-                            </div>
+                        </div>
                     </div>
                 </group-card>
             </a>
