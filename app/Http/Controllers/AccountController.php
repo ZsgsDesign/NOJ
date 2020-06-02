@@ -15,7 +15,7 @@ class AccountController extends Controller
      */
     public function index()
     {
-        return Auth::check() ? redirect("/account/dashboard") : redirect("/login");
+        return response()->redirectTo("/account/dashboard");
     }
 
     /**

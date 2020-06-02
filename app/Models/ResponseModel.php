@@ -81,6 +81,7 @@ class ResponseModel extends Model
             '4007' => "A contest cannot be both a public and a practice contest",
             '4008' => "The contest is not over.",
             '4009' => 'Only freeze contest can join scrollboard',
+            '4010' => 'Contest Still Under Judging.',
 
             '5000' => "Status-Related Error",
             '5001' => "Status Not Found",
@@ -98,6 +99,17 @@ class ResponseModel extends Model
             '7005' => "Don't play just for fun",//gcode=="create"
             '7006' => "A group with the same gcode already exists",
             '7007' => "Group Problem Tag Exist",
+            '7008' => "The group leader cannot leave the group",
+
+            '8000' => "Job-Related Error",
+            '8001' => "Job Still Running",
+
+            '9000' => "Abuse-Related Error",
+            '9001' => "Abuse Invalid",
+
+            '10000' => "Dojo-Related Error",
+            '10001' => "Dojo Cannot Complete",
+            '10002' => "Dojo Not Found",
         ];
         return isset($errDesc[$errCode]) ? $errDesc[$errCode] : $errDesc['1000'];
     }

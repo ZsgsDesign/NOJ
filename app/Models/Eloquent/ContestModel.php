@@ -4,6 +4,7 @@ namespace App\Models\Eloquent;
 
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\ProblemModel as OutdatedProblemModel;
 use Illuminate\Support\Facades\DB;
 use App\Models\ContestModel as OutdatedContestModel;
 use Cache;
@@ -121,12 +122,37 @@ class ContestModel extends Model
 
     public function group()
     {
-        return $this->hasOne('App\Models\Eloquent\GroupModel','gid','gid');
+        return $this->hasOne('App\Models\Eloquent\Group','gid','gid');
     }
 
     public function getFrozenTimeAttribute()
     {
         $end_time = strtotime($this->end_time);
         return $end_time - $this->froze_length;
+    }
+
+    public static function getProblemSet($cid, $renderLatex=false)
+    {
+        $ret=[];
+        $problemset=ContestProblemModel::where('cid', $cid)->orderBy('number','asc')->get();
+        foreach($problemset as $problem){
+            $problemDetail=ProblemModel::find($problem->pid);
+            $problemRet=(new OutdatedProblemModel())->detail($problemDetail->pcode);
+            if ($renderLatex){
+                foreach (['description','input','output','note'] as $section){
+                    $problemRet['parsed'][$section]=latex2Image($problemRet['parsed'][$section]);
+                }
+            }
+            $problemRet['index']=$problem->ncode;
+            $problemRet['testcases']=$problemRet['samples'];
+            unset($problemRet['samples']);
+            $ret[]=$problemRet;
+        }
+        return $ret;
+    }
+
+    public function isJudgingComplete()
+    {
+        return $this->submissions->whereIn('verdict',['Waiting','Pending'])->count()==0;
     }
 }

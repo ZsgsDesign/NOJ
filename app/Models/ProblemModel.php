@@ -303,6 +303,9 @@ class ProblemModel extends Model
             "OJ",
             "ASC"
         )->orderBy(
+            "order_index",
+            "ASC"
+        )->orderBy(
             DB::raw("length(contest_id)"),
             "ASC"
         )->orderBy(
@@ -418,32 +421,36 @@ class ProblemModel extends Model
 
     public function insertProblem($data)
     {
-        $pid=DB::table($this->table)->insertGetId([
+        $info=array_merge([
             'difficulty'=>-1,
-            'file'=>$data['file'],
-            'file_url'=>$data['file_url'],
-            'title'=>$data['title'],
-            'time_limit'=>$data['time_limit'],
-            'memory_limit'=>$data['memory_limit'],
-            'OJ'=>$data['OJ'],
-            'description'=>$data['description'],
-            'input'=>$data['input'],
-            'output'=>$data['output'],
-            'note'=>$data['note'],
-            'input_type'=>$data['input_type'],
-            'output_type'=>$data['output_type'],
-            'pcode'=>$data['pcode'],
-            'contest_id'=>$data['contest_id'],
-            'index_id'=>$data['index_id'],
-            'origin'=>$data['origin'],
-            'source'=>$data['source'],
-            'solved_count'=>$data['solved_count'],
             'update_date'=>date("Y-m-d H:i:s"),
-            'tot_score'=>$data['tot_score'],
-            'partial'=>$data['partial'],
-            'markdown'=>$data['markdown'],
-            'special_compiler'=>$data['special_compiler'],
-        ]);
+        ], collect($data)->only([
+            'file',
+            'file_url',
+            'title',
+            'time_limit',
+            'memory_limit',
+            'OJ',
+            'description',
+            'input',
+            'output',
+            'note',
+            'input_type',
+            'output_type',
+            'pcode',
+            'contest_id',
+            'index_id',
+            'origin',
+            'source',
+            'solved_count',
+            'tot_score',
+            'partial',
+            'markdown',
+            'special_compiler',
+            'order_index',
+        ])->toArray());
+
+        $pid=DB::table($this->table)->insertGetId($info);
 
         if (!empty($data["sample"])) {
             foreach ($data["sample"] as $d) {
@@ -462,31 +469,33 @@ class ProblemModel extends Model
 
     public function updateProblem($data)
     {
-        DB::table($this->table)->where(["pcode"=>$data['pcode']])->update([
+        DB::table($this->table)->where(["pcode"=>$data['pcode']])->update(array_merge([
             'difficulty'=>-1,
-            'file'=>$data['file'],
-            'file_url'=>$data['file_url'],
-            'title'=>$data['title'],
-            'time_limit'=>$data['time_limit'],
-            'memory_limit'=>$data['memory_limit'],
-            'OJ'=>$data['OJ'],
-            'description'=>$data['description'],
-            'input'=>$data['input'],
-            'output'=>$data['output'],
-            'note'=>$data['note'],
-            'input_type'=>$data['input_type'],
-            'output_type'=>$data['output_type'],
-            'contest_id'=>$data['contest_id'],
-            'index_id'=>$data['index_id'],
-            'origin'=>$data['origin'],
-            'source'=>$data['source'],
-            'solved_count'=>$data['solved_count'],
             'update_date'=>date("Y-m-d H:i:s"),
-            'tot_score'=>$data['tot_score'],
-            'partial'=>$data['partial'],
-            'markdown'=>$data['markdown'],
-            'special_compiler'=>$data['special_compiler'],
-        ]);
+        ], collect($data)->only([
+            'file',
+            'file_url',
+            'title',
+            'time_limit',
+            'memory_limit',
+            'OJ',
+            'description',
+            'input',
+            'output',
+            'note',
+            'input_type',
+            'output_type',
+            'contest_id',
+            'index_id',
+            'origin',
+            'source',
+            'solved_count',
+            'tot_score',
+            'partial',
+            'markdown',
+            'special_compiler',
+            'order_index',
+        ])->toArray()));
 
         $pid=$this->pid($data['pcode']);
 

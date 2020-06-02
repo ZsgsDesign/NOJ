@@ -71,6 +71,18 @@ return [
             'url' => env('AWS_URL'),
         ],
 
+        'private' => [
+            'driver' => 'local',
+            'root' => storage_path('app/private'),
+            'visibility' => 'private',
+        ],
+
+        'test_case' => [
+            'driver' => 'local',
+            'root' => storage_path('test_case'),
+            'visibility' => 'private',
+        ],
+
     ],
 
 ];

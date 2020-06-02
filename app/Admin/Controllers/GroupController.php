@@ -2,8 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\GroupModel;
-use App\Models\Eloquent\GroupModel as EloquentGroupModel;
+use App\Models\Eloquent\Group;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -80,7 +79,7 @@ class GroupController extends Controller
      */
     protected function grid()
     {
-        $grid=new Grid(new EloquentGroupModel);
+        $grid=new Grid(new Group);
         $grid->column('gid', "ID")->sortable();
         $grid->column("gcode", "Group Code");
         $grid->img("Focus Image")->display(function($url) {
@@ -111,7 +110,7 @@ class GroupController extends Controller
      */
     protected function detail($id)
     {
-        $show=new Show(EloquentGroupModel::findOrFail($id));
+        $show=new Show(Group::findOrFail($id));
         return $show;
     }
 
@@ -122,7 +121,7 @@ class GroupController extends Controller
      */
     protected function form()
     {
-        $form=new Form(new EloquentGroupModel);
+        $form=new Form(new Group);
         $form->model()->makeVisible('password');
         $form->tab('Basic', function(Form $form) {
             $form->display('gid');

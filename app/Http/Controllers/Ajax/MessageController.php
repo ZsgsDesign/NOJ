@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Ajax;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Eloquent\MessageModel;
+use App\Models\Eloquent\Message;
 use App\Models\ResponseModel;
 use Auth;
 
@@ -19,21 +19,21 @@ class MessageController extends Controller
         if(!Auth::check() || Auth::user()->id != $uid){
             return ResponseModel::err(2001);
         }
-        $ret = MessageModel::unread($uid);
+        $ret = Message::unread($uid);
         return ResponseModel::success(200,null,$ret);
     }
 
     public function allRead()
     {
         $uid = Auth::user()->id;
-        MessageModel::allRead($uid);
+        Message::allRead($uid);
         return ResponseModel::success(200);
     }
 
     public function deleteAll()
     {
         $uid = Auth::user()->id;
-        MessageModel::removeAllRead($uid);
+        Message::removeAllRead($uid);
         return ResponseModel::success(200);
     }
 }

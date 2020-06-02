@@ -25,26 +25,6 @@
         text-decoration: none!important;
     }
 
-    nav-div{
-        display: block;
-        margin-bottom: 0;
-        border-bottom: 2px solid rgba(0, 0, 0, 0.15);
-    }
-
-    nav-item{
-        display: inline-block;
-        color: rgba(0, 0, 0, 0.42);
-        padding: 0.25rem 0.75rem;
-        font-size: 0.85rem;
-    }
-
-    nav-item.active{
-        color: rgba(0, 0, 0, 0.93);
-        color: #03a9f4;
-        border-bottom: 2px solid #03a9f4;
-        margin-bottom: -2px;
-    }
-
     h5{
         margin-bottom: 1rem;
         font-weight: bold;
@@ -120,25 +100,42 @@
         border: 1px solid #6c757d;
         cursor: pointer;
     }
+
+    .cm-action-group {
+        margin: 0;
+        margin-bottom: 2rem;
+        padding: 0;
+        display: flex;
+    }
+
+    .cm-action-group>a {
+        display: block;
+        width:100%;
+    }
+
+    .cm-action-group>a>button {
+        text-align: left;
+        margin: .3125rem 0;
+        border-radius: 0;
+        width:100%;
+    }
+
+    .cm-action-group i {
+        display: inline-block;
+        transform: scale(1.5);
+        margin-right: 0.75rem;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
         <div class="col-sm-12 col-md-8">
             <paper-card>
                 <h5>{{$contest_name}}</h5>
-                <nav-div>
-                    <a href="/contest/{{$cid}}/board/challenge"><nav-item class="active">Challenge</nav-item></a>
-                    <a href="/contest/{{$cid}}/board/rank"><nav-item>Rank</nav-item></a>
-                    <a href="/contest/{{$cid}}/board/status"><nav-item>Status</nav-item></a>
-                    <a href="/contest/{{$cid}}/board/clarification"><nav-item>Clarification</nav-item></a>
-                    <a href="/contest/{{$cid}}/board/print"><nav-item>Print</nav-item></a>
-                    @if($basic['practice'])
-                        <a href="/contest/{{$cid}}/board/analysis"><nav-item>Analysis</nav-item></a>
-                    @endif
-                    @if($clearance>2)
-                    <a href="/contest/{{$cid}}/board/admin"><nav-item>Admin</nav-item></a>
-                    @endif
-                </nav-div>
+                @include('contest.board.nav',[
+                    'nav'=>'challenge',
+                    'basic'=>$basic,
+                    'clearance'=>$clearance
+                ])
                 <challenge-container>
 
                     @foreach($problem_set as $p)
@@ -170,6 +167,11 @@
             </paper-card>
         </div>
         <div class="col-sm-12 col-md-4">
+            @if($basic['pdf'])
+                <paper-card class="btn-group-vertical cm-action-group" role="group" aria-label="vertical button group">
+                    <a href="{{route('ajax.contest.downloadPDF',['cid'=>$cid])}}" target="_blank"><button type="button" class="btn btn-secondary"><i class="MDI file-pdf"></i> Download PDF</button></a>
+                </paper-card>
+            @endif
             <paper-card>
                 <h5 style="text-align:center" id="contest_status">Contest is running</h5>
                 <div>

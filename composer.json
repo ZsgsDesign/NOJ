@@ -9,11 +9,15 @@
     "license": "MIT",
     "require": {
         "php": "^7.3",
+        "albertofem/rsync-lib": "^1.0",
+        "barryvdh/laravel-dompdf": "^0.8.5",
         "encore/laravel-admin": "^1.6",
         "fideloper/proxy": "^4.0",
         "graham-campbell/markdown": "^11.0",
         "grubersjoe/bing-daily-photo": "^2.0",
         "illuminate/support": "^5.7",
+        "imtigger/laravel-job-status": "^0.2.2",
+        "intervention/image": "^2.5",
         "kub-at/php-simple-html-dom-parser": "~1.7.0",
         "laracasts/utilities": "^3.0",
         "laravel-admin-ext/api-tester": "^1.0",
@@ -31,6 +35,8 @@
         "maatwebsite/excel": "^3.1",
         "mews/purifier": "^2.1",
         "nelexa/zip": "^3.1",
+        "njuptaaa/moss": "^1.2",
+        "njuptaaa/poem": "^1.0.3",
         "npm-asset/animate.css": "^3.7",
         "npm-asset/bootstrap-material-design": "^4.1",
         "npm-asset/chart.js": "^2.8",
@@ -46,6 +52,7 @@
         "npm-asset/mathjax": "^2.7",
         "npm-asset/monaco-editor": "0.17.1",
         "npm-asset/pdfobject": "^2.1",
+        "npm-asset/perfect-scrollbar": "^1.4",
         "npm-asset/popper.js": "^1.5",
         "npm-asset/simplemde": "^1.11",
         "oomphinc/composer-installers-extender": "^1.1",
@@ -76,12 +83,16 @@
         },
         "installer-types": [
             "bower-asset",
-            "npm-asset"
+            "npm-asset",
+            "fonts-asset"
         ],
         "installer-paths": {
             "public/static/library/{$name}": [
                 "type:bower-asset",
                 "type:npm-asset"
+            ],
+            "public/static/fonts/{$name}": [
+                "type:fonts-asset"
             ]
         }
     },

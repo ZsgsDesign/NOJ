@@ -3,7 +3,6 @@
 namespace App\Models\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class UserModel extends Model
 {
@@ -26,4 +25,8 @@ class UserModel extends Model
     protected $hidden=[
         'password', 'remember_token',
     ];
+
+    public function banneds() {
+        return $this->hasMany('App\Models\Eloquent\UserBanned');
+    }
 }

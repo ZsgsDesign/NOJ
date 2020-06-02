@@ -103,13 +103,13 @@
         <div id="list">
             @if($messages->count() != 0)
                 @foreach($messages as $message)
-                    <message-card data-id="{{$message['id']}}" class="@if($message['unread']) @if($message['official']) official @else unread @endif @else read @endif">
+                    <message-card data-id="{{$message['id']}}" class="@if($message->unread) @if($message->official) official @else unread @endif @else read @endif">
                         <div>
-                            <div><span class="sender_name">@if($message['sender'] == 1) NOJ Official  @else {{$message['sender_name']}} @endif</span> <small class="wemd-grey-text"> {{formatHumanReadableTime($message['time'])}}</small></div>
-                            <div><img src="{{$message['sender_avatar']}}" class="cm-avatar"></div>
+                            <div><span class="sender_name">@if($message->sender_user->id == 1) NOJ Official  @else {{$message->sender_user->name }} @endif </span> <small class="wemd-grey-text"> {{formatHumanReadableTime($message->updated_at)}}</small></div>
+                            <div><img src="{{$message->sender_user->avatar}}" class="cm-avatar"></div>
                         </div>
                         <div>
-                            <h5>{{$message["title"]}}</h5>
+                            <h5>{{$message->title}}</h5>
                         </div>
                     </message-card>
                 @endforeach

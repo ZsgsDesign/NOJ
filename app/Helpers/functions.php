@@ -24,8 +24,8 @@ use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Contracts\Broadcasting\Factory as BroadcastFactory;
 use Illuminate\Support\Facades\DB;
 use GrahamCampbell\Markdown\Facades\Markdown;
-use App\Models\Eloquent\MessageModel;
-
+use App\Models\Eloquent\Message;
+use App\Models\Latex\LatexModel;
 
 if (!function_exists('version')) {
     function version()
@@ -149,7 +149,7 @@ if (!function_exists('convertMarkdownToHtml')) {
 if (!function_exists('sendMessage')) {
     function sendMessage($config)
     {
-        return MessageModel::send($config);
+        return Message::send($config);
     }
 }
 
@@ -199,5 +199,24 @@ if (!function_exists('formatProblemSolvedTime')) {
             $time=gmstrftime('%H:%M:%S', $seconds);
         }
         return $time;
+    }
+}
+
+if (!function_exists('latex2Image')) {
+    function latex2Image($content)
+    {
+        $callback = function ($matches) use (&$patch, &$display) {
+            [$url,$width,$height]=LatexModel::info("$patch$matches[1]$patch");
+            return "<img src=\"$url\" style=\"display: $display;\" class=\"rendered-tex\" width=\"$width\" height=\"$height\">";
+        };
+        $patch = '$';
+        $display = 'inline-block';
+        $content = preg_replace_callback('/\\$\\$\\$(.*?)\\$\\$\\$/', $callback, $content);
+        $content = preg_replace_callback('/\\\\\\((.*?)\\\\\\)/', $callback, $content);
+        $patch = '$$';
+        $display = 'block';
+        $content = preg_replace_callback('/\\$\\$(.*?)\\$\\$/', $callback, $content);
+        $content = preg_replace_callback('/\\\\\\[(.*?)\\\\\\]/', $callback, $content);
+        return $content;
     }
 }
