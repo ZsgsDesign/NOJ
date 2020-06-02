@@ -357,7 +357,7 @@
                         <div class="post-list">
                             <div class="comment-number">
                                 <strong><h3>{{$d['comment_count']}}</h3></strong>
-                                <p>{{__("problem.discussion.comment")}}</p>
+                                <p>{{trans_choice("problem.discussion.comments", $d['comment_count'])}}</p>
                             </div>
                             <div class="post-title">
                             <h3><a href="/discussion/{{$d['pdid']}}">{{$d["title"]}}</a></h3>

@@ -26,6 +26,7 @@ return [
         "loginsubmit"  => "登录并提交",
         "submit"       => "提交",
         "discussion"   => "讨论",
+        "backdiss"     => "返回讨论",
         "solution"     => "题解",
         "description"  => "题目",
     ],
@@ -64,10 +65,15 @@ return [
     "discussion" => [
         "action"       => "发起讨论",
         "empty"        => "暂无讨论",
-        "comment"      => "评论",
+        "comments"     => "评论",
         "title"        => "标题",
         "post"         => "发布",
         "close"        => "关闭",
+        "holder"       => "编写评论内容……",
+        "emptycomment" => "还没有评论。发表一个？",
+        "postcomment" => [
+            "title"    => "发表评论",
+        ]
     ],
     "solution" => [
         "empty"        => "暂无题解。",

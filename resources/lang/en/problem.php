@@ -26,6 +26,7 @@ return [
         "loginsubmit"  => "Login & Submit",
         "submit"       => "Submit",
         "discussion"   => "Discussion",
+        "backdiss"     => "Back to Discussion",
         "solution"     => "Solution",
         "description"  => "Description",
     ],
@@ -64,10 +65,15 @@ return [
     "discussion" => [
         "action"       => "Post Discussion",
         "empty"        => "Nothing Yet",
-        "comment"      => "Comment",
+        "comments"     => "{0} comments|{1} comment|[2,*] comments",
         "title"        => "Title",
         "post"         => "Post",
         "close"        => "Close",
+        "holder"       => "Write a comment...",
+        "emptycomment" => "Nothing Yet. Write a comment?",
+        "postcomment" => [
+            "title"    => "Post Comment",
+        ]
     ],
     "solution" => [
         "empty"        => "No Solution Yet.",
