@@ -139,10 +139,10 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col" style="text-align: left;">Rank</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Solved</th>
-                            <th scope="col">Community</th>
+                            <th scope="col" style="text-align: left;">{{__("rank.rank")}}</th>
+                            <th scope="col">{{__("rank.title")}}</th>
+                            <th scope="col">{{__("rank.solved")}}</th>
+                            <th scope="col">{{__("rank.community")}}</th>
                         </tr>
                     </thead>
                     <tbody>
