@@ -54,6 +54,12 @@ return [
             "language" => "语言",
             "result"   => "结果",
         ],
+        "submit" => [
+            "normal"   => "提交代码",
+            "submit"   => "提交中",
+            "unable"   => "提交不可用",
+            "original" => "原始题目",
+        ],
     ],
     "discussion" => [
         "action"       => "发起讨论",

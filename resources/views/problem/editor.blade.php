@@ -772,12 +772,12 @@
                     @endif
                 </div>
                 @if($contest_mode && $contest_ended)
-                    <a href="/problem/{{$detail["pcode"]}}"><button type="button" class="btn btn-info" id="origialBtn"> <i class="MDI launch"></i> Original Problem</button></a>
+                    <a href="/problem/{{$detail["pcode"]}}"><button type="button" class="btn btn-info" id="origialBtn"> <i class="MDI launch"></i> {{__("problem.editor.submit.original")}}</button></a>
                 @else
                     @if(!count($compiler_list) || !$oj_detail['status'])
-                        <button type="button" class="btn btn-secondary" disabled> <i class="MDI send"></i> <span>Submit Unavailable</span></button>
+                        <button type="button" class="btn btn-secondary" disabled> <i class="MDI send"></i> <span>{{__("problem.editor.submit.unable")}}</span></button>
                     @else
-                        <button type="button" class="btn btn-primary" id="submitBtn"> <i class="MDI send"></i> <span>Submit Code</span></button>
+                        <button type="button" class="btn btn-primary" id="submitBtn"> <i class="MDI send"></i> <span>{{__("problem.editor.submit.normal")}}</span></button>
                     @endif
                 @endif
             </div>
@@ -1056,7 +1056,7 @@
             $("#submitBtn > i").removeClass("send");
             $("#submitBtn > i").addClass("autorenew");
             $("#submitBtn > i").addClass("cm-refreshing");
-            $("#submitBtn > span").text("Submitting");
+            $("#submitBtn > span").text("{{__("problem.editor.submit.submit")}}");
             // console.log(editor.getValue());
             $("#verdict_text").text("Submitting...");
             $("#verdict_info").removeClass();
@@ -1151,7 +1151,7 @@
                     $("#submitBtn > i").addClass("send");
                     $("#submitBtn > i").removeClass("autorenew");
                     $("#submitBtn > i").removeClass("cm-refreshing");
-                    $("#submitBtn > span").text("Submit Code");
+                    $("#submitBtn > span").text("{{__("problem.editor.submit.normal")}}");
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
 
@@ -1173,7 +1173,7 @@
                     $("#submitBtn > i").addClass("send");
                     $("#submitBtn > i").removeClass("autorenew");
                     $("#submitBtn > i").removeClass("cm-refreshing");
-                    $("#submitBtn > span").text("Submit Code");
+                    $("#submitBtn > span").text("{{__("problem.editor.submit.normal")}}");
                 }
             });
         });

@@ -54,6 +54,12 @@ return [
             "language" => "Language",
             "result"   => "Verdict",
         ],
+        "submit" => [
+            "normal"   => "Submit Code",
+            "submit"   => "Submitting",
+            "unable"   => "Submit Unavailable",
+            "original" => "Original Problem",
+        ],
     ],
     "discussion" => [
         "action"       => "Post Discussion",
