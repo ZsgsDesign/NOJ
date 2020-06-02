@@ -107,9 +107,9 @@
     <div class="row">
         <div class="col-sm-12 col-lg-8">
             <div class="cm-title-section">
-                <h1>{{__('home.welcome', ['name' => config("app.name")])}}</h1>
+                <h1>{{__('homepage.welcome', ['name' => config("app.name")])}}</h1>
                 <version-badge class="mb-5">
-                    <inline-div>{{__('home.version')}}</inline-div><inline-div>{{version()}}</inline-div>
+                    <inline-div>{{__('homepage.version')}}</inline-div><inline-div>{{version()}}</inline-div>
                 </version-badge>
             </div>
             @unless(empty($carousel))
@@ -136,9 +136,9 @@
                     </a>
                 </div>
             @else
-                <p class="mb-5">{{__('home.description', ['name' => config("app.name")])}}</p>
+                <p class="mb-5">{{__('homepage.description', ['name' => config("app.name")])}}</p>
             @endunless
-            <p class="cm-anno mt-5"><i class="MDI power-plug"></i> {{__('home.babel')}}</p>
+            <p class="cm-anno mt-5"><i class="MDI power-plug"></i> {{__('homepage.babel')}}</p>
             <div class="row">
                 @foreach ($ojs as $oj)
                 <div class="col-12 col-sm-6 col-md-4 col-xl-3">
@@ -148,7 +148,7 @@
             </div>
         </div>
         <div class="col-sm-12 col-lg-4">
-            <p class="cm-anno"><i class="MDI newspaper"></i> {{__('home.announcements.title')}}</p>
+            <p class="cm-anno"><i class="MDI newspaper"></i> {{__('homepage.announcements.title')}}</p>
             <div>
                 @unless(empty($announcements))
                     @foreach($announcements as $announcement)
