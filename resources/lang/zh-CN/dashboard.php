@@ -5,7 +5,8 @@ return [
     'solved'       => '解出',
     'rated'        => '排名',
     'rank'         => 'Casu. Rank',
-    'listOfSolved' => '已解决的题母',
+    'adminGroup'   => '站点管理员',
+    'listOfSolved' => '已解决的题目',
     'emptySolved'  => '空落落的啥也没',
     'reportAbuse'  => '举报',
     'avatarChange' => [
@@ -36,7 +37,7 @@ return [
         'genderOther' => '其他',
         'genderPrivate' => '隐私',
         'contact' => '联系方式',
-        'school' => '学效',
+        'school' => '学校',
         'countryAndRegion' => '国家与地区',
         'detailedLocation' => '详细地址',
         'socialiteInfo' => '社交帐号绑定',

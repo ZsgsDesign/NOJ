@@ -160,7 +160,7 @@
             <div class="col-lg-4 col-12">
                 <statistic-block>
                     <h1>{{$info["solvedCount"]}}</h1>
-                    <p>{{__('dashboard.solved')}}Solved</p>
+                    <p>{{__('dashboard.solved')}}</p>
                 </statistic-block>
             </div>
             {{-- <div class="col-lg-4 col-12">

@@ -162,7 +162,7 @@
                 <i class="MDI {{$f["icon"]}}"></i>
             </feed-circle>
             <feed-info>
-                <h5>@lang('dashboard.dashboard.feed.content', ['name' => htmlspecialchars($info["name"]), 'pcode' => $f["pcode"]])</h5>
+                <h5>@lang('dashboard.feed.content', ['name' => htmlspecialchars($info["name"]), 'pcode' => $f["pcode"]])</h5>
             </feed-info>
         </feed-header>
         <feed-body onclick="location.href='/problem/{{$f["pcode"]}}/solution'">

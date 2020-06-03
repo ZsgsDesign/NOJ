@@ -5,6 +5,7 @@ return [
     'solved'       => 'Solved',
     'rated'        => 'Rated',
     'rank'         => 'Casu. Rank',
+    'adminGroup' => 'Administration Group',
     'listOfSolved' => 'List of solved problems',
     'emptySolved'  => 'Nothing Here',
     'reportAbuse'  => 'Report Abuse',
