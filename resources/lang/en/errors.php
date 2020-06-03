@@ -9,7 +9,7 @@ return [
     'rank'       => 'Rank',
     'contest'    => 'Contest',
     'group'      => 'Group',
-    'search'     => 'Onmi Search',
+    'search'     => 'Omni Search',
     'dashboard'  => 'Dashboard',
     'settings'   => 'Settings',
     'pastebin'   => 'PasteBin',
