@@ -57,17 +57,17 @@
                                 @if($extra_info['gender'] == 'MALE' || $extra_info['gender'] == 'FAMALE')
                                     {{$extra_info['gender']}}
                                 @else
-                                    OTHER
+                                    {{__('dashboard.setting.genderOther')}}
                                 @endif
                             @else
-                                PRIVATE
+                                {{__('dashboard.setting.genderPrivate')}}
                             @endif
                         </button>
                         <div class="dropdown-menu" style="font-size: .75rem">
                             <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('MALE');$('#gender').val('MALE');$('#gender-input').fadeOut(200);">MALE</a>
                             <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('FAMALE');$('#gender').val('FAMALE');$('#gender-input').fadeOut(200);">FAMALE</a>
-                            <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('OTHER');$('#gender').fadeIn(200);">OTHER I WANT</a>
-                            <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('PRIVATE');$('#gender').val('');$('#gender-input').fadeOut(200);">PRIVATE</a>
+                            <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('OTHER');$('#gender').fadeIn(200);">{{__('dashboard.setting.genderOther')}}</a>
+                            <a class="dropdown-item gender-select" onclick="$('#gender-btn').text('PRIVATE');$('#gender').val('');$('#gender-input').fadeOut(200);">{{__('dashboard.setting.genderPrivate')}}</a>
                         </div>
                     </div>
                     <input @if(empty($extra_info['gender']) || $extra_info['gender'] =='MALE' || $extra_info['gender'] == 'FAMALE') style="display:none;" @endif id="gender" name="gender" type="text" class="form-control" value="@if(!empty($extra_info['gender'])){{$extra_info['gender']}}@endif" aria-label="gender input box">
