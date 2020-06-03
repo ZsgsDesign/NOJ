@@ -116,7 +116,7 @@
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
-        <h5><i class="MDI account-multiple-plus"></i> Create a New Group</h5>
+        <h5><i class="MDI account-multiple-plus"></i> {{__('group.create.title')}}</h5>
         <card-body>
             <form class="extra-info-form md-form" id="create" action="/">
                 @csrf
@@ -129,28 +129,28 @@
                     </div>
                     <div class="col-12 col-lg-8">
                         <div class="form-group">
-                            <label for="groupName" class="bmd-label-floating">Group Name</label>
+                            <label for="groupName" class="bmd-label-floating">{{__('group.create.groupName')}}</label>
                             <input id="groupName" type="text" name="name" class="form-control" autocomplete="off" />
                         </div>
                         <div class="form-group">
-                            <label for="groupSite" class="bmd-label-floating">Short Code</label>
+                            <label for="groupSite" class="bmd-label-floating">{{__('group.create.shortCode')}}</label>
                             <input id="groupSite" type="text" name="gcode" class="form-control"  autocomplete="off" />
                         </div>
                         <div class="form-group">
-                            <label for="groupDescription" class="bmd-label-floating">Group Description</label>
+                            <label for="groupDescription" class="bmd-label-floating">{{__('group.create.description')}}</label>
                             <input id="groupDescription" type="text" name="description" class="form-control"  autocomplete="off" />
                         </div>
                         <div class="form-group">
-                            <label for="location" class="bmd-label-floating">Join Policy</label>
+                            <label for="location" class="bmd-label-floating">{{__('group.create.joinPolicy')}}</label>
                             <div class="input-group text-center" style="display: flex;justify-content: center; align-items: center;">
                                 <div class="input-group-prepend">
                                     <button id="join-policy" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Both
+                                        {{__('group.create.both')}}
                                     </button>
                                     <div class="dropdown-menu" style="font-size: .75rem">
-                                        <a class="dropdown-item gender-select" onclick="$('#join-policy').text('Invite Only');$('#policy').val(1);$('#join-policy').fadeIn(200);">Invite Only</a>
-                                        <a class="dropdown-item gender-select" onclick="$('#join-policy').text('Apply Only');$('#policy').val(2);$('#join-policy').fadeIn(200);">Apply Only</a>
-                                        <a class="dropdown-item gender-select" onclick="$('#join-policy').text('Both');$('#policy').val(3);$('#join-policy').fadeIn(200);">Both</a>
+                                        <a class="dropdown-item gender-select" onclick="$('#join-policy').text('{{__('group.create.inviteOnly')}}');$('#policy').val(1);$('#join-policy').fadeIn(200);">{{__('group.create.inviteOnly')}}</a>
+                                        <a class="dropdown-item gender-select" onclick="$('#join-policy').text('{{__('group.create.applyOnly')}}');$('#policy').val(2);$('#join-policy').fadeIn(200);">{{__('group.create.applyOnly')}}</a>
+                                        <a class="dropdown-item gender-select" onclick="$('#join-policy').text('{{__('group.create.both')}}');$('#policy').val(3);$('#join-policy').fadeIn(200);">{{__('group.create.both')}}</a>
                                     </div>
                                 </div>
                                 <input style="display:none;" id="policy" name="policy" type="text" class="form-control" value="3" aria-label="gender input box">
@@ -159,7 +159,7 @@
                         <div class="form-group">
                             <div class="switch">
                                 <label>
-                                    <input name="public" id="groupPublic" type="checkbox">Public
+                                    <input name="public" id="groupPublic" type="checkbox">{{__('group.create.public')}}
                                 </label>
                             </div>
                         </div>
@@ -168,7 +168,7 @@
             </form>
         </card-body>
         <div class="text-right">
-            <button type="button" id="submit" class="btn btn-danger" style="margin-top:30px">Create</button>
+            <button type="button" id="submit" class="btn btn-danger" style="margin-top:30px">{{__('group.create.create')}}</button>
         </div>
 
     </paper-card>
@@ -187,14 +187,13 @@ window.addEventListener('load',function(){
         const data = new FormData();
         if(name.length < 3 || name.length > 50 || gcode.length < 3 || gcode.length > 50 || description.length > 60000){
             alert(`
-            The length of the name and short code should be less than 50 and greater than 3 <br />
-            The description length should be less than 60000
+            @lang('group.create.errorInvalidValue')
             `);
             return;
         }
 
         if(img&&img.size/1024/1024 > 8){
-            $('#tip-text').text('The selected img id too large');
+            $('#tip-text').text('@lang('group.create.errorImageLarge')');
             return;
         }
         data.append('name',name);

@@ -3,8 +3,8 @@
 return [
     'more'         => '更多信息',
     'solved'       => '解出',
-    'rated'        => '排名',
-    'rank'         => 'Casu. Rank',
+    'rated'        => '评分',
+    'rank'         => '排名',
     'adminGroup'   => '站点管理员',
     'listOfSolved' => '已解决的题目',
     'emptySolved'  => '空落落的啥也没',
