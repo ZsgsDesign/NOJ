@@ -475,9 +475,9 @@
                                 </tr>
                                 <tr id="tr-2">
                                     <th scopr="col" class="contest-elo" data-cid="0">Elo</th>
-                                    <th scope="col" class="contest-rank" data-cid="0">Rank</th>
-                                    <th scope="col" class="contest-solved" data-cid="0">Solved</th>
-                                    <th scope="col" class="contest-penalty" data-cid="0">Penalty</th>
+                                    <th scope="col" class="contest-rank" data-cid="0">{{__("contest.inside.rank.title")}}</th>
+                                    <th scope="col" class="contest-solved" data-cid="0">{{__("contest.inside.rank.solved")}}</th>
+                                    <th scope="col" class="contest-penalty" data-cid="0">{{__("contest.inside.rank.penalty")}}</th>
                                     <!-- here is the column of the contests -->
                                 </tr>
                             </thead>
@@ -496,9 +496,9 @@
                         <th class="t-left" scope="col" colspan="3" style="max-width: 6rem; text-overflow: ellipsis; overflow: hidden; white-space:nowrap" class="contest-name" data-cid="${contest_id}" title="${contest_name}">${contest_name}</th>
                     `);
                     $(selector + ' #tr-2').append(`
-                        <th scope="col" class="contest-rank t-left" data-cid="${contest_id}">Rank</th>
-                        <th scope="col" class="contest-solved" data-cid="${contest_id}">Solved</th>
-                        <th scope="col" class="contest-penalty" data-cid="${contest_id}">Penalty</th>
+                        <th scope="col" class="contest-rank t-left" data-cid="${contest_id}">{{__("contest.inside.rank.title")}}</th>
+                        <th scope="col" class="contest-solved" data-cid="${contest_id}">{{__("contest.inside.rank.solved")}}</th>
+                        <th scope="col" class="contest-penalty" data-cid="${contest_id}">{{__("contest.inside.rank.penalty")}}</th>
                     `);
                 }
                 for(let member_index in member_data){

@@ -167,16 +167,16 @@
             <div class="col-3 admin-list p-0">
                 @if($verified)
                 <ul class="list-group bmd-list-group p-0">
-                    <a data-panel="account_generate" href="#" class="list-group-item admin-tab-text wemd-light-blue wemd-lighten-4" onclick="showPanel('account_generate')"> Account Generate</a>
+                    <a data-panel="account_generate" href="#" class="list-group-item admin-tab-text wemd-light-blue wemd-lighten-4" onclick="showPanel('account_generate')"> {{__("contest.inside.admin.nav.account")}}</a>
                 </ul>
                 @endif
                 @if(time() >= strtotime($basic['begin_time']))
                 <ul class="list-group bmd-list-group p-0">
-                    <a href="/contest/{{$cid}}/board/clarification" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Issue Clarification</a>
+                    <a href="/contest/{{$cid}}/board/clarification" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> {{__("contest.inside.admin.nav.announce")}}</a>
                 </ul>
                 @endif
                 <ul class="list-group bmd-list-group p-0">
-                    <a href="/group/{{$gcode}}/settings/contest" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Contest Management</a>
+                    <a href="/group/{{$gcode}}/settings/contest" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> {{__("contest.inside.admin.nav.manage")}}</a>
                 </ul>
                 {{-- <ul class="list-group bmd-list-group p-0">
                     <a data-panel="generate_pdf" href="#" class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="showPanel('generate_pdf')"> Generate PDF</a>
@@ -188,15 +188,15 @@
                 @endif
                 @if(time() >= strtotime($basic['begin_time']))
                 <ul class="list-group bmd-list-group p-0">
-                    <a href="/contest/{{$cid}}/admin/refreshContestRank" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Refresh Contest Rank</a>
+                    <a href="/contest/{{$cid}}/admin/refreshContestRank" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> {{__("contest.inside.admin.nav.refreshrank")}}</a>
                 </ul>
                 @endif
                 <ul class="list-group bmd-list-group p-0">
-                    <button class="list-group-item admin-tab-text wemd-white wemd-lighten-4" id="downloaAllCode" download> Download All Code</button>
+                    <button class="list-group-item admin-tab-text wemd-white wemd-lighten-4" id="downloaAllCode" download> {{__("contest.inside.admin.nav.download")}}</button>
                 </ul>
                 @if($is_end && $basic['froze_length'] != 0)
                 <ul class="list-group bmd-list-group p-0">
-                    <a href="/contest/{{$cid}}/scrollBoard" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> Scroll Board</a>
+                    <a href="/contest/{{$cid}}/scrollBoard" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> {{__("contest.inside.admin.nav.scrollboard")}}</a>
                 </ul>
                 @endif
             </div>
@@ -204,27 +204,27 @@
 
                 <section-panel id="account_generate" class="d-block">
                     @if($verified)
-                    <h3 class="tab-title">Account Generate</h3>
+                    <h3 class="tab-title">{{__("contest.inside.admin.nav.account")}}</h3>
                     <form class="form-inline">
                         <div class="form-group mr-3">
-                            <label for="account_prefix" class="bmd-label-floating">Account Prefix</label>
+                            <label for="account_prefix" class="bmd-label-floating">{{__("contest.inside.admin.account.prefix")}}</label>
                             <input type="text" class="form-control" id="account_prefix">
                         </div>
                         <div class="form-group">
-                            <label for="account_count" class="bmd-label-floating">Account Count</label>
+                            <label for="account_count" class="bmd-label-floating">{{__("contest.inside.admin.account.count")}}</label>
                             <input class="form-control" id="account_count">
                         </div>
                     </form>
-                    <button id="generateAccountBtn" class="btn btn-warning float-right" onclick="generateAccount()"><i class="MDI autorenew cm-refreshing d-none"></i>Generate</button>
+                    <button id="generateAccountBtn" class="btn btn-warning float-right" onclick="generateAccount()"><i class="MDI autorenew cm-refreshing d-none"></i>{{__("contest.inside.admin.account.generate")}}</button>
                     <div class="pt-2">
-                        <a href="/contest/{{$cid}}/admin/downloadContestAccountXlsx">Download as xlsx...</a>
+                        <a href="/contest/{{$cid}}/admin/downloadContestAccountXlsx">{{__("contest.inside.admin.account.download")}}</a>
                     </div>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col" rowspan="2">Name</th>
-                                <th scope="col" rowspan="2">Account</th>
-                                <th scope="col" rowspan="2">Password</th>
+                                <th scope="col" rowspan="2">{{__("contest.inside.admin.account.field.name")}}</th>
+                                <th scope="col" rowspan="2">{{__("contest.inside.admin.account.field.account")}}</th>
+                                <th scope="col" rowspan="2">{{__("contest.inside.admin.account.field.password")}}</th>
                             </tr>
                         </thead>
                         <tbody id="account_table">
