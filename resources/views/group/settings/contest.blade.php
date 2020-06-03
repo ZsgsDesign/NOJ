@@ -268,13 +268,13 @@
                         </date-div>
                         <info-div>
                             <h5 class="sm-contest-title">
-                                @if($contest['desktop'])<span><i class="MDI lan-connect wemd-pink-text" data-toggle="tooltip" data-placement="left" title="NOJ Desktop"></i></span>@endif
-                                @unless($contest["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="left" title="This contest is under review"></i></span>@endif
-                                @unless($contest["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="left" title="This is a private contest"></i></span>@endif
-                                @if($contest['verified'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="left" title="This is a verified contest"></i>@endif
-                                @if($contest['practice'])<i class="MDI sword wemd-green-text"  data-toggle="tooltip" data-placement="left" title="This is a contest for praticing"></i>@endif
-                                @if($contest['rated'])<i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="left" title="This is a rated contest"></i>@endif
-                                @if($contest['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="left" title="Anti-cheat enabled"></i>@endif
+                                @if($contest['desktop'])<span><i class="MDI lan-connect wemd-pink-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.desktop")}}"></i></span>@endif
+                                @unless($contest["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.audit")}}"></i></span>@endif
+                                @unless($contest["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.private")}}"></i></span>@endif
+                                @if($contest['verified'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.verified")}}"></i>@endif
+                                @if($contest['practice'])<i class="MDI sword wemd-green-text"  data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.practice")}}"></i>@endif
+                                @if($contest['rated'])<i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.rated")}}"></i>@endif
+                                @if($contest['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.anticheated")}}"></i>@endif
                                 {{$contest['name']}}
                                 <div style="display:inline-block; width:auto" class="float-right">
                                     @if($contest['is_admin'])<i class="MDI account-check wemd-green-text" data-toggle="tooltip" data-placement="left" title="You have the permission to manage this contest"></i>@endif
