@@ -145,29 +145,29 @@
             <div class="col-sm">
                 <group-name-setting>
                     <div class="form-group">
-                        <p style="font-weight:500;margin-bottom: 0.5rem;">Group Name</p>
-                        <small id="group-name-tip" style="display:block;font-size:65%:">Enter the new name displayed for your group</small>
+                        <p style="font-weight:500;margin-bottom: 0.5rem;">{{__('group.general.groupName')}}</p>
+                        <small id="group-name-tip" style="display:block;font-size:65%:">{{__('group.general.changeNameTip')}}</small>
                         <input type="text" class="form-control" id="group-name" value="{{$basic_info['name']}}">
                     </div>
                 </group-name-setting>
                 <join-policy-setting style="display:block;margin-top:2rem;">
-                    <p style="margin-bottom:0px;font-weight:500;">Join Policy</p>
+                    <p style="margin-bottom:0px;font-weight:500;">{{__('group.general.joinPolicy')}}</p>
                     <div class="btn-group">
                         <div class="form-control cm-fake-select dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="policy-choice-btn" name="pb_lang" required="">
-                            @if($basic_info['join_policy']==3)<span>Invitation & Application</span>
-                            @elseif(($basic_info['join_policy']==2))<span>Application</span>
-                            @else<span>Invitation</span>@endif
+                            @if($basic_info['join_policy']==3)<span>{{__('group.general.invitation')}} & {{__('group.general.application')}}</span>
+                            @elseif(($basic_info['join_policy']==2))<span>{{__('group.general.application')}}</span>
+                            @else<span>{{__('group.general.invitation')}}</span>@endif
                         </div>
                         <div class="dropdown-menu">
-                            <button class="dropdown-item join-policy-choice" data-policy="3">Invitation & Application</button>
-                            <button class="dropdown-item join-policy-choice" data-policy="2">Application only</button>
-                            <button class="dropdown-item join-policy-choice" data-policy="1">Invitation only</button>
+                            <button class="dropdown-item join-policy-choice" data-policy="3">{{__('group.general.invitation')}} & {{__('group.general.application')}}</button>
+                            <button class="dropdown-item join-policy-choice" data-policy="2">{{__('group.general.applicationOnly')}}</button>
+                            <button class="dropdown-item join-policy-choice" data-policy="1">{{__('group.general.invitationOnly')}}</button>
                         </div>
                     </div>
                 </join-policy-setting>
                 <focus-images-setting style="display:block;margin-top:2rem;">
-                    <p style="font-weight:500;margin-bottom: 0.5rem;">Change Group Image</p>
-                    <small id="change-image-tip" style="display:block;font-size:65%:">Click image to upload a local file as new focus image</small>
+                    <p style="font-weight:500;margin-bottom: 0.5rem;">{{__('group.general.changeGroupImage')}}</p>
+                    <small id="change-image-tip" style="display:block;font-size:65%:">{{__('group.general.changeGroupImageTip')}}</small>
                     <input id="image-file" type="file" style="display:none" accept=".jpg,.png,.jpeg,.gif" />
                     <label for="image-file" style="display: block;margin-top:2rem;">
                         <img class="group-image" style="max-height:250px;max-width: 90%; height: auto;display:inline-block;cursor: pointer;" src="{{$basic_info['img']}}">
@@ -199,7 +199,7 @@
 
         $('#avatar-submit').on('click',function(){
             if($(this).is('.updating')){
-                $('#tip-text').text('SLOW DOWN');
+                $('#tip-text').text("{{__('group.general.errorAvatarFast')}}");
                 $('#tip-text').addClass('text-danger');
                 $('#tip-text').removeClass('text-success');
                 $('#avatar-error-tip').animate({opacity:'1'},200);
@@ -208,7 +208,7 @@
 
             var file = $('#avatar-file').get(0).files[0];
             if(file == undefined){
-                $('#tip-text').text('PLEASE CHOOSE A LOCAL FILE');
+                $('#tip-text').text("{{__('group.general.errorChosseLocalFile')}}");
                 $('#tip-text').addClass('text-danger');
                 $('#tip-text').removeClass('text-success');
                 $('#avatar-error-tip').animate({opacity:'1'},200);
@@ -218,7 +218,7 @@
             }
 
             if(file.size/1024 > 1024){
-                $('#tip-text').text('THE SELECTED FILE IS TOO LARGE');
+                $('#tip-text').text("{{__('group.general.errorFileLarge')}}");
                 $('#tip-text').addClass('text-danger');
                 $('#tip-text').removeClass('text-success');
                 $('#avatar-error-tip').animate({opacity:'1'},200);
@@ -267,97 +267,6 @@
                 }
             });
         }
-
-        function kickMember(uid) {
-            if(ajaxing) return;
-            confirm({content:'Are you sure you want to kick this member?',title:'Kick Member'},function (deny) {
-                if(!deny)
-                    removeMember(uid,'Kicked');
-            });
-        }
-
-        function removeMember(uid,operation){
-            if(ajaxing) return;
-            ajaxing=true;
-            $.ajax({
-                type: 'POST',
-                url: '/ajax/group/removeMember',
-                data: {
-                    gid: {{$basic_info["gid"]}},
-                    uid: uid
-                },
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }, success: function(result){
-                    console.log(result);
-                    if (result.ret===200) {
-                        $('#member_operate'+uid).html(`<span class=\"badge badge-pill badge-danger\">${operation}</span>`);
-                    } else {
-                        alert(result.desc);
-                    }
-                    ajaxing=false;
-                }, error: function(xhr, type){
-                    console.log('Ajax error!');
-                    alert("Server Connection Error");
-                    ajaxing=false;
-                }
-            });
-        }
-
-        function changeMemberClearance(uid,action){
-            if(ajaxing) return;
-            var clearance = $('#user-permission-'+uid+' user-info').attr('data-clearance');
-            var role_color = $('#user-permission-'+uid+' user-info').attr('data-rolecolor');
-
-            if(action == 'promote'){
-                clearance ++;
-            }else if(action == 'demote'){
-                clearance --;
-            }
-
-            ajaxing=true;
-            $.ajax({
-                type: 'POST',
-                url: '/ajax/group/changeMemberClearance',
-                data: {
-                    gid: {{$basic_info["gid"]}},
-                    uid: uid,
-                    permission: clearance
-                },
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }, success: function(result){
-                    if (result.ret===200) {
-                        $('#user-permission-'+uid+' .badge-role').animate({opacity: 0},100,function(){
-                            $(this).removeClass(role_color);
-                            $(this).addClass(result.data.role_color);
-                            $(this).text(result.data.role_parsed);
-                            $(this).animate({opacity: 1},200);
-                            $('#user-permission-'+uid+' user-info').attr('data-clearance',clearance);
-                            $('#user-permission-'+uid+' user-info').attr('data-rolecolor',result.data.role_color);
-                            $('#user-permission-'+uid+' .clearance-up').show();
-                            $('#user-permission-'+uid+' .clearance-down').show();
-                            if(clearance + 1 >= {{$group_clearance}} && action == 'promote'){
-                                $('#user-permission-'+uid+' .clearance-up').hide();
-                            }
-                            if(clearance == 1 && action == 'demote'){
-                                $('#user-permission-'+uid+' .clearance-down').hide();
-                            }
-                        });
-                    } else {
-                        alert(result.desc);
-                    }
-                    ajaxing=false;
-                }, error: function(xhr, type){
-                    console.log('Ajax error while posting to joinGroup!');
-                    alert("Server Connection Error");
-                    ajaxing=false;
-                }
-            });
-        }
-
         $('.join-policy-choice').on('click',function(){
             if($('#policy-choice-btn').text().trim() == $(this).text()) return;
             var join_policy = $(this).text();

@@ -114,16 +114,16 @@
         <div class="col-sm-12 col-md-8 col-lg-6">
             <div class="text-center" style="margin-top:10vh;margin-bottom:20px;">
                 <h1 style="padding:20px;display:inline-block;">{{config("app.name")}}</h1>
-                <p>{{config("app.name")}}'s yet another Online Judge</p>
+                <p>{{__("account.slogan", ["name" => config("app.name")])}}</p>
             </div>
             <div class="card">
                 <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs nav-justified nav-tabs-material" id="accountTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="false">login</a>
+                            <a class="nav-link" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="false">{{__("Login")}}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" id="register-tab" data-toggle="tab" role="tab" aria-controls="register" aria-selected="true">register</a>
+                            <a class="nav-link active" id="register-tab" data-toggle="tab" role="tab" aria-controls="register" aria-selected="true">{{__("Register")}}</a>
                         </li>
                         <div class="nav-tabs-indicator" id="nav-tabs-indicator" style="left: 50%;"></div>
                     </ul>
@@ -134,7 +134,7 @@
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="email" class="bmd-label-floating">Nick Name</label>
+                                    <label for="email" class="bmd-label-floating">{{__("Name")}}</label>
                                     <input type="email" name="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" id="register_nick_name" value="{{ old('name') }}" maxlength="16" required>
                                     @if ($errors->has('name'))
                                         <span class="invalid-feedback" role="alert">
@@ -143,7 +143,7 @@
                                     @endif
                                 </div>
                                 <div class="form-group">
-                                    <label for="email" class="bmd-label-floating">Email</label>
+                                    <label for="email" class="bmd-label-floating">{{__("E-Mail Address")}}</label>
                                     <input type="email" name="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" id="register_email" value="{{ old('email') }}" required>
                                     @if ($errors->has('email'))
                                         <span class="invalid-feedback" role="alert">
@@ -152,7 +152,7 @@
                                     @endif
                                 </div>
                                 <div class="form-group">
-                                    <label for="password" class="bmd-label-floating">Password</label>
+                                    <label for="password" class="bmd-label-floating">{{__("Password")}}</label>
                                     <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="register_password" required>
                                     @error('password')
                                         <span class="invalid-feedback" role="alert">
@@ -161,18 +161,18 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="password" class="bmd-label-floating">Confirm Password</label>
+                                    <label for="password" class="bmd-label-floating">{{__("Confirm Password")}}</label>
                                     <input type="password" name="password_confirmation" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" id="register_password_again" required>
                                 </div>
                                 <div class="form-group">
                                     <div class="checkbox">
-                                        <label for="agreement"><input class="form-control" type="checkbox" name="agreement" id="agreement" required><span style="transition: .2s ease-out .0s;">I agree with the <a href="{{route('term.user')}}" target="_blank">terms</a></span></label>
+                                        <label for="agreement"><input class="form-control" type="checkbox" name="agreement" id="agreement" required><span style="transition: .2s ease-out .0s;">{{__("account.agree")}} <a href="{{route('term.user')}}" target="_blank">{{__("account.terms")}}</a></span></label>
                                     </div>
                                 </div>
 
                             </div>
                             <div class="card-footer text-right">
-                                <button type="submit" class="btn btn-danger">register</button>
+                                <button type="submit" class="btn btn-danger">{{__("Register")}}</button>
                             </div>
                         </form>
                     </div>

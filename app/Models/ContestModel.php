@@ -35,13 +35,13 @@ class ContestModel extends Model
             $m=0;
         }
         if ($m==0 && $h==0) {
-            $text="$s Seconds";
+            $text=trans_choice("contest.lengthformatter.seconds", $s);
         } elseif ($m==0) {
-            $text="$h Hours";
+            $text=trans_choice("contest.lengthformatter.hours", $h);
         } elseif ($h==0) {
-            $text="$m Minutes";
+            $text=trans_choice("contest.lengthformatter.minutes", $m);
         } else {
-            $text="$h Hours $m Minutes";
+            $text=trans_choice("contest.lengthformatter.hours", $h).' '.trans_choice("contest.lengthformatter.minutes", $m);
         }
         return $text;
     }

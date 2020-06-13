@@ -162,12 +162,12 @@
                 <i class="MDI {{$f["icon"]}}"></i>
             </feed-circle>
             <feed-info>
-                <h5><strong style="color:#000">{{$info["name"]}}</strong> posted a solution to <strong>{{$f["pcode"]}}</strong></h5>
+                <h5>@lang('dashboard.feed.content', ['name' => htmlspecialchars($info["name"]), 'pcode' => $f["pcode"]])</h5>
             </feed-info>
         </feed-header>
         <feed-body onclick="location.href='/problem/{{$f["pcode"]}}/solution'">
             <h1>{{$f["title"]}}</h1>
-            <p>See more about this solution.</p>
+            <p>{{__('dashboard.feed.seeMore')}}</p>
         </feed-body>
         <feed-footer>{{$f["created_at"]}}</feed-footer>
     </feed-card>
@@ -178,7 +178,7 @@
             <img src="{{$info["avatar"]}}">
         </feed-circle>
         <feed-info>
-            <h5><strong style="color:#000">{{$info["name"]}}</strong> joined {{config("app.name")}}</h5>
+            <h5>@lang('dashboard.feed.first', ['name' => htmlspecialchars($info["name"]), 'appName' => config("app.name")])</h5>
         </feed-info>
     </feed-header>
     <feed-footer>{{$info["created_at"]}}</feed-footer>

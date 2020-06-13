@@ -136,7 +136,7 @@
                     <table class="table">
                         <thead>
                             <tr id="tr-1">
-                                <th scope="col" rowspan="2" style="text-align: left;">Member</th>
+                                <th scope="col" rowspan="2" style="text-align: left;">{{__("contest.inside.analysis.member")}}</th>
                                 <!-- here is tags -->
                             </tr>
                             <tr id="tr-2">
@@ -154,7 +154,7 @@
                     <th scope="col" style="max-width: 6rem; text-overflow: ellipsis; overflow: hidden; white-space:nowrap" title="${tags[tag]}">${tags[tag]}</th>
                 `);
                 $('#table-area #tr-2').append(`
-                    <th scope="col" class="tag-solved" data-tag="${tag}">Solved</th>
+                    <th scope="col" class="tag-solved" data-tag="${tag}">{{__("contest.inside.rank.solved")}}</th>
                 `);
             }
             for(let member_index in member_data){

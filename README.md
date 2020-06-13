@@ -59,7 +59,7 @@ For installation options and troubleshooting tips, see [installation](https://nj
     - [X] User Search
     - [X] Group Search
     - [X] Contest Search
-    - [X] OnmiSearch Support
+    - [X] OmniSearch Support
 - [X] Problem System
     - [X] Problem List
     - [X] Problem Tag

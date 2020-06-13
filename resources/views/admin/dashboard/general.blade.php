@@ -50,8 +50,8 @@ version-badge > inline-div:last-of-type{
                 @unless(is_null($version))
                 @if($version["updatable"])
                 <div>
-                    <a class="btn btn-sm btn-default" title="Update to {{$version}}">
-                        <i class="MDI update"></i><span class="hidden-xs">&nbsp;&nbsp;Update to {{$version}}</span>
+                    <a class="btn btn-sm btn-default" title="Update to {{$version['name']}}">
+                        <i class="MDI update"></i><span class="hidden-xs">&nbsp;&nbsp;Update to {{$version['name']}}</span>
                     </a>
                 </div>
                 @else

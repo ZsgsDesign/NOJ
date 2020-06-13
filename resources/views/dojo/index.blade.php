@@ -144,8 +144,8 @@
 </style>
 <div class="container mundb-standard-container">
     <div class="text-center dojo-header">
-        <h1>NOJ Dojo</h1>
-        <p>Here comes NOJ Dojo, a place to train your skills.</p>
+        <h1>{{__('dojo.title', ['name' => config("app.name")])}}</h1>
+        <p>{{__('dojo.description', ['name' => config("app.name")])}}</p>
     </div>
     <hr>
     @foreach($phases as $phase)
@@ -158,10 +158,10 @@
                 <dojo-card class="{{$dojo->availability}}" data-challenge="{{$dojo->id}}">
                     <div class="dojo-title">
                         <span>{{$dojo->name}}</span>
-                        <small><i class="MDI account-multiple"></i> {{$dojo->passes->count()}} passed</small>
+                        <small><i class="MDI account-multiple"></i> {{__('dojo.passcount', ['num' => $dojo->passes->count()])}}</small>
                     </div>
                     <div class="dojo-body">
-                        <p class="wemd-grey-text wemd-text-darken-2"><i class="MDI book-multiple"></i> {{$dojo->problems->count()}} {{Str::plural('problem', $dojo->problems->count())}}</p>
+                        <p class="wemd-grey-text wemd-text-darken-2"><i class="MDI book-multiple"></i> {{trans_choice("dojo.problemcount", $dojo->problems->count())}}</p>
                         <p class="wemd-grey-text mb-0 mundb-text-truncate-2">{{$dojo->description}}</p>
                     </div>
                 </dojo-card>
@@ -171,7 +171,7 @@
                     <h3 class="dojo-phase">{{$dojo->name}}</h3>
                     <p>{{$dojo->description}}</p>
                     <hr>
-                    <p>You need to complete no less than <strong>{{$dojo->passline}} {{Str::plural('problem', $dojo->passline)}}</strong> to complete this mission.</p>
+                    <p>{!!__("dojo.condition", ['problemcount' => trans_choice("dojo.problemcount", $dojo->passline)])!!}</p>
                     <challenge-container class="mb-3">
                         @foreach($dojo->problems->sortBy('order') as $problem)
                             @php $problem=$problem->problem; @endphp
@@ -186,11 +186,11 @@
                         @endforeach
                     </challenge-container>
                     @if($dojo->passed)
-                        <button type="button" class="btn btn-raised btn-primary" disabled>Completed</button>
+                        <button type="button" class="btn btn-raised btn-primary" disabled>{{__('dojo.action.completed')}}</button>
                     @elseif($dojo->canPass())
-                        <button type="button" class="btn btn-raised btn-primary" data-challenge="{{$dojo->id}}" data-dojo-complete-button>Complete this Mission</button>
+                        <button type="button" class="btn btn-raised btn-primary" data-challenge="{{$dojo->id}}" data-dojo-complete-button>{{__('dojo.action.complete')}}</button>
                     @else
-                        <button type="button" class="btn btn-raised btn-secondary" disabled>Keep Working!</button>
+                        <button type="button" class="btn btn-raised btn-secondary" disabled>{{__('dojo.action.working')}}</button>
                     @endif
                 </challenge-card>
             </div>
@@ -234,7 +234,7 @@
                     if (result.ret===200) {
                         ele.removeAttr('data-dojo-complete-button');
                         ele.removeAttr('data-challenge');
-                        ele.text('Completed');
+                        ele.text('{{__('dojo.action.completed')}}');
                         ele.attr('disabled','');
                         $(`dojo-card[data-challenge="${challenge}"]`).removeClass('available');
                         $(`dojo-card[data-challenge="${challenge}"]`).addClass('passed');

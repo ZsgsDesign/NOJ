@@ -25,17 +25,17 @@
 </style>
 <nav-div>
     @if(time() >= strtotime($basic['begin_time']))
-        <a href="/contest/{{$cid}}/board/challenge" data-nav="challenge"><nav-item>Challenge</nav-item></a>
-        <a href="/contest/{{$cid}}/board/rank" data-nav="rank"><nav-item>Rank</nav-item></a>
-        <a href="/contest/{{$cid}}/board/status" data-nav="status"><nav-item>Status</nav-item></a>
-        <a href="/contest/{{$cid}}/board/clarification" data-nav="clarification"><nav-item>Clarification</nav-item></a>
-        <a href="/contest/{{$cid}}/board/print" data-nav="print"><nav-item>Print</nav-item></a>
+        <a href="/contest/{{$cid}}/board/challenge" data-nav="challenge"><nav-item>{{__("contest.inside.topbar.challenge")}}</nav-item></a>
+        <a href="/contest/{{$cid}}/board/rank" data-nav="rank"><nav-item>{{__("contest.inside.topbar.rank")}}</nav-item></a>
+        <a href="/contest/{{$cid}}/board/status" data-nav="status"><nav-item>{{__("contest.inside.topbar.status")}}</nav-item></a>
+        <a href="/contest/{{$cid}}/board/clarification" data-nav="clarification"><nav-item>{{__("contest.inside.topbar.clarification")}}</nav-item></a>
+        <a href="/contest/{{$cid}}/board/print" data-nav="print"><nav-item>{{__("contest.inside.topbar.print")}}</nav-item></a>
         @if($basic['practice'])
-            <a href="/contest/{{$cid}}/board/analysis" data-nav="analysis"><nav-item>Analysis</nav-item></a>
+            <a href="/contest/{{$cid}}/board/analysis" data-nav="analysis"><nav-item>{{__("contest.inside.topbar.analysis")}}</nav-item></a>
         @endif
     @endif
     @if($clearance>2)
-        <a href="/contest/{{$cid}}/board/admin" data-nav="admin"><nav-item>Admin</nav-item></a>
+        <a href="/contest/{{$cid}}/board/admin" data-nav="admin"><nav-item>{{__("contest.inside.topbar.admin")}}</nav-item></a>
     @endif
     <script>
         document.querySelector("nav-div > a[data-nav='{{$nav}}'] > nav-item").className="active";

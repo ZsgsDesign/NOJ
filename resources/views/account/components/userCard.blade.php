@@ -135,7 +135,7 @@
     </avatar-section>
     <basic-section>
         <h3>{{$info["name"]}}</h3>
-        @if($info["admin"])<p class="mb-0"><small class="wemd-indigo-text">Administration Group</small></p>@endif
+        @if($info["admin"])<p class="mb-0"><small class="wemd-indigo-text">{{__('dashboard.adminGroup')}}</small></p>@endif
         @unless(is_null($info["professionalTitle"]))<p class="mb-0"><small class="{{$info["professionalTitleColor"]}}">{{$info["professionalTitle"]}}</small></p>@endunless
         @unless(is_null($info["rankTitle"]))<p class="mb-0"><small class="{{$info["rankTitleColor"]}}">{{$info["rankTitle"]}}</small></p>@endunless
         {{-- <p style="margin-bottom: .5rem;"><small class="wemd-light-blue-text">站点管理员</small></p> --}}
@@ -143,7 +143,7 @@
         <p id="user-describes" style="padding-top: 1rem;">{{$info['describes']}}</p>
         @if(!empty($extra_info))
             <a id="extra-info-btn" class="btn text-muted" data-toggle="collapse" href="#extra-info" role="button" aria-expanded="false" aria-controls="extra-info" style="font-size: .75rem;">
-                more information
+                {{__('dashboard.more')}}
             </a>
             <div class="collapse" id="extra-info">
                 <p id="extra-info-text" style="font-size: .75rem; text-align:left">
@@ -160,7 +160,7 @@
             <div class="col-lg-4 col-12">
                 <statistic-block>
                     <h1>{{$info["solvedCount"]}}</h1>
-                    <p>Solved</p>
+                    <p>{{__('dashboard.solved')}}</p>
                 </statistic-block>
             </div>
             {{-- <div class="col-lg-4 col-12">
@@ -172,13 +172,13 @@
             <div class="col-lg-4 col-12">
                 <statistic-block>
                     <h1>{{$info["professional_rate"]}}</h1>
-                    <p>Rated</p>
+                    <p>{{__('dashboard.rated')}}</p>
                 </statistic-block>
             </div>
             <div class="col-lg-4 col-12">
                 <statistic-block>
                     <h1>{{$info["rank"]}}</h1>
-                    <p>Casu. Rank</p>
+                    <p>{{__('dashboard.rank')}}</p>
                 </statistic-block>
             </div>
         </div>
@@ -199,10 +199,10 @@
     </statistic-section>
     <hr class="atsast-line">
     <solved-section>
-        <p class="text-center">List of solved problems</p>
+        <p class="text-center">{{__('dashboard.listOfSolved')}}</p>
         @if(empty($info["solved"]))
         <div class="cm-empty">
-            <info-badge>Nothing Here</info-badge>
+            <info-badge>{{__('dashboard.emptySolved')}}</info-badge>
         </div>
         @else
         <div>

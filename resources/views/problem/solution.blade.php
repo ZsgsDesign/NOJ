@@ -457,8 +457,8 @@
                 <fresh-container>
                     <h1>{{$detail["title"]}}</h1>
                     <info-div>
-                        <info-badge data-toggle="tooltip" data-placement="top" title="Time Limit"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
-                        <info-badge data-toggle="tooltip" data-placement="top" title="Memory Limit"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
+                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.timelimit")}}"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
+                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.memorylimit")}}"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
                     </info-div>
                 </fresh-container>
             </paper-card>
@@ -476,8 +476,8 @@
                                     <textarea id="solution_editor"></textarea>
                                 </markdown-editor>
                                 <div class="mb-3">
-                                    <button type="button" class="btn btn-outline-primary" onclick="submitSolutionDiscussion()"><i class="MDI share"></i> Share</button>
-                                    <button type="button" class="btn btn-secondary">Cancel</button>
+                                    <button type="button" class="btn btn-outline-primary" onclick="submitSolutionDiscussion()"><i class="MDI share"></i> {{__("problem.solution.action.share")}}</button>
+                                    <button type="button" class="btn btn-secondary">{{__("problem.solution.action.cancel")}}</button>
                                 </div>
                             </content-section>
                         </solution-section>
@@ -494,16 +494,16 @@
                                 </markdown-editor>
                                 <div class="mb-3" style="display:flex;justify-content:space-between;align-items:cneter;padding-right:1rem;">
                                     <div>
-                                        <button type="button" class="btn btn-outline-primary mb-0" onclick="updateSolutionDiscussion()"><i class="MDI pencil"></i> Update</button>
-                                        <button type="button" class="btn btn-danger mb-0" onclick="deleteSolutionDiscussion()"><i class="MDI delete"></i> Delete</button>
+                                        <button type="button" class="btn btn-outline-primary mb-0" onclick="updateSolutionDiscussion()"><i class="MDI pencil"></i> {{__("problem.solution.action.update")}}</button>
+                                        <button type="button" class="btn btn-danger mb-0" onclick="deleteSolutionDiscussion()"><i class="MDI delete"></i> {{__("problem.solution.action.delete")}}</button>
                                     </div>
                                     <div style="flex-grow:0;flex-shrink:0;display:flex;align-items:center;">
                                         @if($submitted["audit"]==1)
-                                            <p class="mb-0">Audit Status <span class="wemd-green-text"><i class="MDI checkbox-blank-circle"></i> Passed</span></p>
+                                            <p class="mb-0">{{__("problem.solution.audit.title")}} <span class="wemd-green-text"><i class="MDI checkbox-blank-circle"></i> {{__("problem.solution.audit.passed")}}</span></p>
                                         @elseif($submitted["audit"]==0)
-                                            <p class="mb-0">Audit Status <span class="wemd-blue-text"><i class="MDI checkbox-blank-circle"></i> Pending</span></p>
+                                            <p class="mb-0">{{__("problem.solution.audit.title")}} <span class="wemd-blue-text"><i class="MDI checkbox-blank-circle"></i> {{__("problem.solution.audit.pending")}}</span></p>
                                         @else
-                                            <p class="mb-0">Audit Status <span class="wemd-red-text"><i class="MDI checkbox-blank-circle"></i> Denied</span></p>
+                                            <p class="mb-0">{{__("problem.solution.audit.title")}} <span class="wemd-red-text"><i class="MDI checkbox-blank-circle"></i> {{__("problem.solution.audit.denied")}}</span></p>
                                         @endif
                                     </div>
                                 </div>
@@ -516,7 +516,7 @@
                 <solution-section style="align-items: center; justify-content: center;">
                     <empty-container>
                         <i class="MDI package-variant"></i>
-                        <p>No Solution Yet.</p>
+                        <p>{{__("problem.solution.empty")}}</p>
                     </empty-container>
                 </solution-section>
                 @else
@@ -547,31 +547,31 @@
         </div>
         <div class="col-sm-12 col-lg-3">
             <paper-card class="animated fadeInRight btn-group-vertical cm-action-group" role="group" aria-label="vertical button group">
-                <button type="button" class="btn btn-secondary" id="submitBtn"><i class="MDI send"></i>@guest Login & Submit @else Submit @endguest</button>
+                <button type="button" class="btn btn-secondary" id="submitBtn"><i class="MDI send"></i>@guest {{__("problem.action.loginsubmit")}} @else {{__("problem.action.submit")}} @endguest</button>
                 <separate-line class="ultra-thin"></separate-line>
-                <button type="button" class="btn btn-secondary" style="margin-top: 5px;" id="descBtn"><i class="MDI comment-text-outline"></i> Description </button>
-                <button type="button" class="btn btn-secondary" id="discussionBtn"><i class="MDI comment-multiple-outline"></i> Discussion </button>
+                <button type="button" class="btn btn-secondary" style="margin-top: 5px;" id="descBtn"><i class="MDI comment-text-outline"></i> {{__("problem.action.description")}} </button>
+                <button type="button" class="btn btn-secondary" id="discussionBtn"><i class="MDI comment-multiple-outline"></i> {{__("problem.action.discussion")}} </button>
             </paper-card>
             <paper-card class="animated fadeInRight">
-                <p>Info</p>
+                <p>{{__("problem.info.title")}}</p>
                 <div>
                     <a href="{{$detail["oj_detail"]["home_page"]}}" target="_blank"><img src="{{$detail["oj_detail"]["logo"]}}" alt="{{$detail["oj_detail"]["name"]}}" class="img-fluid mb-3"></a>
-                    <p>Provider <span class="wemd-black-text">{{$detail["oj_detail"]["name"]}}</span></p>
-                    @unless($detail['OJ']==1) <p><span>Origin</span> <a href="{{$detail["origin"]}}" target="_blank"><i class="MDI link-variant"></i> {{$detail['source']}}</a></p> @endif
+                    <p>{{__("problem.info.provider")}} <span class="wemd-black-text">{{$detail["oj_detail"]["name"]}}</span></p>
+                    @unless($detail['OJ']==1) <p><span>{{__("problem.info.origin")}}</span> <a href="{{$detail["origin"]}}" target="_blank"><i class="MDI link-variant"></i> {{$detail['source']}}</a></p> @endif
                     <separate-line class="ultra-thin mb-3 mt-3"></separate-line>
-                    <p><span>Code </span> <span class="wemd-black-text"> {{$detail["pcode"]}}</span></p>
-                    <p class="mb-0"><span>Tags </span></p>
+                    <p><span>{{__("problem.info.code")}} </span> <span class="wemd-black-text"> {{$detail["pcode"]}}</span></p>
+                    <p class="mb-0"><span>{{__("problem.info.tags")}} </span></p>
                     <div class="mb-3">@foreach($detail['tags'] as $t)<span class="badge badge-secondary badge-tag">{{$t["tag"]}}</span>@endforeach</div>
-                    <p><span>Submitted </span> <span class="wemd-black-text"> {{$detail['submission_count']}}</span></p>
-                    <p><span>Passed </span> <span class="wemd-black-text"> {{$detail['passed_count']}}</span></p>
-                    <p><span>AC Rate </span> <span class="wemd-black-text"> {{$detail['ac_rate']}}%</span></p>
-                    <p><span>Date </span> <span class="wemd-black-text"> {{$detail['update_date']}}</span></p>
+                    <p><span>{{__("problem.info.submitted")}} </span> <span class="wemd-black-text"> {{$detail['submission_count']}}</span></p>
+                    <p><span>{{__("problem.info.passed")}} </span> <span class="wemd-black-text"> {{$detail['passed_count']}}</span></p>
+                    <p><span>{{__("problem.info.acrate")}} </span> <span class="wemd-black-text"> {{$detail['ac_rate']}}%</span></p>
+                    <p><span>{{__("problem.info.date")}} </span> <span class="wemd-black-text"> {{$detail['update_date']}}</span></p>
                 </div>
             </paper-card>
             <paper-card class="animated fadeInRight">
-                <p>Related</p>
+                <p>{{__("problem.related.title")}}</p>
                 <div class="cm-empty">
-                    <badge>Nothing Yet</badge>
+                    <badge>{{__("problem.related.empty")}}</badge>
                 </div>
             </paper-card>
         </div>

@@ -86,62 +86,60 @@
     }
 
 </style>
-
-
-        <settings-card>
-            <settings-header>
-                <h5><i class="MDI marker-check"></i> Permission Management</h5>
-            </settings-header>
-            <settings-body>
-                <div class="row mt-4">
-                    @foreach($member_list as $m)
-                        @if($m["role"]>0)
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <user-card id="user-permission-{{$m["uid"]}}">
-                                <user-avatar>
-                                    <a href="/user/{{$m["uid"]}}"><img src="{{$m["avatar"]}}"></a>
-                                </user-avatar>
-                                <user-info data-clearance="{{$m["role"]}}" data-rolecolor="{{$m["role_color"]}}">
-                                    <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
-                                    <p>
-                                        <small @if($m["role"] <= $group_clearance) onclick="prompt_changeSubgroup({{$m['uid']}}, '{{$m['name']}}', '{{$m['sub_group']}}' ); " @endif style="cursor: pointer;" ><i class="MDI google-circles"></i> <span id="{{$m['uid']}}"> {{$m['sub_group']}}</span></small>
-                                        @if($group_clearance>$m["role"])
-                                            <small @if($group_clearance <= $m["role"] + 1) style="display:none" @endif class="wemd-green-text cm-operation clearance-up" onclick="changeMemberClearance({{$m['uid']}},'promote')"><i class="MDI arrow-up-drop-circle-outline"></i> Promote</small>
-                                            <small @if($m["role"] <= 1) style="display:none" @endif class="wemd-red-text cm-operation clearance-down" onclick="changeMemberClearance({{$m['uid']}},'demote')"><i class="MDI arrow-down-drop-circle-outline"></i> Demote</small>
-                                        @endif
-                                    </p>
-                                </user-info>
-                            </user-card>
-                        </div>
-                        @endif
-                    @endforeach
+<settings-card>
+    <settings-header>
+        <h5><i class="MDI marker-check"></i> {{__('group.member.permissionManagement')}}</h5>
+    </settings-header>
+    <settings-body>
+        <div class="row mt-4">
+            @foreach($member_list as $m)
+                @if($m["role"]>0)
+                <div class="col-12 col-md-6 col-lg-4">
+                    <user-card id="user-permission-{{$m["uid"]}}">
+                        <user-avatar>
+                            <a href="/user/{{$m["uid"]}}"><img src="{{$m["avatar"]}}"></a>
+                        </user-avatar>
+                        <user-info data-clearance="{{$m["role"]}}" data-rolecolor="{{$m["role_color"]}}">
+                            <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
+                            <p>
+                                <small @if($m["role"] <= $group_clearance) onclick="prompt_changeSubgroup({{$m['uid']}}, '{{$m['name']}}', '{{$m['sub_group']}}' ); " @endif style="cursor: pointer;" ><i class="MDI google-circles"></i> <span id="{{$m['uid']}}"> {{$m['sub_group']}}</span></small>
+                                @if($group_clearance>$m["role"])
+                                    <small @if($group_clearance <= $m["role"] + 1) style="display:none" @endif class="wemd-green-text cm-operation clearance-up" onclick="changeMemberClearance({{$m['uid']}},'promote')"><i class="MDI arrow-up-drop-circle-outline"></i> {{__('group.member.promote')}}</small>
+                                    <small @if($m["role"] <= 1) style="display:none" @endif class="wemd-red-text cm-operation clearance-down" onclick="changeMemberClearance({{$m['uid']}},'demote')"><i class="MDI arrow-down-drop-circle-outline"></i> {{__('group.member.demote')}}</small>
+                                @endif
+                            </p>
+                        </user-info>
+                    </user-card>
                 </div>
-            </settings-body>
-        </settings-card>
+                @endif
+            @endforeach
+        </div>
+    </settings-body>
+</settings-card>
 
-        <settings-card>
+<settings-card>
 
-            <settings-header>
-                <h5><i class="MDI bullhorn"></i> Group Announcement</h5>
-            </settings-header>
-            <settings-body>
-                <div class="form-group">
-                    <label for="noticeTitle" class="bmd-label-floating">Title</label>
-                    <input type="text" class="form-control" id="noticeTitle" value='{{$group_notice["title"]}}'>
-                </div>
-                <div class="form-group">
-                    <small class="" style="margin-bottom:10px;font-size:17px;">Content</small>
-                    <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
-                    <markdown-editor class="mt-3 mb-3">
-                        <textarea id="notice_editor"></textarea>
-                    </markdown-editor>
-                </div>
-            </settings-body>
-            <settings-footer>
-                <button type="button" class="btn btn-primary" id="noticeBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Submit</button>
-            </settings-footer>
+    <settings-header>
+        <h5><i class="MDI bullhorn"></i> {{__('group.member.groupAnnouncement')}}</h5>
+    </settings-header>
+    <settings-body>
+        <div class="form-group">
+            <label for="noticeTitle" class="bmd-label-floating">{{__('group.member.title')}}</label>
+            <input type="text" class="form-control" id="noticeTitle" value='{{$group_notice["title"]}}'>
+        </div>
+        <div class="form-group">
+            <small class="" style="margin-bottom:10px;font-size:17px;">{{__('group.member.content')}}</small>
+            <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
+            <markdown-editor class="mt-3 mb-3">
+                <textarea id="notice_editor"></textarea>
+            </markdown-editor>
+        </div>
+    </settings-body>
+    <settings-footer>
+        <button type="button" class="btn btn-primary" id="noticeBtn"><i class="MDI autorenew cm-refreshing d-none"></i> {{__('group.member.submit')}}</button>
+    </settings-footer>
 
-        </settings-card>
+</settings-card>
 
 @endsection
 
@@ -384,9 +382,9 @@
         {
 
             var name=prompt({
-                content:"change "+name+"'s subgroup to",
-                title:"Modify Sub Group",
-                placeholder: 'Sub Group',
+                content:"{{__('group.member.modifySubGroupContent1')}}"+name+"{{__('group.member.modifySubGroupContent2')}}",
+                title:"{{__('group.member.modifySubGroup')}}",
+                placeholder: "{{__('group.member.subGroup')}}",
                 value: sub_group ,
             }, function (deny, text){
                 if(deny) return;

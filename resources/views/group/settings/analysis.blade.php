@@ -133,29 +133,29 @@
 <div class="mundb-standard-container container">
     <settings-card>
         <settings-header>
-            <h5><i class="MDI chart-line"></i> Practice Contest Analysis</h5>
+            <h5><i class="MDI chart-line"></i> {{__('group.analysis.title')}}</h5>
         </settings-header>
         <settings-body>
             <nav id="mode-list" class="nav nav-tabs nav-stacked">
-                <a id="tab-contest" class="nav-link active" href="#">Contests</a>
-                <a id="tab-tag" class="nav-link" href="#">Tags</a>
-                <a class="nav-link disabled" href="#">Developing...</a>
+                <a id="tab-contest" class="nav-link active" href="#">{{__('group.analysis.contests')}}</a>
+                <a id="tab-tag" class="nav-link" href="#">{{__('group.analysis.tags')}}</a>
+                <a class="nav-link disabled" href="#">{{__('group.analysis.developing')}}</a>
             </nav>
             <div class="analysis-toolbar">
-                <a id="analysis-download" class="btn btn-outline-primary m-0"><i class="MDI download"></i> download as excel</a>
+                <a id="analysis-download" class="btn btn-outline-primary m-0"><i class="MDI download"></i> {{__('group.analysis.downloadAsExcel')}}</a>
                 <span class="bmd-form-group pt-2">
                     <div class="switch">
                         <label>
                             <input id="switch-percent" type="checkbox">
-                            Show By Percent
+                            {{__('group.analysis.showByPercent')}}
                         </label>&nbsp;&nbsp;&nbsp;&nbsp;
                         <label>
                             <input id="switch-max" type="checkbox">
-                            Hide Maximum
+                            {{__('group.analysis.hideMaximum')}}
                         </label>
                     </div>
                 </span>
-                <span style="font-size:1.5rem" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<p>something you can do.</p><p>Click the attribute name below total or each contest to sort.</p><p> Click on the name of a member to ignore/unignore him.</p><p> click on the Elo rate of a member to see his elo rate change history."><i class="MDI comment-question-outline"></i></span>
+                <span style="font-size:1.5rem" data-toggle="tooltip" data-placement="bottom" data-html="true" title="@lang('group.analysis.tips')"><i class="MDI comment-question-outline"></i></span>
             </div>
             <div id="panels">
                 <div id="contest-panel"  style="display: none">
@@ -169,7 +169,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content sm-modal">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="MDI history"></i> Elo Change History</h5>
+                    <h5 class="modal-title"><i class="MDI history"></i> {{__('group.analysis.eloChangeHistory')}}</h5>
                 </div>
                 <div class="modal-body">
                     <div class="row" style="width:60vw">
@@ -181,8 +181,8 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th class="text-left" scope="col">Contest Name</th>
-                                            <th scope="col">After Contest Elo</th>
+                                            <th class="text-left" scope="col">{{__('group.analysis.contestName')}}</th>
+                                            <th scope="col">{{__('group.analysis.afterContestElo')}}</th>
                                         </tr>
                                     </thead>
                                     <tbody id="history_container">
@@ -193,7 +193,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">{{__('group.analysis.close')}}</button>
                 </div>
             </div>
         </div>
@@ -203,7 +203,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content sm-modal">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="MDI history"></i> Tag Radar</h5>
+                    <h5 class="modal-title"><i class="MDI history"></i> {{__('group.analysis.tagRader')}}</h5>
                 </div>
                 <div class="modal-body">
                     <div style="width:60vw">
@@ -211,7 +211,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">{{__('group.analysis.close')}}</button>
                 </div>
             </div>
         </div>
@@ -240,7 +240,7 @@
         type: 'line',
         data: {
             datasets: [{
-                label: 'Elo Rate',
+                label: '{{__('group.analysis.chartLabelElo')}}',
                 fill: false,
                 data: [],
             }]
@@ -284,7 +284,7 @@
         data: {
             labels: [],
             datasets: [{
-                label: 'Tag Complete',
+                label: '{{__('group.analysis.chartLabelTag')}}',
                 data: []
             }]
         },
@@ -475,9 +475,9 @@
                                 </tr>
                                 <tr id="tr-2">
                                     <th scopr="col" class="contest-elo" data-cid="0">Elo</th>
-                                    <th scope="col" class="contest-rank" data-cid="0">Rank</th>
-                                    <th scope="col" class="contest-solved" data-cid="0">Solved</th>
-                                    <th scope="col" class="contest-penalty" data-cid="0">Penalty</th>
+                                    <th scope="col" class="contest-rank" data-cid="0">{{__("contest.inside.rank.title")}}</th>
+                                    <th scope="col" class="contest-solved" data-cid="0">{{__("contest.inside.rank.solved")}}</th>
+                                    <th scope="col" class="contest-penalty" data-cid="0">{{__("contest.inside.rank.penalty")}}</th>
                                     <!-- here is the column of the contests -->
                                 </tr>
                             </thead>
@@ -496,9 +496,9 @@
                         <th class="t-left" scope="col" colspan="3" style="max-width: 6rem; text-overflow: ellipsis; overflow: hidden; white-space:nowrap" class="contest-name" data-cid="${contest_id}" title="${contest_name}">${contest_name}</th>
                     `);
                     $(selector + ' #tr-2').append(`
-                        <th scope="col" class="contest-rank t-left" data-cid="${contest_id}">Rank</th>
-                        <th scope="col" class="contest-solved" data-cid="${contest_id}">Solved</th>
-                        <th scope="col" class="contest-penalty" data-cid="${contest_id}">Penalty</th>
+                        <th scope="col" class="contest-rank t-left" data-cid="${contest_id}">{{__("contest.inside.rank.title")}}</th>
+                        <th scope="col" class="contest-solved" data-cid="${contest_id}">{{__("contest.inside.rank.solved")}}</th>
+                        <th scope="col" class="contest-penalty" data-cid="${contest_id}">{{__("contest.inside.rank.penalty")}}</th>
                     `);
                 }
                 for(let member_index in member_data){

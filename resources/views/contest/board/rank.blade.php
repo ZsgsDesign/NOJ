@@ -126,10 +126,10 @@
                             @if($contest_rule==1)
                             {{-- ACM/ICPC Mode --}}
                             <tr>
-                                <th scope="col" rowspan="2" style="text-align: left;">Rank</th>
-                                <th scope="col" rowspan="2">Account</th>
-                                <th scope="col" rowspan="2">Score</th>
-                                <th scope="col" rowspan="2">Penalty</th>
+                                <th scope="col" rowspan="2" style="text-align: left;">{{__("contest.inside.rank.title")}}</th>
+                                <th scope="col" rowspan="2">{{__("contest.inside.rank.account")}}</th>
+                                <th scope="col" rowspan="2">{{__("contest.inside.rank.score")}}</th>
+                                <th scope="col" rowspan="2">{{__("contest.inside.rank.penalty")}}</th>
                                 @foreach($problem_set as $p)
                                     <th scope="col" class="cm-problem-header">{{$p["ncode"]}}</th>
                                 @endforeach
@@ -142,10 +142,10 @@
                             @else
                                 {{-- IOI Mode --}}
                                 <tr>
-                                    <th scope="col" style="text-align: left;">Rank</th>
-                                    <th scope="col">Account</th>
-                                    <th scope="col">Score</th>
-                                    <th scope="col">Solved</th>
+                                    <th scope="col" style="text-align: left;">{{__("contest.inside.rank.title")}}</th>
+                                    <th scope="col">{{__("contest.inside.rank.account")}}</th>
+                                    <th scope="col">{{__("contest.inside.rank.score")}}</th>
+                                    <th scope="col">{{__("contest.inside.rank.solved")}}</th>
                                     @foreach($problem_set as $p)
                                         <th scope="col" class="cm-problem-header">{{$p["ncode"]}}</th>
                                     @endforeach

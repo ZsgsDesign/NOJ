@@ -36,7 +36,7 @@
         <i class="MDI dots-vertical"></i>
     </button>
     <div class="dropdown-menu">
-        <button class="dropdown-item wemd-red-text" onclick="reportAbuse()"><i class="MDI alert-circle wemd-red-text"></i> Report Abuse</button>
+        <button class="dropdown-item wemd-red-text" onclick="reportAbuse()"><i class="MDI alert-circle wemd-red-text"></i> {{__('dashboard.reportAbuse')}}</button>
     </div>
 </shadow-button>
 

@@ -98,16 +98,16 @@
         <div class="col-sm-12 col-md-8 col-lg-6">
             <div class="text-center" style="margin-top:10vh;margin-bottom:20px;">
                 <h1 style="padding:20px;display:inline-block;">{{config("app.name")}}</h1>
-                <p>{{config("app.name")}}'s yet another Online Judge</p>
+                <p>{{__("account.slogan", ["name" => config("app.name")])}}</p>
             </div>
             <div class="card">
                 <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs nav-justified nav-tabs-material" id="accountTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="true">login</a>
+                            <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="true">{{__("Login")}}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">register</a>
+                            <a class="nav-link " id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">{{__("Register")}}</a>
                         </li>
                         <div class="nav-tabs-indicator" id="nav-tabs-indicator" style="left: 0px;"></div>
                     </ul>
@@ -118,7 +118,7 @@
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="email" class="bmd-label-floating">Email</label>
+                                    <label for="email" class="bmd-label-floating">{{__("E-Mail Address")}}</label>
                                     <input type="email" name="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" id="email" required>
                                     @if ($errors->has('email'))
                                         <span class="invalid-feedback" role="alert">
@@ -127,7 +127,7 @@
                                     @endif
                                 </div>
                                 <div class="form-group">
-                                    <label for="password" class="bmd-label-floating">Password</label>
+                                    <label for="password" class="bmd-label-floating">{{__("Password")}}</label>
                                     <input type="password" name="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" id="password" required>
                                     @if ($errors->has('password'))
                                         <span class="invalid-feedback" role="alert">
@@ -142,8 +142,8 @@
                                 </div>
                             </div>
                             <div class="card-footer text-right">
-                                <a href="{{ route('password.request') }}"><button type="button" class="btn btn-secondary">Forget your password?</button></a>
-                                <button type="submit" class="btn btn-danger">Login</button>
+                                <a href="{{ route('password.request') }}"><button type="button" class="btn btn-secondary">{{__("account.forgetpassword")}}</button></a>
+                                <button type="submit" class="btn btn-danger">{{__("Login")}}</button>
                             </div>
                         </form>
                     </div>
