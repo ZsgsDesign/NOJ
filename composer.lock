@@ -2207,16 +2207,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v6.18.19",
+            "version": "v6.18.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "69321afec31f4a908112e5dc8995fc91024fd971"
+                "reference": "2862a9857533853bb2851bac39d65e3bfb8ba6cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/69321afec31f4a908112e5dc8995fc91024fd971",
-                "reference": "69321afec31f4a908112e5dc8995fc91024fd971",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/2862a9857533853bb2851bac39d65e3bfb8ba6cd",
+                "reference": "2862a9857533853bb2851bac39d65e3bfb8ba6cd",
                 "shasum": ""
             },
             "require": {
@@ -2298,6 +2298,7 @@
             "suggest": {
                 "aws/aws-sdk-php": "Required to use the SQS queue driver, DynamoDb failed job storage and SES mail driver (^3.0).",
                 "doctrine/dbal": "Required to rename columns and drop SQLite columns (^2.6).",
+                "ext-ftp": "Required to use the Flysystem FTP driver.",
                 "ext-gd": "Required to use Illuminate\\Http\\Testing\\FileFactory::image().",
                 "ext-memcached": "Required to use the memcache cache driver.",
                 "ext-pcntl": "Required to use all features of the queue worker.",
@@ -2350,7 +2351,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2020-06-09T13:59:34+00:00"
+            "time": "2020-06-16T13:21:33+00:00"
         },
         {
             "name": "laravel/passport",
@@ -5792,7 +5793,7 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v5.1.1",
+            "version": "v5.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
@@ -6343,7 +6344,7 @@
         },
         {
             "name": "symfony/mime",
-            "version": "v5.1.1",
+            "version": "v5.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mime.git",
