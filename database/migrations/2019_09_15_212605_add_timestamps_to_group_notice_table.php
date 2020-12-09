@@ -15,7 +15,7 @@ class AddTimestampsToGroupNoticeTable extends Migration
     {
         Schema::table('group_notice', function (Blueprint $table) {
             $table->renameColumn('post_date', 'created_at');
-            $table->timestamp('updated_at');
+            $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
         });
     }

@@ -15,7 +15,7 @@ class AddTimestampsToGroupMemberTable extends Migration
     {
         Schema::table('group_member', function (Blueprint $table) {
             $table->renameColumn('join_time', 'created_at');
-            $table->timestamp('updated_at');
+            $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
         });
     }
