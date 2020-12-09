@@ -4167,16 +4167,16 @@
         },
         {
             "name": "npm-asset/lodash",
-            "version": "4.17.15-patch1",
+            "version": "4.17.20-patch1",
             "source": {
                 "type": "git",
                 "url": "git@github.com:lodash/lodash.git",
-                "reference": "10681716750bfbd9ed862817e4dec70963adc492"
+                "reference": "f2e7063ee409ff40a60b14370c58dceee1a2efd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lodash/lodash/zipball/10681716750bfbd9ed862817e4dec70963adc492",
-                "reference": "10681716750bfbd9ed862817e4dec70963adc492"
+                "url": "https://api.github.com/repos/lodash/lodash/zipball/f2e7063ee409ff40a60b14370c58dceee1a2efd4",
+                "reference": "f2e7063ee409ff40a60b14370c58dceee1a2efd4"
             },
             "type": "npm-asset",
             "license": [
@@ -5055,12 +5055,12 @@
             "version": "v1.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nrk/predis.git",
+                "url": "https://github.com/predis/predis.git",
                 "reference": "f0210e38881631afeafb56ab43405a92cafd9fd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nrk/predis/zipball/f0210e38881631afeafb56ab43405a92cafd9fd1",
+                "url": "https://api.github.com/repos/predis/predis/zipball/f0210e38881631afeafb56ab43405a92cafd9fd1",
                 "reference": "f0210e38881631afeafb56ab43405a92cafd9fd1",
                 "shasum": ""
             },
@@ -5097,6 +5097,16 @@
                 "nosql",
                 "predis",
                 "redis"
+            ],
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/tillkruss",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/tillkruss",
+                    "type": "github"
+                }
             ],
             "time": "2016-06-16T16:22:20+00:00"
         },
@@ -8908,6 +8918,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2019-09-17T06:23:10+00:00"
         },
         {
