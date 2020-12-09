@@ -55,7 +55,7 @@
         "npm-asset/perfect-scrollbar": "^1.4",
         "npm-asset/popper.js": "^1.5",
         "npm-asset/simplemde": "^1.11",
-        "oomphinc/composer-installers-extender": "^1.1",
+        "oomphinc/composer-installers-extender": "^2.0",
         "orangehill/iseed": "^2.6",
         "phar-io/version": "^2.0",
         "predis/predis": "^1.1",
