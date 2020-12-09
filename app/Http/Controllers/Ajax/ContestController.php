@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Ajax;
 
 use App\Models\ContestModel;
-use App\Models\Eloquent\ContestModel as EloquentContestModel;
+use App\Models\Eloquent\Contest as EloquentContestModel;
 use App\Models\GroupModel;
 use App\Models\ResponseModel;
 use App\Http\Controllers\Controller;
@@ -18,7 +18,6 @@ class ContestController extends Controller
         $request->validate([
             'cid' => 'required|integer',
         ]);
-
         $all_data=$request->all();
 
         $contestModel=new ContestModel();

@@ -87,7 +87,7 @@
 <div class="container mundb-standard-container">
     @unless(is_null($trending))
     <div>
-        <p class="cm-trending"><i class="MDI fire wemd-red-text"></i> Trending Groups</p>
+        <p class="cm-trending"><i class="MDI fire wemd-red-text"></i> {{__("group.trending")}}</p>
     </div>
     <div class="row">
         @foreach ($trending as $t)
@@ -101,7 +101,7 @@
                         </div>
                         <div>
                             <p class="cm-group-name">@if($t['verified'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif {{$t['name']}}</p>
-                            <small class="cm-group-info">{{$t['members']}} Members</small>
+                            <small class="cm-group-info">{{trans_choice("group.members", $t['members'])}}</small>
                             <div class="cm-group-action">
 
                                 </div>
@@ -114,7 +114,7 @@
     @endunless
     @if(Auth::check())
     <div>
-        <p class="cm-mine-group">My Groups</p>
+        <p class="cm-mine-group">{{__("group.my")}}</p>
     </div>
     <div class="row">
         @foreach ($mine as $m)
@@ -128,7 +128,7 @@
                         </div>
                         <div>
                             <p class="cm-group-name">@if($m['verified'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif {{$m['name']}}</p>
-                            <small class="cm-group-info">{{$m['members']}} Members</small>
+                            <small class="cm-group-info">{{trans_choice("group.members", $m['members'])}}</small>
                             <div class="cm-group-action">
 
                                 </div>
@@ -146,11 +146,11 @@
                         </shadow-div>
                     </div>
                     <div>
-                        <p class="cm-group-name">Create a New Group</p>
-                        <small class="cm-group-info">Click here to create your own group!</small>
+                        <p class="cm-group-name">{{__("group.create.title")}}</p>
+                        <small class="cm-group-info">{{__("group.create.description")}}</small>
                         <div class="cm-group-action">
 
-                            </div>
+                        </div>
                     </div>
                 </group-card>
             </a>

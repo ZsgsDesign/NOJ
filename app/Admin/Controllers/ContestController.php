@@ -3,7 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\ContestModel;
-use App\Models\Eloquent\ContestModel as EloquentContestModel;
+use App\Models\Eloquent\Contest as EloquentContestModel;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;

@@ -125,7 +125,7 @@
                 <div></div>
                 <div></div>
             </div>
-            <p>Preparing {{config("app.name")}}</p>
+            <p>{{__('splash.loading', ['name' => config("app.name")])}}</p>
         </div>
     </loading>
     <!-- Style -->
@@ -637,18 +637,18 @@
         <top-side>
             <left-side>
                 <div class="prob-header animated pre-animated cm-performance-optimistic">
-                    <button class="btn btn-outline-secondary" id="backBtn"><i class="MDI arrow-left"></i>  Back</button>
+                    <button class="btn btn-outline-secondary" id="backBtn"><i class="MDI arrow-left"></i>  {{__("problem.back")}}</button>
                     @if($contest_mode)
                         @if($contest_rule==1)
-                            <info-badge data-toggle="tooltip" data-placement="top" title="Passed / Submission"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['passed_count']}} / {{$detail['submission_count']}}</info-badge>
+                            <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.acratio")}}"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['passed_count']}} / {{$detail['submission_count']}}</info-badge>
                         @else
-                            <info-badge data-toggle="tooltip" data-placement="top" title="Total Points"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail["points"]}} Points</info-badge>
+                            <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.totalpoints")}}"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail["points"]}} Points</info-badge>
                         @endif
-                     @else
-                        <info-badge data-toggle="tooltip" data-placement="top" title="AC Rate"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['ac_rate']}}%</info-badge>
+                    @else
+                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.acrate")}}"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['ac_rate']}}%</info-badge>
                     @endif
-                    <info-badge data-toggle="tooltip" data-placement="top" title="Time Limit"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
-                    <info-badge data-toggle="tooltip" data-placement="top" title="Memory Limit"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
+                    <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.timelimit")}}"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
+                    <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.memorylimit")}}"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
                 </div>
                 <div class="animated pre-animated cm-performance-optimistic cm-delay">
                     <link rel="stylesheet" href="/static/css/oj/{{$detail["oj_detail"]["ocode"]}}.css">
@@ -677,7 +677,7 @@
                                 </div>
                                 <div>
                                     <h5 class="mundb-text-truncate-1">{{basename($detail["file_url"])}}</h5>
-                                    <p><a class="text-info" href="{{asset($detail["file_url"])}}">Download</a></p>
+                                    <p><a class="text-info" href="{{asset($detail["file_url"])}}">{{__("problem.download")}}</a></p>
                                 </div>
                             </file-card>
                         @endif
@@ -690,7 +690,7 @@
 
                         @unless(blank($detail["parsed"]["description"]))
 
-                        <h2>Description:</h2>
+                        <h2>{{__("problem.section.description")}}:</h2>
 
                         {!!$detail["parsed"]["description"]!!}
 
@@ -698,7 +698,7 @@
 
                         @unless(blank($detail["parsed"]["input"]))
 
-                        <h2>Input:</h2>
+                        <h2>{{__("problem.section.input")}}:</h2>
 
                         {!!$detail["parsed"]["input"]!!}
 
@@ -706,7 +706,7 @@
 
                         @unless(blank($detail["parsed"]["output"]))
 
-                        <h2>Output:</h2>
+                        <h2>{{__("problem.section.output")}}:</h2>
 
                         {!!$detail["parsed"]["output"]!!}
 
@@ -715,13 +715,13 @@
                         @foreach($detail["samples"] as $ps)
 
                             @if (!is_null($ps['sample_input']) && $ps['sample_input'] !== '')
-                            <h2>Sample Input:</h2>
-                            <div class="cm-pre-wrapper"><pre id="input{{$loop->index}}">{!!$ps['sample_input']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#input{{$loop->index}}">Copy</button></div>
+                            <h2>{{__("problem.section.sampleinput")}}:</h2>
+                            <div class="cm-pre-wrapper"><pre id="input{{$loop->index}}">{!!$ps['sample_input']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#input{{$loop->index}}">{{__("problem.section.samplecopy")}}</button></div>
                             @endif
 
                             @if (!is_null($ps['sample_output']) && $ps['sample_output'] !== '')
-                            <h2>Sample Output:</h2>
-                            <div class="cm-pre-wrapper"><pre id="output{{$loop->index}}">{!!$ps['sample_output']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#output{{$loop->index}}">Copy</button></div>
+                            <h2>{{__("problem.section.sampleoutput")}}:</h2>
+                            <div class="cm-pre-wrapper"><pre id="output{{$loop->index}}">{!!$ps['sample_output']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#output{{$loop->index}}">{{__("problem.section.samplecopy")}}</button></div>
                             @endif
 
                             @unless (blank($ps['sample_note'])) {!!$ps['sample_note']!!} @endunless
@@ -730,7 +730,7 @@
 
                         @unless(blank($detail["parsed"]["note"]))
 
-                        <h2>Note:</h2>
+                        <h2>{{__("problem.section.note")}}:</h2>
 
                         {!!$detail["parsed"]["note"]!!}
 
@@ -758,7 +758,7 @@
             <div>
                 <button type="button" class="btn btn-secondary cm-active" id="problemBtn"> <i class="MDI book"></i></button>
                 <button type="button" class="btn btn-secondary cm-active" id="editorBtn"> <i class="MDI pencil"></i></button>
-                <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> History</button>
+                <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> {{__("problem.editor.history.button")}}</button>
                 <div class="btn-group dropup">
                     @if(count($compiler_list))
                         <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_lang_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -772,12 +772,12 @@
                     @endif
                 </div>
                 @if($contest_mode && $contest_ended)
-                    <a href="/problem/{{$detail["pcode"]}}"><button type="button" class="btn btn-info" id="origialBtn"> <i class="MDI launch"></i> Original Problem</button></a>
+                    <a href="/problem/{{$detail["pcode"]}}"><button type="button" class="btn btn-info" id="origialBtn"> <i class="MDI launch"></i> {{__("problem.editor.submit.original")}}</button></a>
                 @else
                     @if(!count($compiler_list) || !$oj_detail['status'])
-                        <button type="button" class="btn btn-secondary" disabled> <i class="MDI send"></i> <span>Submit Unavailable</span></button>
+                        <button type="button" class="btn btn-secondary" disabled> <i class="MDI send"></i> <span>{{__("problem.editor.submit.unable")}}</span></button>
                     @else
-                        <button type="button" class="btn btn-primary" id="submitBtn"> <i class="MDI send"></i> <span>Submit Code</span></button>
+                        <button type="button" class="btn btn-primary" id="submitBtn"> <i class="MDI send"></i> <span>{{__("problem.editor.submit.normal")}}</span></button>
                     @endif
                 @endif
             </div>
@@ -823,16 +823,16 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content sm-modal">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="MDI history"></i> Submit History</h5>
+                    <h5 class="modal-title"><i class="MDI history"></i> {{__("problem.editor.history.title")}}</h5>
                 </div>
                 <div class="modal-body">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Time</th>
-                                <th scope="col">Memory</th>
-                                <th scope="col">Language</th>
-                                <th scope="col">Result</th>
+                                <th scope="col">{{__("status.time")}}</th>
+                                <th scope="col">{{__("status.memory")}}</th>
+                                <th scope="col">{{__("status.language")}}</th>
+                                <th scope="col">{{__("status.result")}}</th>
                             </tr>
                         </thead>
                         <tbody id="history_container">
@@ -840,7 +840,7 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">{{__("problem.editor.history.close")}}</button>
                 </div>
             </div>
         </div>
@@ -1056,7 +1056,7 @@
             $("#submitBtn > i").removeClass("send");
             $("#submitBtn > i").addClass("autorenew");
             $("#submitBtn > i").addClass("cm-refreshing");
-            $("#submitBtn > span").text("Submitting");
+            $("#submitBtn > span").text("{{__("problem.editor.submit.submit")}}");
             // console.log(editor.getValue());
             $("#verdict_text").text("Submitting...");
             $("#verdict_info").removeClass();
@@ -1151,7 +1151,7 @@
                     $("#submitBtn > i").addClass("send");
                     $("#submitBtn > i").removeClass("autorenew");
                     $("#submitBtn > i").removeClass("cm-refreshing");
-                    $("#submitBtn > span").text("Submit Code");
+                    $("#submitBtn > span").text("{{__("problem.editor.submit.normal")}}");
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
 
@@ -1173,7 +1173,7 @@
                     $("#submitBtn > i").addClass("send");
                     $("#submitBtn > i").removeClass("autorenew");
                     $("#submitBtn > i").removeClass("cm-refreshing");
-                    $("#submitBtn > span").text("Submit Code");
+                    $("#submitBtn > span").text("{{__("problem.editor.submit.normal")}}");
                 }
             });
         });
@@ -1195,6 +1195,14 @@
             $("#verdict_info").popover();
 
             require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});
+
+            // require.config({
+            //     'vs/nls' : {
+            //         availableLanguages: {
+            //             '*': '{{Str::lower(App::getLocale())}}'
+            //         }
+            //     }
+            // });
 
             // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
             // the default worker url location (used when creating WebWorkers). The problem here is that

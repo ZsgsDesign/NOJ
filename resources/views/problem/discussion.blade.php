@@ -339,25 +339,25 @@
                 <fresh-container>
                     <h1>{{$detail["title"]}}</h1>
                     <info-div>
-                        <info-badge data-toggle="tooltip" data-placement="top" title="Time Limit"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
-                        <info-badge data-toggle="tooltip" data-placement="top" title="Memory Limit"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
+                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.timelimit")}}"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
+                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.memorylimit")}}"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
                     </info-div>
                 </fresh-container>
             </paper-card>
             <paper-card class="animated fadeInLeft p-3">
                 <div class="text-center">
-                    <button class="btn btn-outline-primary btn-rounded" onclick="$('#newDiscussionModel').modal()"><i class="MDI comment-plus-outline"></i>Post Discussion</button>
+                    <button class="btn btn-outline-primary btn-rounded" onclick="$('#newDiscussionModel').modal()"><i class="MDI comment-plus-outline"></i>{{__("problem.discussion.action")}}</button>
                 </div>
                 @if(count($discussion) == 0)
                     <div class="cm-empty">
-                        <badge>Nothing Yet</badge>
+                        <badge>{{__("problem.discussion.empty")}}</badge>
                     </div>
                 @else
                     @foreach ($discussion as $d)
                         <div class="post-list">
                             <div class="comment-number">
                                 <strong><h3>{{$d['comment_count']}}</h3></strong>
-                                <p>Comment</p>
+                                <p>{{trans_choice("problem.discussion.comments", $d['comment_count'])}}</p>
                             </div>
                             <div class="post-title">
                             <h3><a href="/discussion/{{$d['pdid']}}">{{$d["title"]}}</a></h3>
@@ -372,31 +372,31 @@
         </div>
         <div class="col-sm-12 col-lg-3">
             <paper-card class="animated fadeInRight btn-group-vertical cm-action-group" role="group" aria-label="vertical button group">
-                <button type="button" class="btn btn-secondary" id="submitBtn"><i class="MDI send"></i>@guest Login & Submit @else Submit @endguest</button>
+                <button type="button" class="btn btn-secondary" id="submitBtn"><i class="MDI send"></i>@guest {{__("problem.action.loginsubmit")}} @else {{__("problem.action.submit")}} @endguest</button>
                 <separate-line class="ultra-thin"></separate-line>
-                <button type="button" class="btn btn-secondary" style="margin-top: 5px;" id="descBtn"><i class="MDI comment-text-outline"></i> Description </button>
-                <button type="button" class="btn btn-secondary" id="solutionBtn"><i class="MDI comment-check-outline"></i> Solution </button>
+                <button type="button" class="btn btn-secondary" style="margin-top: 5px;" id="descBtn"><i class="MDI comment-text-outline"></i> {{__("problem.action.description")}} </button>
+                <button type="button" class="btn btn-secondary" id="solutionBtn"><i class="MDI comment-check-outline"></i> {{__("problem.action.solution")}} </button>
             </paper-card>
             <paper-card class="animated fadeInRight">
-                <p>Info</p>
+                <p>{{__("problem.info.title")}}</p>
                 <div>
                     <a href="{{$detail["oj_detail"]["home_page"]}}" target="_blank"><img src="{{$detail["oj_detail"]["logo"]}}" alt="{{$detail["oj_detail"]["name"]}}" class="img-fluid mb-3"></a>
-                    <p>Provider <span class="wemd-black-text">{{$detail["oj_detail"]["name"]}}</span></p>
-                    @unless($detail['OJ']==1) <p><span>Origin</span> <a href="{{$detail["origin"]}}" target="_blank"><i class="MDI link-variant"></i> {{$detail['source']}}</a></p> @endif
+                    <p>{{__("problem.info.provider")}} <span class="wemd-black-text">{{$detail["oj_detail"]["name"]}}</span></p>
+                    @unless($detail['OJ']==1) <p><span>{{__("problem.info.origin")}}</span> <a href="{{$detail["origin"]}}" target="_blank"><i class="MDI link-variant"></i> {{$detail['source']}}</a></p> @endif
                     <separate-line class="ultra-thin mb-3 mt-3"></separate-line>
-                    <p><span>Code </span> <span class="wemd-black-text"> {{$detail["pcode"]}}</span></p>
-                    <p class="mb-0"><span>Tags </span></p>
+                    <p><span>{{__("problem.info.code")}} </span> <span class="wemd-black-text"> {{$detail["pcode"]}}</span></p>
+                    <p class="mb-0"><span>{{__("problem.info.tags")}} </span></p>
                     <div class="mb-3">@foreach($detail['tags'] as $t)<span class="badge badge-secondary badge-tag">{{$t["tag"]}}</span>@endforeach</div>
-                    <p><span>Submitted </span> <span class="wemd-black-text"> {{$detail['submission_count']}}</span></p>
-                    <p><span>Passed </span> <span class="wemd-black-text"> {{$detail['passed_count']}}</span></p>
-                    <p><span>AC Rate </span> <span class="wemd-black-text"> {{$detail['ac_rate']}}%</span></p>
-                    <p><span>Date </span> <span class="wemd-black-text"> {{$detail['update_date']}}</span></p>
+                    <p><span>{{__("problem.info.submitted")}} </span> <span class="wemd-black-text"> {{$detail['submission_count']}}</span></p>
+                    <p><span>{{__("problem.info.passed")}} </span> <span class="wemd-black-text"> {{$detail['passed_count']}}</span></p>
+                    <p><span>{{__("problem.info.acrate")}} </span> <span class="wemd-black-text"> {{$detail['ac_rate']}}%</span></p>
+                    <p><span>{{__("problem.info.date")}} </span> <span class="wemd-black-text"> {{$detail['update_date']}}</span></p>
                 </div>
             </paper-card>
             <paper-card class="animated fadeInRight">
-                <p>Related</p>
+                <p>{{__("problem.related.title")}}</p>
                 <div class="cm-empty">
-                    <badge>Nothing Yet</badge>
+                    <badge>{{__("problem.related.empty")}}</badge>
                 </div>
             </paper-card>
         </div>
@@ -407,12 +407,12 @@
         <div class="modal-content sm-modal">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    <i class="MDI comment-multiple-outline"></i> Post Discussion
+                    <i class="MDI comment-multiple-outline"></i> {{__("problem.discussion.action")}}
                 </h5>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="post_title" class="bmd-label-floating">Title</label>
+                    <label for="post_title" class="bmd-label-floating">{{__("problem.discussion.title")}}</label>
                     <input type="text" class="form-control" id="post_title">
                 </div>
                 <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
@@ -421,8 +421,8 @@
                 </markdown-editor>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="postBtn" onclick="postDiscussion()">Post</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__("problem.discussion.close")}}</button>
+                <button type="button" class="btn btn-primary" id="postBtn" onclick="postDiscussion()">{{__("problem.discussion.post")}}</button>
             </div>
         </div>
     </div>

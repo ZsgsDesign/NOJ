@@ -140,14 +140,14 @@
     <div class="row no-gutters">
         <div class="col-12 col-md-3 col-xl-2">
             <left-side>
-                <menu-item type="return" data-name="return"> <i class="MDI undo"></i> Back to Group Page </menu-item>
-                <menu-item type="item" data-name="general"> <i class="MDI settings"></i> General Settings </menu-item>
-                <menu-item type="item" data-name="member"> <i class="MDI tune"></i> Member Settings </menu-item>
-                <menu-item type="item" data-name="problems"> <i class="MDI script"></i> Problems Management</menu-item>
-                <menu-item type="item" data-name="contest"> <i class="MDI trophy-variant"></i> Contest Management </menu-item>
-                <menu-item type="item" data-name="analysis"> <i class="MDI chart-line"></i> Practice Analysis </menu-item>
+                <menu-item type="return" data-name="return"> <i class="MDI undo"></i> {{__('group.common.backToGroupPage')}} </menu-item>
+                <menu-item type="item" data-name="general"> <i class="MDI settings"></i> {{__('group.common.generalSettings')}} </menu-item>
+                <menu-item type="item" data-name="member"> <i class="MDI tune"></i> {{__('group.common.memberSettings')}} </menu-item>
+                <menu-item type="item" data-name="problems"> <i class="MDI script"></i> {{__('group.common.problemsManagement')}}</menu-item>
+                <menu-item type="item" data-name="contest"> <i class="MDI trophy-variant"></i> {{__('group.common.contestManagement')}} </menu-item>
+                <menu-item type="item" data-name="analysis"> <i class="MDI chart-line"></i> {{__('group.common.practiceAnalysis')}} </menu-item>
                 <menu-item type="separate"></menu-item>
-                <menu-item type="item" data-name="danger"> <i class="MDI alert-circle"></i> Danger Field </menu-item>
+                <menu-item type="item" data-name="danger"> <i class="MDI alert-circle"></i> {{__('group.common.dangerField')}} </menu-item>
             </left-side>
             <script>
                 let selectedTab=document.querySelector(`menu-item[type="item"][data-name="{{$selectedTab}}"]`);

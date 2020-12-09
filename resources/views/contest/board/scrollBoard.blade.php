@@ -450,10 +450,10 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col" style="text-align: left;">Rank</th>
-                        <th scope="col" id="col-account">Account</th>
-                        <th scope="col">Score</th>
-                        <th scope="col">Penalty</th>
+                        <th scope="col" style="text-align: left;">{{__("contest.inside.rank.title")}}</th>
+                        <th scope="col" id="col-account">{{__("contest.inside.rank.account")}}</th>
+                        <th scope="col">{{__("contest.inside.rank.score")}}</th>
+                        <th scope="col">{{__("contest.inside.rank.penalty")}}</th>
                         <!-- problems -->
                     </tr>
                 </thead>

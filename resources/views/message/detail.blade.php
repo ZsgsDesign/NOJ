@@ -60,7 +60,7 @@
         <div class="sender">
             <div class="pr-3"><img src="{{$message->sender_user->avatar}}" class="cm-avatar"></div>
             <div>
-                <p class="sender_name">@if($message->sender_user->id == 1) NOJ Official  @else {{$message->sender_user->name }} @endif</p>
+                <p class="sender_name">@if($message->sender_user->id == 1) {{__('message.official')}}  @else {{$message->sender_user->name }} @endif</p>
                 <small class="wemd-grey-text">{{$message->updated_at}}</small>
             </div>
         </div>

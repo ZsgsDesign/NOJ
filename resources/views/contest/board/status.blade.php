@@ -164,23 +164,23 @@
                             <th scope="col" style="text-align: left;">SID</th>
                             <th scope="col">
                                 <div class="form-group m-0 p-0">
-                                    <input type="text" class="form-control text-center" id="accountFilter" placeholder="Account" onkeypress="applyFilter(event,'account')" value="{{$filter['account']}}" autocomplete="off">
+                                    <input type="text" class="form-control text-center" id="accountFilter" placeholder="{{__("status.account")}}" onkeypress="applyFilter(event,'account')" value="{{$filter['account']}}" autocomplete="off">
                                 </div>
                             </th>
                             <th scope="col">
                                 <div class="form-group m-0 p-0">
-                                    <input type="text" class="form-control text-center" id="problemFilter" placeholder="Problem" onkeypress="applyFilter(event,'ncode')" value="{{$filter['ncode']}}" autocomplete="off">
+                                    <input type="text" class="form-control text-center" id="problemFilter" placeholder="{{__("status.result")}}" onkeypress="applyFilter(event,'ncode')" value="{{$filter['ncode']}}" autocomplete="off">
                                 </div>
                             </th>
                             <th scope="col">
                                 <div class="form-group m-0 p-0">
-                                    <input type="text" class="form-control text-center" id="resultFilter" placeholder="Result" onkeypress="applyFilter(event,'result')" value="{{$filter['result']}}" autocomplete="off">
+                                    <input type="text" class="form-control text-center" id="resultFilter" placeholder="{{__("status.ncode")}}" onkeypress="applyFilter(event,'result')" value="{{$filter['result']}}" autocomplete="off">
                                 </div>
                             </th>
-                            <th scope="col">Time</th>
-                            <th scope="col">Memory</th>
-                            <th scope="col">Languages</th>
-                            <th scope="col">Submit Time</th>
+                            <th scope="col">{{__("status.time")}}</th>
+                            <th scope="col">{{__("status.memory")}}</th>
+                            <th scope="col">{{__("status.language")}}</th>
+                            <th scope="col">{{__("status.submittime")}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -201,7 +201,7 @@
                 @if(empty($submission_record["records"]))
                     <empty-container>
                         <i class="MDI package-variant"></i>
-                        <p>Nothing matches.</p>
+                        <p>{{__("status.empty")}}</p>
                     </empty-container>
                 @endif
                 {{$submission_record["paginator"]->links()}}

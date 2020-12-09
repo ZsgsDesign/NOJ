@@ -1,15 +1,15 @@
 <?php
     $current_hour=date("H");
     if ($current_hour<6) {
-        $greeting="Get to bed";
+        $greeting=__('navigation.greeting.bed');
     } elseif ($current_hour<12) {
-        $greeting="Good morning";
+        $greeting=__('navigation.greeting.morning');
     } elseif ($current_hour<18) {
-        $greeting="Good afternoon";
+        $greeting=__('navigation.greeting.afternoon');
     } elseif ($current_hour<22) {
-        $greeting="Good evening";
+        $greeting=__('navigation.greeting.evening');
     } else {
-        $greeting="Good Night";
+        $greeting=__('navigation.greeting.night');
     }
 ?>
 
@@ -155,7 +155,7 @@
                 <div></div>
                 <div></div>
             </div>
-            <p>Preparing {{config("app.name")}}</p>
+            <p>{{__('splash.loading', ['name' => config("app.name")])}}</p>
         </div>
     </loading>
     <!-- Style -->
@@ -184,7 +184,7 @@
             @else
 
                 <a class="navbar-brand" href="/">
-                    <img src="/static/img/njupt.png" height="30"> {{config("app.displayName")}}
+                    <img src="/static/img/icon/icon-white.png" height="30"> {{config("app.displayName")}}
                 </a>
 
             @endif
@@ -196,35 +196,35 @@
                 <ul class="navbar-nav mr-auto">
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
                     <li class="nav-item">
-                        <a class="nav-link @if ($navigation === "Home") active @endif" href="/">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link @if ($navigation === "Home") active @endif" href="/"> {{__('navigation.home')}}<span class="sr-only">(current)</span></a>
                     </li>
                     @endif
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
                         <li class="nav-item">
-                            <a class="nav-link @if ($navigation === "Problem") active @endif" href="/problem">Problem</a>
+                            <a class="nav-link @if ($navigation === "Problem") active @endif" href="/problem">{{__('navigation.problem')}}</a>
                         </li>
                     @endif
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
                         <li class="nav-item">
-                            <a class="nav-link @if ($navigation === "Dojo") active @endif" href="/dojo">Dojo</a>
+                            <a class="nav-link @if ($navigation === "Dojo") active @endif" href="/dojo">{{__('navigation.dojo')}}</a>
                         </li>
                     @endif
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
                         <li class="nav-item">
-                            <a class="nav-link @if ($navigation === "Status") active @endif" href="/status">Status</a>
+                            <a class="nav-link @if ($navigation === "Status") active @endif" href="/status">{{__('navigation.status')}}</a>
                         </li>
                     @endif
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
                         <li class="nav-item">
-                            <a class="nav-link @if ($navigation === "Rank") active @endif" href="/rank">Rank</a>
+                            <a class="nav-link @if ($navigation === "Rank") active @endif" href="/rank">{{__('navigation.rank')}}</a>
                         </li>
                     @endif
                     <li class="nav-item">
-                        <a class="nav-link @if ($navigation === "Contest") active @endif" href="/contest">Contest</a>
+                        <a class="nav-link @if ($navigation === "Contest") active @endif" href="/contest">{{__('navigation.contest')}}</a>
                     </li>
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
                     <li class="nav-item">
-                        <a class="nav-link @if ($navigation === "Group") active @endif" href="/group">Group</a>
+                        <a class="nav-link @if ($navigation === "Group") active @endif" href="/group">{{__('navigation.group')}}</a>
                     </li>
                     @endif
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
@@ -239,7 +239,7 @@
                 <ul class="navbar-nav mundb-nav-right">
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
                     <form id="search-box" action="/search" method="get" class="form-inline my-2 my-lg-0 mundb-inline">
-                        <span class="bmd-form-group"><input id="search-key" class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" value="{{$search_key ?? ''}}" placeholder="Onmi Search" autocomplete="off" aria-label="search"></span>
+                        <span class="bmd-form-group"><input id="search-key" class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" value="{{$search_key ?? ''}}" placeholder="{{__('navigation.search')}}" autocomplete="off" aria-label="search"></span>
                         <input type="hidden" name="tab" value="{{
                             $navigation == 'DashBoard' ? 'users' :
                             ($navigation == 'Group' ? 'groups' : (
@@ -253,15 +253,15 @@
                     @endif
                     <li class="nav-item mundb-no-shrink />">
                         @guest
-                            <a class="nav-link @if ($navigation === "Account") active @endif" href="/account">Account</a>
+                            <a class="nav-link @if ($navigation === "Account") active @endif" href="/account">{{__('navigation.account')}}</a>
                         @else
                             <li class="nav-item dropdown mundb-btn-ucenter">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{$greeting}}, <span id="nav-username" data-uid="{{Auth::user()->id}}">{{ Auth::user()["name"] }}</span></a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <div class="dropdown-header"><img src="{{ Auth::user()->avatar }}" class="mundb-avatar" id="atsast_nav_avatar" /><div><h6><span id="nav-dropdown-username">{{ Auth::user()["name"] }}</span><br/><small>{{ Auth::user()->email }}</small></h6></div></div>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/account/dashboard"><i class="MDI account-circle"></i> Dashboard</a>
-                                    <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> Settings</a>
+                                    <a class="dropdown-item" href="/account/dashboard"><i class="MDI account-circle"></i> {{__('navigation.dashboard')}}</a>
+                                    <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> {{__('navigation.settings')}}</a>
                                     <!--
                                     <a class="dropdown-item" href="/account/submissions"><i class="MDI airballoon"></i> Submissions</a>
                                     <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> Advanced Settings</a>
@@ -273,16 +273,16 @@
                                     -->
                                     @endif
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/tool/pastebin/create"><i class="MDI content-paste"></i> PasteBin</a>
+                                    <a class="dropdown-item" href="/tool/pastebin/create"><i class="MDI content-paste"></i> {{__('navigation.pastebin')}}</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/system/info"><i class="MDI information-outline"></i> System Info</a>
-                                    <a class="dropdown-item" href="https://github.com/ZsgsDesign/NOJ/issues"><i class="MDI bug"></i> Report BUG</a>
+                                    <a class="dropdown-item" href="/system/info"><i class="MDI information-outline"></i> {{__('navigation.systeminfo')}}</a>
+                                    <a class="dropdown-item" href="https://github.com/ZsgsDesign/NOJ/issues"><i class="MDI bug"></i> {{__('navigation.report')}}</a>
                                     <div class="dropdown-divider"></div>
                                     <a  class="dropdown-item text-danger"
                                         href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();">
-                                        <i class="MDI exit-to-app text-danger"></i> {{ __('Logout') }}
+                                        <i class="MDI exit-to-app text-danger"></i> {{ __('navigation.logout') }}
                                     </a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
@@ -303,7 +303,7 @@
         </nav>
         @if(emailVerified()===false && is_null(request()->cookie('isEmailVerifiedNoticed')))
         <div class="alert alert-info mb-0" role="alert">
-            <strong>Boost your security!</strong> You have not verified your email address, please verify it in your Settings Page.
+            @lang('navigation.emailverify')
             <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="setCookie('isEmailVerifiedNoticed',1,1)">
                 <span aria-hidden="true"><i class="MDI close"></i></span>
             </button>
@@ -322,31 +322,31 @@
 
                     <div class="col-md-4">
                         <h5 class="cm-footer-title mb-4 mt-3 font-bold">{{config("app.name")}}</h5>
-                        <p>{{config("app.name")}} is an online judge developed by ICPC Team of Nanjing Universify of Posts and Telecommunications.</p>
+                        <p>{{__('footer.description', ['name' => config("app.name")])}}</p>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">
 
                     <div class="col-md-2 mx-auto">
-                        <h5 class="title mb-4 mt-3 font-bold">Services</h5>
-                        <p class="mb-1"><a href="/status">Judging Queue</a></p>
-                        <p class="mb-1"><a href="/system/info">System Info</a></p>
-                        <p class="mb-1"><a href="/tool/pastebin/create">PasteBin</a></p>
+                        <h5 class="title mb-4 mt-3 font-bold">{{__('footer.services')}}</h5>
+                        <p class="mb-1"><a href="/status">{{__('footer.queue')}}</a></p>
+                        <p class="mb-1"><a href="/system/info">{{__('navigation.systeminfo')}}</a></p>
+                        <p class="mb-1"><a href="/tool/pastebin/create">{{__('navigation.pastebin')}}</a></p>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">
 
                     <div class="col-md-2 mx-auto">
-                        <h5 class="title mb-4 mt-3 font-bold">Developments</h5>
-                        <p class="mb-1"><a href="https://github.com/ZsgsDesign/NOJ">Open Source</a></p>
-                        <p class="mb-1"><a href="#">API</a></p>
+                        <h5 class="title mb-4 mt-3 font-bold">{{__('footer.developments')}}</h5>
+                        <p class="mb-1"><a href="https://github.com/ZsgsDesign/NOJ">{{__('footer.opensource')}}</a></p>
+                        <p class="mb-1"><a href="#">{{__('footer.api')}}</a></p>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">
 
                     <div class="col-md-2 mx-auto">
-                        <h5 class="title mb-4 mt-3 font-bold ">Support</h5>
-                        <p class="mb-0"><i class="MDI email"></i> acm@njupt.edu.cn</p>
+                        <h5 class="title mb-4 mt-3 font-bold ">{{__('footer.supports')}}</h5>
+                        <p class="mb-0"><i class="MDI email"></i> noj@njupt.edu.cn</p>
                         <p class="mb-0"><i class="MDI qqchat"></i> Group 668108264</p>
                     </div>
                 </div>

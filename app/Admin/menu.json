@@ -210,18 +210,6 @@
         "roles": []
     },
     {
-        "id": 19,
-        "parent_id": 0,
-        "order": 19,
-        "title": "Api tester",
-        "icon": "MDI tune",
-        "uri": "api-tester",
-        "permission": null,
-        "created_at": "2019-04-11 13:04:49",
-        "updated_at": "2019-04-12 09:30:12",
-        "roles": []
-    },
-    {
         "id": 20,
         "parent_id": 0,
         "order": 20,

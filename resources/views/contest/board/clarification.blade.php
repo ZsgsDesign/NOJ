@@ -167,17 +167,17 @@
                         <div style="text-align: center;">
                             @if($clearance<=2)
                                 <button class="btn btn-outline-warning btn-rounded" data-toggle="modal"
-                                data-target="#issueModel" data-backdrop="static"><i class="MDI comment-question-outline"></i> Request Clarification</button>
+                                data-target="#issueModel" data-backdrop="static"><i class="MDI comment-question-outline"></i> {{__("contest.inside.clarification.request")}}</button>
                             @else
                                 <button class="btn btn-outline-warning btn-rounded" data-toggle="modal"
-                                data-target="#issueModel" data-backdrop="static"><i class="MDI comment-plus-outline"></i> Issue Announcement</button>
+                                data-target="#issueModel" data-backdrop="static"><i class="MDI comment-plus-outline"></i> {{__("contest.inside.clarification.issue")}}</button>
                             @endif
                         </div>
                     </div>
                     @foreach($clarification_list as $c)
                     <message-card id="m{{$c["ccid"]}}" class="wemd-lighten-5" data-msg-id="{{$c["ccid"]}}">
                         <div>
-                            <i class="MDI checkbox-blank-circle @if($c["type"]) wemd-amber-text @else wemd-pink-text @endif" data-toggle="tooltip" data-placement="top" title="@if($c["type"]) Clarification @else Announcement @endif"></i>
+                            <i class="MDI checkbox-blank-circle @if($c["type"]) wemd-amber-text @else wemd-pink-text @endif" data-toggle="tooltip" data-placement="top" title="@if($c["type"]) {{__("contest.inside.clarification.clarification")}} @else {{__("contest.inside.clarification.announcement")}} @endif"></i>
                         </div>
                         <div>
                             <p>{{$c["title"]}}</p>
@@ -193,18 +193,18 @@
                             <fresh-container>
                                 @if($clearance>2 && $c["type"])
                                     @if((is_null($c["reply"]) || trim($c["reply"])==""))
-                                    <button class="btn btn-primary btn-raised float-right" onclick="replyClarification({{$c['ccid']}})">Reply</button>
+                                    <button class="btn btn-primary btn-raised float-right" onclick="replyClarification({{$c['ccid']}})">{{__("contest.inside.clarification.action.reply")}}</button>
                                     @else
                                     <div class="switch float-right">
                                         <label class="text-dark">
                                         <input id="public_{{$c['ccid']}}" type="checkbox" @if($c['public']) checked @endif
-                                        onchange="setToPublic({{$c['ccid']}})">Public
+                                        onchange="setToPublic({{$c['ccid']}})">{{__("contest.inside.clarification.action.public")}}
                                         </label>
                                     </div>
                                     @endif
                                 @endif
                                 <h1 class="m-0"> {{$c["title"]}}</h1>
-                                <p class="@if($c["type"]) wemd-amber-text @else wemd-pink-text @endif"><i class="MDI checkbox-blank-circle"></i> @if($c["type"]) Clarification @else Announcement @endif</p>
+                                <p class="@if($c["type"]) wemd-amber-text @else wemd-pink-text @endif"><i class="MDI checkbox-blank-circle"></i> @if($c["type"]) {{__("contest.inside.clarification.clarification")}} @else {{__("contest.inside.clarification.announcement")}} @endif</p>
                                 <p>{{$c["content"]}}</p>
                                 @unless(is_null($c["reply"]) || trim($c["reply"])=="")
                                     <reply-quote class="blockquote">
@@ -226,30 +226,30 @@
             <div class="modal-header">
                 <h5 class="modal-title">
                     @if($clearance>2)
-                        <i class="MDI comment-plus-outline"></i> Issue Announcement
+                        <i class="MDI comment-plus-outline"></i> {{__("contest.inside.clarification.issue")}}
                     @else
-                        <i class="MDI comment-question-outline"></i> Request Clarification
+                        <i class="MDI comment-question-outline"></i> {{__("contest.inside.clarification.request")}}
                     @endif
                 </h5>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="clarification_title" class="bmd-label-floating">Title</label>
+                    <label for="clarification_title" class="bmd-label-floating">{{__("contest.inside.clarification.field.title")}}</label>
                     <input type="text" class="form-control" id="clarification_title">
                 </div>
                 <div class="form-group">
-                    <label for="clarification_content" class="bmd-label-floating">Content</label>
+                    <label for="clarification_content" class="bmd-label-floating">{{__("contest.inside.clarification.field.content")}}</label>
                     <textarea class="form-control" id="clarification_content" style="resize: none;height: 25rem;"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__("contest.inside.clarification.action.close")}}</button>
                 @if($clearance>2)
                 <button type="button" class="btn btn-primary" id="issueAnnouncementBtn" onclick="post('issueAnnouncement')">
-                        <i class="MDI autorenew cm-refreshing d-none"></i> Issue</button>
+                        <i class="MDI autorenew cm-refreshing d-none"></i> {{__("contest.inside.clarification.action.issue")}}</button>
                 @else
                 <button type="button" class="btn btn-primary" id="requestClarificationBtn" onclick="post('requestClarification')">
-                        <i class="MDI autorenew cm-refreshing d-none"></i> Request</button>
+                        <i class="MDI autorenew cm-refreshing d-none"></i> {{__("contest.inside.clarification.action.request")}}</button>
                 @endif
             </div>
         </div>

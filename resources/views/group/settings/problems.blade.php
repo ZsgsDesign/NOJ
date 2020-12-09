@@ -86,12 +86,12 @@
 </style>
 <settings-card>
         <settings-header>
-                <h5><i class="MDI script"></i> Group Problems Management</h5>
+                <h5><i class="MDI script"></i> {{__('group.problem.title')}}</h5>
         </settings-header>
     @if(empty($problems))
         <empty-container>
             <i class="MDI package-variant"></i>
-            <p>There are no questions in the group that allow you to operate.</p>
+            <p>{{__('group.problem.empty')}}</p>
         </empty-container>
     @else
         <settings-body class="animated bounceInLeft">
@@ -99,8 +99,8 @@
                 <table class="table table-borderless">
                     <thead>
                         <tr>
-                            <th scope="col" class="cm-fw">#</th>
-                            <th scope="col">Problem</th>
+                            <th scope="col" class="cm-fw">{{__('group.problem.no')}}</th>
+                            <th scope="col">{{__('group.problem.problem')}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -115,7 +115,7 @@
                                         <span class="badge badge-tag badge-exist" data-pid="{{$p['pid']}}">{{$tag}}</span>
                                     @endforeach
                                     @endif
-                                    <span class="badge badge-tag badge-add" data-pid="{{$p['pid']}}" data-toggle="tooltip" data-placement="top" title="add a tag to this problem">+</span>
+                                    <span class="badge badge-tag badge-add" data-pid="{{$p['pid']}}" data-toggle="tooltip" data-placement="top" title="{{__('group.problem.addTagTip')}}">+</span>
                                 </div>
                             </td>
                         </tr>
@@ -139,7 +139,7 @@
                 var tag = $(this).text();
 
                 confirm({
-                    content : 'Are you sure to delete this tag ?'
+                    content : "{{__('group.problem.deleteTagConfirm')}}"
                 },function(deny){
                     if(!deny){
                         $.ajax({
@@ -189,7 +189,7 @@
                 if(!deny){
                     var tag = text;
                     if(text.length == 0){
-                        alert('The tag name cannot be empty');
+                        alert("{{__('group.problem.errorTagNameEmpty')}}");
                     }
                     $.ajax({
                         type: 'POST',
@@ -204,7 +204,7 @@
                         }, success: function(result){
                             if (result.ret===200) {
                                 badge.before(
-                                    `<span class="badge badge-tag badge-exist" data-pid="${pid}" data-toggle="tooltip" data-placement="top" title="click to remove this tag">${tag}</span>`
+                                    `<span class="badge badge-tag badge-exist" data-pid="${pid}" data-toggle="tooltip" data-placement="top" title="{{__('group.problem.removeTagTip')}}">${tag}</span>`
                                 );
                                 registerRemoveTagEvent();
                             } else {

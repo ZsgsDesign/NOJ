@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Eloquent\ProblemModel as EloquentProblemModel;
+use App\Models\Eloquent\Problem as EloquentProblemModel;
 use App\Http\Controllers\Controller;
 use App\Admin\Forms\ImportPOEM;
 use Encore\Admin\Controllers\HasResourceActions;

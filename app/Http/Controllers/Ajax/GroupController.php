@@ -51,7 +51,7 @@ class GroupController extends Controller
                 sendMessage([
                     'sender'   => 1,
                     'receiver' => $leader->id,
-                    'title'    => "Some users agreed to join your group {$group->name}.",
+                    'title'    => __('group.message.agreeJoin.title', ['name' => $group->name]),
                     'type'     => 2,
                     'data'     => [
                         'group' => [
@@ -82,7 +82,7 @@ class GroupController extends Controller
                 sendMessage([
                     'sender'   => 1,
                     'receiver' => $leader->id,
-                    'title'    => 'Someone applied to join your group.',
+                    'title'    => __('group.message.agreeJoin.title', ['name' => $group->name]),
                     'type'     => 1,
                     'data'     => [
                         'group' => [
@@ -106,7 +106,7 @@ class GroupController extends Controller
                 sendMessage([
                     'sender'   => 1,
                     'receiver' => $leader->id,
-                    'title'    => "Some users agreed to join your group {$group->name}.",
+                    'title'    => __('group.message.agreeJoin.title', ['name' => $group->name]),
                     'type'     => 2,
                     'data'     => [
                         'group' => [
@@ -134,7 +134,7 @@ class GroupController extends Controller
                 sendMessage([
                     'sender'   => 1,
                     'receiver' => $leader->id,
-                    'title'    => "Some users applied to join your group {$group->name}.",
+                    'title'    => __('group.message.appliedJoin.title', ['name' => $group->name]),
                     'type'     => 1,
                     'data'     => [
                         'group' => [

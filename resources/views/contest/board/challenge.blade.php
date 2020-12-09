@@ -173,7 +173,7 @@
                 </paper-card>
             @endif
             <paper-card>
-                <h5 style="text-align:center" id="contest_status">Contest is running</h5>
+                <h5 style="text-align:center" id="contest_status">{{__("contest.inside.counter.run")}}</h5>
                 <div>
                     <div class="cm-progressbar-container d-none">
                         <div class="progress wemd-light-blue wemd-lighten-4">
@@ -190,7 +190,7 @@
                         <p>{{$clarification_list["content"]}}</p>
                     </div>
                     <div style="text-align:right;">
-                        <a href="/contest/{{$cid}}/board/clarification"><button class="btn btn-primary">See More</button></a>
+                        <a href="/contest/{{$cid}}/board/clarification"><button class="btn btn-primary">{{__("contest.inside.clarification.seemore")}}</button></a>
                     </div>
                 </paper-card>
             @endunless
@@ -208,7 +208,7 @@
             if(remaining_time<=0){
                 remaining_time=0;
                 clearInterval(countDownTimer);
-                $("#contest_status").text("Contest End");
+                $("#contest_status").text("{{__("contest.inside.counter.end")}}");
             }
             updateCountDown();
         }, 1000);

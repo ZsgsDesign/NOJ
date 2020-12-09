@@ -491,44 +491,44 @@
                         <div class="dropdown-menu">
                             <button class="dropdown-item"><i class="MDI github-circle"></i> GitHub</button>
                             <div class="dropdown-divider"></div>
-                            <button class="dropdown-item wemd-red-text" onclick="reportAbuse()"><i class="MDI alert-circle wemd-red-text"></i> Report Abuse</button>
+                            <button class="dropdown-item wemd-red-text" onclick="reportAbuse()"><i class="MDI alert-circle wemd-red-text"></i> {{__('group.detail.reportAbuse')}}</button>
                         </div>
                     </shadow-button>
 
                     <info-div>
                         <div class="mb-5">
-                            <small>{{$basic_info['members']}} Members - @if($basic_info['public'])<span>Public</span>@else<span>Private</span>@endif Group</small>
+                            <small>{{trans_choice("group.members", $basic_info['members'])}} - @if($basic_info['public'])<span>{{__('group.detail.public')}}</span>@else<span>{{__('group.detail.private')}}</span>@endif {{__('group.detail.group')}}</small>
                         </div>
                         <h3>@if($basic_info['verified'])<i class="MDI marker-check wemd-light-blue-text"></i>@endif {{$basic_info['name']}}</h3>
                         <p><i class="MDI tag-multiple"></i> Tags : @foreach($basic_info['tags'] as $t){{$t['tag']}}@unless($loop->last),@endif @endforeach</p>
                         @if($basic_info['join_policy']==1)
                             @if($group_clearance==-1)
-                                <button type="button" id="joinGroup" class="btn btn-raised btn-success"><i class="MDI autorenew cm-refreshing d-none"></i> Accept Invitation</button>
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-success"><i class="MDI autorenew cm-refreshing d-none"></i> {{__('group.detail.acceptInvitation')}}</button>
                             @elseif($group_clearance>0)
-                                <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Joined</button>
-                                @if($group_clearance!=3) @if($group_clearance!=3) <button type="button" id="exitGroup" class="btn btn-danger"><i class="MDI autorenew cm-refreshing d-none"></i> Exit</button> @endif @endif
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>{{__('group.detail.joined')}}</button>
+                                @if($group_clearance!=3) @if($group_clearance!=3) <button type="button" id="exitGroup" class="btn btn-danger"><i class="MDI autorenew cm-refreshing d-none"></i> {{__('group.detail.exit')}}</button> @endif @endif
                             @else
-                                <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Invite Only</button>
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>{{__('group.detail.inviteOnly')}}</button>
                             @endif
                         @elseif($basic_info['join_policy']==2)
                             @if($group_clearance==-3)
-                                <button type="button" id="joinGroup" class="btn btn-raised btn-success"><i class="MDI autorenew cm-refreshing d-none"></i> Join</button>
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-success"><i class="MDI autorenew cm-refreshing d-none"></i> {{__('group.detail.join')}}</button>
                             @elseif($group_clearance==0)
-                                <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Waiting</button>
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>{{__('group.detail.waiting')}}</button>
                             @elseif($group_clearance>0)
-                                <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Joined</button>
-                                @if($group_clearance!=3) <button type="button" id="exitGroup" class="btn btn-danger"><i class="MDI autorenew cm-refreshing d-none"></i> Exit</button> @endif
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>{{__('group.detail.joined')}}</button>
+                                @if($group_clearance!=3) <button type="button" id="exitGroup" class="btn btn-danger"><i class="MDI autorenew cm-refreshing d-none"></i> {{__('group.detail.exit')}}</button> @endif
                             @endif
                         @else
                             @if($group_clearance==-3)
-                                <button type="button" id="joinGroup" class="btn btn-raised btn-success"><i class="MDI autorenew cm-refreshing d-none"></i> Join</button>
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-success"><i class="MDI autorenew cm-refreshing d-none"></i> {{__('group.detail.join')}}</button>
                             @elseif($group_clearance==-1)
-                                <button type="button" id="joinGroup" class="btn btn-raised btn-success"><i class="MDI autorenew cm-refreshing d-none"></i> Accept Invitation</button>
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-success"><i class="MDI autorenew cm-refreshing d-none"></i> {{__('group.detail.acceptInvitation')}}</button>
                             @elseif($group_clearance==0)
-                                <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Waiting</button>
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>{{__('group.detail.waiting')}}</button>
                             @elseif($group_clearance>0)
-                                <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>Joined</button>
-                                @if($group_clearance!=3) <button type="button" id="exitGroup" class="btn btn-danger"><i class="MDI autorenew cm-refreshing d-none"></i> Exit</button> @endif
+                                <button type="button" id="joinGroup" class="btn btn-raised btn-primary btn-disabled" disabled>{{__('group.detail.joined')}}</button>
+                                @if($group_clearance!=3) <button type="button" id="exitGroup" class="btn btn-danger"><i class="MDI autorenew cm-refreshing d-none"></i> {{__('group.detail.exit')}}</button> @endif
                             @endif
                         @endif
                     </info-div>
@@ -539,35 +539,35 @@
                         <li class="list-group-item">
                             <div class="bmd-list-group-col" style="margin-right:0;">
                                 <p class="list-group-item-heading" style="line-height:1.5;margin-right:0;">{{$basic_info['description']}}</p>
-                                <p class="list-group-item-text">Description</p>
+                                <p class="list-group-item-text">{{__('group.detail.description')}}</p>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <i class="MDI star-circle"></i>
                             <div class="bmd-list-group-col">
                                 <p class="list-group-item-heading">{{$member_list[0]["name"]}}</span> @if($member_list[0]["nick_name"])<span class="cm-nick-name">({{$member_list[0]["nick_name"]}})</span>@endif</p>
-                                <p class="list-group-item-text">Leader</p>
+                                <p class="list-group-item-text">{{__('group.detail.leader')}}</p>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <i class="MDI email"></i>
                             <div class="bmd-list-group-col">
-                                <p class="list-group-item-heading"><span id="join-policy-display">@if($basic_info['join_policy']==3)Invitation & Application @elseif(($basic_info['join_policy']==2))Application @else Invitation @endif</span></p>
-                                <p class="list-group-item-text">Join Policy</p>
+                                <p class="list-group-item-heading"><span id="join-policy-display">@if($basic_info['join_policy']==3){{__('group.detail.invitation')}} & {{__('group.detail.application')}} @elseif(($basic_info['join_policy']==2)){{__('group.detail.application')}} @else {{__('group.detail.invitation')}} @endif</span></p>
+                                <p class="list-group-item-text">{{__('group.detail.joinPolicy')}}</p>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <i class="MDI trophy"></i>
                             <div class="bmd-list-group-col">
-                                <p class="list-group-item-heading">{{$basic_info["contest_stat"]['contest_ahead']}} Ahead, {{$basic_info["contest_stat"]['contest_going']}} On Going, {{$basic_info["contest_stat"]['contest_end']}} Passed</p>
-                                <p class="list-group-item-text">Contests</p>
+                                <p class="list-group-item-heading">{{__('group.detail.contestCount',['ahead' => $basic_info["contest_stat"]['contest_ahead'], 'going' => $basic_info["contest_stat"]['contest_going'], 'passed' => $basic_info["contest_stat"]['contest_end']])}}</p>
+                                <p class="list-group-item-text">{{__('group.detail.contests')}}</p>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <i class="MDI clock"></i>
                             <div class="bmd-list-group-col">
                                 <p class="list-group-item-heading">{{$basic_info['create_time_foramt']}}</p>
-                                <p class="list-group-item-text">Create Time</p>
+                                <p class="list-group-item-text">{{__('group.detail.createTime')}}</p>
                             </div>
                         </li>
                     </ul>
@@ -583,28 +583,28 @@
                             <div>
                                 <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/analysis'">
                                     <i class="MDI chart-line"></i>
-                                    <p>Analysis</p>
+                                    <p>{{__('group.detail.analysis')}}</p>
                                 </function-block>
                                 @if($group_clearance>=2)
                                 <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings/member'">
                                     <i class="MDI bullhorn"></i>
-                                    <p>Notice</p>
+                                    <p>{{__('group.detail.notice')}}</p>
                                 </function-block>
                                 <function-block onclick="$('#contestModal').modal({backdrop:'static'});">
                                     <i class="MDI trophy-variant"></i>
-                                    <p>Contest</p>
+                                    <p>{{__('group.detail.contest')}}</p>
                                 </function-block>
                                 <function-block onclick="$('#inviteModal').modal({backdrop:'static'});">
                                     <i class="MDI account-plus"></i>
-                                    <p>Invite</p>
+                                    <p>{{__('group.detail.invite')}}</p>
                                 </function-block>
                                 <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings/problems'">
                                     <i class="MDI script"></i>
-                                    <p>Problems</p>
+                                    <p>{{__('group.detail.problems')}}</p>
                                 </function-block>
                                 <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings/general'">
                                     <i class="MDI settings"></i>
-                                    <p>Settings</p>
+                                    <p>{{__('group.detail.settings')}}</p>
                                 </function-block>
                                 @endif
                             </div>
@@ -626,7 +626,7 @@
                         @else
                             <empty-container>
                                 <i class="MDI package-variant"></i>
-                                <p>Nothing in the timeline.</p>
+                                <p>{{__('group.detail.nothingTimeline')}}</p>
                             </empty-container>
                         @endunless
                         @unless(empty($contest_list))
@@ -634,8 +634,8 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Title</th>
-                                        <th scope="col">Begin Time</th>
+                                        <th scope="col">{{__('group.detail.contestTitle')}}</th>
+                                        <th scope="col">{{__('group.detail.contestBeginTime')}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -643,12 +643,13 @@
                                     <tr>
                                         <td>
                                             <badge-div>
-                                                @unless($c["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="top" title="This contest is under review"></i></span>@endif
-                                                @unless($c["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="top" title="This is a private contest"></i></span>@endif
-                                                @if($c['verified'])<span><i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a verified contest"></i></span>@endif
-                                                @if($c['practice'])<span><i class="MDI sword wemd-green-text"  data-toggle="tooltip" data-placement="left" title="This is a contest for praticing"></i></span>@endif
-                                                @if($c['rated'])<span><i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="top" title="This is a rated contest"></i></span>@endif
-                                                @if($c['anticheated'])<span><i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="top" title="Anti-cheat enabled"></i></span>@endif
+                                                @if($c['desktop'])<span><i class="MDI lan-connect wemd-pink-text" data-toggle="tooltip" data-placement="top" title="{{__("contest.badge.desktop")}}"></i></span>@endif
+                                                @unless($c["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="top" title="{{__("contest.badge.audit")}}"></i></span>@endif
+                                                @unless($c["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="top" title="{{__("contest.badge.private")}}"></i></span>@endif
+                                                @if($c['verified'])<span><i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="{{__("contest.badge.verified")}}"></i></span>@endif
+                                                @if($c['practice'])<span><i class="MDI sword wemd-green-text"  data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.practice")}}"></i></span>@endif
+                                                @if($c['rated'])<span><i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="top" title="{{__("contest.badge.rated")}}"></i></span>@endif
+                                                @if($c['anticheated'])<span><i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="top" title="{{__("contest.badge.anticheated")}}"></i></span>@endif
                                             </badge-div>
                                             <span><a href="/contest/{{$c["cid"]}}">{{$c["name"]}}</a></span>
                                         </td>
@@ -667,22 +668,22 @@
 
                         <paper-card>
                             <header-div>
-                                <p><i class="MDI account-circle"></i> My Profile</p>
-                                <p class="wemd-green-text cm-simu-btn" onclick="$('#changeProfileModal').modal({backdrop:'static'});"><i class="MDI pencil"></i> Edit</p>
+                                <p><i class="MDI account-circle"></i> {{__('group.detail.myProfile')}}</p>
+                                <p class="wemd-green-text cm-simu-btn" onclick="$('#changeProfileModal').modal({backdrop:'static'});"><i class="MDI pencil"></i> {{__('group.detail.edit')}}</p>
                             </header-div>
                             <ul class="list-group">
                                 <li class="list-group-item">
                                     <i class="MDI account-card-details"></i>
                                     <div class="bmd-list-group-col">
-                                        <p class="list-group-item-heading">@if(isset($my_profile['nick_name'])){{$my_profile['nick_name']}}@else None @endif</p>
-                                        <p class="list-group-item-text">Nick Name</p>
+                                        <p class="list-group-item-heading">@if(isset($my_profile['nick_name'])){{$my_profile['nick_name']}}@else {{__('group.detail.none')}} @endif</p>
+                                        <p class="list-group-item-text">{{__('group.detail.nickname')}}</p>
                                     </div>
                                 </li>
                                 <li class="list-group-item">
                                     <i class="MDI google-circles"></i>
                                     <div class="bmd-list-group-col">
-                                        <p class="list-group-item-heading">@if(isset($my_profile['sub_group'])){{$my_profile['sub_group']}}@else None @endif</p>
-                                        <p class="list-group-item-text">Sub Group</p>
+                                        <p class="list-group-item-heading">@if(isset($my_profile['sub_group'])){{$my_profile['sub_group']}}@else {{__('group.detail.none')}} @endif</p>
+                                        <p class="list-group-item-text">{{__('group.detail.subGroup')}}</p>
                                     </div>
                                 </li>
                             </ul>
@@ -692,7 +693,7 @@
 
                         <paper-card>
                             <header-div id="member_header" data-toggle="collapse" data-target="#collapse_member" aria-expanded="false">
-                                <p><i class="MDI account-multiple"></i> Members</p>
+                                <p><i class="MDI account-multiple"></i> {{__('group.detail.members')}}</p>
                                 <p>{{$basic_info['members']}} <i class="MDI chevron-down"></i></p>
                             </header-div>
                             <div id="collapse_member" class="collapse hide">
@@ -707,10 +708,10 @@
                                         <p>
                                             <small><i class="MDI google-circles"></i> {{$m["sub_group"]}}</small>
                                             <operation-list id="member_operate{{$m['uid']}}">
-                                                @if($m["role"]>0 && $group_clearance>$m["role"])<small class="wemd-red-text cm-operation" onclick="kickMember({{$m['uid']}})"><i class="MDI account-off"></i> Kick</small>@endif
-                                                @if($m["role"]==0 && $group_clearance>1)<small class="wemd-green-text cm-operation" onclick="approveMember({{$m['uid']}})"><i class="MDI check"></i> Approve</small>@endif
-                                                @if($m["role"]==0 && $group_clearance>1)<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}},'Declined')"><i class="MDI cancel"></i> Decline</small>@endif
-                                                @if($m["role"]==-1 && $group_clearance>1)<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}},'Retrieved')"><i class="MDI account-minus"></i> Retrieve</small>@endif
+                                                @if($m["role"]>0 && $group_clearance>$m["role"])<small class="wemd-red-text cm-operation" onclick="kickMember({{$m['uid']}})"><i class="MDI account-off"></i> {{__('group.detail.kick')}}</small>@endif
+                                                @if($m["role"]==0 && $group_clearance>1)<small class="wemd-green-text cm-operation" onclick="approveMember({{$m['uid']}})"><i class="MDI check"></i> {{__('group.detail.approve')}}</small>@endif
+                                                @if($m["role"]==0 && $group_clearance>1)<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}},'Declined')"><i class="MDI cancel"></i> {{__('group.detail.decline')}}</small>@endif
+                                                @if($m["role"]==-1 && $group_clearance>1)<small class="wemd-red-text cm-operation" onclick="removeMember({{$m['uid']}},'Retrieved')"><i class="MDI account-minus"></i> {{__('group.detail.retrieve')}}</small>@endif
                                             </operation-list>
                                         </p>
                                     </user-info>
@@ -799,53 +800,53 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content sm-modal">
             <div class="modal-header">
-                <h5 class="modal-title"><i class="MDI trophy"></i> Arrange Contest</h5>
+                <h5 class="modal-title"><i class="MDI trophy"></i> {{__('group.contest.arrangeContest')}}</h5>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="contestName" class="bmd-label-floating">Contest Name</label>
+                            <label for="contestName" class="bmd-label-floating">{{__('group.contest.contestName')}}</label>
                             <input type="text" class="form-control" id="contestName" autocomplete="off">
                         </div>
                         <div class="form-group">
-                            <label for="contestBegin" class="bmd-label-floating">Contest Begin Time</label>
+                            <label for="contestBegin" class="bmd-label-floating">{{__('group.contest.contestBeginTime')}}</label>
                             <input type="text" class="form-control" id="contestBegin" autocomplete="off">
                         </div>
                         <div class="form-group">
-                            <label for="contestEnd" class="bmd-label-floating">Contest End Time</label>
+                            <label for="contestEnd" class="bmd-label-floating">{{__('group.contest.contestEndTime')}}</label>
                             <input type="text" class="form-control" id="contestEnd" autocomplete="off">
                         </div>
                         <div class="switch">
                             <label>
                                 <input id="switch-public" type="checkbox">
-                                Public Contest
+                                {{__('group.contest.publicContest')}}
                             </label>
                         </div>
                         <div class="switch">
                             <label>
                                 <input id="switch-practice" type="checkbox">
-                                Practice Contest
+                                {{__('group.contest.practiceContest')}}
                             </label>
                         </div>
                         <table width="100%" class="table">
                             <thead>
                                 <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Code</th>
-                                <th scope="col">Score</th>
-                                <th scope="col">Op.</th>
+                                <th scope="col">{{__('group.contest.no')}}</th>
+                                <th scope="col">{{__('group.contest.code')}}</th>
+                                <th scope="col">{{__('group.contest.score')}}</th>
+                                <th scope="col">{{__('group.contest.opr')}}</th>
                                 </tr>
                             </thead>
                             <tbody id="contestProblemSet">
                             </tbody>
                         </table>
                         <div style="text-align: center;">
-                            <button class="btn btn-info" onclick="$('#addProblemModal').modal({backdrop:'static'});"><i class="MDI plus"></i> Add Problem</button>
+                            <button class="btn btn-info" onclick="$('#addProblemModal').modal({backdrop:'static'});"><i class="MDI plus"></i> {{__('group.contest.addProblem')}}</button>
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <p>Description</p>
+                        <p>{{__('group.contest.description')}}</p>
                         <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
                         <markdown-editor class="mt-3 mb-3">
                             <textarea id="description_editor"></textarea>
@@ -855,8 +856,8 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="arrangeBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Arrange</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('group.contest.close')}}</button>
+                <button type="button" class="btn btn-primary" id="arrangeBtn"><i class="MDI autorenew cm-refreshing d-none"></i> {{__('group.contest.arrange')}}</button>
             </div>
         </div>
     </div>
@@ -866,21 +867,21 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content sm-modal">
             <div class="modal-header">
-                <h5 class="modal-title"><i class="MDI trophy"></i> Notice Announcement</h5>
+                <h5 class="modal-title"><i class="MDI trophy"></i> {{__('group.detail.noticeAnnouncement')}}</h5>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="noticeTitle" class="bmd-label-floating">Title</label>
+                    <label for="noticeTitle" class="bmd-label-floating">{{__('group.detail.noticeTitle')}}</label>
                     <input type="text" class="form-control" id="noticeTitle">
                 </div>
                 <div class="form-group">
-                    <label for="noticeContent" class="bmd-label-floating">Content</label>
+                    <label for="noticeContent" class="bmd-label-floating">{{__('group.detail.noticeContent')}}</label>
                     <textarea type="text" class="form-control" id="noticeContent"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="noticeBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Submit</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('group.detail.noticeClose')}}</button>
+                <button type="button" class="btn btn-primary" id="noticeBtn"><i class="MDI autorenew cm-refreshing d-none"></i> {{__('group.detail.noticeSubmit')}}</button>
             </div>
         </div>
     </div>
@@ -890,18 +891,18 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content sm-modal">
             <div class="modal-header">
-                <h5 class="modal-title"><i class="MDI trophy"></i> Invite Member</h5>
+                <h5 class="modal-title"><i class="MDI trophy"></i> {{__('group.detail.inviteMember')}}</h5>
             </div>
             <div class="modal-body">
 
                 <div class="form-group">
-                    <label for="contestName" class="bmd-label-floating">E-mail</label>
+                    <label for="contestName" class="bmd-label-floating">{{__('group.detail.inviteEmail')}}</label>
                     <input type="text" class="form-control" id="Email">
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="InviteBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Invite</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('group.detail.inviteClose')}}</button>
+                <button type="button" class="btn btn-primary" id="InviteBtn"><i class="MDI autorenew cm-refreshing d-none"></i> {{__('group.detail.inviteConfirm')}}</button>
             </div>
         </div>
     </div>
@@ -911,17 +912,17 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content sm-modal">
             <div class="modal-header">
-                <h5 class="modal-title"><i class="MDI bookmark-plus"></i> Add Problem</h5>
+                <h5 class="modal-title"><i class="MDI bookmark-plus"></i> {{__('group.contest.addProblem')}}</h5>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="problemCode" class="bmd-label-floating">Problem Code</label>
+                    <label for="problemCode" class="bmd-label-floating">{{__('group.contest.problemCode')}}</label>
                     <input type="text" class="form-control" id="problemCode">
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="addProblemBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Add</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('group.contest.close')}}</button>
+                <button type="button" class="btn btn-primary" id="addProblemBtn"><i class="MDI autorenew cm-refreshing d-none"></i> {{__('group.contest.add')}}</button>
             </div>
         </div>
     </div>
@@ -931,17 +932,17 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content sm-modal">
             <div class="modal-header">
-                <h5 class="modal-title"><i class="MDI account-circle"></i> Profile</h5>
+                <h5 class="modal-title"><i class="MDI account-circle"></i> {{__('group.detail.profile')}}</h5>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="nick_name" class="bmd-label-floating">Nick Name</label>
+                    <label for="nick_name" class="bmd-label-floating">{{__('group.detail.nickname')}}</label>
                     <input type="text" class="form-control" id="nick_name" value="@if(isset($my_profile['nick_name'])){{$my_profile['nick_name']}}@endif">
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="changeProfileBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Apply</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('group.detail.profileClose')}}</button>
+                <button type="button" class="btn btn-primary" id="changeProfileBtn"><i class="MDI autorenew cm-refreshing d-none"></i> {{__('group.detail.profileApply')}}</button>
             </div>
         </div>
     </div>
@@ -1187,21 +1188,21 @@
             console.log(contestDescription);
             if (contestName.replace(/(^s*)|(s*$)/g, "").length == 0) {
                 ajaxing=false;
-                return alert("Contest Name Shoudn't be empty");
+                return alert("{{__('group.contest.errorEmptyName')}}");
             }
             if (contestBegin.replace(/(^s*)|(s*$)/g, "").length == 0) {
                 ajaxing=false;
-                return alert("Contest Begin Time Shoudn't be empty");
+                return alert("{{__('group.contest.errorEmptyBeginTime')}}");
             }
             if (contestEnd.replace(/(^s*)|(s*$)/g, "").length == 0) {
                 ajaxing=false;
-                return alert("Contest End Time Shoudn't be empty");
+                return alert("{{__('group.contest.errorEmptyEndTime')}}");
             }
             var beginTimeParsed=new Date(Date.parse(contestBegin)).getTime();
             var endTimeParsed=new Date(Date.parse(contestEnd)).getTime();
             if(endTimeParsed < beginTimeParsed+60000){
                 ajaxing=false;
-                return alert("Contest length should be at least one minute.");
+                return alert("{{__('group.contest.errorContestTimeShort')}}");
             }
             $("#arrangeBtn > i").removeClass("d-none");
             $.ajax({
@@ -1224,9 +1225,9 @@
                     console.log(ret);
                     if (ret.ret==200) {
                         confirm({
-                            content: 'Contest arrange successful, do you need to jump to the contest page?',
-                            yesText: 'jump to',
-                            noText: 'return'
+                            content: "{{__('group.contest.successArrange')}}",
+                            yesText: "{{__('group.contest.jumpTo')}}",
+                            noText: "{{__('group.contest.return')}}"
                         },function(deny){
                             if(deny){
                                 $('#contestModal').modal('hide');
@@ -1368,13 +1369,13 @@
                                     <th scope="row"></th>
                                     <td>${ret.data.pcode}</td>
                                     <td>1</td>
-                                    <td><i class="MDI cm-remove wemd-red-text" onclick="removeProblem(this)" title="Delete this problem"></i></td>
+                                    <td><i class="MDI cm-remove wemd-red-text" onclick="removeProblem(this)" title="{{__('group.contest.deleteProblemTip')}}"></i></td>
                                 </tr>
                             `);
                             sortableInit();
                         }
                     } else {
-                        alert("Problem Doesn't Exist");
+                        alert("{{__('group.contest.errorProblemNonExist')}}");
                     }
                     $('#addProblemModal').modal('toggle');
                     ajaxing=false;

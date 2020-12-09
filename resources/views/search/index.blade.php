@@ -713,12 +713,13 @@
                                             </date-div>
                                             <info-div>
                                                 <h5 class="sm-contest-title">
-                                                    ${item['audit_status'] == 0 ? '<i class="MDI gavel wemd-brown-text" title="This contest is under review"></i>' : ''}
-                                                    ${item['public'] == 0 ? '<i class="MDI incognito wemd-red-text" title="This is a private contest"></i>' : ''}
-                                                    ${item['verified'] == 1 ? '<i class="MDI marker-check wemd-light-blue-text" title="This is a verified contest"></i>' : ''}
-                                                    ${item['practice'] == 1 ? '<i class="MDI sword wemd-green-text"  title="This is a contest for praticing"></i>' : ''}
-                                                    ${item['rated'] == 1 ? '<i class="MDI seal wemd-purple-text" title="This is a rated contest"></i>' : ''}
-                                                    ${item['anticheated'] == 1 ? '<i class="MDI do-not-disturb-off wemd-teal-text" title="Anti-cheat enabled"></i>' : ''}
+                                                    ${item['desktop'] == 1 ? '<i class="MDI lan-connect wemd-pink-text" title="{{__("contest.badge.desktop")}}"></i>' : ''}
+                                                    ${item['audit_status'] == 0 ? '<i class="MDI gavel wemd-brown-text" title="{{__("contest.badge.audit")}}"></i>' : ''}
+                                                    ${item['public'] == 0 ? '<i class="MDI incognito wemd-red-text" title="{{__("contest.badge.private")}}"></i>' : ''}
+                                                    ${item['verified'] == 1 ? '<i class="MDI marker-check wemd-light-blue-text" title="{{__("contest.badge.verified")}}"></i>' : ''}
+                                                    ${item['practice'] == 1 ? '<i class="MDI sword wemd-green-text"  title="{{__("contest.badge.practice")}}"></i>' : ''}
+                                                    ${item['rated'] == 1 ? '<i class="MDI seal wemd-purple-text" title="{{__("contest.badge.rated")}}"></i>' : ''}
+                                                    ${item['anticheated'] == 1 ? '<i class="MDI do-not-disturb-off wemd-teal-text" title="{{__("contest.badge.anticheated")}}"></i>' : ''}
                                                     ${item['name']}
                                                 </h5>
                                                 <p class="sm-contest-info">

@@ -62,9 +62,19 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'contest_account' => \App\Http\Middleware\ContestAccount::class,
         'privileged' => \App\Http\Middleware\Privileged::class,
+
         'group.exist' => \App\Http\Middleware\Group\Exists::class,
         'group.banned' => \App\Http\Middleware\Group\Banned::class,
+
+        'contest.desktop' => \App\Http\Middleware\Contest\IsDesktop::class,
+
         'user.banned' => \App\Http\Middleware\User\Banned::class,
+
+        'api.contest.clearance' => \App\Http\Middleware\Api\Contest\Clearance::class,
+        'api.contest.hasProblem' => \App\Http\Middleware\Api\Contest\HasProblem::class,
+        'api.contest.hasCompiler' => \App\Http\Middleware\Api\Contest\HasCompiler::class,
+
+        'api.submission.exist' => \App\Http\Middleware\Api\Submission\Exist::class,
     ];
 
     /**
@@ -81,7 +91,12 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\AuthenticateSession::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \Illuminate\Auth\Middleware\Authorize::class,
+
         \App\Http\Middleware\Group\Exists::class,
-        \App\Http\Middleware\Group\Banned::class
+        \App\Http\Middleware\Group\Banned::class,
+
+        \App\Http\Middleware\Api\Contest\Clearance::class,
+        \App\Http\Middleware\Api\Contest\HasProblem::class,
+        \App\Http\Middleware\Api\Contest\HasCompiler::class,
     ];
 }

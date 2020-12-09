@@ -254,7 +254,7 @@
 <div class="container-fluid mundb-standard-container">
     <settings-card>
         <settings-header>
-            <h5><i class="MDI trophy-variant"></i> Group Contest Management</h5>
+            <h5><i class="MDI trophy-variant"></i> {{__('group.common.contestManagement')}}</h5>
         </settings-header>
         <settings-body>
             <div class="row">
@@ -268,12 +268,13 @@
                         </date-div>
                         <info-div>
                             <h5 class="sm-contest-title">
-                                @unless($contest["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="left" title="This contest is under review"></i></span>@endif
-                                @unless($contest["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="left" title="This is a private contest"></i></span>@endif
-                                @if($contest['verified'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="left" title="This is a verified contest"></i>@endif
-                                @if($contest['practice'])<i class="MDI sword wemd-green-text"  data-toggle="tooltip" data-placement="left" title="This is a contest for praticing"></i>@endif
-                                @if($contest['rated'])<i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="left" title="This is a rated contest"></i>@endif
-                                @if($contest['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="left" title="Anti-cheat enabled"></i>@endif
+                                @if($contest['desktop'])<span><i class="MDI lan-connect wemd-pink-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.desktop")}}"></i></span>@endif
+                                @unless($contest["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.audit")}}"></i></span>@endif
+                                @unless($contest["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.private")}}"></i></span>@endif
+                                @if($contest['verified'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.verified")}}"></i>@endif
+                                @if($contest['practice'])<i class="MDI sword wemd-green-text"  data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.practice")}}"></i>@endif
+                                @if($contest['rated'])<i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.rated")}}"></i>@endif
+                                @if($contest['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.anticheated")}}"></i>@endif
                                 {{$contest['name']}}
                                 <div style="display:inline-block; width:auto" class="float-right">
                                     @if($contest['is_admin'])<i class="MDI account-check wemd-green-text" data-toggle="tooltip" data-placement="left" title="You have the permission to manage this contest"></i>@endif
@@ -293,45 +294,45 @@
                 </div>
                 <div id="contest-detail" class="col-7">
                     <paper-card style="box-shadow:none;border:none;margin:0;">
-                        <p>Assignee</p>
+                        <p>{{__('group.contest.assignee')}}</p>
                         <div id="assignee-area">
 
                         </div>
                         <div class="form-group">
-                            <label for="contestName" style="top: 1rem; left: 0; font-size: .75rem;">Contest Name</label>
+                            <label for="contestName" style="top: 1rem; left: 0; font-size: .75rem;">{{__('group.contest.contestName')}}</label>
                             <input type="text" class="form-control" id="contestName" autocomplete="off">
                         </div>
                         <div class="form-group">
-                            <label for="contestBegin" style="top: 1rem; left: 0; font-size: .75rem;">Contest Begin Time</label>
+                            <label for="contestBegin" style="top: 1rem; left: 0; font-size: .75rem;">{{__('group.contest.contestBeginTime')}}</label>
                             <input type="text" class="form-control" id="contestBegin" autocomplete="off">
                         </div>
                         <div class="form-group">
-                            <label for="contestEnd" style="top: 1rem; left: 0; font-size: .75rem;">Contest End Time</label>
+                            <label for="contestEnd" style="top: 1rem; left: 0; font-size: .75rem;">{{__('group.contest.contestEndTime')}}</label>
                             <input type="text" class="form-control" id="contestEnd" autocomplete="off">
                         </div>
-                        <p style="margin-top: 1rem;">Problems</p>
+                        <p style="margin-top: 1rem;">{{__('group.contest.problems')}}</p>
                         <table id="problems-table" class="table">
                             <thead>
                                 <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Code</th>
-                                <th scope="col">Score</th>
-                                <th scope="col">Op.</th>
+                                <th scope="col">{{__('group.contest.no')}}</th>
+                                <th scope="col">{{__('group.contest.code')}}</th>
+                                <th scope="col">{{__('group.contest.score')}}</th>
+                                <th scope="col">{{__('group.contest.opr')}}</th>
                                 </tr>
                             </thead>
                             <tbody id="contestProblemSet">
                             </tbody>
                         </table>
                         <div style="text-align: center;">
-                            <button class="btn btn-info" onclick="$('#addProblemModal').modal({backdrop:'static'});"><i class="MDI plus"></i> Add Problem</button>
+                            <button class="btn btn-info" onclick="$('#addProblemModal').modal({backdrop:'static'});"><i class="MDI plus"></i> {{__('group.contest.addProblem')}}</button>
                         </div>
-                        <p>Description</p>
+                        <p>{{__('group.contest.description')}}</p>
                         <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
                         <markdown-editor class="mt-3 mb-3">
                             <textarea id="description_editor"></textarea>
                         </markdown-editor>
                         <div class="text-right">
-                            <button id="contest-update" type="button" class="btn btn-danger">update</button>
+                            <button id="contest-update" type="button" class="btn btn-danger">{{__('group.contest.update')}}</button>
                         </div>
 
                     </paper-card>
@@ -346,7 +347,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content sm-modal" style="width: 80%">
             <div class="modal-header">
-                <h5 class="modal-title"><i class="MDI account-check "></i> Assign a Member</h5>
+                <h5 class="modal-title"><i class="MDI account-check "></i> {{__('group.contest.assignMember')}}</h5>
             </div>
             <div class="modal-body" style="max-height:60vh;overflow-y: auto" >
                 @foreach($member_list as $m)
@@ -363,7 +364,7 @@
                 @endforeach
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{{__('group.contest.cancel')}}</button>
             </div>
         </div>
     </div>
@@ -373,17 +374,17 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content sm-modal">
             <div class="modal-header">
-                <h5 class="modal-title"><i class="MDI bookmark-plus"></i> Add Problem</h5>
+                <h5 class="modal-title"><i class="MDI bookmark-plus"></i> {{__('group.contest.addProblem')}}</h5>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="problemCode" class="bmd-label-floating">Problem Code</label>
+                    <label for="problemCode" class="bmd-label-floating">{{__('group.contest.problemCode')}}</label>
                     <input type="text" class="form-control" id="problemCode">
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="addProblemBtn"><i class="MDI autorenew cm-refreshing d-none"></i> Add</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('group.contest.close')}}</button>
+                <button type="button" class="btn btn-primary" id="addProblemBtn"><i class="MDI autorenew cm-refreshing d-none"></i> {{__('group.contest.add')}}</button>
             </div>
         </div>
     </div>
@@ -479,7 +480,7 @@
             var endTimeParsed=new Date(Date.parse(contestEnd)).getTime();
             if(endTimeParsed < beginTimeParsed + 60000){
                 ajaxing=false;
-                return alert("Contest length should be at least one minute.");
+                return alert("{{__('group.contest.errorContestTimeShort')}}");
             }
             $("#arrangeBtn > i").removeClass("d-none");
             $.ajax({
@@ -519,7 +520,7 @@
                     $('#contest-detail').html('').append(`
                     <empty-container>
                         <i class="MDI package-variant"></i>
-                        <p>You are not in charge of any match.</p>
+                        <p>{{__('group.contest.noChargeContest')}}</p>
                     </empty-container>
                     `);
                 }else{
@@ -530,7 +531,7 @@
                 $('#contest-list').parent().html('').append(`
                 <empty-container>
                     <i class="MDI package-variant"></i>
-                    <p>No contest has been created in this group.</p>
+                    <p>{{__('group.contest.noContestInGroup')}}</p>
                 </empty-container>
                 `).removeClass('col-5').addClass('text-center');
             }
@@ -544,7 +545,7 @@
             if(assignee == null){
                 $('#assignee-area').html('').append(`
                 <div class="assignee-empty">
-                    There is no one assigned. Click to assign one
+                    {{__('group.contest.noOneAssigned')}}
                 </div>
                 `);
             }else{
@@ -574,7 +575,7 @@
                         <th scope="row"></th>
                         <td>${problem.pcode}</td>
                         <td>1</td>
-                        <td><i class="MDI cm-remove wemd-red-text" onclick="removeProblem(this)" title="Delete this problem"></i></td>
+                        <td><i class="MDI cm-remove wemd-red-text" onclick="removeProblem(this)" title="{{__('group.contest.deleteProblemTip')}}"></i></td>
                     </tr>
                 `);
             }
@@ -620,13 +621,13 @@
                                     <th scope="row"></th>
                                     <td>${ret.data.pcode}</td>
                                     <td>1</td>
-                                    <td><i class="MDI cm-remove wemd-red-text" onclick="removeProblem(this)" title="Delete this problem"></i></td>
+                                    <td><i class="MDI cm-remove wemd-red-text" onclick="removeProblem(this)" title="{{__('group.contest.deleteProblemTip')}}"></i></td>
                                 </tr>
                             `);
                             sortableInit();
                         }
                     } else {
-                        alert("Problem Doesn't Exist");
+                        alert("{{__('group.contest.errorProblemNonExist')}}");
                     }
                     $('#addProblemModal').modal('toggle');
                     ajaxing=false;
@@ -686,7 +687,7 @@
 
         $('contest-card').on('click',function(){
             if(ajaxing){
-                alert('loading a contest info ,slow down!');
+                alert("{{__('group.contest.errorLoading')}}");
                 return;
             }
             if($(this).is('.no-permission')){

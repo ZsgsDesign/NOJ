@@ -47,7 +47,8 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(result){
                     if(result.ret == '200' && result.data.length != 0){
-                        $("#message-tip").attr('title',`You have ${result.data.length} new messages.`)
+                        $("#message-tip").attr('title','@lang('navigation.message.tip_head')' + result.data.length + '@lang('navigation.message.tip_foot')');
+
                         $("#message-tip").tooltip('dispose');
                         $("#message-tip").tooltip();
                         window['message_tip'] = setInterval(() => {
@@ -56,7 +57,7 @@
                             },200)
                         }, 400);
                     }else{
-                        $("#message-tip").attr('title',`You have no messages.`);
+                        $("#message-tip").attr('title','@lang('navigation.message.empty')');
                         $("#message-tip").tooltip('dispose');
                         $("#message-tip").tooltip();
                     }

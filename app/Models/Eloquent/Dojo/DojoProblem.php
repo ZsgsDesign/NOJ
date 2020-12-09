@@ -16,6 +16,6 @@ class DojoProblem extends Model
 
     public function problem()
     {
-        return $this->belongsTo('App\Models\Eloquent\ProblemModel', 'problem_id');
+        return $this->belongsTo('App\Models\Eloquent\Problem', 'problem_id');
     }
 }

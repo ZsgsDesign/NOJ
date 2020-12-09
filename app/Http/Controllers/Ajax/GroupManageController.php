@@ -258,8 +258,8 @@ class GroupManageController extends Controller
         sendMessage([
             'receiver' => $receiverInfo["id"],
             'sender' => Auth::user()->id,
-            'title' => "{$sender_name} invites you to group {$basic['name']}",
-            'content' => "Hi, Dear **{$receiverInfo['name']}**,\n\n  **{$sender_name}** has just invited you to join the group **[{$basic['name']}]({$url})**. Take a look and meet other fascinating people right now!\n\nSincerely, NOJ"
+            'title' => __('group.message.inviteJoin.title', ['sender_name' => $sender_name, 'group_name' => $basic['name']]),
+            'content' => __('group.message.inviteJoin.content', ['reciver_name' => $receiverInfo['name'], 'group_name' => $basic['name'], 'group_url' => $url]),
         ]);
         return ResponseModel::success(200);
     }

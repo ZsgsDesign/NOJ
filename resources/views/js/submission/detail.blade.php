@@ -46,17 +46,17 @@
                         <div class="modal-dialog modal-dialog-centered modal-dialog-submission" role="document">
                             <div class="modal-content sm-modal">
                                 <div class="modal-header">
-                                    <h5 class="modal-title"><i class="MDI script"></i> Submission Detail</h5>
+                                    <h5 class="modal-title"><i class="MDI script"></i> {{__("status.submitdetail")}}</h5>
                                 </div>
                                 <div class="modal-body">
                                     <table class="table table-reflow">
                                         <thead>
                                             <tr>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Time</th>
-                                                <th scope="col">Memory</th>
-                                                <th scope="col">Lang</th>
-                                                <th scope="col">Submitted</th>
+                                                <th scope="col">{{__("status.result")}}</th>
+                                                <th scope="col">{{__("status.time")}}</th>
+                                                <th scope="col">{{__("status.memory")}}</th>
+                                                <th scope="col">{{__("status.language")}}</th>
+                                                <th scope="col">{{__("status.submittime")}}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -73,10 +73,10 @@
 </pre>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-warning d-none" onclick="prepareShare(${sid})"><i class="MDI share"></i> Share</button>
-                                    <button type="button" class="btn btn-info d-none" onclick="downloadCode(${sid},'${id}')"><i class="MDI download"></i> Download</button>
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__("status.close")}}</button>
+                                    <button type="button" class="btn btn-warning d-none" onclick="prepareShare(${sid})"><i class="MDI share"></i> {{__("status.share")}}</button>
+                                    <button type="button" class="btn btn-info d-none" onclick="downloadCode(${sid},'${id}')"><i class="MDI download"></i> {{__("status.download")}}</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">{{__("status.ok")}}</button>
                                 </div>
                             </div>
                         </div>
@@ -150,14 +150,14 @@
                         <div class="modal-dialog modal-dialog-centered modal-dialog-submission-share" role="document">
                             <div class="modal-content sm-modal">
                                 <div class="modal-header">
-                                    <h5 class="modal-title"><i class="MDI share"></i> Submission Sharing</h5>
+                                    <h5 class="modal-title"><i class="MDI share"></i> {{__("status.submitsharing.title")}}</h5>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Please choose a method to share. Using Direct Share would make your code available for users of {{config("app.name")}} by clicking the submission detail and by Pastebin would allow you to share your code through a link.</p>
+                                    <p>{{__("status.submitsharing.description", ['name' => config("app.name")])}}</p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-info" onclick="share(${ret.data.sid},${id})"><i class="MDI cube-outline"></i> ${ret.data.share?'Disable':'Enable'} Direct Share</button>
-                                    <button type="button" class="btn btn-warning" onclick="sharePB(${ret.data.sid},${id})"><i class="MDI note-plus"></i> Create a {{config("app.name")}} Pastebin</button>
+                                    <button type="button" class="btn btn-info" onclick="share(${ret.data.sid},${id})"><i class="MDI cube-outline"></i> ${ret.data.share?'{{__("status.submitsharing.disabledirectshare")}}':'{{__("status.submitsharing.enabledirectshare")}}'}</button>
+                                    <button type="button" class="btn btn-warning" onclick="sharePB(${ret.data.sid},${id})"><i class="MDI note-plus"></i> {{__("status.submitsharing.pastebin", ['name' => config("app.name")])}}</button>
                                 </div>
                             </div>
                         </div>

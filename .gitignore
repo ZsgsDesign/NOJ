@@ -18,3 +18,4 @@ yarn-error.log
 /app/Http/Controllers/VirtualCrawler/CodeForces/problemset.problems
 /public/static/library
 /.vscode/ipch
+/.rnd

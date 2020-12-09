@@ -40,7 +40,7 @@
             'clearance'=>$clearance
         ])
         <div class="p-3">
-            <p style="text-align: center;">Not Supported</p>
+            <p style="text-align: center;">{{__("contest.inside.print.disable")}}</p>
         </div>
     </paper-card>
 </div>

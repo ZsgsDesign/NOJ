@@ -1,15 +1,15 @@
 <?php
     $current_hour=date("H");
     if ($current_hour<6) {
-        $greeting="Get to bed";
+        $greeting=__('navigation.greeting.bed');
     } elseif ($current_hour<12) {
-        $greeting="Good morning";
+        $greeting=__('navigation.greeting.morning');
     } elseif ($current_hour<18) {
-        $greeting="Good afternoon";
+        $greeting=__('navigation.greeting.afternoon');
     } elseif ($current_hour<22) {
-        $greeting="Good evening";
+        $greeting=__('navigation.greeting.evening');
     } else {
-        $greeting="Good Night";
+        $greeting=__('navigation.greeting.night');
     }
 ?>
 
@@ -18,7 +18,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>errors</title>
+    <title>{{__('page')}}</title>
     <!-- Copyright Information -->
     <meta name="author" content="">
     <meta name="organization" content="">
@@ -140,7 +140,7 @@
                 <div></div>
                 <div></div>
             </div>
-            <p>Preparing {{config("app.name")}}</p>
+            <p>{{__('splash.loading', ['name' => config("app.name")])}}</p>
         </div>
     </loading>
     <!-- Style -->
@@ -168,7 +168,7 @@
             @else
 
                 <a class="navbar-brand" href="/">
-                    <img src="/static/img/njupt.png" height="30"> {{config("app.displayName")}}
+                    <img src="/static/img/icon/icon-white.png" height="30"> {{config("app.displayName")}}
                 </a>
 
             @endif
@@ -180,22 +180,22 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item />">
-                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/">{{__('errors.home')}} <span class="sr-only">(current)</span></a>
                     </li>
                         <li class="nav-item />">
-                            <a class="nav-link" href="/problem">Problem</a>
+                            <a class="nav-link" href="/problem">{{__('errors.problem')}}</a>
                         </li>
                         <li class="nav-item />">
-                            <a class="nav-link" href="/status">Status</a>
+                            <a class="nav-link" href="/status">{{__('errors.status')}}</a>
                         </li>
                         <li class="nav-item />">
-                            <a class="nav-link" href="/rank">Rank</a>
+                            <a class="nav-link" href="/rank">{{__('errors.rank')}}</a>
                         </li>
                     <li class="nav-item />">
-                        <a class="nav-link" href="/contest">Contest</a>
+                        <a class="nav-link" href="/contest">{{__('errors.contest')}}</a>
                     </li>
                     <li class="nav-item />">
-                        <a class="nav-link" href="/group">Group</a>
+                        <a class="nav-link" href="/group">{{__('errors.group')}}</a>
                     </li>
                         @foreach(getCustomUrl() as $u)
                             <li class="nav-item />">
@@ -207,7 +207,7 @@
                 <ul class="navbar-nav mundb-nav-right">
                     @if(!Auth::check() || is_null(Auth::user()->contest_account))
                     <form id="search-box" action="/search" method="get" class="form-inline my-2 my-lg-0 mundb-inline">
-                        <span class="bmd-form-group"><input id="search-key" class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" placeholder="Problem code" autocomplete="off" aria-label="search"></span>
+                        <span class="bmd-form-group"><input id="search-key" class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" placeholder="{{__('errors.search')}}" autocomplete="off" aria-label="search"></span>
                     </form>
                     @endif
 
@@ -220,8 +220,8 @@
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <div class="dropdown-header"><img src="{{ Auth::user()->avatar }}" class="mundb-avatar" id="atsast_nav_avatar" /><div><h6><span id="nav-dropdown-username">{{ Auth::user()["name"] }}</span><br/><small>{{ Auth::user()->email }}</small></h6></div></div>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/account/dashboard"><i class="MDI account-circle"></i> Dashboard</a>
-                                    <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> Settings</a>
+                                    <a class="dropdown-item" href="/account/dashboard"><i class="MDI account-circle"></i> {{__('errors.dashboard')}}</a>
+                                    <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> {{__('errors.settings')}}</a>
                                     <!--
                                     <a class="dropdown-item" href="/account/submissions"><i class="MDI airballoon"></i> Submissions</a>
                                     <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> Advanced Settings</a>
@@ -233,16 +233,16 @@
                                     -->
                                     @endif
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/tool/pastebin/create"><i class="MDI content-paste"></i> PasteBin</a>
+                                    <a class="dropdown-item" href="/tool/pastebin/create"><i class="MDI content-paste"></i> {{__('errors.pastebin')}}</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/system/info"><i class="MDI information-outline"></i> System Info</a>
-                                    <a class="dropdown-item" href="https://github.com/ZsgsDesign/NOJ/issues"><i class="MDI bug"></i> Report BUG</a>
+                                    <a class="dropdown-item" href="/system/info"><i class="MDI information-outline"></i> {{__('errors.systeminfo')}}</a>
+                                    <a class="dropdown-item" href="https://github.com/ZsgsDesign/NOJ/issues"><i class="MDI bug"></i> {{__('errors.report')}}</a>
                                     <div class="dropdown-divider"></div>
                                     <a  class="dropdown-item text-danger"
                                         href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();">
-                                        <i class="MDI exit-to-app text-danger"></i> {{ __('Logout') }}
+                                        <i class="MDI exit-to-app text-danger"></i> {{ __('errors.logout') }}
                                     </a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
@@ -263,7 +263,7 @@
         </nav>
         @if(emailVerified()===false && is_null(request()->cookie('isEmailVerifiedNoticed')))
         <div class="alert alert-info mb-0" role="alert">
-            <strong>Boost your security!</strong> You have not verified your email address, please verify it in your Settings Page.
+            {{__('errors.emailverify')}}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="setCookie('isEmailVerifiedNoticed',1,1)">
                 <span aria-hidden="true">×</span>
             </button>
@@ -282,31 +282,31 @@
 
                     <div class="col-md-4">
                         <h5 class="cm-footer-title mb-4 mt-3 font-bold">{{config("app.name")}}</h5>
-                        <p>{{config("app.name")}} is an online judge developed by ICPC Team of Nanjing Universify of Posts and Telecommunications.</p>
+                        <p>{{__('footer.description', ['name' => config("app.name")])}}</p>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">
 
                     <div class="col-md-2 mx-auto">
-                        <h5 class="title mb-4 mt-3 font-bold">Services</h5>
-                        <p class="mb-1"><a href="/status">Judging Queue</a></p>
-                        <p class="mb-1"><a href="/system/info">System Info</a></p>
-                        <p class="mb-1"><a href="/tool/pastebin/create">PasteBin</a></p>
+                        <h5 class="title mb-4 mt-3 font-bold">{{__('footer.services')}}</h5>
+                        <p class="mb-1"><a href="/status">{{__('footer.queue')}}</a></p>
+                        <p class="mb-1"><a href="/system/info">{{__('navigation.systeminfo')}}</a></p>
+                        <p class="mb-1"><a href="/tool/pastebin/create">{{__('navigation.pastebin')}}</a></p>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">
 
                     <div class="col-md-2 mx-auto">
-                        <h5 class="title mb-4 mt-3 font-bold">Developments</h5>
-                        <p class="mb-1"><a href="https://github.com/ZsgsDesign/NOJ">Open Source</a></p>
-                        <p class="mb-1"><a href="#">API</a></p>
+                        <h5 class="title mb-4 mt-3 font-bold">{{__('footer.developments')}}</h5>
+                        <p class="mb-1"><a href="https://github.com/ZsgsDesign/NOJ">{{__('footer.opensource')}}</a></p>
+                        <p class="mb-1"><a href="#">{{__('footer.api')}}</a></p>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">
 
                     <div class="col-md-2 mx-auto">
-                        <h5 class="title mb-4 mt-3 font-bold ">Support</h5>
-                        <p class="mb-0"><i class="MDI email"></i> acm@njupt.edu.cn</p>
+                        <h5 class="title mb-4 mt-3 font-bold ">{{__('footer.supports')}}</h5>
+                        <p class="mb-0"><i class="MDI email"></i> noj@njupt.edu.cn</p>
                         <p class="mb-0"><i class="MDI qqchat"></i> Group 668108264</p>
                     </div>
                 </div>

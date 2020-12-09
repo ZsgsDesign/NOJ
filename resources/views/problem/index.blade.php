@@ -96,7 +96,7 @@
             @if(is_null($prob_list))
             <empty-container>
                 <i class="MDI package-variant"></i>
-                <p>Nothing matches your search.</p>
+                <p>{{__('problem.empty')}}</p>
             </empty-container>
             @else
             <paper-card class="animated bounceInLeft">
@@ -105,10 +105,10 @@
                     <thead>
                         <tr>
                             <th scope="col" class="cm-fw">#</th>
-                            <th scope="col">Problem</th>
-                            <th scope="col" class="cm-fw">Submitted</th>
-                            <th scope="col" class="cm-fw">Passed</th>
-                            <th scope="col" class="cm-fw">AC Rate</th>
+                            <th scope="col">{{__('problem.problem')}}</th>
+                            <th scope="col" class="cm-fw">{{__('problem.submitted')}}</th>
+                            <th scope="col" class="cm-fw">{{__('problem.passed')}}</th>
+                            <th scope="col" class="cm-fw">{{__('problem.acrate')}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -132,7 +132,7 @@
         </div>
         <div class="col-sm-12 col-lg-3">
             <paper-card class="animated bounceInRight">
-                <p>Filter</p>
+                <p>{{__('problem.filter')}}</p>
                 <div class="mb-3">
                     @foreach($ojs as $o)
                     <span class="badge badge-oj @if($filter['oj']==$o['oid']) selected @endif" onclick="applyFilter(this)" data-oid="{{$o['oid']}}">{{$o['name']}}</span>

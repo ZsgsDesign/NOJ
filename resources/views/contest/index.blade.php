@@ -237,16 +237,16 @@
     <div class="row">
         <div class="col-sm-12 col-md-8">
             <paper-card class="animated bounceInRight p-0" type="none">
-                <p class="cm-trending mb-3"><i class="MDI filter"></i> Filter</p>
+                <p class="cm-trending mb-3"><i class="MDI filter"></i> {{__("contest.filter.title")}}</p>
                 <div>
-                    <span class="badge badge-rule @if($filter['rule']==1) selected @endif" onclick="applyFilter('rule',this)" data-rule="1"><i class="MDI trophy"></i> ICPC</span>
-                    <span class="badge badge-rule @if($filter['rule']==2) selected @endif" onclick="applyFilter('rule',this)" data-rule="2"><i class="MDI trophy"></i> IOI</span>
-                    @if(Auth::check())<span class="badge badge-public @if($filter['public']=='1') selected @endif" onclick="applyFilter('public',this)" data-public="1"><i class="MDI incognito"></i> Public</span>@endif
-                    @if(Auth::check())<span class="badge badge-public @if($filter['public']=='0') selected @endif" onclick="applyFilter('public',this)" data-public="0"><i class="MDI incognito"></i> Private</span>@endif
-                    <span class="badge badge-verified @if($filter['verified']==1) selected @endif" onclick="applyFilter('verified',this)" data-verified="1"><i class="MDI marker-check"></i> Verified</span>
-                    <span class="badge badge-practice @if($filter['practice']==1) selected @endif" onclick="applyFilter('practice',this)" data-practice="1"><i class="MDI sword"></i> Practice</span>
-                    <span class="badge badge-rated @if($filter['rated']==1) selected @endif" onclick="applyFilter('rated',this)" data-rated="1"><i class="MDI seal"></i> Rated</span>
-                    <span class="badge badge-anticheated @if($filter['anticheated']==1) selected @endif" onclick="applyFilter('anticheated',this)" data-anticheated="1"><i class="MDI do-not-disturb-off"></i> Anticheated</span>
+                    <span class="badge badge-rule @if($filter['rule']==1) selected @endif" onclick="applyFilter('rule',this)" data-rule="1"><i class="MDI trophy"></i> {{__("contest.filter.icpc")}}</span>
+                    <span class="badge badge-rule @if($filter['rule']==2) selected @endif" onclick="applyFilter('rule',this)" data-rule="2"><i class="MDI trophy"></i> {{__("contest.filter.ioi")}}</span>
+                    @if(Auth::check())<span class="badge badge-public @if($filter['public']=='1') selected @endif" onclick="applyFilter('public',this)" data-public="1"><i class="MDI incognito"></i> {{__("contest.filter.public")}}</span>@endif
+                    @if(Auth::check())<span class="badge badge-public @if($filter['public']=='0') selected @endif" onclick="applyFilter('public',this)" data-public="0"><i class="MDI incognito"></i> {{__("contest.filter.private")}}</span>@endif
+                    <span class="badge badge-verified @if($filter['verified']==1) selected @endif" onclick="applyFilter('verified',this)" data-verified="1"><i class="MDI marker-check"></i> {{__("contest.filter.verified")}}</span>
+                    <span class="badge badge-practice @if($filter['practice']==1) selected @endif" onclick="applyFilter('practice',this)" data-practice="1"><i class="MDI sword"></i> {{__("contest.filter.practice")}}</span>
+                    <span class="badge badge-rated @if($filter['rated']==1) selected @endif" onclick="applyFilter('rated',this)" data-rated="1"><i class="MDI seal"></i> {{__("contest.filter.rated")}}</span>
+                    <span class="badge badge-anticheated @if($filter['anticheated']==1) selected @endif" onclick="applyFilter('anticheated',this)" data-anticheated="1"><i class="MDI do-not-disturb-off"></i> {{__("contest.filter.anticheated")}}</span>
                 </div>
             </paper-card>
             @if(!empty($contest_list))
@@ -259,12 +259,13 @@
                         </date-div>
                         <info-div>
                             <h5 class="sm-contest-title">
-                                @unless($c["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="left" title="This contest is under review"></i></span>@endif
-                                @unless($c["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="left" title="This is a private contest"></i></span>@endif
-                                @if($c['verified'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="left" title="This is a verified contest"></i>@endif
-                                @if($c['practice'])<i class="MDI sword wemd-green-text"  data-toggle="tooltip" data-placement="left" title="This is a contest for praticing"></i>@endif
-                                @if($c['rated'])<i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="left" title="This is a rated contest"></i>@endif
-                                @if($c['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="left" title="Anti-cheat enabled"></i>@endif
+                                @if($c['desktop'])<span><i class="MDI lan-connect wemd-pink-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.desktop")}}"></i></span>@endif
+                                @unless($c["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.audit")}}"></i></span>@endif
+                                @unless($c["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.private")}}"></i></span>@endif
+                                @if($c['verified'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.verified")}}"></i>@endif
+                                @if($c['practice'])<i class="MDI sword wemd-green-text"  data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.practice")}}"></i>@endif
+                                @if($c['rated'])<i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.rated")}}"></i>@endif
+                                @if($c['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.anticheated")}}"></i>@endif
                                 {{$c['name']}}
                             </h5>
                             <p class="sm-contest-info">
@@ -281,30 +282,31 @@
             @else
                 <empty-container>
                     <i class="MDI package-variant"></i>
-                    <p>Nothing here.</p>
+                    <p>{{__("contest.empty")}}</p>
                 </empty-container>
             @endif
         </div>
         <div class="col-sm-12 col-md-4">
             <div class="animated jackInTheBox">
-                <p class="cm-trending"><i class="MDI star wemd-amber-text"></i> Featured Contest</p>
+                <p class="cm-trending"><i class="MDI star wemd-amber-text"></i> {{__("contest.featured.title")}}</p>
                     <paper-card style="text-align:center;">
                         @if(!is_null($featured))
                             <h5 class="sm-contest-title">{{$featured['name']}}</h5>
                             <p>{{$featured['date_parsed']['date']}}, {{$featured['date_parsed']['month_year']}} - {{$featured['length']}}</p>
                             <h5>
-                                @unless($featured["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="left" title="This contest is under review"></i></span>@endif
-                                @unless($featured["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="left" title="This is a private contest"></i></span>@endif
-                                @if($featured['verified'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="left" title="This is a verified contest"></i>@endif
-                                @if($featured['practice'])<i class="MDI sword wemd-green-text"  data-toggle="tooltip" data-placement="left" title="This is a contest for praticing"></i>@endif
-                                @if($featured['rated'])<i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="left" title="This is a rated contest"></i>@endif
-                                @if($featured['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="left" title="Anti-cheat enabled"></i>@endif
+                                @if($featured['desktop'])<span><i class="MDI lan-connect wemd-pink-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.desktop")}}"></i></span>@endif
+                                @unless($featured["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.audit")}}"></i></span>@endif
+                                @unless($featured["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.private")}}"></i></span>@endif
+                                @if($featured['verified'])<i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.verified")}}"></i>@endif
+                                @if($featured['practice'])<i class="MDI sword wemd-green-text"  data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.practice")}}"></i>@endif
+                                @if($featured['rated'])<i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.rated")}}"></i>@endif
+                                @if($featured['anticheated'])<i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.anticheated")}}"></i>@endif
 
                                 <span class="wemd-amber-text"><i class="MDI trophy"></i> {{$featured['rule_parsed']}}</span>
                             </h5>
-                            <a href="/contest/{{$featured['cid']}}"><button type="button" class="btn btn-outline-primary mt-4">Know More</button></a>
+                            <a href="/contest/{{$featured['cid']}}"><button type="button" class="btn btn-outline-primary mt-4">{{__("contest.featured.action")}}</button></a>
                         @else
-                            <h5 class="sm-contest-title">No feature</h5>
+                            <h5 class="sm-contest-title">{{__("contest.featured.empty")}}</h5>
                         @endif
                     </paper-card>
             </div>

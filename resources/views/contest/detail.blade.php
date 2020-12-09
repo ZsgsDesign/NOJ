@@ -209,6 +209,56 @@
     .list-group-item{
         flex-flow: initial;
     }
+
+    paper-card.cm-desktop{
+        display: flex;
+        align-items: center;
+        color: rgba(0,0,0,0.54);
+    }
+    paper-card.cm-desktop .cm-desktop-icon{
+        width: 5rem;
+        height: 5rem;
+        padding: 0.5rem;
+        flex-shrink: 0;
+        flex-grow: 0;
+        margin-right: 1rem;
+    }
+
+    paper-card.cm-desktop .cm-desktop-icon img{
+        width: 100%;
+        height: 100%;
+        flex-shrink: 1;
+        flex-grow: 1;
+    }
+
+    paper-card.cm-desktop .cm-desktop-desc h5{
+        color:rgba(0,0,0,0.93);
+        font-weight: bolder;
+    }
+
+    .show .dropdown-toggle.btn-info{
+        color: #03a9f4;
+    }
+
+    beta-badge{
+        display: inline-block;
+        vertical-align: super;
+        border-radius: 2px;
+        background: #000;
+        opacity: 0.9;
+        color: #fff;
+        font-size: 0.5rem;
+        line-height: 1;
+        padding:0.1rem 0.25rem;
+        margin:0;
+        align-self: flex-start;
+        margin-left: 0.25rem;
+        font-variant: small-caps;
+    }
+
+    .dropdown-menu .dropdown-item{
+        flex-flow: nowrap;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -223,11 +273,13 @@
                     <h5>{{$detail['name']}}</h5>
                     <badge-div>
                         <span class="badge badge-pill wemd-amber sm-contest-type"><i class="MDI trophy"></i> {{$detail['rule_parsed']}}</span>
-                        @unless($detail["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="top" title="This contest is under review"></i></span>@endif
-                        @unless($detail["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="top" title="This is a private contest"></i></span>@endif
-                        @if($detail['verified'])<span><i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a verified contest"></i></span>@endif
-                        @if($detail['rated'])<span><i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="top" title="This is a rated contest"></i></span>@endif
-                        @if($detail['anticheated'])<span><i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="top" title="Anti-cheat enabled"></i></span>@endif
+                        @if($detail['desktop'])<span><i class="MDI lan-connect wemd-pink-text" data-toggle="tooltip" data-placement="top" title="{{__("contest.badge.desktop")}}"></i></span>@endif
+                        @unless($detail["audit_status"])<span><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="top" title="{{__("contest.badge.audit")}}"></i></span>@endif
+                        @unless($detail["public"])<span><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="top" title="{{__("contest.badge.private")}}"></i></span>@endif
+                        @if($detail['verified'])<span><i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="{{__("contest.badge.verified")}}"></i></span>@endif
+                        @if($detail['practice'])<i class="MDI sword wemd-green-text"  data-toggle="tooltip" data-placement="left" title="{{__("contest.badge.practice")}}"></i>@endif
+                        @if($detail['rated'])<span><i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="top" title="{{__("contest.badge.rated")}}"></i></span>@endif
+                        @if($detail['anticheated'])<span><i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="top" title="{{__("contest.badge.anticheated")}}"></i></span>@endif
                     </badge-div>
                     {{-- <button class="btn btn-raised btn-primary">1</button> --}}
 
@@ -237,41 +289,41 @@
                                 <i class="MDI calendar-clock"></i>
                                 <div class="bmd-list-group-col">
                                     <p class="list-group-item-heading">{{$detail['begin_time']}}</p>
-                                    <p class="list-group-item-text">Begin Time</p>
+                                    <p class="list-group-item-text">{{__("contest.infobar.begin")}}</p>
                                 </div>
                             </li>
                             <li class="list-group-item">
                                 <i class="MDI timelapse"></i>
                                 <div class="bmd-list-group-col">
                                     <p class="list-group-item-heading">{{$detail['length']}}</p>
-                                    <p class="list-group-item-text">Length</p>
+                                    <p class="list-group-item-text">{{__("contest.infobar.length")}}</p>
                                 </div>
                             </li>
                             <li class="list-group-item">
                                 <i class="MDI buffer"></i>
                                 <div class="bmd-list-group-col">
                                     <p class="list-group-item-heading">{{$detail['problem_count']}}</p>
-                                    <p class="list-group-item-text">Problems</p>
+                                    <p class="list-group-item-text">{{__("contest.infobar.problems")}}</p>
                                 </div>
                             </li>
                             <li class="list-group-item">
                                 <i class="MDI google-circles-extended"></i>
                                 <div class="bmd-list-group-col">
                                     <p class="list-group-item-heading">{{$detail['group_info']['name']}}</p>
-                                    <p class="list-group-item-text">Organizer</p>
+                                    <p class="list-group-item-text">{{__("contest.infobar.organizer")}}</p>
                                 </div>
                             </li>
                         </ul>
                     </detail-info>
                     <div style="text-align:right;">
                         @guest
-                            <button type="button" class="btn btn-secondary">Please Login</button>
+                            <button type="button" class="btn btn-secondary">{{__("contest.infobar.action.login")}}</button>
                         @else
                             @if($basic['public'] && !$basic['audit_status'])
-                            <button type="button" class="btn btn-secondary">Under Review</button>
+                            <button type="button" class="btn btn-secondary">{{__("contest.infobar.action.review")}}</button>
                             @else
                                 @if($clearance==3 && time()<strtotime($basic['begin_time']))
-                                    <a href="/contest/{{$detail['cid']}}/board/admin"><button type="button" class="btn btn-info">Manage</button></a>
+                                    <a href="/contest/{{$detail['cid']}}/board/admin"><button type="button" class="btn btn-info">{{__("contest.infobar.action.manage")}}</button></a>
                                 @else
                                     @if(strtotime($detail['begin_time']) > time())
                                         @if($detail["registration"])
@@ -282,12 +334,12 @@
                                                 else show apply
                                             --}}
                                             @if($registration)
-                                                <button type="button" class="btn btn-info">Registered</button>
+                                                <button type="button" class="btn btn-info">{{__("contest.infobar.action.registered")}}</button>
                                             @else
                                                 @if( strtotime($detail['registration_due']) < time() || $detail["registant_type"]==0 || ($detail["registant_type"]==1 && !$inGroup) )
-                                                    <button type="button" class="btn btn-secondary">No Access</button>
+                                                    <button type="button" class="btn btn-secondary">{{__("contest.infobar.action.forbidden")}}</button>
                                                 @else
-                                                    <button type="button" class="btn btn-primary" onclick="registContest()">Regist</button>
+                                                    <button type="button" class="btn btn-primary" onclick="registContest()">{{__("contest.infobar.action.regist")}}</button>
                                                     <script>
                                                         var registing=false;
                                                         function registContest(){
@@ -317,13 +369,17 @@
                                                 @endif
                                             @endif
                                         @else
-                                            <button type="button" class="btn btn-secondary">Not Started Yet</button>
+                                            <button type="button" class="btn btn-secondary">{{__("contest.infobar.action.notstarted")}}</button>
                                         @endif
                                     @else
                                         @if($clearance)
-                                            <a href="/contest/{{$detail['cid']}}/board"><button type="button" class="btn btn-info">Enter</button></a>
+                                            @if($detail['desktop'] && $clearance != 3)
+                                                <a href="#"><button type="button" class="btn disabled">{{__("contest.infobar.action.desktoponly")}}</button></a>
+                                            @else
+                                                <a href="/contest/{{$detail['cid']}}/board"><button type="button" class="btn btn-info">{{__("contest.infobar.action.enter")}}</button></a>
+                                            @endif
                                         @else
-                                            <button type="button" class="btn btn-secondary">No Access</button>
+                                            <button type="button" class="btn btn-secondary">{{__("contest.infobar.action.forbidden")}}</button>
                                         @endif
                                     @endif
                                 @endif
@@ -334,6 +390,29 @@
             </contest-card>
         </div>
         <div class="col-sm-12 col-md-8">
+            @if($detail['desktop'])
+            <paper-card class="cm-desktop">
+                <div class="cm-desktop-icon d-none d-sm-block">
+                    <img src="{{url('/static/img/icon/icon-blue.png')}}">
+                </div>
+                <div class="cm-desktop-desc">
+                    <h5><i class="MDI lan-connect"></i> NOJ Desktop</h5>
+                    <p>This contest uses <strong>NOJ Desktop</strong>, a robust cross-platform contest client dedicated for OI/ICPC contests, supporting <i class="MDI windows"></i> Windows, <i class="MDI apple"></i> MacOS and <i class="MDI ubuntu"></i> Ubuntu.</p>
+                    <div style="text-align:right;">
+                        <div class="dropdown">
+                            <button class="btn btn-info dropdown-toggle" type="button" id="downloadDesktopButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="MDI download"></i> Download
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="downloadDesktopButton">
+                                <a class="dropdown-item" style="color: #00adef;" target="blank" href="https://github.com/NJUPTAAA/NOJ_Desktop/releases"><i class="MDI windows pr-2"></i> Windows<beta-badge class="wemd-orange">Stable</beta-badge></a>
+                                <a class="dropdown-item" style="color: #000;" target="blank" href="https://github.com/NJUPTAAA/NOJ_Desktop/releases"><i class="MDI apple pr-2"></i> MacOS<beta-badge class="wemd-teal">Beta</beta-badge></a>
+                                <a class="dropdown-item" style="color: #dd4814;" target="blank" href="https://github.com/NJUPTAAA/NOJ_Desktop/releases"><i class="MDI ubuntu pr-2"></i> Ubuntu<beta-badge class="wemd-teal">Beta</beta-badge></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </paper-card>
+            @endif
             <paper-card>
                 <fresh-container>{!!$detail["description_parsed"]!!}</fresh-container>
             </paper-card>

@@ -46,11 +46,11 @@
     }
 </style>
 <div class="container mundb-standard-container">
-    <h1>Instantly share code, notes, and snippets.</h1>
+    <h1>{{__('pastebin.title')}}</h1>
     <div class="row">
         <div class="col-lg-4 col-12">
             <div class="form-group bmd-form-group is-filled">
-                <label for="pb_lang" class="bmd-label-floating">Syntax</label>
+                <label for="pb_lang" class="bmd-label-floating">{{__('pastebin.syntax')}}</label>
                 <div class="form-control cm-fake-select dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="pb_lang" name="pb_lang" required="">Plain Text</div>
                 <div class="dropdown-menu cm-scrollable-menu" id="pb_lang_option">
                     {{-- <button class="dropdown-item" data-value="-1">None</button> --}}
@@ -68,19 +68,19 @@
                 </select>
             </div> --}}
             <div class="form-group bmd-form-group is-filled">
-                <label for="pb_time" class="bmd-label-floating">Expiration</label>
-                <div class="form-control cm-fake-select dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="pb_time" name="pb_time" required="">None</div>
+                <label for="pb_time" class="bmd-label-floating">{{__('pastebin.expiration.title')}}</label>
+                <div class="form-control cm-fake-select dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="pb_time" name="pb_time" required="">{{__('pastebin.expiration.none')}}</div>
                 <div class="dropdown-menu cm-scrollable-menu"  id="pb_time_option">
-                    <button class="dropdown-item" data-value="0">None</button>
-                    <button class="dropdown-item" data-value="1">A Day</button>
-                    <button class="dropdown-item" data-value="7">A Week</button>
-                    <button class="dropdown-item" data-value="30">A Month</button>
+                    <button class="dropdown-item" data-value="0">{{__('pastebin.expiration.none')}}</button>
+                    <button class="dropdown-item" data-value="1">{{__('pastebin.expiration.day')}}</button>
+                    <button class="dropdown-item" data-value="7">{{__('pastebin.expiration.week')}}</button>
+                    <button class="dropdown-item" data-value="30">{{__('pastebin.expiration.month')}}</button>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 col-12">
             <div class="form-group bmd-form-group is-filled">
-                <label for="pb_title" class="bmd-label-floating">Title</label>
+                <label for="pb_title" class="bmd-label-floating">{{__('pastebin.pbTitle')}}</label>
                 <input type="text" class="form-control pb-input" name="pb_title" id="pb_title" value="Untitled">
             </div>
         </div>
@@ -91,8 +91,8 @@
         </div>
     </div>
     <div style="text-align: right;margin-bottom:2rem;">
-        <button type="button" class="btn btn-secondary">Cancel</button>
-        <button type="button" class="btn btn-raised btn-primary" onclick="generate()">Create</button>
+        <button type="button" class="btn btn-secondary">{{__('pastebin.cancel')}}</button>
+        <button type="button" class="btn btn-raised btn-primary" onclick="generate()">{{__('pastebin.create')}}</button>
     </div>
 </div>
 @endsection
@@ -105,6 +105,14 @@
         var targ_lang="plaintext",targ_expire=0,editor;
 
         require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});
+
+        require.config({
+            'vs/nls' : {
+                availableLanguages: {
+                    '*': '{{Str::lower(App::getLocale())}}'
+                }
+            }
+        });
 
         // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
         // the default worker url location (used when creating WebWorkers). The problem here is that

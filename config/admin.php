@@ -22,7 +22,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo' => '<img src="/static/img/njupt.png" style="height:20px;" alt="NOJ"> NOJ Admin',
+    'logo' => '<img src="/static/img/icon/icon-white.png" style="height:20px;" alt="NOJ"> NOJ Admin',
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ return [
     | '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo-mini' => '<img src="/static/img/njupt.png" style="height:20px;" alt="NOJ">',
+    'logo-mini' => '<img src="/static/img/icon/icon-white.png" style="height:20px;" alt="NOJ">',
 
     /*
     |--------------------------------------------------------------------------
@@ -398,15 +398,15 @@ return [
             // Select a local disk that you configured in `config/filesystem.php`
             'disk' => 'NOJPublic'
         ],
-        'api-tester' => [
+        // 'api-tester' => [
 
-            'prefix' => 'api',
+        //     'prefix' => 'api',
 
-            'guard'  => 'api',
+        //     'guard'  => 'api',
 
-            'user_retriever' => function ($id) {
-                return \App\User::find($id);
-            },
-        ]
+        //     'user_retriever' => function ($id) {
+        //         return \App\User::find($id);
+        //     },
+        // ]
     ],
 ];

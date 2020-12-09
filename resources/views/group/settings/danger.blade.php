@@ -10,12 +10,12 @@
 
 <settings-card>
     <settings-header>
-        <h5><i class="MDI alert-circle-outline"></i> Danger Zone</h5>
+        <h5><i class="MDI alert-circle-outline"></i> {{__('group.common.dangerField')}}</h5>
     </settings-header>
     <settings-body>
         <p>
-            <span style="margin-right: 5rem">Group Elo Ranking</span>
-            <button id="elo-refresh" class="btn btn-outline-danger m-0"><i class="MDI refresh"></i> Refresh</button>
+            <span style="margin-right: 5rem">{{__('group.danger.groupEloRanking')}}</span>
+            <button id="elo-refresh" class="btn btn-outline-danger m-0"><i class="MDI refresh"></i> {{__('group.danger.refresh')}}</button>
         </p>
     </settings-body>
 </settings-card>

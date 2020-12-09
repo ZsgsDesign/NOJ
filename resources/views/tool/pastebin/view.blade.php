@@ -97,7 +97,7 @@
         <a href="/user/{{$detail["userInfo"]["id"]}}"><img src="{{$detail["userInfo"]["avatar"]}}" class="cm-avatar-square"></a>
         <p>{{$detail["userInfo"]["name"]}}</p>
     </user-section>
-    <small style="color:rgba(0,0,0,0.42);">Created at {{$detail["created_at"]}}@if($detail["expire"]), Expired at {{$detail["expire"]}}@endif</small>
+    <small style="color:rgba(0,0,0,0.42);">{{__('pastebin.created_at', ['created_at' => $detail["created_at"]])}}@if($detail["expire"]), {{__('pastebin.expired_at', ['expired_at' => $detail["expire"]])}}@endif</small>
     <code-paper>
         <code-header>{{$detail["title"]}}</code-header>
         <pre data-lang="{{$detail["lang"]}}" id="pb_content">{{$detail["content"]}}</pre>
@@ -109,6 +109,14 @@
     <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
     <script>
         require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});
+
+        require.config({
+            'vs/nls' : {
+                availableLanguages: {
+                    '*': '{{Str::lower(App::getLocale())}}'
+                }
+            }
+        });
 
         window.MonacoEnvironment = {
             getWorkerUrl: function(workerId, label) {

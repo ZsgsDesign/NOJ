@@ -100,14 +100,16 @@ Route::group([
     Route::get('/', 'IndexController@index')->name('index');
     Route::get('/{cid}', 'IndexController@detail')->name('detail');
 
-    Route::get('/{cid}/board', 'BoardController@board')->middleware('auth')->name('board');
-    Route::get('/{cid}/board/challenge', 'BoardController@challenge')->middleware('auth')->name('challenge');
-    Route::get('/{cid}/board/challenge/{ncode}', 'BoardController@editor')->middleware('auth')->name('editor');
-    Route::get('/{cid}/board/rank', 'BoardController@rank')->middleware('auth')->name('rank');
-    Route::get('/{cid}/board/status', 'BoardController@status')->middleware('auth')->name('status');
-    Route::get('/{cid}/board/clarification', 'BoardController@clarification')->middleware('auth')->name('clarification');
-    Route::get('/{cid}/board/print', 'BoardController@print')->middleware('auth')->name('print');
-    Route::get('/{cid}/board/analysis', 'BoardController@analysis')->middleware('auth')->name('analysis');
+    Route::group(['middleware' => ['contest.desktop']], function () {
+        Route::get('/{cid}/board', 'BoardController@board')->middleware('auth')->name('board');
+        Route::get('/{cid}/board/challenge', 'BoardController@challenge')->middleware('auth')->name('challenge');
+        Route::get('/{cid}/board/challenge/{ncode}', 'BoardController@editor')->middleware('auth')->name('editor');
+        Route::get('/{cid}/board/rank', 'BoardController@rank')->middleware('auth')->name('rank');
+        Route::get('/{cid}/board/status', 'BoardController@status')->middleware('auth')->name('status');
+        Route::get('/{cid}/board/clarification', 'BoardController@clarification')->middleware('auth')->name('clarification');
+        Route::get('/{cid}/board/print', 'BoardController@print')->middleware('auth')->name('print');
+        Route::get('/{cid}/board/analysis', 'BoardController@analysis')->middleware('auth')->name('analysis');
+    });
 
     Route::get('/{cid}/scrollBoard', 'AdminController@scrollBoard')->middleware('auth', 'contest_account', 'privileged')->name('scrollboard');
     Route::get('/{cid}/board/admin', 'AdminController@admin')->middleware('auth', 'privileged')->name('admin');

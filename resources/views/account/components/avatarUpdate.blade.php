@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-alert" role="document">
         <div class="modal-content sm-modal">
             <div class="modal-header">
-                <h5 class="modal-title">Update your avatar</h5>
+                <h5 class="modal-title">{{__('dashboard.avatarChange.title')}}</h5>
             </div>
             <div class="modal-body">
                 <div class="container-fluid text-center">
@@ -11,14 +11,14 @@
                     </avatar-section>
                     <br />
                     <input type="file" style="display:none" id="avatar-file" accept=".jpg,.png,.jpeg,.gif">
-                    <label for="avatar-file" id="choose-avatar" class="btn btn-primary" role="button"><i class="MDI upload"></i> select local file</label>
+                    <label for="avatar-file" id="choose-avatar" class="btn btn-primary" role="button"><i class="MDI upload"></i> {{__('dashboard.avatarChange.tipSelectFile')}}</label>
                 </div>
                 <div id="avatar-error-tip" style="opacity:0" class="text-center">
-                    <small id="tip-text" class="text-danger font-weight-bold">PLEASE CHOOSE A LOCAL FILE</small>
+                    <small id="tip-text" class="text-danger font-weight-bold">{{__('dashboard.avatarChange.errorSelectFile')}}</small>
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="avatar-submit" type="button" class="btn btn-danger">Update</button>
+                <button id="avatar-submit" type="button" class="btn btn-danger">{{__('dashboard.avatarChange.buttonUpdate')}}</button>
             </div>
         </div>
     </div>
@@ -41,7 +41,7 @@
 
         $('#avatar-submit').on('click',function(){
             if($(this).is('.updating')){
-                $('#tip-text').text('SLOW DOWN');
+                $('#tip-text').text('{{__('dashboard.avatarChange.errorFast')}}');
                 $('#tip-text').addClass('text-danger');
                 $('#tip-text').removeClass('text-success');
                 $('#avatar-error-tip').animate({opacity:'1'},200);
@@ -50,7 +50,7 @@
 
             var file = $('#avatar-file').get(0).files[0];
             if(file == undefined){
-                $('#tip-text').text('PLEASE CHOOSE A LOCAL FILE');
+                $('#tip-text').text('{{__('dashboard.avatarChange.errorSelectFile')}}');
                 $('#tip-text').addClass('text-danger');
                 $('#tip-text').removeClass('text-success');
                 $('#avatar-error-tip').animate({opacity:'1'},200);
@@ -60,7 +60,7 @@
             }
 
             if(file.size/1024 > 1024){
-                $('#tip-text').text('THE SELECTED FILE IS TOO LARGE');
+                $('#tip-text').text('{{__('dashboard.avatarChange.errorLarge')}}');
                 $('#tip-text').addClass('text-danger');
                 $('#tip-text').removeClass('text-success');
                 $('#avatar-error-tip').animate({opacity:'1'},200);
@@ -84,7 +84,7 @@
                 },
                 success : function(result){
                     if(result.ret == 200){
-                        $('#tip-text').text('AVATAR CHANGE SUCESSFUL');
+                        $('#tip-text').text('{{__('dashboard.avatarChange.success')}}');
                         $('#tip-text').removeClass('text-danger');
                         $('#tip-text').addClass('text-success');
                         $('#avatar-error-tip').animate({opacity:'1'},200);

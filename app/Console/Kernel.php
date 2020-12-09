@@ -8,7 +8,7 @@ use App\Models\Eloquent\JudgeServerModel as EloquentJudgeServerModel;
 use App\Models\RankModel;
 use App\Models\SiteMapModel;
 use App\Models\ContestModel;
-use App\Models\Eloquent\ContestModel as EloquentContestModel;
+use App\Models\Eloquent\Contest as EloquentContestModel;
 use App\Models\GroupModel;
 use App\Models\OJModel;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;

@@ -163,15 +163,15 @@ if (!function_exists('formatHumanReadableTime')) {
         $unix_date=strtotime($date);
 
         if (empty($unix_date)) {
-            return "Bad date";
+            return __("helper.time.malformatter");
         }
 
         if ($now>$unix_date) {
             $difference=$now-$unix_date;
-            $tense="ago";
+            $tense=__("helper.time.after");
         } else {
             $difference=$unix_date-$now;
-            $tense="from now";
+            $tense=__("helper.time.before");
         }
 
         for ($j=0; $difference>=$lengths[$j] && $j<count($lengths)-1; $j++) {
@@ -181,10 +181,16 @@ if (!function_exists('formatHumanReadableTime')) {
         $difference=round($difference);
 
         if ($difference!=1) {
-            $periods[$j].="s";
+            $periods[$j]=__("helper.time.plural.$periods[$j]");
+        } else {
+            $periods[$j]=__("helper.time.singular.$periods[$j]");
         }
 
-        return "$difference $periods[$j] {$tense}";
+        return __("helper.time.formatter",[
+            "time" => $difference,
+            "unit" => $periods[$j],
+            "tense" => $tense,
+        ]);
     }
 }
 
