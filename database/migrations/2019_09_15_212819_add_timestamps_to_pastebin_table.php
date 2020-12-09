@@ -15,7 +15,7 @@ class AddTimestampsToPastebinTable extends Migration
     {
         Schema::table('pastebin', function (Blueprint $table) {
             $table->renameColumn('create_date', 'created_at');
-            $table->timestamp('updated_at');
+            $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
         });
     }

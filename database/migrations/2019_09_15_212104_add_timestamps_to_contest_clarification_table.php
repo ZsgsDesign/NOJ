@@ -15,7 +15,7 @@ class AddTimestampsToContestClarificationTable extends Migration
     {
         Schema::table('contest_clarification', function (Blueprint $table) {
             $table->renameColumn('create_time', 'created_at');
-            $table->timestamp('updated_at');
+            $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
         });
     }
