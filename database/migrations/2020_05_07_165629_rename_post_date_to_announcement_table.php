@@ -28,7 +28,7 @@ class RenamePostDateToAnnouncementTable extends Migration
     {
         Schema::table('announcement', function (Blueprint $table) {
             $table->renameColumn('created_at', 'post_date');
-            $table->timestamp('created_at');
+            $table->timestamp('created_at')->nullable();
         });
     }
 }
