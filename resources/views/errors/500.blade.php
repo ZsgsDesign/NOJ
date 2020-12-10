@@ -1,7 +1,7 @@
 @include('errors.general',[
     'emoji'=>':-&#40;',
     'code'=>500,
-    'type'=>'Internal Server Error',
-    'description'=>'Somthing went wrong.',
-    'tips'=>'We\'re looking to see what happened'
+    'type'=>__('errors.http.500.type'),
+    'description'=>__('errors.http.500.description'),
+    'tips'=>__('errors.http.500.tips')
 ])
