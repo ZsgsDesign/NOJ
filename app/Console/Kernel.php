@@ -137,13 +137,17 @@ class Kernel extends ConsoleKernel
             }
         })->everyMinute()->description("Update Judge Server Status");
 
-        if (!env("APP_DEBUG")) {
-            $schedule->command('backup:run')->weekly()->description("BackUp Site");
-        }
+        /* Disable backup function due to framework incompatibility
+         * See https://github.com/laravel-admin-extensions/backup/issues/18 for more information.
+         */
 
-        if (!env("APP_DEBUG")) {
-            $schedule->command('backup:run --only-db')->dailyAt('00:30')->description("BackUp DataBase");
-        }
+        // if (!env("APP_DEBUG")) {
+        //     $schedule->command('backup:run')->weekly()->description("BackUp Site");
+        // }
+
+        // if (!env("APP_DEBUG")) {
+        //     $schedule->command('backup:run --only-db')->dailyAt('00:30')->description("BackUp DataBase");
+        // }
     }
 
     /**
