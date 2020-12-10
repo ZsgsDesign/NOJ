@@ -184,7 +184,7 @@
             @else
 
                 <a class="navbar-brand" href="/">
-                    <img src="/static/img/icon/icon-white.png" height="30"> {{config("app.displayName")}}
+                    <img src="{{config('app.logo')}}" height="30"> {{config("app.displayName")}}
                 </a>
 
             @endif
@@ -322,7 +322,7 @@
 
                     <div class="col-md-4">
                         <h5 class="cm-footer-title mb-4 mt-3 font-bold">{{config("app.name")}}</h5>
-                        <p>{{__('footer.description', ['name' => config("app.name")])}}</p>
+                        <p>@if(blank(config("app.desc"))) {{__('footer.description', ['name' => config("app.name")])}} @else {{config("app.desc")}} @endif</p>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">

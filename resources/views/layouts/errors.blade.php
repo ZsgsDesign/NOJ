@@ -168,7 +168,7 @@
             @else
 
                 <a class="navbar-brand" href="/">
-                    <img src="/static/img/icon/icon-white.png" height="30"> {{config("app.displayName")}}
+                    <img src="{{config('app.logo')}}" height="30"> {{config("app.displayName")}}
                 </a>
 
             @endif
