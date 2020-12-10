@@ -346,8 +346,7 @@
 
                     <div class="col-md-2 mx-auto">
                         <h5 class="title mb-4 mt-3 font-bold ">{{__('footer.supports')}}</h5>
-                        <p class="mb-0"><i class="MDI email"></i> noj@njupt.edu.cn</p>
-                        <p class="mb-0"><i class="MDI qqchat"></i> Group 668108264</p>
+                        @include('layouts.components.contact')
                     </div>
                 </div>
             </div>
