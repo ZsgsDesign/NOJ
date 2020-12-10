@@ -24,6 +24,7 @@
         align-items: flex-start;
         padding-right: 0;
         margin: 5rem 0;
+        width: 30rem;
     }
 
     footer {
