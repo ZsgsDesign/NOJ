@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'description'   => ':name 是一个由方糖智行网络科技与南京邮电大学ICPC校队共同研发的下一代在线测评系统。',
+    'description'   => ':name是一个由方糖智行网络科技与南京邮电大学ICPC校队共同研发的下一代在线测评系统。',
     'services'      => '服务',
     'developments'  => '开发',
     'supports'      => '支持',
