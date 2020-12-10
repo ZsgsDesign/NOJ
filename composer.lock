@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "21a0c1abb409e4696a96b468f5ec970e",
+    "content-hash": "d1f8868be29f1479a9c2e17e056eb5c9",
     "packages": [
         {
             "name": "albertofem/rsync-lib",
@@ -1292,6 +1292,198 @@
                 "source": "https://github.com/firebase/php-jwt/tree/master"
             },
             "time": "2020-03-25T18:49:23+00:00"
+        },
+        {
+            "name": "fonts-asset/devicon",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ZsgsDesign/fonts-asset-Devicon.git",
+                "reference": "14381087a09512236b8471b3aea144f03a61914e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Devicon/zipball/14381087a09512236b8471b3aea144f03a61914e",
+                "reference": "14381087a09512236b8471b3aea144f03a61914e",
+                "shasum": ""
+            },
+            "type": "fonts-asset",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zsgsdesign",
+                    "email": "zsgsdesign@gmail.com"
+                }
+            ],
+            "description": "Devicon for composer.",
+            "support": {
+                "issues": "https://github.com/ZsgsDesign/fonts-asset-Devicon/issues",
+                "source": "https://github.com/ZsgsDesign/fonts-asset-Devicon/tree/1.0.0"
+            },
+            "time": "2020-12-10T16:02:19+00:00"
+        },
+        {
+            "name": "fonts-asset/mdi-wxss",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ZsgsDesign/fonts-asset-MDI-WXSS.git",
+                "reference": "b6f47677e7b030b77620731fdf257b4fa2e28750"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-MDI-WXSS/zipball/b6f47677e7b030b77620731fdf257b4fa2e28750",
+                "reference": "b6f47677e7b030b77620731fdf257b4fa2e28750",
+                "shasum": ""
+            },
+            "type": "fonts-asset",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zsgsdesign",
+                    "email": "zsgsdesign@gmail.com"
+                }
+            ],
+            "description": "MDI-WXSS for composer.",
+            "support": {
+                "issues": "https://github.com/ZsgsDesign/fonts-asset-MDI-WXSS/issues",
+                "source": "https://github.com/ZsgsDesign/fonts-asset-MDI-WXSS/tree/1.0.0"
+            },
+            "time": "2020-12-10T16:05:48+00:00"
+        },
+        {
+            "name": "fonts-asset/montserrat",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ZsgsDesign/fonts-asset-Montserrat.git",
+                "reference": "5d746efe7516ee6182ef4b56ac6c67eceb47ca46"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Montserrat/zipball/5d746efe7516ee6182ef4b56ac6c67eceb47ca46",
+                "reference": "5d746efe7516ee6182ef4b56ac6c67eceb47ca46",
+                "shasum": ""
+            },
+            "type": "fonts-asset",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zsgsdesign",
+                    "email": "zsgsdesign@gmail.com"
+                }
+            ],
+            "description": "Montserrat for composer.",
+            "support": {
+                "issues": "https://github.com/ZsgsDesign/fonts-asset-Montserrat/issues",
+                "source": "https://github.com/ZsgsDesign/fonts-asset-Montserrat/tree/1.0.0"
+            },
+            "time": "2020-12-10T16:05:47+00:00"
+        },
+        {
+            "name": "fonts-asset/raleway",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ZsgsDesign/fonts-asset-Raleway.git",
+                "reference": "1efd9bcb0c95d0aed5b6003530c494d6db744fee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Raleway/zipball/1efd9bcb0c95d0aed5b6003530c494d6db744fee",
+                "reference": "1efd9bcb0c95d0aed5b6003530c494d6db744fee",
+                "shasum": ""
+            },
+            "type": "fonts-asset",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zsgsdesign",
+                    "email": "zsgsdesign@gmail.com"
+                }
+            ],
+            "description": "Raleway for composer.",
+            "support": {
+                "issues": "https://github.com/ZsgsDesign/fonts-asset-Raleway/issues",
+                "source": "https://github.com/ZsgsDesign/fonts-asset-Raleway/tree/1.0.0"
+            },
+            "time": "2020-12-10T16:05:47+00:00"
+        },
+        {
+            "name": "fonts-asset/roboto",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ZsgsDesign/fonts-asset-Roboto.git",
+                "reference": "b4bef060f1559f33e203ef93691ff52e6748e52c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Roboto/zipball/b4bef060f1559f33e203ef93691ff52e6748e52c",
+                "reference": "b4bef060f1559f33e203ef93691ff52e6748e52c",
+                "shasum": ""
+            },
+            "type": "fonts-asset",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zsgsdesign",
+                    "email": "zsgsdesign@gmail.com"
+                }
+            ],
+            "description": "Roboto for composer.",
+            "support": {
+                "issues": "https://github.com/ZsgsDesign/fonts-asset-Roboto/issues",
+                "source": "https://github.com/ZsgsDesign/fonts-asset-Roboto/tree/1.0.0"
+            },
+            "time": "2020-12-10T16:05:46+00:00"
+        },
+        {
+            "name": "fonts-asset/roboto-slab",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ZsgsDesign/fonts-asset-Roboto-Slab.git",
+                "reference": "5d0b186b3e1927f58d602a2fbf50e778be230634"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Roboto-Slab/zipball/5d0b186b3e1927f58d602a2fbf50e778be230634",
+                "reference": "5d0b186b3e1927f58d602a2fbf50e778be230634",
+                "shasum": ""
+            },
+            "type": "fonts-asset",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zsgsdesign",
+                    "email": "zsgsdesign@gmail.com"
+                }
+            ],
+            "description": "Roboto-Slab for composer.",
+            "support": {
+                "issues": "https://github.com/ZsgsDesign/fonts-asset-Roboto-Slab/issues",
+                "source": "https://github.com/ZsgsDesign/fonts-asset-Roboto-Slab/tree/1.0.0"
+            },
+            "time": "2020-12-10T16:05:45+00:00"
         },
         {
             "name": "graham-campbell/markdown",

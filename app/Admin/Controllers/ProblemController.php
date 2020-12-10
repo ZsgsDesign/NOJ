@@ -120,7 +120,7 @@ class ProblemController extends Controller
             $filter->like('title');
         });
 
-        $grid->disableCreateButton();
+        // $grid->disableCreateButton();
 
         return $grid;
     }
@@ -172,7 +172,7 @@ class ProblemController extends Controller
         });
         if($create){
             $form->tools(function (Form\Tools $tools) {
-                $tools->add('<a href="/'.config('admin.route.prefix').'/problems/import" class="btn btn-sm btn-success" style="margin-right:1rem"><i class="MDI file-powerpoint-box"></i>&nbsp;&nbsp;Import from file</a>');
+                $tools->append('<a href="/'.config('admin.route.prefix').'/problems/import" class="btn btn-sm btn-success" style="margin-right:1rem"><i class="MDI file-powerpoint-box"></i>&nbsp;&nbsp;Import from file</a>');
             });
         }
         $form->saving(function (Form $form){

@@ -19,7 +19,7 @@
  */
 
 Admin::css('/static/css/wemd-color-scheme.css');
-Admin::css('/static/fonts/MDI-WXSS/MDI.css');
+Admin::css('/static/fonts/mdi-wxss/MDI.css');
 Admin::favicon('/favicon.png');
 Admin::css('/static/library/highlightjs/styles/atom-one-light.css');
 Admin::js('/static/library/highlightjs/highlight.pack.min.js');

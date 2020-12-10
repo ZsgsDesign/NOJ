@@ -137,11 +137,11 @@ class Kernel extends ConsoleKernel
             }
         })->everyMinute()->description("Update Judge Server Status");
 
-        if (!env("APP_DEBUG")) {
+        if (!config("app.debug") && config("app.backup")) {
             $schedule->command('backup:run')->weekly()->description("BackUp Site");
         }
 
-        if (!env("APP_DEBUG")) {
+        if (!config("app.debug") && config("app.backup")) {
             $schedule->command('backup:run --only-db')->dailyAt('00:30')->description("BackUp DataBase");
         }
     }
