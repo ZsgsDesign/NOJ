@@ -130,7 +130,7 @@ return [
      * If a backup does not meet the specified requirements the
      * UnHealthyBackupWasFound event will be fired.
      */
-    'monitor_backups' => [
+    'monitorBackups' => [
         [
             'name' => env('APP_NAME', 'laravel-backup'),
             'disks' => ['local'],
