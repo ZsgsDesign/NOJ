@@ -61,7 +61,7 @@
         <div class="error-emoji">{{$emoji}}</div>
         <div class="error-title wemd-grey-text"><strong class="wemd-black-text">{{$code}}. </strong>{{$type}}</div>
         <div class="error-description">{{$description}}</div>
-        <div class="error-description wemd-grey-text">@isset($tips) {{$tips}} @else That's all we know. @endisset</div>
+        <div class="error-description wemd-grey-text">@isset($tips) {{$tips}} @else {{__("errors.tips")}} @endisset</div>
     </div>
 </div>
 

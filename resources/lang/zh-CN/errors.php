@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'tips' => "我们只知道这些。",
     'http' => [
         '403' => [
             'type'  => 'Access Forbidden',
