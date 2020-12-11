@@ -74,16 +74,23 @@
     @isset($easter_egg)
         <script>
             var error_type = $(".error-title > span").text();
-            $(".error-title").hover(
-            function() {
+            var error_emoji = $(".error-emoji").text();
+            var error_emoji_hover = ":-|";
+
+            $(".error-title").hover(function() {
                 $(".error-title > span").text("AlphaCome Found");
+                $(".error-emoji").text(error_emoji_hover);
             }, function() {
                 $(".error-title > span").text(error_type);
+                $(".error-emoji").text(error_emoji);
             });
+
             $(".error-title").click(()=>{
                 $(".error-container > easter-egg").css("display","flex");
                 error_type = "AlphaCome Found";
                 $(".error-emoji").text("Orz");
+                error_emoji = "Orz";
+                error_emoji_hover = "Orz";
             });
         </script>
     @endisset
