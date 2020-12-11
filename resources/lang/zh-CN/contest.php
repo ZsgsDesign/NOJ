@@ -27,6 +27,11 @@ return [
         'rated'             => '这场比赛将会评级',
         'anticheated'       => '这场比赛将会进行反作弊检查',
     ],
+    'desktop' => [
+        'product'           => 'NOJ Desktop 桌面客户端',
+        'desc'              => '本场比赛使用 <strong>NOJ Desktop 桌面客户端</strong>，一款功能强大的OI/ICPC竞赛跨平台客户端，支持 <i class="MDI windows"></i> Windows、<i class="MDI apple"></i> MacOS 和 <i class="MDI ubuntu"></i> Ubuntu。',
+        'download'          => '下载',
+    ],
     'lengthformatter' => [
         'seconds'           => '{0} :count 秒',
         'minutes'           => '{0} :count 分钟',
