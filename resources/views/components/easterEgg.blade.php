@@ -19,7 +19,7 @@ easter-egg{
 
 <easter-egg>
     <canvas id="easter_egg" width="450px" height="450px">Your browser does not support the HTML5 canvas tag.</canvas>
-    <div class="text-center"><button class="btn btn-outline" id="easter_egg_reset">重新开始</button></div>
+    <div class="text-center"><button class="btn btn-outline" id="easter_egg_reset">Restart Match</button></div>
 </easter-egg>
 
 <script>
