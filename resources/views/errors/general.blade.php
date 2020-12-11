@@ -82,6 +82,8 @@
             });
             $(".error-title").click(()=>{
                 $(".error-container > easter-egg").css("display","flex");
+                error_type = "AlphaCome Found";
+                $(".error-emoji").text("Orz");
             });
         </script>
     @endisset
