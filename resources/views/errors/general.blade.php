@@ -59,10 +59,30 @@
 <div class="container mundb-standard-container error-container">
     <div>
         <div class="error-emoji">{{$emoji}}</div>
-        <div class="error-title wemd-grey-text"><strong class="wemd-black-text">{{$code}}. </strong>{{$type}}</div>
+        <div class="error-title wemd-grey-text"><strong class="wemd-black-text">{{$code}}. </strong><span>{{$type}}</span></div>
         <div class="error-description">{{$description}}</div>
         <div class="error-description wemd-grey-text">@isset($tips) {{$tips}} @else {{__("errors.tips")}} @endisset</div>
     </div>
+    @isset($easter_egg)
+        @include('components.easterEgg')
+    @endisset
 </div>
 
+@endsection
+
+@section('additionJS')
+    @isset($easter_egg)
+        <script>
+            var error_type = $(".error-title > span").text();
+            $(".error-title").hover(
+            function() {
+                $(".error-title > span").text("AlphaCome Found");
+            }, function() {
+                $(".error-title > span").text(error_type);
+            });
+            $(".error-title").click(()=>{
+                $(".error-container > easter-egg").css("display","flex");
+            });
+        </script>
+    @endisset
 @endsection
