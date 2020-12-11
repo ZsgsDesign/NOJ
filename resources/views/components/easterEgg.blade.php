@@ -18,8 +18,8 @@ easter-egg{
 </style>
 
 <easter-egg>
-    <canvas id="easter_egg" width="450px" height="450px">Your browser does not support the HTML5 canvas tag.</canvas>
-    <div class="text-center"><button class="btn btn-outline" id="easter_egg_reset">Restart Match</button></div>
+    <canvas id="easter_egg" width="450px" height="450px">{{__('errors.alphacome.notsupported')}}</canvas>
+    <div class="text-center"><button class="btn btn-outline" id="easter_egg_reset">{{__('errors.alphacome.restart')}}</button></div>
 </easter-egg>
 
 <script>
@@ -155,7 +155,7 @@ easter-egg{
         var i = Math.round((x-15)/30);
         var j = Math.round((y-15)/30);
         if( isAvailable[i][j] ){
-            alert("You can't place here!","AlphaCome");
+            alert("{{__('errors.alphacome.illegal.desc')}}","{{__('errors.alphacome.illegal.title')}}","blur");
             return;
         }
         oneStep(i, j);
@@ -165,7 +165,7 @@ easter-egg{
                 computerWin[k] = 6;
                 if(myWin[k]==5){
                     setTimeout(function(){
-                        alert("Player Wins!","AlphaCome");
+                        alert("{{__('errors.alphacome.lose.desc')}}","{{__('errors.alphacome.lose.title')}}","blur-off");
                     },300);
                     over = true;
                 }
@@ -242,7 +242,7 @@ easter-egg{
                 myWin[k] = 6;
                 if(computerWin[k]==5){
                     setTimeout(function(){
-                        alert("AlphaCome Wins!","AlphaCome");
+                        alert("{{__('errors.alphacome.win.desc')}}","{{__('errors.alphacome.win.title')}}","blur");
                     },300);
                     over = true;
                 }

@@ -32,5 +32,21 @@ return [
             'description'  => ':name 当前正在升级或维护中',
             'tips'  => '请稍候再行访问'
         ]
-    ]
+    ],
+    'alphacome' => [
+        'illegal'  => [
+            'desc'  => "这里不可以落子！",
+            'title'  => 'AlphaCome'
+        ],
+        'win'  => [
+            'desc'  => 'AlphaCome获胜了！',
+            'title'  => 'AlphaCome：人工智能'
+        ],
+        'lose'  => [
+            'desc'  => '玩家获胜了！',
+            'title'  => 'AlphaCome：人工滞能'
+        ],
+        'restart' => "重来一局",
+        'notsupported' => "您的浏览器不支持AlphaCome。",
+    ],
 ];
