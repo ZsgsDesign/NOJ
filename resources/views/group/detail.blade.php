@@ -966,9 +966,20 @@
     ])
     <script src="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
     <script src="/static/js/jquery-ui-sortable.min.js"></script>
+    @include("js.common.markdownEditor")
     <script type="text/javascript" src="/static/library/simplemde/dist/simplemde.min.js"></script>
     <script type="text/javascript" src="/static/library/marked/marked.min.js"></script>
     <script type="text/javascript" src="/static/library/dompurify/dist/purify.min.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$$$','$$$'], ["\\(","\\)"] ],
+                processEscapes: true
+            },
+            showMathMenu: false
+        });
+    </script>
+    <script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/static/js/parazoom.min.js"></script>
     <script>
         function sortableInit(){
@@ -1416,90 +1427,6 @@
 
         var simplemde = new SimpleMDE({
             element: $("#description_editor")[0],
-            hideIcons: ["guide", "heading","side-by-side","fullscreen"],
-            spellChecker: false,
-            tabSize: 4,
-            renderingConfig: {
-                codeSyntaxHighlighting: true
-            },
-            previewRender: function (plainText) {
-                return marked(plainText, {
-                    sanitize: true,
-                    sanitizer: DOMPurify.sanitize,
-                    highlight: function (code, lang) {
-                        try {
-                            return hljs.highlight(lang,code).value;
-                        } catch (error) {
-                            return hljs.highlightAuto(code).value;
-                        }
-                    }
-                });
-            },
-            status:false,
-            toolbar: [{
-                    name: "bold",
-                    action: SimpleMDE.toggleBold,
-                    className: "MDI format-bold",
-                    title: "Bold",
-                },
-                {
-                    name: "italic",
-                    action: SimpleMDE.toggleItalic,
-                    className: "MDI format-italic",
-                    title: "Italic",
-                },
-                {
-                    name: "strikethrough",
-                    action: SimpleMDE.toggleStrikethrough,
-                    className: "MDI format-strikethrough",
-                    title: "Strikethrough",
-                },
-                "|",
-                {
-                    name: "quote",
-                    action: SimpleMDE.toggleBlockquote,
-                    className: "MDI format-quote",
-                    title: "Quote",
-                },
-                {
-                    name: "unordered-list",
-                    action: SimpleMDE.toggleUnorderedList,
-                    className: "MDI format-list-bulleted",
-                    title: "Generic List",
-                },
-                {
-                    name: "ordered-list",
-                    action: SimpleMDE.toggleOrderedList,
-                    className: "MDI format-list-numbers",
-                    title: "Numbered List",
-                },
-                "|",
-                {
-                    name: "code",
-                    action: SimpleMDE.toggleCodeBlock,
-                    className: "MDI code-tags",
-                    title: "Create Code",
-                },
-                {
-                    name: "link",
-                    action: SimpleMDE.drawLink,
-                    className: "MDI link-variant",
-                    title: "Insert Link",
-                },
-                {
-                    name: "image",
-                    action: SimpleMDE.drawImage,
-                    className: "MDI image-area",
-                    title: "Insert Image",
-                },
-                "|",
-                {
-                    name: "preview",
-                    action: SimpleMDE.togglePreview,
-                    className: "MDI eye no-disable",
-                    title: "Toggle Preview",
-                },
-            ],
         });
 
         hljs.initHighlighting();
