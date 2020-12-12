@@ -4,7 +4,7 @@ namespace App\Models\Submission;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use App\Models\Tool\PastebinModel;
+use App\Models\Eloquent\Tool\Pastebin;
 
 class ShareModel extends Model
 {
@@ -40,8 +40,7 @@ class ShareModel extends Model
         if (empty($basic)) {
             return [];
         }
-        $pastebinModel=new PastebinModel();
-        $ret=$pastebinModel->generate([
+        $ret=Pastebin::generate([
             "syntax"=>$compiler["lang"],
             "expiration"=>0,
             "content"=>$basic["solution"],

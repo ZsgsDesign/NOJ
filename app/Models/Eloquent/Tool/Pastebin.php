@@ -1,15 +1,25 @@
 <?php
 
-namespace App\Models\Tool;
+namespace App\Models\Eloquent\Tool;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class PastebinModel extends Model
+class Pastebin extends Model
 {
-    protected $tableName='pastebin';
+    protected $table = 'pastebin';
+    protected $primaryKey = 'pbid';
 
-    public function generatePbCode($length=6)
+    protected $fillable=[
+        'lang', 'title', 'user_id', 'expired_at', 'content', 'code'
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\Eloquent\UserModel', 'user_id');
+    }
+
+    public static function generatePbCode($length=6)
     {
         $chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789';
 
@@ -20,23 +30,13 @@ class PastebinModel extends Model
         return $code;
     }
 
-    public function detail($code)
-    {
-        $basic=DB::table($this->tableName)->where(["code"=>$code])->first();
-        if (empty($basic)) {
-            return [];
-        }
-        $basic["userInfo"]=DB::table("users")->where(["id"=>$basic["uid"]])->first();
-        return $basic;
-    }
-
-    public function generate($all_data)
+    public static function generate($all_data)
     {
         $lang=$all_data["syntax"];
         $expire=intval($all_data["expiration"]);
         $content=$all_data["content"];
         $title=$all_data["title"];
-        $uid=$all_data["uid"];
+        $user_id=$all_data["uid"];
 
         if ($expire==0) {
             $expire_time=null;
@@ -48,18 +48,18 @@ class PastebinModel extends Model
             $expire_time=date("Y-m-d H:i:s", strtotime('+30 days'));
         }
 
-        $code=$this->generatePbCode(6);
-        $ret=$this->detail($code);
-        if (empty($ret)) {
-            DB::table($this->tableName)->insert([
+        $code=self::generatePbCode(6);
+        $ret=self::where('code', $code)->first();
+        if (is_null($ret)) {
+            self::create([
                 'lang' => $lang,
-                'expire' => $expire_time,
-                'uid' => $uid,
+                'expired_at' => $expire_time,
+                'user_id' => $user_id,
                 'title' => $title,
                 'content' => $content,
                 'code' => $code,
                 'created_at' => date("Y-m-d H:i:s"),
-            ]);
+            ])->save();
             return $code;
         } else {
             return null;
