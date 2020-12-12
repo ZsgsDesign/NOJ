@@ -967,9 +967,6 @@
     <script src="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
     <script src="/static/js/jquery-ui-sortable.min.js"></script>
     @include("js.common.markdownEditor")
-    <script type="text/javascript" src="/static/library/simplemde/dist/simplemde.min.js"></script>
-    <script type="text/javascript" src="/static/library/marked/marked.min.js"></script>
-    <script type="text/javascript" src="/static/library/dompurify/dist/purify.min.js"></script>
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
             tex2jax: {

@@ -4,6 +4,9 @@
     }
 </style>
 <div id="noj-markdown-editor-preview"></div>
+<script type="text/javascript" src="/static/library/simplemde/dist/simplemde.min.js"></script>
+<script type="text/javascript" src="/static/library/marked/marked.min.js"></script>
+<script type="text/javascript" src="/static/library/dompurify/dist/purify.min.js"></script>
 <script>
 
     var customSimpleMDE = {

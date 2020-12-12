@@ -558,9 +558,6 @@
 @section("additionJS")
 @include("js.common.hljsLight")
 @include("js.common.markdownEditor")
-<script type="text/javascript" src="/static/library/simplemde/dist/simplemde.min.js"></script>
-<script type="text/javascript" src="/static/library/marked/marked.min.js"></script>
-<script type="text/javascript" src="/static/library/dompurify/dist/purify.min.js"></script>
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
         tex2jax: {
