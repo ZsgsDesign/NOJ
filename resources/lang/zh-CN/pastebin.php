@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title'       => '便捷分享代码、注释和代码片段.',
+    'title'       => '便捷分享代码、注释和代码片段。',
     'syntax'       => '语言',
     'expiration'   => [
         'title' => '有效期',
