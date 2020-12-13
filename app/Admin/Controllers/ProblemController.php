@@ -153,12 +153,10 @@ class ProblemController extends Controller
             $form->text('title')->rules('required');
             $form->text('time_limit')->rules('required');
             $form->text('memory_limit')->rules('required');
-            $form->textarea('description')->rows(5);
-            /*
-            $form->textarea('input','Sample Input')->rows(3);
-            $form->textarea('output','Sample Output')->rows(3);
-            */
-            $form->textarea('note')->rows(2);
+            $form->simplemde('description')->rules('required');
+            $form->simplemde('input');
+            $form->simplemde('output');
+            $form->simplemde('note');
             $ojs_temp = EloquentOJModel::select('oid', 'name')->get()->all();
             $ojs = [];
             foreach($ojs_temp as $v){
@@ -171,11 +169,13 @@ class ProblemController extends Controller
                 0 => "No",
                 1 => "Yes"
             ])->rules('required'); */
-            $form->select('markdown', 'Markdown Support')->options([
-                0 => "No",
-                1 => "Yes"
-            ])->rules('required')->default(1)->readonly();;
-            $form->file('test_case');
+            $form->hidden('markdown');
+            $form->hidden('input_type');
+            $form->hidden('output_type');
+            $form->hidden('solved_count');
+            $form->hidden('difficulty');
+            $form->hidden('file');
+            $form->file('test_case')->rules('required');
             $form->ignore(['test_case']);
         });
         if($create){
@@ -277,6 +277,12 @@ class ProblemController extends Controller
                 $zip->extractTo(base_path().'/storage/test_case/'.$pcode.'/');
 
             }
+            $form->markdown = true;
+            $form->input_type = 'standard input';
+            $form->output_type = 'standard output';
+            $form->solved_count = 0;
+            $form->difficulty = -1;
+            $form->file = 0;
         });
         return $form;
     }

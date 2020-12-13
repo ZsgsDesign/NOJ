@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "08704e14e0270200cad3465968808648",
+    "content-hash": "c4186d029fe0075b59b1f1825107cc20",
     "packages": [
         {
             "name": "albertofem/rsync-lib",
@@ -8687,6 +8687,64 @@
                 }
             ],
             "time": "2020-07-14T19:04:52+00:00"
+        },
+        {
+            "name": "x3zvawq/noj_simplemde",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/X3ZvaWQ/NOJ_simpleMDE.git",
+                "reference": "077f2c81601138f86477f4f5a03bb347a29972a4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/X3ZvaWQ/NOJ_simpleMDE/zipball/077f2c81601138f86477f4f5a03bb347a29972a4",
+                "reference": "077f2c81601138f86477f4f5a03bb347a29972a4",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "encore/laravel-admin": "~1.6",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Encore\\Simplemde\\SimplemdeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Encore\\Simplemde\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "X3ZvaWQ",
+                    "email": "x3zvawq@gmail.com"
+                }
+            ],
+            "description": "Simplemde markdown editor for noj",
+            "support": {
+                "issues": "https://github.com/X3ZvaWQ/NOJ_simpleMDE/issues",
+                "source": "https://github.com/X3ZvaWQ/NOJ_simpleMDE/tree/main"
+            },
+            "time": "2020-12-13T14:46:33+00:00"
         }
     ],
     "packages-dev": [
@@ -10452,7 +10510,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "x3zvawq/noj_simplemde": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
