@@ -5,7 +5,7 @@ namespace App\Models\Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class OJModel extends Model
+class OJ extends Model
 {
     protected $table='oj';
     protected $primaryKey='oid';

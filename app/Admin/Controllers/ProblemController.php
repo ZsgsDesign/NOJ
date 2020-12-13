@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Eloquent\Problem as EloquentProblemModel;
+use App\Models\Eloquent\OJ as EloquentOJModel;
 use App\Http\Controllers\Controller;
 use App\Admin\Forms\ImportPOEM;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -153,20 +154,27 @@ class ProblemController extends Controller
             $form->text('time_limit')->rules('required');
             $form->text('memory_limit')->rules('required');
             $form->textarea('description')->rows(5);
+            /*
             $form->textarea('input','Sample Input')->rows(3);
             $form->textarea('output','Sample Output')->rows(3);
+            */
             $form->textarea('note')->rows(2);
-            $form->display('OJ');
-            $form->display('update_date');
-            $form->text('tot_score')->rules('required');
+            $ojs_temp = EloquentOJModel::select('oid', 'name')->get()->all();
+            $ojs = [];
+            foreach($ojs_temp as $v){
+                $ojs[$v->oid] = $v->name;
+            }
+            $form->select('oj', 'OJ')->options($ojs)->rules('required');
+            /* $form->display('update_date'); */
+            /* $form->text('tot_score')->rules('required');
             $form->select('partial', 'Partial Score')->options([
                 0 => "No",
                 1 => "Yes"
-            ])->rules('required');
+            ])->rules('required'); */
             $form->select('markdown', 'Markdown Support')->options([
                 0 => "No",
                 1 => "Yes"
-            ])->rules('required');
+            ])->rules('required')->default(1)->readonly();;
             $form->file('test_case');
             $form->ignore(['test_case']);
         });
@@ -203,11 +211,46 @@ class ProblemController extends Controller
                 if($zip->open($path) !== true) {
                     $err('You must upload a zip file without encrypt and can open successfully.');
                 };
+                $info_content = [];
                 if(($zip->getFromName('info')) === false){
-                    $err('The zip files must include a file named info including info of test cases, and the format can see ZsgsDesign/NOJ wiki.');
+                    $info_content = [
+                        'spj' => false,
+                        'test_cases' => []
+                    ];
+                    $files = [];
+                    for ($i = 0; $i < $zip->numFiles; $i++) {
+                        $filename = $zip->getNameIndex($i);
+                        $files[] = $filename;
+                    }
+                    $files_in = array_filter($files, function ($filename) {
+                        return strpos('.in', $filename) != -1;
+                    });
+                    $testcase_index = 1;
+                    foreach($files_in as $filename_in){
+                        $filename = basename($filename_in, '.in');
+                        $filename_out = $filename.'.out';
+                        if(($zip->getFromName($filename_out)) === false) {
+                            continue;
+                        }
+                        $test_case_in = $zip->getFromName($filename_in);
+                        $test_case_out = $zip->getFromName($filename_out);
+                        $info_content['test_cases']["{$testcase_index}"] = [
+                            'input_size' => strlen($test_case_in),
+                            'input_name' => $filename_in,
+                            'output_size' => strlen($test_case_out),
+                            'output_name' => $filename_out,
+                            'stripped_output_md5' => md5(trim($test_case_out))
+                        ];
+                        $testcase_index += 1;
+                    }
+                    $zip->addFromString('info', json_encode($info_content));
+                    $zip->close();
+                    //$err('The zip files must include a file named info including info of test cases, and the format can see ZsgsDesign/NOJ wiki.');
+                }else{
+                    $info_content = json_decode($zip->getFromName('info'),true);
                 };
-                $test_case_info = json_decode($zip->getFromName('info'),true);
-                $test_cases = $test_case_info['test_cases'];
+                $zip->open($path);
+                $test_cases = $info_content['test_cases'];
                 foreach($test_cases as $index => $case) {
                     if(!isset($case['input_name']) || !isset($case['output_name'])) {
                         $err("Test case index {$index}: configuration missing input/output files name.");
