@@ -235,6 +235,8 @@ class ProblemController extends Controller
                     $files_in = array_filter($files, function ($filename) {
                         return strpos('.in', $filename) != -1;
                     });
+                    sort($files_in);
+                    $testcase_index = 1;
                     foreach($files_in as $filename_in){
                         $filename = basename($filename_in, '.in');
                         $filename_out = $filename.'.out';
@@ -243,13 +245,14 @@ class ProblemController extends Controller
                         }
                         $test_case_in = $zip->getFromName($filename_in);
                         $test_case_out = $zip->getFromName($filename_out);
-                        $info_content['test_cases'][] = [
+                        $info_content['test_cases']["{$testcase_index}"] = [
                             'input_size' => strlen($test_case_in),
                             'input_name' => $filename_in,
                             'output_size' => strlen($test_case_out),
                             'output_name' => $filename_out,
                             'stripped_output_md5' => md5(utf8_encode(rtrim($test_case_out)))
                         ];
+                        $testcase_index += 1;
                     }
                     $zip->addFromString('info', json_encode($info_content));
                     $zip->close();
