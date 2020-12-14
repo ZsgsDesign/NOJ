@@ -20,6 +20,11 @@ class Problem extends Model
         return $this->hasMany('App\Models\Eloquent\Submission','pid','pid');
     }
 
+    public function problemSamples()
+    {
+        return $this->hasMany('App\Models\Eloquent\ProblemSample','pid','pid');
+    }
+
     public function getProblemStatusAttribute()
     {
         if(Auth::check()){
@@ -42,4 +47,20 @@ class Problem extends Model
             ];
         }
     }
+
+/*     public function getSamplesAttribute()
+    {
+        return array_map(function($sample) {
+            return [
+                'sample_input' => $sample->sample_input,
+                'sample_output' => $sample->sample_output,
+                'sample_note' => $sample->sample_note,
+            ];
+        }, $this->problemSamples()->select('sample_input', 'sample_output', 'sample_note')->get()->all());
+    }
+
+    public function setSamplesAttribute($value)
+    {
+        return;
+    } */
 }

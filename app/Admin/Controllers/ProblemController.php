@@ -157,6 +157,16 @@ class ProblemController extends Controller
             $form->simplemde('input');
             $form->simplemde('output');
             $form->simplemde('note');
+            $form->hasMany('problemSamples', 'samples', function (Form\NestedForm $form) {
+                $form->textarea('sample_input', 'sample input')->rows(3);
+                $form->textarea('sample_output', 'sample output')->rows(3);
+                $form->textarea('sample_note', 'sample note')->rows(3);
+            });
+            /* $form->table('samples', function ($table) {
+                $table->textarea('sample_input', 'sample input');
+                $table->textarea('sample_output', 'sample output');
+                $table->textarea('sample_note', 'sample note');
+            }); */
             $ojs_temp = EloquentOJModel::select('oid', 'name')->get()->all();
             $ojs = [];
             foreach($ojs_temp as $v){
@@ -178,11 +188,11 @@ class ProblemController extends Controller
             $form->file('test_case')->rules('required');
             $form->ignore(['test_case']);
         });
-        if($create){
+        /* if($create){
             $form->tools(function (Form\Tools $tools) {
                 $tools->append('<a href="/'.config('admin.route.prefix').'/problems/import" class="btn btn-sm btn-success" style="margin-right:1rem"><i class="MDI file-powerpoint-box"></i>&nbsp;&nbsp;Import from file</a>');
             });
-        }
+        } */
         $form->saving(function (Form $form){
             $err = function ($msg) {
                 $error = new MessageBag([
@@ -225,7 +235,6 @@ class ProblemController extends Controller
                     $files_in = array_filter($files, function ($filename) {
                         return strpos('.in', $filename) != -1;
                     });
-                    $testcase_index = 1;
                     foreach($files_in as $filename_in){
                         $filename = basename($filename_in, '.in');
                         $filename_out = $filename.'.out';
@@ -234,14 +243,13 @@ class ProblemController extends Controller
                         }
                         $test_case_in = $zip->getFromName($filename_in);
                         $test_case_out = $zip->getFromName($filename_out);
-                        $info_content['test_cases']["{$testcase_index}"] = [
+                        $info_content['test_cases'][] = [
                             'input_size' => strlen($test_case_in),
                             'input_name' => $filename_in,
                             'output_size' => strlen($test_case_out),
                             'output_name' => $filename_out,
-                            'stripped_output_md5' => md5(trim($test_case_out))
+                            'stripped_output_md5' => md5(utf8_encode(rtrim($test_case_out)))
                         ];
-                        $testcase_index += 1;
                     }
                     $zip->addFromString('info', json_encode($info_content));
                     $zip->close();
