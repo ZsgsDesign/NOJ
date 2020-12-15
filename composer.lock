@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "349af830ad1ac4aef94c5b37085d248b",
+    "content-hash": "4847f559f8e641d277296d9a2de0efef",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1911,62 +1911,6 @@
             "time": "2018-09-29T18:48:56+00:00"
         },
         {
-            "name": "jxlwqq/code-mirror",
-            "version": "v1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel-admin-extensions/code-mirror.git",
-                "reference": "741e0905f08757fa3c54b3e9051d95017f336a53"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel-admin-extensions/code-mirror/zipball/741e0905f08757fa3c54b3e9051d95017f336a53",
-                "reference": "741e0905f08757fa3c54b3e9051d95017f336a53",
-                "shasum": ""
-            },
-            "require": {
-                "encore/laravel-admin": "~1.6|~1.7",
-                "php": ">=7.0.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~6.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Jxlwqq\\CodeMirror\\CodeMirrorServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Jxlwqq\\CodeMirror\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "jxlwqq",
-                    "email": "jxlwqq@gmail.com"
-                }
-            ],
-            "description": "code editor extension for laravel-admin",
-            "homepage": "https://github.com/jxlwqq/code-mirror",
-            "keywords": [
-                "extension",
-                "laravel-admin"
-            ],
-            "support": {
-                "issues": "https://github.com/laravel-admin-extensions/code-mirror/issues",
-                "source": "https://github.com/laravel-admin-extensions/code-mirror/tree/v1.0.3"
-            },
-            "time": "2020-04-10T03:19:18+00:00"
-        },
-        {
             "name": "kub-at/php-simple-html-dom-parser",
             "version": "1.7.1",
             "source": {
@@ -2268,71 +2212,6 @@
                 "laravel-admin"
             ],
             "time": "2020-09-11T04:42:29+00:00"
-        },
-        {
-            "name": "laravel-admin-ext/clike-editor",
-            "version": "v1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel-admin-extensions/clike-editor.git",
-                "reference": "2e7f78ad3458209ade1448f9f59a12c0564af337"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel-admin-extensions/clike-editor/zipball/2e7f78ad3458209ade1448f9f59a12c0564af337",
-                "reference": "2e7f78ad3458209ade1448f9f59a12c0564af337",
-                "shasum": ""
-            },
-            "require": {
-                "jxlwqq/code-mirror": "*",
-                "php": ">=7.0.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~6.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Encore\\ClikeEditor\\ClikeEditorServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Encore\\ClikeEditor\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "song",
-                    "email": "zosong@126.com"
-                }
-            ],
-            "description": "Several c-lick language editor extensions for laravel-admin based on code-mirror",
-            "homepage": "https://github.com/laravel-admin-ext/clike-editor",
-            "keywords": [
-                "Ceylon",
-                "clang",
-                "code-mirror",
-                "cpp",
-                "editor",
-                "extension",
-                "java",
-                "kotlin",
-                "laravel-admin",
-                "objectivec",
-                "scala"
-            ],
-            "support": {
-                "issues": "https://github.com/laravel-admin-extensions/clike-editor/issues",
-                "source": "https://github.com/laravel-admin-extensions/clike-editor/tree/master"
-            },
-            "time": "2018-09-12T05:16:03+00:00"
         },
         {
             "name": "laravel-admin-ext/helpers",
