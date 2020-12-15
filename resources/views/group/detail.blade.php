@@ -829,6 +829,14 @@
                                 {{__('group.contest.practiceContest')}}
                             </label>
                         </div>
+                        <div class="form-group">
+                            <label for="">{{__('group.contest.statusVisibility')}}</label>
+                            <select class="form-control" name="status-visibility" id="status-visibility">
+                                <option value="2">{{__('group.contest.viewAll')}}</option>
+                                <option value="1">{{__('group.contest.viewOnlyOnself')}}</option>
+                                <option value="0">{{__('group.contest.viewNothing')}}</option>
+                            </select>
+                        </div>
                         <table width="100%" class="table">
                             <thead>
                                 <tr>
@@ -1187,6 +1195,7 @@
             var contestBegin = $("#contestBegin").val();
             var contestEnd = $("#contestEnd").val();
             var practiceContest = $("#switch-practice").prop("checked") == true ? 1 : 0;
+            var statusVisibility = $("#status-visibility").val();
             var publicContest = $('#switch-public').prop("checked") == true ? 1 : 0;
             var problemSet = "";
             var contestDescription = simplemde.value();
@@ -1223,6 +1232,7 @@
                     begin_time: contestBegin,
                     end_time: contestEnd,
                     practice : practiceContest,
+                    status_visibility: statusVisibility,
                     public : publicContest,
                     gid: {{$basic_info["gid"]}}
                 },

@@ -104,6 +104,7 @@ class ContestAdminController extends Controller
             'cid' => 'required|integer',
             'name' => 'required|max:255',
             'problems' => 'required|max:2550',
+            'status_visibility' => 'required|integer',
             'begin_time' => 'required|date',
             'end_time' => 'required|date|after:begin_time',
             'description' => 'string'
@@ -133,7 +134,7 @@ class ContestAdminController extends Controller
                     ];
                 }
             }
-            $allow_update = ['name','description','begin_time','end_time'];
+            $allow_update = ['name','description','begin_time','end_time', 'status_visibility'];
 
             foreach($all_data as $key => $value){
                 if(!in_array($key,$allow_update)){

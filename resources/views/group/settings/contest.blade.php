@@ -310,6 +310,14 @@
                             <label for="contestEnd" style="top: 1rem; left: 0; font-size: .75rem;">{{__('group.contest.contestEndTime')}}</label>
                             <input type="text" class="form-control" id="contestEnd" autocomplete="off">
                         </div>
+                        <div class="form-group">
+                            <label for="">{{__('group.contest.statusVisibility')}}</label>
+                            <select class="form-control" name="status-visibility" id="status-visibility">
+                                <option value="2">{{__('group.contest.viewAll')}}</option>
+                                <option value="1">{{__('group.contest.viewOnlyOnself')}}</option>
+                                <option value="0">{{__('group.contest.viewNothing')}}</option>
+                            </select>
+                        </div>
                         <p style="margin-top: 1rem;">{{__('group.contest.problems')}}</p>
                         <table id="problems-table" class="table">
                             <thead>
@@ -467,6 +475,7 @@
             var contestName = $("#contestName").val();
             var contestBegin = $("#contestBegin").val();
             var contestEnd = $("#contestEnd").val();
+            var statusVisibility = $("#status-visibility").val();
             var problemSet = "";
             var contestDescription = simplemde.value();
             $("#contestProblemSet td:first-of-type").each(function(){
@@ -498,6 +507,7 @@
                     cid :cid,
                     problems: problemSet,
                     name: contestName,
+                    status_visibility :statusVisibility,
                     description: contestDescription,
                     begin_time: contestBegin,
                     end_time: contestEnd,
@@ -574,6 +584,7 @@
             $('#contestName').val(contest.name);
             $('#contestBegin').val(contest.begin_time);
             $('#contestEnd').val(contest.end_time);
+            $('select#status-visibility').val(contest.status_visibility);
             simplemde.value(contest.description);
             $('#contestProblemSet').html('');
             for(let i in problems){
