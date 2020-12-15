@@ -30,6 +30,7 @@ class Monitor extends MonitorBase
             try {
                 $pong=$this->ping($serverURL.'/ping', $server["port"], hash('sha256', $server["token"]));
             } catch (Exception $exception) {
+                \Log::debug($exception);
                 $this->updateStatus($server["jsid"], 1);
                 continue;
             }
