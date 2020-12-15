@@ -30,7 +30,6 @@ class Monitor extends MonitorBase
             try {
                 $pong=$this->ping($serverURL.'/ping', $server["port"], hash('sha256', $server["token"]));
             } catch (Exception $exception) {
-                \Log::debug($exception);
                 $this->updateStatus($server["jsid"], 1);
                 continue;
             }
@@ -80,6 +79,7 @@ class Monitor extends MonitorBase
         curl_close($curl);
 
         if ($err) {
+            \Log::error($err);
             return [];
         } else {
             return [
