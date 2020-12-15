@@ -46,6 +46,7 @@
         "npm-asset/bootstrap-material-design": "4.1.2",
         "npm-asset/chart.js": "^2.8",
         "npm-asset/clipboard": "^2.0",
+        "npm-asset/codemirror": "^5.58",
         "npm-asset/dompurify": "^1.0",
         "npm-asset/fileicon-svg": "^1.0",
         "npm-asset/highlightjs": "^9.12",
