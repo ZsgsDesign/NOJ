@@ -90,7 +90,7 @@
                 <input type="text" name="location" class="form-control" value="@if(!empty($extra_info['location'])){{$extra_info['location']}}@endif" id="location" autocomplete="off" />
             </div>
             <div class="text-center">
-                <button type="button" id="extra-info-update" class="btn btn-danger">{{__('dashboard.setting.buttonChange')}}</button>
+                <button type="button" id="extra-info-update" class="btn btn-danger">{{__('dashboard.setting.buttonUpdate')}}</button>
             </div>
             <div id="extra-info-tip" style="display: none;" class="text-center">
                 <small id="extra-info-tip-text" class="text-danger font-weight-bold"></small>
