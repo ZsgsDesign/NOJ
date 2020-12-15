@@ -25,7 +25,7 @@ class Monitor extends MonitorBase
                 $this->updateStatus($server["jsid"], -2);
                 continue;
             }
-
+            \Log::info($server);
             $serverURL="http://".$server["host"].":".$server["port"];
             try {
                 $pong=$this->ping($serverURL.'/ping', $server["port"], hash('sha256', $server["token"]));
