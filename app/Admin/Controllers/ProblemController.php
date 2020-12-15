@@ -189,6 +189,17 @@ class ProblemController extends Controller
             $form->hidden('solved_count');
             $form->hidden('difficulty');
             $form->hidden('file');
+
+            $form->radio('spj', 'Use SPJ')
+            ->options([
+                0 => 'NO',
+                1 => 'YES',
+            ])->when(0, function (Form $form) {
+            })->when(1, function (Form $form) {
+                // $form->clang('spj_src','SPJ Source Code')->rules('required');
+                // Admin::script("CodeMirror.fromTextArea(document.getElementById(\"spj_src\"), {'mode':'text/x-csrc','lineNumbers':true,'matchBrackets':true});");
+            })->rules('required');
+            $form->clang('spj_src','SPJ Source Code');
             $form->file('test_case')->rules('required');
             $form->ignore(['test_case']);
         });

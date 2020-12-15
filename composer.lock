@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ec8f71eb66f7a95405ce078e478fb3f1",
+    "content-hash": "0a02231367106fd28d2c056e19b39194",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -8697,6 +8697,130 @@
                 "source": "https://github.com/X3ZvaWQ/NOJ_simpleMDE/tree/main"
             },
             "time": "2020-12-13T14:46:33+00:00"
+        },
+        {
+            "name": "zsgsdesign/noj-admin-clike-editor",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ZsgsDesign/noj-admin-clike-editor.git",
+                "reference": "eae7025de5d6dfc2ee0b27d51442c4b33ee9f48b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ZsgsDesign/noj-admin-clike-editor/zipball/eae7025de5d6dfc2ee0b27d51442c4b33ee9f48b",
+                "reference": "eae7025de5d6dfc2ee0b27d51442c4b33ee9f48b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0",
+                "zsgsdesign/noj-admin-code-mirror": "dev-main"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ZsgsDesign\\ClikeEditor\\ClikeEditorServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ZsgsDesign\\ClikeEditor\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "John Zhang",
+                    "email": "zsgsdesign@gmail.com"
+                }
+            ],
+            "description": "Several c-lick language editor extensions for laravel-admin based on code-mirror",
+            "homepage": "https://github.com/laravel-admin-ext/clike-editor",
+            "keywords": [
+                "Ceylon",
+                "clang",
+                "code-mirror",
+                "cpp",
+                "editor",
+                "extension",
+                "java",
+                "kotlin",
+                "laravel-admin",
+                "objectivec",
+                "scala"
+            ],
+            "support": {
+                "issues": "https://github.com/ZsgsDesign/noj-admin-clike-editor/issues",
+                "source": "https://github.com/ZsgsDesign/noj-admin-clike-editor/tree/main"
+            },
+            "time": "2020-12-15T19:48:56+00:00"
+        },
+        {
+            "name": "zsgsdesign/noj-admin-code-mirror",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ZsgsDesign/noj-admin-code-mirror.git",
+                "reference": "93c1cbd9589abb2aeee988abf35c0cec588417e8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ZsgsDesign/noj-admin-code-mirror/zipball/93c1cbd9589abb2aeee988abf35c0cec588417e8",
+                "reference": "93c1cbd9589abb2aeee988abf35c0cec588417e8",
+                "shasum": ""
+            },
+            "require": {
+                "encore/laravel-admin": "~1.6|~1.7",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ZsgsDesign\\CodeMirror\\CodeMirrorServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ZsgsDesign\\CodeMirror\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "John Zhang",
+                    "email": "zsgsdesign@gmail.com"
+                }
+            ],
+            "description": "code editor extension for laravel-admin, customized for NOJ.",
+            "homepage": "https://github.com/ZsgsDesign/noj-admin-code-mirror",
+            "keywords": [
+                "extension",
+                "laravel-admin",
+                "noj"
+            ],
+            "support": {
+                "issues": "https://github.com/ZsgsDesign/noj-admin-code-mirror/issues",
+                "source": "https://github.com/ZsgsDesign/noj-admin-code-mirror/tree/main"
+            },
+            "time": "2020-12-15T19:37:46+00:00"
         }
     ],
     "packages-dev": [
@@ -10463,7 +10587,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "x3zvawq/noj_simplemde": 20
+        "x3zvawq/noj_simplemde": 20,
+        "zsgsdesign/noj-admin-clike-editor": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
