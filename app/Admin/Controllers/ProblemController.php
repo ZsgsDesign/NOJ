@@ -172,7 +172,11 @@ class ProblemController extends Controller
             foreach($ojs_temp as $v){
                 $ojs[$v->oid] = $v->name;
             }
-            $form->select('oj', 'OJ')->options($ojs)->rules('required');
+            $form->select('oj', 'OJ')->options($ojs)->default(1)->rules('required');
+            $form->select('hide', 'Hide')->options([
+                1 => 'yes',
+                0 => 'no'
+            ])->default(0)->rules('required');
             /* $form->display('update_date'); */
             /* $form->text('tot_score')->rules('required');
             $form->select('partial', 'Partial Score')->options([
