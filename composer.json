@@ -9,7 +9,6 @@
     "license": "MIT",
     "require": {
         "php": "^7.3",
-        "albertofem/rsync-lib": "^1.0",
         "barryvdh/laravel-dompdf": "^0.8.5",
         "encore/laravel-admin": "^1.7",
         "fideloper/proxy": "^4.0",
@@ -27,6 +26,7 @@
         "kub-at/php-simple-html-dom-parser": "~1.7.0",
         "laracasts/utilities": "^3.0",
         "laravel-admin-ext/backup": "^1.0",
+        "laravel-admin-ext/clike-editor": "^1.0",
         "laravel-admin-ext/helpers": "^1.1",
         "laravel-admin-ext/log-viewer": "^1.0",
         "laravel-admin-ext/media-manager": "^1.0",
