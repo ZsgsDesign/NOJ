@@ -1500,8 +1500,8 @@ class ContestModel extends Model
                 "registration_due"=>null, //todo
                 "registant_type"=>0, //todo
                 "froze_length"=>0, //todo
-                "status_visibility"=>2, //todo
-                "created_up"=>date("Y-m-d H:i:s"),
+                "status_visibility"=>$config["status_visibility"],
+                "created_at"=>date("Y-m-d H:i:s"),
                 "crawled" => isset($config['vcid'])?$config['crawled'] : null,
                 "audit_status"=>$config["public"] ? 0 : 1
             ]);

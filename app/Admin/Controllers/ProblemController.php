@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Eloquent\Problem as EloquentProblemModel;
+use App\Models\Eloquent\OJ as EloquentOJModel;
 use App\Http\Controllers\Controller;
 use App\Admin\Forms\ImportPOEM;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -120,7 +121,7 @@ class ProblemController extends Controller
             $filter->like('title');
         });
 
-        $grid->disableCreateButton();
+        // $grid->disableCreateButton();
 
         return $grid;
     }
@@ -152,29 +153,61 @@ class ProblemController extends Controller
             $form->text('title')->rules('required');
             $form->text('time_limit')->rules('required');
             $form->text('memory_limit')->rules('required');
-            $form->textarea('description')->rows(5);
-            $form->textarea('input','Sample Input')->rows(3);
-            $form->textarea('output','Sample Output')->rows(3);
-            $form->textarea('note')->rows(2);
-            $form->display('OJ');
-            $form->display('update_date');
-            $form->text('tot_score')->rules('required');
+            $form->simplemde('description')->rules('required');
+            $form->simplemde('input');
+            $form->simplemde('output');
+            $form->simplemde('note');
+            $form->hasMany('problemSamples', 'samples', function (Form\NestedForm $form) {
+                $form->textarea('sample_input', 'sample input')->rows(3);
+                $form->textarea('sample_output', 'sample output')->rows(3);
+                $form->textarea('sample_note', 'sample note')->rows(3);
+            });
+            /* $form->table('samples', function ($table) {
+                $table->textarea('sample_input', 'sample input');
+                $table->textarea('sample_output', 'sample output');
+                $table->textarea('sample_note', 'sample note');
+            }); */
+            $ojs_temp = EloquentOJModel::select('oid', 'name')->get()->all();
+            $ojs = [];
+            foreach($ojs_temp as $v){
+                $ojs[$v->oid] = $v->name;
+            }
+            $form->select('oj', 'OJ')->options($ojs)->default(1)->rules('required');
+            $form->select('Hide')->options([
+                1 => 'yes',
+                0 => 'no'
+            ])->default(0)->rules('required');
+            /* $form->display('update_date'); */
+            /* $form->text('tot_score')->rules('required');
             $form->select('partial', 'Partial Score')->options([
                 0 => "No",
                 1 => "Yes"
-            ])->rules('required');
-            $form->select('markdown', 'Markdown Support')->options([
-                0 => "No",
-                1 => "Yes"
-            ])->rules('required');
-            $form->file('test_case');
+            ])->rules('required'); */
+            $form->hidden('markdown');
+            $form->hidden('input_type');
+            $form->hidden('output_type');
+            $form->hidden('solved_count');
+            $form->hidden('difficulty');
+            $form->hidden('file');
+
+            $form->radio('spj', 'Use SPJ')
+            ->options([
+                0 => 'NO',
+                1 => 'YES',
+            ])->when(0, function (Form $form) {
+            })->when(1, function (Form $form) {
+                // $form->clang('spj_src','SPJ Source Code')->rules('required');
+                // Admin::script("CodeMirror.fromTextArea(document.getElementById(\"spj_src\"), {'mode':'text/x-csrc','lineNumbers':true,'matchBrackets':true});");
+            })->rules('required');
+            $form->clang('spj_src','SPJ Source Code');
+            $form->file('test_case')->rules('required');
             $form->ignore(['test_case']);
         });
-        if($create){
+        /* if($create){
             $form->tools(function (Form\Tools $tools) {
-                $tools->add('<a href="/'.config('admin.route.prefix').'/problems/import" class="btn btn-sm btn-success" style="margin-right:1rem"><i class="MDI file-powerpoint-box"></i>&nbsp;&nbsp;Import from file</a>');
+                $tools->append('<a href="/'.config('admin.route.prefix').'/problems/import" class="btn btn-sm btn-success" style="margin-right:1rem"><i class="MDI file-powerpoint-box"></i>&nbsp;&nbsp;Import from file</a>');
             });
-        }
+        } */
         $form->saving(function (Form $form){
             $err = function ($msg) {
                 $error = new MessageBag([
@@ -203,11 +236,47 @@ class ProblemController extends Controller
                 if($zip->open($path) !== true) {
                     $err('You must upload a zip file without encrypt and can open successfully.');
                 };
+                $info_content = [];
                 if(($zip->getFromName('info')) === false){
-                    $err('The zip files must include a file named info including info of test cases, and the format can see ZsgsDesign/NOJ wiki.');
+                    $info_content = [
+                        'spj' => false,
+                        'test_cases' => []
+                    ];
+                    $files = [];
+                    for ($i = 0; $i < $zip->numFiles; $i++) {
+                        $filename = $zip->getNameIndex($i);
+                        $files[] = $filename;
+                    }
+                    $files_in = array_filter($files, function ($filename) {
+                        return strpos('.in', $filename) != -1;
+                    });
+                    sort($files_in);
+                    $testcase_index = 1;
+                    foreach($files_in as $filename_in){
+                        $filename = basename($filename_in, '.in');
+                        $filename_out = $filename.'.out';
+                        if(($zip->getFromName($filename_out)) === false) {
+                            continue;
+                        }
+                        $test_case_in = $zip->getFromName($filename_in);
+                        $test_case_out = $zip->getFromName($filename_out);
+                        $info_content['test_cases']["{$testcase_index}"] = [
+                            'input_size' => strlen($test_case_in),
+                            'input_name' => $filename_in,
+                            'output_size' => strlen($test_case_out),
+                            'output_name' => $filename_out,
+                            'stripped_output_md5' => md5(utf8_encode(rtrim($test_case_out)))
+                        ];
+                        $testcase_index += 1;
+                    }
+                    $zip->addFromString('info', json_encode($info_content));
+                    $zip->close();
+                    //$err('The zip files must include a file named info including info of test cases, and the format can see ZsgsDesign/NOJ wiki.');
+                }else{
+                    $info_content = json_decode($zip->getFromName('info'),true);
                 };
-                $test_case_info = json_decode($zip->getFromName('info'),true);
-                $test_cases = $test_case_info['test_cases'];
+                $zip->open($path);
+                $test_cases = $info_content['test_cases'];
                 foreach($test_cases as $index => $case) {
                     if(!isset($case['input_name']) || !isset($case['output_name'])) {
                         $err("Test case index {$index}: configuration missing input/output files name.");
@@ -234,6 +303,12 @@ class ProblemController extends Controller
                 $zip->extractTo(base_path().'/storage/test_case/'.$pcode.'/');
 
             }
+            $form->markdown = true;
+            $form->input_type = 'standard input';
+            $form->output_type = 'standard output';
+            $form->solved_count = 0;
+            $form->difficulty = -1;
+            $form->file = 0;
         });
         return $form;
     }

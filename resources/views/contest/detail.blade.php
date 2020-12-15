@@ -396,12 +396,12 @@
                     <img src="{{url('/static/img/icon/icon-blue.png')}}">
                 </div>
                 <div class="cm-desktop-desc">
-                    <h5><i class="MDI lan-connect"></i> NOJ Desktop</h5>
-                    <p>This contest uses <strong>NOJ Desktop</strong>, a robust cross-platform contest client dedicated for OI/ICPC contests, supporting <i class="MDI windows"></i> Windows, <i class="MDI apple"></i> MacOS and <i class="MDI ubuntu"></i> Ubuntu.</p>
+                    <h5><i class="MDI lan-connect"></i> {{__("contest.desktop.product")}}</h5>
+                    <p>{!!__("contest.desktop.desc")!!}</p>
                     <div style="text-align:right;">
                         <div class="dropdown">
                             <button class="btn btn-info dropdown-toggle" type="button" id="downloadDesktopButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="MDI download"></i> Download
+                                <i class="MDI download"></i> {{__("contest.desktop.download")}}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="downloadDesktopButton">
                                 <a class="dropdown-item" style="color: #00adef;" target="blank" href="https://github.com/NJUPTAAA/NOJ_Desktop/releases"><i class="MDI windows pr-2"></i> Windows<beta-badge class="wemd-orange">Stable</beta-badge></a>

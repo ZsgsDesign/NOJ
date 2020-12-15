@@ -2,7 +2,7 @@
 
 @section('template')
 
-<link rel="stylesheet" href="/static/fonts/Raleway/raleway.css">
+<link rel="stylesheet" href="/static/fonts/raleway/raleway.css">
 <style>
     paper-card {
         display: block;
@@ -177,7 +177,10 @@
 </div>
 <script>
     window.addEventListener("load",function() {
-        notify("Welcome",'Hi, welcome back to the Fully new {{config("app.name")}}',"/static/img/notify/njupt.png",'welcome');
+        @if(is_null(request()->cookie('isNotified')))
+            notify("Welcome",'Hi, welcome back to the Fully new {{config("app.name")}}',"/static/img/notify/njupt.png",'welcome');
+            setCookie('isNotified',1,7);
+        @endif
     }, false);
 </script>
 @endsection

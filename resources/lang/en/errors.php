@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'tips' => "That's all we know",
     'http' => [
         '403' => [
             'type'  => 'Access Forbidden',
@@ -31,5 +32,21 @@ return [
             'description'  => ':name is now updating or maintaining',
             'tips'  => 'Please visit later'
         ]
-    ]
+    ],
+    'alphacome' => [
+        'illegal'  => [
+            'desc'  => "You can't place here!",
+            'title'  => 'AlphaCome'
+        ],
+        'win'  => [
+            'desc'  => 'AlphaCome Wins!',
+            'title'  => 'AlphaCome: Artificial Intelligence'
+        ],
+        'lose'  => [
+            'desc'  => 'Player Wins!',
+            'title'  => 'AlphaCome: Artificial In-intelligence'
+        ],
+        'restart' => "Restart Match",
+        'notsupported' => "Your browser does not support AlphaCome.",
+    ],
 ];

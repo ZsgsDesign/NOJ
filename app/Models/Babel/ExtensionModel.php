@@ -3,7 +3,7 @@
 namespace App\Models\Babel;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Eloquent\OJModel;
+use App\Models\Eloquent\OJ;
 use PharIo\Version\Version;
 use Throwable;
 
@@ -54,7 +54,7 @@ class ExtensionModel extends Model
                     $temp["details"]["official"]=0;
                 }
 
-                $installedConfig=OJModel::where(["ocode"=>$extension["code"]])->first();
+                $installedConfig=OJ::where(["ocode"=>$extension["code"]])->first();
                 if (is_null($installedConfig)){
                     $temp["status"]=1;
                 } else {
@@ -105,7 +105,7 @@ class ExtensionModel extends Model
                     $remoteVersion=new Version($extension["version"]);
                     $temp["updatable"]=$remoteVersion->isGreaterThan($downloadedVersion);
 
-                    $installedConfig=OJModel::where(["ocode"=>$extension["code"]])->first();
+                    $installedConfig=OJ::where(["ocode"=>$extension["code"]])->first();
                     if (is_null($installedConfig)){
                         $temp["status"]=1;
                     } else {

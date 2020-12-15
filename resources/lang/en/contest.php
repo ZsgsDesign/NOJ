@@ -27,6 +27,11 @@ return [
         'rated'             => 'This is a rated contest',
         'anticheated'       => 'Anti-cheat enabled',
     ],
+    'desktop' => [
+        'product'           => 'NOJ Desktop',
+        'desc'              => 'This contest uses <strong>NOJ Desktop</strong>, a robust cross-platform contest client dedicated for OI/ICPC contests, supporting <i class="MDI windows"></i> Windows, <i class="MDI apple"></i> MacOS and <i class="MDI ubuntu"></i> Ubuntu.',
+        'download'          => 'Download',
+    ],
     'lengthformatter' => [
         'seconds'           => '{0} :count Seconds|{1} :count second|[2,*] :count Seconds',
         'minutes'           => '{0} :count Minutes|{1} :count minute|[2,*] :count Minutes',

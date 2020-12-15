@@ -144,14 +144,14 @@
         </div>
     </loading>
     <!-- Style -->
-    <link rel="stylesheet" href="/static/fonts/Roboto/roboto.css">
-    <link rel="stylesheet" href="/static/fonts/Montserrat/montserrat.css">
+    <link rel="stylesheet" href="/static/fonts/roboto/roboto.css">
+    <link rel="stylesheet" href="/static/fonts/montserrat/montserrat.css">
     <link rel="stylesheet" href="/static/library/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
     <link rel="stylesheet" href="/static/css/wemd-color-scheme.css">
     <link rel="stylesheet" href="/static/css/main.css?version={{version()}}">
     <link rel="stylesheet" href="/static/library/animate.css/animate.min.css">
-    <link rel="stylesheet" href="/static/fonts/MDI-WXSS/MDI.css">
-    <link rel="stylesheet" href="/static/fonts/Devicon/devicon.css">
+    <link rel="stylesheet" href="/static/fonts/mdi-wxss/MDI.css">
+    <link rel="stylesheet" href="/static/fonts/devicon/devicon.css">
     <!-- Background -->
     <div class="mundb-background-container">
         <img src="">
@@ -168,7 +168,7 @@
             @else
 
                 <a class="navbar-brand" href="/">
-                    <img src="/static/img/icon/icon-white.png" height="30"> {{config("app.displayName")}}
+                    <img src="{{config('app.logo')}}" height="30"> {{config("app.displayName")}}
                 </a>
 
             @endif
@@ -306,8 +306,7 @@
 
                     <div class="col-md-2 mx-auto">
                         <h5 class="title mb-4 mt-3 font-bold ">{{__('footer.supports')}}</h5>
-                        <p class="mb-0"><i class="MDI email"></i> noj@njupt.edu.cn</p>
-                        <p class="mb-0"><i class="MDI qqchat"></i> Group 668108264</p>
+                        @include('layouts.components.contact')
                     </div>
                 </div>
             </div>

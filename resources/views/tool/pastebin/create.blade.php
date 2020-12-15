@@ -46,6 +46,7 @@
     }
 </style>
 <div class="container mundb-standard-container">
+    <h1><img src="/static/img/icon/icon-pastebin.png" style="height:5rem;"></h1>
     <h1>{{__('pastebin.title')}}</h1>
     <div class="row">
         <div class="col-lg-4 col-12">

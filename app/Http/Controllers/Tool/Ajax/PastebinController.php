@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Tool\Ajax;
 
-use App\Models\Tool\PastebinModel;
+use App\Models\Eloquent\Tool\Pastebin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -39,9 +39,7 @@ class PastebinController extends Controller
         $all_data=$request->all();
         $all_data["uid"]=Auth::user()->id;
 
-        $pastebinModel=new PastebinModel();
-
-        $ret=$pastebinModel->generate($all_data);
+        $ret=Pastebin::generate($all_data);
 
         if (is_null($ret)) {
             return ResponseModel::err(1001);

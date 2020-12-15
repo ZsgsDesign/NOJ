@@ -160,7 +160,7 @@ For installation options and troubleshooting tips, see [installation](https://nj
 
 [HTML Purifier](https://github.com/mewebstudio/Purifier)
 
-See `composer.json` or [Dependency List](https://app.fossa.com/attribution/263d9a48-87a3-4043-b6f4-42e0f5755351) for more info.
+See `composer.json` or [Dependency List](https://app.fossa.com/reports/86025be3-63af-41dc-9948-7b1738a89649) for more info.
 
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster?ref=badge_large)

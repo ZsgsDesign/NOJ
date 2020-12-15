@@ -609,13 +609,13 @@ class GroupModel extends Model
             ])->select('group_rated_change_log.cid as cid', 'contest.name as name', 'ranking', 'end_time')
             ->orderBy('contest.end_time')
             ->get()->all();
-            $begin = [
-                'cid' => -1,
-                'name' => '',
-                'ranking' => '1500',
-                'end_time' => date("Y-m-d H:i:s",(strtotime($ret[0]['end_time'] ?? time())  - 3600*24)),
-            ];
-            $ret = array_prepend($ret,$begin);
+        $begin = [
+            'cid' => -1,
+            'name' => '',
+            'ranking' => '1500',
+            'end_time' => date("Y-m-d H:i:s",(strtotime($ret[0]['end_time'] ?? time())  - 3600*24)),
+        ];
+        array_unshift($ret, $begin);
         return $ret;
     }
 }

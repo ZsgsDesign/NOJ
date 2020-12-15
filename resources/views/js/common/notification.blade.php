@@ -1,5 +1,5 @@
 <script>
-function notify(title,body,icon="/static/img/icon/icon-white.png",tag="default"){
+function notify(title,body,icon="{{config('app.logo')}}",tag="default"){
     if (window.Notification) {
         showMess(title,body,icon,tag);
     } else {

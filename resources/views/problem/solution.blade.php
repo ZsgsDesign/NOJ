@@ -445,10 +445,6 @@
         font-size: 1rem;
         color:rgba(0,0,0,0.54);
     }
-
-    #editor-preview{
-        display: none;
-    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -510,7 +506,6 @@
                             </content-section>
                         </solution-section>
                     @endif
-                    <div id="editor-preview"></div>
                 @endif
                 @if(empty($solution))
                 <solution-section style="align-items: center; justify-content: center;">
@@ -594,9 +589,7 @@
 
 @section("additionJS")
 @include("js.common.hljsLight")
-<script type="text/javascript" src="/static/library/simplemde/dist/simplemde.min.js"></script>
-<script type="text/javascript" src="/static/library/marked/marked.min.js"></script>
-<script type="text/javascript" src="/static/library/dompurify/dist/purify.min.js"></script>
+@include("js.common.markdownEditor")
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
         tex2jax: {
@@ -608,130 +601,13 @@
 </script>
 <script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script>
-    var customSimpleMDE={
-        drawInlineFormula: (editor) => {
-            var cm = editor.codemirror;
-            var output = '';
-            var selectedText = cm.getSelection();
-            var text = selectedText || 'x = (-b \\pm \\sqrt{b^2-4ac})/(2a)';
-            output = '$$$' + text + '$$$';
-            cm.replaceSelection(output);
-        },
-        drawBlockFormula: (editor) => {
-            var cm = editor.codemirror;
-            var output = '';
-            var selectedText = cm.getSelection();
-            var text = selectedText || 'x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}';
-            output = '$$' + text + '$$';
-            cm.replaceSelection(output);
-        }
-    };
-
-    var simplemde = new SimpleMDE({
+    var simplemde = createNOJMarkdownEditor({
         autosave: {
             enabled: true,
             uniqueId: "problemSolutionDiscussion_{{Auth::user()->id}}_{{$detail["pid"]}}",
             delay: 1000,
         },
         element: $("#solution_editor")[0],
-        hideIcons: ["guide", "heading","side-by-side","fullscreen"],
-        spellChecker: false,
-        tabSize: 4,
-        renderingConfig: {
-            codeSyntaxHighlighting: true
-        },
-        previewRender: function (plainText) {
-            document.getElementById("editor-preview").innerHTML=marked(plainText, {
-                sanitize: true,
-                sanitizer: DOMPurify.sanitize,
-                highlight: function (code, lang) {
-                    try {
-                        return hljs.highlight(lang,code).value;
-                    } catch (error) {
-                        return hljs.highlightAuto(code).value;
-                    }
-                }
-            });
-            MathJax.Hub.Queue(["Typeset",MathJax.Hub,"editor-preview"]);
-            return document.getElementById("editor-preview").innerHTML;
-        },
-        status:false,
-        toolbar: [{
-                name: "bold",
-                action: SimpleMDE.toggleBold,
-                className: "MDI format-bold",
-                title: "Bold",
-            },
-            {
-                name: "italic",
-                action: SimpleMDE.toggleItalic,
-                className: "MDI format-italic",
-                title: "Italic",
-            },
-            {
-                name: "strikethrough",
-                action: SimpleMDE.toggleStrikethrough,
-                className: "MDI format-strikethrough",
-                title: "Strikethrough",
-            },
-            "|",
-            {
-                name: "quote",
-                action: SimpleMDE.toggleBlockquote,
-                className: "MDI format-quote",
-                title: "Quote",
-            },
-            {
-                name: "unordered-list",
-                action: SimpleMDE.toggleUnorderedList,
-                className: "MDI format-list-bulleted",
-                title: "Generic List",
-            },
-            {
-                name: "ordered-list",
-                action: SimpleMDE.toggleOrderedList,
-                className: "MDI format-list-numbers",
-                title: "Numbered List",
-            },
-            "|",
-            {
-                name: "code",
-                action: SimpleMDE.toggleCodeBlock,
-                className: "MDI code-tags",
-                title: "Create Code",
-            },
-            {
-                name: "link",
-                action: SimpleMDE.drawLink,
-                className: "MDI link-variant",
-                title: "Insert Link",
-            },
-            {
-                name: "image",
-                action: SimpleMDE.drawImage,
-                className: "MDI image-area",
-                title: "Insert Image",
-            },
-            {
-                name: "inline-formula",
-                action: customSimpleMDE.drawInlineFormula,
-                className: "MDI alpha",
-                title: "Inline Formula",
-            },
-            {
-                name: "block-formula",
-                action: customSimpleMDE.drawBlockFormula,
-                className: "MDI beta",
-                title: "Block Formula",
-            },
-            "|",
-            {
-                name: "preview",
-                action: SimpleMDE.togglePreview,
-                className: "MDI eye no-disable",
-                title: "Toggle Preview",
-            },
-        ],
     });
 
     hljs.initHighlighting();

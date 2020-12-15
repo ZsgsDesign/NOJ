@@ -310,6 +310,14 @@
                             <label for="contestEnd" style="top: 1rem; left: 0; font-size: .75rem;">{{__('group.contest.contestEndTime')}}</label>
                             <input type="text" class="form-control" id="contestEnd" autocomplete="off">
                         </div>
+                        <div class="form-group">
+                            <label for="">{{__('group.contest.statusVisibility')}}</label>
+                            <select class="form-control" name="status-visibility" id="status-visibility">
+                                <option value="2">{{__('group.contest.viewAll')}}</option>
+                                <option value="1">{{__('group.contest.viewOnlyOnself')}}</option>
+                                <option value="0">{{__('group.contest.viewNothing')}}</option>
+                            </select>
+                        </div>
                         <p style="margin-top: 1rem;">{{__('group.contest.problems')}}</p>
                         <table id="problems-table" class="table">
                             <thead>
@@ -397,9 +405,17 @@
     @include("js.common.hljsLight")
     <script src="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
     <script src="/static/js/jquery-ui-sortable.min.js"></script>
-    <script type="text/javascript" src="/static/library/simplemde/dist/simplemde.min.js"></script>
-    <script type="text/javascript" src="/static/library/marked/marked.min.js"></script>
-    <script type="text/javascript" src="/static/library/dompurify/dist/purify.min.js"></script>
+    @include("js.common.markdownEditor")
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$$$','$$$'], ["\\(","\\)"] ],
+                processEscapes: true
+            },
+            showMathMenu: false
+        });
+    </script>
+    <script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="/static/js/parazoom.min.js"></script>
     <script>
         let ajaxing = false;
@@ -459,6 +475,7 @@
             var contestName = $("#contestName").val();
             var contestBegin = $("#contestBegin").val();
             var contestEnd = $("#contestEnd").val();
+            var statusVisibility = $("#status-visibility").val();
             var problemSet = "";
             var contestDescription = simplemde.value();
             $("#contestProblemSet td:first-of-type").each(function(){
@@ -490,6 +507,7 @@
                     cid :cid,
                     problems: problemSet,
                     name: contestName,
+                    status_visibility :statusVisibility,
                     description: contestDescription,
                     begin_time: contestBegin,
                     end_time: contestEnd,
@@ -566,6 +584,7 @@
             $('#contestName').val(contest.name);
             $('#contestBegin').val(contest.begin_time);
             $('#contestEnd').val(contest.end_time);
+            $('select#status-visibility').val(contest.status_visibility);
             simplemde.value(contest.description);
             $('#contestProblemSet').html('');
             for(let i in problems){
@@ -717,90 +736,6 @@
 
         var simplemde = new SimpleMDE({
             element: $("#description_editor")[0],
-            hideIcons: ["guide", "heading","side-by-side","fullscreen"],
-            spellChecker: false,
-            tabSize: 4,
-            renderingConfig: {
-                codeSyntaxHighlighting: true
-            },
-            previewRender: function (plainText) {
-                return marked(plainText, {
-                    sanitize: true,
-                    sanitizer: DOMPurify.sanitize,
-                    highlight: function (code, lang) {
-                        try {
-                            return hljs.highlight(lang,code).value;
-                        } catch (error) {
-                            return hljs.highlightAuto(code).value;
-                        }
-                    }
-                });
-            },
-            status:false,
-            toolbar: [{
-                    name: "bold",
-                    action: SimpleMDE.toggleBold,
-                    className: "MDI format-bold",
-                    title: "Bold",
-                },
-                {
-                    name: "italic",
-                    action: SimpleMDE.toggleItalic,
-                    className: "MDI format-italic",
-                    title: "Italic",
-                },
-                {
-                    name: "strikethrough",
-                    action: SimpleMDE.toggleStrikethrough,
-                    className: "MDI format-strikethrough",
-                    title: "Strikethrough",
-                },
-                "|",
-                {
-                    name: "quote",
-                    action: SimpleMDE.toggleBlockquote,
-                    className: "MDI format-quote",
-                    title: "Quote",
-                },
-                {
-                    name: "unordered-list",
-                    action: SimpleMDE.toggleUnorderedList,
-                    className: "MDI format-list-bulleted",
-                    title: "Generic List",
-                },
-                {
-                    name: "ordered-list",
-                    action: SimpleMDE.toggleOrderedList,
-                    className: "MDI format-list-numbers",
-                    title: "Numbered List",
-                },
-                "|",
-                {
-                    name: "code",
-                    action: SimpleMDE.toggleCodeBlock,
-                    className: "MDI code-tags",
-                    title: "Create Code",
-                },
-                {
-                    name: "link",
-                    action: SimpleMDE.drawLink,
-                    className: "MDI link-variant",
-                    title: "Insert Link",
-                },
-                {
-                    name: "image",
-                    action: SimpleMDE.drawImage,
-                    className: "MDI image-area",
-                    title: "Insert Image",
-                },
-                "|",
-                {
-                    name: "preview",
-                    action: SimpleMDE.togglePreview,
-                    className: "MDI eye no-disable",
-                    title: "Toggle Preview",
-                },
-            ],
         });
 
         hljs.initHighlighting();
