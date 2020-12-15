@@ -79,6 +79,7 @@ class Monitor extends MonitorBase
         curl_close($curl);
 
         if ($err) {
+            \Log::info($url);
             \Log::error($err);
             return [];
         } else {
