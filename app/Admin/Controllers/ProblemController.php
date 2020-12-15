@@ -173,7 +173,7 @@ class ProblemController extends Controller
                 $ojs[$v->oid] = $v->name;
             }
             $form->select('oj', 'OJ')->options($ojs)->default(1)->rules('required');
-            $form->select('hide', 'Hide')->options([
+            $form->select('Hide')->options([
                 1 => 'yes',
                 0 => 'no'
             ])->default(0)->rules('required');
