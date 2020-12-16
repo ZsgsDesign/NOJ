@@ -188,6 +188,8 @@ class ProblemController extends Controller
             $form->hidden('output_type');
             $form->hidden('solved_count');
             $form->hidden('difficulty');
+            $form->hidden('partial');
+            $form->hidden('tot_score');
             $form->hidden('file');
             $form->file('test_case')->rules('required');
             $form->ignore(['test_case']);
@@ -216,6 +218,7 @@ class ProblemController extends Controller
                 return back()->with(compact('error'));
             }
             $test_case = \request()->file('test_case');
+            $info_content = [];
             if(!empty($test_case)){
                 if($test_case->extension() != 'zip'){
                     $err('You must upload a zip file iuclude test case info and content.');
@@ -292,11 +295,13 @@ class ProblemController extends Controller
                 $zip->extractTo(base_path().'/storage/test_case/'.$pcode.'/');
 
             }
+            $form->tot_score = count($info_content['test_cases']);
             $form->markdown = true;
             $form->input_type = 'standard input';
             $form->output_type = 'standard output';
             $form->solved_count = 0;
             $form->difficulty = -1;
+            $form->partial = 1;
             $form->file = 0;
         });
         return $form;
