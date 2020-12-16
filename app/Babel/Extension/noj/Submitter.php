@@ -41,7 +41,9 @@ class Submitter extends Curl
             'max_cpu_time'=>$data['max_cpu_time'],
             'max_memory'=>$data['max_memory'],
             'spj_version'=>$data['spj_version'],
-            'spj_config'=>$data['spj_config']
+            'spj_config'=>$data['spj_config'],
+            'spj_compile_config'=>$data['spj_compile_config'],
+            'spj_src'=>$data['spj_src']
         ]);
     }
     public function submit()
@@ -74,11 +76,22 @@ class Submitter extends Curl
             "test_case_id" => $probBasic["pcode"],
             "token" => $bestServer["token"],
             "spj_version" => null,
-            "spj_config" => null
+            "spj_config" => null,
+            "spj_compile_config" => null,
+            "spj_src" => null
         ];
         if($probBasic["spj"] && $probBasic["spj_version"]){
             $submit_data["spj_version"]=$probBasic["spj_version"];
             $submit_data["spj_config"]=$probBasic["spj_lang"];
+            $submit_data["spj_compile_config"]=[
+                "src_name" => "spj-{spj_version}.c",
+                "exe_name" => "spj-{spj_version}",
+                "max_cpu_time" => 3000,
+                "max_real_time" => 5000,
+                "max_memory" => 1073741824,
+                "compile_command" => "/usr/bin/gcc -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c99 {src_path} -lm -o {exe_path}"
+            ]; // fixed at C99, future linked with spj_lang
+            $submit_data["spj_src"]=$probBasic["spj_src"];
         }
         $temp=$this->submitJudger($submitURL, $submit_data);
         if (isset($this->post_data["contest"])) {

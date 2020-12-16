@@ -22,6 +22,7 @@ class Monitor extends MonitorBase
         $serverList=$judgerModel->fetchServer($this->oid);
         foreach ($serverList as $server) {
             if ($server["available"]==0) {
+                $this->updateStatus($server["jsid"], -2);
                 continue;
             }
 
