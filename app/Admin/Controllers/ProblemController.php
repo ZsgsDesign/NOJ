@@ -265,8 +265,8 @@ class ProblemController extends Controller
                             if(($zip->getFromName($filename_out)) === false) {
                                 continue;
                             }
-                            $test_case_in = $zip->getFromName($filename_in);
-                            $test_case_out = $zip->getFromName($filename_out);
+                            $test_case_in = str_replace("\r", "\n", str_replace("\r\n", "\n", $zip->getFromName($filename_in)));
+                            $test_case_out = str_replace("\r", "\n", str_replace("\r\n", "\n", $zip->getFromName($filename_out)));
                             $info_content['test_cases']["{$testcase_index}"] = [
                                 'input_size' => strlen($test_case_in),
                                 'input_name' => $filename_in,
