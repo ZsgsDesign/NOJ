@@ -156,7 +156,9 @@ For installation options and troubleshooting tips, see [installation](https://nj
 
 [Simple-HTML-Dom](https://github.com/Kub-AT/php-simple-html-dom-parser)
 
-[JudgeServer](https://github.com/MarkLux/JudgeServer)
+[NOJ JudgeServer](https://github.com/NJUPTAAA/NOJ_JudgeServer)
+
+[NOJ Judger](https://github.com/NJUPTAAA/NOJ_Judger)
 
 [HTML Purifier](https://github.com/mewebstudio/Purifier)
 
