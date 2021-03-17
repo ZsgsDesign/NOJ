@@ -1010,7 +1010,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if(ret.ret==200){
                         $("#history_container").html("");
                         ret.data.history.forEach(ele => {
@@ -1080,7 +1080,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if(ret.ret==200){
                         // submitted
                         $("#verdict_info").popover('dispose');
@@ -1099,7 +1099,7 @@
                                 headers: {
                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                 }, success: function(ret){
-                                    console.log(ret);
+                                    // console.log(ret);
                                     if(ret.ret==200){
                                         if(ret.data.verdict=="Compile Error"){
                                             $("#verdict_info").attr('title',"Compile Info");

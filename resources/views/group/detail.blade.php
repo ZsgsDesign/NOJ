@@ -1171,7 +1171,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if (ret.ret==200) {
                         location.reload();
                     } else {
@@ -1240,7 +1240,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if (ret.ret==200) {
                         confirm({
                             content: "{{__('group.contest.successArrange')}}",
@@ -1297,7 +1297,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if (ret.ret==200) {
                         alert(ret.desc);
                         //location.reload();
@@ -1333,7 +1333,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if (ret.ret==200) {
                         alert(ret.desc);
                         setTimeout(function(){
@@ -1368,7 +1368,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if (ret.ret==200) {
                         var sameFlag=false;
                         $("#contestProblemSet td:first-of-type").each(function(){

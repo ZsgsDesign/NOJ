@@ -355,7 +355,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }, success: function(ret){
                 $("#generateAccountBtn > i").addClass("d-none");
-                console.log(ret);
+                // console.log(ret);
                 if (ret.ret==200) {
                     for(let item of ret.data){
                         $('#account_table').append(`<tr><td>${item.name}</td><td>${item.email}</td><td>${item.password}</td></tr>`);
@@ -403,7 +403,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }, success: function(ret){
-                console.log(ret);
+                // console.log(ret);
                 if (ret.ret==200) {
                     alert("PDF generating in background, check status later.");
                     $('#generatePDF_actions').html(`<button type="button" class="btn btn-outline-info"><i class="MDI timer-sand"></i> Processing</button>`);
@@ -441,7 +441,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }, success: function(ret){
-                console.log(ret);
+                // console.log(ret);
                 if (ret.ret==200) {
                     alert("Code plagiarism detection currently in background, check status later.");
                     $('#anticheated button[data-role="action"]').addClass('d-none');

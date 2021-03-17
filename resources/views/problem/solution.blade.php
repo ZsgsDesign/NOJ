@@ -630,7 +630,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }, success: function(ret){
-                console.log(ret);
+                // console.log(ret);
                 if (ret.ret==200) {
                     alert("Your Solution Has Been Recieved.");
                     localStorage.removeItem('{{$detail["pcode"]}}')
@@ -673,7 +673,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }, success: function(ret){
-                console.log(ret);
+                // console.log(ret);
                 if (ret.ret==200) {
                     $(`#vote_${psoid}`).text(ret.data.votes);
                     $(`#poll_${psoid} .btn-group div`).removeClass();
@@ -719,7 +719,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if (ret.ret==200) {
                         alert("Your Solution Has Been Updated.");
                         location.reload();
@@ -760,7 +760,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if (ret.ret==200) {
                         alert("Your Solution Has Been Deleted.");
                         location.reload();

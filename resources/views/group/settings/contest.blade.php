@@ -621,7 +621,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if (ret.ret==200) {
                         var sameFlag=false;
                         $("#contestProblemSet td:first-of-type").each(function(){
