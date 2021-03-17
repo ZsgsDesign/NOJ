@@ -50,6 +50,7 @@ class Languages
                 'run' => [
                     'command' => '{exe_path}',
                     'seccomp_rule' => 'c_cpp',
+                    'env' => $default_env,
                     'memory_limit_check_only' => 1
                 ]
             ],
@@ -64,7 +65,7 @@ class Languages
                     'compile_command' => '/usr/bin/javac {src_path} -d {exe_dir} -encoding UTF8'
                 ],
                 'run' => [
-                    'command' => '/usr/bin/java -cp {exe_dir} -Xss1M -Xms16M -Xmx{max_memory}k -Djava.security.manager -Djava.security.policy==/etc/java_policy -Djava.awt.headless=true Main',
+                    'command' => '/usr/bin/java -cp {exe_dir} -XX:MaxRAM={max_memory}k -Djava.security.manager -Dfile.encoding=UTF-8 -Djava.security.policy==/etc/java_policy -Djava.awt.headless=true Main',
                     'seccomp_rule' => null,
                     'env' => $default_env,
                     'memory_limit_check_only' => 1
@@ -81,7 +82,7 @@ class Languages
                 ],
                 'run' => [
                     'command' => '/usr/bin/python {exe_path}',
-                    'seccomp_rule' => null,
+                    'seccomp_rule' => 'general',
                     'env' => $default_env
                 ]
             ],
@@ -97,7 +98,7 @@ class Languages
                 'run' => [
                     'command' => '/usr/bin/python3.7 {exe_path}',
                     'seccomp_rule' => 'general',
-                    'env' => array_merge(['MALLOC_ARENA_MAX=1'], $default_env)
+                    'env' => array_merge(['MALLOC_ARENA_MAX=1','PYTHONIOENCODING=UTF-8'], $default_env)
                 ]
             ],
             'php7_lang_config' => [
@@ -120,7 +121,6 @@ class Languages
                 ]
             ],
             'go_lang_config' => [
-                'name' => 'go',
                 'compile' => [
                     'src_name' => 'main.go',
                     'exe_name' => 'main',
@@ -128,11 +128,13 @@ class Languages
                     'max_real_time' => 10000,
                     'max_memory' => 1024 * 1024 * 1024,
                     'compile_command' => '/usr/bin/go build -o {exe_path} {src_path}',
+                    'env' => ["GOCACHE=/tmp"]
                 ],
                 'run' => [
                     'command' => '{exe_path}',
-                    'seccomp_rule' => null,
-                    'env' => $default_env
+                    'seccomp_rule' => "",
+                    'env' => array_merge(["GODEBUG=madvdontneed=1", "GOCACHE=off"],$default_env),
+                    'memory_limit_check_only' => 1
                 ]
             ]
         ];
