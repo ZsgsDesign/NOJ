@@ -168,7 +168,7 @@
                 @else
                     <empty-container>
                         <i class="MDI package-variant"></i>
-                        <p>{{__("home.announcements.empty")}}</p>
+                        <p>{{__("homepage.announcements.empty")}}</p>
                     </empty-container>
                 @endunless
             </div>

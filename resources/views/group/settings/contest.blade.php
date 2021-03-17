@@ -734,7 +734,7 @@
             timepicker:true
         });
 
-        var simplemde = new SimpleMDE({
+        var simplemde = createNOJMarkdownEditor({
             element: $("#description_editor")[0],
         });
 

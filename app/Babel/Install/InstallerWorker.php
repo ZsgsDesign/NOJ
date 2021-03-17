@@ -130,6 +130,9 @@ class InstallerWorker
                 if (isset($m["display"])) {
                     $modifyItem["display_name"]=$m["display"];
                 }
+                if (isset($m["new_code"])) {
+                    $modifyItem["lcode"]=$m["new_code"];
+                }
                 CompilerModel::modify([
                     "oid"=>$this->oid,
                     "lcode"=>$m["code"],

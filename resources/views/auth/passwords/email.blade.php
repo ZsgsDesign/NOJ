@@ -124,8 +124,8 @@
                                 </div>
                             </div>
                             <div class="card-footer text-right">
-                                    <button type="submit" class="btn btn-danger">{{ __('Send Password Reset Link') }}</button>
-                                </div>
+                                <button type="submit" class="btn btn-danger">{{ __('Send Password Reset Link') }}</button>
+                            </div>
                         </form>
                     </div>
                 </div>
