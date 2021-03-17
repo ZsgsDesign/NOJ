@@ -213,7 +213,7 @@
 
                     <li class="nav-item mundb-no-shrink />">
                         @guest
-                            <a class="nav-link" href="/account">Account</a>
+                            <a class="nav-link" href="/login">Account</a>
                         @else
                             <li class="nav-item dropdown mundb-btn-ucenter">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{$greeting}}, <span id="nav-username">{{ Auth::user()["name"] }}</span></a>
