@@ -4541,16 +4541,10 @@
         },
         {
             "name": "npm-asset/lodash",
-            "version": "4.17.20-patch1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lodash/lodash.git",
-                "reference": "f2e7063ee409ff40a60b14370c58dceee1a2efd4"
-            },
+            "version": "4.17.21",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lodash/lodash/zipball/f2e7063ee409ff40a60b14370c58dceee1a2efd4",
-                "reference": "f2e7063ee409ff40a60b14370c58dceee1a2efd4"
+                "type": "tar",
+                "url": "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
             },
             "type": "npm-asset",
             "license": [
