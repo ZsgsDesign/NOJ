@@ -4519,10 +4519,10 @@
         },
         {
             "name": "npm-asset/jquery",
-            "version": "3.5.1",
+            "version": "3.6.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/jquery/-/jquery-3.5.1.tgz"
+                "url": "https://registry.npmjs.org/jquery/-/jquery-3.6.0.tgz"
             },
             "type": "npm-asset",
             "license": [
