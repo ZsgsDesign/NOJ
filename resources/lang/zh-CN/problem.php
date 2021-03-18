@@ -17,9 +17,13 @@ return [
         "description"  => "描述",
         "input"        => "输入",
         "output"       => "输出",
-        "sampleinput"  => "样例输入",
-        "sampleoutput" => "样例输出",
-        "samplecopy"   => "复制",
+        "sample" => [
+            "input"  => "样例输入",
+            "output" => "样例输出",
+            "copy"   => "复制",
+            "copied" => "已复制",
+            "failed" => "复制失败",
+        ],
         "note"         => "注释",
     ],
     "action" => [

@@ -715,13 +715,13 @@
                         @foreach($detail["samples"] as $ps)
 
                             @if (!is_null($ps['sample_input']) && $ps['sample_input'] !== '')
-                            <h2>{{__("problem.section.sampleinput")}}:</h2>
-                            <div class="cm-pre-wrapper"><pre id="input{{$loop->index}}">{!!$ps['sample_input']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#input{{$loop->index}}">{{__("problem.section.samplecopy")}}</button></div>
+                            <h2>{{__("problem.section.sample.input")}}:</h2>
+                            <div class="cm-pre-wrapper"><pre id="input{{$loop->index}}">{!!$ps['sample_input']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#input{{$loop->index}}">{{__("problem.section.sample.copy")}}</button></div>
                             @endif
 
                             @if (!is_null($ps['sample_output']) && $ps['sample_output'] !== '')
-                            <h2>{{__("problem.section.sampleoutput")}}:</h2>
-                            <div class="cm-pre-wrapper"><pre id="output{{$loop->index}}">{!!$ps['sample_output']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#output{{$loop->index}}">{{__("problem.section.samplecopy")}}</button></div>
+                            <h2>{{__("problem.section.sample.output")}}:</h2>
+                            <div class="cm-pre-wrapper"><pre id="output{{$loop->index}}">{!!$ps['sample_output']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#output{{$loop->index}}">{{__("problem.section.sample.copy")}}</button></div>
                             @endif
 
                             @unless (blank($ps['sample_note'])) {!!$ps['sample_note']!!} @endunless
@@ -853,17 +853,17 @@
         var clipboard = new ClipboardJS('.cm-copy-snippet');
 
         clipboard.on('success', function(e) {
-            $(e.trigger).text("Copied");
+            $(e.trigger).text("{{__("problem.section.sample.copied")}}");
             e.clearSelection();
             setTimeout(()=>{
-                $(e.trigger).text("Copy");
+                $(e.trigger).text("{{__("problem.section.sample.copy")}}");
             }, 2000);
         });
 
         clipboard.on('error', function(e) {
-            $(e.trigger).text("Failed");
+            $(e.trigger).text("{{__("problem.section.sample.failed")}}");
             setTimeout(()=>{
-                $(e.trigger).text("Copy");
+                $(e.trigger).text("{{__("problem.section.sample.copy")}}");
             }, 2000);
         });
     </script>

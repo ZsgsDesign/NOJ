@@ -318,12 +318,12 @@
                     @foreach($detail["samples"] as $ps)
 
                         @if (!is_null($ps['sample_input']) && $ps['sample_input'] !== '')
-                        <h2>{{__("problem.section.sampleinput")}}:</h2>
+                        <h2>{{__("problem.section.sample.input")}}:</h2>
                         <pre>{!!$ps['sample_input']!!}</pre>
                         @endif
 
                         @if (!is_null($ps['sample_output']) && $ps['sample_output'] !== '')
-                        <h2>{{__("problem.section.sampleoutput")}}:</h2>
+                        <h2>{{__("problem.section.sample.output")}}:</h2>
                         <pre>{!!$ps['sample_output']!!}</pre>
                         @endif
 

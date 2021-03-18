@@ -17,9 +17,13 @@ return [
         "description"  => "Description",
         "input"        => "Input",
         "output"       => "Output",
-        "sampleinput"  => "Sample Input",
-        "sampleoutput" => "Sample Output",
-        "samplecopy"   => "Copy",
+        "sample" => [
+            "input"  => "Sample Input",
+            "output" => "Sample Output",
+            "copy"   => "Copy",
+            "copied" => "Copied",
+            "failed" => "Failed",
+        ],
         "note"         => "Note",
     ],
     "action" => [
