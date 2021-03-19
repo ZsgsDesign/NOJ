@@ -8848,19 +8848,13 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/X3ZvaWQ/NOJ_simpleMDE.git",
-                "reference": "077f2c81601138f86477f4f5a03bb347a29972a4"
+                "reference": "395d93af3ab2c3e8cc92013036d187fa73140e18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/X3ZvaWQ/NOJ_simpleMDE/zipball/077f2c81601138f86477f4f5a03bb347a29972a4",
-                "reference": "077f2c81601138f86477f4f5a03bb347a29972a4",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "url": "https://api.github.com/repos/X3ZvaWQ/NOJ_simpleMDE/zipball/395d93af3ab2c3e8cc92013036d187fa73140e18",
+                "reference": "395d93af3ab2c3e8cc92013036d187fa73140e18",
+                "shasum": ""
             },
             "require": {
                 "encore/laravel-admin": "~1.6",
@@ -8898,7 +8892,7 @@
                 "issues": "https://github.com/X3ZvaWQ/NOJ_simpleMDE/issues",
                 "source": "https://github.com/X3ZvaWQ/NOJ_simpleMDE/tree/main"
             },
-            "time": "2020-12-13T14:46:33+00:00"
+            "time": "2021-02-23T07:46:05+00:00"
         },
         {
             "name": "zsgsdesign/noj-admin-clike-editor",
