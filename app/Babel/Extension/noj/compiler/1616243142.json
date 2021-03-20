@@ -1,0 +1,10 @@
+{
+    "modifications":[{
+        "code":"csharp",
+        "compability":"csharp",
+        "language":"csharp",
+        "icon":"devicon-csharp-plain",
+        "display":"C#",
+        "method":"add"
+    }]
+}

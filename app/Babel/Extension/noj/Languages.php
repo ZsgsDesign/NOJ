@@ -136,6 +136,23 @@ class Languages
                     'env' => array_merge(["GODEBUG=madvdontneed=1", "GOCACHE=off"], $default_env),
                     'memory_limit_check_only' => 1
                 ]
+            ],
+            'csharp_lang_config' => [
+                'compile' => [
+                    'src_name' => 'main.cs',
+                    'exe_name' => 'main',
+                    'max_cpu_time' => 3000,
+                    'max_real_time' => 10000,
+                    'max_memory' => -1,
+                    'compile_command' => '/usr/bin/mcs -optimize+ -out:{exe_path} {src_path}',
+                    'env' => ["GOCACHE=/tmp","GOPATH=/root/go"]
+                ],
+                'run' => [
+                    'command' => '/usr/bin/mono {exe_path}',
+                    'seccomp_rule' => "",
+                    'env' => $default_env,
+                    'memory_limit_check_only' => 1
+                ]
             ]
         ];
     }
