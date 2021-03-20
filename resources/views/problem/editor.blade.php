@@ -469,6 +469,7 @@
             height: auto;
             max-height: 61.8vh;
             overflow-x: hidden;
+            background: #fff;
         }
 
         .btn-group .dropdown-menu {

@@ -43,6 +43,7 @@
         overflow-x: hidden;
         width: 100%;
         max-width:16rem;
+        background: #fff;
     }
 </style>
 <div class="container mundb-standard-container">
