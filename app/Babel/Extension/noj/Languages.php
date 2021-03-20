@@ -144,8 +144,7 @@ class Languages
                     'max_cpu_time' => 3000,
                     'max_real_time' => 10000,
                     'max_memory' => -1,
-                    'compile_command' => '/usr/bin/mcs -optimize+ -out:{exe_path} {src_path}',
-                    'env' => ["GOCACHE=/tmp","GOPATH=/root/go"]
+                    'compile_command' => '/usr/bin/mcs -optimize+ -out:{exe_path} {src_path}'
                 ],
                 'run' => [
                     'command' => '/usr/bin/mono {exe_path}',
