@@ -1203,16 +1203,16 @@
         },
         {
             "name": "fonts-asset/devicon",
-            "version": "1.0.0",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ZsgsDesign/fonts-asset-Devicon.git",
-                "reference": "14381087a09512236b8471b3aea144f03a61914e"
+                "reference": "60b758649dac34cb7498fc450e8f4eec120e78df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Devicon/zipball/14381087a09512236b8471b3aea144f03a61914e",
-                "reference": "14381087a09512236b8471b3aea144f03a61914e",
+                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Devicon/zipball/60b758649dac34cb7498fc450e8f4eec120e78df",
+                "reference": "60b758649dac34cb7498fc450e8f4eec120e78df",
                 "shasum": ""
             },
             "type": "fonts-asset",
@@ -1227,7 +1227,11 @@
                 }
             ],
             "description": "Devicon for composer.",
-            "time": "2020-12-10T16:02:19+00:00"
+            "support": {
+                "issues": "https://github.com/ZsgsDesign/fonts-asset-Devicon/issues",
+                "source": "https://github.com/ZsgsDesign/fonts-asset-Devicon/tree/1.0.3"
+            },
+            "time": "2021-03-21T12:24:52+00:00"
         },
         {
             "name": "fonts-asset/mdi-wxss",

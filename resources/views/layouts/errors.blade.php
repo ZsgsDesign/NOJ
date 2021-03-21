@@ -151,7 +151,7 @@
     <link rel="stylesheet" href="/static/css/main.css?version={{version()}}">
     <link rel="stylesheet" href="/static/library/animate.css/animate.min.css">
     <link rel="stylesheet" href="/static/fonts/mdi-wxss/MDI.css">
-    <link rel="stylesheet" href="/static/fonts/devicon/devicon.css">
+    <link rel="stylesheet" href="/static/fonts/devicon/devicon.min.css">
     <!-- Background -->
     <div class="mundb-background-container">
         <img src="">
