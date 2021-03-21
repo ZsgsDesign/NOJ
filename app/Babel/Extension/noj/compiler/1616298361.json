@@ -1,0 +1,17 @@
+{
+    "modifications":[{
+        "code":"ruby",
+        "compability":"ruby",
+        "language":"ruby",
+        "icon":"devicon-ruby-plain",
+        "display":"Ruby",
+        "method":"add"
+    },{
+        "code":"rust",
+        "compability":"rust",
+        "language":"rust",
+        "icon":"devicon-rust-plain",
+        "display":"Rust",
+        "method":"add"
+    }]
+}

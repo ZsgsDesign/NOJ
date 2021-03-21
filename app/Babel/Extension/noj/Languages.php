@@ -143,16 +143,41 @@ class Languages
                     'exe_name' => 'main',
                     'max_cpu_time' => 3000,
                     'max_real_time' => 10000,
-                    'max_memory' => -1,
+                    'max_memory' => 1024 * 1024 * 1024,
                     'compile_command' => '/usr/bin/mcs -optimize+ -out:{exe_path} {src_path}'
                 ],
                 'run' => [
                     'command' => '/usr/bin/mono {exe_path}',
-                    'seccomp_rule' => "",
+                    'seccomp_rule' => null,
                     'env' => $default_env,
                     'memory_limit_check_only' => 1
                 ]
-            ]
+            ],
+            'ruby_lang_config' => [
+                'compile' => null,
+                'run' => [
+                    'exe_name' => 'solution.rb',
+                    'command' => '/usr/bin/ruby {exe_path}',
+                    'seccomp_rule' => null,
+                    'memory_limit_check_only' => 1
+                ]
+            ],
+            'rust_lang_config' => [
+                'compile' => [
+                    'src_name' => 'main.rs',
+                    'exe_name' => 'main',
+                    'max_cpu_time' => 3000,
+                    'max_real_time' => 10000,
+                    'max_memory' => 1024 * 1024 * 1024,
+                    'compile_command' => '/usr/bin/rustc -O -o {exe_path} {src_path}'
+                ],
+                'run' => [
+                    'command' => '{exe_path}',
+                    'seccomp_rule' => "general",
+                    'env' => $default_env,
+                    'memory_limit_check_only' => 1
+                ]
+            ],
         ];
     }
 }
