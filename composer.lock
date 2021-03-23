@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0a02231367106fd28d2c056e19b39194",
+    "content-hash": "3a5f829b4d4bec6c5aa9fbde06427855",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -4661,6 +4661,18 @@
             "dist": {
                 "type": "tar",
                 "url": "https://registry.npmjs.org/moment/-/moment-2.29.1.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "npm-asset/monaco-ace-tokenizer",
+            "version": "0.2.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/monaco-ace-tokenizer/-/monaco-ace-tokenizer-0.2.1.tgz"
             },
             "type": "npm-asset",
             "license": [
