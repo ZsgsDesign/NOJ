@@ -105,6 +105,10 @@ class SubmissionModel extends Model
             "aliases" => ["Handlebars", "handlebars"],
             "mimetypes" => ["text/x-handlebars-template"]
         ], [
+            "id" => "haskell",
+            "extensions" => [".hs"],
+            "aliases" => ["Haskell"]
+        ], [
             "id" => "html",
             "extensions" => [".html", ".htm", ".shtml", ".xhtml", ".mdoc", ".jsp", ".asp", ".aspx", ".jshtm"],
             "aliases" => ["HTML", "htm", "html", "xhtml"],
