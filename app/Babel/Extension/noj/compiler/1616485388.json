@@ -1,0 +1,10 @@
+{
+    "modifications":[{
+        "code":"haskell",
+        "compability":"haskell",
+        "language":"haskell",
+        "icon":"devicon-haskell-plain",
+        "display":"Haskell",
+        "method":"add"
+    }]
+}
