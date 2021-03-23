@@ -1195,7 +1195,17 @@
             @if($status["verdict"]=="Compile Error")$("#verdict_text").addClass("cm-popover-decoration");@endif
             $("#verdict_info").popover();
 
-            require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});
+            require.config({
+                paths: {
+                    vs: '{{config('app.url')}}/static/library/monaco-editor/min/vs',
+                    tokenizer: '{{config('app.url')}}/static/library/monaco-ace-tokenizer/dist'
+                },
+                'vs/nls' : {
+                    availableLanguages: {
+                        '*': 'en'
+                    }
+                }
+            });
 
             // require.config({
             //     'vs/nls' : {
@@ -1222,6 +1232,47 @@
             };
 
             require(["vs/editor/editor.main"], function () {
+                require([
+                    'tokenizer/monaco-tokenizer',
+                    'tokenizer/definitions/haskell',
+                ],function(
+                    MonacoAceTokenizer,
+                    HaskellDefinition
+                ){
+                    monaco.languages.register({ id: 'haskell' });
+                    MonacoAceTokenizer.registerRulesForLanguage('haskell', new HaskellDefinition.default);
+                    monaco.languages.setLanguageConfiguration('haskell', {
+                        comments: {
+                            lineComment: '--',
+                            blockComment: ['{-', '-}']
+                        },
+                        brackets: [
+                        ['{', '}'],
+                        ['[', ']'],
+                        ['(', ')']
+                        ],
+                        autoClosingPairs: [
+                            { open: '{', close: '}' },
+                            { open: '[', close: ']' },
+                            { open: '(', close: ')' },
+                            { open: '\'', close: '\'', notIn: ['string'] },
+                            { open: '`', close: '`', notIn: ['string', 'comment'] }
+                        ],
+                        surroundingPairs: [
+                            ['{', '}'],
+                            ['[', ']'],
+                            ['(', ')'],
+                            ['\'', '\''],
+                            ['"', '"'],
+                            ['`', '`']
+                        ],
+                        indentationRules: {
+                            decreaseIndentPattern: new RegExp("[\\]})][ \\t]*$/m"),
+                            increaseIndentPattern: new RegExp("((\\b(if\\b.*|then|else|do|of|let|in|where))|=|->|>>=|>=>|=<<|(^(data)( |\t)+(\\w|')+( |\\t)*))( |\\t)*$/")
+                        }
+                    });
+                });
+
                 editor = monaco.editor.create(document.getElementById('vscode'), {
                     value: "{!!$submit_code!!}",
                     language: "@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['lang']}}@else{{'plaintext'}}@endif",
