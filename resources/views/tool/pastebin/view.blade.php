@@ -116,18 +116,10 @@
             },
             'vs/nls' : {
                 availableLanguages: {
-                    '*': 'en'
+                    '*': '{{vscodeLocale()}}'
                 }
             }
         });
-
-        // require.config({
-        //     'vs/nls' : {
-        //         availableLanguages: {
-        //             '*': '{{Str::lower(App::getLocale())}}'
-        //         }
-        //     }
-        // });
 
         window.MonacoEnvironment = {
             getWorkerUrl: function(workerId, label) {

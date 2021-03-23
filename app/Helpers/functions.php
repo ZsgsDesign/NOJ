@@ -226,3 +226,15 @@ if (!function_exists('latex2Image')) {
         return $content;
     }
 }
+
+if (!function_exists('vscodeLocale')) {
+    function vscodeLocale()
+    {
+        $locale=Str::lower(App::getLocale());
+        $vscodelocale='';
+        if(in_array($locale,['de','es','fr','it','ja','ko','ru','zh-cn','zh-tw'])){
+            $vscodelocale=$locale;
+        }
+        return $vscodelocale;
+    }
+}
