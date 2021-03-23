@@ -1,0 +1,10 @@
+{
+    "modifications":[{
+        "code":"plaintext",
+        "compability":"plaintext",
+        "language":"plaintext",
+        "icon":"devicon-vim-plain",
+        "display":"Plain Text",
+        "method":"add"
+    }]
+}

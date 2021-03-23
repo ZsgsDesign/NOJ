@@ -209,6 +209,15 @@ class Languages
                     'env' => $default_env
                 ]
             ],
+            'plaintext_lang_config' => [
+                'compile' => null,
+                'run' => [
+                    'exe_name' => 'solution.txt',
+                    'command' => '/bin/cat {exe_path}',
+                    'seccomp_rule' => "general",
+                    'memory_limit_check_only' => 1
+                ]
+            ],
         ];
     }
 }
