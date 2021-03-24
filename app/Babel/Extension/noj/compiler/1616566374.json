@@ -2,7 +2,7 @@
     "modifications":[{
         "code":"basic",
         "compability":"basic",
-        "language":"sb",
+        "language":"vb",
         "icon":"langicon-basic",
         "display":"Free Basic",
         "method":"add"
