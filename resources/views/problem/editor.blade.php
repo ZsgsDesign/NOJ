@@ -138,6 +138,7 @@
     <link rel="stylesheet" href="/static/library/animate.css/animate.min.css">
     <link rel="stylesheet" href="/static/fonts/mdi-wxss/MDI.css">
     <link rel="stylesheet" href="/static/fonts/devicon/devicon.min.css">
+    <link rel="stylesheet" href="/static/fonts/langicon/langicon.css">
     <style>
         paper-card {
             display: block;
