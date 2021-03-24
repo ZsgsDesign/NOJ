@@ -751,7 +751,7 @@
             </middle-slider>
             <right-side style="background: rgb(30, 30, 30);">
                 <div id="vscode_container" class="notranslate" style="width:100%;height:100%;">
-                    <div id="vscode" style="width:100%;height:100%;"></div>
+                    <div id="monaco" style="width:100%;height:100%;"></div>
                 </div>
             </right-side>
         </top-side>
@@ -1266,7 +1266,7 @@
                     });
                 });
 
-                editor = monaco.editor.create(document.getElementById('vscode'), {
+                editor = monaco.editor.create(document.getElementById('monaco'), {
                     value: "{!!$submit_code!!}",
                     language: "@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['lang']}}@else{{'plaintext'}}@endif",
                     theme: "vs-dark",

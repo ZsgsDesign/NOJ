@@ -89,7 +89,7 @@
     </div>
     <div id="vscode_container_outline">
         <div id="vscode_container" style="width:100%;height:50vh;">
-            <div id="vscode" style="width:100%;height:100%;"></div>
+            <div id="monaco" style="width:100%;height:100%;"></div>
         </div>
     </div>
     <div style="text-align: right;margin-bottom:2rem;">
@@ -176,7 +176,7 @@
                 });
             });
 
-            editor = monaco.editor.create(document.getElementById('vscode'), {
+            editor = monaco.editor.create(document.getElementById('monaco'), {
                 value: "",
                 language: "plaintext",
                 theme: "vs-light",
