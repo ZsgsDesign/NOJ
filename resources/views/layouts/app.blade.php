@@ -167,8 +167,8 @@
     <link rel="stylesheet" href="/static/css/main.css?version={{version()}}">
     <link rel="stylesheet" href="/static/library/animate.css/animate.min.css">
     <link rel="stylesheet" href="/static/fonts/mdi-wxss/MDI.css">
-    <link rel="stylesheet" href="/static/fonts/devicon/devicon.min.css">
-    <link rel="stylesheet" href="/static/fonts/langicon/langicon.css">
+    <link rel="stylesheet" href="/static/fonts/devicon/devicon.min.css?version=1.0.3">
+    <link rel="stylesheet" href="/static/fonts/langicon/langicon.css?version=1.0.1">
     <!-- Background -->
     <div class="mundb-background-container">
         <img src="">
