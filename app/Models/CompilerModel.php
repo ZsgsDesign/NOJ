@@ -21,7 +21,7 @@ class CompilerModel extends Model
         if ($special && $special['special_compiler']) {
             $t=$t->whereIn('coid', explode(',', $special['special_compiler']));
         }
-        $compiler_list=$t->get()->all();
+        $compiler_list=$t->orderBy('display_name')->get()->all();
         return $compiler_list;
     }
 
