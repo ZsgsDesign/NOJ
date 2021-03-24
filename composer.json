@@ -58,7 +58,7 @@
         "npm-asset/marked": "^0.6.2",
         "npm-asset/mathjax": "^2.7",
         "npm-asset/monaco-ace-tokenizer": "^0.2.1",
-        "npm-asset/monaco-editor": "0.17.1",
+        "npm-asset/monaco-editor": "0.23.0",
         "npm-asset/pdfobject": "^2.1",
         "npm-asset/perfect-scrollbar": "^1.4",
         "npm-asset/popper.js": "^1.5",

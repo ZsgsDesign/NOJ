@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "662d77805cbceba8ad27affc07d43c3a",
+    "content-hash": "5985efb17ff961529e0c48f786ac9fdb",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -4713,10 +4713,10 @@
         },
         {
             "name": "npm-asset/monaco-editor",
-            "version": "0.17.1",
+            "version": "0.23.0",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.17.1.tgz"
+                "url": "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.23.0.tgz"
             },
             "type": "npm-asset",
             "license": [
