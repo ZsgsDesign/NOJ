@@ -13,6 +13,7 @@
         "encore/laravel-admin": "^1.7",
         "fideloper/proxy": "^4.0",
         "fonts-asset/devicon": "^1.0",
+        "fonts-asset/langicon": "^1.0",
         "fonts-asset/mdi-wxss": "^1.0",
         "fonts-asset/montserrat": "^1.0",
         "fonts-asset/raleway": "^1.0",

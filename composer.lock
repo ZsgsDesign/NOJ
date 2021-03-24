@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3a5f829b4d4bec6c5aa9fbde06427855",
+    "content-hash": "662d77805cbceba8ad27affc07d43c3a",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1232,6 +1232,38 @@
                 "source": "https://github.com/ZsgsDesign/fonts-asset-Devicon/tree/1.0.3"
             },
             "time": "2021-03-21T12:24:52+00:00"
+        },
+        {
+            "name": "fonts-asset/langicon",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ZsgsDesign/fonts-asset-Langicon.git",
+                "reference": "c2da1223a02ce20b713743b94ab2f0b2d1fb075d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Langicon/zipball/c2da1223a02ce20b713743b94ab2f0b2d1fb075d",
+                "reference": "c2da1223a02ce20b713743b94ab2f0b2d1fb075d",
+                "shasum": ""
+            },
+            "type": "fonts-asset",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zsgsdesign",
+                    "email": "zsgsdesign@gmail.com"
+                }
+            ],
+            "description": "Langicon for composer.",
+            "support": {
+                "issues": "https://github.com/ZsgsDesign/fonts-asset-Langicon/issues",
+                "source": "https://github.com/ZsgsDesign/fonts-asset-Langicon/tree/1.0.0"
+            },
+            "time": "2021-03-24T03:37:14+00:00"
         },
         {
             "name": "fonts-asset/mdi-wxss",
