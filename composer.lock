@@ -4473,10 +4473,10 @@
         },
         {
             "name": "npm-asset/clipboard",
-            "version": "2.0.6",
+            "version": "2.0.8",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/clipboard/-/clipboard-2.0.6.tgz"
+                "url": "https://registry.npmjs.org/clipboard/-/clipboard-2.0.8.tgz"
             },
             "require": {
                 "npm-asset/good-listener": ">=1.2.2,<2.0.0",
