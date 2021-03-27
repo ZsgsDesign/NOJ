@@ -3878,16 +3878,16 @@
         },
         {
             "name": "mews/purifier",
-            "version": "3.3.3",
+            "version": "3.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mewebstudio/Purifier.git",
-                "reference": "8e0b3d87c79b38b8d88aeb3c0ba8b000a393a74c"
+                "reference": "c81d5ed0140f1282d1d89680aea4f28533a12e05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mewebstudio/Purifier/zipball/8e0b3d87c79b38b8d88aeb3c0ba8b000a393a74c",
-                "reference": "8e0b3d87c79b38b8d88aeb3c0ba8b000a393a74c",
+                "url": "https://api.github.com/repos/mewebstudio/Purifier/zipball/c81d5ed0140f1282d1d89680aea4f28533a12e05",
+                "reference": "c81d5ed0140f1282d1d89680aea4f28533a12e05",
                 "shasum": ""
             },
             "require": {
@@ -3951,7 +3951,11 @@
                 "security",
                 "xss"
             ],
-            "time": "2020-11-03T19:46:27+00:00"
+            "support": {
+                "issues": "https://github.com/mewebstudio/Purifier/issues",
+                "source": "https://github.com/mewebstudio/Purifier/tree/3.3.4"
+            },
+            "time": "2021-03-24T18:34:22+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -4469,10 +4473,10 @@
         },
         {
             "name": "npm-asset/clipboard",
-            "version": "2.0.6",
+            "version": "2.0.8",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/clipboard/-/clipboard-2.0.6.tgz"
+                "url": "https://registry.npmjs.org/clipboard/-/clipboard-2.0.8.tgz"
             },
             "require": {
                 "npm-asset/good-listener": ">=1.2.2,<2.0.0",
