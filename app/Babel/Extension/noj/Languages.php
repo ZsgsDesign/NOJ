@@ -105,7 +105,7 @@ class Languages
                 'compile' => null,
                 'run' => [
                     'exe_name' => 'solution.php',
-                    'command' => '/usr/bin/php {exe_path}',
+                    'command' => '/usr/bin/php -d error_reporting=0 -f {exe_path}',
                     'seccomp_rule' => null,
                     'env' => $default_env,
                     'memory_limit_check_only' => 1
