@@ -4334,16 +4334,16 @@
         },
         {
             "name": "njuptaaa/moss",
-            "version": "1.3.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NJUPTAAA/MOSS.git",
-                "reference": "d556917c551b375ccec60230f3a73c51460c83b6"
+                "reference": "f0e975be7e7b74b45902235ff3101eb1a184c1f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NJUPTAAA/MOSS/zipball/d556917c551b375ccec60230f3a73c51460c83b6",
-                "reference": "d556917c551b375ccec60230f3a73c51460c83b6",
+                "url": "https://api.github.com/repos/NJUPTAAA/MOSS/zipball/f0e975be7e7b74b45902235ff3101eb1a184c1f4",
+                "reference": "f0e975be7e7b74b45902235ff3101eb1a184c1f4",
                 "shasum": ""
             },
             "require": {
@@ -4368,9 +4368,9 @@
             "description": "Stanford MOSS Interface, for a Measure Of Software Similarity.",
             "support": {
                 "issues": "https://github.com/NJUPTAAA/MOSS/issues",
-                "source": "https://github.com/NJUPTAAA/MOSS/tree/1.3.0"
+                "source": "https://github.com/NJUPTAAA/MOSS/tree/1.4.0"
             },
-            "time": "2021-04-01T14:39:16+00:00"
+            "time": "2021-04-03T04:47:33+00:00"
         },
         {
             "name": "njuptaaa/poem",
