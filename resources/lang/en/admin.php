@@ -104,5 +104,5 @@ return [
         'dashboard'                 =>  'Dashboard',
         'general'                   =>  'General',
         'description'               =>  'The general status of '.config("app.name")
-    ]
+    ],
 ];

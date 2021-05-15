@@ -103,5 +103,5 @@ return [
         'dashboard'                 =>  '仪表盘',
         'general'                   =>  '总体情况',
         'description'               =>  config("app.name").'的总体情况',
-    ]
+    ],
 ];
