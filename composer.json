@@ -73,6 +73,7 @@
         "zsgsdesign/noj-admin-clike-editor": "dev-main"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "2.8",
         "beyondcode/laravel-dump-server": "^1.0",
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
