@@ -103,6 +103,6 @@ return [
     home_infos                     =>[
         'dashboard'                 =>  'Dashboard',
         'general'                   =>  'General',
-        'description'               =>  'The general status of '.config("app.name")
+        'description'               =>  'The general status of '.config("app.name"),
     ],
 ];
