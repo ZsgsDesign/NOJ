@@ -99,7 +99,7 @@ return [
         'filter_placeholder' => '过滤',
     ],
     'menu_titles' => [],
-    home_infos                     =>[
+    'home_infos'                     =>[
         'dashboard'                 =>  '仪表盘',
         'general'                   =>  '总体情况',
         'description'               =>  config("app.name").'的总体情况',
