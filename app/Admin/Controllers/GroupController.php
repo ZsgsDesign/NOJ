@@ -124,8 +124,11 @@ class GroupController extends Controller
         $form=new Form(new Group);
         $form->model()->makeVisible('password');
         $form->tab('Basic', function(Form $form) {
-            $form->display('gid');
+//            $form->display('gid');
+            $form->text('gcode')->rules('required');
             $form->text('name')->rules('required');
+            $form->text('public')->rules('required');
+            $form->text('description')->rules('required');
         });
         return $form;
     }
