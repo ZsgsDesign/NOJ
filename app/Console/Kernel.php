@@ -58,7 +58,8 @@ class Kernel extends ConsoleKernel
             $groupModel=new GroupModel();
             $groupModel->cacheTrendingGroups();
             // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Cached Trending Groups");
-        })->dailyAt('03:00')->description("Update Trending Groups");
+        //})->dailyAt('03:00')->description("Update Trending Groups");
+        })->everyMinute()->description("Update Trending Groups");
 
         $schedule->call(function() {
             $groupModel = new GroupModel();
