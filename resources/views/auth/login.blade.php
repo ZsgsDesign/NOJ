@@ -101,6 +101,7 @@
                 <p>{{__("account.slogan", ["name" => config("app.name")])}}</p>
             </div>
             <div class="card">
+                @if(config("function.register"))
                 <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs nav-justified nav-tabs-material" id="accountTab" role="tablist">
                         <li class="nav-item">
@@ -112,6 +113,7 @@
                         <div class="nav-tabs-indicator" id="nav-tabs-indicator" style="left: 0px;"></div>
                     </ul>
                 </div>
+                @endif
                 <div class="tab-content" id="accountTabContent">
                     <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
                         <form class="needs-validation" action="{{ route('login') }}" method="post" id="login_form" novalidate>

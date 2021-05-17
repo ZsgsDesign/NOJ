@@ -242,4 +242,8 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.
     });
 });
 
-Auth::routes(['verify' => true]);
+if(config("function.register")){
+    Auth::routes(['verify' => true]);
+} else {
+    Auth::routes(['verify' => true, 'register' => false]);
+}

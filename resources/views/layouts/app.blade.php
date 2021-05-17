@@ -254,7 +254,7 @@
                     @endif
                     <li class="nav-item mundb-no-shrink />">
                         @guest
-                            <a class="nav-link @if ($navigation === "Account") active @endif" href="/login">{{__('navigation.account')}}</a>
+                            <a class="nav-link @if ($navigation === "Account") active @endif" href="/login">@if(config("function.register")){{__('navigation.account')}}@else {{__("Login")}} @endif</a>
                         @else
                             <li class="nav-item dropdown mundb-btn-ucenter">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{$greeting}}, <span id="nav-username" data-uid="{{Auth::user()->id}}">{{ Auth::user()["name"] }}</span></a>
