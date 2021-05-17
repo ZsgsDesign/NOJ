@@ -19,6 +19,7 @@ Route::group([
     $router->resource('contests', ContestController::class);
     $router->resource('groups', GroupController::class);
     $router->resource('abuses', AbuseController::class);
+    $router->resource('judge-server', JudgeServerController::class);
 
     Route::group(['prefix' => 'babel'], function (Router $router) {
         $router->get('/', 'BabelController@index')->name('admin.babel.index');
