@@ -18,6 +18,13 @@ class Group extends Model
         return $this->hasMany('App\Models\Eloquent\GroupBanned', 'group_id', 'gid');
     }
 
+    public function getImgAttribute( $img ) {
+        if( $img != "" && $img != null && $img[0] != "/" ) {
+            return "/$img";
+        }
+        return $img;
+    }
+
     public function getLeaderAttribute()
     {
         return $this->members()->where('role',3)->first()->user;
