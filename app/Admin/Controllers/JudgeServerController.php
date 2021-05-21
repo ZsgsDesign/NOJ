@@ -171,7 +171,14 @@ class JudgeServerController extends AdminController
         $form->text('token', 'Token')->required();
         $form->switch('available','Available');
         $form->select('oid', "OJ")->options(OJ::all()->pluck('name', 'oid'))->required();
-
+        $form->select('status', 'judge_status')->options([
+            -2 => "Unavailable",
+            -1 => "Unknown",
+            0 => "Operational",
+            1 => "Critical"
+        ])->default(1);
+        //$form->saving(form);
+        //$form->sub
         return $form;
     }
 }
