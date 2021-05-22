@@ -3936,16 +3936,16 @@
         },
         {
             "name": "mews/purifier",
-            "version": "3.3.4",
+            "version": "3.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mewebstudio/Purifier.git",
-                "reference": "c81d5ed0140f1282d1d89680aea4f28533a12e05"
+                "reference": "53f2be3b94cf8940d23970f0aeb907ce8c9760f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mewebstudio/Purifier/zipball/c81d5ed0140f1282d1d89680aea4f28533a12e05",
-                "reference": "c81d5ed0140f1282d1d89680aea4f28533a12e05",
+                "url": "https://api.github.com/repos/mewebstudio/Purifier/zipball/53f2be3b94cf8940d23970f0aeb907ce8c9760f7",
+                "reference": "53f2be3b94cf8940d23970f0aeb907ce8c9760f7",
                 "shasum": ""
             },
             "require": {
@@ -4011,9 +4011,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mewebstudio/Purifier/issues",
-                "source": "https://github.com/mewebstudio/Purifier/tree/3.3.4"
+                "source": "https://github.com/mewebstudio/Purifier/tree/3.3.5"
             },
-            "time": "2021-03-24T18:34:22+00:00"
+            "time": "2021-05-17T00:17:01+00:00"
         },
         {
             "name": "monolog/monolog",
