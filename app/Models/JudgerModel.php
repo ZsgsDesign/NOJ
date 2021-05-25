@@ -59,7 +59,7 @@ class JudgerModel extends Model
             "oid"=>$oid,
             "available"=>1,
             "status"=>0
-        ])->orderBy('usage','desc')->get()->first();
+        ])->orderBy('usage','asc')->get()->first();
 
         return $serverList;
     }
