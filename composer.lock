@@ -4552,10 +4552,10 @@
         },
         {
             "name": "npm-asset/codemirror",
-            "version": "5.61.0",
+            "version": "5.61.1",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/codemirror/-/codemirror-5.61.0.tgz"
+                "url": "https://registry.npmjs.org/codemirror/-/codemirror-5.61.1.tgz"
             },
             "type": "npm-asset",
             "license": [
