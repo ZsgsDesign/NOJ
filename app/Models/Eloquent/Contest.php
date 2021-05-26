@@ -17,6 +17,13 @@ class Contest extends Model
     const UPDATED_AT=null;
     const CREATED_AT=null;
 
+
+    public function getParsedRuleAttribute()
+    {
+        $rule=["Unknown", "ICPC", "IOI", "Custom ICPC", "Custom IOI", "机试"];
+        return $rule[$this->rule];
+    }
+
     //Repository function
     public function participants($ignore_frozen = true)
     {

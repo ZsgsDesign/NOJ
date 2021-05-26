@@ -136,8 +136,8 @@ class ContestController extends Controller
         $form=new Form(new EloquentContestModel);
 //        $form->model()->makeVisible('password');
         $form->tab('Basic', function(Form $form) {
-//            $form->display('cid');
-            // $form->number('gid')->rules('required');
+//                $form->display('cid');
+//                 $form->number('gid')->rules('required');
             $form->text("gid","group_id")->required();
             $form->text("assign_uid","比赛管理员Id");
             $form->text('name', '考试名称')->required();
@@ -151,8 +151,8 @@ class ContestController extends Controller
             $form->hidden('pdf', '提供PDF试题档')->default(0);
             $form->simplemde('description', '比赛简介')->required();
             $form->select('rule', '赛制')->options([
-                5 => "机试"
-            ])->default(5)->required();
+                0 => "机试"
+            ])->default(0)->required();
             $form->datetimeRange('begin_time', 'end_time', '比赛时间段')->required();
             $form->hidden('public', '公开比赛')->default(true);
             $form->switch('registration', '限制考试参与者')->default(true);
@@ -163,9 +163,11 @@ class ContestController extends Controller
             ])->default(2);
             $form->hidden('froze_length', '封榜时间（秒）')->default(0)->required();
             $form->select('status_visibility', '状态可见性')->options([
-                0 => "评测状态将会保持不可见"
-            ])->default(0)->required();
-            $form->hidden('audit_status', '审核状态')->default(true);
+                0 => "评测状态将会保持不可见",
+                1 => "view only oneself",
+                2 => "view all"
+            ])->default(1)->required();
+            $form->text('audit_status', '审核状态')->default(1);
             $form->text('custom_title', '自定义考试导航标题');
             $form->image('custom_icon', '自定义考试导航图标')->uniqueName()->move("static/img/contest");
             $form->image('img', '考试封面图')->uniqueName()->move("static/img/contest");

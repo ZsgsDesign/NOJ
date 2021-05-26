@@ -336,6 +336,7 @@ class ContestModel extends Model
         }
         $contest_list=$paginator->all();
         foreach ($contest_list as &$c) {
+            log::debug($c["rule"]);
             $c["rule_parsed"]=$this->rule[$c["rule"]];
             $c["date_parsed"]=[
                 "date"=>date_format(date_create($c["begin_time"]), 'j'),
@@ -566,7 +567,9 @@ class ContestModel extends Model
 
             $ret["color"]=($ret["score"]==$tot_score) ? "wemd-teal-text" : "wemd-green-text";
             $ret["solved"]=($ret["score"]==$tot_score) ? 1 : 0;
-            $ret["score_parsed"]=$ret["score"] / $tot_score * ($ret["points"]);
+            if( $tot_score * ($ret["points"]) != 0 ) {
+                $ret["score_parsed"]=$ret["score"] / $tot_score * ($ret["points"]);
+            }
         }
         return $ret;
     }
@@ -1523,10 +1526,13 @@ class ContestModel extends Model
 
     public function updateContestRankTable($cid,$sub)
     {
+        Log::debug( "call updateContestRankTable"." cid=".$cid." sub=".$sub);
         $lock = Cache::lock("contestrank$cid",10);
         try{
             if($lock->get()){
+                Log::debug( "lock->get"." cid=".$cid." sub=".$sub);
                 if(Cache::tags(['contest','rank'])->get($cid) != null){
+                    Log::debug( "lock->get->rank not null"." cid=".$cid." sub=".$sub);
                     $ret = Cache::tags(['contest','rank'])->get($cid);
                     $chache=[];
                     $chache['contest_info']=DB::table("contest")->where("cid", $cid)->first();
@@ -1557,6 +1563,7 @@ class ContestModel extends Model
                     }
                 }
                 else{
+                    Log::debug( "lock->get->rank null"." cid=".$cid." sub=".$sub);
                     $ret=[];
                     $chache=[];
                     $chache['contest_info']=DB::table("contest")->where("cid", $cid)->first();
@@ -1615,6 +1622,7 @@ class ContestModel extends Model
 
     public function sortContestRankTable($contest_info,$cid,$ret)
     {
+        Log::debug( "call sortContestRankTable"." cid=".$cid." contestinfo=".$contest_info." ret=".$ret);
         if ($contest_info["rule"]==1){
             usort($ret, function ($a, $b) {
                 if ($a["score"]==$b["score"]) {
@@ -1653,6 +1661,7 @@ class ContestModel extends Model
 
     public function updateContestRankDetail($contest_info,$problem,$cid,$uid,$ret)
     {
+        Log::debug( "call updateContestRankDetail"." cid=".$cid." uid=".$uid," problem=".$problem." contestinfo=".$contest_info." ret=".$ret);
         $id = count($ret);
         foreach($ret as $key => $r){
             if($r['uid'] == $uid)

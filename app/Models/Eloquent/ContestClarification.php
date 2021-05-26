@@ -29,6 +29,7 @@ class ContestClarification extends Model
     }
 
     protected $fillable=[
-        'cid', 'type', 'title', 'content', 'public', 'uid'
+//       'cid', 'type', 'title', 'content', 'public', 'uid', 'audit_status'
+        '*'
     ];
 }

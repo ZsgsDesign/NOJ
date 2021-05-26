@@ -393,15 +393,18 @@ class SubmissionModel extends Model
         if (isset($sub['verdict'])) {
             $sub["color"]=$this->colorScheme[$sub['verdict']];
         }
+        $preVerdict = DB::table($this->tableName)->where(['sid'=>$sid])->first()["verdict"];
+//        Log::debug( "call updateSubmission"." sid=".$sid." subinfo=".$sub." preVerdict=".$preVerdict);
         $result = DB::table($this->tableName)->where(['sid'=>$sid])->update($sub);
         $contestModel = new ContestModel();
         $submission_info = DB::table($this->tableName) -> where(['sid'=>$sid]) -> get() -> first();
-        if ($result==1 && $submission_info['cid'] && $contestModel->isContestRunning($submission_info['cid'])){
+        if ($preVerdict!="Accepted"&&$result==1 && $submission_info['cid'] && $contestModel->isContestRunning($submission_info['cid'])){
             $sub['pid'] = $submission_info['pid'];
             $sub['uid'] = $submission_info['uid'];
             $sub['cid'] = $submission_info['cid'];
             $sub['sid'] = $sid;
-            // $contestModel->updateContestRankTable($submission_info['cid'],$sub);
+//            Log::debug( "preVerdict=ac,"."sid=".$sid." subinfo=".$sub);
+            $contestModel->updateContestRankTable($submission_info['cid'],$sub);
         }
         return $result;
     }
