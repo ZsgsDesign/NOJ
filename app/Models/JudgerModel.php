@@ -64,9 +64,11 @@ class JudgerModel extends Model
         return $serverList;
     }
 
-    public function fetchServer($oid=1)
+    public function fetchServer($oid=0)
     {
-        $serverList=DB::table("judge_server")->where(["oid"=>$oid])->get()->all();
+        $serverList=DB::table("judge_server");
+        if($oid) $serverList=$serverList->where(["oid"=>$oid]);
+        $serverList=$serverList->get()->all();
         foreach ($serverList as &$server) {
             $server["status_parsed"]=is_null($server["status"])?self::$status["-1"]:self::$status[$server["status"]];
         }
