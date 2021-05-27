@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Eloquent\JudgeServerModel;
+use App\Models\Eloquent\JudgeServer;
 use App\Models\JudgerModel;
 use App\Models\Eloquent\OJ;
 use Encore\Admin\Controllers\AdminController;
@@ -89,7 +89,7 @@ class JudgeServerController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new JudgeServerModel());
+        $grid = new Grid(new JudgeServer());
 
         $grid->column('jsid', 'Jsid');
         $grid->column('scode', 'Scode');
@@ -132,7 +132,7 @@ class JudgeServerController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(JudgeServerModel::findOrFail($id));
+        $show = new Show(JudgeServer::findOrFail($id));
 
         $show->field('jsid', 'Jsid');
         $show->field('scode', 'Scode');
@@ -166,7 +166,7 @@ class JudgeServerController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new JudgeServerModel());
+        $form = new Form(new JudgeServer());
 
         $form->text('scode', 'Scode')->required();
         $form->text('name', 'Name')->required();
