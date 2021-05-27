@@ -100,4 +100,9 @@ return [
     ],
 
     'menu_titles' => [],
+    'home_infos'                     =>[
+        'dashboard'                 =>  'Dashboard',
+        'general'                   =>  'General',
+        'description'               =>  'The general status of '.config("app.name"),
+    ],
 ];
