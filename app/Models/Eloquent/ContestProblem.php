@@ -13,6 +13,7 @@ class ContestProblem extends Model
     const DELETED_AT=null;
     const UPDATED_AT=null;
     const CREATED_AT=null;
+    protected $fillable = ['number', 'ncode', 'pid', 'alias', 'points'];
 
     public function contest()
     {

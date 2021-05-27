@@ -17,6 +17,23 @@ class Group extends Model
     {
         return $this->hasMany('App\Models\Eloquent\GroupBanned', 'group_id', 'gid');
     }
+//
+//    public function getImgAttribute( $img ) {
+//        if( $img != "" && $img != null && $img[0] != "/" ) {
+//            return "/$img";
+//        }
+//        return $img;
+//    }
+    public static function boot()
+    {
+        parent::boot();
+        static::saving(function ($model) {
+            // 从$model取出数据并进行处理
+            if( $model->img != "" && $model->img != null && $model->img[0] != "/" ) {
+                $model->img =  "/$model->img";
+            }
+        });
+    }
 
     public function getLeaderAttribute()
     {

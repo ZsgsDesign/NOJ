@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\ContestModel;
 use App\Models\CompilerModel;
+use Log;
 
 class SubmissionModel extends Model
 {
@@ -348,10 +349,10 @@ class SubmissionModel extends Model
     public function getEarliestSubmission($oid)
     {
         return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
-                                            ->select("sid", "OJ as oid", "remote_id", "cid", "jid")
-                                            ->where(['verdict'=>'Waiting', 'OJ'=>$oid])
-                                            ->orderBy("sid", "asc")
-                                            ->first();
+            ->select("sid", "OJ as oid", "remote_id", "cid", "jid")
+            ->where(['verdict'=>'Waiting', 'OJ'=>$oid])
+            ->orderBy("sid", "asc")
+            ->first();
     }
 
     public function countEarliestWaitingSubmission($oid)
@@ -362,19 +363,19 @@ class SubmissionModel extends Model
         }
         $early_sid=$early_sid["sid"];
         return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
-                                            ->where(['OJ'=>$oid])
-                                            ->where("sid", ">=", $early_sid)
-                                            ->count();
+            ->where(['OJ'=>$oid])
+            ->where("sid", ">=", $early_sid)
+            ->count();
     }
 
 
     public function getWaitingSubmission()
     {
         $ret=DB::table($this->tableName)    ->join('problem', 'problem.pid', '=', 'submission.pid')
-                                            ->select("sid", "OJ as oid", "remote_id", "cid", "jid", "vcid", "problem.pid as pid")
-                                            ->where(['verdict'=>'Waiting'])
-                                            ->get()
-                                            ->all();
+            ->select("sid", "OJ as oid", "remote_id", "cid", "jid", "vcid", "problem.pid as pid")
+            ->where(['verdict'=>'Waiting'])
+            ->get()
+            ->all();
         foreach($ret as &$r){
             $r["ocode"]=DB::table("oj")->where(["oid"=>$r["oid"]])->first()["ocode"];
         }
@@ -384,24 +385,29 @@ class SubmissionModel extends Model
     public function countWaitingSubmission($oid)
     {
         return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
-                                            ->where(['verdict'=>'Waiting', 'OJ'=>$oid])
-                                            ->count();
+            ->where(['verdict'=>'Waiting', 'OJ'=>$oid])
+            ->count();
     }
 
     public function updateSubmission($sid, $sub)
     {
+        Log::debug( '1???????????????????????????????????????');
+
         if (isset($sub['verdict'])) {
             $sub["color"]=$this->colorScheme[$sub['verdict']];
         }
+        $preVerdict = DB::table($this->tableName)->where(['sid'=>$sid])->first()["verdict"];
+//        Log::debug( "call updateSubmission"." sid=".$sid." subinfo=".$sub." preVerdict=".$preVerdict);
         $result = DB::table($this->tableName)->where(['sid'=>$sid])->update($sub);
         $contestModel = new ContestModel();
         $submission_info = DB::table($this->tableName) -> where(['sid'=>$sid]) -> get() -> first();
-        if ($result==1 && $submission_info['cid'] && $contestModel->isContestRunning($submission_info['cid'])){
+        if ($preVerdict!="Accepted"&&$result==1 && $submission_info['cid'] && $contestModel->isContestRunning($submission_info['cid'])){
             $sub['pid'] = $submission_info['pid'];
             $sub['uid'] = $submission_info['uid'];
             $sub['cid'] = $submission_info['cid'];
             $sub['sid'] = $sid;
-            // $contestModel->updateContestRankTable($submission_info['cid'],$sub);
+//            Log::debug( "preVerdict=ac,"."sid=".$sid." subinfo=".$sub);
+            $contestModel->updateContestRankTable($submission_info['cid'],$sub);
         }
         return $result;
     }

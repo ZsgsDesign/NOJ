@@ -133,11 +133,54 @@ class ContestController extends Controller
     protected function form()
     {
         $form=new Form(new EloquentContestModel);
-        $form->model()->makeVisible('password');
+//        $form->model()->makeVisible('password');
         $form->tab('Basic', function(Form $form) {
-            $form->display('cid');
-            // $form->number('gid')->rules('required');
-            $form->text('name')->rules('required');
+//                $form->display('cid');
+//                 $form->number('gid')->rules('required');
+            $form->text("gid","group_id")->required();
+            $form->text("assign_uid","比赛管理员Id");
+            $form->text('name', '考试名称')->required();
+            $form->hidden('verified', '官方考试')->default(true);
+            $form->hidden('rated', '评级考试')->default(0);
+            $form->hidden('is_rated',"是否是评级考试")->default(0);
+            $form->hidden('anticheated', '反作弊')->default(true);
+            $form->hidden('practice', '训练赛')->default(0);
+            $form->switch('featured', '重点考试')->default(true);
+            $form->switch('desktop', '使用NOJ Desktop桌面客户端（实验性）')->default(false);
+            $form->hidden('pdf', '提供PDF试题档')->default(0);
+            $form->simplemde('description', '比赛简介')->required();
+            $form->select('rule', '赛制')->options([
+                0 => "机试"
+            ])->default(0)->required();
+            $form->datetimeRange('begin_time', 'end_time', '比赛时间段')->required();
+            $form->hidden('public', '公开比赛')->default(true);
+            $form->switch('registration', '限制考试参与者')->default(true);
+            $form->datetime('registration_due', '限制考试报名截止时间')->default('1970-01-01 00:00:00');
+            $form->select('registant_type', '限制考试方式')->options([
+                0 => "不限制任何人报名",
+                2 => "不允许任何人报名"
+            ])->default(2);
+            $form->hidden('froze_length', '封榜时间（秒）')->default(0)->required();
+            $form->select('status_visibility', '状态可见性')->options([
+                0 => "评测状态将会保持不可见",
+                1 => "view only oneself",
+                2 => "view all"
+            ])->default(1)->required();
+            $form->text('audit_status', '审核状态')->default(1);
+            $form->text('custom_title', '自定义考试导航标题');
+            $form->image('custom_icon', '自定义考试导航图标')->uniqueName()->move("static/img/contest");
+            $form->image('img', '考试封面图')->uniqueName()->move("static/img/contest");
+            $form->hasMany('problems', '考试题目', function (Form\NestedForm $form) {
+                $form->number('number', '编号')->default(1)->required();
+                $ncodeArr=[];
+                foreach(range('A', 'Z') as $alpha){
+                    $ncodeArr[$alpha]=$alpha;
+                }
+                $form->select('ncode', '字母题号')->options($ncodeArr)->default("A")->required();
+                $form->select('pid', '题目')->options(Problem::all()->pluck('pcode', 'pid'))->required();
+                $form->text('alias', '题目别名');
+                $form->number('points', '题目分值')->default(100)->required();
+            });
         });
         return $form;
     }

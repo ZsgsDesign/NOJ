@@ -7,6 +7,8 @@ use App\Babel\Submit\Core;
 use Illuminate\Support\Facades\Validator;
 use Auth;
 
+use Log;
+
 class Submitter
 {
     public $post_data=[];
@@ -39,6 +41,7 @@ class Submitter
         // insert submission
 
         $submission=new SubmissionModel();
+        Log::debug("hhhhhhhhpipitongkw1");
         $submission->updateSubmission($this->post_data["sid"], $sub);
     }
 
