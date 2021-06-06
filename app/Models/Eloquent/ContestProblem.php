@@ -68,10 +68,11 @@ class ContestProblem extends Model
 
     public function ac_record($user)
     {
+        $frozen_time=$this->contest()->frozen_time;
         $user_ac = $this->submissions()->where([
             'uid'     => $user->id,
             'verdict' => 'Accepted'
-        ])->first();
+        ])->where("submission_date", "<", $frozen_time)->orderBy('submission_date', 'asc')->first();
 
         $other_ac = 1;
         $wrong_trys = 0;
