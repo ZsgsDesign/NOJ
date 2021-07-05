@@ -4803,10 +4803,10 @@
         },
         {
             "name": "npm-asset/perfect-scrollbar",
-            "version": "1.5.0",
+            "version": "1.5.1",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/perfect-scrollbar/-/perfect-scrollbar-1.5.0.tgz"
+                "url": "https://registry.npmjs.org/perfect-scrollbar/-/perfect-scrollbar-1.5.1.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -10957,5 +10957,5 @@
         "php": "^7.3"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
