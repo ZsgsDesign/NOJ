@@ -14,6 +14,10 @@ class ContestProblem extends Model
     const UPDATED_AT=null;
     const CREATED_AT=null;
 
+    protected $fillable = [
+        'number', 'ncode', 'pid', 'alias', 'points'
+    ];
+
     public function contest()
     {
         return $this->belongsTo('App\Models\Eloquent\Contest','cid','cid');

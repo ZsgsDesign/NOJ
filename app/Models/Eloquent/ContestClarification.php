@@ -29,6 +29,6 @@ class ContestClarification extends Model
     }
 
     protected $fillable=[
-        'cid', 'type', 'title', 'content', 'public', 'uid'
+        'cid', 'type', 'title', 'content', 'reply', 'public', 'uid', 'remote_code'
     ];
 }
