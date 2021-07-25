@@ -127,13 +127,14 @@ class GroupController extends Controller
             $form->text('gcode')->rules('required');
             $form->text('name')->rules('required');
             $form->switch('public')->default(true);
-            $form->text('description');
-            $form->select('join_policy', '加入政策')->options([
-                1 => "仅邀请",
-                2 => "仅申请",
-                3 => "邀请或申请"
+            $form->textarea('description');
+            $form->select('join_policy', 'Join Policy')->options([
+                0 => "Cannot Join",
+                1 => "Invite Only",
+                2 => "Apply Only",
+                3 => "Invite & Apply"
             ])->default(1);
-            $form->image('img', '自定义小组图标')->uniqueName()->move("static/img/group");
+            $form->image('img', 'Custom Group Focus Image')->uniqueName()->move("static/img/group");
         });
         return $form;
     }
