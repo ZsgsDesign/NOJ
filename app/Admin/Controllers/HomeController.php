@@ -13,8 +13,8 @@ class HomeController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Dashboard')
-            ->description('the general status of '.config("app.name"))
+            ->header(__('admin.home.dashboard'))
+            ->description(__('admin.home.description'))
             ->row(function(Row $row) {
 
                 $row->column(4, function(Column $column) {
@@ -22,7 +22,7 @@ class HomeController extends Controller
                 });
 
                 $row->column(4, function(Column $column) {
-                    $column->append(Dashboard::environment());
+                    $column->append(DashboardController::environment());
                 });
 
                 // $row->column(4, function(Column $column) {

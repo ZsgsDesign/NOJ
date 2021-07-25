@@ -28,7 +28,7 @@ version-badge > inline-div:last-of-type{
 </style>
 <div class="box box-default">
     <div class="box-header with-border">
-        <h3 class="box-title">{{__('admin.home_infos.general')}}</h3>
+        <h3 class="box-title">{{__('admin.home.general')}}</h3>
 
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -42,8 +42,8 @@ version-badge > inline-div:last-of-type{
         <div class="table-responsive">
             <div class="text-center mb-5 mt-5">
                 <img src="/favicon.png" style="width:25%;">
-                <h1 class="wemd-grey-text wemd-text-darken-3">NOJ</h1>
-                <p>Nanjing University of Posts and Telecommunications Online Judge</p>
+                <h1 class="wemd-grey-text wemd-text-darken-3">{{config('app.name')}}</h1>
+                <p>{{config('app.displayName')}}</p>
                 <version-badge>
                     <inline-div>Version</inline-div><inline-div>{{$status[0]['value']}}</inline-div>
                 </version-badge>
@@ -57,7 +57,7 @@ version-badge > inline-div:last-of-type{
                 @else
                 <div>
                     <a class="btn btn-sm btn-default btn-disabled" disabled title="Already Latest">
-                        <i class="MDI update"></i><span class="hidden-xs">&nbsp;&nbsp;Already Latest</span>
+                        <i class="MDI update"></i><span class="hidden-xs">&nbsp;&nbsp;{{__('admin.home.alreadylatest')}}</span>
                     </a>
                 </div>
                 @endif
