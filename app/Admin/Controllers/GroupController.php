@@ -124,8 +124,16 @@ class GroupController extends Controller
         $form=new Form(new Group);
         $form->model()->makeVisible('password');
         $form->tab('Basic', function(Form $form) {
-            $form->display('gid');
+            $form->text('gcode')->rules('required');
             $form->text('name')->rules('required');
+            $form->switch('public')->default(true);
+            $form->text('description');
+            $form->select('join_policy', '加入政策')->options([
+                1 => "仅邀请",
+                2 => "仅申请",
+                3 => "邀请或申请"
+            ])->default(1);
+            $form->image('img', '自定义小组图标')->uniqueName()->move("static/img/group");
         });
         return $form;
     }
