@@ -154,4 +154,26 @@ return [
             'url'           => 'URL',
         ],
     ],
+    'users' => [
+        'name'              => '用户名',
+        'email'             => '邮箱',
+        'basic'             => '基本信息',
+        'password'          => '密码',
+        'index' => [
+            'header'        => '用户',
+            'description'   => '所有用户列表',
+        ],
+        'show' => [
+            'header'        => '用户详情',
+            'description'   => '查看用户详情',
+        ],
+        'edit' => [
+            'header'        => '编辑用户',
+            'description'   => '编辑用户信息',
+        ],
+        'create' => [
+            'header'        => '创建新用户',
+            'description'   => '创建一个新用户',
+        ],
+    ],
 ];

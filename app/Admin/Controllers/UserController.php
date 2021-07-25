@@ -2,8 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\UserModel;
-use App\Models\Eloquent\UserModel as EloquentUserModel;
+use App\Models\Eloquent\UserModel as Users;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -24,8 +23,8 @@ class UserController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Users')
-            ->description('all users')
+            ->header(__('admin.users.index.header'))
+            ->description(__('admin.users.index.description'))
             ->body($this->grid()->render());
     }
 
@@ -39,8 +38,8 @@ class UserController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header('User Detail')
-            ->description('the detail of users')
+            ->header(__('admin.users.show.header'))
+            ->description(__('admin.users.show.description'))
             ->body($this->detail($id));
     }
 
@@ -54,8 +53,8 @@ class UserController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit User')
-            ->description('edit the detail of users')
+            ->header(__('admin.users.edit.header'))
+            ->description(__('admin.users.edit.description'))
             ->body($this->form()->edit($id));
     }
 
@@ -68,8 +67,8 @@ class UserController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create New User')
-            ->description('create a new user')
+            ->header(__('admin.users.create.header'))
+            ->description(__('admin.users.create.description'))
             ->body($this->form());
     }
 
@@ -80,16 +79,16 @@ class UserController extends Controller
      */
     protected function grid()
     {
-        $grid=new Grid(new EloquentUserModel);
+        $grid=new Grid(new Users);
         $grid->id('ID')->sortable();
-        $grid->name()->editable();
-        $grid->email();
-        $grid->created_at();
-        $grid->updated_at();
+        $grid->name(__('admin.users.name'))->editable();
+        $grid->email(__('admin.users.email'));
+        $grid->created_at(__('admin.created_at'));
+        $grid->updated_at(__('admin.updated_at'));
         $grid->filter(function(Grid\Filter $filter) {
             $filter->disableIdFilter();
-            $filter->like('name');
-            $filter->like('email')->email();
+            $filter->like('name', __('admin.users.name'));
+            $filter->like('email', __('admin.users.email'))->email();
         });
         return $grid;
     }
@@ -102,7 +101,7 @@ class UserController extends Controller
      */
     protected function detail($id)
     {
-        $show=new Show(EloquentUserModel::findOrFail($id));
+        $show=new Show(Users::findOrFail($id));
         return $show;
     }
 
@@ -113,17 +112,21 @@ class UserController extends Controller
      */
     protected function form()
     {
-        $form=new Form(new EloquentUserModel);
+        $form=new Form(new Users);
         $form->model()->makeVisible('password');
-        $form->tab('Basic', function(Form $form) {
-            $form->display('id');
-            $form->text('name')->rules('required');
-            $form->email('email')->rules('required');
-            $form->display('created_at');
-            $form->display('updated_at');
-        })->tab('Password', function(Form $form) {
-            $form->password('password')->rules('confirmed');
-            $form->password('password_confirmation');
+        $form->tab(__('admin.users.basic'), function(Form $form) {
+            if ($form->isEditing()) {
+                $form->display('id', 'ID');
+            }
+            $form->text('name', __('admin.users.name'))->rules('required');
+            $form->email('email', __('admin.users.email'))->rules('required');
+            if($form->isEditing()){
+                $form->display('created_at', __('admin.created_at'));
+                $form->display('updated_at', __('admin.updated_at'));
+            }
+        })->tab(__('admin.users.password'), function(Form $form) {
+            $form->password('password', __('admin.password'))->rules('confirmed');
+            $form->password('password_confirmation', __('admin.password_confirmation'));
         });
         $form->ignore(['password_confirmation']);
         $form->saving(function(Form $form) {

@@ -154,4 +154,26 @@ return [
             'url'           =>  'URL',
         ],
     ],
+    'users' => [
+        'name'              => 'Name',
+        'email'             => 'Email',
+        'basic'             => 'Basic',
+        'password'          => 'Password',
+        'index' => [
+            'header'        => 'Users',
+            'description'   => 'all users',
+        ],
+        'show' => [
+            'header'        => 'User Detail',
+            'description'   => 'the detail of users',
+        ],
+        'edit' => [
+            'header'        => 'Edit User',
+            'description'   => 'edit the detail of users',
+        ],
+        'create' => [
+            'header'        => 'Create New User',
+            'description'   => 'create a new user',
+        ],
+    ],
 ];
