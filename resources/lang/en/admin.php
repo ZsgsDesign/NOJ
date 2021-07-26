@@ -259,4 +259,28 @@ return [
             'description'   => 'create a new submission',
         ],
     ],
+    'dojos' => [
+        'name'              => 'Name',
+        'phase'             => 'Phase',
+        'passline'          => 'Minium Solve',
+        'description'       => 'Description',
+        'precondition'      => 'Precondition',
+        'order'             => 'Order',
+        'index' => [
+            'header'        => 'Dojos',
+            'description'   => 'all dojos',
+        ],
+        'show' => [
+            'header'        => 'Dojos Detail',
+            'description'   => 'the detail of the dojo',
+        ],
+        'edit' => [
+            'header'        => 'Edit Dojos',
+            'description'   => 'edit the detail of dojo',
+        ],
+        'create' => [
+            'header'        => 'Create New Dojos',
+            'description'   => 'create a new dojo',
+        ],
+    ],
 ];

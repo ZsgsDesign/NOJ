@@ -34,6 +34,21 @@ class Dojo extends Model
         return $tot>=$this->passline;
     }
 
+    public function getPreconditionAttribute($value)
+    {
+        $precondition=[];
+        foreach(explode(',', $value) as $dojo_id){
+            if(blank($dojo_id)) continue;
+            if(!is_null(Dojo::find($dojo_id))) $precondition[]=$dojo_id;
+        }
+        return $precondition;
+    }
+
+    public function setPreconditionAttribute($value)
+    {
+        $this->attributes['precondition'] = implode(',', $value);
+    }
+
     public function getPassedAttribute()
     {
         return DojoPass::isPassed($this->id);
@@ -41,8 +56,7 @@ class Dojo extends Model
 
     public function getAvailabilityAttribute()
     {
-        foreach(explode(',', $this->precondition) as $dojo_id){
-            if(blank($dojo_id)) continue;
+        foreach($this->precondition as $dojo_id){
             if(!DojoPass::isPassed($dojo_id)) return 'locked';
         }
         return $this->passed?'passed':'available';

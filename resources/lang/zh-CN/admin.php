@@ -259,4 +259,28 @@ return [
             'description'   => '创建一个新提交',
         ],
     ],
+    'dojos' => [
+        'name'              => '训练名',
+        'phase'             => '所属训练阶层',
+        'passline'          => '最少解题数',
+        'description'       => '描述',
+        'precondition'      => '前置训练',
+        'order'             => '排序',
+        'index' => [
+            'header'        => '训练场',
+            'description'   => '所有训练场列表',
+        ],
+        'show' => [
+            'header'        => '训练场详情',
+            'description'   => '查看训练场详情',
+        ],
+        'edit' => [
+            'header'        => '编辑训练场',
+            'description'   => '编辑训练场信息',
+        ],
+        'create' => [
+            'header'        => '创建新训练场',
+            'description'   => '创建一个新的训练场',
+        ],
+    ],
 ];

@@ -18,6 +18,7 @@ Route::group([
     $router->resource('submissions', SubmissionController::class);
     $router->resource('contests', ContestController::class);
     $router->resource('groups', GroupController::class);
+    $router->resource('dojos', DojoController::class);
     $router->resource('judge-server', JudgeServerController::class);
     $router->resource('judger', JudgerController::class);
     $router->resource('abuses', AbuseController::class);
