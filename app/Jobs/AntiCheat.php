@@ -14,7 +14,6 @@ use Imtigger\LaravelJobStatus\Trackable;
 use Symfony\Component\Process\Process;
 use KubAT\PhpSimple\HtmlDomParser;
 use PhpZip\ZipFile;
-use MOSS\MOSS;
 use Storage;
 use Str;
 use Log;
@@ -68,7 +67,7 @@ class AntiCheat implements ShouldQueue
         Storage::deleteDirectory("contest/anticheat/$cid/");
         sleep(1);
         $this->setProgressNow(20);
-        $totMOSS=0;
+        $totProb=0;
         $probLangs=[];
 
 
@@ -81,12 +80,12 @@ class AntiCheat implements ShouldQueue
                 Storage::put("contest/anticheat/$cid/raw/$prob/$lang/[$submission->uid][$submission->sid].$ext", $submission->solution);
                 if(!isset($probLangs[$prob][$lang])) $probLangs[$prob][$lang]=1;
                 else $probLangs[$prob][$lang]++;
-                $totMOSS++;
+                $totProb++;
             }
         }
 
         $this->setProgressNow(40);
-        $this->stepVal=50/($totMOSS*2);
+        $this->stepVal=50/($totProb*2);
         $this->progressVal=40;
 
         foreach($probLangs as $prob=>$langs){
