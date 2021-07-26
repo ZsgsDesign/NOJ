@@ -115,6 +115,8 @@ return [
         'contests'          => '比赛',
         'groups'            => '群组',
         'judgeserver'       => '评测机',
+        'judger'            => '评测代理',
+        'dojoCatg'          => '训练场',
         'helpers'           => '辅助工具',
         'scaffold'          => '脚手架',
         'database'          => '数据库终端',
