@@ -108,6 +108,7 @@ return [
         'adminCatg'         => 'Admin',
         'users'             => 'Users',
         'abuses'            => 'Abuses',
+        'announcements'     => 'Announcements',
         'problemsCatg'      => 'Problems',
         'problems'          => 'Problems',
         'solutions'         => 'Solutions',

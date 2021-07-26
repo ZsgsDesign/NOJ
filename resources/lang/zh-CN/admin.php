@@ -108,6 +108,7 @@ return [
         'adminCatg'         => '管理员',
         'users'             => '用户',
         'abuses'            => '违规行为',
+        'announcements'     => '通知与公告',
         'problemsCatg'      => '题库',
         'problems'          => '题目',
         'solutions'         => '题解',

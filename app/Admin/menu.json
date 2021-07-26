@@ -62,6 +62,18 @@
         "roles": []
     },
     {
+        "id": 33,
+        "parent_id": 0,
+        "order": 8,
+        "title": "admin.menu_titles.announcements",
+        "icon": "MDI newspaper",
+        "uri": "\/announcements",
+        "permission": null,
+        "created_at": "2019-04-10 16:45:06",
+        "updated_at": "2019-04-10 17:01:18",
+        "roles": []
+    },
+    {
         "id": 9,
         "parent_id": 0,
         "order": 9,
