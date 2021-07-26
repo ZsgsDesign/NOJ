@@ -14,6 +14,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        if(config('app.multidomain')) {
+            config(['app.url' => request()->root()]);
+        }
     }
 
     /**

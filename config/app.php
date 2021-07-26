@@ -77,6 +77,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'multidomain' => env('APP_MULTI_DOMAIN', false),
 
     'asset_url' => env('ASSET_URL', null),
 
