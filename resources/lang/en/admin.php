@@ -117,6 +117,8 @@ return [
         'judgeserver'       => 'Judge Servers',
         'judger'            => 'Judge Agents',
         'dojoCatg'          => 'Dojos',
+        'dojos'             => 'Dojos',
+        'dojophases'        => 'Dojo Phases',
         'helpers'           => 'Helpers',
         'scaffold'          => 'Scaffold',
         'database'          => 'Database Terminal',

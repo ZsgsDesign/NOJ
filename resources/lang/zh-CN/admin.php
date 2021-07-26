@@ -117,6 +117,8 @@ return [
         'judgeserver'       => '评测机',
         'judger'            => '评测代理',
         'dojoCatg'          => '训练场',
+        'dojos'             => '训练场',
+        'dojophases'        => '训练阶层',
         'helpers'           => '辅助工具',
         'scaffold'          => '脚手架',
         'database'          => '数据库终端',
