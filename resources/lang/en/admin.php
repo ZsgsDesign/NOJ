@@ -184,4 +184,35 @@ return [
             'description'   => 'create a new user',
         ],
     ],
+    'judgers' => [
+        'handle'            => 'Login Handle',
+        'password'          => 'Login Password',
+        'availability'      => 'Availability',
+        'available'         => 'Available',
+        'unavailable'       => 'Unavailable',
+        'password'          => 'Password',
+        'oj'                => 'OJ Platform',
+        'user_id'           => 'Agent Profile ID',
+        'index' => [
+            'header'        => 'Judge Agents',
+            'description'   => 'all judge agents',
+        ],
+        'show' => [
+            'header'        => 'Judge Agent Detail',
+            'description'   => 'the detail of the judge agent',
+        ],
+        'edit' => [
+            'header'        => 'Edit Judge Agent',
+            'description'   => 'edit the detail of judge agent',
+        ],
+        'create' => [
+            'header'        => 'Create New Judge Agent',
+            'description'   => 'create a new judge agent',
+        ],
+        'help' => [
+            'handle'        => 'Login handle for BABEL Extensions to login.',
+            'password'      => 'Login password for BABEL Extensions to login.',
+            'user_id'       => 'Some BABEL Extensions like UVa and UVaLive requires User ID, It s a numberic string.',
+        ],
+    ],
 ];

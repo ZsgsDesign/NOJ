@@ -183,4 +183,35 @@ return [
             'description'   => '创建一个新用户',
         ],
     ],
+    'judgers' => [
+        'handle'            => '登录凭证',
+        'password'          => '登录密码',
+        'availability'      => '可用性',
+        'available'         => '可用',
+        'unavailable'       => '不可用',
+        'password'          => '密码',
+        'oj'                => 'OJ平台',
+        'user_id'           => '评测代理凭证ID',
+        'index' => [
+            'header'        => '评测代理',
+            'description'   => '所有评测代理列表',
+        ],
+        'show' => [
+            'header'        => '评测代理详情',
+            'description'   => '查看评测代理详情',
+        ],
+        'edit' => [
+            'header'        => '编辑评测代理',
+            'description'   => '编辑评测代理信息',
+        ],
+        'create' => [
+            'header'        => '创建新评测代理',
+            'description'   => '创建一个新评测代理',
+        ],
+        'help' => [
+            'handle'        => 'BABEL拓展使用登录凭证登录。',
+            'password'      => 'BABEL拓展使用登录密码登录。',
+            'user_id'       => '一些BABEL拓展，例如UVa与UVaLive需要提供评测代理凭证ID，这是一个纯数字的字符串。',
+        ],
+    ],
 ];
