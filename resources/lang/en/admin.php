@@ -117,7 +117,7 @@ return [
         'judgeserver'       => 'Judge Servers',
         'judger'            => 'Judge Agents',
         'dojoCatg'          => 'Dojos',
-        'dojos'             => 'Dojos',
+        'dojos'             => 'Dojo Tasks',
         'dojophases'        => 'Dojo Phases',
         'helpers'           => 'Helpers',
         'scaffold'          => 'Scaffold',
@@ -267,20 +267,20 @@ return [
         'precondition'      => 'Precondition',
         'order'             => 'Order',
         'index' => [
-            'header'        => 'Dojos',
-            'description'   => 'all dojos',
+            'header'        => 'Dojo Tasks',
+            'description'   => 'all dojo tasks',
         ],
         'show' => [
-            'header'        => 'Dojo Detail',
-            'description'   => 'the detail of the dojo',
+            'header'        => 'Dojo Task Detail',
+            'description'   => 'the detail of the dojo task',
         ],
         'edit' => [
-            'header'        => 'Edit Dojo',
-            'description'   => 'edit the detail of dojo',
+            'header'        => 'Edit Dojo Task',
+            'description'   => 'edit the detail of dojo task',
         ],
         'create' => [
-            'header'        => 'Create New Dojo',
-            'description'   => 'create a new dojo',
+            'header'        => 'Create New Dojo Task',
+            'description'   => 'create a new dojo task',
         ],
     ],
     'dojophases' => [
