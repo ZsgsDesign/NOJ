@@ -97,7 +97,7 @@ class JudgeServerController extends AdminController
         $grid->column('host', 'Host');
         $grid->column('port', 'Port');
         $grid->column('token', 'Token');
-        $grid->column('available', 'Available')->display(function ($available) {
+        $grid->column('available', 'Availability')->display(function ($available) {
             return $available?"Available":"Unavailable";
         });
         $grid->column('OJ', 'OJ')->display(function () {
