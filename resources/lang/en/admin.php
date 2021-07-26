@@ -343,4 +343,28 @@ return [
             'onlinejudge'   => 'Only BABEL Extensions with online-judge package type like NOJ can be choosen.',
         ],
     ],
+    'announcements' => [
+        'user'              => 'Published User',
+        'title'             => 'Title',
+        'content'           => 'Content',
+        'index' => [
+            'header'        => 'Announcements',
+            'description'   => 'all announcements',
+        ],
+        'show' => [
+            'header'        => 'Announcement Detail',
+            'description'   => 'the detail of the announcement',
+        ],
+        'edit' => [
+            'header'        => 'Edit Announcement',
+            'description'   => 'edit the detail of announcement',
+        ],
+        'create' => [
+            'header'        => 'Create New Announcement',
+            'description'   => 'create a new announcement',
+        ],
+        'help' => [
+            'markdown'   => 'Only a few Markdown syntax are supported here, like font styles.',
+        ],
+    ],
 ];

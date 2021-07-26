@@ -343,4 +343,28 @@ return [
             'onlinejudge'   => '仅可选择拥有online-judge包类型的BABEL拓展，例如NOJ。',
         ],
     ],
+    'announcements' => [
+        'user'              => '发布用户',
+        'title'             => '标题',
+        'content'           => '内容',
+        'index' => [
+            'header'        => '通知与公告',
+            'description'   => '所有通知与公告',
+        ],
+        'show' => [
+            'header'        => '通知与公告详情',
+            'description'   => '查看通知与公告详情',
+        ],
+        'edit' => [
+            'header'        => '编辑通知与公告',
+            'description'   => '编辑通知与公告信息',
+        ],
+        'create' => [
+            'header'        => '创建新通知与公告',
+            'description'   => '创建一个新的通知与公告',
+        ],
+        'help' => [
+            'markdown'   => '此处只有一小部分Markdown语法可用，如字体字形。',
+        ],
+    ],
 ];
