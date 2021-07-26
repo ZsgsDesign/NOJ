@@ -305,4 +305,37 @@ return [
             'description'   => '创建一个新的训练阶层',
         ],
     ],
+    'judgeservers' => [
+        'scode'             => '评测机标识符',
+        'name'              => '评测机名称',
+        'host'              => '评测机地址',
+        'port'              => '评测机端口',
+        'token'             => '访问密钥',
+        'availability'      => '可用性',
+        'available'         => '评测机可用',
+        'unavailable'       => '评测机不可用',
+        'oj'                => 'OJ平台',
+        'usage'             => '资源使用率',
+        'status'            => '健康状态',
+        'status_update_at'  => '健康状态更新时间',
+        'index' => [
+            'header'        => '评测机',
+            'description'   => '所有评测机列表',
+        ],
+        'show' => [
+            'header'        => '评测机详情',
+            'description'   => '查看评测机详情',
+        ],
+        'edit' => [
+            'header'        => '编辑评测机',
+            'description'   => '编辑评测机信息',
+        ],
+        'create' => [
+            'header'        => '创建新评测机',
+            'description'   => '创建一个新的评测机',
+        ],
+        'help' => [
+            'onlinejudge'   => '仅可选择拥有online-judge包类型的BABEL拓展，例如NOJ。',
+        ],
+    ],
 ];

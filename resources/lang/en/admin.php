@@ -305,4 +305,37 @@ return [
             'description'   => 'create a new dojo phase',
         ],
     ],
+    'judgeservers' => [
+        'scode'             => 'SCode',
+        'name'              => 'Name',
+        'host'              => 'Server Host',
+        'port'              => 'Server Port',
+        'token'             => 'Token',
+        'availability'      => 'Availability',
+        'available'         => 'Available',
+        'unavailable'       => 'Unavailable',
+        'oj'                => 'OJ Platform',
+        'usage'             => 'Resource Usage',
+        'status'            => 'Health Status',
+        'status_update_at'  => 'Status Update At',
+        'index' => [
+            'header'        => 'Judge Servers',
+            'description'   => 'all judge servers',
+        ],
+        'show' => [
+            'header'        => 'Judge Server Detail',
+            'description'   => 'the detail of the judge server',
+        ],
+        'edit' => [
+            'header'        => 'Edit Judge Server',
+            'description'   => 'edit the detail of judge server',
+        ],
+        'create' => [
+            'header'        => 'Create New Judge Server',
+            'description'   => 'create a new judge server',
+        ],
+        'help' => [
+            'onlinejudge'   => 'Only BABEL Extensions with online-judge package type like NOJ can be choosen.',
+        ],
+    ],
 ];
