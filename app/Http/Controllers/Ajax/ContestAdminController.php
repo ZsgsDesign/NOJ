@@ -307,7 +307,7 @@ class ContestAdminController extends Controller
         }
         $name=$contestModel->basic($cid)["name"];
 
-        return response()->download(storage_path("app/contest/anticheat/$cid/report/report.zip"), "$name Code Plagiarism.zip");
+        return response()->download(storage_path("app/contest/anticheat/$cid/report/report.zip"), __("contest.inside.admin.anticheat.downloadFile", ["name" => $name]).".zip");
     }
 
     public function generatePDF(Request $request)
