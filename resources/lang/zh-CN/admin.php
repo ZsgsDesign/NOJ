@@ -162,6 +162,7 @@ return [
             'locale'        => '本地化配置',
             'env'           => '环境配置',
             'url'           => 'URL',
+            'tlsv13'        => 'TLS v1.3',
         ],
     ],
     'users' => [
@@ -364,7 +365,7 @@ return [
             'description'   => '创建一个新的通知与公告',
         ],
         'help' => [
-            'markdown'   => '此处只有一小部分Markdown语法可用，如字体字形。',
+            'markdown'      => '此处只有一小部分Markdown语法可用，如字体字形。',
         ],
     ],
 ];

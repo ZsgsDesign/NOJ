@@ -52,6 +52,8 @@ class DashboardController
             ['name' => __('admin.home.envs.locale'),    'value' => config('app.locale')],
             ['name' => __('admin.home.envs.env'),       'value' => config('app.env')],
             ['name' => __('admin.home.envs.url'),       'value' => config('app.url')],
+
+            ['name' => __('admin.home.envs.tlsv13'),    'value' => ["Not Supported", "Supported"][in_array("tlsv1.3", stream_get_transports())]],
         ];
 
         foreach($envs as &$env){
@@ -89,6 +91,12 @@ class DashboardController
         if(!in_array(strtolower(config('app.locale')), ['en','zh-cn'])){
             $envs[9]['icon'] = "close-circle";
             $envs[9]['color'] = "wemd-pink-text";
+        }
+
+        // TLSv1.3 Check
+        if($envs[12]['value']=="Not Supported"){
+            $envs[12]['icon'] = "close-circle";
+            $envs[12]['color'] = "wemd-pink-text";
         }
 
         return view('admin::dashboard.environment', compact('envs'));
