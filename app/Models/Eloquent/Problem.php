@@ -15,6 +15,11 @@ class Problem extends Model
     const UPDATED_AT="update_date";
     const CREATED_AT=null;
 
+    public function getReadableNameAttribute()
+    {
+        return $this->pcode.'. '.$this->title;
+    }
+
     public function submissions()
     {
         return $this->hasMany('App\Models\Eloquent\Submission','pid','pid');

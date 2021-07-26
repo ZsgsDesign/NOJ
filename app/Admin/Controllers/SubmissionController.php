@@ -2,7 +2,12 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Eloquent\Submission as EloquentSubmissionModel;
+use App\Models\Eloquent\Submission;
+use App\Models\Eloquent\Contest;
+use App\Models\Eloquent\Judger;
+use App\Models\Eloquent\Compiler;
+use App\Models\Eloquent\UserModel as User;
+use App\Models\Eloquent\Problem;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -23,8 +28,8 @@ class SubmissionController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Submissions')
-            ->description('all submissions')
+            ->header(__('admin.submissions.index.header'))
+            ->description(__('admin.submissions.index.description'))
             ->body($this->grid()->render());
     }
 
@@ -38,8 +43,8 @@ class SubmissionController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header('Submission Detail')
-            ->description('the detail of submissions')
+            ->header(__('admin.submissions.show.header'))
+            ->description(__('admin.submissions.show.description'))
             ->body($this->detail($id));
     }
 
@@ -53,8 +58,8 @@ class SubmissionController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit Submission')
-            ->description('edit the detail of submissions')
+            ->header(__('admin.submissions.edit.header'))
+            ->description(__('admin.submissions.edit.description'))
             ->body($this->form()->edit($id));
     }
 
@@ -67,8 +72,8 @@ class SubmissionController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create New Submission')
-            ->description('create a new submission')
+            ->header(__('admin.submissions.create.header'))
+            ->description(__('admin.submissions.create.description'))
             ->body($this->form());
     }
 
@@ -79,32 +84,52 @@ class SubmissionController extends Controller
      */
     protected function grid()
     {
-        $grid=new Grid(new EloquentSubmissionModel);
+        $grid=new Grid(new Submission);
         $grid->column('sid', "ID")->sortable();
-        $grid->time("Time");
-        $grid->memory("Memory");
-        $grid->verdict("Verdict")->display(function ($verdict) {
+        $grid->column("time", __('admin.submissions.time'))->display(function ($time) {
+            return __('admin.submissions.timeFormat', ['time'=>$time]);
+        });
+        $grid->column("memory", __('admin.submissions.memory'))->display(function ($memory) {
+            return __('admin.submissions.memoryFormat', ['memory'=>$memory]);
+        });
+        $grid->column('verdict', __('admin.submissions.verdict'))->display(function ($verdict) {
             return '<i class="fa fa-circle '.$this->color.'"></i> '.$verdict;
         });
-        $grid->language("Language");
-        $grid->submission_date("Submission Date")->display(function ($submission_date) {
+        $grid->column("language", __('admin.submissions.language'));
+        $grid->column("submission_date", __('admin.submissions.submission_date'))->display(function ($submission_date) {
             return date("Y-m-d H:i:s", $submission_date);
         });
-        ;
-        $grid->uid("UID");
-        $grid->cid("CID");
-        $grid->pid("PID");
-        $grid->jid("JID");
-        $grid->coid("COID");
-        $grid->score("Raw Score");
+        $grid->column("user_name", __('admin.submissions.user_name'))->display(function () {
+            return $this->user->name;
+        });
+        $grid->column("contest_name", __('admin.submissions.contest_name'))->display(function () {
+            if(!is_null($this->contest)) return $this->contest->name;
+        });
+        $grid->column("readable_name", __('admin.submissions.readable_name'))->display(function () {
+            return $this->problem->readable_name;
+        });
+        $grid->column("judger_name", __('admin.submissions.judger_name'))->display(function () {
+            return $this->judger_name;
+        });
+        $grid->column("share", __('admin.submissions.share'))->editable('select', [
+            0 => __('admin.submissions.disableshare'),
+            1 => __('admin.submissions.enableshare')
+        ]);
+        $grid->column("parsed_score", __('admin.submissions.parsed_score'))->display(function () {
+            return $this->parsed_score;
+        });
         $grid->filter(function (Grid\Filter $filter) {
             $filter->column(6, function ($filter) {
-                $filter->like('verdict');
+                $filter->like('verdict', __('admin.submissions.verdict'));
             });
             $filter->column(6, function ($filter) {
-                $filter->equal('cid', 'Contest ID');
-                $filter->equal('uid', 'User ID');
-                $filter->equal('pid', 'Problem ID');
+                $filter->equal('cid', __('admin.submissions.cid'))->select(Contest::all()->pluck('name', 'cid'));
+                $filter->equal('uid', __('admin.submissions.uid'))->select(User::all()->pluck('name', 'id'));
+                $filter->equal('pid', __('admin.submissions.pid'))->select(Problem::all()->pluck('readable_name', 'pid'));
+                $filter->equal('share', __('admin.submissions.share'))->select([
+                    0 => __('admin.submissions.disableshare'),
+                    1 => __('admin.submissions.enableshare')
+                ]);
             });
         });
         return $grid;
@@ -118,27 +143,26 @@ class SubmissionController extends Controller
      */
     protected function detail($id)
     {
-        $show=new Show(EloquentSubmissionModel::findOrFail($id));
+        $show=new Show(Submission::findOrFail($id));
         $show->sid('SID');
-        $show->time();
-        $show->memory();
-        $show->verdict();
-        $show->color();
-        $show->language();
-        $show->submission_date();
-        $show->remote_id();
-        $this->codify($show->solution(), $show->getModel()->compiler->lang);
+        $show->time(__('admin.submissions.time'));
+        $show->memory(__('admin.submissions.memory'));
+        $show->verdict(__('admin.submissions.verdict'));
+        $show->language(__('admin.submissions.language'));
+        $show->submission_date(__('admin.submissions.submission_date'));
+        $show->remote_id(__('admin.submissions.remote_id'));
+        $this->codify($show->solution(__('admin.submissions.solution')), $show->getModel()->compiler->lang);
         if (!blank($show->getModel()->compile_info)) {
             $this->codify($show->compile_info());
         }
-        $show->uid('UID');
-        $show->pid('PID');
-        $show->cid('CID');
-        $show->jid('JID');
-        $show->coid('COID');
-        $show->vcid('VCID');
-        $show->score();
-        $show->share()->using(['No','Yes']);
+        $show->uid(__('admin.submissions.uid'));
+        $show->pid(__('admin.submissions.pid'));
+        $show->cid(__('admin.submissions.cid'));
+        $show->jid(__('admin.submissions.jid'));
+        $show->coid(__('admin.submissions.coid'));
+        $show->vcid(__('admin.submissions.vcid'));
+        $show->score(__('admin.submissions.parsed_score'));
+        $show->share(__('admin.submissions.share'))->using([__('admin.submissions.disableshare'),__('admin.submissions.enableshare')]);
         return $show;
     }
 
@@ -184,22 +208,25 @@ class SubmissionController extends Controller
      */
     protected function form()
     {
-        $form=new Form(new EloquentSubmissionModel);
-        $form->model()->makeVisible('password');
+        $form=new Form(new Submission);
         $form->tab('Basic', function (Form $form) {
-            $form->display('sid');
-            $form->text('time')->rules('required');
-            $form->text('memory')->rules('required');
-            $form->text('verdict')->rules('required');
-            $form->text('color')->rules('required');
-            $form->text('language')->rules('required');
-            $form->display('submission_date');
-            $form->number('uid')->rules('required');
-            $form->number('cid');
-            $form->number('pid')->rules('required');
-            $form->number('jid')->rules('required');
-            $form->number('coid')->rules('required');
-            $form->number('score')->rules('required');
+            $form->display('sid', 'SID');
+            $form->text('time', __('admin.submissions.time'))->rules('required');
+            $form->text('memory', __('admin.submissions.memory'))->rules('required');
+            $form->text('verdict', __('admin.submissions.verdict'))->rules('required');
+            $form->text('color', __('admin.submissions.color'))->rules('required');
+            $form->textarea('language', __('admin.submissions.language'))->rules('required');
+            $form->display('submission_date', __('admin.submissions.submission_date'));
+            $form->select('uid', __('admin.submissions.uid'))->options(User::all()->pluck('name', 'id'))->required();
+            $form->select('cid', __('admin.submissions.cid'))->options(Contest::all()->pluck('name', 'cid'));
+            $form->select('pid', __('admin.submissions.pid'))->options(Problem::all()->pluck('readable_name', 'pid'))->rules('required');
+            $form->select('jid', __('admin.submissions.jid'))->options(Judger::all()->pluck('readable_name', 'jid'));
+            $form->select('coid', __('admin.submissions.coid'))->options(Compiler::all()->pluck('readable_name', 'coid'))->rules('required');
+            $form->number('score', __('admin.submissions.rawscore'))->rules('required');
+            $form->select('share', __('admin.submissions.share'))->options([
+                0 => __('admin.submissions.disableshare'),
+                1 => __('admin.submissions.enableshare')
+            ])->default(0)->rules('required');
         });
         return $form;
     }

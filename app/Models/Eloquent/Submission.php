@@ -35,6 +35,19 @@ class Submission extends Model
         return $this->belongsTo('App\Models\Eloquent\Problem', 'pid');
     }
 
+    public function judger()
+    {
+        return $this->belongsTo('App\Models\Eloquent\Judger', 'jid');
+    }
+
+    public function getJudgerNameAttribute()
+    {
+        if(!is_null($this->judger)){
+            return $this->judger->readable_name;
+        }
+        return '-';
+    }
+
     public function getNcodeAttribute()
     {
         $contest = $this->contest;
@@ -77,6 +90,16 @@ class Submission extends Model
     public function getLangAttribute()
     {
         return $this->compiler->lang;
+    }
+
+    public function getParsedScoreAttribute()
+    {
+        if(is_null($this->contest)) {
+            $tot_score=100;
+        } else {
+            $tot_score=$this->contest->problems->where('pid', $this->pid)->first()->points;
+        }
+        return round($this->score/$this->problem->tot_score*$tot_score,1);
     }
 
     public function getSubmissionDateParsedAttribute()

@@ -14,6 +14,11 @@ class Judger extends Model
         'oid', 'handle', 'password', 'available', 'using', 'user_id'
     ];
 
+    public function getReadableNameAttribute()
+    {
+        return $this->handle.' @ '.$this->oj->name;
+    }
+
     public static function column($key)
     {
         return Self::groupBy($key)->whereNotNull($key)->pluck($key)->toArray();
