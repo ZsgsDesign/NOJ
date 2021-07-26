@@ -283,4 +283,26 @@ return [
             'description'   => '创建一个新的训练场',
         ],
     ],
+    'dojophases' => [
+        'name'              => '阶层名',
+        'passline'          => '最少通过训练数',
+        'description'       => '描述',
+        'order'             => '排序',
+        'index' => [
+            'header'        => '训练阶层',
+            'description'   => '所有训练阶层列表',
+        ],
+        'show' => [
+            'header'        => '训练阶层详情',
+            'description'   => '查看训练阶层详情',
+        ],
+        'edit' => [
+            'header'        => '编辑训练阶层',
+            'description'   => '编辑训练阶层信息',
+        ],
+        'create' => [
+            'header'        => '创建新训练阶层',
+            'description'   => '创建一个新的训练阶层',
+        ],
+    ],
 ];

@@ -3,11 +3,6 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Eloquent\Dojo\Dojo;
-use App\Models\Eloquent\Contest;
-use App\Models\Eloquent\Judger;
-use App\Models\Eloquent\Compiler;
-use App\Models\Eloquent\UserModel as User;
-use App\Models\Eloquent\Problem;
 use App\Http\Controllers\Controller;
 use App\Models\Eloquent\Dojo\DojoPhase;
 use Encore\Admin\Controllers\HasResourceActions;

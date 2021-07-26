@@ -271,16 +271,38 @@ return [
             'description'   => 'all dojos',
         ],
         'show' => [
-            'header'        => 'Dojos Detail',
+            'header'        => 'Dojo Detail',
             'description'   => 'the detail of the dojo',
         ],
         'edit' => [
-            'header'        => 'Edit Dojos',
+            'header'        => 'Edit Dojo',
             'description'   => 'edit the detail of dojo',
         ],
         'create' => [
-            'header'        => 'Create New Dojos',
+            'header'        => 'Create New Dojo',
             'description'   => 'create a new dojo',
+        ],
+    ],
+    'dojophases' => [
+        'name'              => 'Name',
+        'passline'          => 'Minium Pass',
+        'description'       => 'Description',
+        'order'             => 'Order',
+        'index' => [
+            'header'        => 'Dojo Phases',
+            'description'   => 'all dojo phases',
+        ],
+        'show' => [
+            'header'        => 'Dojo Phase Detail',
+            'description'   => 'the detail of the dojo phase',
+        ],
+        'edit' => [
+            'header'        => 'Edit Dojo Phase',
+            'description'   => 'edit the detail of dojo phase',
+        ],
+        'create' => [
+            'header'        => 'Create New Dojo Phase',
+            'description'   => 'create a new dojo phase',
         ],
     ],
 ];
