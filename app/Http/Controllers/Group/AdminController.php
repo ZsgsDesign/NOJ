@@ -104,6 +104,13 @@ class AdminController extends Controller
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
         $member_list=$groupModel->userList($basic_info["gid"]);
         $group_notice=$groupModel->detailNotice($gcode);
+        // PHP 7.4 Fix
+        if(is_null($group_notice)){
+            $group_notice=[
+                'content'=>null,
+                'title'=>null,
+            ];
+        }
         return view('group.settings.member', [
             'page_title'=>"Group Setting Member",
             'site_title'=>config("app.name"),
