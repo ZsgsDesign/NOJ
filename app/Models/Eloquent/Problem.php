@@ -11,9 +11,7 @@ class Problem extends Model
 {
     protected $table='problem';
     protected $primaryKey='pid';
-    const DELETED_AT=null;
     const UPDATED_AT="update_date";
-    const CREATED_AT=null;
 
     public function getReadableNameAttribute()
     {
