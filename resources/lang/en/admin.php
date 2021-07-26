@@ -173,7 +173,7 @@ return [
         ],
         'show' => [
             'header'        => 'User Detail',
-            'description'   => 'the detail of users',
+            'description'   => 'the detail of the user',
         ],
         'edit' => [
             'header'        => 'Edit User',
