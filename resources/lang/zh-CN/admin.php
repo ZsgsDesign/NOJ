@@ -265,6 +265,10 @@ return [
         'passline'          => '最少解题数',
         'description'       => '描述',
         'precondition'      => '前置训练',
+        'totproblem'        => '题目总数',
+        'problems'          => '任务包含题目',
+        'problem'           => '题目',
+        'problemorder'      => '题目排序',
         'order'             => '排序',
         'index' => [
             'header'        => '训练任务',

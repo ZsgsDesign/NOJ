@@ -48,6 +48,11 @@ class Dojo extends Model
         return $precondition;
     }
 
+    public function getTotProblemAttribute()
+    {
+        return count($this->problems);
+    }
+
     public function setPreconditionAttribute($value)
     {
         $this->attributes['precondition'] = implode(',', $value);

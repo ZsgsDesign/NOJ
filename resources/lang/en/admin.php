@@ -265,6 +265,10 @@ return [
         'passline'          => 'Minium Solve',
         'description'       => 'Description',
         'precondition'      => 'Precondition',
+        'totproblem'        => 'Total Problems',
+        'problems'          => 'Dojo Problems',
+        'problem'           => 'Problem',
+        'problemorder'      => 'Problem Order',
         'order'             => 'Order',
         'index' => [
             'header'        => 'Dojo Tasks',

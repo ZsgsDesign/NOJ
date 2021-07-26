@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Models\Eloquent\Dojo\Dojo;
 use App\Http\Controllers\Controller;
 use App\Models\Eloquent\Dojo\DojoPhase;
+use App\Models\Eloquent\Problem;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -86,6 +87,9 @@ class DojoController extends Controller
         $grid->column("dojo_phase", __('admin.dojos.phase'))->display(function () {
             return $this->phase->name;
         });
+        $grid->column("totproblem", __('admin.dojos.totproblem'))->display(function () {
+            return $this->tot_problem;
+        });
         $grid->column("passline", __('admin.dojos.passline'));
         $grid->column("precondition", __('admin.dojos.precondition'))->display(function ($precondition) {
             $output='';
@@ -142,7 +146,11 @@ class DojoController extends Controller
             $form->select('dojo_phase_id', __('admin.dojos.phase'))->options(DojoPhase::all()->pluck('name', 'id'))->rules('required');
             $form->number('passline', __('admin.dojos.passline'))->default(0)->rules('required');
             $form->number('order', __('admin.dojos.order'))->default(0)->rules('required');
-            $form->multipleSelect('precondition')->options(Dojo::all()->pluck('name', 'id'));
+            $form->multipleSelect('precondition', __('admin.dojos.precondition'))->options(Dojo::all()->pluck('name', 'id'));
+            $form->hasMany('problems', __('admin.dojos.problems'), function (Form\NestedForm $form) {
+                $form->select('problem_id', __('admin.dojos.problem'))->options(Problem::all()->pluck('readable_name', 'pid'))->required();
+                $form->number('order', __('admin.dojos.problemorder'))->default(0)->required();
+            });
         });
         return $form;
     }
