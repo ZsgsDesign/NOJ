@@ -9,9 +9,6 @@ class Compiler extends Model
 {
     protected $table='compiler';
     protected $primaryKey='coid';
-    const DELETED_AT=null;
-    const UPDATED_AT=null;
-    const CREATED_AT=null;
 
     public function getReadableNameAttribute()
     {

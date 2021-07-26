@@ -5,7 +5,7 @@ namespace App\Models\Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class SolutionModel extends Model
+class Solution extends Model
 {
     protected $table='problem_solution';
     protected $primaryKey='psoid';

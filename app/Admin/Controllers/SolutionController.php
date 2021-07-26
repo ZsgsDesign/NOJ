@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Eloquent\SolutionModel as Solution;
+use App\Models\Eloquent\Solution;
 use App\Models\Eloquent\Problem;
 use App\Models\Eloquent\UserModel as User;
 use App\Http\Controllers\Controller;

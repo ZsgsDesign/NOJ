@@ -8,9 +8,6 @@ class ContestParticipant extends Model
 {
     protected $table='contest_participant';
     protected $primaryKey='cpid';
-    const DELETED_AT=null;
-    const UPDATED_AT=null;
-    const CREATED_AT=null;
 
     public function user()
     {

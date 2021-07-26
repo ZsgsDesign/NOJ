@@ -19,7 +19,7 @@ class DashboardController
             ['name' => __("admin.home.version"),     'value' => version()],
             ['name' => __("admin.home.latest"),      'value' => is_null($version)?'Failed to fetch latest version':$version["name"]],
             ['name' => __("admin.home.problems"),    'value' => \App\Models\Eloquent\Problem::count()],
-            ['name' => __("admin.home.solutions"),   'value' => \App\Models\Eloquent\ProblemSolutionModel::count()],
+            ['name' => __("admin.home.solutions"),   'value' => \App\Models\Eloquent\ProblemSolution::count()],
             ['name' => __("admin.home.submissions"), 'value' => \App\Models\Eloquent\Submission::count()],
             ['name' => __("admin.home.contests"),    'value' => \App\Models\Eloquent\Contest::count()],
             ['name' => __("admin.home.users"),       'value' => \App\Models\Eloquent\UserModel::count()],
@@ -65,6 +65,24 @@ class DashboardController
         if(!($installedVersion->isGreaterThan($requireVersion) || $installedVersion->getVersionString()===$requireVersion->getVersionString())){
             $envs[0]['icon'] = "close-circle";
             $envs[0]['color'] = "wemd-pink-text";
+        }
+
+        // Cache Driver Check
+        if(config('cache.default')!="redis"){
+            $envs[5]['icon'] = "close-circle";
+            $envs[5]['color'] = "wemd-pink-text";
+        }
+
+        // Session Driver Check
+        if(config('session.driver')!="redis"){
+            $envs[6]['icon'] = "close-circle";
+            $envs[6]['color'] = "wemd-pink-text";
+        }
+
+        // Queue Driver Check
+        if(config('queue.default')!="database"){
+            $envs[7]['icon'] = "close-circle";
+            $envs[7]['color'] = "wemd-pink-text";
         }
 
         // Locale Check

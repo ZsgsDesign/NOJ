@@ -10,9 +10,6 @@ class ContestProblem extends Model
     protected $table='contest_problem';
     protected $primaryKey='cpid';
     public $timestamps = null;
-    const DELETED_AT=null;
-    const UPDATED_AT=null;
-    const CREATED_AT=null;
 
     protected $fillable = [
         'number', 'ncode', 'pid', 'alias', 'points'

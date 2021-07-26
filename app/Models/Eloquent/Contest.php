@@ -12,9 +12,6 @@ class Contest extends Model
 {
     protected $table='contest';
     protected $primaryKey='cid';
-    const DELETED_AT=null;
-    const UPDATED_AT=null;
-    const CREATED_AT=null;
 
     public function getParsedRuleAttribute()
     {
@@ -162,7 +159,7 @@ class Contest extends Model
     public static function getProblemSet($cid, $renderLatex=false)
     {
         $ret=[];
-        $problemset=ContestProblemModel::where('cid', $cid)->orderBy('number','asc')->get();
+        $problemset=ContestProblem::where('cid', $cid)->orderBy('number','asc')->get();
         foreach($problemset as $problem){
             $problemDetail=ProblemModel::find($problem->pid);
             $problemRet=(new OutdatedProblemModel())->detail($problemDetail->pcode);
