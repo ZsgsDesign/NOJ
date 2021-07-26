@@ -47,8 +47,15 @@ class IndexController extends Controller
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
         $member_list=$groupModel->userList($basic_info["gid"]);
         $group_notice=$groupModel->groupNotice($basic_info["gid"]);
-        $contest_list=$contestModel->listByGroup($basic_info["gid"])['contest_list'];
-        $paginator=$contestModel->listByGroup($basic_info["gid"])['paginator'];
+        // PHP 7.4 Fix
+        $groupContest=$contestModel->listByGroup($basic_info["gid"]);
+        if(is_null($groupContest)){
+            $contest_list=null;
+            $paginator=null;
+        } else {
+            $contest_list=$contestModel->listByGroup($basic_info["gid"])['contest_list'];
+            $paginator=$contestModel->listByGroup($basic_info["gid"])['paginator'];
+        }
         return view('group.detail', [
             'page_title'=>"Group Detail",
             'site_title'=>config("app.name"),
