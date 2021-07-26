@@ -130,7 +130,7 @@ class SolutionController extends Controller
         $form->tab('Basic', function(Form $form) {
             $form->display("psoid");
             $form->select('uid', 'Author')->options(User::all()->pluck('name', 'id'))->required();
-            $form->select('pid', 'Problem')->options(Problem::all()->pluck('pcode', 'pid'))->required();
+            $form->select('pid', 'Problem')->options(Problem::all()->pluck('readable_name', 'pid'))->required();
             $form->simplemde("content")->rules('required');
             $form->select("audit")->options([
                 '0'   => 'Waiting',

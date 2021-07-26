@@ -205,7 +205,7 @@ class ContestController extends Controller
                     $ncodeArr[$alpha]=$alpha;
                 }
                 $form->select('ncode', 'Problem Alphabetical Index')->options($ncodeArr)->default("A")->required();
-                $form->select('pid', 'Problem')->options(Problem::all()->pluck('pcode', 'pid'))->required();
+                $form->select('pid', 'Problem')->options(Problem::all()->pluck('readable_name', 'pid'))->required();
                 $form->text('alias', 'Problem Alias Title');
                 $form->number('points', 'Points Value')->default(100)->required();
             });
