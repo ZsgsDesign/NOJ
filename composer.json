@@ -65,7 +65,7 @@
         "npm-asset/simplemde": "^1.11",
         "oomphinc/composer-installers-extender": "^2.0",
         "orangehill/iseed": "^2.6",
-        "phar-io/version": "^3.0",
+        "phar-io/version": "^2.0",
         "predis/predis": "^1.1",
         "rmccue/requests": "^1.7",
         "sebastian/version": "^2.0",
@@ -78,7 +78,7 @@
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^2.0",
-        "phpunit/phpunit": "^7.5"
+        "phpunit/phpunit": "^9.0"
     },
     "config": {
         "optimize-autoloader": true,
