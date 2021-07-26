@@ -9,6 +9,10 @@ class Dojo extends Model
 {
     use SoftDeletes;
 
+    protected $fillable=[
+        'name', 'description', 'dojo_phase_id', 'passline', 'precondition', 'order'
+    ];
+
     public function phase()
     {
         return $this->belongsTo('App\Models\Eloquent\Dojo\DojoPhase', 'dojo_phase_id');
