@@ -1311,7 +1311,7 @@ class ContestModel extends Model
             return 0;
         }
 
-        if ($userInfo["role"]==3) {
+        if (!is_null($userInfo) && $userInfo["role"]==3) {
             return 3;
         }
 
