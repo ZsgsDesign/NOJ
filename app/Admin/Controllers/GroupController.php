@@ -3,12 +3,15 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Eloquent\Group;
+use App\Models\Eloquent\UserModel as User;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Support\MessageBag;
+use App\Models\Eloquent\GroupMember;
 
 class GroupController extends Controller
 {
@@ -124,10 +127,10 @@ class GroupController extends Controller
         $form=new Form(new Group);
         $form->model()->makeVisible('password');
         $form->tab('Basic', function(Form $form) {
-            $form->text('gcode')->rules('required');
-            $form->text('name')->rules('required');
+            $form->text('gcode')->rules('required|alpha_dash|min:3|max:50');
+            $form->text('name')->rules('required|min:3|max:50');
             $form->switch('public')->default(true);
-            $form->textarea('description');
+            $form->textarea('description')->rules('nullable|max:60000');
             $form->select('join_policy', 'Join Policy')->options([
                 0 => "Cannot Join",
                 1 => "Invite Only",
@@ -135,6 +138,34 @@ class GroupController extends Controller
                 3 => "Invite & Apply"
             ])->default(1);
             $form->image('img', 'Custom Group Focus Image')->uniqueName()->move("static/img/group");
+            if ($form->isCreating()) {
+                $form->select('leader_uid', 'Group Leader')->options(User::all()->pluck('name', 'id'))->required();
+            }
+            $form->ignore(['leader_uid']);
+            $form->saving(function (Form $form){
+                $err = function ($msg, $title = 'Error occur.') {
+                    $error = new MessageBag([
+                        'title'   => $title,
+                        'message' => $msg,
+                    ]);
+                    return back()->with(compact('error'));
+                };
+                $gcode = $form->gcode;
+                $g = Group::where('gcode',$gcode)->first();
+                //check gcode has been token.
+                $gid = $form->pid ?? null;
+                if(!empty($gcode) && !blank($g) && $g->gid != $gid){
+                    $err('Gcode has been token', 'Error occur.');
+                }
+            });
+            $form->saved(function (Form $form) {
+                $form->model()->members()->saveMany([new GroupMember([
+                    'gid' => $form->model()->gid,
+                    'uid' => request('leader_uid'),
+                    'role' => 3,
+                    'ranking' => 1500,
+                ])]);
+            });
         });
         return $form;
     }
