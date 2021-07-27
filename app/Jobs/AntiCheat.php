@@ -8,6 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use App\Models\Eloquent\Contest as EloquentContestModel;
 use App\Models\Eloquent\UserModel as EloquentUserModel;
 use Imtigger\LaravelJobStatus\Trackable;
@@ -134,7 +135,8 @@ class AntiCheat implements ShouldQueue
         $process->setWorkingDirectory(Storage::path('contest'.DIRECTORY_SEPARATOR.'anticheat'.DIRECTORY_SEPARATOR.$cid.DIRECTORY_SEPARATOR.'raw'.DIRECTORY_SEPARATOR.$prob.DIRECTORY_SEPARATOR.$lang));
         $process->run();
         if (!$process->isSuccessful()) {
-            Log::error("Cannot Compare $lang $cid $prob");
+            Log::error("Cannot Compare Problem $prob of Contest $cid, Languages $lang");
+            throw new ProcessFailedException($process);
         }
         // Log::debug($process->getOutput());
         $this->incProgress($count);
