@@ -4805,10 +4805,10 @@
         },
         {
             "name": "npm-asset/pdfobject",
-            "version": "2.2.3",
+            "version": "2.2.6",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/pdfobject/-/pdfobject-2.2.3.tgz"
+                "url": "https://registry.npmjs.org/pdfobject/-/pdfobject-2.2.6.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -10979,5 +10979,5 @@
         "php": "^7.3"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }
