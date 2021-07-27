@@ -314,7 +314,27 @@
                 },
                 success : function(result){
                     if(result.data === 0){
-                        window.location = "{{ route('verification.resend') }}";
+                        // window.location = "{{ route('verification.resend') }}";
+                        $.ajax({
+                            url : '{{route('verification.resend')}}',
+                            type : 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success : function(result){
+                                alert('Email Sent');
+                            },
+                            error: function(xhr, type){
+                                switch(xhr.status) {
+                                    case 422:
+                                        alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                                        break;
+                                    default:
+                                        alert("Server Connection Error");
+                                }
+                            }
+                        });
+                        //end
                     }else{
                         error_tip('#email-tip','#email-tip-text','{{__('dashboard.setting.errorEmailFast')}}');
                         $('#send-email').attr('data-cooldown',result.data);
