@@ -701,15 +701,19 @@ class ContestModel extends Model
                         $totScore+=$prob_stat["solved"];
                     }
                 }
+
+                $nickName=DB::table("group_member")->where([
+                    "uid" => $s["uid"],
+                    "gid" => $contest_info["gid"]
+                ])->where("role", ">", 0)->first();
+
+                $nickName=is_null($nickName)?null:$nickName["nick_name"];
                 $ret[]=[
                     "uid" => $s["uid"],
                     "name" => DB::table("users")->where([
                         "id"=>$s["uid"]
                     ])->first()["name"],
-                    "nick_name" => DB::table("group_member")->where([
-                        "uid" => $s["uid"],
-                        "gid" => $contest_info["gid"]
-                    ])->where("role", ">", 0)->first()["nick_name"],
+                    "nick_name" => $nickName,
                     "score" => $totScore,
                     "penalty" => $totPen,
                     "problem_detail" => $prob_detail
@@ -748,15 +752,19 @@ class ContestModel extends Model
                     $totSolved+=$prob_stat["solved"];
                     $totScore+=intval($prob_stat["score_parsed"]);
                 }
+
+                $nickName=DB::table("group_member")->where([
+                    "uid" => $s["uid"],
+                    "gid" => $contest_info["gid"]
+                ])->where("role", ">", 0)->first();
+
+                $nickName=is_null($nickName)?null:$nickName["nick_name"];
                 $ret[]=[
                     "uid" => $s["uid"],
                     "name" => DB::table("users")->where([
                         "id"=>$s["uid"]
                     ])->first()["name"],
-                    "nick_name" => DB::table("group_member")->where([
-                        "uid" => $s["uid"],
-                        "gid" => $contest_info["gid"]
-                    ])->where("role", ">", 0)->first()["nick_name"],
+                    "nick_name" => $nickName,
                     "score" => $totScore,
                     "solved" => $totSolved,
                     "problem_detail" => $prob_detail
@@ -1699,15 +1707,18 @@ class ContestModel extends Model
                     $totScore+=$prob_stat["solved"];
                 }
 
+                $nickName=DB::table("group_member")->where([
+                    "uid" => $uid,
+                    "gid" => $contest_info["gid"]
+                ])->where("role", ">", 0)->first();
+                $nickName=is_null($nickName)?null:$nickName["nick_name"];
+
                 $ret[$id]=[
                     "uid" => $uid,
                     "name" => DB::table("users")->where([
                         "id"=>$uid
                     ])->first()["name"],
-                    "nick_name" => DB::table("group_member")->where([
-                        "uid" => $uid,
-                        "gid" => $contest_info["gid"]
-                    ])->where("role", ">", 0)->first()["nick_name"],
+                    "nick_name" => $nickName,
                     "score" => $totScore,
                     "penalty" => $totPen,
                     "problem_detail" => $prob_detail
@@ -1736,15 +1747,18 @@ class ContestModel extends Model
             $totSolved+=$prob_stat["solved"];
             $totScore+=intval($prob_stat["score_parsed"]);
 
+            $nickName=DB::table("group_member")->where([
+                "uid" => $uid,
+                "gid" => $contest_info["gid"]
+            ])->where("role", ">", 0)->first();
+            $nickName=is_null($nickName)?null:$nickName["nick_name"];
+
             $ret[$id]=[
                 "uid" => $uid,
                 "name" => DB::table("users")->where([
                     "id"=> $uid
                 ])->first()["name"],
-                "nick_name" => DB::table("group_member")->where([
-                    "uid" => $uid,
-                    "gid" => $contest_info["gid"]
-                ])->where("role", ">", 0)->first()["nick_name"],
+                "nick_name" => $nickName,
                 "score" => $totScore,
                 "solved" => $totSolved,
                 "problem_detail" => $prob_detail

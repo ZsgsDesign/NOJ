@@ -138,7 +138,7 @@ class AntiCheat implements ShouldQueue
             Log::error("Cannot Compare Problem $prob of Contest $cid, Languages $lang");
             throw new ProcessFailedException($process);
         }
-        // Log::debug($process->getOutput());
+        Log::info($process->getOutput());
         $this->incProgress($count);
         //afterWork
         $this->afterWork($cid, $prob, $lang, $process->getOutput());
@@ -167,7 +167,7 @@ class AntiCheat implements ShouldQueue
                 'prob'=>$prob,
                 'lang'=>$lang,
             ];
-            Log::debug($line);
+            Log::info($line);
         }
     }
 
