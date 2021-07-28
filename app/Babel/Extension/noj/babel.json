@@ -14,7 +14,8 @@
     "provider": {
         "submitter": "Submitter",
         "installer": "Installer",
-        "monitor": "Monitor"
+        "monitor": "Monitor",
+        "testrunner": "TestRunner"
     },
     "require": {
         "NOJ": "__cur__"
