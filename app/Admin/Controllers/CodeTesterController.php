@@ -22,16 +22,12 @@ class CodeTesterController extends Controller
      */
     public function tester(Content $content)
     {
+        $content=$content->header(__('admin.tester.tester.header'));
+        $content=$content->description(__('admin.tester.tester.description'));
         if (request()->isMethod('post')) {
-            return $content
-                ->header(__('admin.tester.tester.header'))
-                ->description(__('admin.tester.tester.description'))
-                ->body($this->run());
+            $content=$content->body($this->run());
         }
-        return $content
-            ->header(__('admin.tester.tester.header'))
-            ->description(__('admin.tester.tester.description'))
-            ->body($this->form());
+        return $content->body($this->form());
     }
 
     /**
@@ -56,6 +52,12 @@ class CodeTesterController extends Controller
         $form->select('coid', __('admin.tester.coid'))->options(Compiler::where(["oid"=>$oid])->get()->pluck('display_name', 'coid'))->rules('required');
         $form->textarea('solution', __('admin.tester.solution'))->rows(20)->rules('required');
         $form->action(route('admin.codetester.tester'));
+        $form->fill([
+            'oid'=>request()->oid,
+            'pid'=>request()->pid,
+            'coid'=>request()->coid,
+            'solution'=>request()->solution,
+        ]);
         $form->method('POST');
         $box->content($form);
         return $box;
@@ -83,7 +85,7 @@ class CodeTesterController extends Controller
         ]);
         $verdict=$runner->verdict;
         $boxRun = new Box(__('admin.tester.tester.run'));
-        $boxRun->style('success');
+        $boxRun->style('info');
         $verdictData=[];
         foreach($verdict['data'] as $v){
             $verdictData[]=[
