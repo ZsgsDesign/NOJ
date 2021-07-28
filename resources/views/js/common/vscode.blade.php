@@ -1,3 +1,4 @@
+<script src="/static/library/monaco-editor/min/vs/loader.js"></script>
 <script>
     window.addEventListener("load",function() {
         require.config({

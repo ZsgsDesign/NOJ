@@ -873,7 +873,6 @@
     <script src="/static/library/jquery/dist/jquery.min.js"></script>
     <script src="/static/library/popper.js/dist/umd/popper.min.js"></script>
     <script src="/static/library/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"></script>
-    <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
             tex2jax: {

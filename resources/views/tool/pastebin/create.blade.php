@@ -100,7 +100,6 @@
 @endsection
 
 @section('additionJS')
-    <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
 
     @component('js.common.vscode')
         editor = monaco.editor.create(document.getElementById('monaco'), {
