@@ -149,8 +149,8 @@ class BoardController extends Controller
             'clearance' => $clearance,
             'oj_detail' => $oj_detail,
             'editor_left_width'=>$editor_left_width,
-            'editor_theme'=>$editor_theme,
-            'editor_background_color'=>$editor_background_color,
+            'theme_config'=>$themeConfig,
+            'editor_themes'=>MonacoTheme::getAll(),
         ]);
     }
 

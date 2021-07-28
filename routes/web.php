@@ -231,6 +231,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.
         Route::post('change_password', 'AccountController@changePassword')->middleware('auth')->name('account_change_password');
         Route::post('check_email_cooldown', 'AccountController@checkEmailCooldown')->middleware('auth')->name('account_check_email_cooldown');
         Route::post('save_editor_width', 'AccountController@saveEditorWidth')->middleware('auth')->name('account_save_editor_width');
+        Route::post('save_editor_theme', 'AccountController@saveEditorTheme')->middleware('auth')->name('account.save.editortheme');
     });
 
     Route::group(['prefix' => 'abuse'], function () {

@@ -65,6 +65,9 @@ return [
             "unable"   => "提交不可用",
             "original" => "原始题目",
         ],
+        "theme" => [
+            "title"    => "当前主题：",
+        ],
     ],
     "discussion" => [
         "action"       => "发起讨论",

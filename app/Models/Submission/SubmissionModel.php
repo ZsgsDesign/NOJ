@@ -107,7 +107,7 @@ class SubmissionModel extends Model
         ], [
             "id" => "haskell",
             "extensions" => [".hs"],
-            "aliases" => ["Haskell"]
+            "aliases" => ["Haskell","haskell"]
         ], [
             "id" => "html",
             "extensions" => [".html", ".htm", ".shtml", ".xhtml", ".mdoc", ".jsp", ".asp", ".aspx", ".jshtm"],

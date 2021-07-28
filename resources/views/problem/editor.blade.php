@@ -428,6 +428,21 @@
             padding-right:0.25rem;
         }
 
+        #cur_theme_selector{
+            color: var(--wemd-purple);
+            /* transform: scale(0.9); */
+        }
+
+        #cur_theme_selector > i{
+            padding-right:0.25rem;
+        }
+
+        .theme-selector > i{
+            display: inline-block;
+            transform: scale(1.3);
+            padding-right: 1rem;
+        }
+
         .dropdown-item{
             cursor: pointer;
         }
@@ -462,7 +477,8 @@
             background-color: rgba(0, 0, 0, 0.2);
         }
 
-        .dropdown-menu .dropdown-item.lang-selector{
+        .dropdown-menu .dropdown-item.lang-selector,
+        .dropdown-menu .dropdown-item.theme-selector{
             flex-wrap: nowrap;
         }
 
@@ -749,7 +765,7 @@
             </slide-curtain>
             <middle-slider>
             </middle-slider>
-            <right-side style="background: {{$editor_background_color}};">
+            <right-side style="background: {{$theme_config['background']}};">
                 <div id="vscode_container" class="notranslate" style="width:100%;height:100%;">
                     <div id="monaco" style="width:100%;height:100%;"></div>
                 </div>
@@ -758,6 +774,16 @@
         <bottom-side>
             <a tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="top" @if($status["verdict"]=="Compile Error") title="Compile Info" data-content="{{$status["compile_info"]}}"@endif style="color: #7a8e97" id="verdict_info" class="{{$status["color"]}}"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">{{$status["verdict"]}} @if($status["verdict"]=="Partially Accepted")({{round($status["score"]/$detail["tot_score"]*$detail["points"])}})@endif</span></a>
             <div>
+                <div class="btn-group dropup">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_theme_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="MDI format-paint"></i> {{__('problem.editor.theme.title')}} {{$theme_config['name']}}
+                    </button>
+                    <div class="dropdown-menu cm-scrollable-menu">
+                        @foreach ($editor_themes as $et)
+                            <button class="dropdown-item theme-selector" data-themeid="{{$et['id']}}"><i class="MDI @if($et['id']==$theme_config['id']) checkbox-marked-circle wemd-purple-text @else checkbox-blank-circle-outline wemd-purple-text wemd-text-lighten-4 @endif"></i> {{$et['name']}}</button>
+                        @endforeach
+                    </div>
+                </div>
                 <button type="button" class="btn btn-secondary cm-active" id="problemBtn"> <i class="MDI book"></i></button>
                 <button type="button" class="btn btn-secondary cm-active" id="editorBtn"> <i class="MDI pencil"></i></button>
                 <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> {{__("problem.editor.history.button")}}</button>
@@ -894,7 +920,7 @@
         editor = monaco.editor.create(document.getElementById('monaco'), {
                 value: "{!!$submit_code!!}",
                 language: "@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['lang']}}@else{{'plaintext'}}@endif",
-                theme: "{{$editor_theme}}",
+                theme: "{{$theme_config['id']}}",
                 fontSize: 16,
                 formatOnPaste: true,
                 formatOnType: true,
@@ -1008,6 +1034,26 @@
             $("#cur_lang_selector").html($( this ).html());
             chosen_lang=$( this ).data("lcode");
             chosen_coid=$( this ).data("coid");
+        });
+
+        $( ".theme-selector" ).click(function() {
+            $('.theme-selector i').removeClass();
+            $('.theme-selector i').addClass('MDI checkbox-blank-circle-outline wemd-purple-text wemd-text-lighten-4');
+            $(this).children('i').removeClass();
+            $(this).children('i').addClass('MDI checkbox-marked-circle wemd-purple-text');
+            var themeid=$(this).data("themeid");
+            monaco.editor.setTheme(themeid);
+            $("#cur_theme_selector").html('<i class="MDI format-paint"></i> {{__('problem.editor.theme.title')}} '+$(this).text());
+            $.ajax({
+                url : '{{route("account.save.editortheme")}}',
+                type : 'POST',
+                data : {
+                    editor_theme : themeid
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
         });
 
         $( "#historyBtn" ).click(function(){

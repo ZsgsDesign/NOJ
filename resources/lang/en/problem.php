@@ -65,6 +65,9 @@ return [
             "unable"   => "Submit Unavailable",
             "original" => "Original Problem",
         ],
+        "theme" => [
+            "title"    => "THEME:",
+        ],
     ],
     "discussion" => [
         "action"       => "Post Discussion",

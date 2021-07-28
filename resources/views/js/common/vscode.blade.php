@@ -30,7 +30,7 @@
             }
         };
 
-        require(["vs/editor/editor.main"], function () {
+        require(["vs/editor/editor.main"], async function () {
             require([
                 'tokenizer/monaco-tokenizer',
                 'tokenizer/definitions/haskell',
@@ -38,7 +38,16 @@
                 MonacoAceTokenizer,
                 HaskellDefinition
             ){
-                monaco.languages.register({ id: 'haskell' });
+                monaco.languages.register({
+                    id: 'haskell',
+                    aliases: [
+                        "Haskell",
+                        "haskell"
+                    ],
+                    extensions: [
+                        ".hs"
+                    ]
+                });
                 MonacoAceTokenizer.registerRulesForLanguage('haskell', new HaskellDefinition.default);
                 monaco.languages.setLanguageConfiguration('haskell', {
                     comments: {
@@ -75,20 +84,25 @@
             var loadedThemes = null;
             var loadedThemesData = {};
 
-            fetch('/static/library/monaco-themes/themes/themelist.json')
+            async function initThemes() {
+                await fetch('/static/library/monaco-themes/themes/themelist.json')
                 .then(r => r.json())
-                .then(data => {
+                .then(async data => {
                     loadedThemes = data;
                     var themes = Object.keys(data);
-                    themes.forEach(theme => {
-                        fetch('/static/library/monaco-themes/themes/' + loadedThemes[theme] + '.json')
+                    await themes.reduce(async (promise, theme) => {
+                        await promise;
+                        const contents = await fetch('/static/library/monaco-themes/themes/' + loadedThemes[theme] + '.json')
                             .then(r => r.json())
                             .then(data => {
                                 loadedThemesData[theme] = data;
                                 monaco.editor.defineTheme(theme, data);
-                            });
-                    });
+                            });;
+                    }, Promise.resolve());
                 });
+            }
+
+            await initThemes();
 
             {{ $slot }}
         });

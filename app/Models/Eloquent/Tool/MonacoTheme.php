@@ -270,4 +270,8 @@ class MonacoTheme extends Model
         }
         return self::$theme[$id];
     }
+
+    public static function getAll(){
+        return self::$theme;
+    }
 }

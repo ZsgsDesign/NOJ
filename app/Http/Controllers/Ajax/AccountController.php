@@ -135,4 +135,24 @@ class AccountController extends Controller
         }
         return ResponseModel::success();
     }
+
+    public function saveEditorTheme(Request $request){
+        $input = $request->input();
+        $allow_change = ['editor_theme'];
+        foreach($input as $key => $value){
+            if(!in_array($key,$allow_change)){
+                return ResponseModel::error(1007);
+            }
+        }
+        $account_model = new AccountModel();
+        $user_id = Auth::user()->id;
+        foreach ($input as $key => $value) {
+            if(strlen($value) != 0){
+                $account_model->setExtra($user_id,$key,$value,0);
+            }else{
+                $account_model->setExtra($user_id,$key,null);
+            }
+        }
+        return ResponseModel::success();
+    }
 }
