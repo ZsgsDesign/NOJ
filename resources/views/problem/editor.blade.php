@@ -371,7 +371,7 @@
 
         left-side{
             overflow-y: scroll;
-            box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
+            /* box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px; */
             padding: 3rem;
             padding-top: 0;
         }
