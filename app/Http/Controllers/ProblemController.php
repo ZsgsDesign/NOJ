@@ -131,8 +131,10 @@ class ProblemController extends Controller
             ];
         }
 
-        $editor_left_width = $account->getExtra(Auth::user()->id, 'editor_left_width');
-        if(empty($editor_left_width)) $editor_left_width='40';
+        $accountExt = $account->getExtra(Auth::user()->id, ['editor_left_width', 'editor_theme', 'editor_background_color']);
+        $editor_left_width = isset($accountExt['editor_left_width'])?$accountExt['editor_left_width']:'40';
+        $editor_theme = isset($accountExt['editor_theme'])?$accountExt['editor_theme']:'vs-dark';
+        $editor_background_color = isset($accountExt['editor_background_color'])?$accountExt['editor_background_color']:'rgb(30,30,30)';
 
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.editor', [
                                             'page_title'=>$prob_detail["title"],
@@ -146,6 +148,8 @@ class ProblemController extends Controller
                                             'contest_mode'=> false,
                                             'oj_detail'=>$oj_detail,
                                             'editor_left_width'=>$editor_left_width,
+                                            'editor_theme'=>$editor_theme,
+                                            'editor_background_color'=>$editor_background_color,
                                         ]);
     }
 

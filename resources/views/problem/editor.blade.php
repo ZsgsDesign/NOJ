@@ -749,7 +749,7 @@
             </slide-curtain>
             <middle-slider>
             </middle-slider>
-            <right-side style="background: rgb(30, 30, 30);">
+            <right-side style="background: {{$editor_background_color}};">
                 <div id="vscode_container" class="notranslate" style="width:100%;height:100%;">
                     <div id="monaco" style="width:100%;height:100%;"></div>
                 </div>
@@ -894,7 +894,7 @@
         editor = monaco.editor.create(document.getElementById('monaco'), {
                 value: "{!!$submit_code!!}",
                 language: "@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['lang']}}@else{{'plaintext'}}@endif",
-                theme: "vs-dark",
+                theme: "{{$editor_theme}}",
                 fontSize: 16,
                 formatOnPaste: true,
                 formatOnType: true,
