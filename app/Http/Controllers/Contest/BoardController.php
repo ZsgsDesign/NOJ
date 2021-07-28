@@ -8,6 +8,7 @@ use App\Models\CompilerModel;
 use App\Models\Submission\SubmissionModel;
 use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
+use App\Models\Eloquent\Tool\MonacoTheme;
 use Illuminate\Http\Request;
 use Auth;
 use Redirect;
@@ -122,10 +123,12 @@ class BoardController extends Controller
             ];
         }
 
-        $accountExt = $accountModel->getExtra(Auth::user()->id, ['editor_left_width', 'editor_theme', 'editor_background_color']);
+        $accountExt = $accountModel->getExtra(Auth::user()->id, ['editor_left_width', 'editor_theme']);
         $editor_left_width = isset($accountExt['editor_left_width'])?$accountExt['editor_left_width']:'40';
         $editor_theme = isset($accountExt['editor_theme'])?$accountExt['editor_theme']:'vs-dark';
-        $editor_background_color = isset($accountExt['editor_background_color'])?$accountExt['editor_background_color']:'rgb(30,30,30)';
+        $themeConfig = MonacoTheme::getTheme($editor_theme);
+        $editor_theme = $themeConfig['id'];
+        $editor_background_color = $themeConfig['background'];
 
         return view('contest.board.editor', [
             'page_title'=>"Problem Detail",

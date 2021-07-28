@@ -8,6 +8,7 @@ use App\Models\CompilerModel;
 use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Eloquent\Tool\MonacoTheme;
 use JavaScript;
 use Auth;
 
@@ -131,10 +132,12 @@ class ProblemController extends Controller
             ];
         }
 
-        $accountExt = $account->getExtra(Auth::user()->id, ['editor_left_width', 'editor_theme', 'editor_background_color']);
+        $accountExt = $account->getExtra(Auth::user()->id, ['editor_left_width', 'editor_theme']);
         $editor_left_width = isset($accountExt['editor_left_width'])?$accountExt['editor_left_width']:'40';
         $editor_theme = isset($accountExt['editor_theme'])?$accountExt['editor_theme']:'vs-dark';
-        $editor_background_color = isset($accountExt['editor_background_color'])?$accountExt['editor_background_color']:'rgb(30,30,30)';
+        $themeConfig = MonacoTheme::getTheme($editor_theme);
+        $editor_theme = $themeConfig['id'];
+        $editor_background_color = $themeConfig['background'];
 
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.editor', [
                                             'page_title'=>$prob_detail["title"],

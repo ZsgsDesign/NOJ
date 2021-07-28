@@ -19,7 +19,6 @@ class AccountModel extends Model
         4     => 'location',
         5     => 'editor_left_width',
         6     => 'editor_theme',
-        7     => 'editor_background_color',
 
         1000  => 'github_id',
         1001  => 'github_email',
