@@ -117,6 +117,7 @@ return [
         'groups'            => 'Groups',
         'judgeserver'       => 'Judge Servers',
         'judger'            => 'Judge Agents',
+        'tester'            => 'Code Tester',
         'dojoCatg'          => 'Dojos',
         'dojos'             => 'Dojo Tasks',
         'dojophases'        => 'Dojo Phases',
@@ -366,6 +367,22 @@ return [
         ],
         'help' => [
             'markdown'      => 'Only a few Markdown syntax are supported here, like font styles.',
+        ],
+    ],
+    'tester' => [
+        'oj'                => 'OJ Platform',
+        'pid'               => 'Problem',
+        'coid'              => 'Compiler',
+        'solution'          => 'Solution',
+        'tester' => [
+            'header'        => 'Code Tester',
+            'description'   => 'write solution and get code test results',
+            'title'         => 'Submit Solution',
+            'run'           => 'Submission Verdict',
+        ],
+        'help' => [
+            'onlinejudge'   => 'Only BABEL Extension NOJ can be choosen.',
+            'installfirst'  => 'Please install BABEL Extension NOJ first.',
         ],
     ],
 ];

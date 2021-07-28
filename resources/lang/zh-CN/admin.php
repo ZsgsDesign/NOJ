@@ -117,6 +117,7 @@ return [
         'groups'            => '群组',
         'judgeserver'       => '评测机',
         'judger'            => '评测代理',
+        'tester'            => '代码测试器',
         'dojoCatg'          => '训练场',
         'dojos'             => '训练任务',
         'dojophases'        => '训练阶层',
@@ -366,6 +367,22 @@ return [
         ],
         'help' => [
             'markdown'      => '此处只有一小部分Markdown语法可用，如字体字形。',
+        ],
+    ],
+    'tester' => [
+        'oj'                => 'OJ平台',
+        'pid'               => '题目',
+        'coid'              => '编译器',
+        'solution'          => '代码',
+        'tester' => [
+            'header'        => '代码测试器',
+            'description'   => '编写代码并通过代码测试器获取调试结果',
+            'title'         => '提交代码',
+            'run'           => '测试结果',
+        ],
+        'help' => [
+            'onlinejudge'   => '仅可选择BABEL拓展包NOJ。',
+            'installfirst'  => '请首先安装BABEL拓展包NOJ。',
         ],
     ],
 ];
