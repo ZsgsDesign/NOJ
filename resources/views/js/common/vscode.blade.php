@@ -1,4 +1,5 @@
-<script src="/static/library/monaco-editor/min/vs/loader.js"></script>
+<script type="text/javascript" src="/static/library/monaco-themes/dist/monaco-themes.js"></script>
+<script type="text/javascript" src="/static/library/monaco-editor/min/vs/loader.js"></script>
 <script>
     window.addEventListener("load",function() {
         require.config({
@@ -70,6 +71,24 @@
                     }
                 });
             });
+
+            var loadedThemes = null;
+            var loadedThemesData = {};
+
+            fetch('/static/library/monaco-themes/themes/themelist.json')
+                .then(r => r.json())
+                .then(data => {
+                    loadedThemes = data;
+                    var themes = Object.keys(data);
+                    themes.forEach(theme => {
+                        fetch('/static/library/monaco-themes/themes/' + loadedThemes[theme] + '.json')
+                            .then(r => r.json())
+                            .then(data => {
+                                loadedThemesData[theme] = data;
+                                monaco.editor.defineTheme(theme, data);
+                            });
+                    });
+                });
 
             {{ $slot }}
         });

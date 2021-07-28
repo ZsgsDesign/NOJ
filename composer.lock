@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5985efb17ff961529e0c48f786ac9fdb",
+    "content-hash": "226cddfdfe204ea99b02d20bb3ba4144",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -4643,6 +4643,18 @@
             ]
         },
         {
+            "name": "npm-asset/fast-plist",
+            "version": "0.1.2",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/fast-plist/-/fast-plist-0.1.2.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
             "name": "npm-asset/fileicon-svg",
             "version": "1.0.0",
             "dist": {
@@ -4797,6 +4809,21 @@
             "dist": {
                 "type": "tar",
                 "url": "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.23.0.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "npm-asset/monaco-themes",
+            "version": "0.3.3",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/monaco-themes/-/monaco-themes-0.3.3.tgz"
+            },
+            "require": {
+                "npm-asset/fast-plist": ">=0.1.2,<0.2.0"
             },
             "type": "npm-asset",
             "license": [
