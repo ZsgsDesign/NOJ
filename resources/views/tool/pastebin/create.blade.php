@@ -127,9 +127,9 @@
             getWorkerUrl: function(workerId, label) {
                 return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
                 self.MonacoEnvironment = {
-                    baseUrl: '{{env('APP_URL')}}/static/library/monaco-editor/min/'
+                    baseUrl: '{{config('app.url')}}/static/library/monaco-editor/min/'
                 };
-                importScripts('{{env('APP_URL')}}/static/library/monaco-editor/min/vs/base/worker/workerMain.js');`
+                importScripts('{{config('app.url')}}/static/library/monaco-editor/min/vs/base/worker/workerMain.js');`
                 )}`;
             }
         };
