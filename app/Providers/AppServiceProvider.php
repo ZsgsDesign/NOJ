@@ -16,6 +16,8 @@ class AppServiceProvider extends ServiceProvider
         //
         if(config('app.multidomain')) {
             config(['app.url' => request()->root()]);
+            config(['filesystems.disks.public.url' => request()->root().'/storage']);
+            config(['filesystems.disks.NOJPublic.url' => request()->root()]);
         }
     }
 
