@@ -39,7 +39,7 @@
     }
 
     .table tbody tr:hover{
-        background:rgba(0,0,0,0.05);
+        /* background:rgba(0,0,0,0.05); */
     }
 
     .table thead th.cm-problem-header{
@@ -125,15 +125,34 @@
     }
 
     tr.gold{
-        background: #fff9c0;
+        background: var(--wemd-yellow-lighten-3);
     }
 
     tr.silver{
-        background: #f6f6f6;
+        background: var(--wemd-blue-grey-lighten-4);
     }
 
     tr.bronze{
-        background: #eddccf;
+        background: var(--wemd-orange-lighten-4);
+    }
+
+    .table td, .table th{
+        border: none;
+    }
+
+    .table tbody tr{
+        position: relative;
+    }
+
+    .table tbody tr::after{
+        content: '';
+        top: 0;
+        left: 0;
+        right: 0;
+        position: absolute;
+        background: rgba(0,0,0,.06);
+        height: 1px;
+        display: block;
     }
 
     .col-account{
@@ -148,30 +167,28 @@
     }
 </style>
 <div class="container-fluid mundb-standard-container">
-    <paper-card>
-        <h5 data-cid="{{$basic_info['cid']}}">{{$basic_info['name']}}</h5>
-        <div class="table-responsive">
-            <div class="text-center">
-                <div style="display:inline-block; width:40vw;">
-                    <form>
-                        <div class="form-group">
-                            <label for="gold-num" style="font-size:0.75rem; top:1rem; left: 0" class="bmd-label-floating">Gold medal</label>
-                            <input type="integer" style="text-align:center" class="form-control" id="gold-num" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="silver-num" style="font-size:0.75rem; top:1rem; left: 0" class="bmd-label-floating">Silver medal</label>
-                            <input type="integer" style="text-align:center" class="form-control" id="silver-num" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="bronze-num" style="font-size:0.75rem; top:1rem; left: 0" class="bmd-label-floating">Bronze medal</label>
-                            <input type="integer" style="text-align:center" class="form-control" id="bronze-num" required>
-                        </div>
-                        <button type="button" id="medal-confirm" class="btn btn-primary">Confirm</button>
-                    </form>
+    <div class="container">
+        <paper-card>
+            <h5 data-cid="{{$basic_info['cid']}}">{{$basic_info['name']}}</h5>
+            <div>
+                <div class="form-group">
+                    <label for="gold-num" class="bmd-label-floating">Gold Medal</label>
+                    <input type="integer" name="gold-num" class="form-control" id="gold-num" required>
+                </div>
+                <div class="form-group">
+                    <label for="silver-num" class="bmd-label-floating">Silver Medal</label>
+                    <input type="integer" name="silver-num" class="form-control" id="silver-num" required>
+                </div>
+                <div class="form-group">
+                    <label for="bronze-num" class="bmd-label-floating">Bronze Medal</label>
+                    <input type="integer" name="bronze-num" class="form-control" id="bronze-num" required>
+                </div>
+                <div class="text-right">
+                    <button type="button" id="medal-confirm" class="btn btn-primary">Confirm</button>
                 </div>
             </div>
-        </div>
-    </paper-card>
+        </paper-card>
+    </div>
 </div>
 <script>
     let ajaxing = false;
@@ -225,6 +242,10 @@
                                 members : members,
                                 submissions : submissions
                             })
+
+                            $('#nav-container').css('display','none');
+                            $('footer').css('display','none');
+                            $('.container-fluid').html(`<div class="table-responsive"></div>`).css('padding','0');
 
                             board.showInitBoard();
                             $('html').keydown(function(e) {
@@ -604,8 +625,12 @@
         },500);
 
         setTimeout(function(){
-            var speed = 100;
-            $(`tr#member-${uid} .cm-unknown.ncode-${mp.ncode}`).fadeOut(speed).fadeIn(speed).fadeOut(speed).fadeIn(speed, function() {
+            var speed = 150;
+            var fadeInOut = function(element, times, speed){
+                if(times==0) return element;
+                return fadeInOut(element, times-1, speed).fadeOut(speed).fadeIn(speed);
+            };
+            fadeInOut($(`tr#member-${uid} .cm-unknown.ncode-${mp.ncode}`), 4, speed).fadeOut(speed).fadeIn(speed, function() {
                 //callback 2
                 $(`tr#member-${uid} .cm-unknown.ncode-${mp.ncode}`).html(newHTML);
                 $(`tr#member-${uid} .cm-unknown.ncode-${mp.ncode}`).addClass('wemd-green-text');
@@ -639,7 +664,7 @@
                 $(`tr#member-${uid} td.penalty`).text(Math.round(member.penalty));
                 thisBoard.noAnimate = true;
             });
-        },600)
+        },600);
     }
 
     Board.prototype.moveMember = function(member,toPos) {

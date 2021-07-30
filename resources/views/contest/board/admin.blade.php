@@ -154,6 +154,22 @@
         border-radius: 2000px;
     }
 
+    beta-badge{
+        display: inline-block;
+        vertical-align: super;
+        border-radius: 2px;
+        background: #000;
+        opacity: 0.9;
+        color: #fff;
+        font-size: 0.5rem;
+        line-height: 1;
+        padding:0.1rem 0.25rem;
+        margin:0;
+        align-self: flex-start;
+        margin-left: 0.25rem;
+        font-variant: small-caps;
+    }
+
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
@@ -183,7 +199,7 @@
                 </ul> --}}
                 @if($verified && $basic['anticheated'])
                 <ul class="list-group bmd-list-group p-0">
-                    <a data-panel="anticheated" href="#" class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="showPanel('anticheated')"> {{__("contest.inside.admin.nav.anticheat")}}</a>
+                    <a data-panel="anticheated" href="#" class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="showPanel('anticheated')"> {{__("contest.inside.admin.nav.anticheat")}}<beta-badge class="wemd-teal">Beta</beta-badge></a>
                 </ul>
                 @endif
                 @if(time() >= strtotime($basic['begin_time']))
@@ -194,9 +210,9 @@
                 <ul class="list-group bmd-list-group p-0">
                     <button class="list-group-item admin-tab-text wemd-white wemd-lighten-4" id="downloaAllCode" download> {{__("contest.inside.admin.nav.download")}}</button>
                 </ul>
-                @if($is_end && $basic['froze_length'] != 0)
+                @if($is_end && $basic['froze_length'] != 0 && $basic['registration'] && $basic['rule']==1)
                 <ul class="list-group bmd-list-group p-0">
-                    <a href="/contest/{{$cid}}/scrollBoard" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> {{__("contest.inside.admin.nav.scrollboard")}}</a>
+                    <a href="/contest/{{$cid}}/scrollBoard" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> {{__("contest.inside.admin.nav.scrollboard")}}<beta-badge class="wemd-teal">Beta</beta-badge></a>
                 </ul>
                 @endif
             </div>

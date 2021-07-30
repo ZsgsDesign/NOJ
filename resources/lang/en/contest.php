@@ -110,7 +110,7 @@ return [
                 'anticheat'     => 'Anti Cheat',
                 'refreshrank'   => 'Refresh Contest Rank',
                 'download'      => 'Download All Code',
-                'scrollboard'   => 'Scroll Board (Beta)',
+                'scrollboard'   => 'Scroll Board',
             ],
             'account' => [
                 'prefix'        => 'Account Prefix',

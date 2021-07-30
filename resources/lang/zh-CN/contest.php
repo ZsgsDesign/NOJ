@@ -110,7 +110,7 @@ return [
                 'anticheat'     => '反作弊',
                 'refreshrank'   => '刷新比赛榜单',
                 'download'      => '下载选手代码',
-                'scrollboard'   => '滚榜（测试版）',
+                'scrollboard'   => '滚榜',
             ],
             'account' => [
                 'prefix'        => '账号前缀',

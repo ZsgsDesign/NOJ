@@ -1909,12 +1909,10 @@ class ContestModel extends Model
 
     public function getScrollBoardData($cid)
     {
-        $members = DB::table("submission")
-            ->join('users','users.id','=','submission.uid')
-            ->join('contest', 'contest.cid', '=', 'submission.cid')
-            ->join('group_member', 'users.id', '=', 'group_member.uid')
-            ->where('submission.cid', $cid)->select('users.id as uid','users.name as name','group_member.nick_name as nick_name')
-            ->groupBy('uid')->get()->all();
+        $members=DB::table("contest_participant")->where([
+            "cid"=>$cid,
+            "audit"=>1
+        ])->leftjoin('users','users.id','=','contest_participant.uid')->select('users.id as uid', 'users.name as name', DB::raw('NULL AS nick_name'))->get()->all();
         $submissions = DB::table("submission")
             ->where('cid', $cid)
             ->select('sid', 'verdict', 'submission_date', 'pid', 'uid')
