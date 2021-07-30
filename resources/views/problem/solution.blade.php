@@ -590,16 +590,7 @@
 @section("additionJS")
 @include("js.common.hljsLight")
 @include("js.common.markdownEditor")
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ['$$$','$$$'], ["\\(","\\)"] ],
-            processEscapes: true
-        },
-        showMathMenu: false
-    });
-</script>
-<script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+@include("js.common.mathjax")
 <script>
     var simplemde = createNOJMarkdownEditor({
         autosave: {

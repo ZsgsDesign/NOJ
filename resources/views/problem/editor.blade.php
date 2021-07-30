@@ -899,16 +899,7 @@
     <script src="/static/library/jquery/dist/jquery.min.js"></script>
     <script src="/static/library/popper.js/dist/umd/popper.min.js"></script>
     <script src="/static/library/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"></script>
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-            tex2jax: {
-                inlineMath: [ ['$$$','$$$'], ["\\(","\\)"] ],
-                processEscapes: true
-            },
-            showMathMenu: false
-        });
-    </script>
-    <script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    @include("js.common.mathjax")
     @include('layouts.primaryJS')
     @include('js.submission.detail')
 
