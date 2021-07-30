@@ -118,6 +118,12 @@ class AdminController extends Controller
         if($basicInfo['froze_length'] == 0){
             return Redirect::route('contest.admin', ['cid' => $cid]);
         }
+        if($basicInfo['registration'] == 0){
+            return Redirect::route('contest.admin', ['cid' => $cid]);
+        }
+        if($basicInfo['rule'] != 1){
+            return Redirect::route('contest.admin', ['cid' => $cid]);
+        }
         return view('contest.board.scrollBoard', [
             'page_title'=>"ScrollBoard",
             'navigation' => "Contest",
