@@ -249,6 +249,9 @@
                             $('.container-fluid').html(`<div class="table-responsive"></div>`).css('padding','0');
 
                             board.showInitBoard();
+                            if (!document.fullscreenElement) {
+                                document.documentElement.requestFullscreen();
+                            }
                             $('html').keydown(function(e) {
                                 if(e.keyCode == 13 && e.ctrlKey) {
                                     if(boardRunningIntervalID===null){
