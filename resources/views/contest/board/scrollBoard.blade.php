@@ -611,6 +611,7 @@
                 var toPos = this.updateMemberSequence();
                 this.updateMemberStatus(member,ncode);
                 if(toPos != -1){
+                    this.noAnimate = false;
                     this.moveMember(member,toPos);
                 }
             } else {
