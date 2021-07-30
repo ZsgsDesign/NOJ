@@ -544,7 +544,7 @@
                 if(mp != undefined){
                     if(mp.is_unkonwn){
                         $(`${this.selector} tbody tr#member-${member.uid}`).append(`
-                            <td class="col-problem"><span class="cm-unknown ncode-${mp.ncode}">${mp.tries} submit</span></td>
+                            <td class="col-problem"><span class="cm-unknown ncode-${mp.ncode}">${mp.tries} submit${mp.tries==1?'':'s'}</span></td>
                         `);
                     }else{
                         $(`${this.selector} tbody tr#member-${member.uid}`).append(`
