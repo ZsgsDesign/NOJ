@@ -9019,12 +9019,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/X3ZvaWQ/NOJ_simpleMDE.git",
-                "reference": "395d93af3ab2c3e8cc92013036d187fa73140e18"
+                "reference": "c4ed2fc8f9295b27472942fffe26dea8fd54e3b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/X3ZvaWQ/NOJ_simpleMDE/zipball/395d93af3ab2c3e8cc92013036d187fa73140e18",
-                "reference": "395d93af3ab2c3e8cc92013036d187fa73140e18",
+                "url": "https://api.github.com/repos/X3ZvaWQ/NOJ_simpleMDE/zipball/c4ed2fc8f9295b27472942fffe26dea8fd54e3b6",
+                "reference": "c4ed2fc8f9295b27472942fffe26dea8fd54e3b6",
                 "shasum": ""
             },
             "require": {
@@ -9063,7 +9063,7 @@
                 "issues": "https://github.com/X3ZvaWQ/NOJ_simpleMDE/issues",
                 "source": "https://github.com/X3ZvaWQ/NOJ_simpleMDE/tree/main"
             },
-            "time": "2021-02-23T07:46:05+00:00"
+            "time": "2021-07-30T09:28:17+00:00"
         },
         {
             "name": "zsgsdesign/noj-admin-clike-editor",
@@ -11006,5 +11006,5 @@
         "php": "^7.3"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }
