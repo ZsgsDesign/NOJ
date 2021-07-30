@@ -201,6 +201,7 @@
         ncodes : []
     };
     var board;
+    var boardRunningIntervalID=null;
 
     window.addEventListener("load",function() {
         $('#medal-confirm').on('click',function(){
@@ -249,7 +250,18 @@
 
                             board.showInitBoard();
                             $('html').keydown(function(e) {
-                                if (e.keyCode == 13) {
+                                if(e.keyCode == 13 && e.ctrlKey) {
+                                    if(boardRunningIntervalID===null){
+                                        boardRunningIntervalID = setInterval(function(){
+                                            board.keydown();
+                                        }, 500);
+                                    }
+                                    else {
+                                        clearInterval(boardRunningIntervalID);
+                                        boardRunningIntervalID=null;
+                                    }
+                                }
+                                else if (boardRunningIntervalID===null && e.keyCode == 13) {
                                     board.keydown();
                                 }
                             });
@@ -630,7 +642,7 @@
                 if(times==0) return element;
                 return fadeInOut(element, times-1, speed).fadeOut(speed).fadeIn(speed);
             };
-            fadeInOut($(`tr#member-${uid} .cm-unknown.ncode-${mp.ncode}`), 4, speed).fadeOut(speed).fadeIn(speed, function() {
+            fadeInOut($(`tr#member-${uid} .cm-unknown.ncode-${mp.ncode}`), 3, speed).fadeOut(speed).fadeIn(speed, function() {
                 //callback 2
                 $(`tr#member-${uid} .cm-unknown.ncode-${mp.ncode}`).html(newHTML);
                 $(`tr#member-${uid} .cm-unknown.ncode-${mp.ncode}`).addClass('wemd-green-text');
