@@ -449,7 +449,7 @@
         //push submission into their owner
         for (const key in this.submissions) {
             var submission = this.submissions[key];
-            this.members[submission.uid].submissions.push(submission);
+            if(typeof this.members[submission.uid] !== "undefined") this.members[submission.uid].submissions.push(submission);
         }
 
         //init member object, push member id into sequence
