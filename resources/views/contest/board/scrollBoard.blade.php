@@ -609,9 +609,9 @@
             var ncode = ret['ncode'];
             if (member) {
                 var toPos = this.updateMemberSequence();
-                this.updateMemberStatus(member,ncode);
-                if(toPos != -1){
-                    this.noAnimate = false;
+                var toPosCheck = (toPos != -1);
+                this.updateMemberStatus(member,ncode,toPosCheck);
+                if(toPosCheck){
                     this.moveMember(member,toPos);
                 }
             } else {
@@ -620,7 +620,7 @@
         }
     }
 
-    Board.prototype.updateMemberStatus = function(member,ncode) {
+    Board.prototype.updateMemberStatus = function(member,ncode,animateContinues) {
         var thisBoard = this;
         var uid = member.uid;
         var mp = member.submitProblemList[ncode];
@@ -678,7 +678,7 @@
                 }
                 $(`tr#member-${uid} td.solved`).text(member.solved);
                 $(`tr#member-${uid} td.penalty`).text(Math.round(member.penalty));
-                thisBoard.noAnimate = true;
+                if(!animateContinues) thisBoard.noAnimate = true;
             });
         },600);
     }
