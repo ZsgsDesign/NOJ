@@ -35,7 +35,8 @@
         text-align: center;
         font-size:1.25rem;
         font-weight: bold;
-        transition: .2s ease-out .0s;
+        transition: .5s ease-out .0s;
+        line-height: 1;
     }
 
     .table tbody tr:hover{
@@ -142,6 +143,7 @@
 
     .table tbody tr{
         position: relative;
+        height: 5rem;
     }
 
     .table tbody tr::after{
@@ -153,6 +155,11 @@
         background: rgba(0,0,0,.06);
         height: 1px;
         display: block;
+    }
+
+    .table tbody tr td:last-of-type,
+    .table thead tr th:last-of-type {
+        display: none;
     }
 
     .col-account{
@@ -226,15 +233,18 @@
                                 problems['map'][p['pid']] = p['ncode'];
                                 problems['ncodes'].push(p['ncode']);
                             }
-                            for (const m_key in result.data.members) {
-                                var member = result.data.members[m_key];
-                                members[member.uid] = new Member(member.uid, member.name, member.nick_name == null ? '' : member.nick_name);
-                            }
+                            problems['map'][-1] = 'HIDDEN';
+                            problems['ncodes'].push('HIDDEN');
+                            contest = result.data.contest;
                             for (const s_key in result.data.submissions) {
                                 var submission = result.data.submissions[s_key];
                                 submissions.push(new Submission(submission.sid, submission.uid, problems.map[submission.pid], submission.submission_date, submission.verdict));
                             }
-                            contest = result.data.contest;
+                            for (const m_key in result.data.members) {
+                                var member = result.data.members[m_key];
+                                members[member.uid] = new Member(member.uid, member.name, member.nick_name == null ? '' : member.nick_name);
+                                submissions.push(new Submission(-1, member.uid, problems.map[-1], Date.parse(contest.end_time)/1000, 'Place Holder'));
+                            }
                             board = new Board({
                                 selector : 'div.table-responsive',
                                 problemList : problems['ncodes'],
@@ -686,14 +696,14 @@
     Board.prototype.moveMember = function(member,toPos) {
         var thisBoard = this;
         setTimeout(function(){
-            $(`tr#member-${member.uid}`).fadeOut(400,function(){
+            $(`tr#member-${member.uid}`).fadeOut(1600,function(){
                 var trOffsetY = $(`tbody tr`).eq(toPos).offset().top - 400;
                 $('body,html').stop().animate({
                     scrollTop: trOffsetY
                 },500,function(){
                     setTimeout(function(){
                         $(`tbody tr`).eq(toPos).before($(`tr#member-${member.uid}`));
-                        $(`tr#member-${member.uid}`).fadeIn(400,function(){
+                        $(`tr#member-${member.uid}`).fadeIn(800,function(){
                             thisBoard.noAnimate = true;
                         });
                     },300);
