@@ -262,21 +262,30 @@
                             if (!document.fullscreenElement) {
                                 document.documentElement.requestFullscreen();
                             }
-                            $('html').keydown(function(e) {
-                                if(e.keyCode == 13 && e.ctrlKey) {
-                                    if(boardRunningIntervalID===null){
-                                        boardRunningIntervalID = setInterval(function(){
-                                            board.keydown();
-                                        }, 500);
+                            confirm({
+                                backdrop : "static",
+                                content : '<p>Please press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> for auto scrollboard.</p><p>If you want total control, press <kbd>Enter</kbd> once a single time.</p>',
+                                title: "Quick Guide",
+                                icon: "wrap",
+                                noText : 'close',
+                                yesText : 'ok'
+                            },function(deny){
+                                $('html').keydown(function(e) {
+                                    if(e.keyCode == 13 && e.ctrlKey) {
+                                        if(boardRunningIntervalID===null){
+                                            boardRunningIntervalID = setInterval(function(){
+                                                board.keydown();
+                                            }, 500);
+                                        }
+                                        else {
+                                            clearInterval(boardRunningIntervalID);
+                                            boardRunningIntervalID=null;
+                                        }
                                     }
-                                    else {
-                                        clearInterval(boardRunningIntervalID);
-                                        boardRunningIntervalID=null;
+                                    else if (boardRunningIntervalID===null && e.keyCode == 13) {
+                                        board.keydown();
                                     }
-                                }
-                                else if (boardRunningIntervalID===null && e.keyCode == 13) {
-                                    board.keydown();
-                                }
+                                });
                             });
                         }else{
                             alert(result.desc);
