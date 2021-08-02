@@ -132,6 +132,19 @@ return [
                 'alert'         => 'Code plagiarism detection currently in background, check status later.',
                 'downloadFile'  => ':name Code Plagiarism',
             ],
+            'scrollboard' => [
+                'guide' => [
+                    'title'     => 'Quick Guide',
+                    'content'   => '<p>Please press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> for auto scrollboard.</p><p>If you want total control, press <kbd>Enter</kbd> once a single time.</p>',
+                    'no'        => 'close',
+                    'yes'       => 'ok',
+                ],
+                'gold'          => 'Gold Medal',
+                'silver'        => 'Silver Medal',
+                'bronze'        => 'Bronze Medal',
+                'confirm'       => 'confirm',
+                'submits'       => 'submit(s)',
+            ],
         ],
     ],
 ];

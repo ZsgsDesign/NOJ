@@ -132,6 +132,19 @@ return [
                 'alert'         => '代码查重检测正在后台运行，请稍后访问本页面获取结果。',
                 'downloadFile'  => ':name 代码查重检测报告',
             ],
+            'scrollboard' => [
+                'guide' => [
+                    'title'     => '快速指南',
+                    'content'   => '<p>请按下 <kbd>Ctrl</kbd> + <kbd>Enter</kbd> 以开启自动滚榜。</p><p>如果您想要完全控制，每次按下 <kbd>Enter</kbd> 步进榜单。</p>',
+                    'no'        => '关闭',
+                    'yes'       => '确定',
+                ],
+                'gold'          => '金牌数量',
+                'silver'        => '银牌数量',
+                'bronze'        => '铜牌数量',
+                'confirm'       => '确认',
+                'submits'       => '提交',
+            ],
         ],
     ],
 ];

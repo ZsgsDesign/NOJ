@@ -179,19 +179,19 @@
             <h5 data-cid="{{$basic_info['cid']}}">{{$basic_info['name']}}</h5>
             <div>
                 <div class="form-group">
-                    <label for="gold-num" class="bmd-label-floating">Gold Medal</label>
+                    <label for="gold-num" class="bmd-label-floating">{{__('contest.inside.admin.scrollboard.gold')}}</label>
                     <input type="integer" name="gold-num" class="form-control" id="gold-num" required>
                 </div>
                 <div class="form-group">
-                    <label for="silver-num" class="bmd-label-floating">Silver Medal</label>
+                    <label for="silver-num" class="bmd-label-floating">{{__('contest.inside.admin.scrollboard.silver')}}</label>
                     <input type="integer" name="silver-num" class="form-control" id="silver-num" required>
                 </div>
                 <div class="form-group">
-                    <label for="bronze-num" class="bmd-label-floating">Bronze Medal</label>
+                    <label for="bronze-num" class="bmd-label-floating">{{__('contest.inside.admin.scrollboard.bronze')}}</label>
                     <input type="integer" name="bronze-num" class="form-control" id="bronze-num" required>
                 </div>
                 <div class="text-right">
-                    <button type="button" id="medal-confirm" class="btn btn-primary">Confirm</button>
+                    <button type="button" id="medal-confirm" class="btn btn-primary">{{__('contest.inside.admin.scrollboard.confirm')}}</button>
                 </div>
             </div>
         </paper-card>
@@ -264,11 +264,11 @@
                             }
                             confirm({
                                 backdrop : "static",
-                                content : '<p>Please press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> for auto scrollboard.</p><p>If you want total control, press <kbd>Enter</kbd> once a single time.</p>',
-                                title: "Quick Guide",
+                                content : "{!!__('contest.inside.admin.scrollboard.guide.content')!!}",
+                                title: "{{__('contest.inside.admin.scrollboard.guide.title')}}",
                                 icon: "wrap",
-                                noText : 'close',
-                                yesText : 'ok'
+                                noText : "{{__('contest.inside.admin.scrollboard.guide.no')}}",
+                                yesText : "{{__('contest.inside.admin.scrollboard.guide.yes')}}"
                             },function(deny){
                                 $('html').keydown(function(e) {
                                     if(e.keyCode == 13 && e.ctrlKey) {
@@ -298,7 +298,7 @@
                                 alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
                                 break;
                             case 429:
-                                alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                                alert(`Request too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
                                 break;
                             default:
                                 alert("{{__('errors.default')}}");
@@ -563,7 +563,7 @@
                 if(mp != undefined){
                     if(mp.is_unkonwn){
                         $(`${this.selector} tbody tr#member-${member.uid}`).append(`
-                            <td class="col-problem"><span class="cm-unknown ncode-${mp.ncode}">${mp.tries} submit${mp.tries==1?'':'s'}</span></td>
+                            <td class="col-problem"><span class="cm-unknown ncode-${mp.ncode}">${mp.tries} {{__('contest.inside.admin.scrollboard.submits')}}</span></td>
                         `);
                     }else{
                         $(`${this.selector} tbody tr#member-${member.uid}`).append(`
