@@ -121,7 +121,7 @@
                         alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
                         break;
                     default:
-                        alert("Server Connection Error");
+                        alert("{{__('errors.default')}}");
                 }
                 console.log('Ajax error while posting to ' + type);
                 ajaxing = false;

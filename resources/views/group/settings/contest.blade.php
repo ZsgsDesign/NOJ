@@ -452,7 +452,7 @@
                     }
                     ajaxing=false;
                 }, error: function(xhr, type){
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                 }
             });
@@ -516,7 +516,7 @@
                     $("#arrangeBtn > i").addClass("d-none");
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to arrangeContest!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                     $("#arrangeBtn > i").addClass("d-none");
                 }
@@ -645,7 +645,7 @@
                     $("#addProblemBtn > i").addClass("d-none");
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to problemExists!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     $('#addProblemModal').modal('toggle');
                     ajaxing=false;
                     $("#problemCode").val("");
@@ -689,7 +689,7 @@
                     }
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                 }
             });

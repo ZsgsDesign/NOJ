@@ -640,7 +640,7 @@
                         alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
                         break;
                     default:
-                        alert("Server Connection Error");
+                        alert("{{__('errors.default')}}");
                 }
                 console.log('Ajax error while posting to submitSolutionDiscussion!');
                 submitingSolutionDiscussion=false;
@@ -684,7 +684,7 @@
                         alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
                         break;
                     default:
-                        alert("Server Connection Error");
+                        alert("{{__('errors.default')}}");
                 }
                 console.log('Ajax error while posting to voteSolutionDiscussion!');
                 votingSolutionDiscussion=false;
@@ -728,7 +728,7 @@
                             alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
                             break;
                         default:
-                            alert("Server Connection Error");
+                            alert("{{__('errors.default')}}");
                     }
                     console.log('Ajax error while posting to updateSolutionDiscussion!');
                     updatingSolutionDiscussion=false;
@@ -769,7 +769,7 @@
                             alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
                             break;
                         default:
-                            alert("Server Connection Error");
+                            alert("{{__('errors.default')}}");
                     }
                     console.log('Ajax error while posting to deleteSolutionDiscussion!');
                     updatingSolutionDiscussion=false;

@@ -39,7 +39,7 @@
                         abusereporting=false;
                     }, error: function(xhr, type) {
                         console.log("Ajax error while posting to {{route('ajax.abuse.report')}}!");
-                        alert("Server Connection Error");
+                        alert("{{__('errors.default')}}");
                         abusereporting=false;
                     }
                 });

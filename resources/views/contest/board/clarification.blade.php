@@ -315,7 +315,7 @@
                         break;
 
                     default:
-                        alert("Server Connection Error");
+                        alert("{{__('errors.default')}}");
                 }
                 console.log('Ajax error while posting to ' + type);
                 sending=false;
@@ -364,7 +364,7 @@
                             break;
 
                         default:
-                            alert("Server Connection Error");
+                            alert("{{__('errors.default')}}");
                     }
                     console.log('Ajax error while posting to ' + type);
                     sending=false;
@@ -406,7 +406,7 @@
                         break;
 
                     default:
-                        alert("Server Connection Error");
+                        alert("{{__('errors.default')}}");
                 }
                 console.log('Ajax error while posting to ' + type);
                 sending=false;

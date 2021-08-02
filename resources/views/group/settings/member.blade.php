@@ -197,7 +197,7 @@
                     ajaxing=false;
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                 }
             });
@@ -234,7 +234,7 @@
                     ajaxing=false;
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                 }
             });
@@ -287,7 +287,7 @@
                     ajaxing=false;
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to joinGroup!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                 }
             });
@@ -323,7 +323,7 @@
                         }
                     }, error: function(xhr, type){
                         console.log('Ajax error');
-                        alert("Server Connection Error");
+                        alert("{{__('errors.default')}}");
                     }
                 });
             });
@@ -360,7 +360,7 @@
                     ajaxing=false;
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to joinGroup!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                 }
             });
@@ -419,7 +419,7 @@
                     ajaxing=false;
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to joinGroup!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                 }
             });
@@ -454,7 +454,7 @@
                     $("#noticeBtn > i").addClass("d-none");
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to arrangeContest!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                     $("#noticeBtn > i").addClass("d-none");
                 }
@@ -503,7 +503,7 @@
                         ajaxing=false;
                     }, error: function(xhr, type){
                         console.log('Ajax error while posting to joinGroup!');
-                        alert("Server Connection Error");
+                        alert("{{__('errors.default')}}");
                         ajaxing=false;
                     }
                 });
@@ -544,7 +544,7 @@
                     $("#joinGroup > i").addClass("d-none");
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to joinGroup!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                     $("#joinGroup > i").addClass("d-none");
                 }
@@ -576,7 +576,7 @@
                     $("#changeProfileBtn > i").addClass("d-none");
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to changeNickName!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                     $("#changeProfileBtn > i").addClass("d-none");
                 }

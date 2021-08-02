@@ -163,7 +163,7 @@
                                 ajaxing=false;
                             }, error: function(xhr, type){
                                 console.log('Ajax error');
-                                alert("Server Connection Error");
+                                alert("{{__('errors.default')}}");
                                 ajaxing=false;
                             }
                         });
@@ -213,7 +213,7 @@
                             ajaxing=false;
                         }, error: function(xhr, type){
                             console.log('Ajax error');
-                            alert("Server Connection Error");
+                            alert("{{__('errors.default')}}");
                             ajaxing=false;
                         }
                     });
