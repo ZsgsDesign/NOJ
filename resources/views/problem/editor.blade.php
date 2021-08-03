@@ -1009,7 +1009,7 @@
 
         $( "#verdict_info" ).click(function() {
             if($("#verdict_text").hasClass('cm-popover-decoration')){
-                alert('<pre class="mb-0" style="white-space: pre-wrap;">'+$("#verdict_info").attr('data-content')+'</pre>', $("#verdict_info").attr('title'),'bug');
+                alert('<pre class="mb-0" style="white-space: pre-wrap;">'+hljs.highlight('accesslog',$("#verdict_info").attr('data-content')).value+'</pre>', $("#verdict_info").attr('title'),'bug',"true");
             }
         });
 
