@@ -107,7 +107,7 @@ class ProblemModel extends Model
 
     public function ojs()
     {
-        return DB::table("oj")->orderBy('oid', 'asc')->limit(12)->get()->all();
+        return DB::table("oj")->orderBy('oid', 'asc')->get()->all();
     }
 
     public function ojdetail($oid)
