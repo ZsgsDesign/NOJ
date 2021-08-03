@@ -578,6 +578,7 @@
             border-bottom: dashed 1px currentColor;
             position: relative;
             top: -1px;
+            cursor: pointer;
         }
 
         @-webkit-keyframes cm-rotate{
