@@ -13,7 +13,7 @@ class BanUser extends Command
      *
      * @var string
      */
-    protected $signature = 'manage:ban {--uid=: the user you want to ban} {--time=: Unban time, Supports time that can be resolved by the strtotime method} {--reason=: reason}';
+    protected $signature = 'manage:ban {--uid= : the user you want to ban} {--time= : Unban time, Supports time that can be resolved by the strtotime method} {--reason= : reason}';
 
     /**
      * The console command description.
