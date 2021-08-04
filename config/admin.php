@@ -405,7 +405,7 @@ return [
         //     'guard'  => 'api',
 
         //     'user_retriever' => function ($id) {
-        //         return \App\User::find($id);
+        //         return \App\Models\Eloquent\User::find($id);
         //     },
         // ]
     ],

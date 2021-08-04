@@ -2,7 +2,6 @@
 
 namespace App\Admin\Controllers;
 
-use App\User;
 use App\Models\Eloquent\Abuse;
 use App\Models\Eloquent\Group;
 use App\Models\Eloquent\GroupBanned;

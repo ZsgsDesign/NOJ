@@ -12,10 +12,10 @@ class GroupBanned extends Model
     protected $fillable = ['group_id', 'abuse_id', 'reason', 'removed_at'];
 
     public function abuse() {
-        return $this->belongsTo('\App\Models\Eloquent\Abuse');
+        return $this->belongsTo('App\Models\Eloquent\Abuse');
     }
 
     public function group() {
-        return $this->belongsTo('\App\Models\Eloquent\Group',null,'gid');
+        return $this->belongsTo('App\Models\Eloquent\Group',null,'gid');
     }
 }

@@ -10,7 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use App\Models\Eloquent\Contest as EloquentContestModel;
-use App\Models\Eloquent\UserModel as EloquentUserModel;
+use App\Models\Eloquent\User;
 use Imtigger\LaravelJobStatus\Trackable;
 use Symfony\Component\Process\Process;
 use KubAT\PhpSimple\HtmlDomParser;
@@ -155,8 +155,8 @@ class AntiCheat implements ShouldQueue
             [$uid1,$sid1,$percentage]=sscanf($line[0], "[%d][%d].$lang consists for %d ");
             [$uid2,$sid2]=sscanf($line[1], " of [%d][%d].$lang material");
             if($uid1==$uid2) continue;
-            $username1=EloquentUserModel::find($uid1)->name;
-            $username2=EloquentUserModel::find($uid2)->name;
+            $username1=User::find($uid1)->name;
+            $username2=User::find($uid2)->name;
             $this->retArr[]=[
                 "sub1"=>"$sid1. [$prob][$username1]",
                 "sub2"=>"$sid2. [$prob][$username2]",

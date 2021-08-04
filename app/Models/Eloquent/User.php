@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models\Eloquent;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -10,6 +10,8 @@ use Laravel\Passport\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
+
+    protected $table='users';
 
     /**
      * The attributes that are mass assignable.
@@ -31,5 +33,9 @@ class User extends Authenticatable
 
     public function banneds() {
         return $this->hasMany('App\Models\Eloquent\UserBanned');
+    }
+
+    public function announcements() {
+        return $this->hasMany('App\Models\Eloquent\Announcement');
     }
 }

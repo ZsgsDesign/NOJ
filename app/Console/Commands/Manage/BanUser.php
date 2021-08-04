@@ -4,7 +4,7 @@ namespace App\Console\Commands\Manage;
 
 use Illuminate\Console\Command;
 use App\Models\Eloquent\UserBanned;
-use App\User;
+use App\Models\Eloquent\User;
 
 class BanUser extends Command
 {

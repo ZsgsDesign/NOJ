@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\Eloquent\Contest as EloquentContestModel;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use App\Models\Submission\SubmissionModel;
-use App\Models\Eloquent\UserModel as User;
+use App\Models\Eloquent\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Rating\RatingCalculator;

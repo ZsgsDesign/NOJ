@@ -3,7 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Eloquent\Announcement;
-use App\Models\Eloquent\UserModel as User;
+use App\Models\Eloquent\User;
 use App\Models\Eloquent\OJ;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Controllers\HasResourceActions;

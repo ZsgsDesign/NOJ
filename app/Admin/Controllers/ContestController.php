@@ -5,7 +5,7 @@ namespace App\Admin\Controllers;
 use App\Models\Eloquent\Contest;
 use App\Models\Eloquent\Problem;
 use App\Models\Eloquent\Group;
-use App\Models\Eloquent\UserModel as User;
+use App\Models\Eloquent\User;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;

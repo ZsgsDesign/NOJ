@@ -22,7 +22,7 @@ class DashboardController
             ['name' => __("admin.home.solutions"),   'value' => \App\Models\Eloquent\ProblemSolution::count()],
             ['name' => __("admin.home.submissions"), 'value' => \App\Models\Eloquent\Submission::count()],
             ['name' => __("admin.home.contests"),    'value' => \App\Models\Eloquent\Contest::count()],
-            ['name' => __("admin.home.users"),       'value' => \App\Models\Eloquent\UserModel::count()],
+            ['name' => __("admin.home.users"),       'value' => \App\Models\Eloquent\User::count()],
             ['name' => __("admin.home.groups"),      'value' => \App\Models\Eloquent\Group::count()],
         ];
 

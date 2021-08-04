@@ -22,7 +22,7 @@ class Submission extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\Eloquent\UserModel', 'uid');
+        return $this->belongsTo('App\Models\Eloquent\User', 'uid');
     }
 
     public function contest()

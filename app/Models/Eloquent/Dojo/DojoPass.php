@@ -21,7 +21,7 @@ class DojoPass extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\Eloquent\UserModel', 'user_id');
+        return $this->belongsTo('App\Models\Eloquent\User', 'user_id');
     }
 
     public static function isPassed($dojo_id)
