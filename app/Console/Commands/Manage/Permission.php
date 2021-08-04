@@ -121,6 +121,6 @@ class Permission extends Command
             ])->delete();
         }
 
-        $this->line("<fg=green>Revoked:  </>$permissionInfo");
+        $this->line("<fg=green>Revoked:   </>$permissionInfo");
     }
 }
