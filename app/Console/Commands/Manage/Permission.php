@@ -15,7 +15,7 @@ class Permission extends Command
      * @var string
      */
     protected $signature = 'manage:permission
-        {--action=list : specific action, can be list, permit or revoke}
+        {--action=list : specific action, can be list, grant or revoke}
         {--uid= : the user you want to manage permission}
         {--permission= : the permission id number, use list action to check all available permission ids}';
 
@@ -44,10 +44,10 @@ class Permission extends Command
     public function handle()
     {
         $uid=$this->option('uid');
-        $permission=$this->option('permission');
+        $permission_id=$this->option('permission');
         $action=$this->option('action');
 
-        if (!in_array($action, ['list', 'permit', 'revoke'])) {
+        if (!in_array($action, ['list', 'grant', 'revoke'])) {
             $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>Unknown Action</>\n");
             return;
         }
@@ -63,16 +63,16 @@ class Permission extends Command
             return;
         }
 
-        if(!isset(UserPermission::$permInfo[$permission])){
+        if(!isset(UserPermission::$permInfo[$permission_id])){
             $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>Unknown Permission</>\n");
             return;
         }
-        $permissionInfo=UserPermission::$permInfo[$permission];
+        $permissionInfo=UserPermission::$permInfo[$permission_id];
 
-        if($action=='permit'){
-            $this->permitPermission($uid, $permission, $permissionInfo);
+        if($action=='grant'){
+            $this->grantPermission($uid, $permission_id, $permissionInfo);
         }else{
-            $this->revokePermission($uid, $permission, $permissionInfo);
+            $this->revokePermission($uid, $permission_id, $permissionInfo);
         }
     }
 
@@ -86,13 +86,41 @@ class Permission extends Command
         $this->table($headers, $permInfo);
     }
 
-    protected function permitPermission($uid, $permission, $permissionInfo)
+    protected function grantPermission($uid, $permission_id, $permissionInfo)
     {
+        $this->line("<fg=yellow>Granting:  </>$permissionInfo");
 
+        $permissionExists=UserPermission::where([
+            'user_id' => $uid,
+            'permission_id' => $permission_id,
+        ])->count();
+
+        if(!$permissionExists){
+            UserPermission::create([
+                'user_id' => $uid,
+                'permission_id' => $permission_id,
+            ]);
+        }
+
+        $this->line("<fg=green>Granted:   </>$permissionInfo");
     }
 
-    protected function revokePermission($uid, $permission, $permissionInfo)
+    protected function revokePermission($uid, $permission_id, $permissionInfo)
     {
+        $this->line("<fg=yellow>Revoking:  </>$permissionInfo");
 
+        $permissionExists=UserPermission::where([
+            'user_id' => $uid,
+            'permission_id' => $permission_id,
+        ])->count();
+
+        if($permissionExists){
+            UserPermission::where([
+                'user_id' => $uid,
+                'permission_id' => $permission_id,
+            ])->delete();
+        }
+
+        $this->line("<fg=yellow>Revoked:  </>$permissionInfo");
     }
 }
