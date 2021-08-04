@@ -34,14 +34,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function () {
-            $babel=new Babel();
-            for ($i=1; $i<=12; $i++) {
-                $babel->judge();
-                sleep(5);
-            }
-            // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Synced Judger");
-        })->everyMinute()->description("Sync Judger");
 
         $schedule->call(function () {
             $rankModel=new RankModel();
