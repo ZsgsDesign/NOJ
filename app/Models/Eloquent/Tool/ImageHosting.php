@@ -18,15 +18,4 @@ class ImageHosting extends Model
     {
         return $this->belongsTo('App\Models\Eloquent\User', 'user_id');
     }
-
-    public static function generateCode($length=12)
-    {
-        $chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789';
-
-        $code='';
-        for ($i=0; $i<$length; $i++) {
-            $code.=$chars[mt_rand(0, strlen($chars)-1)];
-        }
-        return $code;
-    }
 }
