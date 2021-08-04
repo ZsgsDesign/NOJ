@@ -4,7 +4,6 @@ namespace App\Console\Commands\Babel;
 
 use Illuminate\Console\Command;
 use Exception;
-use function GuzzleHttp\json_decode;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 class Update extends Command
