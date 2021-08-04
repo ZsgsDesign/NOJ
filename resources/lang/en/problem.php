@@ -14,17 +14,17 @@ return [
     "memorylimit"      => "Memory Limit",
     "download"         => "Download",
     "section" => [
-        "description"  => "Description",
-        "input"        => "Input",
-        "output"       => "Output",
+        "description"  => "Description:",
+        "input"        => "Input:",
+        "output"       => "Output:",
         "sample" => [
-            "input"  => "Sample Input",
-            "output" => "Sample Output",
+            "input"  => "Sample Input:",
+            "output" => "Sample Output:",
             "copy"   => "Copy",
             "copied" => "Copied",
             "failed" => "Failed",
         ],
-        "note"         => "Note",
+        "note"         => "Note:",
     ],
     "action" => [
         "loginsubmit"  => "Login & Submit",

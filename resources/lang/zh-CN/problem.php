@@ -14,17 +14,17 @@ return [
     "memorylimit"      => "内存限制",
     "download"         => "下载",
     "section" => [
-        "description"  => "描述",
-        "input"        => "输入",
-        "output"       => "输出",
+        "description"  => "描述：",
+        "input"        => "输入：",
+        "output"       => "输出：",
         "sample" => [
-            "input"  => "样例输入",
-            "output" => "样例输出",
+            "input"  => "样例输入：",
+            "output" => "样例输出：",
             "copy"   => "复制",
             "copied" => "已复制",
             "failed" => "复制失败",
         ],
-        "note"         => "注释",
+        "note"         => "注释：",
     ],
     "action" => [
         "loginsubmit"  => "登录并提交",
