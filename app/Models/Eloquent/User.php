@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
+use PDO;
 
 class User extends Authenticatable
 {
@@ -37,5 +38,13 @@ class User extends Authenticatable
 
     public function announcements() {
         return $this->hasMany('App\Models\Eloquent\Announcement');
+    }
+
+    public function permissions() {
+        return $this->hasMany('App\Models\Eloquent\UserPermission');
+    }
+
+    public function hasPermission($permissionID){
+        return ($this->permissions()->where(['permission_id'=>$permissionID])->count())>0;
     }
 }
