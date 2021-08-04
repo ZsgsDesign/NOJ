@@ -19,6 +19,12 @@
 .modal-dialog-submission .table tbody tr:hover{
     background:transparent;
 }
+.modal-dialog-submission .cm-ce-decoration{
+    border-bottom: dashed 1px currentColor;
+    position: relative;
+    top: -1px;
+    cursor: pointer;
+}
 </style>
 <script>
     var fetchingSubmission=false;
@@ -61,7 +67,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="${ret.data.color}">${ret.data.verdict}</td>
+                                                <td class="${ret.data.color}"><span class="${ret.data.verdict=='Compile Error'?'cm-ce-decoration':''}">${ret.data.verdict}</span></td>
                                                 <td>${ret.data.time}ms</td>
                                                 <td>${ret.data.memory}kb</td>
                                                 <td>${ret.data.language}</td>
@@ -96,6 +102,13 @@
                     }
                     if(ret.data.owner){
                         $(`#submission${id} .modal-footer button:nth-of-type(2)`).removeClass("d-none");
+                    }
+                    if(ret.data.verdict=='Compile Error'){
+                        $(`#submission${id} .cm-ce-decoration`).attr('title',"Compile Info");
+                        $(`#submission${id} .cm-ce-decoration`).attr('data-content',ret.data.compile_info);
+                        $(`#submission${id} .cm-ce-decoration`).click(function() {
+                            alert('<pre class="mb-0" style="white-space: pre-wrap;">'+hljs.highlight('accesslog',$(this).attr('data-content')).value+'</pre>', $(this).attr('title'),'bug',"true");
+                        });
                     }
                 } else {
                     alert(ret.desc);
