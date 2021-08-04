@@ -139,9 +139,16 @@ Route::group(['namespace' => 'Tool', 'middleware' => ['contest_account', 'user.b
             Route::get('/create', 'PastebinController@create')->middleware('auth')->name('tool.pastebin.create');
             Route::get('/view/{$code}', 'PastebinController@view')->name('tool.pastebin.view');
         });
+        Route::group(['prefix' => 'imagehosting'], function () {
+            Route::redirect('/', '/tool/imagehosting/create', 301);
+            Route::get('/create', 'ImageHostingController@create')->middleware('auth')->name('tool.imagehosting.create');
+        });
         Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
             Route::group(['prefix' => 'pastebin'], function () {
                 Route::post('generate', 'PastebinController@generate')->middleware('auth')->name('tool.ajax.pastebin.generate');
+            });
+            Route::group(['prefix' => 'imagehosting'], function () {
+                Route::post('generate', 'ImageHostingController@generate')->middleware('auth')->name('tool.ajax.imagehosting.generate');
             });
         });
     });
