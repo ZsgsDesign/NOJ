@@ -11,7 +11,7 @@ class ImageHosting extends Model
     protected $primaryKey = 'id';
 
     protected $fillable=[
-        'user_id', 'code'
+        'user_id', 'relative_path'
     ];
 
     public function user()
