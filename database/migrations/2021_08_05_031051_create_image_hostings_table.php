@@ -16,7 +16,7 @@ class CreateImageHostingsTable extends Migration
         Schema::create('image_hostings', function (Blueprint $table) {
             $table->integer('id', true);
             $table->integer('user_id');
-            $table->string('code', 20)->nullable()->unique('code');
+            $table->string('code', 128)->nullable()->unique('code');
             $table->timestamps();
         });
     }
