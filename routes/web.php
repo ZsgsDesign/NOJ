@@ -136,16 +136,16 @@ Route::group(['namespace' => 'Tool', 'middleware' => ['contest_account', 'user.b
         Route::redirect('/', '/', 301);
         Route::group(['prefix' => 'pastebin'], function () {
             Route::redirect('/', '/tool/pastebin/create', 301);
-            Route::get('/create', 'PastebinController@create')->middleware('auth')->name('tool_pastebin_create');
-            Route::get('/view/{$code}', 'PastebinController@view')->name('tool_pastebin_view');
+            Route::get('/create', 'PastebinController@create')->middleware('auth')->name('tool.pastebin.create');
+            Route::get('/view/{$code}', 'PastebinController@view')->name('tool.pastebin.view');
         });
         Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
             Route::group(['prefix' => 'pastebin'], function () {
-                Route::post('generate', 'PastebinController@generate')->middleware('auth')->name('tool_ajax_pastebin_generate');
+                Route::post('generate', 'PastebinController@generate')->middleware('auth')->name('tool.ajax.pastebin.generate');
             });
         });
     });
-    Route::get('/pb/{code}', 'PastebinController@view')->name('tool_pastebin_view_shortlink');
+    Route::get('/pb/{code}', 'PastebinController@view')->name('tool.pastebin.view.shortlink');
 });
 
 Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.banned']], function () {
