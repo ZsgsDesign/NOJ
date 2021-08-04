@@ -293,6 +293,7 @@
                         <p class="mb-1"><a href="/status">{{__('footer.queue')}}</a></p>
                         <p class="mb-1"><a href="/system/info">{{__('navigation.systeminfo')}}</a></p>
                         <p class="mb-1"><a href="/tool/pastebin/create">{{__('navigation.pastebin')}}</a></p>
+                        <p class="mb-1"><a href="/tool/imagehosting/create">{{__('navigation.imagehosting')}}</a></p>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">

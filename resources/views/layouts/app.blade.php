@@ -275,6 +275,7 @@
                                     @endif
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/tool/pastebin/create"><i class="MDI content-paste"></i> {{__('navigation.pastebin')}}</a>
+                                    <a class="dropdown-item" href="/tool/imagehosting/create"><i class="MDI image-filter"></i> {{__('navigation.imagehosting')}}</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/system/info"><i class="MDI information-outline"></i> {{__('navigation.systeminfo')}}</a>
                                     <a class="dropdown-item" href="https://github.com/ZsgsDesign/NOJ/issues"><i class="MDI bug"></i> {{__('navigation.report')}}</a>
@@ -333,6 +334,7 @@
                         <p class="mb-1"><a href="/status">{{__('footer.queue')}}</a></p>
                         <p class="mb-1"><a href="/system/info">{{__('navigation.systeminfo')}}</a></p>
                         <p class="mb-1"><a href="/tool/pastebin/create">{{__('navigation.pastebin')}}</a></p>
+                        <p class="mb-1"><a href="/tool/imagehosting/create">{{__('navigation.imagehosting')}}</a></p>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">
