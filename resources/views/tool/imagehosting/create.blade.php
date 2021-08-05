@@ -68,7 +68,7 @@
     </div>
     <div>
         @if($permission)
-            <image-choser ondragenter="drag(this, event);" ondragover="drag(this, event);" ondrop="dragUpload(this, event)" onclick="uploadFile()">
+            <image-choser  class="animated jackInTheBox" ondragenter="drag(this, event);" ondragover="drag(this, event);" ondrop="dragUpload(this, event)" onclick="uploadFile()">
                 <empty-container>
                     <i class="MDI cloud-upload wemd-light-blue-text"></i>
                     <p>Drag & drop images here</p>
