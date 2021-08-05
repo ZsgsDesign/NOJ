@@ -88,21 +88,21 @@
     <div>
         <h1><img src="/static/img/icon/icon-imagehosting.png" style="height:5rem;"></h1>
         <h1>{{__('imagehosting.title')}}</h1>
-        <p class="text-center" style="margin: 3rem 0;"><a class="btn btn-primary btn-raised" href="{{route('tool.imagehosting.list')}}"><i class="MDI image-multiple"></i> View Your Uploaded Images</a></p>
+        <p class="text-center" style="margin: 3rem 0;"><a class="btn btn-primary btn-raised" href="{{route('tool.imagehosting.list')}}"><i class="MDI image-multiple"></i> {{__('imagehosting.create.button')}}</a></p>
     </div>
     <div>
         @if($permission)
             <image-choser class="animated jackInTheBox" ondragenter="enterDrag(this, event);" ondragover="enterDrag(this, event);" ondragleave="leaveDrag(this, event);" ondrop="dragUpload(this, event)" onclick="uploadFile()">
                 <empty-container>
                     <i class="MDI cloud-upload wemd-light-blue-text"></i>
-                    <p id="image_choser_tooltop"><i class="MDI autorenew cm-refreshing d-none"></i><span>Drag & drop images here</span></p>
+                    <p id="image_choser_tooltop"><i class="MDI autorenew cm-refreshing d-none"></i><span>{{__('imagehosting.create.tooltip.general')}}</span></p>
                 </empty-container>
             </image-choser>
             <input type="file" style="display:none" id="uploadFile" accept=".jpg,.png,.jpeg,.gif" onchange="fileChange(this, event);">
         @else
             <empty-container>
                 <i class="MDI key-remove"></i>
-                <p>{{__("imagehosting.denied")}}</p>
+                <p>{{__("imagehosting.create.denied")}}</p>
             </empty-container>
         @endif
     </div>
@@ -113,8 +113,8 @@
     @section('additionJS')
         <script>
             var generate_processing=false;
-            var general_tooltop="Drag & drop image here";
-            var uploading_tooltop="Uploading image...";
+            var general_tooltop="{{__('imagehosting.create.tooltip.general')}}";
+            var uploading_tooltop="{{__('imagehosting.create.tooltip.uploading')}}";
 
             function leaveDragHTML(event) {
                 var e = event || window.event;
@@ -146,10 +146,10 @@
 
             function changeTooltip(){
                 if(generate_processing){
-                    $("#image_choser_tooltop span").text(uploading_tooltop);
+                    $("#image_choser_tooltop span").html(uploading_tooltop);
                     $("#image_choser_tooltop i").removeClass('d-none');
                 }else{
-                    $("#image_choser_tooltop span").text(general_tooltop);
+                    $("#image_choser_tooltop span").html(general_tooltop);
                     $("#image_choser_tooltop i").addClass('d-none');
 
                 }

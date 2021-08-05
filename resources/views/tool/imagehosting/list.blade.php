@@ -22,12 +22,12 @@
     <div>
         <h1><img src="/static/img/icon/icon-imagehosting.png" style="height:5rem;"></h1>
         <h1>{{__('imagehosting.title')}}</h1>
-        <p class="text-center" style="margin: 3rem 0;"><a class="btn btn-primary btn-raised" href="{{route('tool.imagehosting.create')}}"><i class="MDI upload"></i> Upload New Image</a></p>
+        <p class="text-center" style="margin: 3rem 0;"><a class="btn btn-primary btn-raised" href="{{route('tool.imagehosting.create')}}"><i class="MDI upload"></i> {{__('imagehosting.list.button')}}</a></p>
     </div>
     @if(blank($images))
         <empty-container>
             <i class="MDI package-variant"></i>
-            <p>You haven't upload any image yet, press upload button above to upload your first image.</p>
+            <p>{{__('imagehosting.list.empty')}}</p>
         </empty-container>
     @else
         <div class="table-responsive text-nowrap">
@@ -35,8 +35,8 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Relative Path</th>
-                        <th scope="col">Upload Time</th>
+                        <th scope="col">{{__('imagehosting.list.path')}}</th>
+                        <th scope="col">{{__('imagehosting.list.time')}}</th>
                     </tr>
                 </thead>
                 <tbody>
