@@ -137,7 +137,7 @@ Route::group(['namespace' => 'Tool', 'middleware' => ['contest_account', 'user.b
         Route::group(['prefix' => 'pastebin'], function () {
             Route::redirect('/', '/tool/pastebin/create', 301);
             Route::get('/create', 'PastebinController@create')->middleware('auth')->name('tool.pastebin.create');
-            Route::get('/view/{$code}', 'PastebinController@view')->name('tool.pastebin.view');
+            Route::get('/view/{code}', 'PastebinController@view')->name('tool.pastebin.view');
         });
         Route::group(['prefix' => 'imagehosting'], function () {
             Route::redirect('/', '/tool/imagehosting/create', 301);
