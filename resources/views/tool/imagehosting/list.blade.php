@@ -30,7 +30,7 @@
             <p>{{__('imagehosting.list.empty')}}</p>
         </empty-container>
     @else
-        <div class="table-responsive text-nowrap">
+        <div class="table-responsive text-nowrap mb-5">
             <table class="table">
                 <thead>
                     <tr>
