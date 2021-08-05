@@ -59,8 +59,31 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
+        z-index: 999;
+    }
+
+    #image_choser_tooltop i{
+        font-size: inherit;
+        margin-right: 0.2rem;
+    }
+
+    noj-shader{
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        display: block;
+        transition: .2s ease-out .0s;
+        z-index: 998;
+        pointer-events: none;
+    }
+
+    .dragover noj-shader{
+        background: rgba(0,0,0,0.42);
     }
 </style>
+<noj-shader></noj-shader>
 <div class="container mundb-standard-container">
     <div>
         <h1><img src="/static/img/icon/icon-imagehosting.png" style="height:5rem;"></h1>
@@ -68,10 +91,10 @@
     </div>
     <div>
         @if($permission)
-            <image-choser  class="animated jackInTheBox" ondragenter="drag(this, event);" ondragover="drag(this, event);" ondrop="dragUpload(this, event)" onclick="uploadFile()">
+            <image-choser class="animated jackInTheBox" ondragenter="enterDrag(this, event);" ondragover="enterDrag(this, event);" ondragleave="leaveDrag(this, event);" ondrop="dragUpload(this, event)" onclick="uploadFile()">
                 <empty-container>
                     <i class="MDI cloud-upload wemd-light-blue-text"></i>
-                    <p>Drag & drop images here</p>
+                    <p id="image_choser_tooltop"><i class="MDI autorenew cm-refreshing d-none"></i><span>Drag & drop images here</span></p>
                 </empty-container>
             </image-choser>
             <input type="file" style="display:none" id="uploadFile" accept=".jpg,.png,.jpeg,.gif" onchange="fileChange(this, event);">
@@ -89,17 +112,71 @@
     @section('additionJS')
         <script>
             var generate_processing=false;
+            var general_tooltop="Drag & drop image here";
+            var uploading_tooltop="Uploading image...";
 
-            function drag(that, event) {
+            function leaveDragHTML(event) {
                 var e = event || window.event;
                 e.preventDefault();
                 e.stopPropagation();
+
+                $("html").removeClass("dragover");
+            };
+
+            function enterDragHTML(event) {
+                var e = event || window.event;
+                e.preventDefault();
+                e.stopPropagation();
+
+                $("html").addClass("dragover");
+            };
+
+            $("html")
+                .on("dragenter", enterDragHTML)
+                .on("dragover", enterDragHTML)
+                .on("dragleave", leaveDragHTML)
+                .on("drop", leaveDragHTML);
+
+            $("noj-shader")
+                .on("dragenter", enterDragHTML)
+                .on("dragover", enterDragHTML)
+                .on("dragleave", leaveDragHTML)
+                .on("drop", leaveDragHTML);
+
+            function changeTooltip(){
+                if(generate_processing){
+                    $("#image_choser_tooltop span").text(uploading_tooltop);
+                    $("#image_choser_tooltop i").removeClass('d-none');
+                }else{
+                    $("#image_choser_tooltop span").text(general_tooltop);
+                    $("#image_choser_tooltop i").addClass('d-none');
+
+                }
+            }
+
+            function enterDrag(that, event) {
+                var e = event || window.event;
+                e.preventDefault();
+                e.stopPropagation();
+
+                $("html").addClass("dragover");
+            }
+
+            function leaveDrag(that, event) {
+                var e = event || window.event;
+                e.preventDefault();
+                e.stopPropagation();
+
+                $("html").removeClass("dragover");
             }
 
             function dragUpload(that, event) {
                 var e = event || window.event;
                 e.preventDefault();
                 e.stopPropagation();
+
+                $("html").removeClass("dragover");
+
                 const files = e.dataTransfer.files;
                 prepUpload(files);
             }
@@ -107,18 +184,25 @@
             function prepUpload(files){
                 if(generate_processing) return alert('Already Processing');
                 else generate_processing=true;
+                changeTooltip();
                 console.log(files);
                 if (files.length == 0) {
+                    generate_processing=false;
+                    changeTooltip();
                     return;
                 }
                 if (files.length > 1) {
                     alert('Please upload one image at a time.');
                     $("#uploadFile").val('');
+                    generate_processing=false;
+                    changeTooltip();
                     return;
                 }
                 if (Array.prototype.some.call(files, function(file) {return !['image/jpeg', 'image/jpg', 'image/png', 'image/gif'].includes(file.type)})) {
                     alert('Image format not supported.');
                     $("#uploadFile").val('');
+                    generate_processing=false;
+                    changeTooltip();
                     return;
                 }
                 file=files[0];
@@ -138,12 +222,14 @@
                 if(file == undefined){
                     alert('Unknown File Selector Error.');
                     generate_processing=false;
+                    changeTooltip();
                     return;
                 }
 
                 if(file.size/1024 > 2048){ // 2mb max
                     alert('File Size Limit Exceed.');
                     generate_processing=false;
+                    changeTooltip();
                     return;
                 }
 
@@ -167,6 +253,7 @@
                             alert(result.desc, "Oops!");
                         }
                         generate_processing=false;
+                        changeTooltip();
                     },
                     error: function(xhr, type){
                         console.log('Ajax error!');
@@ -178,6 +265,7 @@
                                 alert("Something went wrong","Oops!");
                         }
                         generate_processing = false;
+                        changeTooltip();
                     }
                 });
             }
