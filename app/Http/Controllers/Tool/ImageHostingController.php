@@ -45,4 +45,20 @@ class ImageHostingController extends Controller
             'image' => $image,
         ]);
     }
+
+    /**
+     * Show the Image Hosting List Page.
+     *
+     * @return Response
+     */
+    public function list()
+    {
+        $images=Auth::user()->imagehostings()->orderBy('created_at', 'desc')->get();
+        return view('tool.imagehosting.list', [
+            'page_title' => "List",
+            'site_title' => "Image Hosting",
+            'navigation' => "Image Hosting",
+            'images' => $images,
+        ]);
+    }
 }

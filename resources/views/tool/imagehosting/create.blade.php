@@ -50,7 +50,7 @@
         border-radius: 12px;
         text-align: center;
         vertical-align: middle;
-        margin-top: 3rem;
+        margin-top: 0;
         margin-left: 2rem;
         margin-right: 2rem;
         margin-bottom: 1rem;
@@ -88,6 +88,7 @@
     <div>
         <h1><img src="/static/img/icon/icon-imagehosting.png" style="height:5rem;"></h1>
         <h1>{{__('imagehosting.title')}}</h1>
+        <p class="text-center" style="margin: 3rem 0;"><a class="btn btn-primary btn-raised" href="{{route('tool.imagehosting.list')}}"><i class="MDI image-multiple"></i> View Your Uploaded Images</a></p>
     </div>
     <div>
         @if($permission)

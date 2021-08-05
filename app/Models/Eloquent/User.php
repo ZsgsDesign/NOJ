@@ -44,6 +44,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Eloquent\UserPermission');
     }
 
+    public function imagehostings() {
+        return $this->hasMany('App\Models\Eloquent\Tool\ImageHosting');
+    }
+
     public function hasPermission($permissionID){
         return ($this->permissions()->where(['permission_id'=>$permissionID])->count())>0;
     }

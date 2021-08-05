@@ -142,6 +142,7 @@ Route::group(['namespace' => 'Tool', 'middleware' => ['contest_account', 'user.b
         Route::group(['prefix' => 'imagehosting'], function () {
             Route::redirect('/', '/tool/imagehosting/create', 301);
             Route::get('/create', 'ImageHostingController@create')->middleware('auth')->name('tool.imagehosting.create');
+            Route::get('/list', 'ImageHostingController@list')->middleware('auth')->name('tool.imagehosting.list');
             Route::redirect('/detail', '/tool/imagehosting/list', 301);
             Route::get('/detail/{id}', 'ImageHostingController@detail')->middleware('auth')->name('tool.imagehosting.detail');
         });
