@@ -18,4 +18,9 @@ class ImageHosting extends Model
     {
         return $this->belongsTo('App\Models\Eloquent\User', 'user_id');
     }
+
+    public function getAbsolutePathAttribute()
+    {
+        return url($this->relative_path);
+    }
 }

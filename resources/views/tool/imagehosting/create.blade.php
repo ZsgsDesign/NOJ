@@ -162,16 +162,7 @@
                     success : function(result){
                         console.log(result);
                         if(result.ret == 200){
-                            confirm({
-                                backdrop : "static",
-                                content : `<p>Image Absolute Address: <a href="${result.data.path}" target="_blank">${result.data.path}</a></p><p>Image Relative Address: <a href="${result.data.relative_path}" target="_blank">${result.data.relative_path}</a></p>`,
-                                title: "Image Hosting URL",
-                                icon: "image-filter",
-                                noText : "dismiss",
-                                yesText : "ok"
-                            },function(deny){
-
-                            });
+                            location.href=result.data.redirect_url;
                         }else{
                             alert(result.desc, "Oops!");
                         }

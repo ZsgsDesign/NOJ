@@ -23,4 +23,26 @@ class ImageHostingController extends Controller
             'permission' => Auth::user()->hasPermission(26)
         ]);
     }
+
+    /**
+     * Show the Image Hosting Detail Page.
+     *
+     * @return Response
+     */
+    public function detail($id)
+    {
+        $image=ImageHosting::find($id);
+        if(is_null($image)) {
+            return abort('404');
+        }
+        if(Auth::user()->id!=$image->user_id){
+            return abort('403');
+        }
+        return view('tool.imagehosting.detail', [
+            'page_title' => "Detail",
+            'site_title' => "Image Hosting",
+            'navigation' => "Image Hosting",
+            'image' => $image,
+        ]);
+    }
 }

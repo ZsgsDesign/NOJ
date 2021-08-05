@@ -35,13 +35,15 @@ class ImageHostingController extends Controller
         $allow_extension=['jpg', 'png', 'jpeg', 'gif', 'bmp'];
         if ($isValid && in_array($extension, $allow_extension)) {
             $path=$request->file('image')->store('/static/img/upload', 'NOJPublic');
-            ImageHosting::create([
+            $id = ImageHosting::create([
                 'user_id' => $user->id,
                 'relative_path' => "/$path"
-            ]);
+            ])->id;
             return ResponseModel::success(200, null, [
                 'relative_path' => "/$path",
                 'path' => url($path),
+                'id' => $id,
+                'redirect_url' => route('tool.imagehosting.detail', ['id'=>$id]),
             ]);
         } else {
             return ResponseModel::err(1005);
