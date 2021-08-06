@@ -11,6 +11,7 @@ return [
     'search'        => 'Omni Search',
     'dashboard'     => 'Dashboard',
     'settings'      => 'Settings',
+    'admin'         => 'Admin Portal',
     'pastebin'      => 'PasteBin',
     'imagehosting'  => 'Image Hosting',
     'systeminfo'    => 'System Info',

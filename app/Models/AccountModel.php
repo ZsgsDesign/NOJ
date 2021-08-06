@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Eloquent\User;
 use grubersjoe\BingPhoto;
 use Cache;
 use Storage;
@@ -137,7 +138,7 @@ class AccountModel extends Model
         $ret["professionalTitle"]=RankModel::getProfessionalTitle($ret["professional_rate"]);
         $ret["professionalTitleColor"]=RankModel::getProfessionalColor($ret["professionalTitle"]);
         // Administration Group
-        $ret["admin"]=$uid==1?1:0;
+        $ret["admin"]=User::find($uid)->hasPermission(1);
         if (Cache::tags(['bing', 'pic'])->get(date("Y-m-d"))==null) {
             $bing=new BingPhoto([
                 'locale' => 'zh-CN',

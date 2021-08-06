@@ -11,6 +11,7 @@ return [
     'search'        => '站内搜索',
     'dashboard'     => '个人主页',
     'settings'      => '设置',
+    'admin'         => '管理面板',
     'pastebin'      => '剪切板',
     'imagehosting'  => '图片托管',
     'systeminfo'    => '系统信息',

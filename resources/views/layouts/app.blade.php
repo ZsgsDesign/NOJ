@@ -267,11 +267,9 @@
                                     <a class="dropdown-item" href="/account/submissions"><i class="MDI airballoon"></i> Submissions</a>
                                     <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> Advanced Settings</a>
                                     -->
-                                    @if ("admin"===false)
-                                    <!--
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/admin"><i class="MDI view-dashboard"></i> Admin Tools</a>
-                                    -->
+                                    @if (Auth::user()->hasPermission(1))
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="/admin"><i class="MDI view-dashboard"></i> {{__('navigation.admin')}}</a>
                                     @endif
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/tool/pastebin/create"><i class="MDI content-paste"></i> {{__('navigation.pastebin')}}</a>
