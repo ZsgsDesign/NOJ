@@ -235,13 +235,13 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.
     });
 
     Route::group(['prefix' => 'account'], function () {
-        Route::post('update_avatar', 'AccountController@updateAvatar')->middleware('auth')->name('account_update_avatar');
-        Route::post('change_basic_info', 'AccountController@changeBasicInfo')->middleware('auth')->name('account_change_basic_info');
-        Route::post('change_extra_info', 'AccountController@changeExtraInfo')->middleware('auth')->name('account_change_extra_info');
-        Route::post('change_password', 'AccountController@changePassword')->middleware('auth')->name('account_change_password');
-        Route::post('check_email_cooldown', 'AccountController@checkEmailCooldown')->middleware('auth')->name('account_check_email_cooldown');
-        Route::post('save_editor_width', 'AccountController@saveEditorWidth')->middleware('auth')->name('account_save_editor_width');
-        Route::post('save_editor_theme', 'AccountController@saveEditorTheme')->middleware('auth')->name('account.save.editortheme');
+        Route::post('updateAvatar', 'AccountController@updateAvatar')->middleware('auth')->name('ajax.account.update.avatar');
+        Route::post('changeBasicInfo', 'AccountController@changeBasicInfo')->middleware('auth')->name('ajax.account.change.basicinfo');
+        Route::post('changeExtraInfo', 'AccountController@changeExtraInfo')->middleware('auth')->name('ajax.account.change.extrainfo');
+        Route::post('changePassword', 'AccountController@changePassword')->middleware('auth')->name('ajax.account.change.password');
+        Route::post('checkEmailCooldown', 'AccountController@checkEmailCooldown')->middleware('auth')->name('ajax.account.check.emailcooldown');
+        Route::post('saveEditorWidth', 'AccountController@saveEditorWidth')->middleware('auth')->name('ajax.account.save.editorwidth');
+        Route::post('saveEditorTheme', 'AccountController@saveEditorTheme')->middleware('auth')->name('ajax.account.save.editortheme');
     });
 
     Route::group(['prefix' => 'abuse'], function () {

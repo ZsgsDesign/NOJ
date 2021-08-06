@@ -961,7 +961,7 @@
             clearTimeout(saveWidthTimeout);
             saveWidthTimeout = setTimeout(function(){
                 $.ajax({
-                    url : '{{route("account_save_editor_width")}}',
+                    url : '{{route("ajax.account.save.editorwidth")}}',
                     type : 'POST',
                     data : {
                         editor_left_width : left_vw
@@ -1043,7 +1043,7 @@
             monaco.editor.setTheme(themeid);
             $("#cur_theme_selector").html('<i class="MDI format-paint"></i> {{__('problem.editor.theme.title')}} '+$(this).text());
             $.ajax({
-                url : '{{route("account.save.editortheme")}}',
+                url : '{{route("ajax.account.save.editortheme")}}',
                 type : 'POST',
                 data : {
                     editor_theme : themeid

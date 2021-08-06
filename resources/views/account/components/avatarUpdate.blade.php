@@ -74,7 +74,7 @@
             avatar_data.append('avatar',file);
 
             $.ajax({
-                url : '{{route("account_update_avatar")}}',
+                url : '{{route("ajax.account.update.avatar")}}',
                 type : 'POST',
                 data : avatar_data,
                 processData : false,

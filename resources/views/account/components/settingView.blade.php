@@ -183,7 +183,7 @@
                 return;
             }
             $.ajax({
-                url : '{{route("account_change_basic_info")}}',
+                url : '{{route("ajax.account.change.basicinfo")}}',
                 type : 'POST',
                 data : {
                     // username : username,
@@ -223,7 +223,7 @@
                 form_data[input.name] = input.value;
             })
             $.ajax({
-                url : '{{route("account_change_extra_info")}}',
+                url : '{{route("ajax.account.change.extrainfo")}}',
                 type : 'POST',
                 data : form_data,
                 headers: {
@@ -265,7 +265,7 @@
                 return;
             }
             $.ajax({
-                url : '{{route("account_change_password")}}',
+                url : '{{route("ajax.account.change.password")}}',
                 type : 'POST',
                 data : {
                     old_password : old_password,
@@ -307,7 +307,7 @@
                 return;
             }
             $.ajax({
-                url : '{{route("account_check_email_cooldown")}}',
+                url : '{{route("ajax.account.check.emailcooldown")}}',
                 type : 'POST',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
