@@ -378,8 +378,12 @@ img.cm-colorful-text {
 
 /* NOJ Theme Data */
 
-html[noj-theme="classic"] .bg-dark{
+html[noj-theme="default"] .bg-dark{
     background-color: #3E4551!important;
+}
+
+html[noj-theme="classic"] .bg-dark{
+    background-color: #424242!important;
 }
 
 html[noj-theme="indigo"] .bg-dark{

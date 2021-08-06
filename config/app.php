@@ -74,7 +74,9 @@ return [
     |
     */
 
-    'theme' => in_array(env('APP_THEME', 'classic'), ['classic','indigo']) ? env('APP_THEME', 'classic') : 'classic',
+    'theme' => in_array(env('APP_THEME', 'default'), [
+        'default', 'classic', 'indigo'
+    ]) ? env('APP_THEME', 'default') : 'default',
 
     /*
     |--------------------------------------------------------------------------
