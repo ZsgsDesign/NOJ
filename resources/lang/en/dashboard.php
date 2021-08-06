@@ -8,6 +8,7 @@ return [
     'listOfSolved' => 'List of solved problems',
     'emptySolved'  => 'Nothing Here',
     'reportAbuse'  => 'Report Abuse',
+    'waiting'      => 'waiting',
     'badges' => [
         'admin'           => 'Site Administrator',
         'contestaccount'  => 'Contest Account',
@@ -29,7 +30,7 @@ return [
     'setting' => [
         'baseInfo' => 'Basic info',
         'username' => 'username',
-        'tipUsername' => 'Changing the user name is not allowed for the time being',
+        'tipUsername' => 'changing the user name is not allowed for this account',
         'describes' => 'describes',
         'maxLength' => 'max length',
         'buttonUpdate' => 'update',

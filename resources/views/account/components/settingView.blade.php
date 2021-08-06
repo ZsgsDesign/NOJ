@@ -29,9 +29,9 @@
 <setting-card>
     <basic-info-section class="paper-card">
         <p>{{__('dashboard.setting.baseInfo')}}</p>
-        <div class="form-group" data-toggle="tooltip" data-placement="top" title="{{__('dashboard.setting.tipUsername')}}">
+        <div class="form-group" data-toggle="tooltip" data-placement="top" @if($info['contest_account']) title="{{__('dashboard.setting.tipUsername')}}" @endif>
             <label for="username" class="bmd-label-floating">{{__('dashboard.setting.username')}}</label>
-            <input type="text" name="username" class="form-control" value="{{ $info['name'] }}" id="username" maxlength="16" autocomplete="off" required disabled>
+            <input type="text" name="username" class="form-control" value="{{ $info['name'] }}" id="username" maxlength="16" autocomplete="off" required @if($info['contest_account']) disabled @endif>
         </div>
         <div class="form-group">
             <label for="describes" class="bmd-label-floating">{{__('dashboard.setting.describes')}}</label>
@@ -176,9 +176,9 @@
             }
             $(this).addClass('updating');
             slideUp('#basic-info-tip');
-            //var username = $('#username').val();
+            var username = $('#username').val();
             var describes = $('#describes').val();
-            if(/* username.length == 0 || username.length > 16 ||  */describes.length > 255){
+            if( username.length == 0 || username.length > 16 || describes.length > 255){
                 error_tip('#basic-info-tip','#basic-info-tip-text','{{__('dashboard.setting.errorInvalidLength')}}');
                 return;
             }
@@ -186,7 +186,7 @@
                 url : '{{route("ajax.account.change.basicinfo")}}',
                 type : 'POST',
                 data : {
-                    // username : username,
+                    username : username,
                     describes : describes,
                 },
                 headers: {
@@ -195,9 +195,9 @@
                 success : function(result){
                     if(result.ret == 200){
                         seccess_tip('#basic-info-tip','#basic-info-tip-text','Change Successfully')
-                        /* $('basic-section').find('h3').text(username);
+                        $('basic-section').find('h3').text(username);
                         $('#nav-username').text(username);
-                        $('#nav-dropdown-username').text(username); */
+                        $('#nav-dropdown-username').text(username);
                         $('#user-describes').text(describes);
                         $('#basic-info-update').removeClass('updating');
                         setTimeout(function(){
@@ -207,7 +207,20 @@
                         error_tip('#basic-info-tip','#basic-info-tip-text',result.desc);
                         $('#basic-info-update').removeClass('updating');
                     }
-                }
+                }, error: function(xhr, type){
+                        $('#basic-info-update').removeClass('updating');
+                        console.log(xhr);
+                        switch(xhr.status) {
+                            case 422:
+                                alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                                break;
+                            case 429:
+                                alert(`Request too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                                break;
+                            default:
+                                alert("{{__('errors.default')}}");
+                        }
+                    }
             });
         });
 

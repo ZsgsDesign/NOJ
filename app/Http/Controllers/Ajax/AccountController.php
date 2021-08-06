@@ -11,6 +11,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Auth;
 
 class AccountController extends Controller
@@ -44,20 +45,22 @@ class AccountController extends Controller
     }
 
     public function changeBasicInfo(Request $request){
-        // if(!$request->has('username')){
-        //     return ResponseModel::err(1003);
-        // }
-        // $username = $request->input('username');
+        $request->validate([
+            "username" => [
+                "required",
+                "string",
+                "max:16",
+                "min:1",
+                Rule::unique('users', 'name')->ignore(Auth::user()->id)
+            ],
+            "describes" => "required|string|max:255"
+        ]);
+        $username = $request->input('username');
         $describes = $request->input('describes');
-        if(strlen($describes) > 255){
-            return ResponseModel::err(1006);
-        }
-        // $old_username=Auth::user()->name;
-        // if($old_username != $username && !empty(UserModel::where('name',$username)->first())){
-        //     return ResponseModel::err(2003);
-        // }
         $user=Auth::user();
-        // $user->name = $username;
+        if(!Auth::user()->contest_account){
+            $user->name = $username;
+        }
         $user->describes = $describes;
         $user->save();
         return ResponseModel::success();

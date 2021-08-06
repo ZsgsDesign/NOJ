@@ -8,6 +8,7 @@ return [
     'listOfSolved' => '已解决的题目',
     'emptySolved'  => '空落落的啥也没',
     'reportAbuse'  => '举报',
+    'waiting'      => '请稍后',
     'badges' => [
         'admin'           => '站点管理员',
         'contestaccount'  => '比赛专用账号',
@@ -29,7 +30,7 @@ return [
     'setting' => [
         'baseInfo' => '基础信息',
         'username' => '用户名',
-        'tipUsername' => '当前暂不支持修改用户名',
+        'tipUsername' => '暂不支持修改此用户的用户名',
         'describes' => '个人简介',
         'maxLength' => '最大长度',
         'buttonUpdate' => '更新',
