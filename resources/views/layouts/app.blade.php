@@ -269,7 +269,7 @@
                                     -->
                                     @if (Auth::user()->hasPermission(1))
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="/admin"><i class="MDI view-dashboard"></i> {{__('navigation.admin')}}</a>
+                                        <a class="dropdown-item" href="{{route('admin.index')}}"><i class="MDI view-dashboard"></i> {{__('navigation.admin')}}</a>
                                     @endif
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/tool/pastebin/create"><i class="MDI content-paste"></i> {{__('navigation.pastebin')}}</a>

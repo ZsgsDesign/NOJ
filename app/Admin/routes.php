@@ -10,7 +10,7 @@ Route::group([
     'middleware'    => config('admin.route.middleware'),
 ], function(Router $router) {
 
-    $router->get('/', 'HomeController@index');
+    $router->get('/', 'HomeController@index')->name('admin.index');
     $router->resource('users', UserController::class);
     $router->resource('announcements', AnnouncementController::class);
     $router->get('problems/import', 'ProblemController@import');
