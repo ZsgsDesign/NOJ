@@ -48,7 +48,10 @@ class Install extends Command
         } catch (Exception $e) {
             $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>babel.json parse error, The extension may not exist.</>\n");
             if ($this->confirm("Would you like to download it from the marketspace first?")) {
-                $this->call("babel:require", ['extension' => $extension]);
+                $this->call("babel:require", [
+                    'extension' => $extension,
+                    '--ignore-platform-reqs' => $ignoreReqs,
+                ]);
                 $output->fetch();
             }
             return;

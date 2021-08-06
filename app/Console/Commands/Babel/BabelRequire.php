@@ -14,7 +14,7 @@ class BabelRequire extends Command
      *
      * @var string
      */
-    protected $signature = 'babel:require {extension : The package name of the extension} {--exception}';
+    protected $signature = 'babel:require {extension : The package name of the extension} {--ignore-platform-reqs : Ignore the Platform Requirements when install} {--exception}';
 
     /**
      * The console command description.
@@ -42,6 +42,7 @@ class BabelRequire extends Command
     {
         $extension = $this->argument('extension');
         $exception = $this->option('exception');
+        $ignoreReqs = $this->option('ignore-platform-reqs');
         $output = new BufferedOutput();
         if (is_dir(babel_path("Extension/$extension/"))) {
             if (!$exception) {
@@ -108,7 +109,10 @@ class BabelRequire extends Command
         }
         $this->postProc($filename, $extension);
         $this->line("Downloaded <fg=green>$extension</>(<fg=yellow>{$targetPackage['version']}</>)");
-        $this->call("babel:install", ['extension' => $extension]);
+        $this->call("babel:install", [
+            'extension' => $extension,
+            '--ignore-platform-reqs' => $ignoreReqs,
+        ]);
         $output->fetch();
     }
 
