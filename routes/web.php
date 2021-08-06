@@ -100,8 +100,8 @@ Route::group([
     Route::get('/', 'IndexController@index')->name('index');
     Route::get('/{cid}', 'IndexController@detail')->name('detail');
 
-    Route::group(['middleware' => ['contest.desktop']], function () {
-        Route::get('/{cid}/board', 'BoardController@board')->middleware('auth')->name('board');
+    Route::group(['middleware' => ['contest.desktop'], 'as' => 'board.'], function () {
+        Route::get('/{cid}/board', 'BoardController@board')->middleware('auth')->name('index');
         Route::get('/{cid}/board/challenge', 'BoardController@challenge')->middleware('auth')->name('challenge');
         Route::get('/{cid}/board/challenge/{ncode}', 'BoardController@editor')->middleware('auth')->name('editor');
         Route::get('/{cid}/board/rank', 'BoardController@rank')->middleware('auth')->name('rank');
@@ -112,9 +112,9 @@ Route::group([
     });
 
     Route::get('/{cid}/scrollBoard', 'AdminController@scrollBoard')->middleware('auth', 'contest_account', 'privileged')->name('scrollboard');
-    Route::get('/{cid}/board/admin', 'AdminController@admin')->middleware('auth', 'privileged')->name('admin');
-    Route::get('/{cid}/admin/downloadContestAccountXlsx', 'AdminController@downloadContestAccountXlsx')->middleware('auth')->name('downloadContestAccountXlsx');
-    Route::get('/{cid}/admin/refreshContestRank', 'AdminController@refreshContestRank')->middleware('auth')->name('refreshContestRank');
+    Route::get('/{cid}/board/admin', 'AdminController@admin')->middleware('auth', 'privileged')->name('board.admin');
+    Route::get('/{cid}/admin/downloadContestAccountXlsx', 'AdminController@downloadContestAccountXlsx')->middleware('auth')->name('admin.download.contestaccountxlsx');
+    Route::get('/{cid}/admin/refreshContestRank', 'AdminController@refreshContestRank')->middleware('auth')->name('admin.refresh.contestrank');
 });
 
 Route::group(['prefix' => 'system', 'middleware' => ['user.banned']], function () {
