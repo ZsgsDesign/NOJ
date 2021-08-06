@@ -5,10 +5,13 @@ return [
     'solved'       => '解出',
     'rated'        => '评分',
     'rank'         => '排名',
-    'adminGroup'   => '站点管理员',
     'listOfSolved' => '已解决的题目',
     'emptySolved'  => '空落落的啥也没',
     'reportAbuse'  => '举报',
+    'badges' => [
+        'admin'           => '站点管理员',
+        'contestaccount'  => '比赛专用账号',
+    ],
     'avatarChange' => [
         'title'           => '更换头像',
         'tipSelectFile'   => '选择本地文件',

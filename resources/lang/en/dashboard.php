@@ -5,10 +5,13 @@ return [
     'solved'       => 'Solved',
     'rated'        => 'Rated',
     'rank'         => 'Casu. Rank',
-    'adminGroup' => 'Administration Group',
     'listOfSolved' => 'List of solved problems',
     'emptySolved'  => 'Nothing Here',
     'reportAbuse'  => 'Report Abuse',
+    'badges' => [
+        'admin'           => 'Site Administrator',
+        'contestaccount'  => 'Contest Account',
+    ],
     'avatarChange' => [
         'title'           => 'Update your avatar',
         'tipSelectFile'   => 'select local file',
