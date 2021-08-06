@@ -55,15 +55,26 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Enable Backup
+    | Application Info
     |--------------------------------------------------------------------------
     |
-    | Set true when you want scheduling backup.
+    | Application Info.
     |
     */
 
     'logo' => env('APP_LOGO', "/static/img/icon/icon-white.png"),
     'desc' => env('APP_DESC', ''),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Theme
+    |--------------------------------------------------------------------------
+    |
+    | Set theme for NOJ.
+    |
+    */
+
+    'theme' => in_array(env('APP_THEME', 'classic'), ['classic','indigo']) ? env('APP_THEME', 'classic') : 'classic',
 
     /*
     |--------------------------------------------------------------------------

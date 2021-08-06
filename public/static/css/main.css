@@ -375,3 +375,13 @@ img.cm-colorful-text {
     height: 5rem;
     width: 5rem;
 }
+
+/* NOJ Theme Data */
+
+html[noj-theme="classic"] .bg-dark{
+    background-color: #3E4551!important;
+}
+
+html[noj-theme="indigo"] .bg-dark{
+    background-color: var(--wemd-indigo)!important;
+}

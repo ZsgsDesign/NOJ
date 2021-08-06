@@ -14,7 +14,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" noj-theme="{{config('app.theme')}}">
 
 <head>
     <meta charset="UTF-8">
