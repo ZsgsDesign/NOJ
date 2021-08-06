@@ -42,6 +42,7 @@ class UserController extends Controller
             'settingsView' => false,
             'feed'=>$feed,
             'extra_info' => $extraInfo,
+            'extraDict' => $accountModel->extraDict,
             'socialite_info' => $socialiteInfo,
         ]);
     }

@@ -61,6 +61,10 @@
         display:block;
     }
 
+    user-card > basic-section {
+        padding: 0rem 1rem;
+    }
+
     user-card statistic-block{
         display: block;
         font-family: 'Roboto Slab';
@@ -98,6 +102,12 @@
         border: 1px solid rgba(0, 0, 0, 0.15);
     }
 
+    p.user-description{
+        margin: 1rem -1rem;
+        padding: 1rem;
+        box-shadow: inset rgb(0 0 0 / 10%) 0px 0px 30px;
+    }
+
     prob-badge{
         display: inline-block;
         margin-bottom: 0;
@@ -127,6 +137,20 @@
         background-color: transparent;
         border-color: #57a3f3;
     }
+
+    info-card{
+        display: block;
+        margin-bottom: 1rem;
+    }
+
+    info-card p.info-content{
+        margin: 0;
+    }
+
+    info-card p.info-caption{
+        font-size: 0.8rem;
+        margin: 0;
+    }
 </style>
 <user-card>
     <img class="cm-dashboard-focus" src="{{$info["image"]}}">
@@ -139,17 +163,22 @@
         @if($info["contest_account"])<p class="mb-0"><small class="wemd-amber-text">{{__('dashboard.badges.contestaccount')}}</small></p>@endif
         @unless(is_null($info["professionalTitle"]))<p class="mb-0"><small class="{{$info["professionalTitleColor"]}}">{{$info["professionalTitle"]}}</small></p>@endunless
         @unless(is_null($info["rankTitle"]))<p class="mb-0"><small class="{{$info["rankTitleColor"]}}">{{$info["rankTitle"]}}</small></p>@endunless
-        <p id="user-describes" style="padding-top: 1rem;">{{$info['describes']}}</p>
+        <p class="user-description">{{$info['describes']}}</p>
         @if(!empty($extra_info))
-            <a id="extra-info-btn" class="btn text-muted" data-toggle="collapse" href="#extra-info" role="button" aria-expanded="false" aria-controls="extra-info" style="font-size: .75rem;">
-                {{__('dashboard.more')}}
-            </a>
-            <div class="collapse" id="extra-info">
-                <p id="extra-info-text" style="font-size: .75rem; text-align:left">
-                    @foreach ($extra_info as $key => $value)
-                        {{$key}} : {{$value}} <br />
-                    @endforeach
-                </p>
+            <div>
+                @foreach ($extra_info as $key => $value)
+                    @isset($extraDict[$key])
+                        <info-card>
+                            <p class="info-content">{{$value}}</p>
+                            <p class="info-caption"><i class="{{$extraDict[$key]['icon']}}"></i> {{__($extraDict[$key]['locale'])}}</p>
+                        </info-card>
+                    @else
+                        <info-card>
+                            <p class="info-content">{{$value}}</p>
+                            <p class="info-caption">{{$key}}</p>
+                        </info-card>
+                    @endisset
+                @endforeach
             </div>
         @endif
     </basic-section>

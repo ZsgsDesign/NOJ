@@ -28,6 +28,29 @@ class AccountModel extends Model
         1004  => 'github_token',
     ];
 
+    public $extraDict = [
+        'gender' => [
+            'icon' => 'MDI gender-transgender',
+            'locale' => 'dashboard.setting.gender',
+        ],
+        'contact' => [
+            'icon' => 'MDI contacts',
+            'locale' => 'dashboard.setting.contact',
+        ],
+        'school' => [
+            'icon' => 'MDI school',
+            'locale' => 'dashboard.setting.school',
+        ],
+        'country' => [
+            'icon' => 'MDI earth',
+            'locale' => 'dashboard.setting.countryAndRegion',
+        ],
+        'location' => [
+            'icon' => 'MDI map-marker',
+            'locale' => 'dashboard.setting.detailedLocation',
+        ],
+    ];
+
     private $socialite_support = [
         //use the form "platform_id" for unique authentication
         //such as github_id

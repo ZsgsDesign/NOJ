@@ -39,6 +39,7 @@ class AccountController extends Controller
             'settingsView' => false,
             'feed'=>$feed,
             'extra_info' => $extraInfo,
+            'extraDict' => $accountModel->extraDict,
             'socialite_info' => $socialiteInfo,
         ]);
     }
@@ -66,6 +67,7 @@ class AccountController extends Controller
             'settingsView' => true,
             'email_cooldown' => $email_cooldown ?? null,
             'extra_info' => $extraInfo,
+            'extraDict' => $accountModel->extraDict,
             'socialite_info' => $socialiteInfo,
         ]);
     }
