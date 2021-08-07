@@ -386,6 +386,54 @@ html[noj-theme="classic"] .bg-dark{
     background-color: #424242!important;
 }
 
+html[noj-theme="red"] .bg-dark{
+    background-color: var(--wemd-red-darken-3)!important;
+}
+
+html[noj-theme="pink"] .bg-dark{
+    background-color: var(--wemd-pink-darken-3)!important;
+}
+
+html[noj-theme="purple"] .bg-dark{
+    background-color: var(--wemd-purple-darken-3)!important;
+}
+
+html[noj-theme="deep-purple"] .bg-dark{
+    background-color: var(--wemd-deep-purple-darken-3)!important;
+}
+
 html[noj-theme="indigo"] .bg-dark{
-    background-color: var(--wemd-indigo)!important;
+    background-color: var(--wemd-indigo-darken-3)!important;
+}
+
+html[noj-theme="blue"] .bg-dark{
+    background-color: var(--wemd-blue-darken-3)!important;
+}
+
+html[noj-theme="teal"] .bg-dark{
+    background-color: var(--wemd-teal-darken-3)!important;
+}
+
+html[noj-theme="green"] .bg-dark{
+    background-color: var(--wemd-green-darken-3)!important;
+}
+
+html[noj-theme="orange"] .bg-dark{
+    background-color: var(--wemd-orange-darken-3)!important;
+}
+
+html[noj-theme="deep-orange"] .bg-dark{
+    background-color: var(--wemd-deep-orange-darken-3)!important;
+}
+
+html[noj-theme="brown"] .bg-dark{
+    background-color: var(--wemd-brown-darken-3)!important;
+}
+
+html[noj-theme="blue-grey"] .bg-dark{
+    background-color: var(--wemd-brown-darken-3)!important;
+}
+
+html[noj-theme="dark"] .bg-dark{
+    background-color: var(--wemd-dark)!important;
 }
