@@ -410,6 +410,10 @@ html[noj-theme="blue"] .bg-dark{
     background-color: var(--wemd-blue-darken-3)!important;
 }
 
+html[noj-theme="light-blue"] .bg-dark{
+    background-color: var(--wemd-light-blue-darken-3)!important;
+}
+
 html[noj-theme="teal"] .bg-dark{
     background-color: var(--wemd-teal-darken-3)!important;
 }
