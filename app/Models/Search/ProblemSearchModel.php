@@ -17,7 +17,7 @@ class ProblemSearchModel extends Model
         if(strlen($key) >= 2){
             $ret = self::where('pcode', $key)
                 ->orWhereRaw('MATCH(`title`) AGAINST (? IN BOOLEAN MODE)',[$key])
-                ->select('pcode', 'title')
+                ->select('pid', 'pcode', 'title')
                 ->limit(120)
                 ->get()->all();
             if(!empty($ret)){
