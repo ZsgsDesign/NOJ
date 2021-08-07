@@ -433,7 +433,3 @@ html[noj-theme="brown"] .bg-dark{
 html[noj-theme="blue-grey"] .bg-dark{
     background-color: var(--wemd-brown-darken-3)!important;
 }
-
-html[noj-theme="dark"] .bg-dark{
-    background-color: var(--wemd-dark)!important;
-}
