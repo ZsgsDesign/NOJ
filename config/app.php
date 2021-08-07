@@ -75,7 +75,10 @@ return [
     */
 
     'theme' => in_array(env('APP_THEME', 'default'), [
-        'default', 'classic', 'indigo'
+        'default', 'classic', 'cranberry', 'byzantium',
+        'orchids', 'blueberry', 'starrynights', 'electric',
+        'oceanic', 'emerald', 'aventurine', 'tropical',
+        'ginger', 'espresso', 'enigma',
     ]) ? env('APP_THEME', 'default') : 'default',
 
     /*
