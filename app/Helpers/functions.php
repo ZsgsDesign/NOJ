@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\DB;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use App\Models\Eloquent\Message;
 use App\Models\Latex\LatexModel;
+use App\Models\Eloquent\Tool\Theme;
 
 if (!function_exists('version')) {
     function version()
@@ -236,5 +237,15 @@ if (!function_exists('vscodeLocale')) {
             $vscodelocale=$locale;
         }
         return $vscodelocale;
+    }
+}
+
+if (!function_exists('getTheme')) {
+    function getTheme($id=null)
+    {
+        if(is_null($id)){
+            $id=config('app.theme');
+        }
+        return Theme::getTheme($id);
     }
 }

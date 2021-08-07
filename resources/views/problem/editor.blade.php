@@ -21,9 +21,9 @@
     <link rel="alternate icon" type="image/png" href="/favicon.png">
     <!-- Mobile Display Declarations -->
     <meta name="apple-touch-fullscreen" content="yes">
-    <meta name="theme-color" content="#3E4551">
+    <meta name="theme-color" content="{{ getTheme()['primaryColor'] }}">
     <!-- Desktop App Declarations -->
-    <meta name="msapplication-TileColor" content="#3E4551">
+    <meta name="msapplication-TileColor" content="{{ getTheme()['primaryColor'] }}">
     <!-- Loading Style -->
     <style>
         loading>div {

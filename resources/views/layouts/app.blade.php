@@ -47,9 +47,9 @@
     <link rel="search" type="application/opensearchdescription+xml" title="{{config("app.name")}}" href="/opensearch.xml">
     <!-- Mobile Display Declarations -->
     <meta name="apple-touch-fullscreen" content="yes">
-    <meta name="theme-color" content="#3E4551">
+    <meta name="theme-color" content="{{ getTheme()['primaryColor'] }}">
     <!-- Desktop App Declarations -->
-    <meta name="msapplication-TileColor" content="#3E4551">
+    <meta name="msapplication-TileColor" content="{{ getTheme()['primaryColor'] }}">
     <!-- Third-Party Declarations -->
     <meta name="google-site-verification" content="{{ env("GOOGLE_SITE_VERIFICATION") }}" />
     <meta name="baidu-site-verification" content="{{ env("BAIDU_SITE_VERIFICATION") }}" />
