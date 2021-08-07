@@ -80,7 +80,7 @@ class AccountController extends Controller
             return ResponseModel::err(1006);
         }
         $user = Auth::user();
-        if(!Hash::check($old_password, $user->password)){
+        if($user->hasIndependentPassword() && !Hash::check($old_password, $user->password)){
             return ResponseModel::err(2005);
         }
         $user->password = Hash::make($new_password);

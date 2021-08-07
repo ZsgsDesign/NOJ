@@ -51,6 +51,7 @@ return [
         'emailSend' => '发送验证邮件',
         'emailBinded' => '你的邮件地址 <span class="text-info">:email</span> 已经验证成功, 在您的账号出现安全问题时你的邮箱将会提供额外的安全支持.',
         'passwordChange' => '修改密码',
+        'passwordCreate' => '创建独立密码',
         'oldPassword' => '旧密码',
         'newPassword' => '新密码',
         'confirmPassword' => '确认密码',

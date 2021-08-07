@@ -51,4 +51,8 @@ class User extends Authenticatable
     public function hasPermission($permissionID){
         return ($this->permissions()->where(['permission_id'=>$permissionID])->count())>0;
     }
+
+    public function hasIndependentPassword(){
+        return filled($this->password);
+    }
 }

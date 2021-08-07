@@ -136,11 +136,16 @@
     </email-section>
     @endif
     <password-section class="paper-card">
-        <p>{{__('dashboard.setting.passwordChange')}}</p>
-        <div class="form-group">
-            <label for="old-password" class="bmd-label-floating">{{__('dashboard.setting.oldPassword')}}</label>
-            <input type="password" name="old-password" class="form-control" id="old-password" autocomplete="off" required>
-        </div>
+        @if(Auth::user()->hasIndependentPassword())
+            <p>{{__('dashboard.setting.passwordChange')}}</p>
+            <div class="form-group">
+                <label for="old-password" class="bmd-label-floating">{{__('dashboard.setting.oldPassword')}}</label>
+                <input type="password" name="old-password" class="form-control" id="old-password" autocomplete="off" required>
+            </div>
+        @else
+            <p>{{__('dashboard.setting.passwordCreate')}}</p>
+            <input type="password" name="old-password" class="form-control" id="old-password" autocomplete="off" required hidden disabled value="CREATEPASSWORD">
+        @endif
         <div class="form-group">
             <label for="new-password" class="bmd-label-floating">{{__('dashboard.setting.newPassword')}}</label>
             <input type="password" name="new-password" class="form-control" id="new-password" autocomplete="new-password" required>

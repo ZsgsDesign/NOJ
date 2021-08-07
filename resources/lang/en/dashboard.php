@@ -51,6 +51,7 @@ return [
         'emailSend' => 'send email',
         'emailBinded' => 'Your email address <span class="text-info">:email</span> has been confirmed, and your email will provide extra support in case of security problems of your account.',
         'passwordChange' => 'Change password',
+        'passwordCreate' => 'Create independent password',
         'oldPassword' => 'old password',
         'newPassword' => 'new password',
         'confirmPassword' => 'confirm password',
