@@ -99,7 +99,7 @@ class Submission extends Model
         } else {
             $tot_score=$this->contest->problems->where('pid', $this->pid)->first()->points;
         }
-        return round($this->score/$this->problem->tot_score*$tot_score,1);
+        return round($this->score/max($this->problem->tot_score,1)*$tot_score,1);
     }
 
     public function getSubmissionDateParsedAttribute()
