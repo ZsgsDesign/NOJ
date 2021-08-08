@@ -100,21 +100,23 @@ Route::group([
     Route::get('/', 'IndexController@index')->name('index');
     Route::get('/{cid}', 'IndexController@detail')->name('detail');
 
-    Route::group(['middleware' => ['contest.desktop'], 'as' => 'board.'], function () {
-        Route::get('/{cid}/board', 'BoardController@board')->middleware('auth')->name('index');
-        Route::get('/{cid}/board/challenge', 'BoardController@challenge')->middleware('auth')->name('challenge');
-        Route::get('/{cid}/board/challenge/{ncode}', 'BoardController@editor')->middleware('auth')->name('editor');
-        Route::get('/{cid}/board/rank', 'BoardController@rank')->middleware('auth')->name('rank');
-        Route::get('/{cid}/board/status', 'BoardController@status')->middleware('auth')->name('status');
-        Route::get('/{cid}/board/clarification', 'BoardController@clarification')->middleware('auth')->name('clarification');
-        Route::get('/{cid}/board/print', 'BoardController@print')->middleware('auth')->name('print');
-        Route::get('/{cid}/board/analysis', 'BoardController@analysis')->middleware('auth')->name('analysis');
-    });
+    Route::group(['as' => 'board.'], function () {
+        Route::group(['middleware' => ['contest.desktop']], function () {
+            Route::get('/{cid}/board', 'BoardController@board')->middleware('auth')->name('index');
+            Route::get('/{cid}/board/challenge', 'BoardController@challenge')->middleware('auth')->name('challenge');
+            Route::get('/{cid}/board/challenge/{ncode}', 'BoardController@editor')->middleware('auth')->name('editor');
+            Route::get('/{cid}/board/rank', 'BoardController@rank')->middleware('auth')->name('rank');
+            Route::get('/{cid}/board/status', 'BoardController@status')->middleware('auth')->name('status');
+            Route::get('/{cid}/board/clarification', 'BoardController@clarification')->middleware('auth')->name('clarification');
+            Route::get('/{cid}/board/print', 'BoardController@print')->middleware('auth')->name('print');
+            Route::get('/{cid}/board/analysis', 'BoardController@analysis')->middleware('auth')->name('analysis');
+        });
 
-    Route::get('/{cid}/scrollBoard', 'AdminController@scrollBoard')->middleware('auth', 'contest_account', 'privileged')->name('scrollboard');
-    Route::get('/{cid}/board/admin', 'AdminController@admin')->middleware('auth', 'privileged')->name('board.admin');
-    Route::get('/{cid}/admin/downloadContestAccountXlsx', 'AdminController@downloadContestAccountXlsx')->middleware('auth')->name('admin.download.contestaccountxlsx');
-    Route::get('/{cid}/admin/refreshContestRank', 'AdminController@refreshContestRank')->middleware('auth')->name('admin.refresh.contestrank');
+        Route::get('/{cid}/board/admin', 'AdminController@admin')->middleware('auth', 'privileged')->name('admin');
+        Route::get('/{cid}/board/admin/scrollBoard', 'AdminController@scrollBoard')->middleware('auth', 'contest_account', 'privileged')->name('admin.scrollboard');
+        Route::get('/{cid}/board/admin/downloadContestAccountXlsx', 'AdminController@downloadContestAccountXlsx')->middleware('auth')->name('admin.download.contestaccountxlsx');
+        Route::get('/{cid}/board/admin/refreshContestRank', 'AdminController@refreshContestRank')->middleware('auth')->name('admin.refresh.contestrank');
+    });
 });
 
 Route::group(['prefix' => 'system', 'middleware' => ['user.banned']], function () {

@@ -22,7 +22,7 @@ class BoardController extends Controller
      */
     public function board($cid)
     {
-        return Redirect::route('contest.challenge', ['cid' => $cid]);
+        return Redirect::route('contest.board.challenge', ['cid' => $cid]);
     }
 
     /**
@@ -37,7 +37,7 @@ class BoardController extends Controller
         $basicInfo=$contestModel->basic($cid);
         if (!$clearance || time() < strtotime($basicInfo['begin_time'])) {
             if($clearance == 3){
-                return Redirect::route('contest.admin', ['cid' => $cid]);
+                return Redirect::route('contest.board.admin', ['cid' => $cid]);
             }else{
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
@@ -86,7 +86,7 @@ class BoardController extends Controller
         $basicInfo=$contestModel->basic($cid);
         if (!$clearance || time() < strtotime($basicInfo['begin_time'])) {
             if($clearance == 3){
-                return Redirect::route('contest.admin', ['cid' => $cid]);
+                return Redirect::route('contest.board.admin', ['cid' => $cid]);
             }else{
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
@@ -100,7 +100,7 @@ class BoardController extends Controller
         $contest_ended=$contestModel->isContestEnded($cid);
         $pid=$contestModel->getPid($cid, $ncode);
         if (empty($pid)) {
-            return Redirect::route('contest.board', ['cid' => $cid]);
+            return Redirect::route('contest.board.index', ['cid' => $cid]);
         }
         $pcode=$problemModel->pcode($pid);
 
@@ -166,7 +166,7 @@ class BoardController extends Controller
         $basicInfo=$contestModel->basic($cid);
         if (!$clearance || time() < strtotime($basicInfo['begin_time'])) {
             if($clearance == 3){
-                return Redirect::route('contest.admin', ['cid' => $cid]);
+                return Redirect::route('contest.board.admin', ['cid' => $cid]);
             }else{
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
@@ -229,7 +229,7 @@ class BoardController extends Controller
         $basicInfo=$contestModel->basic($cid);
         if (!$clearance || time() < strtotime($basicInfo['begin_time'])) {
             if($clearance == 3){
-                return Redirect::route('contest.admin', ['cid' => $cid]);
+                return Redirect::route('contest.board.admin', ['cid' => $cid]);
             }else{
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
@@ -271,7 +271,7 @@ class BoardController extends Controller
         $basicInfo=$contestModel->basic($cid);
         if (!$clearance || time() < strtotime($basicInfo['begin_time'])) {
             if($clearance == 3){
-                return Redirect::route('contest.admin', ['cid' => $cid]);
+                return Redirect::route('contest.board.admin', ['cid' => $cid]);
             }else{
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
@@ -309,7 +309,7 @@ class BoardController extends Controller
         $basicInfo=$contestModel->basic($cid);
         if (!$clearance || time() < strtotime($basicInfo['begin_time'])) {
             if($clearance == 3){
-                return Redirect::route('contest.admin', ['cid' => $cid]);
+                return Redirect::route('contest.board.admin', ['cid' => $cid]);
             }else{
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
@@ -337,7 +337,7 @@ class BoardController extends Controller
         $basicInfo=$contestModel->basic($cid);
         if (!$clearance || time() < strtotime($basicInfo['begin_time'])) {
             if($clearance == 3){
-                return Redirect::route('contest.admin', ['cid' => $cid]);
+                return Redirect::route('contest.board.admin', ['cid' => $cid]);
             }else{
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }

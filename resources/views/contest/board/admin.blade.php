@@ -204,7 +204,7 @@
                 @endif
                 @if(time() >= strtotime($basic['begin_time']))
                 <ul class="list-group bmd-list-group p-0">
-                    <a href="/contest/{{$cid}}/admin/refreshContestRank" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> {{__("contest.inside.admin.nav.refreshrank")}}</a>
+                    <a href="{{route('contest.board.admin.refresh.contestrank', [$cid => $cid])}}" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> {{__("contest.inside.admin.nav.refreshrank")}}</a>
                 </ul>
                 @endif
                 <ul class="list-group bmd-list-group p-0">
@@ -212,7 +212,7 @@
                 </ul>
                 @if($is_end && $basic['froze_length'] != 0 && $basic['registration'] && $basic['rule']==1)
                 <ul class="list-group bmd-list-group p-0">
-                    <a href="/contest/{{$cid}}/scrollBoard" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> {{__("contest.inside.admin.nav.scrollboard")}}<beta-badge class="wemd-teal">Beta</beta-badge></a>
+                    <a href="{{route('contest.board.admin.scrollboard', [$cid => $cid])}}" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> {{__("contest.inside.admin.nav.scrollboard")}}<beta-badge class="wemd-teal">Beta</beta-badge></a>
                 </ul>
                 @endif
             </div>
@@ -233,7 +233,7 @@
                     </form>
                     <button id="generateAccountBtn" class="btn btn-warning float-right" onclick="generateAccount()"><i class="MDI autorenew cm-refreshing d-none"></i>{{__("contest.inside.admin.account.generate")}}</button>
                     <div class="pt-2">
-                        <a href="/contest/{{$cid}}/admin/downloadContestAccountXlsx">{{__("contest.inside.admin.account.download")}}</a>
+                        <a href="{{route('contest.board.admin.download.contestaccountxlsx', [$cid => $cid])}}">{{__("contest.inside.admin.account.download")}}</a>
                     </div>
                     <table class="table">
                         <thead>

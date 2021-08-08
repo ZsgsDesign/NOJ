@@ -28,7 +28,7 @@ class AdminController extends Controller
         $verified=$contestModel->isVerified($cid);
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if ($clearance <= 2) {
-            return Redirect::route('contest_detail', ['cid' => $cid]);
+            return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
         $customInfo=$contestModel->getCustomInfo($cid);
@@ -78,7 +78,7 @@ class AdminController extends Controller
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if ($clearance <= 2) {
-            return Redirect::route('contest_detail', ['cid' => $cid]);
+            return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $account=$contestModel->getContestAccount($cid);
         if($account==null){
@@ -105,24 +105,24 @@ class AdminController extends Controller
             $contestModel->storeContestRankInMySQL($cid, $contestRankRaw);
         }
         $contestModel->deleteZip("contestCodeZip/$cid/");
-        return Redirect::route('contest.rank', ['cid' => $cid]);
+        return Redirect::route('contest.board.rank', ['cid' => $cid]);
     }
 
     public function scrollBoard($cid){
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if ($clearance <= 2) {
-            return Redirect::route('contest_detail', ['cid' => $cid]);
+            return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $basicInfo=$contestModel->basic($cid);
         if($basicInfo['froze_length'] == 0){
-            return Redirect::route('contest.admin', ['cid' => $cid]);
+            return Redirect::route('contest.board.admin', ['cid' => $cid]);
         }
         if($basicInfo['registration'] == 0){
-            return Redirect::route('contest.admin', ['cid' => $cid]);
+            return Redirect::route('contest.board.admin', ['cid' => $cid]);
         }
         if($basicInfo['rule'] != 1){
-            return Redirect::route('contest.admin', ['cid' => $cid]);
+            return Redirect::route('contest.board.admin', ['cid' => $cid]);
         }
         return view('contest.board.scrollBoard', [
             'page_title'=>"ScrollBoard",
