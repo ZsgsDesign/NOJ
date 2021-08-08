@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Ajax;
 use App\Models\ContestModel;
 use App\Models\GroupModel;
 use App\Models\ResponseModel;
-use App\Models\UserModel;
+use App\Models\Eloquent\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -255,7 +255,7 @@ class GroupManageController extends Controller
         $groupModel->inviteMember($all_data["gid"], $all_data["email"]);
         $basic = $groupModel->basic($all_data['gid']);
         $url = route('group.detail',['gcode' => $basic['gcode']]);
-        $receiverInfo = UserModel::where('email',$all_data['email'])->first();
+        $receiverInfo = User::where('email',$all_data['email'])->first();
         $sender_name = Auth::user()->name;
         sendMessage([
             'receiver' => $receiverInfo["id"],

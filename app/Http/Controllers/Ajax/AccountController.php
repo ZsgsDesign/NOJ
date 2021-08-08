@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Ajax;
 
 use App\Http\Controllers\Controller;
 use App\Models\ResponseModel;
-use App\Models\UserModel;
 use App\Models\AccountModel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

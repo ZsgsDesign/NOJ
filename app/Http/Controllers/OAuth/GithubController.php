@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Oauth;
 
 use App\Http\Controllers\Controller;
 use App\Models\AccountModel;
-use App\Models\UserModel;
+use App\Models\Eloquent\User;
 use Laravel\Socialite\Facades\Socialite;
 use Auth;
 
@@ -56,7 +56,7 @@ class GithubController extends Controller
             $user_id = Auth::user()->id;
             $ret = $accountModel->findExtra('github_id',$github_user->id);
             if(!empty($ret) && $ret['uid'] != $user_id){
-                $user = UserModel::find($ret['uid']);
+                $user = User::find($ret['uid']);
                 return view('oauth.index',[
                     'page_title'=>"OAuth",
                     'site_title'=>config("app.name"),
