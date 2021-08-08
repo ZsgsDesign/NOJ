@@ -259,6 +259,9 @@ class ProblemController extends Controller
                         });
                         sort($files_in);
                         $testcase_index = 1;
+                        if(!count($files_in)){
+                            $err('Cannot detect any .in file, please make sure they are placed under the root directory of the zip file.');
+                        }
                         foreach($files_in as $filename_in){
                             $filename = basename($filename_in, '.in');
                             $filename_out = $filename.'.out';
