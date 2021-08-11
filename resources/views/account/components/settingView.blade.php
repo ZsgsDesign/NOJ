@@ -103,15 +103,16 @@
         <div class="text-center">
             <account-bind class="github" style="display: inline-block; ">
                 @if(config('services.github.enable'))
-                    @if(blank($socialite_info['github']))
+                    @if(empty($socialite_info['github']))
                         <i class="socialicon github-circle colored"></i><span>{{__('dashboard.setting.buttonBind')}}</span>
                     @else
                         <i class="socialicon github-circle colored"></i><span>{{$socialite_info['github']['nickname'] ?? $socialite_info['github']['email']}}</span>
                     @endif
                 @endif
-
+            </account-bind>
+            <account-bind class="aauth" style="display: inline-block; ">
                 @if(config('services.aauth.enable'))
-                    @if(blank($socialite_info['aauth']))
+                    @if(empty($socialite_info['aauth']))
                         <i class="socialicon aauth-circle colored"></i><span>{{__('dashboard.setting.buttonBind')}}</span>
                     @else
                         <i class="socialicon aauth-circle colored"></i><span>{{$socialite_info['aauth']['nickname']}}</span>
@@ -182,6 +183,10 @@
 
         $('account-bind.github').on('click',function(){
             window.location= '{{ route('oauth.github.index') }}' ;
+        });
+
+        $('account-bind.aauth').on('click',function(){
+            window.location= '{{ route('oauth.aauth.index') }}' ;
         });
 
         $('#basic-info-update').on('click',function(){
