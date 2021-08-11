@@ -2,9 +2,7 @@
 
 namespace App\Models\Eloquent\Tool;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Theme extends Model
+class Theme
 {
     protected static $theme=[
         "default"=>[

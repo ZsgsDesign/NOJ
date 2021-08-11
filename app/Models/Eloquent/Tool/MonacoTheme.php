@@ -2,9 +2,7 @@
 
 namespace App\Models\Eloquent\Tool;
 
-use Illuminate\Database\Eloquent\Model;
-
-class MonacoTheme extends Model
+class MonacoTheme
 {
     protected static $theme=[
         "vs-dark"=>[
