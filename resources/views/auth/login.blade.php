@@ -150,9 +150,13 @@
                         </form>
                     </div>
                 </div>
-                <div class="text-center card-bottom socialite-section">
-                <a href="{{route('oauth.github.index')}}"><button class="btn btn-dark bmd-btn-icon"><i class="MDI github-circle"></i></button></a>
-                </div>
+                @unless(blank($socialites))
+                    <div class="text-center card-bottom socialite-section">
+                        @foreach($socialites as $socialite)
+                            <a href="{{route("oauth.$socialite.index")}}"><button class="btn btn-dark bmd-btn-icon"><i class="socialicon {{$socialite}}-circle colored"></i></button></a>
+                        @endforeach
+                    </div>
+                @endunless
             </div>
         </div>
     </div>
