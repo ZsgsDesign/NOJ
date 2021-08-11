@@ -6,7 +6,6 @@ use App\Models\ContestModel;
 use App\Models\ProblemModel;
 use App\Models\CompilerModel;
 use App\Models\Submission\SubmissionModel;
-use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use App\Models\Eloquent\Tool\MonacoTheme;
 use Illuminate\Http\Request;
@@ -81,7 +80,6 @@ class BoardController extends Controller
         $problemModel=new ProblemModel();
         $compilerModel=new CompilerModel();
         $submissionModel=new SubmissionModel();
-        $accountModel=new AccountModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         $basicInfo=$contestModel->basic($cid);
         if (!$clearance || time() < strtotime($basicInfo['begin_time'])) {
@@ -123,12 +121,10 @@ class BoardController extends Controller
             ];
         }
 
-        $accountExt = $accountModel->getExtra(Auth::user()->id, ['editor_left_width', 'editor_theme']);
+        $accountExt = Auth::user()->getExtra(['editor_left_width', 'editor_theme']);
         $editor_left_width = isset($accountExt['editor_left_width'])?$accountExt['editor_left_width']:'40';
         $editor_theme = isset($accountExt['editor_theme'])?$accountExt['editor_theme']:'vs-dark';
         $themeConfig = MonacoTheme::getTheme($editor_theme);
-        $editor_theme = $themeConfig['id'];
-        $editor_background_color = $themeConfig['background'];
 
         return view('contest.board.editor', [
             'page_title'=>"Problem Detail",

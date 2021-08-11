@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AccountModel;
+use App\Models\Eloquent\UserExtra;
 use Auth;
 
 class AccountController extends Controller
@@ -28,8 +29,8 @@ class AccountController extends Controller
         $accountModel=new AccountModel();
         $info=$accountModel->detail(Auth::user()->id);
         $feed=$accountModel->feed(Auth::user()->id);
-        $extraInfo = $accountModel->getExtra(Auth::user()->id, ['gender', 'contanct', 'school', 'country', 'location'],100);
-        $socialiteInfo = $accountModel->getSocialiteInfo(Auth::user()->id,100);
+        $extraInfo = Auth::user()->getExtra(['gender', 'contanct', 'school', 'country', 'location'], 100);
+        $socialiteInfo = Auth::user()->getSocialiteInfo(100);
         return view("account.dashboard", [
             'page_title'=>"DashBoard",
             'site_title'=>config("app.name"),
@@ -39,7 +40,7 @@ class AccountController extends Controller
             'settingsView' => false,
             'feed'=>$feed,
             'extra_info' => $extraInfo,
-            'extraDict' => $accountModel->extraDict,
+            'extraDict' => UserExtra::$extraDict,
             'socialite_info' => $socialiteInfo,
         ]);
     }
@@ -56,8 +57,8 @@ class AccountController extends Controller
         if(!empty(session('last_email_send'))){
             $email_cooldown = 300 - (time() - session('last_email_send'));
         }
-        $extraInfo = $accountModel->getExtra(Auth::user()->id, ['gender', 'contanct', 'school', 'country', 'location'],100);
-        $socialiteInfo = $accountModel->getSocialiteInfo(Auth::user()->id,100);
+        $extraInfo = Auth::user()->getExtra(['gender', 'contanct', 'school', 'country', 'location'], 100);
+        $socialiteInfo = Auth::user()->getSocialiteInfo(100);
         return view("account.dashboard", [
             'page_title'=>"Settings",
             'site_title'=>config("app.name"),
@@ -67,7 +68,7 @@ class AccountController extends Controller
             'settingsView' => true,
             'email_cooldown' => $email_cooldown ?? null,
             'extra_info' => $extraInfo,
-            'extraDict' => $accountModel->extraDict,
+            'extraDict' => UserExtra::$extraDict,
             'socialite_info' => $socialiteInfo,
         ]);
     }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Ajax;
 
 use App\Http\Controllers\Controller;
 use App\Models\ResponseModel;
-use App\Models\AccountModel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
@@ -106,13 +105,11 @@ class AccountController extends Controller
                 return ResponseModel::error(1007);
             }
         }
-        $account_model = new AccountModel();
-        $user_id = Auth::user()->id;
         foreach ($input as $key => $value) {
             if(strlen($value) != 0){
-                $account_model->setExtra($user_id,$key,$value,0);
+                Auth::user()->setExtra($key, $value, 0);
             }else{
-                $account_model->setExtra($user_id,$key,null);
+                Auth::user()->setExtra($key, null);
             }
         }
         return ResponseModel::success();
@@ -126,13 +123,11 @@ class AccountController extends Controller
                 return ResponseModel::error(1007);
             }
         }
-        $account_model = new AccountModel();
-        $user_id = Auth::user()->id;
         foreach ($input as $key => $value) {
             if(strlen($value) != 0){
-                $account_model->setExtra($user_id,$key,$value,0);
+                Auth::user()->setExtra($key, $value, 0);
             }else{
-                $account_model->setExtra($user_id,$key,null);
+                Auth::user()->setExtra($key, null);
             }
         }
         return ResponseModel::success();
@@ -146,13 +141,11 @@ class AccountController extends Controller
                 return ResponseModel::error(1007);
             }
         }
-        $account_model = new AccountModel();
-        $user_id = Auth::user()->id;
         foreach ($input as $key => $value) {
             if(strlen($value) != 0){
-                $account_model->setExtra($user_id,$key,$value,0);
+                Auth::user()->setExtra($key, $value, 0);
             }else{
-                $account_model->setExtra($user_id,$key,null);
+                Auth::user()->setExtra($key, null);
             }
         }
         return ResponseModel::success();

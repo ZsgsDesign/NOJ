@@ -2,14 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProblemModel;
-use App\Models\Submission\SubmissionModel;
-use App\Models\CompilerModel;
-use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use JavaScript;
-use Auth;
 
 class TermController extends Controller
 {
