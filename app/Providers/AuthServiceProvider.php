@@ -21,7 +21,7 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @var array
      */
-    protected $forbiddenDomains=['temporarily.email'];
+    protected $forbiddenDomains=['temporary.email'];
 
     /**
      * Register any authentication / authorization services.

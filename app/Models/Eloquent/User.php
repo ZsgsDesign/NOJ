@@ -62,7 +62,7 @@ class User extends Authenticatable
     }
 
     public function hasIndependentEmail(){
-        return !in_array(explode('@', $this->email)[1], ['temporarily.email']) && !$this->contest_account;
+        return !in_array(explode('@', $this->email)[1], ['temporary.email']) && !$this->contest_account;
     }
 
     public function isIndependent(){
