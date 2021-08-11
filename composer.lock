@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "226cddfdfe204ea99b02d20bb3ba4144",
+    "content-hash": "75f0143b7a4c134b59d20222e4d54372",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1325,16 +1325,16 @@
         },
         {
             "name": "fonts-asset/langicon",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ZsgsDesign/fonts-asset-Langicon.git",
-                "reference": "952cd2a091ce4c2956012de52158ae18ea7fda1a"
+                "reference": "4d2929fb9ffc0fc7b0c974247a21621260004c76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Langicon/zipball/952cd2a091ce4c2956012de52158ae18ea7fda1a",
-                "reference": "952cd2a091ce4c2956012de52158ae18ea7fda1a",
+                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Langicon/zipball/4d2929fb9ffc0fc7b0c974247a21621260004c76",
+                "reference": "4d2929fb9ffc0fc7b0c974247a21621260004c76",
                 "shasum": ""
             },
             "type": "fonts-asset",
@@ -1351,9 +1351,9 @@
             "description": "Langicon for composer.",
             "support": {
                 "issues": "https://github.com/ZsgsDesign/fonts-asset-Langicon/issues",
-                "source": "https://github.com/ZsgsDesign/fonts-asset-Langicon/tree/1.0.1"
+                "source": "https://github.com/ZsgsDesign/fonts-asset-Langicon/tree/1.0.2"
             },
-            "time": "2021-03-24T06:20:47+00:00"
+            "time": "2021-08-11T15:50:43+00:00"
         },
         {
             "name": "fonts-asset/mdi-wxss",
@@ -1514,6 +1514,38 @@
                 "source": "https://github.com/ZsgsDesign/fonts-asset-Roboto-Slab/tree/1.0.0"
             },
             "time": "2020-12-10T16:05:45+00:00"
+        },
+        {
+            "name": "fonts-asset/socialicon",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ZsgsDesign/fonts-asset-Socialicon.git",
+                "reference": "c86238a19ccf804594e8713681f1aa214ee80346"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Socialicon/zipball/c86238a19ccf804594e8713681f1aa214ee80346",
+                "reference": "c86238a19ccf804594e8713681f1aa214ee80346",
+                "shasum": ""
+            },
+            "type": "fonts-asset",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zsgsdesign",
+                    "email": "zsgsdesign@gmail.com"
+                }
+            ],
+            "description": "Socialicon for composer.",
+            "support": {
+                "issues": "https://github.com/ZsgsDesign/fonts-asset-Socialicon/issues",
+                "source": "https://github.com/ZsgsDesign/fonts-asset-Socialicon/tree/1.0.1"
+            },
+            "time": "2021-08-11T15:50:45+00:00"
         },
         {
             "name": "graham-campbell/markdown",

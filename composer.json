@@ -19,6 +19,7 @@
         "fonts-asset/raleway": "^1.0",
         "fonts-asset/roboto": "^1.0",
         "fonts-asset/roboto-slab": "^1.0",
+        "fonts-asset/socialicon": "^1.0",
         "graham-campbell/markdown": "^11.0",
         "grubersjoe/bing-daily-photo": "^2.0",
         "illuminate/support": "^6.0",
