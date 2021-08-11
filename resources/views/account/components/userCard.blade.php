@@ -163,7 +163,7 @@
         @if($info["contest_account"])<p class="mb-0"><small class="wemd-amber-text">{{__('dashboard.badges.contestaccount')}}</small></p>@endif
         @unless(is_null($info["professionalTitle"]))<p class="mb-0"><small class="{{$info["professionalTitleColor"]}}">{{$info["professionalTitle"]}}</small></p>@endunless
         @unless(is_null($info["rankTitle"]))<p class="mb-0"><small class="{{$info["rankTitleColor"]}}">{{$info["rankTitle"]}}</small></p>@endunless
-        <p class="user-description">{{$info['describes']}}</p>
+        @unless(blank($info['describes']))<p class="user-description">{{$info['describes']}}</p>@endunless
         @if(!empty($extra_info))
             <div>
                 @foreach ($extra_info as $key => $value)
