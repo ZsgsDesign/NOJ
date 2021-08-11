@@ -150,7 +150,7 @@
         <div class="col-sm-12 col-lg-4">
             <p class="cm-anno"><i class="MDI newspaper"></i> {{__('homepage.announcements.title')}}</p>
             <div>
-                @unless(empty($announcements))
+                @unless(blank($announcements))
                     @foreach($announcements as $announcement)
                         <timeline-container>
                             <timeline-item data-type="notice">

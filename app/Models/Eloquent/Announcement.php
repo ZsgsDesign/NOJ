@@ -9,6 +9,10 @@ class Announcement extends Model
     protected $table='announcement';
     protected $primaryKey='anid';
 
+    protected $fillable=[
+        'title', 'content'
+    ];
+
     public function user()
     {
         return $this->belongsTo('App\Models\Eloquent\User', 'uid');
