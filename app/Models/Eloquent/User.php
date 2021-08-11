@@ -65,7 +65,7 @@ class User extends Authenticatable
         return !in_array(explode('@', $this->email)[1], ['temporarily.email']) && !$this->contest_account;
     }
 
-    public function hasEmailPassAccess(){
+    public function isIndependent(){
         return $this->hasIndependentPassword() && $this->hasIndependentEmail();
     }
 
