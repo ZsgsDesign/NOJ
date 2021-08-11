@@ -126,6 +126,7 @@ class GithubController extends Controller
                         ]);
                     }
                     Auth::loginUsingId($createdUser->id);
+                    Auth::user()->setExtra('github_id', $github_user->id);
                     Auth::user()->setExtra('github_email', $github_user->email);
                     Auth::user()->setExtra('github_nickname', $github_user->nickname);
                     Auth::user()->setExtra('github_homepage', ($github_user->user)['html_url']);
