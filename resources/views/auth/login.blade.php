@@ -91,6 +91,18 @@
 
     .socialite-section a{
         color: inherit;
+        text-decoration: none;
+        margin: 0 0.5rem;
+    }
+
+    .socialite-section button{
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .socialite-section button i{
+        font-size: 2rem;
     }
 </style>
 <div class="container mundb-standard-container">
