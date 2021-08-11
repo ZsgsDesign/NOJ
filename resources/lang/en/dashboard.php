@@ -50,6 +50,7 @@ return [
         'emailNotBind' => 'you have not verified your email, your account security cannot be guaranteed <br> You can click the button below to send a confirmation email to your mailbox',
         'emailSend' => 'send email',
         'emailBinded' => 'Your email address <span class="text-info">:email</span> has been confirmed, and your email will provide extra support in case of security problems of your account.',
+        'emailTemp' => 'Your account uses system allocated tempory email address <span class="text-info">:email</span>',
         'passwordChange' => 'Change password',
         'passwordCreate' => 'Create independent password',
         'oldPassword' => 'old password',

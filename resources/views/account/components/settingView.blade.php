@@ -129,21 +129,29 @@
     </privacy-section> --}}
     <email-section class="paper-card">
         <p>{{__('dashboard.setting.emailVerify')}}</p>
-        <div class="text-center">
-            @unless(emailVerified())
-                <p style="padding: 1rem 0" >{{__('dashboard.setting.emailNotBind')}}</p>
-                <div class="text-center">
-                    <button id="send-email" @if(!empty($email_cooldown) && $email_cooldown > 0) data-cooldown="{{$email_cooldown}}" @endif class="btn btn-danger @if(!empty($email_cooldown) && $email_cooldown > 0) cooldown @endif">{{__('dashboard.setting.emailSend')}}</button>
-                </div>
-                <div id="email-tip" style="display: none;" class="text-center">
-                    <small id="email-tip-text" class="text-danger font-weight-bold"></small>
-                </div>
-            @else
+        @if(Auth::user()->hasIndependentEmail())
+            <div class="text-center">
+                @unless(emailVerified())
+                    <p style="padding: 1rem 0" >{{__('dashboard.setting.emailNotBind')}}</p>
+                    <div class="text-center">
+                        <button id="send-email" @if(!empty($email_cooldown) && $email_cooldown > 0) data-cooldown="{{$email_cooldown}}" @endif class="btn btn-danger @if(!empty($email_cooldown) && $email_cooldown > 0) cooldown @endif">{{__('dashboard.setting.emailSend')}}</button>
+                    </div>
+                    <div id="email-tip" style="display: none;" class="text-center">
+                        <small id="email-tip-text" class="text-danger font-weight-bold"></small>
+                    </div>
+                @else
+                    <p style="padding: 1rem 0">
+                        @lang('dashboard.setting.emailBinded',['email' => htmlspecialchars($info['email'])])
+                    </p>
+                @endunless
+            </div>
+        @else
+            <div class="text-center">
                 <p style="padding: 1rem 0">
-                    @lang('dashboard.setting.emailBinded',['email' => htmlspecialchars($info['email'])])
+                    @lang('dashboard.setting.emailTemp',['email' => htmlspecialchars($info['email'])])
                 </p>
-            @endunless
-        </div>
+            </div>
+        @endif
     </email-section>
     @endif
     <password-section class="paper-card">

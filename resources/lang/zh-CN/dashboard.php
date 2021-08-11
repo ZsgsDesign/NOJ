@@ -50,6 +50,7 @@ return [
         'emailNotBind' => '你尚未验证您的邮箱，你的账号安全将不能得到保障，你可以点击下面的按钮进行验证',
         'emailSend' => '发送验证邮件',
         'emailBinded' => '你的邮件地址 <span class="text-info">:email</span> 已经验证成功, 在您的账号出现安全问题时你的邮箱将会提供额外的安全支持.',
+        'emailTemp' => '您的账号使用系统分配的临时邮箱 <span class="text-info">:email</span>',
         'passwordChange' => '修改密码',
         'passwordCreate' => '创建独立密码',
         'oldPassword' => '旧密码',
