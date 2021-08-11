@@ -11,7 +11,7 @@
  */
 namespace App\Http\Controllers;
 
-use App\Models\AnnouncementModel;
+use App\Models\Eloquent\Announcement;
 use App\Models\ProblemModel;
 use App\Models\CarouselModel;
 use App\Http\Controllers\Controller;
@@ -40,8 +40,6 @@ class MainController extends Controller
      */
     public function home(Request $request)
     {
-        $announcementModel=new AnnouncementModel();
-        $announcements=$announcementModel->fetch();
         $problem=new ProblemModel();
         $ojs=$problem->ojs();
         // Log::debug(["info"=>"User Viewed Home!"]);
@@ -49,7 +47,7 @@ class MainController extends Controller
             'page_title'=>"Home",
             'site_title'=>config("app.name"),
             'navigation' => "Home",
-            'announcements' => $announcements,
+            'announcements' => Announcement::orderBy('created_at', 'desc')->get(),
             'ojs' => $ojs,
             'carousel' => CarouselModel::list()
         ]);

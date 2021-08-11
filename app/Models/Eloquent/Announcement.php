@@ -13,4 +13,14 @@ class Announcement extends Model
     {
         return $this->belongsTo('App\Models\Eloquent\User', 'uid');
     }
+
+    public function getPostDateParsedAttribute()
+    {
+        return formatHumanReadableTime($this->created_at);
+    }
+
+    public function getContentParsedAttribute()
+    {
+        return clean(convertMarkdownToHtml($this->content));
+    }
 }

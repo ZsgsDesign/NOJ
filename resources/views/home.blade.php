@@ -155,12 +155,12 @@
                         <timeline-container>
                             <timeline-item data-type="notice">
                                 <div>
-                                    <div>{{$announcement["name"]}} <span class="wemd-green-text">&rtrif; {{$announcement["post_date_parsed"]}}</span></div>
-                                    <div><img src="{{$announcement["avatar"]}}" class="cm-avatar"></div>
+                                    <div>{{$announcement->user->name}} <span class="wemd-green-text">&rtrif; {{$announcement->post_date_parsed}}</span></div>
+                                    <div><img src="{{$announcement->user->avatar}}" class="cm-avatar"></div>
                                 </div>
                                 <div>
-                                    <h5>{{$announcement["title"]}}</h5>
-                                    <p>{!!$announcement["content_parsed"]!!}</p>
+                                    <h5>{{$announcement->title}}</h5>
+                                    <p>{!!$announcement->content_parsed!!}</p>
                                 </div>
                             </timeline-item>
                         </timeline-container>
