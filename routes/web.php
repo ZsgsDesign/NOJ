@@ -40,7 +40,7 @@ Route::group(['prefix' => 'account','middleware' => ['user.banned','auth']], fun
     Route::get('/settings', 'AccountController@settings')->name('account.settings');
 });
 
-Route::group(['prefix' => 'oauth', 'namespace' => 'OAuth', 'as' => 'oauth.', 'middleware' => ['user.banned','auth']], function () {
+Route::group(['prefix' => 'oauth', 'namespace' => 'OAuth', 'as' => 'oauth.', 'middleware' => ['user.banned']], function () {
     Route::group(['prefix' => 'github', 'as' => 'github.'], function () {
         Route::get('/', 'GithubController@redirectTo')->name('index');
         Route::get('/unbind','GithubController@unbind')->name('unbind');
