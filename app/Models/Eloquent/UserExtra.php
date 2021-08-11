@@ -56,6 +56,9 @@ class UserExtra extends Model
         'github' => [
             'email','nickname','homepage','token'
         ],
+        'aauth' => [
+            'nickname'
+        ],
     ];
 
     public function user() {

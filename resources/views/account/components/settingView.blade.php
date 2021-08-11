@@ -102,10 +102,20 @@
         <p>{{__('dashboard.setting.socialiteInfo')}}</p>
         <div class="text-center">
             <account-bind class="github" style="display: inline-block; ">
-                @if(empty($socialite_info['github']))
-                    <i class="MDI github-circle"></i><span>{{__('dashboard.setting.buttonBind')}}</span>
-                @else
-                    <i class="MDI github-circle"></i><span>{{$socialite_info['github']['nickname'] ?? $socialite_info['github']['email']}}</span>
+                @if(config('services.github.enable'))
+                    @if(blank($socialite_info['github']))
+                        <i class="socialicon github-circle colored"></i><span>{{__('dashboard.setting.buttonBind')}}</span>
+                    @else
+                        <i class="socialicon github-circle colored"></i><span>{{$socialite_info['github']['nickname'] ?? $socialite_info['github']['email']}}</span>
+                    @endif
+                @endif
+
+                @if(config('services.aauth.enable'))
+                    @if(blank($socialite_info['aauth']))
+                        <i class="socialicon aauth-circle colored"></i><span>{{__('dashboard.setting.buttonBind')}}</span>
+                    @else
+                        <i class="socialicon aauth-circle colored"></i><span>{{$socialite_info['aauth']['nickname']}}</span>
+                    @endif
                 @endif
             </account-bind>
         </div>

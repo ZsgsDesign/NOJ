@@ -47,4 +47,11 @@ return [
         'redirect' => env('GITHUB_CALLBACK_URL'),
     ],
 
+    'aauth' => [
+        'enable' => env('AAUTH_ENABLE', false),
+        'client_id' => env('AAUTH_KEY'),
+        'client_secret' => env('AAUTH_SECRET'),
+        'redirect' => env('AAUTH_CALLBACK_URL'),
+    ],
+
 ];

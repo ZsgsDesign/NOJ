@@ -47,6 +47,12 @@ Route::group(['prefix' => 'oauth', 'namespace' => 'OAuth', 'as' => 'oauth.', 'mi
         Route::get('/unbind/confirm','GithubController@confirmUnbind')->name('unbind.confirm');
         Route::get('/callback', 'GithubController@handleCallback')->name('callback');
     });
+    Route::group(['prefix' => 'aauth', 'as' => 'aauth.'], function () {
+        Route::get('/', 'AAuthController@redirectTo')->name('index');
+        Route::get('/unbind','AAuthController@unbind')->name('unbind');
+        Route::get('/unbind/confirm','AAuthController@confirmUnbind')->name('unbind.confirm');
+        Route::get('/callback', 'AAuthController@handleCallback')->name('callback');
+    });
 });
 
 Route::group(['prefix' => 'user','as' => 'user.', 'middleware' => ['user.banned','auth','contest_account']], function () {
