@@ -246,7 +246,7 @@
         @else
             <a href="{{$socialite_info['github']['homepage']}}" target="_blank"><i class="MDI github-circle"></i></a>
         @endif
-        <i class="MDI email" style="opacity: 0.5"></i>
-        <i class="MDI web" style="opacity: 0.5"></i>
+        {{-- <i class="MDI email" style="opacity: 0.5"></i>
+        <i class="MDI web" style="opacity: 0.5"></i> --}}
     </social-section>
 </user-card>
