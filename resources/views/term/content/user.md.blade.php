@@ -1,6 +1,6 @@
 # **TERMS AND CONDITIONS**
 
-**Last Updated 01 September 2019**
+**Last Updated 11 August 2021**
 
 <div style="height:1rem;"></div>
 
@@ -18,7 +18,7 @@ The Site provides the following services: **Online Judge, Virtual Judge involved
 
 **1.4**  We may update or change the Site from time to time to reflect changes to our products, our users' needs and/or our business priorities.
 
-**1.5**  Our site is directed to people residing in England. The information provided on the Site is not intended for distribution to or use by any person or entity in any jurisdiction or country where such distribution or use would be contrary to law or regulation or which would subject us to any registration requirement within such jurisdiction or country.
+**1.5**  Our site is directed to people residing {{config('term.state')}}. The information provided on the Site is not intended for distribution to or use by any person or entity in any jurisdiction or country where such distribution or use would be contrary to law or regulation or which would subject us to any registration requirement within such jurisdiction or country.
 
 ## **2. Acceptable Use**
 
