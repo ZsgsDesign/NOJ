@@ -14,7 +14,7 @@ class GithubController extends Controller
     {
         if(Auth::check()){
             if(Auth::check() && Auth::user()->hasEmailPassAccess()){
-                return redirect('/account/settings');
+                return redirect()->route('account.settings');
             }
         }
         if(Auth::check() && Auth::user()->getExtra('github_id')){

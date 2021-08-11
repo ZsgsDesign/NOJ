@@ -45,7 +45,6 @@
     window.addEventListener("load",function() {
 
     }, false);
-
 </script>
 
 @endsection

@@ -35,9 +35,9 @@ Route::group(['prefix' => 'message','as' => 'message.','middleware' => ['user.ba
 });
 
 Route::group(['prefix' => 'account','middleware' => ['user.banned','auth']], function () {
-    Route::get('/', 'AccountController@index')->name('account_index');
-    Route::get('/dashboard', 'AccountController@dashboard')->name('account_dashboard');
-    Route::get('/settings', 'AccountController@settings')->name('account_settings');
+    Route::get('/', 'AccountController@index')->name('account.index');
+    Route::get('/dashboard', 'AccountController@dashboard')->name('account.dashboard');
+    Route::get('/settings', 'AccountController@settings')->name('account.settings');
 });
 
 Route::group(['prefix' => 'oauth', 'namespace' => 'OAuth', 'as' => 'oauth.', 'middleware' => ['user.banned','auth']], function () {
