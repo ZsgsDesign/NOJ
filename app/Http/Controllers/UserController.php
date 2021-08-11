@@ -33,7 +33,7 @@ class UserController extends Controller
             return redirect("/");
         }
         $feed=$accountModel->feed($uid);
-        $extraInfo = User::find($uid)->getExtra(['gender', 'contanct', 'school', 'country', 'location'], 0);
+        $extraInfo = User::find($uid)->getExtra(['gender', 'contact', 'school', 'country', 'location'], 0);
         $socialiteInfo = User::find($uid)->getSocialiteInfo(0);
         return view("account.dashboard", [
             'page_title'=>$info["name"],
