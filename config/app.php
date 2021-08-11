@@ -83,6 +83,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application OAuth Temp Account Allowance
+    |--------------------------------------------------------------------------
+    |
+    | This OAuth Temp Account Allowance is used by the OAuth Controller to
+    | determine whether a user can login without a binding account
+    | established or not.
+    |
+    */
+
+    'allow_oauth_temp_account' => env('APP_ALLOW_OAUTH_TEMP_ACCOUNT', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application URL
     |--------------------------------------------------------------------------
     |
@@ -93,9 +106,19 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
-    'multidomain' => env('APP_MULTI_DOMAIN', false),
-
     'asset_url' => env('ASSET_URL', null),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application MultiDomain
+    |--------------------------------------------------------------------------
+    |
+    | This Multi Domain is used by the Provider to determine whether this
+    | application should run on Mutli Domain mode or not.
+    |
+    */
+
+    'multidomain' => env('APP_MULTI_DOMAIN', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -212,6 +235,8 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Imtigger\LaravelJobStatus\LaravelJobStatusServiceProvider::class,
+
+
         /*
          * Application Service Providers...
          */
