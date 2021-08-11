@@ -85,7 +85,7 @@
     }
 
     .card-bottom{
-        background-color:rgb(244,244,244);
+        background: linear-gradient(0deg, #f4f4f4, #efefef);
         padding:10px;
     }
 
