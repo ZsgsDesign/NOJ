@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Models\Eloquent\Tool\Socialite;
 
 class LoginController extends Controller
 {
@@ -42,7 +43,8 @@ class LoginController extends Controller
         return view("auth.login", [
             'page_title'=>"Login",
             'site_title'=>config("app.name"),
-            'navigation' => "Account"
+            'navigation' => "Account",
+            'socialites' => Socialite::getAvailable(),
         ]);
     }
 }
