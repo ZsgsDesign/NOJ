@@ -13,7 +13,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Eloquent\Announcement;
 use App\Models\ProblemModel;
-use App\Models\CarouselModel;
+use App\Models\Eloquent\Carousel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
@@ -49,7 +49,7 @@ class MainController extends Controller
             'navigation' => "Home",
             'announcements' => Announcement::orderBy('created_at', 'desc')->get(),
             'ojs' => $ojs,
-            'carousel' => CarouselModel::list()
+            'carousel' => Carousel::where(["available"=>1])->get()
         ]);
     }
 

@@ -112,7 +112,7 @@
                     <inline-div>{{__('homepage.version')}}</inline-div><inline-div>{{version()}}</inline-div>
                 </version-badge>
             </div>
-            @unless(empty($carousel))
+            @unless(blank($carousel))
                 <div id="NOJFocusCarousel" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         @foreach ($carousel as $c)
@@ -122,7 +122,7 @@
                     <div class="carousel-inner">
                         @foreach ($carousel as $c)
                             <div class="carousel-item @unless($loop->index) active @endunless">
-                                <a href="{{$c["url"]}}" target="_blank"><img class="d-block w-100" src="{{$c["image"]}}" alt="{{$c["title"]}}"></a>
+                                <a href="{{$c->url}}" target="_blank"><img class="d-block w-100" src="{{$c->image}}" alt="{{$c->title}}"></a>
                             </div>
                         @endforeach
                     </div>
