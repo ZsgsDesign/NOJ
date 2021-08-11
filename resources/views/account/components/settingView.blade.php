@@ -1,21 +1,13 @@
 <style>
-    account-bind{
-        cursor: pointer;
-        transition: background-color 400ms;
+    socialite-setting button.btn{
+        display: inline-flex;
+        align-items: center;
         padding: 0 2rem;
     }
 
-    account-bind span{
+    socialite-setting button.btn span{
         text-indent: 1rem;
-        vertical-align: text-bottom;
         display: inline-block;
-        height: 2rem;
-        line-height: 2rem;
-        padding-top: 0.05rem
-    }
-
-    account-bind:hover{
-        background-color: #eee;
     }
 
     setting-card > .paper-card {
@@ -101,7 +93,7 @@
     <socialite-setting class="paper-card">
         <p>{{__('dashboard.setting.socialiteInfo')}}</p>
         <div class="text-center">
-            <account-bind class="github" style="display: inline-block; ">
+            <button class="btn btn-default github">
                 @if(config('services.github.enable'))
                     @if(empty($socialite_info['github']))
                         <i class="socialicon github-circle colored" style="opacity: 0.5"></i><span>{{__('dashboard.setting.buttonBind')}}</span>
@@ -109,8 +101,8 @@
                         <i class="socialicon github-circle colored"></i><span>{{$socialite_info['github']['nickname'] ?? $socialite_info['github']['email']}}</span>
                     @endif
                 @endif
-            </account-bind>
-            <account-bind class="aauth" style="display: inline-block; ">
+            </button>
+            <button class="btn btn-default aauth">
                 @if(config('services.aauth.enable'))
                     @if(empty($socialite_info['aauth']))
                         <i class="socialicon aauth-circle colored" style="opacity: 0.5"></i><span>{{__('dashboard.setting.buttonBind')}}</span>
@@ -118,7 +110,7 @@
                         <i class="socialicon aauth-circle colored"></i><span>{{$socialite_info['aauth']['nickname']}}</span>
                     @endif
                 @endif
-            </account-bind>
+            </button>
         </div>
     </socialite-setting>
     {{-- <style-section class="paper-card">
@@ -189,11 +181,11 @@
             $('#describes-length').text(length);
         });
 
-        $('account-bind.github').on('click',function(){
+        $('socialite-setting .github').on('click',function(){
             window.location= '{{ route('oauth.github.index') }}' ;
         });
 
-        $('account-bind.aauth').on('click',function(){
+        $('socialite-setting .aauth').on('click',function(){
             window.location= '{{ route('oauth.aauth.index') }}' ;
         });
 
