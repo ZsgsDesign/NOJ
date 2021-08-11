@@ -73,7 +73,7 @@ return [
     ],
     'message'    => [
         'agreeJoin' => [
-            'title'   => '他们已同意加入你的群组 :name',
+            'title'   => '他们已同意加入您的群组 :name',
             'content' => ''
         ],
         'appliedJoin'=> [
@@ -82,12 +82,12 @@ return [
         ],
         'inviteJoin' => [
             'title'   => ':sender_name 邀请您加入 :group_name',
-            'content' => '嗨,  **:reciver_name**,\n\n  **:sender_name** 刚刚邀请你加入 **[:group_name](:group_url)** 群组. 现在就看一看，认识一些有趣的人吧!\n\n NOJ'
+            'content' => '嗨,  **:reciver_name**,\n\n  **:sender_name** 刚刚邀请您加入 **[:group_name](:group_url)** 群组. 现在就看一看，认识一些有趣的人吧!\n\n NOJ'
         ]
     ],
     'general' => [
         'groupName' => '组名',
-        'changeNameTip' => '为你的小组指定新的名字',
+        'changeNameTip' => '为您的小组指定新的名字',
         'joinPolicy' => '加入政策',
         'invitation' => '邀请制',
         'application' => '申请制',
@@ -97,7 +97,7 @@ return [
         'changeGroupImageTip' => '点击图片以上传新的图片',
         'errorAvatarFast' => '慢点！',
         'errorChosseLocalFile' => '请选择一个本地图片',
-        'errorFileLarge' => '你选择的图片太大了',
+        'errorFileLarge' => '您选择的图片太大了',
     ],
     'member' => [
         'permissionManagement' => '权限管理',
@@ -168,7 +168,7 @@ return [
         'close' => '关闭',
         'add' => '添加',
         'errorContestTimeShort' => '比赛时间起码1分钟。',
-        'noChargeContest' => '你没有负责任何比赛。',
+        'noChargeContest' => '您没有负责任何比赛。',
         'noContestInGroup' => '本群组尚未创建比赛。',
         'noOneAssigned' => '本比赛没有指定负责人，点击以指定。',
         'deleteProblemTip' => '删除这个题目',
@@ -180,12 +180,12 @@ return [
     ],
     'problem' => [
         'title' => '群组题目管理',
-        'empty' => '没有你可以操作的题目',
+        'empty' => '没有您可以操作的题目',
         'no' => '序号',
         'problem' => '题目',
         'addTagTip' => '为这个题目添加标签',
         'removeTagTip' => '点击以移除标签',
-        'deleteTagConfirm' => '你确定要删除这个标签？',
+        'deleteTagConfirm' => '您确定要删除这个标签？',
         'errorTagNameEmpty' => '标签名不能为空'
     ],
     'danger' => [

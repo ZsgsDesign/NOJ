@@ -18,10 +18,10 @@ return [
     'report'        => '反馈BUG',
     'logout'        => '注销',
     'account'       => '登录/注册',
-    'emailverify'   => '<strong>注意您的账号安全!</strong> 你还没有验证您的邮箱，请在个人设置界面进行邮箱验证。',
+    'emailverify'   => '<strong>注意您的账号安全!</strong> 您还没有验证您的邮箱，请在个人设置界面进行邮箱验证。',
     'message' => [
-        'empty'     => '你没有新的消息。',
-        'tip_head'  => '你有 ',
+        'empty'     => '您没有新的消息。',
+        'tip_head'  => '您有 ',
         'tip_foot'  => ' 条未读消息。'
     ],
     'greeting' => [
