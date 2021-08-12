@@ -89,7 +89,7 @@
             </div>
         </form>
     </extra-section>
-    @if(!$info['contest_account'])
+    @if(!$info['contest_account'] && filled($socialites))
     <socialite-setting class="paper-card">
         <p>{{__('dashboard.setting.socialiteInfo')}}</p>
         <div class="text-center">

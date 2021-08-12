@@ -241,12 +241,12 @@
         @endif
     </solved-section>
     <social-section>
-        @if(empty($socialite_info['github']))
-            <i class="MDI github-circle" style="opacity: 0.5"></i>
-        @else
-            <a href="{{$socialite_info['github']['homepage']}}" target="_blank"><i class="MDI github-circle"></i></a>
+        @if(config('services.github.enable'))
+            @if(empty($socialite_info['github']))
+                <i class="MDI github-circle" style="opacity: 0.5"></i>
+            @else
+                <a href="{{$socialite_info['github']['homepage']}}" target="_blank"><i class="MDI github-circle"></i></a>
+            @endif
         @endif
-        {{-- <i class="MDI email" style="opacity: 0.5"></i>
-        <i class="MDI web" style="opacity: 0.5"></i> --}}
     </social-section>
 </user-card>
