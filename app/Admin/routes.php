@@ -26,6 +26,7 @@ Route::group([
     $router->resource('abuses', AbuseController::class);
 
     Route::match(['GET','POST'],'codetester', 'CodeTesterController@tester')->name('admin.codetester.tester');
+    Route::match(['GET','POST'],'settings', 'SettingsController@index')->name('admin.settings.index');
 
     Route::group(['prefix' => 'babel'], function (Router $router) {
         $router->get('/', 'BabelController@index')->name('admin.babel.index');

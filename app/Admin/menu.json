@@ -380,5 +380,17 @@
                 "roles": []
             }
         ]
+    },
+    {
+        "id": 35,
+        "parent_id": 0,
+        "order": 27,
+        "title": "admin.menu_titles.settings",
+        "icon": "MDI settings",
+        "uri": "settings",
+        "permission": null,
+        "created_at": "2019-04-22 13:13:45",
+        "updated_at": "2019-04-22 13:13:45",
+        "roles": []
     }
 ]
