@@ -8,7 +8,7 @@ class AppSettings
 {
     public static function get($key, $default) {
         $ret = Setting::where(['key' => $key])->first();
-        if(blank($ret)) {
+        if(blank($ret) || blank($ret->content)) {
             return $default;
         }
         return $ret->is_json ? json_decode($ret->content) : $ret->content;
