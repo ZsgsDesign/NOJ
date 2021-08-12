@@ -25,6 +25,8 @@ class UserExtra extends Model
         1002  => 'github_nickname',
         1003  => 'github_homepage',
         1004  => 'github_token',
+        1010  => 'aauth_id',
+        1011  => 'aauth_nickname',
     ];
 
     public static $extraDict = [
