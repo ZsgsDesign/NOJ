@@ -26,7 +26,7 @@ class SettingsController extends Controller
         $content=$content->description(__('admin.settings.index.description'));
         if (request()->isMethod('post')) {
             $this->writeSettings();
-            $content->withSuccess(__('admin.settings.tooltip.success.title'), __('admin.settings.tooltip.success.message'));
+            admin_toastr(__('admin.settings.tooltip.success.message'), 'success');
         }
         return $content->body($this->form());
     }

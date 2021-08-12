@@ -400,7 +400,6 @@ return [
         ],
         'tooltip' => [
             'success' => [
-                'title'     => 'Saved Complete',
                 'message'   => 'Settings saved successfully.',
             ],
         ],

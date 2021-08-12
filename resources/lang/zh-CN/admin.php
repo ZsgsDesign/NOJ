@@ -400,8 +400,7 @@ return [
         ],
         'tooltip' => [
             'success' => [
-                'title'     => '保存完成',
-                'message'   => '设置已成功保存。',
+                'message'   => '系统设置已成功保存。',
             ],
         ],
     ],
