@@ -27,6 +27,7 @@ use GrahamCampbell\Markdown\Facades\Markdown;
 use App\Models\Eloquent\Message;
 use App\Models\Latex\LatexModel;
 use App\Models\Eloquent\Tool\Theme;
+use App\Models\Eloquent\Tool\AppSettings;
 
 if (!function_exists('version')) {
     function version()
@@ -247,5 +248,18 @@ if (!function_exists('getTheme')) {
             $id=config('app.theme');
         }
         return Theme::getTheme($id);
+    }
+}
+
+if (!function_exists('setting')) {
+    function setting($identifier, $default=null)
+    {
+        if(is_array($identifier)) {
+            foreach($identifier as $key=>$content){
+                AppSettings::set($key, $content);
+            }
+            return true;
+        }
+        return AppSettings::get($identifier, $default);
     }
 }
