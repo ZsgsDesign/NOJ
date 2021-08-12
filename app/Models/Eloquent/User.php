@@ -119,6 +119,7 @@ class User extends Authenticatable
         }
         $ret = $this->extras()->where('key', $key)->limit(1)->get()->toArray();
         if(!empty($ret)){
+            $ret = $ret[0];
             unset($ret['id']);
             if(!is_null($value)){
                 $ret['value'] = $value;
