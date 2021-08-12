@@ -93,24 +93,28 @@
     <socialite-setting class="paper-card">
         <p>{{__('dashboard.setting.socialiteInfo')}}</p>
         <div class="text-center">
-            <button class="btn btn-default github">
-                @if(config('services.github.enable'))
+
+            @if(config('services.github.enable'))
+                <button class="btn btn-default github">
                     @if(empty($socialite_info['github']))
                         <i class="socialicon github-circle colored" style="opacity: 0.5"></i><span>{{__('dashboard.setting.buttonBind')}}</span>
                     @else
                         <i class="socialicon github-circle colored"></i><span>{{$socialite_info['github']['nickname'] ?? $socialite_info['github']['email']}}</span>
                     @endif
-                @endif
-            </button>
-            <button class="btn btn-default aauth">
-                @if(config('services.aauth.enable'))
+                </button>
+            @endif
+
+            @if(config('services.aauth.enable'))
+                <button class="btn btn-default aauth">
+
                     @if(empty($socialite_info['aauth']))
                         <i class="socialicon aauth-circle colored" style="opacity: 0.5"></i><span>{{__('dashboard.setting.buttonBind')}}</span>
                     @else
                         <i class="socialicon aauth-circle colored"></i><span>{{$socialite_info['aauth']['nickname']}}</span>
                     @endif
-                @endif
-            </button>
+                </button>
+            @endif
+
         </div>
     </socialite-setting>
     {{-- <style-section class="paper-card">
