@@ -11,7 +11,7 @@ class OAuthController extends Controller
 
     private function generateView($config){
         $config+=[
-            'page_title' => "{$this->platformName} OAuth",
+            'page_title' => __("oauth.title.platform", ['platform' => $this->platformName]),
             'site_title' => config("app.name"),
             'navigation' => "OAuth",
             'platform' => $this->platformName,
@@ -21,15 +21,15 @@ class OAuthController extends Controller
 
     protected function generateOperationView($OAuthAccount){
         return $this->generateView([
-            'display_html' => "You're already tied to the {$this->platformName} account: <span class=\"text-info\">$OAuthAccount</span><br /> You can choose to unbind or go back to the homepage.",
+            'display_html' => __("oauth.operation", ['platform' => $this->platformName, 'oauthaccount' => $OAuthAccount]),
             'buttons' => [
                 [
-                    'text' => 'unbind',
+                    'text' => __("oauth.action.unbind"),
                     'href' => route("oauth.{$this->platformID}.unbind"),
                     'style' => 'btn-danger'
                 ],
                 [
-                    'text' => 'home',
+                    'text' => __("oauth.action.home"),
                     'href' => route('home'),
                 ],
             ]
@@ -38,10 +38,10 @@ class OAuthController extends Controller
 
     protected function generateDuplicateView($NOJAccount){
         return $this->generateView([
-            'display_html' => "The {$this->platformName} account is now tied to another ".config("app.name")." account: <span class=\"text-danger\">$NOJAccount</span><br /> You can try logging in using {$this->platformName}.",
+            'display_html' => __("oauth.duplicate", [ 'platform' => $this->platformName, 'appname' => config("app.name"), 'nojaccount' => $NOJAccount ]),
             'buttons' => [
                 [
-                    'text' => 'home',
+                    'text' => __("oauth.action.home"),
                     'href' => route('home'),
                 ],
             ]
@@ -50,10 +50,10 @@ class OAuthController extends Controller
 
     protected function generateSuccessView($OAuthAccount){
         return $this->generateView([
-            'display_html' => "You have successfully tied up the {$this->platformName} account: <span class=\"text-info\">$OAuthAccount</span><br /> You can log in to ".config("app.name")." later using this account.",
+            'display_html' => __("oauth.success", [ 'platform' => $this->platformName, 'appname' => config("app.name"), 'oauthaccount' => $OAuthAccount ]),
             'buttons' => [
                 [
-                    'text' => 'home',
+                    'text' => __("oauth.action.home"),
                     'href' => route('home'),
                 ],
             ]
@@ -62,10 +62,10 @@ class OAuthController extends Controller
 
     protected function generateUnknownErrorView(){
         return $this->generateView([
-            'display_text' => 'Some wired things happened when registering your account, please contact site admin or simply retry again.',
+            'display_text' => __("oauth.action.unknownerror"),
             'buttons' => [
                 [
-                    'text' => 'retry login',
+                    'text' => __("oauth.action.retry"),
                     'href' => route('login'),
                 ]
             ]
@@ -74,32 +74,32 @@ class OAuthController extends Controller
 
     protected function generateAccountNotFoundView(){
         $buttons=[[
-            'text' => 'login',
+            'text' => __("oauth.action.login"),
             'href' => route('login'),
         ]];
         if(config('function.register')){
             $buttons[]=[
-                'text' => 'register',
+                'text' => __("oauth.action.register"),
                 'href' => route('register'),
             ];
         }
         return $this->generateView([
-            'display_text' => "This {$this->platformName} account doesn't seem to have a ".config("app.name")." account, please have your account binded at first place.",
+            'display_text' => __("oauth.accountnotfound", [ 'platform' => $this->platformName, 'appname' => config("app.name") ]),
             'buttons' => $buttons
         ]);
     }
 
     protected function generateUnbindConfirmView($NOJAccount, $OAuthAccount){
         return $this->generateView([
-            'display_html' => "You are trying to unbind the following two: <br /> Your ".config("app.name")." account: <span class=\"text-info\">$NOJAccount</span><br /> This {$this->platformName} account: <span class=\"text-info\">$OAuthAccount</span><br /> Make your decision carefully, although you can later establish the binding again.",
+            'display_html' => __("oauth.unbindconfirm", [ 'platform' => $this->platformName, 'appname' => config("app.name"), 'oauthaccount' => $OAuthAccount, 'nojaccount' => $NOJAccount ]),
             'buttons' => [
                 [
-                    'text' => 'confirm',
+                    'text' => __("oauth.action.confirm"),
                     'href' => route("oauth.{$this->platformID}.unbind.confirm"),
                     'style' => 'btn-danger'
                 ],
                 [
-                    'text' => 'home',
+                    'text' => __("oauth.action.home"),
                     'href' => route('home'),
                 ],
             ]
@@ -108,10 +108,10 @@ class OAuthController extends Controller
 
     protected function generateAlreadyUnbindView(){
         return $this->generateView([
-            'display_html' => "You are not tied to {$this->platformName} anymore.",
+            'display_html' => __("oauth.alreadyunbind", [ 'platform' => $this->platformName ]),
             'buttons' => [
                 [
-                    'text' => 'home',
+                    'text' => __("oauth.action.home"),
                     'href' => route('home'),
                 ],
             ]
@@ -120,10 +120,10 @@ class OAuthController extends Controller
 
     protected function generateUnbindSuccessView(){
         return $this->generateView([
-            'display_html' => "You have successfully unbind your {$this->platformName} account from your ".config("app.name")." account.",
+            'display_html' => __("oauth.unbindsuccess", [ 'platform' => $this->platformName, 'appname' => config("app.name") ]),
             'buttons' => [
                 [
-                    'text' => 'home',
+                    'text' => __("oauth.action.home"),
                     'href' => route('home'),
                 ],
             ]
