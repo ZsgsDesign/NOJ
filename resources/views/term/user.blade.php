@@ -20,7 +20,7 @@
     </style>
     <div class="container mundb-standard-container">
         <term-container>
-            @if(is_null(setting('terms')))
+            @if(blank(setting('terms')))
                 @include('term.content.user')
             @else
                 {!! clean(convertMarkdownToHtml(setting('terms'))) !!}
