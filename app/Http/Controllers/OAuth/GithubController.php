@@ -56,8 +56,8 @@ class GithubController extends Controller
         if(Auth::check()){
             $user_id = Auth::user()->id;
             $ret = UserExtra::search('github_id', $github_user->id);
-            if(!empty($ret) && $ret['uid'] != $user_id){
-                $user = User::find($ret['uid']);
+            if(!empty($ret) && $ret[0]['uid'] != $user_id){
+                $user = User::find($ret[0]['uid']);
                 return view('oauth.index',[
                     'page_title'=>"OAuth",
                     'site_title'=>config("app.name"),
@@ -77,7 +77,7 @@ class GithubController extends Controller
             Auth::user()->setExtra('github_email', $github_user->email);
             Auth::user()->setExtra('github_nickname', $github_user->nickname);
             Auth::user()->setExtra('github_homepage', ($github_user->user)['html_url']);
-            Auth::user()->setExtra('github_token', $github_user->token,101);
+            Auth::user()->setExtra('github_token', $github_user->token, 101);
             return view('oauth.index',[
                 'page_title'=>"OAuth",
                 'site_title'=>config("app.name"),
@@ -95,7 +95,7 @@ class GithubController extends Controller
         }else{
             $ret = UserExtra::search('github_id', $github_user->id);
             if(!empty($ret)){
-                Auth::loginUsingId($ret['uid']);
+                Auth::loginUsingId($ret[0]['uid'], true);
                 Auth::user()->setExtra('github_email', $github_user->email);
                 Auth::user()->setExtra('github_nickname', $github_user->nickname);
                 Auth::user()->setExtra('github_homepage', ($github_user->user)['html_url']);
@@ -125,7 +125,7 @@ class GithubController extends Controller
                             ]
                         ]);
                     }
-                    Auth::loginUsingId($createdUser->id);
+                    Auth::loginUsingId($createdUser->id, true);
                     Auth::user()->setExtra('github_id', $github_user->id);
                     Auth::user()->setExtra('github_email', $github_user->email);
                     Auth::user()->setExtra('github_nickname', $github_user->nickname);

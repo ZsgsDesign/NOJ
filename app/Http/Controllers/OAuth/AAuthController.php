@@ -77,8 +77,8 @@ class AAuthController extends Controller
         if(Auth::check()){
             $user_id = Auth::user()->id;
             $ret = UserExtra::search('aauth_id', $aauth_user->id);
-            if(!empty($ret) && $ret['uid'] != $user_id){
-                $user = User::find($ret['uid']);
+            if(!empty($ret) && $ret[0]['uid'] != $user_id){
+                $user = User::find($ret[0]['uid']);
                 return view('oauth.index',[
                     'page_title'=>"OAuth",
                     'site_title'=>config("app.name"),
@@ -113,7 +113,7 @@ class AAuthController extends Controller
         }else{
             $ret = UserExtra::search('aauth_id', $aauth_user->id);
             if(!empty($ret)){
-                Auth::loginUsingId($ret['uid']);
+                Auth::loginUsingId($ret[0]['uid'], true);
                 Auth::user()->setExtra('aauth_nickname', $aauth_user->name);
                 return redirect()->route('account.dashboard');
             }else{
@@ -140,7 +140,7 @@ class AAuthController extends Controller
                             ]
                         ]);
                     }
-                    Auth::loginUsingId($createdUser->id);
+                    Auth::loginUsingId($createdUser->id, true);
                     Auth::user()->setExtra('aauth_id', $aauth_user->id);
                     Auth::user()->setExtra('aauth_nickname', $aauth_user->name);
                     return redirect()->route('account.dashboard');
