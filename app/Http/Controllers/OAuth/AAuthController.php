@@ -115,7 +115,7 @@ class AAuthController extends Controller
             if(!empty($ret)){
                 Auth::loginUsingId($ret['uid']);
                 Auth::user()->setExtra('aauth_nickname', $aauth_user->name);
-                return redirect('/');
+                return redirect()->route('account.dashboard');
             }else{
                 if(config('app.allow_oauth_temp_account')){
                     try {

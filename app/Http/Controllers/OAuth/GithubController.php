@@ -100,7 +100,7 @@ class GithubController extends Controller
                 Auth::user()->setExtra('github_nickname', $github_user->nickname);
                 Auth::user()->setExtra('github_homepage', ($github_user->user)['html_url']);
                 Auth::user()->setExtra('github_token', $github_user->token,101);
-                return redirect('/');
+                return redirect()->route('account.dashboard');
             }else{
                 if(config('app.allow_oauth_temp_account')){
                     try {
@@ -131,7 +131,7 @@ class GithubController extends Controller
                     Auth::user()->setExtra('github_nickname', $github_user->nickname);
                     Auth::user()->setExtra('github_homepage', ($github_user->user)['html_url']);
                     Auth::user()->setExtra('github_token', $github_user->token, 101);
-                    return redirect('/');
+                    return redirect()->route('account.dashboard');
                 }
                 $buttons=[[
                     'text' => 'login',
