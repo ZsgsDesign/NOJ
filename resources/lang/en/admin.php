@@ -386,4 +386,23 @@ return [
             'installfirst'  => 'Please install BABEL Extension NOJ first.',
         ],
     ],
+    'settings' => [
+        'index' => [
+            'header'        => 'System Settings',
+            'description'   => 'configure system related parameters',
+        ],
+        'form' => [
+            'header'        => 'Advanced Settings',
+            'terms'         => 'Custom Site Terms',
+        ],
+        'help' => [
+            'terms'         => 'Custom terms for your website, left blank if you wanna use the terms template by configurating env file.',
+        ],
+        'tooltip' => [
+            'success' => [
+                'title'     => 'Saved Complete',
+                'message'   => 'Settings saved successfully.',
+            ],
+        ],
+    ],
 ];

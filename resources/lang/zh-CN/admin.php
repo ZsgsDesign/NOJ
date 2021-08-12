@@ -386,4 +386,23 @@ return [
             'installfirst'  => '请首先安装BABEL拓展包NOJ。',
         ],
     ],
+    'settings' => [
+        'index' => [
+            'header'        => '系统设置',
+            'description'   => '配置系统相关参数',
+        ],
+        'form' => [
+            'header'        => '高级设置',
+            'terms'         => '自定义站点使用条款',
+        ],
+        'help' => [
+            'terms'         => '自定义您的站点条款，如果您系统通过配置env文件使用模板条款请留空。',
+        ],
+        'tooltip' => [
+            'success' => [
+                'title'     => '保存完成',
+                'message'   => '设置已成功保存。',
+            ],
+        ],
+    ],
 ];
