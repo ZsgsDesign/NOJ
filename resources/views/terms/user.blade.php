@@ -21,7 +21,7 @@
     <div class="container mundb-standard-container">
         <term-container>
             @if(blank(setting('terms')))
-                @include('term.content.user')
+                @include('terms.content.user')
             @else
                 {!! clean(convertMarkdownToHtml(setting('terms'))) !!}
             @endif

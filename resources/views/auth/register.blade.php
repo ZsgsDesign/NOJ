@@ -166,7 +166,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="checkbox">
-                                        <label for="agreement"><input class="form-control" type="checkbox" name="agreement" id="agreement" required><span style="transition: .2s ease-out .0s;">{{__("account.agree")}} <a href="{{route('term.user')}}" target="_blank">{{__("account.terms")}}</a></span></label>
+                                        <label for="agreement"><input class="form-control" type="checkbox" name="agreement" id="agreement" required><span style="transition: .2s ease-out .0s;">{{__("account.agree")}} <a href="{{route('terms.user')}}" target="_blank">{{__("account.terms")}}</a></span></label>
                                     </div>
                                 </div>
 

@@ -134,9 +134,9 @@ Route::group(['prefix' => 'rank', 'middleware' => ['user.banned']], function () 
     Route::get('/', 'RankController@index')->middleware('contest_account')->name('rank_index');
 });
 
-Route::group(['prefix' => 'term', 'middleware' => ['user.banned']], function () {
-    Route::redirect('/', '/term/user', 301);
-    Route::get('/user', 'TermController@user')->name('term.user');
+Route::group(['prefix' => 'terms', 'middleware' => ['user.banned']], function () {
+    Route::redirect('/', '/terms/user', 301);
+    Route::get('/user', 'TermsController@user')->name('terms.user');
 });
 
 Route::group(['namespace' => 'Tool', 'middleware' => ['contest_account', 'user.banned']], function () {
