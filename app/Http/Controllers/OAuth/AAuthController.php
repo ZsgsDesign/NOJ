@@ -5,10 +5,14 @@ namespace App\Http\Controllers\OAuth;
 use App\Http\Controllers\Controller;
 use App\Models\Eloquent\User;
 use App\Models\Eloquent\UserExtra;
-use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\RedirectResponse;
 use Auth;
+use Exception;
+use Requests;
 use Str;
+use Throwable;
+use Log;
 
 class AAuthController extends Controller
 {
@@ -42,14 +46,31 @@ class AAuthController extends Controller
                 ]);
             }
         }
-        return Socialite::driver('aauth')->redirect();
+        return new RedirectResponse('https://cn.aauth.link/#/launch/'.config('services.aauth.client_id'));
+    }
+
+    private function user($code)
+    {
+        $response = Requests::post('https://cn.api.aauth.link/auth/',[], json_encode([
+            'code' => $code,
+            'app' => config('services.aauth.client_id'),
+            'secret' => config('services.aauth.client_secret')
+        ]));
+        if(!$response->success){
+            throw new Exception('Requesting Error');
+        }
+        $user = json_decode($response->body);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception('JSON Error');
+        }
+        return $user;
     }
 
     public function handleCallback()
     {
         try{
-            $aauth_user = Socialite::driver('aauth')->user();
-        }catch(\Laravel\Socialite\Two\InvalidStateException $e){
+            $aauth_user = $this->user(request()->code);
+        }catch(Throwable $e){
             return redirect('/');
         }
 
@@ -122,7 +143,7 @@ class AAuthController extends Controller
                     Auth::loginUsingId($createdUser->id);
                     Auth::user()->setExtra('aauth_id', $aauth_user->id);
                     Auth::user()->setExtra('aauth_nickname', $aauth_user->name);
-                    return redirect('/');
+                    return redirect()->route('account.dashboard');
                 }
                 $buttons=[[
                     'text' => 'login',
