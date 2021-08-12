@@ -134,6 +134,7 @@ return [
         'babelCatg'         => 'Babel Extension',
         'babelinstalled'    => 'Extension Manager',
         'babelmarketspace'  => 'Babel Marketspace',
+        'settings'          => 'System Settings',
     ],
     'home' => [
         'dashboard'         => 'Dashboard',

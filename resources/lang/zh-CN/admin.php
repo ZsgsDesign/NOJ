@@ -134,6 +134,7 @@ return [
         'babelCatg'         => 'BABEL拓展包',
         'babelinstalled'    => 'BABEL管理工具',
         'babelmarketspace'  => 'BABEL应用市场',
+        'settings'          => '系统设置',
     ],
     'home' => [
         'dashboard'         => '仪表盘',
