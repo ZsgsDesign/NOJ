@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\OAuth;
 
-use App\Http\Controllers\Controller;
 use App\Models\Eloquent\User;
 use App\Models\Eloquent\UserExtra;
 use Laravel\Socialite\Facades\Socialite;
@@ -10,8 +9,14 @@ use Illuminate\Database\QueryException;
 use Auth;
 use Str;
 
-class GithubController extends Controller
+class GithubController extends OAuthController
 {
+    public function __construct()
+    {
+        $this->platform="Github";
+        $this->platformID="github";
+    }
+
     public function redirectTo()
     {
         // 2 ways to access this page, you want to bind(logined), you want to login(not logined)
@@ -21,25 +26,7 @@ class GithubController extends Controller
                 return redirect()->route('account.settings');
             }
             if(Auth::user()->getExtra('github_id')){
-                return view('oauth.index',[
-                    'page_title'=>"OAuth",
-                    'site_title'=>config("app.name"),
-                    'navigation'=>"OAuth",
-                    'platform' => 'Github',
-                    'display_html' => 'You\'re already tied to the github account : <span class="text-info">'.Auth::user()->getExtra('github_email').'</span><br />
-                    You can choose to unbind or go back to the homepage',
-                    'buttons' => [
-                        [
-                            'text' => 'unbind',
-                            'href' => route('oauth.github.unbind'),
-                            'style' => 'btn-danger'
-                        ],
-                        [
-                            'text' => 'home',
-                            'href' => route('home'),
-                        ],
-                    ]
-                ]);
+                return $this->generateOperationView(Auth::user()->getExtra('github_email'));
             }
         }
         return Socialite::driver('github')->redirect();
@@ -50,7 +37,7 @@ class GithubController extends Controller
         try{
             $github_user = Socialite::driver('github')->user();
         }catch(\Laravel\Socialite\Two\InvalidStateException $e){
-            return redirect('/');
+            return redirect()->route('home');
         }
 
         if(Auth::check()){
@@ -58,40 +45,14 @@ class GithubController extends Controller
             $ret = UserExtra::search('github_id', $github_user->id);
             if(!empty($ret) && $ret[0]['uid'] != $user_id){
                 $user = User::find($ret[0]['uid']);
-                return view('oauth.index',[
-                    'page_title'=>"OAuth",
-                    'site_title'=>config("app.name"),
-                    'navigation'=>"OAuth",
-                    'platform' => 'Github',
-                    'display_html' => 'The github account is now tied to another '.config("app.name").' account : <span class="text-danger">'.$user->email.'</span><br />
-                    You can try logging in using github',
-                    'buttons' => [
-                        [
-                            'text' => 'home',
-                            'href' => route('home'),
-                        ],
-                    ]
-                ]);
+                return $this->generateDuplicateView($user->email);
             }
             Auth::user()->setExtra('github_id', $github_user->id);
             Auth::user()->setExtra('github_email', $github_user->email);
             Auth::user()->setExtra('github_nickname', $github_user->nickname);
             Auth::user()->setExtra('github_homepage', ($github_user->user)['html_url']);
             Auth::user()->setExtra('github_token', $github_user->token, 101);
-            return view('oauth.index',[
-                'page_title'=>"OAuth",
-                'site_title'=>config("app.name"),
-                'navigation'=>"OAuth",
-                'platform' => 'Github',
-                'display_html' => 'You have successfully tied up the github account : <span class="text-info">'.Auth::user()->getExtra('github_email').'</span><br />
-                You can log in to '.config("app.name").' later using this account',
-                'buttons' => [
-                    [
-                        'text' => 'home',
-                        'href' => route('home'),
-                    ],
-                ]
-            ]);
+            return $this->generateSuccessView(Auth::user()->getExtra('github_email'));
         }else{
             $ret = UserExtra::search('github_id', $github_user->id);
             if(!empty($ret)){
@@ -111,19 +72,7 @@ class GithubController extends Controller
                             'avatar' => '/static/img/avatar/default.png',
                         ]);
                     }catch(QueryException $exception){
-                        return view('oauth.index',[
-                            'page_title'=>"OAuth",
-                            'site_title'=>config("app.name"),
-                            'navigation'=>"OAuth",
-                            'platform' => 'Github',
-                            'display_text' => 'Some wired things happened when registering your account, please contact site admin or simply retry again.',
-                            'buttons' => [
-                                [
-                                    'text' => 'retry login',
-                                    'href' => route('login'),
-                                ]
-                            ]
-                        ]);
+                        return $this->generateUnknownErrorView();
                     }
                     Auth::loginUsingId($createdUser->id, true);
                     Auth::user()->setExtra('github_id', $github_user->id);
@@ -143,14 +92,7 @@ class GithubController extends Controller
                         'href' => route('register'),
                     ];
                 }
-                return view('oauth.index',[
-                    'page_title'=>"OAuth",
-                    'site_title'=>config("app.name"),
-                    'navigation'=>"OAuth",
-                    'platform' => 'Github',
-                    'display_text' => 'This github account doesn\'t seem to have a '.config("app.name").' account, please have your account binded at first place.',
-                    'buttons' => $buttons
-                ]);
+                return $this->generateAccountNotFoundView();
             }
         }
     }
@@ -158,51 +100,19 @@ class GithubController extends Controller
     public function unbind()
     {
         if(!Auth::check()){
-            return redirect('/');
+            return redirect()->route('home');
         }
         if(Auth::user()->getExtra('github_id')){
-            return view('oauth.index',[
-                'page_title'=>"OAuth",
-                'site_title'=>config("app.name"),
-                'navigation'=>"OAuth",
-                'platform' => 'Github',
-                'display_html' => 'You are trying to unbind the following two : <br />
-                Your '.config("app.name").' account : <span class="text-info">'.Auth::user()->email.'</span><br />
-                This Github account : <span class="text-info">'.Auth::user()->getExtra('github_email').'</span><br />
-                Make your decision carefully, although you can later establish the binding again',
-                'buttons' => [
-                    [
-                        'text' => 'confirm',
-                        'href' => route('oauth.github.unbind.confirm'),
-                        'style' => 'btn-danger'
-                    ],
-                    [
-                        'text' => 'home',
-                        'href' => route('home'),
-                    ],
-                ]
-            ]);
+            return $this->generateUnbindConfirmView(Auth::user()->email, Auth::user()->getExtra('github_email'));
         }else{
-            return view('oauth.index',[
-                'page_title'=>"OAuth",
-                'site_title'=>config("app.name"),
-                'navigation'=>"OAuth",
-                'platform' => 'Github',
-                'display_html' => 'You\'re not tied to github',
-                'buttons' => [
-                    [
-                        'text' => 'home',
-                        'href' => route('home'),
-                    ],
-                ]
-            ]);
+            return $this->generateAlreadyUnbindView();
         }
     }
 
     public function confirmUnbind()
     {
         if(!Auth::check()){
-            return redirect('/');
+            return redirect()->route('home');
         }
         if(Auth::user()->getExtra('github_id')){
             Auth::user()->setExtra('github_id', null);
@@ -210,34 +120,9 @@ class GithubController extends Controller
             Auth::user()->setExtra('github_nickname', null);
             Auth::user()->setExtra('github_homepage', null);
             Auth::user()->setExtra('github_token', null);
-            return view('oauth.index',[
-                'page_title'=>"OAuth",
-                'site_title'=>config("app.name"),
-                'navigation'=>"OAuth",
-                'platform' => 'Github',
-                'display_html' => 'You have successfully unbound your Github account from your '.config("app.name").' account',
-                'buttons' => [
-                    [
-                        'text' => 'home',
-                        'href' => route('home'),
-                    ],
-                ]
-            ]);
+            return $this->generateUnbindSuccessView();
         }else{
-            return view('oauth.index',[
-                'page_title'=>"OAuth",
-                'site_title'=>config("app.name"),
-                'navigation'=>"OAuth",
-                'platform' => 'Github',
-                'display_html' => 'You\'re not tied to github',
-                'buttons' => [
-                    [
-                        'text' => 'home',
-                        'href' => route('home'),
-                    ],
-                ]
-            ]);
+            return $this->generateAlreadyUnbindView();
         }
-
     }
 }
