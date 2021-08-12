@@ -376,6 +376,10 @@ img.cm-colorful-text {
     width: 5rem;
 }
 
+nav.navbar .dropdown-menu .dropdown-item {
+    max-width: none;
+}
+
 /* NOJ Theme Data */
 
 html[noj-theme="default"] .bg-dark{
