@@ -43,6 +43,7 @@ class SettingsController extends Controller
         $form=new Form();
         $form->simplemde('terms', __('admin.settings.form.terms'))->default(setting('terms'))->help(__('admin.settings.help.terms'));
         $form->method('POST');
+        $form->action(route('admin.settings.index'));
         $form->disableReset();
         $box->content($form);
         return $box;
