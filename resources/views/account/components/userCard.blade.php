@@ -74,7 +74,7 @@
         font-size: 0.85rem;
     }
 
-    user-card social-section,socialite-setting i{
+    user-card social-section{
         font-size: 2rem;
         color:#24292e;
     }

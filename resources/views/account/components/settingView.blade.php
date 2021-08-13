@@ -10,6 +10,11 @@
         display: inline-block;
     }
 
+    socialite-setting button i{
+        font-size: 2rem;
+        color: #24292e;
+    }
+
     setting-card > .paper-card {
         box-shadow: none;
     }
