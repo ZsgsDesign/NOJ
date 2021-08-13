@@ -22,10 +22,14 @@
     setting-card > .paper-card:hover {
         box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
     }
+
+    setting-card > .paper-card > p > i {
+        margin-right: 0.5rem;
+    }
 </style>
 <setting-card>
     <basic-info-section class="paper-card">
-        <p>{{__('dashboard.setting.baseInfo')}}</p>
+        <p><i class="MDI account-circle"></i>{{__('dashboard.setting.baseInfo')}}</p>
         <div class="form-group" data-toggle="tooltip" data-placement="top" @if($info['contest_account']) title="{{__('dashboard.setting.tipUsername')}}" @endif>
             <label for="username" class="bmd-label-floating">{{__('dashboard.setting.username')}}</label>
             <input type="text" name="username" class="form-control" value="{{ $info['name'] }}" id="username" maxlength="16" autocomplete="off" required @if($info['contest_account']) disabled @endif>
@@ -43,7 +47,7 @@
         </div>
     </basic-info-section>
     <extra-section class="paper-card">
-        <p>{{__('dashboard.setting.extraInfo')}}</p>
+        <p><i class="MDI account-card-details"></i>{{__('dashboard.setting.extraInfo')}}</p>
         <form id="extra-info-form">
             <div>
                 <label style="font-size: .75rem; color: rgba(0,0,0,.26);">{{__('dashboard.setting.gender')}}</label>
@@ -96,7 +100,7 @@
     </extra-section>
     @if(!$info['contest_account'] && filled($socialites))
     <socialite-setting class="paper-card">
-        <p>{{__('dashboard.setting.socialiteInfo')}}</p>
+        <p><i class="MDI share-variant"></i>{{__('dashboard.setting.socialiteInfo')}}</p>
         <div class="text-center">
 
             @if(config('services.github.enable'))
@@ -129,7 +133,7 @@
         <p>Privacy settings</p>
     </privacy-section> --}}
     <email-section class="paper-card">
-        <p>{{__('dashboard.setting.emailVerify')}}</p>
+        <p><i class="MDI email-secure"></i>{{__('dashboard.setting.emailVerify')}}</p>
         @if(Auth::user()->hasIndependentEmail())
             <div class="text-center">
                 @unless(emailVerified())
@@ -157,13 +161,13 @@
     @endif
     <password-section class="paper-card">
         @if(Auth::user()->hasIndependentPassword())
-            <p>{{__('dashboard.setting.passwordChange')}}</p>
+            <p><i class="MDI asterisk"></i>{{__('dashboard.setting.passwordChange')}}</p>
             <div class="form-group">
                 <label for="old-password" class="bmd-label-floating">{{__('dashboard.setting.oldPassword')}}</label>
                 <input type="password" name="old-password" class="form-control" id="old-password" autocomplete="off" required>
             </div>
         @else
-            <p>{{__('dashboard.setting.passwordCreate')}}</p>
+            <p><i class="MDI asterisk"></i>{{__('dashboard.setting.passwordCreate')}}</p>
             <input type="password" name="old-password" class="form-control" id="old-password" autocomplete="off" required hidden disabled value="CREATEPASSWORD">
         @endif
         <div class="form-group">
