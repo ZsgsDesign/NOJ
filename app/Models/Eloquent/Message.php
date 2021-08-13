@@ -35,7 +35,7 @@ class Message extends Model
                         }
                     }
                 }
-            }elseif ($config['type']==2) { //to a leader that member agree to join the group
+            } elseif ($config['type']==2) { //to a leader that member agree to join the group
                 $messages=Message::where([
                     'receiver' => $config['receiver'],
                     'type'     => $config['type'],
@@ -52,7 +52,7 @@ class Message extends Model
                         }
                     }
                 }
-            }elseif ($config['type']==3) { //to a person that solution was passed
+            } elseif ($config['type']==3) { //to a person that solution was passed
                 $message=Message::where([
                     'receiver' => $config['receiver'],
                     'type'     => $config['type'],
@@ -65,7 +65,7 @@ class Message extends Model
                     $message->save();
                     return true;
                 }
-            }elseif ($config['type']==4) { //to a person that solution was blocked
+            } elseif ($config['type']==4) { //to a person that solution was blocked
                 $message=Message::where([
                     'receiver' => $config['receiver'],
                     'type'     => $config['type'],
@@ -223,7 +223,7 @@ class Message extends Model
                 $content=substr($content, 0, strlen($content)-2);
                 $content.=" want to join your group [{$data['group']['name']}]({$data['group']['url']})";
                 return $content;
-            }elseif ($this->type==2) {
+            } elseif ($this->type==2) {
                 foreach ($data['user'] as $user) {
                     $content.="[{$user['name']}]({$user['url']}), ";
                 }

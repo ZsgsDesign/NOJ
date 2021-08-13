@@ -80,7 +80,9 @@ class ExtensionModel extends Model
     {
         $ret=[];
         $marketspaceRaw=self::getRemote();
-        if (empty($marketspaceRaw)) return [];
+        if (empty($marketspaceRaw)) {
+            return [];
+        }
         foreach ($marketspaceRaw["packages"] as $extension) {
             $temp=[
                 "details"=>$extension,
@@ -136,7 +138,9 @@ class ExtensionModel extends Model
         foreach ($dirs as $d) {
             $extension=basename($d);
             $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$extension/babel.json")), true);
-            if ($extension==$BabelConfig["code"]) $ret[]=$BabelConfig;
+            if ($extension==$BabelConfig["code"]) {
+                $ret[]=$BabelConfig;
+            }
         }
         return $ret;
     }
@@ -153,10 +157,14 @@ class ExtensionModel extends Model
     public static function remoteDetail($code)
     {
         $babelConfig=self::getRemote();
-        if (empty($babelConfig)) return [];
+        if (empty($babelConfig)) {
+            return [];
+        }
         $babelConfigPackages=$babelConfig["packages"];
         foreach ($babelConfigPackages as $package) {
-            if ($package["code"]==$code) return $package;
+            if ($package["code"]==$code) {
+                return $package;
+            }
         }
         return [];
     }

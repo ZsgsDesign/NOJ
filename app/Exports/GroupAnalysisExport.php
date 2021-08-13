@@ -29,8 +29,8 @@ class GroupAnalysisExport implements FromCollection, WithEvents, WithStrictNullC
     }
 
     /**
-    * @return array
-    */
+     * @return array
+     */
     public function registerEvents(): array
     {
         return [
@@ -47,8 +47,8 @@ class GroupAnalysisExport implements FromCollection, WithEvents, WithStrictNullC
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         $maxium=$this->config['maxium'] ?? false;

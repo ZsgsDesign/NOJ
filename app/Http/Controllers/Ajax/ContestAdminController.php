@@ -326,7 +326,9 @@ class ContestAdminController extends Controller
         if ($contestModel->judgeClearance($cid, Auth::user()->id)!=3) {
             return ResponseModel::err(2001);
         }
-        if (!is_null(Cache::tags(['contest', 'admin', 'PDFGenerate'])->get($cid))) return ResponseModel::err(8001);
+        if (!is_null(Cache::tags(['contest', 'admin', 'PDFGenerate'])->get($cid))) {
+            return ResponseModel::err(8001);
+        }
         $generateProcess=new GeneratePDF($cid, $config);
         dispatch($generateProcess)->onQueue('normal');
         Cache::tags(['contest', 'admin', 'PDFGenerate'])->put($cid, $generateProcess->getJobStatusId());
@@ -345,7 +347,9 @@ class ContestAdminController extends Controller
         if ($contestModel->judgeClearance($cid, Auth::user()->id)!=3) {
             return ResponseModel::err(2001);
         }
-        if (!is_null(Cache::tags(['contest', 'admin', 'anticheat'])->get($cid))) return ResponseModel::err(8001);
+        if (!is_null(Cache::tags(['contest', 'admin', 'anticheat'])->get($cid))) {
+            return ResponseModel::err(8001);
+        }
         if (EloquentContestModel::find($cid)->isJudgingComplete()) {
             $anticheatProcess=new AntiCheat($cid);
             dispatch($anticheatProcess)->onQueue('normal');

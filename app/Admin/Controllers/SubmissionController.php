@@ -103,7 +103,9 @@ class SubmissionController extends Controller
             return $this->user->name;
         });
         $grid->column("contest_name", __('admin.submissions.contest_name'))->display(function() {
-            if (!is_null($this->contest)) return $this->contest->name;
+            if (!is_null($this->contest)) {
+                return $this->contest->name;
+            }
         });
         $grid->column("readable_name", __('admin.submissions.readable_name'))->display(function() {
             return $this->problem->readable_name;
