@@ -154,7 +154,7 @@ class ProblemController extends Controller
                                         ]);
     }
 
-        /**
+    /**
      * Show the Problem Discussion Page.
      *
      * @return Response

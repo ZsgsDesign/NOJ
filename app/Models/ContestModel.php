@@ -281,8 +281,10 @@ class ContestModel extends Model
                         if ($filter['practice']) {
                             $query=$query->where(["practice"=>$filter['practice']]);
                         }
-                        $query->where('public', 1)
-                              ->where('audit_status', 1);
+                        $query->where([
+                            'public'=>1,
+                            'audit_status'=>1
+                        ]);
                     }
                 )
                 ->orWhere(
