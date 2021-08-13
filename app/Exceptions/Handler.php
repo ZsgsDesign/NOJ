@@ -46,7 +46,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if(!env("APP_DEBUG") && $request->is('api/*')) {
+        if (!env("APP_DEBUG") && $request->is('api/*')) {
             return response(json_encode([
                 'success' => false,
                 'message' => 'Server Error',
@@ -56,7 +56,7 @@ class Handler extends ExceptionHandler
                     'msg' => 'Server Error',
                     'data'=>[]
                 ]
-            ]),500)->header('Content-Type','application/json');
+            ]), 500)->header('Content-Type', 'application/json');
         };
         return parent::render($request, $exception);
     }

@@ -84,16 +84,16 @@ class DojoController extends Controller
         $grid=new Grid(new Dojo);
         $grid->column('id', "ID")->sortable();
         $grid->column("name", __('admin.dojos.name'))->editable();
-        $grid->column("dojo_phase", __('admin.dojos.phase'))->display(function () {
+        $grid->column("dojo_phase", __('admin.dojos.phase'))->display(function() {
             return $this->phase->name;
         });
-        $grid->column("totproblem", __('admin.dojos.totproblem'))->display(function () {
+        $grid->column("totproblem", __('admin.dojos.totproblem'))->display(function() {
             return $this->tot_problem;
         });
         $grid->column("passline", __('admin.dojos.passline'));
-        $grid->column("precondition", __('admin.dojos.precondition'))->display(function ($precondition) {
+        $grid->column("precondition", __('admin.dojos.precondition'))->display(function($precondition) {
             $output='';
-            foreach($precondition as $p){
+            foreach ($precondition as $p) {
                 $output.='<span class="label label-primary">'.Dojo::find($p)->name.'</span> ';
             }
             return $output;
@@ -102,11 +102,11 @@ class DojoController extends Controller
         $grid->created_at(__('admin.created_at'));
         $grid->updated_at(__('admin.updated_at'));
 
-        $grid->filter(function (Grid\Filter $filter) {
-            $filter->column(6, function ($filter) {
+        $grid->filter(function(Grid\Filter $filter) {
+            $filter->column(6, function($filter) {
                 $filter->like('name', __('admin.dojos.name'));
             });
-            $filter->column(6, function ($filter) {
+            $filter->column(6, function($filter) {
                 $filter->equal('dojo_phase_id', __('admin.dojos.phase'))->select(DojoPhase::all()->pluck('name', 'cid'));
             });
         });
@@ -139,7 +139,7 @@ class DojoController extends Controller
     protected function form()
     {
         $form=new Form(new Dojo);
-        $form->tab('Basic', function (Form $form) {
+        $form->tab('Basic', function(Form $form) {
             $form->display('id', 'ID');
             $form->text('name', __('admin.dojos.name'))->rules('required');
             $form->textarea('description', __('admin.dojos.description'))->rules('required');
@@ -147,7 +147,7 @@ class DojoController extends Controller
             $form->number('passline', __('admin.dojos.passline'))->default(0)->rules('required');
             $form->number('order', __('admin.dojos.order'))->default(0)->rules('required');
             $form->multipleSelect('precondition', __('admin.dojos.precondition'))->options(Dojo::all()->pluck('name', 'id'));
-            $form->hasMany('problems', __('admin.dojos.problems'), function (Form\NestedForm $form) {
+            $form->hasMany('problems', __('admin.dojos.problems'), function(Form\NestedForm $form) {
                 $form->select('problem_id', __('admin.dojos.problem'))->options(Problem::all()->pluck('readable_name', 'pid'))->required();
                 $form->number('order', __('admin.dojos.problemorder'))->default(0)->required();
             });

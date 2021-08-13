@@ -42,8 +42,8 @@ class GroupController extends Controller
         if (is_null($join_policy)) {
             return ResponseModel::err(7001);
         }
-        $group  = Group::find($all_data['gid']);
-        $leader = $group->leader;
+        $group=Group::find($all_data['gid']);
+        $leader=$group->leader;
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         if ($join_policy==1) {
             if ($clearance==-1) {
@@ -57,17 +57,17 @@ class GroupController extends Controller
                         'group' => [
                             'gcode' => $group->gcode,
                             'name'  => $group->name,
-                            'url'   => route('group.detail',['gcode' => $group->gcode])
+                            'url'   => route('group.detail', ['gcode' => $group->gcode])
                         ],
                         'user'  => [
                             [
                                 'name'  => Auth::user()->name,
-                                'url'   => route('user.view',['uid' => Auth::user()->id])
+                                'url'   => route('user.view', ['uid' => Auth::user()->id])
                             ]
                         ]
                     ]
                 ]);
-                return ResponseModel::success(200,null,[
+                return ResponseModel::success(200, null, [
                     'uid'            => Auth::user()->id,
                     'role_color_old' => $groupModel->role_color[-1],
                     'role_color'     => $groupModel->role_color[1],
@@ -88,12 +88,12 @@ class GroupController extends Controller
                         'group' => [
                             'gcode' => $group->gcode,
                             'name'  => $group->name,
-                            'url'   => route('group.detail',['gcode' => $group->gcode])
+                            'url'   => route('group.detail', ['gcode' => $group->gcode])
                         ],
                         'user'  => [
                             [
                                 'name'  => Auth::user()->name,
-                                'url'   => route('user.view',['uid' => Auth::user()->id])
+                                'url'   => route('user.view', ['uid' => Auth::user()->id])
                             ]
                         ]
                     ]
@@ -112,17 +112,17 @@ class GroupController extends Controller
                         'group' => [
                             'gcode' => $group->gcode,
                             'name'  => $group->name,
-                            'url'   => route('group.detail',['gcode' => $group->gcode])
+                            'url'   => route('group.detail', ['gcode' => $group->gcode])
                         ],
                         'user'  => [
                             [
                                 'name'  => Auth::user()->name,
-                                'url'   => route('user.view',['uid' => Auth::user()->id])
+                                'url'   => route('user.view', ['uid' => Auth::user()->id])
                             ]
                         ]
                     ]
                 ]);
-                return ResponseModel::success(200,null,[
+                return ResponseModel::success(200, null, [
                     'uid'            => Auth::user()->id,
                     'role_color_old' => $groupModel->role_color[-1],
                     'role_color'     => $groupModel->role_color[1],
@@ -140,12 +140,12 @@ class GroupController extends Controller
                         'group' => [
                             'gcode' => $group->gcode,
                             'name'  => $group->name,
-                            'url'   => route('group.detail',['gcode' => $group->gcode])
+                            'url'   => route('group.detail', ['gcode' => $group->gcode])
                         ],
                         'user'  => [
                             [
                                 'name'  => Auth::user()->name,
-                                'url'   => route('user.view',['uid' => Auth::user()->id])
+                                'url'   => route('user.view', ['uid' => Auth::user()->id])
                             ]
                         ]
                     ]
@@ -160,14 +160,14 @@ class GroupController extends Controller
         $request->validate([
             'gid' => 'required|integer',
         ]);
-        $uid = Auth::user()->id;
-        $gid = $request->input('gid');
-        $groupModel = new OutdatedGroupModel();
-        $clearance = $groupModel->judgeClearance($gid,$uid);
-        if($clearance == 3) {
+        $uid=Auth::user()->id;
+        $gid=$request->input('gid');
+        $groupModel=new OutdatedGroupModel();
+        $clearance=$groupModel->judgeClearance($gid, $uid);
+        if ($clearance==3) {
             return ResponseModel::err(7008);
         }
-        $groupModel->removeClearance($uid,$gid);
+        $groupModel->removeClearance($uid, $gid);
         return ResponseModel::success(200);
     }
 
@@ -184,9 +184,9 @@ class GroupController extends Controller
         $all_data=$request->all();
 
         $groupModel=new OutdatedGroupModel();
-        if($all_data["gcode"]=="create") return ResponseModel::err(7005);
+        if ($all_data["gcode"]=="create") return ResponseModel::err(7005);
         $is_group=$groupModel->isGroup($all_data["gcode"]);
-        if($is_group) return ResponseModel::err(7006);
+        if ($is_group) return ResponseModel::err(7006);
 
         $allow_extension=['jpg', 'png', 'jpeg', 'gif', 'bmp'];
         if (!empty($request->file('img')) && $request->file('img')->isValid()) {
@@ -215,20 +215,20 @@ class GroupController extends Controller
 
         $groupModel=new OutdatedGroupModel();
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
-        if ($clearance > 0) {
-            switch($all_data['mode']){
+        if ($clearance>0) {
+            switch ($all_data['mode']) {
                 case 'contest':
-                    $ret = $groupModel->groupMemberPracticeContestStat($all_data["gid"]);
+                    $ret=$groupModel->groupMemberPracticeContestStat($all_data["gid"]);
                 break;
                 case 'tag':
-                    $ret = $groupModel->groupMemberPracticeTagStat($all_data["gid"]);
+                    $ret=$groupModel->groupMemberPracticeTagStat($all_data["gid"]);
                 break;
                 default:
                     return ResponseModel::err(1007);
                 break;
             }
 
-            return ResponseModel::success(200,null,$ret);
+            return ResponseModel::success(200, null, $ret);
         }
         return ResponseModel::err(7002);
     }
@@ -244,10 +244,10 @@ class GroupController extends Controller
 
         $groupModel=new OutdatedGroupModel();
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
-        if($clearance <= 0){
+        if ($clearance<=0) {
             return ResponseModel::err(7002);
         }
-        $ret = $groupModel->getEloChangeLog($all_data['gid'],$all_data['uid']);
-        return ResponseModel::success(200,null,$ret);
+        $ret=$groupModel->getEloChangeLog($all_data['gid'], $all_data['uid']);
+        return ResponseModel::success(200, null, $ret);
     }
 }

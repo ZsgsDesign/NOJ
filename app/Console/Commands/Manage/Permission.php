@@ -14,7 +14,7 @@ class Permission extends Command
      *
      * @var string
      */
-    protected $signature = 'manage:permission
+    protected $signature='manage:permission
         {--action=list : specific action, can be list, grant or revoke}
         {--uid= : the user you want to manage permission}
         {--permission= : the permission id number, use list action to check all available permission ids}';
@@ -24,7 +24,7 @@ class Permission extends Command
      *
      * @var string
      */
-    protected $description = 'Manage user permissions of NOJ';
+    protected $description='Manage user permissions of NOJ';
 
     /**
      * Create a new command instance.
@@ -52,7 +52,7 @@ class Permission extends Command
             return;
         }
 
-        if($action=='list'){
+        if ($action=='list') {
             $this->listPermission();
             return;
         }
@@ -63,24 +63,24 @@ class Permission extends Command
             return;
         }
 
-        if(!isset(UserPermission::$permInfo[$permission_id])){
+        if (!isset(UserPermission::$permInfo[$permission_id])) {
             $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>Unknown Permission</>\n");
             return;
         }
         $permissionInfo=UserPermission::$permInfo[$permission_id];
 
-        if($action=='grant'){
+        if ($action=='grant') {
             $this->grantPermission($uid, $permission_id, $permissionInfo);
-        }else{
+        } else {
             $this->revokePermission($uid, $permission_id, $permissionInfo);
         }
     }
 
     protected function listPermission()
     {
-        $headers = ['ID', 'Permission'];
+        $headers=['ID', 'Permission'];
         $permInfo=[];
-        foreach(UserPermission::$permInfo as $permID=>$permDesc){
+        foreach (UserPermission::$permInfo as $permID=>$permDesc) {
             $permInfo[]=[$permID, $permDesc];
         }
         $this->table($headers, $permInfo);
@@ -95,7 +95,7 @@ class Permission extends Command
             'permission_id' => $permission_id,
         ])->count();
 
-        if(!$permissionExists){
+        if (!$permissionExists) {
             UserPermission::create([
                 'user_id' => $uid,
                 'permission_id' => $permission_id,
@@ -114,7 +114,7 @@ class Permission extends Command
             'permission_id' => $permission_id,
         ])->count();
 
-        if($permissionExists){
+        if ($permissionExists) {
             UserPermission::where([
                 'user_id' => $uid,
                 'permission_id' => $permission_id,

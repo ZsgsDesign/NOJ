@@ -31,7 +31,7 @@ class Dojo extends Model
     public function canPass()
     {
         $tot=0;
-        foreach($this->problems->sortBy('order') as $problem){
+        foreach ($this->problems->sortBy('order') as $problem) {
             $problem=$problem->problem;
             $tot+=$problem->problem_status['color']=='wemd-green-text';
         }
@@ -41,9 +41,9 @@ class Dojo extends Model
     public function getPreconditionAttribute($value)
     {
         $precondition=[];
-        foreach(explode(',', $value) as $dojo_id){
-            if(blank($dojo_id)) continue;
-            if(!is_null(Dojo::find($dojo_id))) $precondition[]=$dojo_id;
+        foreach (explode(',', $value) as $dojo_id) {
+            if (blank($dojo_id)) continue;
+            if (!is_null(Dojo::find($dojo_id))) $precondition[]=$dojo_id;
         }
         return $precondition;
     }
@@ -55,7 +55,7 @@ class Dojo extends Model
 
     public function setPreconditionAttribute($value)
     {
-        $this->attributes['precondition'] = implode(',', $value);
+        $this->attributes['precondition']=implode(',', $value);
     }
 
     public function getPassedAttribute()
@@ -65,10 +65,10 @@ class Dojo extends Model
 
     public function getAvailabilityAttribute()
     {
-        foreach($this->precondition as $dojo_id){
-            if(!DojoPass::isPassed($dojo_id)) return 'locked';
+        foreach ($this->precondition as $dojo_id) {
+            if (!DojoPass::isPassed($dojo_id)) return 'locked';
         }
-        return $this->passed?'passed':'available';
+        return $this->passed ? 'passed' : 'available';
     }
 
 }

@@ -38,7 +38,7 @@ class SettingsController extends Controller
      */
     protected function form()
     {
-        $box = new Box(__('admin.settings.form.header'));
+        $box=new Box(__('admin.settings.form.header'));
         $box->style('success');
         $form=new Form();
         $form->simplemde('terms', __('admin.settings.form.terms'))->default(setting('terms'))->help(__('admin.settings.help.terms'));

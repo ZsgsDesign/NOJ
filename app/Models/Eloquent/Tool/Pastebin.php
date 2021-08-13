@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\DB;
 
 class Pastebin extends Model
 {
-    protected $table = 'pastebin';
-    protected $primaryKey = 'pbid';
+    protected $table='pastebin';
+    protected $primaryKey='pbid';
 
     protected $fillable=[
         'lang', 'title', 'user_id', 'expired_at', 'content', 'code'

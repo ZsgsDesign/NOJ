@@ -17,18 +17,18 @@ class IsDesktop
      */
     public function handle($request, Closure $next)
     {
-        $contest = Contest::find($request->cid);
-        if(!empty($contest) && $contest->desktop && !$contest->is_end) {
-            if(auth()->check()) {
-                $user = auth()->user();
-                $contestModel = new OutdatedContestModel();
-                if($contestModel->judgeClearance($contest->cid, $user->id) == 3){
+        $contest=Contest::find($request->cid);
+        if (!empty($contest) && $contest->desktop && !$contest->is_end) {
+            if (auth()->check()) {
+                $user=auth()->user();
+                $contestModel=new OutdatedContestModel();
+                if ($contestModel->judgeClearance($contest->cid, $user->id)==3) {
                     return $next($request);
                 }
             }
-            if(strtolower($request->method()) == 'get'){
-                return response()->redirectToRoute('contest.detail',['cid' => $contest->cid]);
-            }else{
+            if (strtolower($request->method())=='get') {
+                return response()->redirectToRoute('contest.detail', ['cid' => $contest->cid]);
+            } else {
                 return header("HTTP/1.1 403 Forbidden");
             }
         }

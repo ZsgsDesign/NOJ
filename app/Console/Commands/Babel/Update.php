@@ -13,14 +13,14 @@ class Update extends Command
      *
      * @var string
      */
-    protected $signature = 'babel:update {extension : The package name of the extension}';
+    protected $signature='babel:update {extension : The package name of the extension}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Update a given Babel Extension to NOJ';
+    protected $description='Update a given Babel Extension to NOJ';
 
     /**
      * Create a new command instance.
@@ -39,8 +39,8 @@ class Update extends Command
      */
     public function handle()
     {
-        $extension = $this->argument('extension');
-        $output = new BufferedOutput();
+        $extension=$this->argument('extension');
+        $output=new BufferedOutput();
         $this->line("Updating <fg=green>$extension</>");
         try {
             $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$extension/babel.json")), true);
@@ -89,8 +89,8 @@ class Update extends Command
         if (!is_dir($dir)) {
             return;
         }
-        $it = new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS);
-        $files = new \RecursiveIteratorIterator($it, \RecursiveIteratorIterator::CHILD_FIRST);
+        $it=new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS);
+        $files=new \RecursiveIteratorIterator($it, \RecursiveIteratorIterator::CHILD_FIRST);
         foreach ($files as $file) {
             if ($file->isDir()) {
                 rmdir($file->getRealPath());

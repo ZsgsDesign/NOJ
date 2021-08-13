@@ -16,6 +16,6 @@ class ContestParticipant extends Model
 
     public function contest()
     {
-        return $this->belongsTo('App\Models\Eloquent\Contest','cid','cid');
+        return $this->belongsTo('App\Models\Eloquent\Contest', 'cid', 'cid');
     }
 }

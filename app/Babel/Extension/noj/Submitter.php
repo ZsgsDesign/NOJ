@@ -80,7 +80,7 @@ class Submitter extends Curl
             "spj_compile_config" => null,
             "spj_src" => null
         ];
-        if($probBasic["spj"] && $probBasic["spj_version"]){
+        if ($probBasic["spj"] && $probBasic["spj_version"]) {
             $submit_data["spj_version"]=$probBasic["spj_version"];
             $submit_data["spj_config"]=$probBasic["spj_lang"];
             $submit_data["spj_compile_config"]=[

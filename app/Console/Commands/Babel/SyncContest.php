@@ -13,14 +13,14 @@ class SyncContest extends Command
      *
      * @var string
      */
-    protected $signature = 'babel:sync {extension : The package name of the extension} {--vcid= : The target contest of the Crawler} {--gid=1 : The holding group}';
+    protected $signature='babel:sync {extension : The package name of the extension} {--vcid= : The target contest of the Crawler} {--gid=1 : The holding group}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Crawl contests for a given Babel Extension to NOJ';
+    protected $description='Crawl contests for a given Babel Extension to NOJ';
 
     /**
      * Create a new command instance.
@@ -39,16 +39,16 @@ class SyncContest extends Command
      */
     public function handle()
     {
-        $extension = $this->argument('extension');
-        $vcid = $this->option('vcid');
-        $gid = $this->option('gid');
-        $className = "App\\Babel\\Extension\\$extension\\Synchronizer";
-        $all_data = [
+        $extension=$this->argument('extension');
+        $vcid=$this->option('vcid');
+        $gid=$this->option('gid');
+        $className="App\\Babel\\Extension\\$extension\\Synchronizer";
+        $all_data=[
             'oj'=>$extension,
             'vcid'=>$vcid,
             'gid'=>$gid,
         ];
-        $Sync = new $className($all_data);
+        $Sync=new $className($all_data);
         $Sync->crawlContest();
     }
 }

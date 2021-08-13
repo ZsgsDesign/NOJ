@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\DB;
 
 class ImageHosting extends Model
 {
-    protected $table = 'image_hostings';
-    protected $primaryKey = 'id';
+    protected $table='image_hostings';
+    protected $primaryKey='id';
 
     protected $fillable=[
         'user_id', 'relative_path'

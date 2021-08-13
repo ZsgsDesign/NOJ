@@ -29,7 +29,7 @@ class TestRunner
         } catch (ErrorException $e) {
         } catch (Exception $e) {
         }
-        $className = "App\\Babel\\Extension\\$name\\$runnerProvider";
+        $className="App\\Babel\\Extension\\$name\\$runnerProvider";
         if (class_exists($className)) {
             return new $className($conf);
         } else {

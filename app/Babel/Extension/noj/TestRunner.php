@@ -65,7 +65,7 @@ class TestRunner
             "spj_compile_config" => null,
             "spj_src" => null
         ];
-        if($probBasic["spj"] && $probBasic["spj_version"]){
+        if ($probBasic["spj"] && $probBasic["spj_version"]) {
             $submit_data["spj_version"]=$probBasic["spj_version"];
             $submit_data["spj_config"]=$probBasic["spj_lang"];
             $submit_data["spj_compile_config"]=[
@@ -79,7 +79,7 @@ class TestRunner
             $submit_data["spj_src"]=$probBasic["spj_src"];
         }
         $judgeClient=new JudgeClient($submit_data["token"], $submitURL);
-        $temp = $judgeClient->judge($submit_data["solution"], $submit_data["language"], $submit_data["test_case_id"], [
+        $temp=$judgeClient->judge($submit_data["solution"], $submit_data["language"], $submit_data["test_case_id"], [
             'output' => false,
             'max_cpu_time'=>$submit_data['max_cpu_time'],
             'max_memory'=>$submit_data['max_memory'],

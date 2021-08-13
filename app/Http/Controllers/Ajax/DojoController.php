@@ -19,18 +19,18 @@ class DojoController extends Controller
             "dojo_id" => "required|integer"
         ]);
 
-        $dojo_id = $request->input('dojo_id');
+        $dojo_id=$request->input('dojo_id');
 
         try {
             if (!Dojo::findOrFail($dojo_id)->canPass()) {
                 return ResponseModel::err(10001);
             }
-        }catch(Throwable $e){
+        } catch (Throwable $e) {
             return ResponseModel::err(10002);
         }
 
-        $user_id = Auth::user()->id;
-        $dojoRecord = DojoPass::firstOrCreate([
+        $user_id=Auth::user()->id;
+        $dojoRecord=DojoPass::firstOrCreate([
             'dojo_id' => $dojo_id,
             'user_id' => $user_id,
         ]);

@@ -48,11 +48,11 @@ class ProblemModel extends Model
             $prob_detail["pdf"]=false;
             $prob_detail["viewerShow"]=false;
             $prob_detail["file_ext"]=null;
-            if($prob_detail['file'] && !blank($prob_detail['file_url'])){
-                $prob_detail["file_ext"]=explode('.',basename($prob_detail['file_url']));
+            if ($prob_detail['file'] && !blank($prob_detail['file_url'])) {
+                $prob_detail["file_ext"]=explode('.', basename($prob_detail['file_url']));
                 $prob_detail["file_ext"]=end($prob_detail["file_ext"]);
                 $prob_detail["pdf"]=Str::is("*.pdf", basename($prob_detail['file_url']));
-                $prob_detail["viewerShow"]= blank($prob_detail["parsed"]["description"]) &&
+                $prob_detail["viewerShow"]=blank($prob_detail["parsed"]["description"]) &&
                                             blank($prob_detail["parsed"]["input"]) &&
                                             blank($prob_detail["parsed"]["output"]) &&
                                             blank($prob_detail["parsed"]["note"]);
@@ -194,9 +194,9 @@ class ProblemModel extends Model
 
     private function inteliAudit($uid, $content)
     {
-        if (strpos($content, '```')!==false){
+        if (strpos($content, '```')!==false) {
             $userSolutionHistory=DB::table("problem_solution")->where(['uid'=>$uid])->orderByDesc('updated_at')->first();
-            if (!empty($userSolutionHistory) && $userSolutionHistory["audit"]==1){
+            if (!empty($userSolutionHistory) && $userSolutionHistory["audit"]==1) {
                 return 1;
             }
         }
@@ -292,7 +292,7 @@ class ProblemModel extends Model
     {
         // $prob_list = DB::table($this->table)->select("pid","pcode","title")->get()->all(); // return a array
         $submissionModel=new SubmissionModel();
-        $preQuery=DB::table($this->table)->where('hide','=',0);
+        $preQuery=DB::table($this->table)->where('hide', '=', 0);
         if ($filter['oj']) {
             $preQuery=$preQuery->where(["OJ"=>$filter['oj']]);
         }
@@ -454,7 +454,7 @@ class ProblemModel extends Model
 
         if (!empty($data["sample"])) {
             foreach ($data["sample"] as $d) {
-                if(!isset($d['sample_note'])) $d['sample_note']=null;
+                if (!isset($d['sample_note'])) $d['sample_note']=null;
                 DB::table("problem_sample")->insert([
                     'pid'=>$pid,
                     'sample_input'=>$d['sample_input'],
@@ -503,7 +503,7 @@ class ProblemModel extends Model
 
         if (!empty($data["sample"])) {
             foreach ($data["sample"] as $d) {
-                if(!isset($d['sample_note'])) $d['sample_note']=null;
+                if (!isset($d['sample_note'])) $d['sample_note']=null;
                 DB::table("problem_sample")->insert([
                     'pid'=>$pid,
                     'sample_input'=>$d['sample_input'],
@@ -518,7 +518,7 @@ class ProblemModel extends Model
 
     public function discussionList($pid)
     {
-        $paginator = DB::table('problem_discussion')->join(
+        $paginator=DB::table('problem_discussion')->join(
             "users",
             "id",
             "=",
@@ -537,10 +537,10 @@ class ProblemModel extends Model
             'users.name',
             'users.id as uid'
         ])->paginate(15);
-        $list = $paginator->all();
-        foreach($list as &$l){
-            $l['updated_at'] = formatHumanReadableTime($l['updated_at']);
-            $l['comment_count'] = DB::table('problem_discussion_comment')->where('pdid','=',$l['pdid'])->count();
+        $list=$paginator->all();
+        foreach ($list as &$l) {
+            $l['updated_at']=formatHumanReadableTime($l['updated_at']);
+            $l['comment_count']=DB::table('problem_discussion_comment')->where('pdid', '=', $l['pdid'])->count();
         }
         return [
             'paginator' => $paginator,
@@ -550,7 +550,7 @@ class ProblemModel extends Model
 
     public function discussionDetail($pdid)
     {
-        $main = DB::table('problem_discussion')->join(
+        $main=DB::table('problem_discussion')->join(
             "users",
             "id",
             "=",
@@ -569,12 +569,12 @@ class ProblemModel extends Model
             'users.name',
             'users.id as uid'
         ])->get()->first();
-        $main['created_at'] = formatHumanReadableTime($main['created_at']);
+        $main['created_at']=formatHumanReadableTime($main['created_at']);
         $main['content']=clean(Markdown::convertToHtml($main["content"]));
 
-        $comment_count = DB::table('problem_discussion_comment')->where('pdid','=',$pdid)->count();
+        $comment_count=DB::table('problem_discussion_comment')->where('pdid', '=', $pdid)->count();
 
-        $paginator = DB::table('problem_discussion_comment')->join(
+        $paginator=DB::table('problem_discussion_comment')->join(
             "users",
             "id",
             "=",
@@ -593,11 +593,11 @@ class ProblemModel extends Model
             'users.name',
             'users.id as uid'
         ])->paginate(10);
-        $comment = $paginator->all();
-        foreach($comment as &$c){
+        $comment=$paginator->all();
+        foreach ($comment as &$c) {
             $c['content']=clean(Markdown::convertToHtml($c["content"]));
-            $c['created_at'] = formatHumanReadableTime($c['created_at']);
-            $c['reply'] = DB::table('problem_discussion_comment')->join(
+            $c['created_at']=formatHumanReadableTime($c['created_at']);
+            $c['reply']=DB::table('problem_discussion_comment')->join(
                 "users",
                 "id",
                 "=",
@@ -625,20 +625,20 @@ class ProblemModel extends Model
                 'users.name',
                 'users.id as uid'
             ])->get()->all();
-            foreach($c['reply'] as $k=>&$cr){
+            foreach ($c['reply'] as $k=>&$cr) {
                 $cr['content']=clean(Markdown::convertToHtml($cr["content"]));
-                $cr['reply_uid'] = DB::table('problem_discussion_comment')->where(
+                $cr['reply_uid']=DB::table('problem_discussion_comment')->where(
                     'pdcid',
                     '=',
                     $cr['reply_id']
                 )->get()->first()['uid'];
-                $cr['reply_name'] = DB::table('users')->where(
+                $cr['reply_name']=DB::table('users')->where(
                     'id',
                     '=',
                     $cr['reply_uid']
                 )->get()->first()['name'];
-                $cr['created_at'] = formatHumanReadableTime($cr['created_at']);
-                if($this->replyParent($cr['pdcid'])!=$c['pdcid']){
+                $cr['created_at']=formatHumanReadableTime($cr['created_at']);
+                if ($this->replyParent($cr['pdcid'])!=$c['pdcid']) {
                     unset($c['reply'][$k]);
                 }
             }
@@ -653,19 +653,19 @@ class ProblemModel extends Model
 
     public function replyParent($pdcid)
     {
-        $reply_id=DB::table('problem_discussion_comment')->where('pdcid','=',$pdcid)->get()->first()['reply_id'];
-        $top=DB::table('problem_discussion_comment')->where('pdcid','=',$reply_id)->get()->first()['reply_id'];
-        if(isset($top)){
+        $reply_id=DB::table('problem_discussion_comment')->where('pdcid', '=', $pdcid)->get()->first()['reply_id'];
+        $top=DB::table('problem_discussion_comment')->where('pdcid', '=', $reply_id)->get()->first()['reply_id'];
+        if (isset($top)) {
             return $this->replyParent($reply_id);
-        }else{
+        } else {
             return $reply_id;
         }
     }
 
     public function pcodeByPdid($dcode)
     {
-        $pid = DB::table('problem_discussion')->where('pdid','=',$dcode)->get()->first()['pid'];
-        $pcode = $this->pcode($pid);
+        $pid=DB::table('problem_discussion')->where('pdid', '=', $dcode)->get()->first()['pid'];
+        $pcode=$this->pcode($pid);
         return $pcode;
     }
 
@@ -686,11 +686,11 @@ class ProblemModel extends Model
 
     public function pidByPdid($pdid)
     {
-        $pid = DB::table('problem_discussion')->where('pdid','=',$pdid)->get()->first()['pid'];
+        $pid=DB::table('problem_discussion')->where('pdid', '=', $pdid)->get()->first()['pid'];
         return $pid;
     }
 
-    public function addComment($uid,$pdid,$content,$reply_id)
+    public function addComment($uid, $pdid, $content, $reply_id)
     {
         $pid=$this->pidByPdid($pdid);
         $pdcid=DB::table('problem_discussion_comment')->insertGetId([
@@ -709,6 +709,6 @@ class ProblemModel extends Model
 
     public function isHidden($pid)
     {
-        return DB::table('problem')->where('pid','=',$pid)->get()->first()['hide'];
+        return DB::table('problem')->where('pid', '=', $pid)->get()->first()['hide'];
     }
 }

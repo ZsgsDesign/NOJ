@@ -23,7 +23,7 @@ class AntiCheat implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Trackable;
 
-    public $tries = 1;
+    public $tries=1;
     public $progressVal=40;
     public $stepVal=0;
     protected $cid;
@@ -57,7 +57,7 @@ class AntiCheat implements ShouldQueue
         $cid=$this->cid;
         $contest=EloquentContestModel::find($cid);
 
-        if(!$contest->isJudgingComplete()) throw new Exception('Judging Incompleted');
+        if (!$contest->isJudgingComplete()) throw new Exception('Judging Incompleted');
 
         $acceptedSubmissions=$contest->submissions->whereIn('verdict', [
             'Accepted',
@@ -72,25 +72,25 @@ class AntiCheat implements ShouldQueue
         $probLangs=[];
 
 
-        foreach($acceptedSubmissions as $submission){
+        foreach ($acceptedSubmissions as $submission) {
             $lang=$submission->compiler->lang;
-            if(Arr::has($this->supportLang, $lang)){
+            if (Arr::has($this->supportLang, $lang)) {
                 $prob=$probIndex[$submission->pid];
                 $lang=$this->supportLang[$lang];
                 $ext=$lang;
                 Storage::put("contest/anticheat/$cid/raw/$prob/$lang/[$submission->uid][$submission->sid].$ext", $submission->solution);
-                if(!isset($probLangs[$prob][$lang])) $probLangs[$prob][$lang]=1;
+                if (!isset($probLangs[$prob][$lang])) $probLangs[$prob][$lang]=1;
                 else $probLangs[$prob][$lang]++;
                 $totProb++;
             }
         }
 
         $this->setProgressNow(40);
-        $this->stepVal=50/($totProb*2);
+        $this->stepVal=50 / ($totProb * 2);
         $this->progressVal=40;
 
-        foreach($probLangs as $prob=>$langs){
-            foreach($langs as $lang=>$submissionCount){
+        foreach ($probLangs as $prob=>$langs) {
+            foreach ($langs as $lang=>$submissionCount) {
                 $this->detectPlagiarism([
                     'lang'=>$lang,
                     'cid'=>$cid,
@@ -105,8 +105,8 @@ class AntiCheat implements ShouldQueue
         $this->setProgressNow(100);
     }
 
-    private function incProgress($factor=1){
-        $this->progressVal+=($this->stepVal)*$factor;
+    private function incProgress($factor=1) {
+        $this->progressVal+=($this->stepVal) * $factor;
         $this->setProgressNow(intval($this->progressVal));
     }
 
@@ -116,12 +116,12 @@ class AntiCheat implements ShouldQueue
         $cid=$config['cid'];
         $prob=$config['prob'];
         $count=$config['count'];
-        if (strtoupper(substr(php_uname('s'), 0, 3)) === 'WIN') {
+        if (strtoupper(substr(php_uname('s'), 0, 3))==='WIN') {
             // Windows
             $exe=base_path('binary'.DIRECTORY_SEPARATOR.'win'.DIRECTORY_SEPARATOR.'sim_'.$lang.'.exe');
         } else {
             // Linux or else
-            $process = new Process(['chmod', '+x', base_path('binary'.DIRECTORY_SEPARATOR.'linux'.DIRECTORY_SEPARATOR.'sim*')]);
+            $process=new Process(['chmod', '+x', base_path('binary'.DIRECTORY_SEPARATOR.'linux'.DIRECTORY_SEPARATOR.'sim*')]);
             $process->run();
             $exe=base_path('binary'.DIRECTORY_SEPARATOR.'linux'.DIRECTORY_SEPARATOR.'sim_'.$lang);
         }
@@ -131,7 +131,7 @@ class AntiCheat implements ShouldQueue
         // wildcardly add all files
         $exec.='*.'.$lang;
 
-        $process = new Process($exec);
+        $process=new Process($exec);
         $process->setWorkingDirectory(Storage::path('contest'.DIRECTORY_SEPARATOR.'anticheat'.DIRECTORY_SEPARATOR.$cid.DIRECTORY_SEPARATOR.'raw'.DIRECTORY_SEPARATOR.$prob.DIRECTORY_SEPARATOR.$lang));
         $process->run();
         if (!$process->isSuccessful()) {
@@ -145,16 +145,16 @@ class AntiCheat implements ShouldQueue
         $this->incProgress($count);
     }
 
-    private function afterWork($cid,$prob,$lang, $rawContent)
+    private function afterWork($cid, $prob, $lang, $rawContent)
     {
-        foreach(preg_split('~[\r\n]+~', $rawContent) as $line){
-            if(blank($line) or ctype_space($line)) continue;
+        foreach (preg_split('~[\r\n]+~', $rawContent) as $line) {
+            if (blank($line) or ctype_space($line)) continue;
             // [3057][64659].c++ consists for 100 % of [3057][64679].c++ material
             $line=explode('%', $line);
-            if(!isset($line[1])) continue;
-            [$uid1,$sid1,$percentage]=sscanf($line[0], "[%d][%d].$lang consists for %d ");
-            [$uid2,$sid2]=sscanf($line[1], " of [%d][%d].$lang material");
-            if($uid1==$uid2) continue;
+            if (!isset($line[1])) continue;
+            [$uid1, $sid1, $percentage]=sscanf($line[0], "[%d][%d].$lang consists for %d ");
+            [$uid2, $sid2]=sscanf($line[1], " of [%d][%d].$lang material");
+            if ($uid1==$uid2) continue;
             $username1=User::find($uid1)->name;
             $username2=User::find($uid2)->name;
             $this->retArr[]=[
@@ -174,14 +174,14 @@ class AntiCheat implements ShouldQueue
     private function finalizeReport()
     {
         $retArr=$this->retArr;
-        usort($retArr, function($a, $b){
+        usort($retArr, function($a, $b) {
             return $b['similarity']<=>$a['similarity'];
         });
         Log::debug($retArr);
         $cid=$this->cid;
         $index=0;
         $generalPage="<table><tr><th>Language</th><th>Submission 1</th><th>Submission 2</th><th>Sub 1 Consists for x% of Sub 2</th></tr>";
-        foreach($retArr as $ret) {
+        foreach ($retArr as $ret) {
             $lang=strtoupper($ret['lang']);
             $sub1=$ret['sub1'];
             $sub2=$ret['sub2'];

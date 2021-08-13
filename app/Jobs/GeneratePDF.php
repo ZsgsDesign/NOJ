@@ -15,7 +15,7 @@ class GeneratePDF implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Trackable;
 
-    public $tries = 5;
+    public $tries=5;
     protected $cid;
     protected $config;
 
@@ -33,7 +33,7 @@ class GeneratePDF implements ShouldQueue
             'cover'=>false,
             'advice'=>false,
         ];
-        $this->config=array_merge($default,$config);
+        $this->config=array_merge($default, $config);
     }
 
     /**
@@ -46,7 +46,7 @@ class GeneratePDF implements ShouldQueue
         $cid=$this->cid;
         $config=$this->config;
 
-        if (!is_dir(storage_path("app/contest/pdf/"))){
+        if (!is_dir(storage_path("app/contest/pdf/"))) {
             mkdir(storage_path("app/contest/pdf/"), 0777, true);
         }
 

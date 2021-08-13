@@ -20,12 +20,12 @@ class GithubController extends OAuthController
     public function redirectTo()
     {
         // 2 ways to access this page, you want to bind(logined), you want to login(not logined)
-        if(Auth::check()){
+        if (Auth::check()) {
             // logined user, only users with non-temp email & pass access and binded can unbind
-            if(!Auth::user()->isIndependent()){
+            if (!Auth::user()->isIndependent()) {
                 return redirect()->route('account.settings');
             }
-            if(Auth::user()->getExtra('github_id')){
+            if (Auth::user()->getExtra('github_id')) {
                 return $this->generateOperationView(Auth::user()->getExtra('github_email'));
             }
         }
@@ -34,17 +34,17 @@ class GithubController extends OAuthController
 
     public function handleCallback()
     {
-        try{
-            $github_user = Socialite::driver('github')->user();
-        }catch(\Laravel\Socialite\Two\InvalidStateException $e){
+        try {
+            $github_user=Socialite::driver('github')->user();
+        } catch (\Laravel\Socialite\Two\InvalidStateException $e) {
             return redirect()->route('home');
         }
 
-        if(Auth::check()){
-            $user_id = Auth::user()->id;
-            $ret = UserExtra::search('github_id', $github_user->id);
-            if(!empty($ret) && $ret[0]['uid'] != $user_id){
-                $user = User::find($ret[0]['uid']);
+        if (Auth::check()) {
+            $user_id=Auth::user()->id;
+            $ret=UserExtra::search('github_id', $github_user->id);
+            if (!empty($ret) && $ret[0]['uid']!=$user_id) {
+                $user=User::find($ret[0]['uid']);
                 return $this->generateDuplicateView($user->email);
             }
             Auth::user()->setExtra('github_id', $github_user->id);
@@ -53,17 +53,17 @@ class GithubController extends OAuthController
             Auth::user()->setExtra('github_homepage', ($github_user->user)['html_url']);
             Auth::user()->setExtra('github_token', $github_user->token, 101);
             return $this->generateSuccessView(Auth::user()->getExtra('github_email'));
-        }else{
-            $ret = UserExtra::search('github_id', $github_user->id);
-            if(!empty($ret)){
+        } else {
+            $ret=UserExtra::search('github_id', $github_user->id);
+            if (!empty($ret)) {
                 Auth::loginUsingId($ret[0]['uid'], true);
                 Auth::user()->setExtra('github_email', $github_user->email);
                 Auth::user()->setExtra('github_nickname', $github_user->nickname);
                 Auth::user()->setExtra('github_homepage', ($github_user->user)['html_url']);
                 Auth::user()->setExtra('github_token', $github_user->token, 101);
                 return redirect()->route('account.dashboard');
-            }else{
-                if(config('app.allow_oauth_temp_account')){
+            } else {
+                if (config('app.allow_oauth_temp_account')) {
                     try {
                         $createdUser=User::create([
                             'name' => Str::random(12),
@@ -71,7 +71,7 @@ class GithubController extends OAuthController
                             'password' => '',
                             'avatar' => '/static/img/avatar/default.png',
                         ]);
-                    }catch(QueryException $exception){
+                    } catch (QueryException $exception) {
                         return $this->generateUnknownErrorView();
                     }
                     Auth::loginUsingId($createdUser->id, true);
@@ -86,7 +86,7 @@ class GithubController extends OAuthController
                     'text' => 'login',
                     'href' => route('login'),
                 ]];
-                if(config('function.register')){
+                if (config('function.register')) {
                     $buttons[]=[
                         'text' => 'register',
                         'href' => route('register'),
@@ -99,29 +99,29 @@ class GithubController extends OAuthController
 
     public function unbind()
     {
-        if(!Auth::check()){
+        if (!Auth::check()) {
             return redirect()->route('home');
         }
-        if(Auth::user()->getExtra('github_id')){
+        if (Auth::user()->getExtra('github_id')) {
             return $this->generateUnbindConfirmView(Auth::user()->email, Auth::user()->getExtra('github_email'));
-        }else{
+        } else {
             return $this->generateAlreadyUnbindView();
         }
     }
 
     public function confirmUnbind()
     {
-        if(!Auth::check()){
+        if (!Auth::check()) {
             return redirect()->route('home');
         }
-        if(Auth::user()->getExtra('github_id')){
+        if (Auth::user()->getExtra('github_id')) {
             Auth::user()->setExtra('github_id', null);
             Auth::user()->setExtra('github_email', null);
             Auth::user()->setExtra('github_nickname', null);
             Auth::user()->setExtra('github_homepage', null);
             Auth::user()->setExtra('github_token', null);
             return $this->generateUnbindSuccessView();
-        }else{
+        } else {
             return $this->generateAlreadyUnbindView();
         }
     }

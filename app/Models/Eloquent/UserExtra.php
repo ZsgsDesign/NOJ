@@ -9,9 +9,9 @@ class UserExtra extends Model
 {
     protected $table='users_extra';
 
-    protected $fillable = ['uid', 'key', 'value', 'secret_level'];
+    protected $fillable=['uid', 'key', 'value', 'secret_level'];
 
-    public static $extraMapping = [
+    public static $extraMapping=[
         0     => 'gender',
         1     => 'contact',
         2     => 'school',
@@ -29,7 +29,7 @@ class UserExtra extends Model
         1011  => 'aauth_nickname',
     ];
 
-    public static $extraDict = [
+    public static $extraDict=[
         'gender' => [
             'icon' => 'MDI gender-transgender',
             'locale' => 'dashboard.setting.gender',
@@ -52,11 +52,11 @@ class UserExtra extends Model
         ],
     ];
 
-    public static $socialite_support = [
+    public static $socialite_support=[
         //use the form "platform_id" for unique authentication
         //such as github_id
         'github' => [
-            'email','nickname','homepage','token'
+            'email', 'nickname', 'homepage', 'token'
         ],
         'aauth' => [
             'nickname'
@@ -75,13 +75,13 @@ class UserExtra extends Model
      */
     public static function search($key, $value)
     {
-        $key = array_search($key, UserExtra::$extraMapping);
-        if($key){
+        $key=array_search($key, UserExtra::$extraMapping);
+        if ($key) {
             return self::where([
                 'key' => $key,
                 'value' => $value
             ])->limit(1)->get()->toArray();
-        }else{
+        } else {
             return null;
         }
     }

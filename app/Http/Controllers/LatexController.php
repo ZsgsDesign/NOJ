@@ -12,7 +12,7 @@ class LatexController extends Controller
 {
     public function svg(Request $request)
     {
-        $ltxsource = $request->input('ltxsource');
+        $ltxsource=$request->input('ltxsource');
         if (is_null($ltxsource)) {
             return;
         }
@@ -24,7 +24,7 @@ class LatexController extends Controller
 
     public function png(Request $request)
     {
-        $ltxsource = $request->input('ltxsource');
+        $ltxsource=$request->input('ltxsource');
         if (is_null($ltxsource)) {
             return;
         }
@@ -39,17 +39,17 @@ class LatexController extends Controller
         if (!Storage::exists('latex-svg/'.urlencode($ltxsource).'.svg')) {
             self::generateSVG($ltxsource);
         }
-        $image = new Imagick();
+        $image=new Imagick();
         $image->readImageBlob(Storage::get('latex-svg/'.urlencode($ltxsource).'.svg'));
-        $res = $image->getImageResolution();
-        $x_ratio = $res['x'] / $image->getImageWidth();
-        $y_ratio = $res['y'] / $image->getImageHeight();
+        $res=$image->getImageResolution();
+        $x_ratio=$res['x'] / $image->getImageWidth();
+        $y_ratio=$res['y'] / $image->getImageHeight();
         // $ratio=intval(200/$image->getImageHeight());
         $ratio=10;
-        $width=$image->getImageWidth()*$ratio;
-        $height=$image->getImageHeight()*$ratio;
+        $width=$image->getImageWidth() * $ratio;
+        $height=$image->getImageHeight() * $ratio;
         $image->removeImage();
-        $image->setResolution($width*$x_ratio, $height*$y_ratio);
+        $image->setResolution($width * $x_ratio, $height * $y_ratio);
         $image->setBackgroundColor(new \ImagickPixel('transparent'));
         $image->readImageBlob(Storage::get('latex-svg/'.urlencode($ltxsource).'.svg'));
         $image->setImageFormat("png32");
@@ -58,7 +58,7 @@ class LatexController extends Controller
 
     private static function generateSVG($ltxsource)
     {
-        $contents=str_replace('fill:rgb(0%,0%,0%)', 'fill:rgb(0,0,0)', Requests::get('http://www.tlhiv.org/ltxpreview/ltxpreview.cgi?' . http_build_query([
+        $contents=str_replace('fill:rgb(0%,0%,0%)', 'fill:rgb(0,0,0)', Requests::get('http://www.tlhiv.org/ltxpreview/ltxpreview.cgi?'.http_build_query([
             'width' => 10,
             'height' => 10,
             'ltx' => '',

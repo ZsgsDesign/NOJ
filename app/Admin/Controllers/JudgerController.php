@@ -82,15 +82,15 @@ class JudgerController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new Judger());
+        $grid=new Grid(new Judger());
 
         $grid->column('jid', 'JID');
         $grid->column('handle', __('admin.judgers.handle'))->editable();
         $grid->column('password', __('admin.judgers.password'))->editable();
-        $grid->column('available', __('admin.judgers.availability'))->display(function ($available) {
-            return $available?'<i class="MDI check-circle wemd-teal-text"></i> '.__('admin.judgers.available'):'<i class="MDI close-circle wemd-pink-text"></i> '.__('admin.judgers.unavailable');
+        $grid->column('available', __('admin.judgers.availability'))->display(function($available) {
+            return $available ? '<i class="MDI check-circle wemd-teal-text"></i> '.__('admin.judgers.available') : '<i class="MDI close-circle wemd-pink-text"></i> '.__('admin.judgers.unavailable');
         });
-        $grid->column('oid', __('admin.judgers.oj'))->display(function () {
+        $grid->column('oid', __('admin.judgers.oj'))->display(function() {
             return $this->oj->name;
         });
         $grid->column('user_id', __('admin.judgers.user_id'))->editable();
@@ -115,13 +115,13 @@ class JudgerController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(Judger::findOrFail($id));
+        $show=new Show(Judger::findOrFail($id));
 
         $show->field('jid', 'JID');
         $show->field('handle', __('admin.judgers.handle'));
         $show->field('password', __('admin.judgers.password'));
-        $show->field('available', __('admin.judgers.availability'))->as(function ($available) {
-            return $available?__('admin.judgers.available'):__('admin.judgers.unavailable');
+        $show->field('available', __('admin.judgers.availability'))->as(function($available) {
+            return $available ?__('admin.judgers.available') : __('admin.judgers.unavailable');
         });
         $show->field('oj.name', __('admin.judgers.oj'));
         $show->field('user_id', __('admin.judgers.user_id'));
@@ -138,12 +138,12 @@ class JudgerController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new Judger());
+        $form=new Form(new Judger());
         $form->text('handle', __('admin.judgers.handle'))->help(__('admin.judgers.help.handle'))->required();
         $form->text('password', __('admin.judgers.password'))->help(__('admin.judgers.help.password'))->required();
-        $form->switch('available',__('admin.judgers.availability'))->default(true);
+        $form->switch('available', __('admin.judgers.availability'))->default(true);
         $form->select('oid', __('admin.judgers.oj'))->options(OJ::all()->pluck('name', 'oid'))->required();
-        $form->text('user_id',__('admin.judgers.user_id'))->help(__('admin.judgers.help.user_id'));
+        $form->text('user_id', __('admin.judgers.user_id'))->help(__('admin.judgers.help.user_id'));
         $form->hidden('using')->default(0);
         return $form;
     }

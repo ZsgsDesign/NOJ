@@ -13,14 +13,14 @@ class RefreshRank extends Command
      *
      * @var string
      */
-    protected $signature = 'babel:rerank {extension : The package name of the extension} {--vcid= : The target contest of the Crawler} {--gid=1 : The holding group} {--cid= : The NOJ contest}';
+    protected $signature='babel:rerank {extension : The package name of the extension} {--vcid= : The target contest of the Crawler} {--gid=1 : The holding group} {--cid= : The NOJ contest}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Refresh Rank from a remote contest';
+    protected $description='Refresh Rank from a remote contest';
 
     /**
      * Create a new command instance.
@@ -39,18 +39,18 @@ class RefreshRank extends Command
      */
     public function handle()
     {
-        $extension = $this->argument('extension');
-        $vcid = $this->option('vcid');
-        $gid = $this->option('gid');
-        $cid = $this->option('cid');
-        $className = "App\\Babel\\Extension\\$extension\\Synchronizer";
-        $all_data = [
+        $extension=$this->argument('extension');
+        $vcid=$this->option('vcid');
+        $gid=$this->option('gid');
+        $cid=$this->option('cid');
+        $className="App\\Babel\\Extension\\$extension\\Synchronizer";
+        $all_data=[
             'oj'=>$extension,
             'vcid'=>$vcid,
             'gid'=>$gid,
             'cid'=>$cid,
         ];
-        $Sync = new $className($all_data);
+        $Sync=new $className($all_data);
         $Sync->crawlRank();
     }
 }

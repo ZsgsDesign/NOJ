@@ -100,11 +100,11 @@ class CompilerModel extends Model
 
     public static function add($row)
     {
-        if(self::checkExist([
+        if (self::checkExist([
             "oid"=>$row["oid"],
             "lcode"=>$row["lcode"],
             "deleted"=>0
-        ])){
+        ])) {
             throw new Exception("Duplicate Language Code");
         }
         return DB::table('compiler')->insert($row);

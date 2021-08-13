@@ -20,17 +20,17 @@ class Problem extends Model
 
     public function submissions()
     {
-        return $this->hasMany('App\Models\Eloquent\Submission','pid','pid');
+        return $this->hasMany('App\Models\Eloquent\Submission', 'pid', 'pid');
     }
 
     public function problemSamples()
     {
-        return $this->hasMany('App\Models\Eloquent\ProblemSample','pid','pid');
+        return $this->hasMany('App\Models\Eloquent\ProblemSample', 'pid', 'pid');
     }
 
     public function getProblemStatusAttribute()
     {
-        if(Auth::check()){
+        if (Auth::check()) {
             $prob_status=(new OutdatedSubmissionModel())->getProblemStatus($this->pid, Auth::user()->id);
             if (empty($prob_status)) {
                 return [

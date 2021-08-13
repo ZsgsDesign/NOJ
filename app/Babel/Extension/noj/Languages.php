@@ -98,7 +98,7 @@ class Languages
                 'run' => [
                     'command' => '/usr/bin/python3.7 {exe_path}',
                     'seccomp_rule' => 'general',
-                    'env' => array_merge(['MALLOC_ARENA_MAX=1','PYTHONIOENCODING=UTF-8'], $default_env)
+                    'env' => array_merge(['MALLOC_ARENA_MAX=1', 'PYTHONIOENCODING=UTF-8'], $default_env)
                 ]
             ],
             'php7_lang_config' => [
@@ -128,7 +128,7 @@ class Languages
                     'max_real_time' => 10000,
                     'max_memory' => -1,
                     'compile_command' => '/usr/bin/go build -o {exe_path} {src_path}',
-                    'env' => ["GOCACHE=/tmp","GOPATH=/root/go"]
+                    'env' => ["GOCACHE=/tmp", "GOPATH=/root/go"]
                 ],
                 'run' => [
                     'command' => '{exe_path}',

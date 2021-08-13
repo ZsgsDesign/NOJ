@@ -11,25 +11,25 @@ class CreateAdminCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'manage:create-admin';
+    protected $signature='manage:create-admin';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a admin user';
+    protected $description='Create a admin user';
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        $userModel = config('admin.database.users_model');
-        $username = $this->ask('Please enter a username to login');
-        $password = bcrypt($this->secret('Please enter a password to login'));
-        $name = $this->ask('Please enter a name to display');
-        $user = new $userModel(compact('username', 'password', 'name'));
+        $userModel=config('admin.database.users_model');
+        $username=$this->ask('Please enter a username to login');
+        $password=bcrypt($this->secret('Please enter a password to login'));
+        $name=$this->ask('Please enter a name to display');
+        $user=new $userModel(compact('username', 'password', 'name'));
         $user->save();
         $this->info("Admin User [$name] created successfully.");
     }

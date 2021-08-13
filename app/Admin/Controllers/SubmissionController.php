@@ -86,43 +86,43 @@ class SubmissionController extends Controller
     {
         $grid=new Grid(new Submission);
         $grid->column('sid', "ID")->sortable();
-        $grid->column("time", __('admin.submissions.time'))->display(function ($time) {
+        $grid->column("time", __('admin.submissions.time'))->display(function($time) {
             return __('admin.submissions.timeFormat', ['time'=>$time]);
         });
-        $grid->column("memory", __('admin.submissions.memory'))->display(function ($memory) {
+        $grid->column("memory", __('admin.submissions.memory'))->display(function($memory) {
             return __('admin.submissions.memoryFormat', ['memory'=>$memory]);
         });
-        $grid->column('verdict', __('admin.submissions.verdict'))->display(function ($verdict) {
+        $grid->column('verdict', __('admin.submissions.verdict'))->display(function($verdict) {
             return '<i class="fa fa-circle '.$this->color.'"></i> '.$verdict;
         });
         $grid->column("language", __('admin.submissions.language'));
-        $grid->column("submission_date", __('admin.submissions.submission_date'))->display(function ($submission_date) {
+        $grid->column("submission_date", __('admin.submissions.submission_date'))->display(function($submission_date) {
             return date("Y-m-d H:i:s", $submission_date);
         });
-        $grid->column("user_name", __('admin.submissions.user_name'))->display(function () {
+        $grid->column("user_name", __('admin.submissions.user_name'))->display(function() {
             return $this->user->name;
         });
-        $grid->column("contest_name", __('admin.submissions.contest_name'))->display(function () {
-            if(!is_null($this->contest)) return $this->contest->name;
+        $grid->column("contest_name", __('admin.submissions.contest_name'))->display(function() {
+            if (!is_null($this->contest)) return $this->contest->name;
         });
-        $grid->column("readable_name", __('admin.submissions.readable_name'))->display(function () {
+        $grid->column("readable_name", __('admin.submissions.readable_name'))->display(function() {
             return $this->problem->readable_name;
         });
-        $grid->column("judger_name", __('admin.submissions.judger_name'))->display(function () {
+        $grid->column("judger_name", __('admin.submissions.judger_name'))->display(function() {
             return $this->judger_name;
         });
         $grid->column("share", __('admin.submissions.share'))->editable('select', [
             0 => __('admin.submissions.disableshare'),
             1 => __('admin.submissions.enableshare')
         ]);
-        $grid->column("parsed_score", __('admin.submissions.parsed_score'))->display(function () {
+        $grid->column("parsed_score", __('admin.submissions.parsed_score'))->display(function() {
             return $this->parsed_score;
         });
-        $grid->filter(function (Grid\Filter $filter) {
-            $filter->column(6, function ($filter) {
+        $grid->filter(function(Grid\Filter $filter) {
+            $filter->column(6, function($filter) {
                 $filter->like('verdict', __('admin.submissions.verdict'));
             });
-            $filter->column(6, function ($filter) {
+            $filter->column(6, function($filter) {
                 $filter->equal('cid', __('admin.submissions.cid'))->select(Contest::all()->pluck('name', 'cid'));
                 $filter->equal('uid', __('admin.submissions.uid'))->select(User::all()->pluck('name', 'id'));
                 $filter->equal('pid', __('admin.submissions.pid'))->select(Problem::all()->pluck('readable_name', 'pid'));
@@ -162,14 +162,14 @@ class SubmissionController extends Controller
         $show->coid(__('admin.submissions.coid'));
         $show->vcid(__('admin.submissions.vcid'));
         $show->score(__('admin.submissions.parsed_score'));
-        $show->share(__('admin.submissions.share'))->using([__('admin.submissions.disableshare'),__('admin.submissions.enableshare')]);
+        $show->share(__('admin.submissions.share'))->using([__('admin.submissions.disableshare'), __('admin.submissions.enableshare')]);
         return $show;
     }
 
     private function codify($field, $lang=null)
     {
-        $field->unescape()->as(function ($value) use ($field,$lang) {
-            $field->border = false;
+        $field->unescape()->as(function($value) use ($field, $lang) {
+            $field->border=false;
             $hash=md5($value);
             if (blank($value)) {
                 $value=" ";
@@ -209,7 +209,7 @@ class SubmissionController extends Controller
     protected function form()
     {
         $form=new Form(new Submission);
-        $form->tab('Basic', function (Form $form) {
+        $form->tab('Basic', function(Form $form) {
             $form->display('sid', 'SID');
             $form->text('time', __('admin.submissions.time'))->rules('required');
             $form->text('memory', __('admin.submissions.memory'))->rules('required');

@@ -81,12 +81,12 @@ class AnnouncementController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new Announcement());
+        $grid=new Grid(new Announcement());
 
         $grid->column('anid', 'ANID');
         $grid->column('user', __('admin.announcements.user'))->display(function() {
             return $this->user->name;
-        });;
+        }); ;
         $grid->column('title', __('admin.announcements.title'))->editable();
         $grid->column('created_at', __('admin.created_at'));
         $grid->column('updated_at', __('admin.updated_at'));
@@ -107,7 +107,7 @@ class AnnouncementController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(Announcement::findOrFail($id));
+        $show=new Show(Announcement::findOrFail($id));
 
         $show->field('anid', 'ANID');
         $show->field('user.name', __('admin.announcements.user'));
@@ -126,7 +126,7 @@ class AnnouncementController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new Announcement());
+        $form=new Form(new Announcement());
         $form->text('title', __('admin.announcements.title'))->required();
         $form->simplemde('content', __('admin.announcements.content'))->help(__('admin.announcements.help.markdown'))->required();
         $form->select('uid', __('admin.announcements.user'))->options(User::all()->pluck('name', 'id'))->required();

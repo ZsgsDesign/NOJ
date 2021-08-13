@@ -13,20 +13,20 @@ class ProblemSearchModel extends Model
 
     public function search($key)
     {
-        $result = [];
-        if(strlen($key) >= 2){
-            $ret = self::where('pcode', $key)
-                ->orWhereRaw('MATCH(`title`) AGAINST (? IN BOOLEAN MODE)',[$key])
+        $result=[];
+        if (strlen($key)>=2) {
+            $ret=self::where('pcode', $key)
+                ->orWhereRaw('MATCH(`title`) AGAINST (? IN BOOLEAN MODE)', [$key])
                 ->select('pid', 'pcode', 'title')
                 ->limit(120)
                 ->get()->all();
-            if(!empty($ret)){
-                $result += $ret;
+            if (!empty($ret)) {
+                $result+=$ret;
             }
         }
-        $problemModel = new ProblemModel();
+        $problemModel=new ProblemModel();
         foreach ($result as $p_index => $p) {
-            if($problemModel->isBlocked($p['pid']) || $problemModel->isHidden($p["pid"])){
+            if ($problemModel->isBlocked($p['pid']) || $problemModel->isHidden($p["pid"])) {
                 unset($result[$p_index]);
             }
         }
