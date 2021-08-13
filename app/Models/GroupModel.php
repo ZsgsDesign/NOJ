@@ -121,7 +121,9 @@ class GroupModel extends Model
     public function details($gcode)
     {
         $basic_info=DB::table($this->tableName)->where(["gcode"=>$gcode])->first();
-        if (empty($basic_info)) return [];
+        if (empty($basic_info)) {
+            return [];
+        }
         $basic_info["members"]=$this->countGroupMembers($basic_info["gid"]);
         $basic_info["tags"]=$this->getGroupTags($basic_info["gid"]);
         $basic_info["create_time_foramt"]=date_format(date_create($basic_info["created_at"]), 'M jS, Y');
@@ -169,7 +171,9 @@ class GroupModel extends Model
         foreach ($user_list as &$u) {
             $u["role_parsed"]=$this->role[$u["role"]];
             $u["role_color"]=$this->role_color[$u["role"]];
-            if (is_null($u["sub_group"])) $u["sub_group"]="None";
+            if (is_null($u["sub_group"])) {
+                $u["sub_group"]="None";
+            }
         }
         return $user_list;
     }
@@ -300,7 +304,9 @@ class GroupModel extends Model
     public function judgeEmailClearance($gid, $email)
     {
         $user=DB::table("users")->where(["email"=>$email])->first();
-        if (empty($user)) return -4;
+        if (empty($user)) {
+            return -4;
+        }
         $ret=DB::table("group_member")->where([
             "gid"=>$gid,
             "uid"=>$user["id"],

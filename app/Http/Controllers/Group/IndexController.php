@@ -96,7 +96,9 @@ class IndexController extends Controller
         $groupModel=new GroupModel();
         $basic_info=$groupModel->details($gcode);
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
-        if ($clearance<1) return Redirect::route('group.detail', ['gcode' => $gcode]);
+        if ($clearance<1) {
+            return Redirect::route('group.detail', ['gcode' => $gcode]);
+        }
         $group_info=$groupModel->details($gcode);
         return view('group.settings.analysis', [
             'page_title'=>"Group Analysis",
