@@ -42,7 +42,7 @@ class ContestController extends Controller
         $all_data=$request->all();
 
         $contestModel=new ContestModel();
-        return $contestModel->updateProfessionalRate($all_data["cid"])?ResponseModel::success(200):ResponseModel::err(1001);
+        return $contestModel->updateProfessionalRate($all_data["cid"]) ?ResponseModel::success(200) : ResponseModel::err(1001);
     }
 
     public function requestClarification(Request $request)
@@ -78,16 +78,16 @@ class ContestController extends Controller
         $groupModel=new GroupModel();
         $basic=$contestModel->basic($all_data["cid"]);
 
-        if(!$basic["registration"]){
+        if (!$basic["registration"]) {
             return ResponseModel::err(4003);
         }
-        if(strtotime($basic["registration_due"])<time()){
+        if (strtotime($basic["registration_due"])<time()) {
             return ResponseModel::err(4004);
         }
-        if(!$basic["registant_type"]){
+        if (!$basic["registant_type"]) {
             return ResponseModel::err(4005);
         }
-        if($basic["registant_type"]==1 && !$groupModel->isMember($basic["gid"], Auth::user()->id)){
+        if ($basic["registant_type"]==1 && !$groupModel->isMember($basic["gid"], Auth::user()->id)) {
             return ResponseModel::err(4005);
         }
 
@@ -101,14 +101,14 @@ class ContestController extends Controller
         $request->validate([
             'cid' => 'required|integer'
         ]);
-        $cid = $request->input('cid');
+        $cid=$request->input('cid');
 
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
-        if ($clearance < 1) {
+        if ($clearance<1) {
             return ResponseModel::err(7002);
         }
-        return ResponseModel::success(200,null,$contestModel->praticeAnalysis($cid));
+        return ResponseModel::success(200, null, $contestModel->praticeAnalysis($cid));
     }
 
     public function downloadPDF(Request $request)
@@ -116,11 +116,11 @@ class ContestController extends Controller
         $request->validate([
             'cid' => 'required|integer'
         ]);
-        $cid = $request->input('cid');
+        $cid=$request->input('cid');
 
         $info=EloquentContestModel::find($cid);
 
-        if (!$info->pdf){
+        if (!$info->pdf) {
             return abort('403');
         }
 

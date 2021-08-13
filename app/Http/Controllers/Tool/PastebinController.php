@@ -16,10 +16,10 @@ class PastebinController extends Controller
     public function view($code)
     {
         $detail=Pastebin::where('code', $code)->first();
-        if(is_null($detail)){
+        if (is_null($detail)) {
             return abort('404');
         }
-        if(!is_null($detail->expired_at) && strtotime($detail->expired_at) < strtotime(date("y-m-d h:i:s"))){
+        if (!is_null($detail->expired_at) && strtotime($detail->expired_at)<strtotime(date("y-m-d h:i:s"))) {
             Pastebin::where('code', $code)->delete();
             return abort('404');
         }

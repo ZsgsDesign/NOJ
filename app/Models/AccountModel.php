@@ -26,8 +26,8 @@ class AccountModel extends Model
     public function feed($uid=null)
     {
         $ret=[];
-        $solution=DB::table("problem_solution")->join("problem","problem.pid","=","problem_solution.pid")->where(["uid"=>$uid,"audit"=>1])->select("problem.pid as pid","pcode","title","problem_solution.created_at as created_at")->orderBy("problem_solution.created_at","DESC")->get()->all();
-        foreach($solution as &$s){
+        $solution=DB::table("problem_solution")->join("problem", "problem.pid", "=", "problem_solution.pid")->where(["uid"=>$uid, "audit"=>1])->select("problem.pid as pid", "pcode", "title", "problem_solution.created_at as created_at")->orderBy("problem_solution.created_at", "DESC")->get()->all();
+        foreach ($solution as &$s) {
             $s["type"]="event";
             $s["color"]="wemd-orange";
             $s["icon"]="comment-check-outline";
@@ -39,7 +39,7 @@ class AccountModel extends Model
     public function generateContestAccount($cid, $ccode, $num)
     {
         $ret=[];
-        $starting=DB::table("users")->where('prefix','=',$ccode)->count();
+        $starting=DB::table("users")->where('prefix', '=', $ccode)->count();
         $contestModel=new ContestModel();
         for ($i=1; $i<=$num; $i++) {
             $pass=$this->generatePassword();
@@ -87,7 +87,7 @@ class AccountModel extends Model
 
     public function detail($uid)
     {
-        if (filter_var($uid, FILTER_VALIDATE_INT) === false) {
+        if (filter_var($uid, FILTER_VALIDATE_INT)===false) {
             return null;
         }
         $ret=DB::table("users")->where(["id"=>$uid])->first();
@@ -107,8 +107,8 @@ class AccountModel extends Model
         ])->join("problem", "problem.pid", "=", "submission.pid")->select('pcode')->distinct()->get()->all();
         $ret["solvedCount"]=count($ret["solved"]);
         // Casual
-        $ret["rank"]=Cache::tags(['rank',$ret["id"]])->get("rank", "N/A");
-        $ret["rankTitle"]=Cache::tags(['rank',$ret["id"]])->get("title", "Recruit");
+        $ret["rank"]=Cache::tags(['rank', $ret["id"]])->get("rank", "N/A");
+        $ret["rankTitle"]=Cache::tags(['rank', $ret["id"]])->get("title", "Recruit");
         $ret["rankTitleColor"]=RankModel::getColor($ret["rankTitle"]);
         // Professional
         $ret["professionalTitle"]=RankModel::getProfessionalTitle($ret["professional_rate"]);

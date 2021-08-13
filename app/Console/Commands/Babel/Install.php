@@ -13,14 +13,14 @@ class Install extends Command
      *
      * @var string
      */
-    protected $signature = 'babel:install {extension : The package name of the extension} {--ignore-platform-reqs : Ignore the Platform Requirements when install}';
+    protected $signature='babel:install {extension : The package name of the extension} {--ignore-platform-reqs : Ignore the Platform Requirements when install}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Install a given Babel Extension to NOJ';
+    protected $description='Install a given Babel Extension to NOJ';
 
     /**
      * Create a new command instance.
@@ -39,9 +39,9 @@ class Install extends Command
      */
     public function handle()
     {
-        $extension = $this->argument('extension');
-        $ignoreReqs = $this->option('ignore-platform-reqs');
-        $output = new BufferedOutput();
+        $extension=$this->argument('extension');
+        $ignoreReqs=$this->option('ignore-platform-reqs');
+        $output=new BufferedOutput();
         $installerProvider="Installer";
         try {
             $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$extension/babel.json")), true);
@@ -71,7 +71,7 @@ class Install extends Command
 
     public static function create($oj, $installerProvider, $class)
     {
-        $className = "App\\Babel\\Extension\\$oj\\$installerProvider";
+        $className="App\\Babel\\Extension\\$oj\\$installerProvider";
         if (class_exists($className)) {
             return new $className($class);
         } else {

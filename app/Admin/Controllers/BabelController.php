@@ -132,7 +132,7 @@ class BabelController extends Controller
     {
         $extensionList=ExtensionModel::list();
 
-        if(empty($extensionList)){
+        if (empty($extensionList)) {
             return view('admin::babel.empty');
         }
 
@@ -145,7 +145,7 @@ class BabelController extends Controller
     {
         $details=ExtensionModel::remoteDetail($code);
 
-        if(empty($details)){
+        if (empty($details)) {
             return view('admin::babel.empty');
         }
 
@@ -158,7 +158,7 @@ class BabelController extends Controller
     {
         $details=ExtensionModel::remoteDetail($extension);
 
-        if(empty($details)){
+        if (empty($details)) {
             return view('admin::babel.empty');
         }
 
@@ -169,15 +169,15 @@ class BabelController extends Controller
 
     private static function executeArtisan($command)
     {
-        $fp = popen('php "'.base_path('artisan').'" '.$command, "r");
-        while($b = fgets($fp, 2048)) {
+        $fp=popen('php "'.base_path('artisan').'" '.$command, "r");
+        while ($b=fgets($fp, 2048)) {
             echo str_pad(json_encode([
                 "ret"=>200,
                 "desc"=>"Succeed",
                 "data"=>[
                     "message"=>$b
                 ]
-            ])."\n",4096);
+            ])."\n", 4096);
             @ob_flush();
             flush();
         }

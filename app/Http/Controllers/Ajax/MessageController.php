@@ -15,24 +15,24 @@ class MessageController extends Controller
         $request->validate([
             'uid' => 'required|integer'
         ]);
-        $uid = $request->input('uid');
-        if(!Auth::check() || Auth::user()->id != $uid){
+        $uid=$request->input('uid');
+        if (!Auth::check() || Auth::user()->id!=$uid) {
             return ResponseModel::err(2001);
         }
-        $ret = Message::unread($uid);
-        return ResponseModel::success(200,null,$ret);
+        $ret=Message::unread($uid);
+        return ResponseModel::success(200, null, $ret);
     }
 
     public function allRead()
     {
-        $uid = Auth::user()->id;
+        $uid=Auth::user()->id;
         Message::allRead($uid);
         return ResponseModel::success(200);
     }
 
     public function deleteAll()
     {
-        $uid = Auth::user()->id;
+        $uid=Auth::user()->id;
         Message::removeAllRead($uid);
         return ResponseModel::success(200);
     }

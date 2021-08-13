@@ -30,12 +30,12 @@ class UserController extends Controller
     {
         $accountModel=new AccountModel();
         $info=$accountModel->detail($uid);
-        if($info == null) {
+        if ($info==null) {
             return redirect("/");
         }
         $feed=$accountModel->feed($uid);
-        $extraInfo = User::find($uid)->getExtra(['gender', 'contact', 'school', 'country', 'location'], 0);
-        $socialiteInfo = User::find($uid)->getSocialiteInfo(0);
+        $extraInfo=User::find($uid)->getExtra(['gender', 'contact', 'school', 'country', 'location'], 0);
+        $socialiteInfo=User::find($uid)->getSocialiteInfo(0);
         return view("account.dashboard", [
             'page_title'=>$info["name"],
             'site_title'=>config("app.name"),

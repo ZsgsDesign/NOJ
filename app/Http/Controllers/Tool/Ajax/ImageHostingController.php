@@ -21,7 +21,7 @@ class ImageHostingController extends Controller
     {
         $user=Auth::user();
 
-        if(!$user->hasPermission(26)){
+        if (!$user->hasPermission(26)) {
             return ResponseModel::err(2001);
         }
 
@@ -35,7 +35,7 @@ class ImageHostingController extends Controller
         $allow_extension=['jpg', 'png', 'jpeg', 'gif', 'bmp'];
         if ($isValid && in_array($extension, $allow_extension)) {
             $path=$request->file('image')->store('/static/img/upload', 'NOJPublic');
-            $id = ImageHosting::create([
+            $id=ImageHosting::create([
                 'user_id' => $user->id,
                 'relative_path' => "/$path"
             ])->id;

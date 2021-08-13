@@ -8,19 +8,19 @@ use Illuminate\Http\Request;
 class AccountController extends Controller
 {
     public function login(Request $request) {
-        $credentials = [
+        $credentials=[
             'email' => $request->email,
             'password' => $request->password
         ];
 
-        if(auth()->attempt($credentials)) {
-            $user = auth()->user();
-            if(!empty($user->tokens)){
-                foreach($user->tokens as $token){
+        if (auth()->attempt($credentials)) {
+            $user=auth()->user();
+            if (!empty($user->tokens)) {
+                foreach ($user->tokens as $token) {
                     $token->delete();
                 }
             }
-            $token = $user->createToken('NOJ Password Grant Client')->accessToken;
+            $token=$user->createToken('NOJ Password Grant Client')->accessToken;
             return response()->json([
                 'success' => true,
                 'message' => 'Successfully Login',

@@ -16,14 +16,14 @@ class ResetPass extends Command
      *
      * @var string
      */
-    protected $signature = 'manage:resetpass {--uid= : the user you want to reset} {--digit= : the number of the password, should be larger than 8}';
+    protected $signature='manage:resetpass {--uid= : the user you want to reset} {--digit= : the number of the password, should be larger than 8}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Reset user passwords of NOJ';
+    protected $description='Reset user passwords of NOJ';
 
     /**
      * Create a new command instance.

@@ -15,7 +15,7 @@ use Auth;
 class AccountController extends Controller
 {
 
-    public function updateAvatar(Request $request){
+    public function updateAvatar(Request $request) {
         $isValid=$request->file('avatar')->isValid();
         if ($isValid) {
             $extension=$request->file('avatar')->extension();
@@ -42,7 +42,7 @@ class AccountController extends Controller
         }
     }
 
-    public function changeBasicInfo(Request $request){
+    public function changeBasicInfo(Request $request) {
         $request->validate([
             "username" => [
                 "required",
@@ -53,98 +53,98 @@ class AccountController extends Controller
             ],
             "describes" => "required|string|max:255"
         ]);
-        $username = $request->input('username');
-        $describes = $request->input('describes');
+        $username=$request->input('username');
+        $describes=$request->input('describes');
         $user=Auth::user();
-        if(!Auth::user()->contest_account){
-            $user->name = $username;
+        if (!Auth::user()->contest_account) {
+            $user->name=$username;
         }
-        $user->describes = $describes;
+        $user->describes=$describes;
         $user->save();
         return ResponseModel::success();
     }
 
-    public function changePassword(Request $request){
-        if(!$request->has('old_password') || !$request->has('new_password') || !$request->has('confirm_password')){
+    public function changePassword(Request $request) {
+        if (!$request->has('old_password') || !$request->has('new_password') || !$request->has('confirm_password')) {
             return ResponseModel::err(1003);
         }
-        $old_password = $request->input('old_password');
-        $new_password = $request->input('new_password');
-        $confirm_password = $request->input('confirm_password');
-        if($new_password != $confirm_password){
+        $old_password=$request->input('old_password');
+        $new_password=$request->input('new_password');
+        $confirm_password=$request->input('confirm_password');
+        if ($new_password!=$confirm_password) {
             return ResponseModel::err(2004);
         }
-        if(strlen($new_password) < 8 || strlen($old_password) < 8){
+        if (strlen($new_password)<8 || strlen($old_password)<8) {
             return ResponseModel::err(1006);
         }
-        $user = Auth::user();
-        if($user->hasIndependentPassword() && !Hash::check($old_password, $user->password)){
+        $user=Auth::user();
+        if ($user->hasIndependentPassword() && !Hash::check($old_password, $user->password)) {
             return ResponseModel::err(2005);
         }
-        $user->password = Hash::make($new_password);
+        $user->password=Hash::make($new_password);
         $user->save();
         return ResponseModel::success();
     }
 
-    public function checkEmailCooldown(Request $request){
-        $last_send = $request->session()->get('last_email_send');
-        if(empty($last_send) || time() - $last_send >= 300){
-            $request->session()->put('last_email_send',time());
-            return ResponseModel::success(200,null,0);
-        }else{
-            $cooldown =  300 - (time() - $last_send);
-            return ResponseModel::success(200,null,$cooldown);
+    public function checkEmailCooldown(Request $request) {
+        $last_send=$request->session()->get('last_email_send');
+        if (empty($last_send) || time()-$last_send>=300) {
+            $request->session()->put('last_email_send', time());
+            return ResponseModel::success(200, null, 0);
+        } else {
+            $cooldown=300-(time()-$last_send);
+            return ResponseModel::success(200, null, $cooldown);
         }
     }
 
-    public function changeExtraInfo(Request $request){
-        $input = $request->input();
-        $allow_change = ['gender','contact','school','country','location'];
-        foreach($input as $key => $value){
-            if(!in_array($key,$allow_change)){
+    public function changeExtraInfo(Request $request) {
+        $input=$request->input();
+        $allow_change=['gender', 'contact', 'school', 'country', 'location'];
+        foreach ($input as $key => $value) {
+            if (!in_array($key, $allow_change)) {
                 return ResponseModel::error(1007);
             }
         }
         foreach ($input as $key => $value) {
-            if(strlen($value) != 0){
+            if (strlen($value)!=0) {
                 Auth::user()->setExtra($key, $value, 0);
-            }else{
+            } else {
                 Auth::user()->setExtra($key, null);
             }
         }
         return ResponseModel::success();
     }
 
-    public function saveEditorWidth(Request $request){
-        $input = $request->input();
-        $allow_change = ['editor_left_width'];
-        foreach($input as $key => $value){
-            if(!in_array($key,$allow_change)){
+    public function saveEditorWidth(Request $request) {
+        $input=$request->input();
+        $allow_change=['editor_left_width'];
+        foreach ($input as $key => $value) {
+            if (!in_array($key, $allow_change)) {
                 return ResponseModel::error(1007);
             }
         }
         foreach ($input as $key => $value) {
-            if(strlen($value) != 0){
+            if (strlen($value)!=0) {
                 Auth::user()->setExtra($key, $value, 0);
-            }else{
+            } else {
                 Auth::user()->setExtra($key, null);
             }
         }
         return ResponseModel::success();
     }
 
-    public function saveEditorTheme(Request $request){
-        $input = $request->input();
-        $allow_change = ['editor_theme'];
-        foreach($input as $key => $value){
-            if(!in_array($key,$allow_change)){
+    public function saveEditorTheme(Request $request) {
+        $input=$request->input();
+        $allow_change=['editor_theme'];
+        foreach ($input as $key => $value) {
+            if (!in_array($key, $allow_change)) {
                 return ResponseModel::error(1007);
             }
         }
         foreach ($input as $key => $value) {
-            if(strlen($value) != 0){
+            if (strlen($value)!=0) {
                 Auth::user()->setExtra($key, $value, 0);
-            }else{
+            } else {
                 Auth::user()->setExtra($key, null);
             }
         }

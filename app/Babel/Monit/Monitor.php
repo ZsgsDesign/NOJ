@@ -33,7 +33,7 @@ class Monitor
         } catch (ErrorException $e) {
         } catch (Exception $e) {
         }
-        $className = "App\\Babel\\Extension\\$name\\$monitorProvider";
+        $className="App\\Babel\\Extension\\$name\\$monitorProvider";
         if (class_exists($className)) {
             return new $className();
         } else {

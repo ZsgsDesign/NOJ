@@ -142,23 +142,23 @@ class GroupController extends Controller
                 $form->select('leader_uid', 'Group Leader')->options(User::all()->pluck('name', 'id'))->required();
             }
             $form->ignore(['leader_uid']);
-            $form->saving(function (Form $form){
-                $err = function ($msg, $title = 'Error occur.') {
-                    $error = new MessageBag([
+            $form->saving(function(Form $form) {
+                $err=function($msg, $title='Error occur.') {
+                    $error=new MessageBag([
                         'title'   => $title,
                         'message' => $msg,
                     ]);
                     return back()->with(compact('error'));
                 };
-                $gcode = $form->gcode;
-                $g = Group::where('gcode',$gcode)->first();
+                $gcode=$form->gcode;
+                $g=Group::where('gcode', $gcode)->first();
                 //check gcode has been token.
-                $gid = $form->pid ?? null;
-                if(!empty($gcode) && !blank($g) && $g->gid != $gid){
+                $gid=$form->pid ?? null;
+                if (!empty($gcode) && !blank($g) && $g->gid!=$gid) {
                     $err('Gcode has been token', 'Error occur.');
                 }
             });
-            $form->saved(function (Form $form) {
+            $form->saved(function(Form $form) {
                 $form->model()->members()->saveMany([new GroupMember([
                     'gid' => $form->model()->gid,
                     'uid' => request('leader_uid'),

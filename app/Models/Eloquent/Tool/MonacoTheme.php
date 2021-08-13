@@ -262,14 +262,14 @@ class MonacoTheme
         ]
     ];
 
-    public static function getTheme($id){
-        if(!isset(self::$theme[$id])){
+    public static function getTheme($id) {
+        if (!isset(self::$theme[$id])) {
             return self::$theme['vs-dark'];
         }
         return self::$theme[$id];
     }
 
-    public static function getAll(){
+    public static function getAll() {
         return self::$theme;
     }
 }

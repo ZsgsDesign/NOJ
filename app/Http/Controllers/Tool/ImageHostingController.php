@@ -32,10 +32,10 @@ class ImageHostingController extends Controller
     public function detail($id)
     {
         $image=ImageHosting::find($id);
-        if(is_null($image)) {
+        if (is_null($image)) {
             return abort('404');
         }
-        if(Auth::user()->id!=$image->user_id){
+        if (Auth::user()->id!=$image->user_id) {
             return abort('403');
         }
         return view('tool.imagehosting.detail', [

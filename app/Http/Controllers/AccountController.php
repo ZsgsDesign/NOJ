@@ -30,8 +30,8 @@ class AccountController extends Controller
         $accountModel=new AccountModel();
         $info=$accountModel->detail(Auth::user()->id);
         $feed=$accountModel->feed(Auth::user()->id);
-        $extraInfo = Auth::user()->getExtra(['gender', 'contact', 'school', 'country', 'location'], 100);
-        $socialiteInfo = Auth::user()->getSocialiteInfo(100);
+        $extraInfo=Auth::user()->getExtra(['gender', 'contact', 'school', 'country', 'location'], 100);
+        $socialiteInfo=Auth::user()->getSocialiteInfo(100);
         return view("account.dashboard", [
             'page_title'=>"DashBoard",
             'site_title'=>config("app.name"),
@@ -56,11 +56,11 @@ class AccountController extends Controller
     {
         $accountModel=new AccountModel();
         $info=$accountModel->detail(Auth::user()->id);
-        if(!empty(session('last_email_send'))){
-            $email_cooldown = 300 - (time() - session('last_email_send'));
+        if (!empty(session('last_email_send'))) {
+            $email_cooldown=300-(time()-session('last_email_send'));
         }
-        $extraInfo = Auth::user()->getExtra(['gender', 'contact', 'school', 'country', 'location'], 100);
-        $socialiteInfo = Auth::user()->getSocialiteInfo(100);
+        $extraInfo=Auth::user()->getExtra(['gender', 'contact', 'school', 'country', 'location'], 100);
+        $socialiteInfo=Auth::user()->getSocialiteInfo(100);
         return view("account.dashboard", [
             'page_title'=>"Settings",
             'site_title'=>config("app.name"),

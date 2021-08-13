@@ -10,7 +10,7 @@ class Group extends Model
 
     public function members()
     {
-        return $this->hasMany('App\Models\Eloquent\GroupMember', 'gid','gid');
+        return $this->hasMany('App\Models\Eloquent\GroupMember', 'gid', 'gid');
     }
 
     public function banneds()
@@ -21,20 +21,20 @@ class Group extends Model
     public static function boot()
     {
         parent::boot();
-        static::saving(function ($model) {
-            if( $model->img != "" && $model->img != null && $model->img[0] != "/" ) {
-                $model->img =  "/$model->img";
+        static::saving(function($model) {
+            if ($model->img!="" && $model->img!=null && $model->img[0]!="/") {
+                $model->img="/$model->img";
             }
         });
     }
 
     public function getLeaderAttribute()
     {
-        return $this->members()->where('role',3)->first()->user;
+        return $this->members()->where('role', 3)->first()->user;
     }
 
     public function getLinkAttribute()
     {
-        return route('group.detail',['gcode' => $this->gcode]);
+        return route('group.detail', ['gcode' => $this->gcode]);
     }
 }

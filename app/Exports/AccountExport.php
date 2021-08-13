@@ -11,7 +11,7 @@ class AccountExport implements FromArray, WithHeadings
 
     public function __construct(array $data)
     {
-        $this->data = $data;
+        $this->data=$data;
     }
 
     public function array(): array

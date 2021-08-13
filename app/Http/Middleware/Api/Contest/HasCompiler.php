@@ -15,9 +15,9 @@ class HasCompiler
      */
     public function handle($request, Closure $next)
     {
-        $contest_problem = $request->contest_problem;
-        $compiler = $contest_problem->compilers->where('coid', $request->coid)->first();
-        if(empty($compiler)) {
+        $contest_problem=$request->contest_problem;
+        $compiler=$contest_problem->compilers->where('coid', $request->coid)->first();
+        if (empty($compiler)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Compiler Not Found',

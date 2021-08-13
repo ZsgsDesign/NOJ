@@ -16,11 +16,11 @@ class Exists
      */
     public function handle($request, Closure $next)
     {
-        $gcode = $request->gcode;
-        $group = Group::where('gcode',$gcode)->first();
-        if(!empty($group)){
+        $gcode=$request->gcode;
+        $group=Group::where('gcode', $gcode)->first();
+        if (!empty($group)) {
             return $next($request);
-        }else{
+        } else {
             return redirect('/group');
         }
 

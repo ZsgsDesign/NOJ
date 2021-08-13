@@ -35,35 +35,35 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 
-        $schedule->call(function () {
+        $schedule->call(function() {
             $rankModel=new RankModel();
             $rankModel->rankList();
             // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Updated Rank");
         })->dailyAt('02:00')->description("Update Rank");
 
-        $schedule->call(function () {
+        $schedule->call(function() {
             $siteMapModel=new SiteMapModel();
             // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Updated SiteMap");
         })->dailyAt('02:00')->description("Update SiteMap");
 
-        $schedule->call(function () {
+        $schedule->call(function() {
             $groupModel=new GroupModel();
             $groupModel->cacheTrendingGroups();
             // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Cached Trending Groups");
         })->dailyAt('03:00')->description("Update Trending Groups");
 
         $schedule->call(function() {
-            $groupModel = new GroupModel();
-            $ret = $groupModel->refreshAllElo();
+            $groupModel=new GroupModel();
+            $ret=$groupModel->refreshAllElo();
             foreach ($ret as $gid => $group) {
-                if(empty($group['result'])){
+                if (empty($group['result'])) {
                     Log::channel('group_elo')->info('Refreshed Group Elo (Empty) : ('.$gid.')'.$group['name']);
-                }else{
+                } else {
                     Log::channel('group_elo')->info('Refreshing Group Elo: ('.$gid.')'.$group['name']);
                     foreach ($group['result'] as $contest) {
-                        if($contest['ret'] == 'success'){
+                        if ($contest['ret']=='success') {
                             Log::channel('group_elo')->info('    Elo Clac Successfully : ('.$contest['cid'].')'.$contest['name']);
-                        }else{
+                        } else {
                             Log::channel('group_elo')->info('    Elo Clac Faild (Judge Not Over) : ('.$contest['cid'].')'.$contest['name'].'  sids:');
                             foreach ($contest['submissions'] as $sid) {
                                 Log::channel('group_elo')->info('        '.$sid['sid']);
@@ -74,46 +74,46 @@ class Kernel extends ConsoleKernel
             }
         })->dailyAt('04:00')->description("Update Group Elo");
 
-        $schedule->call(function () {
-            $contestModel = new ContestModel();
-            $syncList = $contestModel->runningContest();
+        $schedule->call(function() {
+            $contestModel=new ContestModel();
+            $syncList=$contestModel->runningContest();
             foreach ($syncList as $syncContest) {
                 if (!isset($syncContest['vcid'])) {
-                    $contest = EloquentContestModel::find($syncContest['cid']);
-                    $contestRankRaw = $contest->rankRefresh();
+                    $contest=EloquentContestModel::find($syncContest['cid']);
+                    $contestRankRaw=$contest->rankRefresh();
                     $cid=$syncContest['cid'];
                     Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
                     Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $contestRankRaw);
-                    continue ;
+                    continue;
                 }
-                $className = "App\\Babel\\Extension\\hdu\\Synchronizer";  // TODO Add OJ judgement.
-                $all_data = [
+                $className="App\\Babel\\Extension\\hdu\\Synchronizer"; // TODO Add OJ judgement.
+                $all_data=[
                     'oj'=>"hdu",
                     'vcid'=>$syncContest['vcid'],
                     'gid'=>$syncContest['gid'],
                     'cid'=>$syncContest['cid'],
                 ];
-                $hduSync = new $className($all_data);
+                $hduSync=new $className($all_data);
                 $hduSync->crawlRank();
                 $hduSync->crawlClarification();
             }
             // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Synced Remote Rank and Clarification");
         })->everyMinute()->description("Sync Remote Rank and Clarification");
 
-        $schedule->call(function () {
-            $contestModel = new ContestModel();
-            $syncList = $contestModel->runningContest();
+        $schedule->call(function() {
+            $contestModel=new ContestModel();
+            $syncList=$contestModel->runningContest();
             foreach ($syncList as $syncContest) {
                 if (isset($syncContest['crawled'])) {
                     if (!$syncContest['crawled']) {
-                        $className = "App\\Babel\\Extension\\hdu\\Synchronizer";
-                        $all_data = [
+                        $className="App\\Babel\\Extension\\hdu\\Synchronizer";
+                        $all_data=[
                             'oj'=>"hdu",
                             'vcid'=>$syncContest['vcid'],
                             'gid'=>$syncContest['gid'],
                             'cid'=>$syncContest['cid'],
                         ];
-                        $hduSync = new $className($all_data);
+                        $hduSync=new $className($all_data);
                         $hduSync->scheduleCrawl();
                         $contestModel->updateCrawlStatus($syncContest['cid']);
                     }
@@ -121,7 +121,7 @@ class Kernel extends ConsoleKernel
             }
         })->everyMinute()->description("Sync Contest Problem");
 
-        $schedule->call(function () {
+        $schedule->call(function() {
             $oidList=EloquentJudgeServerModel::column('oid');
             $babel=new Babel();
             foreach ($oidList as $oid) {

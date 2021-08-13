@@ -21,7 +21,7 @@ class AdminController extends Controller
      */
     public function settings($gcode)
     {
-        return Redirect::route('group.settings.general', ['gcode' => $gcode]);;
+        return Redirect::route('group.settings.general', ['gcode' => $gcode]); ;
     }
 
     /**
@@ -31,7 +31,7 @@ class AdminController extends Controller
      */
     public function settingsReturn($gcode)
     {
-        return Redirect::route('group.detail', ['gcode' => $gcode]);;
+        return Redirect::route('group.detail', ['gcode' => $gcode]); ;
     }
 
     /**
@@ -60,10 +60,10 @@ class AdminController extends Controller
      *
      * @return Response
      */
-    public function problems($gcode){
-        $groupModel = new GroupModel();
-        $group_info = $groupModel->details($gcode);
-        $problems = $groupModel->problems($group_info['gid']);
+    public function problems($gcode) {
+        $groupModel=new GroupModel();
+        $group_info=$groupModel->details($gcode);
+        $problems=$groupModel->problems($group_info['gid']);
         $basic_info=$groupModel->details($gcode);
         return view('group.settings.problems', [
             'page_title'=>"Group Problems",
@@ -105,7 +105,7 @@ class AdminController extends Controller
         $member_list=$groupModel->userList($basic_info["gid"]);
         $group_notice=$groupModel->detailNotice($gcode);
         // PHP 7.4 Fix
-        if(is_null($group_notice)){
+        if (is_null($group_notice)) {
             $group_notice=[
                 'content'=>null,
                 'title'=>null,

@@ -120,7 +120,7 @@ class UserController extends Controller
             }
             $form->text('name', __('admin.users.name'))->rules('required');
             $form->email('email', __('admin.users.email'))->rules('required');
-            if($form->isEditing()){
+            if ($form->isEditing()) {
                 $form->display('created_at', __('admin.created_at'));
                 $form->display('updated_at', __('admin.updated_at'));
             }

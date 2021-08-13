@@ -13,8 +13,8 @@ class OJModel extends Model
 
     public static function oid($ocode)
     {
-        $ret = DB::table('oj')->where(["ocode"=>$ocode])->first();
-        return is_null($ret)?null:$ret["oid"];
+        $ret=DB::table('oj')->where(["ocode"=>$ocode])->first();
+        return is_null($ret) ?null:$ret["oid"];
     }
 
     public static function ocode($oid)

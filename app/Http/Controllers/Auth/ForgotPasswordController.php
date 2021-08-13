@@ -37,7 +37,7 @@ class ForgotPasswordController extends Controller
      */
     public function showLinkRequestForm()
     {
-        return view('auth.passwords.email',[
+        return view('auth.passwords.email', [
             'page_title'=>"Reset Password",
             'site_title'=>config("app.name"),
             'navigation' => "Account"

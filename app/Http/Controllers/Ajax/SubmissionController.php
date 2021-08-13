@@ -51,14 +51,14 @@ class SubmissionController extends Controller
             return ResponseModel::err(3002);
         }
         $submissionModel=new SubmissionModel();
-        if($all_data["method"]==1){
+        if ($all_data["method"]==1) {
             // NOJ Share
             $status=$submissionModel->share($all_data["sid"], Auth::check() ? Auth::user()->id : null);
-            return empty($status)?ResponseModel::err(1001):ResponseModel::success(200, null, $status);
-        } elseif($all_data["method"]==2){
+            return empty($status) ?ResponseModel::err(1001) : ResponseModel::success(200, null, $status);
+        } elseif ($all_data["method"]==2) {
             // Pastebin
             $status=$submissionModel->sharePB($all_data["sid"], Auth::check() ? Auth::user()->id : null);
-            return empty($status)?ResponseModel::err(1001):ResponseModel::success(200, null, $status);
+            return empty($status) ?ResponseModel::err(1001) : ResponseModel::success(200, null, $status);
         } else {
             return ResponseModel::err(6002);
         }

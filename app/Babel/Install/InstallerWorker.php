@@ -84,9 +84,9 @@ class InstallerWorker
             $installed_timestamp=intval($info["compiler_timestamp"]);
         }
         $latest_timestamp=$installed_timestamp;
-        $ConpilerConfig = glob(babel_path("Extension/$ocode/compiler/*.*"));
+        $ConpilerConfig=glob(babel_path("Extension/$ocode/compiler/*.*"));
         foreach ($ConpilerConfig as $file) {
-            if (intval(basename($file)) > $installed_timestamp) {
+            if (intval(basename($file))>$installed_timestamp) {
                 try {
                     $this->commitCompiler($file, json_decode(file_get_contents($file), true));
                     $latest_timestamp=intval(basename($file));

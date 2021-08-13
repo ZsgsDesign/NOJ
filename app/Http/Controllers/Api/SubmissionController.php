@@ -12,8 +12,8 @@ class SubmissionController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Succeed',
-            'ret' => array_merge($request->submission->toArray(),[
-                'owner' => $request->submission->user->id == auth()->user()->id,
+            'ret' => array_merge($request->submission->toArray(), [
+                'owner' => $request->submission->user->id==auth()->user()->id,
                 'lang' => $request->submission->compiler->lang
             ]),
             'err' => []

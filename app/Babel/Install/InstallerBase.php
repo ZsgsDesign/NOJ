@@ -39,8 +39,8 @@ class InstallerBase
             //writing database
             $this->transactionDB();
 
-        }catch(Throwable $e){
-            if ($e->getMessage()!==""){
+        } catch (Throwable $e) {
+            if ($e->getMessage()!=="") {
                 $this->command->line("\n  <bg=red;fg=white> {$e->getMessage()} </>\n");
             }
         }
@@ -59,12 +59,12 @@ class InstallerBase
     public function __construct($class)
     {
         $this->command=$class;
-        $this->versionParser = new VersionConstraintParser();
+        $this->versionParser=new VersionConstraintParser();
     }
 
     private function parseVersion()
     {
-        if(empty($this->babelConfig)){
+        if (empty($this->babelConfig)) {
             throw new Exception('Missing babel.json Config file.');
         }
 
@@ -134,7 +134,7 @@ class InstallerBase
 
             DB::commit();
 
-        }catch(Throwable $e){
+        } catch (Throwable $e) {
             DB::rollback();
             if ($e->getMessage()!=="") {
                 $this->command->line("\n  <bg=red;fg=white> {$e->getMessage()} </>\n");

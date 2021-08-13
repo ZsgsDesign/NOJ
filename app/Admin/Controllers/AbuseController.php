@@ -22,7 +22,7 @@ class AbuseController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Abuses';
+    protected $title='Abuses';
 
     /**
      * Make a grid builder.
@@ -31,7 +31,7 @@ class AbuseController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new Abuse);
+        $grid=new Grid(new Abuse);
 
         $grid->column('id', __('Id'));
         $grid->column('title', __('Title'));
@@ -57,7 +57,7 @@ class AbuseController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(Abuse::findOrFail($id));
+        $show=new Show(Abuse::findOrFail($id));
 
         $show->field('id', __('Id'));
         $show->field('title', __('Title'));
@@ -80,7 +80,7 @@ class AbuseController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new Abuse);
+        $form=new Form(new Abuse);
 
         $form->text('title', __('Title'));
         $form->number('cause', __('Cause'));
@@ -91,23 +91,23 @@ class AbuseController extends AdminController
 
         $form->ignore(['created_at']);
 
-        $form->saving(function (Form $form) {
-            $abuse = $form->model();
+        $form->saving(function(Form $form) {
+            $abuse=$form->model();
             //get gategory and subject id
-            $regex = '/^([A-Za-z]+) #(\d+)/';
-            $matches = [];
-            preg_match($regex,$abuse->title,$matches);
-            $category = array_search(strtolower($matches[1]),Abuse::$supportCategory);
-            $subject_id = (int)$matches[2];
-            switch($abuse->category) {
+            $regex='/^([A-Za-z]+) #(\d+)/';
+            $matches=[];
+            preg_match($regex, $abuse->title, $matches);
+            $category=array_search(strtolower($matches[1]), Abuse::$supportCategory);
+            $subject_id=(int) $matches[2];
+            switch ($abuse->category) {
                 case 0:
-                    $gid = $subject_id;
-                    $group = Group::find($gid);
-                    if(empty($group)) {
-                        return ;
+                    $gid=$subject_id;
+                    $group=Group::find($gid);
+                    if (empty($group)) {
+                        return;
                     }
-                    if($form->audit) {
-                        $ban_time = request()->created_at;
+                    if ($form->audit) {
+                        $ban_time=request()->created_at;
                         sendMessage([
                             'sender'    => 1,
                             'receiver'  => $abuse->user_id,
@@ -127,8 +127,8 @@ class AbuseController extends AdminController
                             'reason'     => $abuse->supplement,
                             'removed_at' => $ban_time
                         ]);
-                        return ;
-                    }else{
+                        return;
+                    } else {
                         sendMessage([
                             'sender'    => 1,
                             'receiver'  => $abuse->user_id,
@@ -136,11 +136,11 @@ class AbuseController extends AdminController
                             'content'   => "Hi, Dear **{$abuse->user->name}**,\n\n We have checked your Abuse report about group **[{$group->name}]({$group->link})**.\n\n However, we regret to say that the information you submitted is not sufficient for us to take action.\n\n Of course, we will continue to follow up the investigation.\n\n Thank you for your contribution to our community environment.\n\n Sincerely, NOJ"
                         ]);
                         $abuse->delete();
-                        return ;
+                        return;
                     }
                     return;
                 case 1:
-                    $ban_time = request()->created_at;
+                    $ban_time=request()->created_at;
                     UserBanned::create([
                         'abuse_id'   => $abuse->id,
                         'user_id'    => $subject_id,
@@ -169,15 +169,15 @@ class AbuseController extends AdminController
 
     protected function check_form()
     {
-        $form = new Form(new Abuse);
-        $form->display('id',__('Abuse id'));
+        $form=new Form(new Abuse);
+        $form->display('id', __('Abuse id'));
         $form->display('title', __('Title'));
         $form->display('cause', __('Cause'));
         $form->display('supplement', __('Supplement'));
         $form->display('link', __('Group Link'));
         $form->display('user_id', __('Submitter'));
-        $form->radio('audit','result')->options(['0' => 'Reject', '1'=> 'Pass']);
-        $form->datetime('created_at','ban until');
+        $form->radio('audit', 'result')->options(['0' => 'Reject', '1'=> 'Pass']);
+        $form->datetime('created_at', 'ban until');
 
         return $form;
     }

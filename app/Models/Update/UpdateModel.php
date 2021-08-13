@@ -24,7 +24,7 @@ class UpdateModel extends Model
                 "name"=>$versionInfo[0]["name"],
                 "updatable"=>$updatable
             ];
-        }catch(Throwable $e){
+        } catch (Throwable $e) {
             return null;
         }
     }

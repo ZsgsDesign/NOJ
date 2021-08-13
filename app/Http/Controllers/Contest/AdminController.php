@@ -27,7 +27,7 @@ class AdminController extends Controller
         $contestModel=new ContestModel();
         $verified=$contestModel->isVerified($cid);
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
-        if ($clearance <= 2) {
+        if ($clearance<=2) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
@@ -36,20 +36,20 @@ class AdminController extends Controller
         $basicInfo=$contestModel->basic($cid);
         $contest_accounts=$accountModel->getContestAccount($cid);
         $gcode=$contestModel->gcode($cid);
-        $isEnd = $contestModel->remainingTime($cid) < 0;
-        $generatePDFStatus = JobStatus::find(Cache::tags(['contest', 'admin', 'PDFGenerate'])->get($cid, 0));
-        $generatePDFStatus = is_null($generatePDFStatus)?'empty':$generatePDFStatus->status;
-        if(in_array($generatePDFStatus,['finished','failed'])){
+        $isEnd=$contestModel->remainingTime($cid)<0;
+        $generatePDFStatus=JobStatus::find(Cache::tags(['contest', 'admin', 'PDFGenerate'])->get($cid, 0));
+        $generatePDFStatus=is_null($generatePDFStatus) ? 'empty' : $generatePDFStatus->status;
+        if (in_array($generatePDFStatus, ['finished', 'failed'])) {
             Cache::tags(['contest', 'admin', 'PDFGenerate'])->forget($cid);
         }
-        $anticheatStatus = JobStatus::find(Cache::tags(['contest', 'admin', 'anticheat'])->get($cid, 0));
-        $anticheatProgress = is_null($anticheatStatus)?0:$anticheatStatus->progress_percentage;
-        $anticheatStatus = is_null($anticheatStatus)?'empty':$anticheatStatus->status;
-        if(Storage::disk('local')->exists("contest/anticheat/$cid/report/report.zip")) {
+        $anticheatStatus=JobStatus::find(Cache::tags(['contest', 'admin', 'anticheat'])->get($cid, 0));
+        $anticheatProgress=is_null($anticheatStatus) ? 0 : $anticheatStatus->progress_percentage;
+        $anticheatStatus=is_null($anticheatStatus) ? 'empty' : $anticheatStatus->status;
+        if (Storage::disk('local')->exists("contest/anticheat/$cid/report/report.zip")) {
             $anticheatStatus='finished';
             $anticheatProgress=100;
         }
-        if(in_array($anticheatStatus, ['finished','failed'])){
+        if (in_array($anticheatStatus, ['finished', 'failed'])) {
             Cache::tags(['contest', 'admin', 'anticheat'])->forget($cid);
         }
         return view('contest.board.admin', [
@@ -77,51 +77,51 @@ class AdminController extends Controller
     {
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
-        if ($clearance <= 2) {
+        if ($clearance<=2) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $account=$contestModel->getContestAccount($cid);
-        if($account==null){
-            return ;
-        }else{
+        if ($account==null) {
+            return;
+        } else {
             $AccountExport=new AccountExport($account);
             $filename="ContestAccount$cid";
             return Excel::download($AccountExport, $filename.'.xlsx');
         }
     }
 
-    public function refreshContestRank($cid){
+    public function refreshContestRank($cid) {
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
-        if ($clearance <= 2) {
+        if ($clearance<=2) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
-        $contest_eloquent = EloquentContestModel::find($cid);
+        $contest_eloquent=EloquentContestModel::find($cid);
         $contestRankRaw=$contest_eloquent->rankRefresh();
         Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
         Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $contestRankRaw);
         $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
-        if(time() > strtotime($end_time)){
+        if (time()>strtotime($end_time)) {
             $contestModel->storeContestRankInMySQL($cid, $contestRankRaw);
         }
         $contestModel->deleteZip("contestCodeZip/$cid/");
         return Redirect::route('contest.board.rank', ['cid' => $cid]);
     }
 
-    public function scrollBoard($cid){
+    public function scrollBoard($cid) {
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
-        if ($clearance <= 2) {
+        if ($clearance<=2) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $basicInfo=$contestModel->basic($cid);
-        if($basicInfo['froze_length'] == 0){
+        if ($basicInfo['froze_length']==0) {
             return Redirect::route('contest.board.admin', ['cid' => $cid]);
         }
-        if($basicInfo['registration'] == 0){
+        if ($basicInfo['registration']==0) {
             return Redirect::route('contest.board.admin', ['cid' => $cid]);
         }
-        if($basicInfo['rule'] != 1){
+        if ($basicInfo['rule']!=1) {
             return Redirect::route('contest.board.admin', ['cid' => $cid]);
         }
         return view('contest.board.scrollBoard', [

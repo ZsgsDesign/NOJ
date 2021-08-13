@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 class ProblemController extends Controller
 {
     public function fetchVerdict(Request $request) {
-        $submission = $request->submission;
-        $problem = $submission->problem;
-        $contest = $submission->contest;
-        $contest_problem = !empty($contest) ? $submission->contest->problems()->where('pid', $problem->pid)->first() : null;
+        $submission=$request->submission;
+        $problem=$submission->problem;
+        $contest=$submission->contest;
+        $contest_problem=!empty($contest) ? $submission->contest->problems()->where('pid', $problem->pid)->first() : null;
         return response()->json([
             'success' => true,
             'message' => 'Succeed',
@@ -28,11 +28,11 @@ class ProblemController extends Controller
                     "lang" => $submission->compiler->lang,
                     "language" => $submission->language,
                     "memory" => $submission->memory,
-                    "owner" => $submission->user->id == auth()->user()->id,
+                    "owner" => $submission->user->id==auth()->user()->id,
                     "pid" => $problem->pid,
                     "remote_id" => $submission->remote_id,
                     "score" => $submission->score,
-                    "score_parsed" => (!empty($contest) && $contest->rule == 2) ? $submission->score / $problem->tot_score * $contest_problem->points : 0, // if has ioi contest set to score parsed, else 0
+                    "score_parsed" => (!empty($contest) && $contest->rule==2) ? $submission->score / $problem->tot_score * $contest_problem->points : 0, // if has ioi contest set to score parsed, else 0
                     "share" => $submission->share,
                     "sid" => $submission->sid,
                     "solution" => $submission->solution,

@@ -16,8 +16,8 @@ class Exist
      */
     public function handle($request, Closure $next)
     {
-        $submission = Submission::find($request->sid);
-        if(empty($submission)) {
+        $submission=Submission::find($request->sid);
+        if (empty($submission)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Submission Not Found',

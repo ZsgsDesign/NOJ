@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class SystemController extends Controller
 {
-    public function info(){
+    public function info() {
         return response()->json([
             'success' => true,
             'message' => 'To Boldly Go',

@@ -145,14 +145,14 @@ class ContestController extends Controller
             $form->select('public', 'Contest Publicity')->options([
                 0 => "Private",
                 1 => "Public"
-            ])->when(0, function (Form $form) {
+            ])->when(0, function(Form $form) {
                 $form->switch('practice', 'Practice Contest')->default(false);
 
                 $form->hidden('verified', 'Verified Contest')->default(0);
                 $form->hidden('rated', 'Rated Contest')->default(0);
                 $form->hidden('anticheated', 'AntiCheated Contest')->default(0);
                 $form->hidden('featured', 'Featured Contest')->default(0);
-            })->when(1, function (Form $form) {
+            })->when(1, function(Form $form) {
                 $form->hidden('practice', 'Practice Contest')->default(0);
 
                 $form->switch('verified', 'Verified Contest')->default(true);
@@ -161,7 +161,7 @@ class ContestController extends Controller
                 $form->switch('featured', 'Featured Contest')->default(true);
             })->default(0)->required();
             $form->switch('desktop', 'Enable NOJ Desktop (Experimental)')->default(false);
-            $form->hidden('is_rated',"is_rated")->default(0);
+            $form->hidden('is_rated', "is_rated")->default(0);
             $form->hidden('pdf', 'Provide PDF')->default(0);
 
             $form->divider();
@@ -198,10 +198,10 @@ class ContestController extends Controller
             $form->text('custom_title', 'Custom Navigation Title');
             $form->image('custom_icon', 'Custom Navigation Icon')->uniqueName()->move("static/img/contest");
             $form->image('img', 'Contest Focus Image')->uniqueName()->move("static/img/contest");
-            $form->hasMany('problems', 'Contest Problems', function (Form\NestedForm $form) {
+            $form->hasMany('problems', 'Contest Problems', function(Form\NestedForm $form) {
                 $form->number('number', 'Problem Numerical Index')->default(1)->required();
                 $ncodeArr=[];
-                foreach(range('A', 'Z') as $alpha){
+                foreach (range('A', 'Z') as $alpha) {
                     $ncodeArr[$alpha]=$alpha;
                 }
                 $form->select('ncode', 'Problem Alphabetical Index')->options($ncodeArr)->default("A")->required();

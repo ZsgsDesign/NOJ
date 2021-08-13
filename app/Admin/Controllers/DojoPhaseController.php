@@ -89,8 +89,8 @@ class DojoPhaseController extends Controller
         $grid->created_at(__('admin.created_at'));
         $grid->updated_at(__('admin.updated_at'));
 
-        $grid->filter(function (Grid\Filter $filter) {
-            $filter->column(6, function ($filter) {
+        $grid->filter(function(Grid\Filter $filter) {
+            $filter->column(6, function($filter) {
                 $filter->like('name', __('admin.dojophases.name'));
             });
         });
@@ -122,7 +122,7 @@ class DojoPhaseController extends Controller
     protected function form()
     {
         $form=new Form(new DojoPhase);
-        $form->tab('Basic', function (Form $form) {
+        $form->tab('Basic', function(Form $form) {
             $form->display('id', 'ID');
             $form->text('name', __('admin.dojophases.name'))->rules('required');
             $form->textarea('description', __('admin.dojophases.description'))->rules('required');

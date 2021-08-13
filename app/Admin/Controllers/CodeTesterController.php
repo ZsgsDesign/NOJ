@@ -38,8 +38,8 @@ class CodeTesterController extends Controller
     protected function form()
     {
         $OJ=OJ::where(["ocode"=>"noj"])->get();
-        $box = new Box(__('admin.tester.tester.title'));
-        if(blank($OJ)) {
+        $box=new Box(__('admin.tester.tester.title'));
+        if (blank($OJ)) {
             $box->style('danger');
             $box->content(__('admin.tester.help.installfirst'));
             return $box;
@@ -84,10 +84,10 @@ class CodeTesterController extends Controller
             'solution' => request()->solution,
         ]);
         $verdict=$runner->verdict;
-        $boxRun = new Box(__('admin.tester.tester.run'));
+        $boxRun=new Box(__('admin.tester.tester.run'));
         $boxRun->style('info');
         $verdictData=[];
-        foreach($verdict['data'] as $v){
+        foreach ($verdict['data'] as $v) {
             $verdictData[]=[
                 $v["test_case"],
                 $v["cpu_time"],
@@ -99,7 +99,7 @@ class CodeTesterController extends Controller
                 $v["result"],
             ];
         }
-        $table = new Table(['Test Case', 'CPU Time(ms)', 'Real Time(ms)', 'Memory(byte)', 'Signal', 'Exit Code', 'Error', 'Result'], $verdictData);
+        $table=new Table(['Test Case', 'CPU Time(ms)', 'Real Time(ms)', 'Memory(byte)', 'Signal', 'Exit Code', 'Error', 'Result'], $verdictData);
         $output="<p>Verdict: {$verdict['verdict']}</p>";
         if (!blank($verdict['compile_info'])) {
             $output.="<p>Compiler Info:</p><pre>".htmlspecialchars($verdict['compile_info'])."</pre>";

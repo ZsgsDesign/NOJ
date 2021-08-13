@@ -13,14 +13,14 @@ class Judge extends Command
      *
      * @var string
      */
-    protected $signature = 'babel:judge';
+    protected $signature='babel:judge';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Synchronize remote verdict for all Babel Extensions of NOJ';
+    protected $description='Synchronize remote verdict for all Babel Extensions of NOJ';
 
     /**
      * Create a new command instance.
@@ -40,7 +40,7 @@ class Judge extends Command
     public function handle()
     {
         $babel=new Babel();
-        while(true){
+        while (true) {
             $time=date("Y-m-d H:i:s");
             $this->line("<fg=yellow>[$time] Processing:  </>NOJ Babel Judge Sync");
             $babel->judge();

@@ -15,26 +15,26 @@ class ContestSearchModel extends Model
 
     public function search($key)
     {
-        $result = [];
+        $result=[];
         //contest name find
-        if(strlen($key) >= 2){
-            $ret = self::whereRaw('MATCH(`name`) AGAINST (? IN BOOLEAN MODE)',[$key])
+        if (strlen($key)>=2) {
+            $ret=self::whereRaw('MATCH(`name`) AGAINST (? IN BOOLEAN MODE)', [$key])
                 ->select('cid', 'gid', 'name', 'rule', 'public', 'verified', 'practice', 'rated', 'anticheated', 'begin_time', 'end_time')
-                ->orderBy('end_time','DESC')
+                ->orderBy('end_time', 'DESC')
                 ->limit(120)
                 ->get()->all();
-            $user_id = Auth::user()->id;
-            $contestModel = new ContestModel();
-            foreach($ret as $c_index => $c){
-                if(!$contestModel->judgeClearance($c['cid'],$user_id)){
+            $user_id=Auth::user()->id;
+            $contestModel=new ContestModel();
+            foreach ($ret as $c_index => $c) {
+                if (!$contestModel->judgeClearance($c['cid'], $user_id)) {
                     unset($ret[$c_index]);
                 }
             }
-            if(!empty($ret)){
-                $result += $ret;
+            if (!empty($ret)) {
+                $result+=$ret;
             }
         }
-        if(!empty($result)) {
+        if (!empty($result)) {
             foreach ($result as &$contest) {
                 $contest["rule_parsed"]=$this->rule[$contest["rule"]];
                 $contest["date_parsed"]=[

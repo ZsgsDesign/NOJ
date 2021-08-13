@@ -14,7 +14,7 @@ class ProcessSubmission implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $tries = 5;
+    public $tries=5;
     protected $all_data=[];
 
     /**
@@ -41,7 +41,7 @@ class ProcessSubmission implements ShouldQueue
 
     public function failed()
     {
-        $submissionModel = new SubmissionModel();
+        $submissionModel=new SubmissionModel();
         $submissionModel->updateSubmission($this->all_data["sid"], ["verdict"=>"Submission Error"]);
     }
 }

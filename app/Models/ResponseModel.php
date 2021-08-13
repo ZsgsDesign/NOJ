@@ -96,7 +96,7 @@ class ResponseModel extends Model
             '7002' => "Insufficient Clearance",
             '7003' => "No Need to Approve",
             '7004' => "Group Member Not Found",
-            '7005' => "Don't play just for fun",//gcode=="create"
+            '7005' => "Don't play just for fun", //gcode=="create"
             '7006' => "A group with the same gcode already exists",
             '7007' => "Group Problem Tag Exist",
             '7008' => "The group leader cannot leave the group",

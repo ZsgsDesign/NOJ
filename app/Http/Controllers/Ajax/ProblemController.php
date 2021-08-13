@@ -110,8 +110,8 @@ class ProblemController extends Controller
         if (empty($basic)) {
             return ResponseModel::err(3001);
         }
-        $ret=$problemModel->addSolution($pid,Auth::user()->id,$content);
-        return $ret?ResponseModel::success(200):ResponseModel::err(3003);
+        $ret=$problemModel->addSolution($pid, Auth::user()->id, $content);
+        return $ret ?ResponseModel::success(200) : ResponseModel::err(3003);
     }
     /**
      * The Ajax Problem Solution Discussion Update.
@@ -126,8 +126,8 @@ class ProblemController extends Controller
         $problemModel=new ProblemModel();
         $psoid=$all_data["psoid"];
         $content=$all_data["content"];
-        $ret=$problemModel->updateSolution($psoid,Auth::user()->id,$content);
-        return $ret?ResponseModel::success(200):ResponseModel::err(3004);
+        $ret=$problemModel->updateSolution($psoid, Auth::user()->id, $content);
+        return $ret ?ResponseModel::success(200) : ResponseModel::err(3004);
     }
     /**
      * The Ajax Problem Solution Discussion Delete.
@@ -141,8 +141,8 @@ class ProblemController extends Controller
         $all_data=$request->all();
         $problemModel=new ProblemModel();
         $psoid=$all_data["psoid"];
-        $ret=$problemModel->removeSolution($psoid,Auth::user()->id);
-        return $ret?ResponseModel::success(200):ResponseModel::err(3004);
+        $ret=$problemModel->removeSolution($psoid, Auth::user()->id);
+        return $ret ?ResponseModel::success(200) : ResponseModel::err(3004);
     }
     /**
      * The Ajax Problem Solution Discussion Vote.
@@ -157,8 +157,8 @@ class ProblemController extends Controller
         $problemModel=new ProblemModel();
         $psoid=$all_data["psoid"];
         $type=$all_data["type"];
-        $ret=$problemModel->voteSolution($psoid,Auth::user()->id,$type);
-        return $ret["ret"]?ResponseModel::success(200,null,["votes"=>$ret["votes"],"select"=>$ret["select"]]):ResponseModel::err(3004);
+        $ret=$problemModel->voteSolution($psoid, Auth::user()->id, $type);
+        return $ret["ret"] ?ResponseModel::success(200, null, ["votes"=>$ret["votes"], "select"=>$ret["select"]]) : ResponseModel::err(3004);
     }
     /**
      * The Ajax Problem Solution Submit.
@@ -252,8 +252,8 @@ class ProblemController extends Controller
         if (empty($basic)) {
             return ResponseModel::err(3001);
         }
-        $ret=$problemModel->addDiscussion(Auth::user()->id,$pid,$title,$content);
-        return $ret?ResponseModel::success(200, null, $ret):ResponseModel::err(3003);
+        $ret=$problemModel->addDiscussion(Auth::user()->id, $pid, $title, $content);
+        return $ret ?ResponseModel::success(200, null, $ret) : ResponseModel::err(3003);
     }
 
     public function addComment(Request $request)
@@ -272,8 +272,8 @@ class ProblemController extends Controller
         if (empty($basic)) {
             return ResponseModel::err(3001);
         }
-        $ret=$problemModel->addComment(Auth::user()->id,$pdid,$content,$reply_id);
-        return $ret?ResponseModel::success(200, null, $ret):ResponseModel::err(3003);
+        $ret=$problemModel->addComment(Auth::user()->id, $pdid, $content, $reply_id);
+        return $ret ?ResponseModel::success(200, null, $ret) : ResponseModel::err(3003);
     }
   
     /**
@@ -292,15 +292,15 @@ class ProblemController extends Controller
 
         $submissionData=$submissionModel->basic($all_data["sid"]);
 
-        if($submissionData["uid"]!=Auth::user()->id){
+        if ($submissionData["uid"]!=Auth::user()->id) {
             return ResponseModel::err(2001);
         }
 
-        if($submissionData["verdict"]!="Submission Error"){
+        if ($submissionData["verdict"]!="Submission Error") {
             return ResponseModel::err(6003);
         }
 
-        $submissionModel->updateSubmission($all_data["sid"],[
+        $submissionModel->updateSubmission($all_data["sid"], [
             "verdict"=>"Pending",
             "time"=>0,
             "memory"=>0

@@ -12,16 +12,16 @@ class OJ extends Model
 
     public function judge_servers()
     {
-        return $this->hasMany('App\Models\Eloquent\JudgeServer', 'oid','oid');
+        return $this->hasMany('App\Models\Eloquent\JudgeServer', 'oid', 'oid');
     }
 
     public function compilers()
     {
-        return $this->hasMany('App\Models\Eloquent\Compiler', 'oid','oid');
+        return $this->hasMany('App\Models\Eloquent\Compiler', 'oid', 'oid');
     }
 
     public function judgers()
     {
-        return $this->hasMany('App\Models\Eloquent\Judger', 'oid','oid');
+        return $this->hasMany('App\Models\Eloquent\Judger', 'oid', 'oid');
     }
 }

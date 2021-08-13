@@ -16,6 +16,6 @@ class Compiler extends Model
     }
 
     public function oj() {
-        return $this->belongsTo('App\Models\Eloquent\OJ','oid','oid');
+        return $this->belongsTo('App\Models\Eloquent\OJ', 'oid', 'oid');
     }
 }

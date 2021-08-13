@@ -82,7 +82,7 @@ class JudgeServerController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new JudgeServer());
+        $grid=new Grid(new JudgeServer());
 
         $grid->column('jsid', 'JSID');
         $grid->column('scode', __('admin.judgeservers.scode'));
@@ -90,17 +90,17 @@ class JudgeServerController extends AdminController
         $grid->column('host', __('admin.judgeservers.host'));
         $grid->column('port', __('admin.judgeservers.port'));
         $grid->column('token', __('admin.judgeservers.token'));
-        $grid->column('available', __('admin.judgeservers.availability'))->display(function ($available) {
-            return $available?__('admin.judgeservers.available'):__('admin.judgeservers.unavailable');
+        $grid->column('available', __('admin.judgeservers.availability'))->display(function($available) {
+            return $available ?__('admin.judgeservers.available') : __('admin.judgeservers.unavailable');
         });
-        $grid->column('OJ', __('admin.judgeservers.oj'))->display(function () {
+        $grid->column('OJ', __('admin.judgeservers.oj'))->display(function() {
             return $this->oj->name;
         });
-        $grid->column('usage', __('admin.judgeservers.usage'))->display(function ($usage) {
-            return blank($usage)?"-":"$usage%";
+        $grid->column('usage', __('admin.judgeservers.usage'))->display(function($usage) {
+            return blank($usage) ? "-" : "$usage%";
         });
-        $grid->column('status', __('admin.judgeservers.status'))->display(function ($status) {
-            $status = JudgerModel::$status[$status];
+        $grid->column('status', __('admin.judgeservers.status'))->display(function($status) {
+            $status=JudgerModel::$status[$status];
             return '<i class="MDI '.$status['icon'].' '.$status['color'].'"></i> '.$status['text'];
         });
         $grid->column('status_update_at', __('admin.judgeservers.status_update_at'));
@@ -118,7 +118,7 @@ class JudgeServerController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(JudgeServer::findOrFail($id));
+        $show=new Show(JudgeServer::findOrFail($id));
 
         $show->field('jsid', 'JSID');
         $show->field('scode', __('admin.judgeservers.scode'));
@@ -126,15 +126,15 @@ class JudgeServerController extends AdminController
         $show->field('host', __('admin.judgeservers.host'));
         $show->field('port', __('admin.judgeservers.port'));
         $show->field('token', __('admin.judgeservers.token'));
-        $show->field('available', __('admin.judgeservers.availability'))->as(function ($available) {
-            return $available?__('admin.judgeservers.available'):__('admin.judgeservers.unavailable');
+        $show->field('available', __('admin.judgeservers.availability'))->as(function($available) {
+            return $available ?__('admin.judgeservers.available') : __('admin.judgeservers.unavailable');
         });
         $show->field('oj.name', __('admin.judgeservers.oj'));
-        $show->field('usage', __('admin.judgeservers.usage'))->as(function ($usage) {
-            return blank($usage)?"-":"$usage%";
+        $show->field('usage', __('admin.judgeservers.usage'))->as(function($usage) {
+            return blank($usage) ? "-" : "$usage%";
         });
-        $show->field('status', __('admin.judgeservers.status'))->unescape()->as(function ($status) {
-            $status = JudgerModel::$status[$status];
+        $show->field('status', __('admin.judgeservers.status'))->unescape()->as(function($status) {
+            $status=JudgerModel::$status[$status];
             return '<i class="MDI '.$status['icon'].' '.$status['color'].'"></i> '.$status['text'];
         });
         $show->field('status_update_at', __('admin.judgeservers.status_update_at'));
@@ -151,7 +151,7 @@ class JudgeServerController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new JudgeServer());
+        $form=new Form(new JudgeServer());
 
         $form->text('scode', __('admin.judgeservers.scode'))->required();
         $form->text('name', __('admin.judgeservers.name'))->required();

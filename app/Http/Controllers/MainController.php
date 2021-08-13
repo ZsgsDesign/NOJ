@@ -57,11 +57,11 @@ class MainController extends Controller
     public function oldRedirect(Request $request)
     {
         $all_data=$request->all();
-        $method=isset($all_data["method"])?$all_data["method"]:null;
-        $id=isset($all_data["id"])?$all_data["id"]:null;
-        if($method=="showdetail" && !is_null($id)){
+        $method=isset($all_data["method"]) ? $all_data["method"] : null;
+        $id=isset($all_data["id"]) ? $all_data["id"] : null;
+        if ($method=="showdetail" && !is_null($id)) {
             $problemModel=new ProblemModel();
-            return ($problemModel->existPCode("NOJ$id"))?Redirect::route('problem.detail', ['pcode' => "NOJ$id"]):Redirect::route('problem_index');
+            return ($problemModel->existPCode("NOJ$id")) ?Redirect::route('problem.detail', ['pcode' => "NOJ$id"]) : Redirect::route('problem_index');
         }
         return Redirect::route('home');
     }
