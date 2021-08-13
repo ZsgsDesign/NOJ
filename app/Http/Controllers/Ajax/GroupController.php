@@ -184,9 +184,13 @@ class GroupController extends Controller
         $all_data=$request->all();
 
         $groupModel=new OutdatedGroupModel();
-        if ($all_data["gcode"]=="create") return ResponseModel::err(7005);
+        if ($all_data["gcode"]=="create") {
+            return ResponseModel::err(7005);
+        }
         $is_group=$groupModel->isGroup($all_data["gcode"]);
-        if ($is_group) return ResponseModel::err(7006);
+        if ($is_group) {
+            return ResponseModel::err(7006);
+        }
 
         $allow_extension=['jpg', 'png', 'jpeg', 'gif', 'bmp'];
         if (!empty($request->file('img')) && $request->file('img')->isValid()) {

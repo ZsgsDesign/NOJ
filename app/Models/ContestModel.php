@@ -228,7 +228,7 @@ class ContestModel extends Model
                     $paginator=$paginator->where(["practice"=>$filter['practice']]);
                 }
                 $paginator=$paginator ->paginate(10);
-            }elseif ($filter['public']=='0') {
+            } elseif ($filter['public']=='0') {
                 $paginator=DB::table('group_member')
                 ->groupBy('contest.cid')
                 ->select('contest.*')
@@ -1563,8 +1563,7 @@ class ContestModel extends Model
                     if (time()>$chache['end_time']) {
                         $this->storeContestRankInMySQL($cid, $ret);
                     }
-                }
-                else {
+                } else {
                     $ret=[];
                     $chache=[];
                     $chache['contest_info']=DB::table("contest")->where("cid", $cid)->first();
@@ -1663,8 +1662,9 @@ class ContestModel extends Model
     {
         $id=count($ret);
         foreach ($ret as $key => $r) {
-            if ($r['uid']==$uid)
-                $id=$key;
+            if ($r['uid']==$uid) {
+                            $id=$key;
+            }
         }
         if ($contest_info["rule"]==1) {
             // ACM/ICPC Mode
@@ -1828,8 +1828,7 @@ class ContestModel extends Model
             return DB::table("contest_clarification")->where('ccid', '=', $ccid)->update([
                 "public"=>1
             ]);
-        }
-        else
+        } else
         {
             return DB::table("contest_clarification")->where('ccid', '=', $ccid)->update([
                 "public"=>0
@@ -2004,12 +2003,10 @@ class ContestModel extends Model
             $zipFile
                 ->saveAsFile(base_path('storage/app/private/'.$path.$cid.".zip")); // save the archive to a file
                 //->extractTo(base_path('storage/app/private/'.$path)); // extract files to the specified directory
-        }
-        catch (\PhpZip\Exception\ZipException $e) {
+        } catch (\PhpZip\Exception\ZipException $e) {
             // handle exception
             Log::debug($e);
-        }
-        finally {
+        } finally {
             $zipFile->close();
         }
     }

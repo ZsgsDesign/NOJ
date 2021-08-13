@@ -454,7 +454,9 @@ class ProblemModel extends Model
 
         if (!empty($data["sample"])) {
             foreach ($data["sample"] as $d) {
-                if (!isset($d['sample_note'])) $d['sample_note']=null;
+                if (!isset($d['sample_note'])) {
+                    $d['sample_note']=null;
+                }
                 DB::table("problem_sample")->insert([
                     'pid'=>$pid,
                     'sample_input'=>$d['sample_input'],
@@ -503,7 +505,9 @@ class ProblemModel extends Model
 
         if (!empty($data["sample"])) {
             foreach ($data["sample"] as $d) {
-                if (!isset($d['sample_note'])) $d['sample_note']=null;
+                if (!isset($d['sample_note'])) {
+                    $d['sample_note']=null;
+                }
                 DB::table("problem_sample")->insert([
                     'pid'=>$pid,
                     'sample_input'=>$d['sample_input'],

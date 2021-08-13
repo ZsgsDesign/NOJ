@@ -9,7 +9,9 @@ class LatexModel extends Model
 {
     public static function info($ltxsource, $type="png")
     {
-        if (!in_array($type, ['png', 'svg'])) return [];
+        if (!in_array($type, ['png', 'svg'])) {
+            return [];
+        }
         $url=route("latex.$type", ['ltxsource' => $ltxsource]);
         $image=new Imagick();
         $image->readImageBlob(Storage::get('latex-svg/'.urlencode($ltxsource).'.svg'));

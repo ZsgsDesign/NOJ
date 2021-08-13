@@ -57,7 +57,9 @@ class AntiCheat implements ShouldQueue
         $cid=$this->cid;
         $contest=EloquentContestModel::find($cid);
 
-        if (!$contest->isJudgingComplete()) throw new Exception('Judging Incompleted');
+        if (!$contest->isJudgingComplete()) {
+            throw new Exception('Judging Incompleted');
+        }
 
         $acceptedSubmissions=$contest->submissions->whereIn('verdict', [
             'Accepted',
@@ -79,8 +81,11 @@ class AntiCheat implements ShouldQueue
                 $lang=$this->supportLang[$lang];
                 $ext=$lang;
                 Storage::put("contest/anticheat/$cid/raw/$prob/$lang/[$submission->uid][$submission->sid].$ext", $submission->solution);
-                if (!isset($probLangs[$prob][$lang])) $probLangs[$prob][$lang]=1;
-                else $probLangs[$prob][$lang]++;
+                if (!isset($probLangs[$prob][$lang])) {
+                    $probLangs[$prob][$lang]=1;
+                } else {
+                    $probLangs[$prob][$lang]++;
+                }
                 $totProb++;
             }
         }
@@ -148,13 +153,19 @@ class AntiCheat implements ShouldQueue
     private function afterWork($cid, $prob, $lang, $rawContent)
     {
         foreach (preg_split('~[\r\n]+~', $rawContent) as $line) {
-            if (blank($line) or ctype_space($line)) continue;
+            if (blank($line) or ctype_space($line)) {
+                continue;
+            }
             // [3057][64659].c++ consists for 100 % of [3057][64679].c++ material
             $line=explode('%', $line);
-            if (!isset($line[1])) continue;
+            if (!isset($line[1])) {
+                continue;
+            }
             [$uid1, $sid1, $percentage]=sscanf($line[0], "[%d][%d].$lang consists for %d ");
             [$uid2, $sid2]=sscanf($line[1], " of [%d][%d].$lang material");
-            if ($uid1==$uid2) continue;
+            if ($uid1==$uid2) {
+                continue;
+            }
             $username1=User::find($uid1)->name;
             $username2=User::find($uid2)->name;
             $this->retArr[]=[

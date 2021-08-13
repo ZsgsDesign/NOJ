@@ -247,11 +247,17 @@ class GroupManageController extends Controller
 
         $groupModel=new GroupModel();
         $is_user=$groupModel->isUser($all_data["email"]);
-        if (!$is_user) return ResponseModel::err(2006);
+        if (!$is_user) {
+            return ResponseModel::err(2006);
+        }
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
-        if ($clearance<2) return ResponseModel::err(7002);
+        if ($clearance<2) {
+            return ResponseModel::err(7002);
+        }
         $targetClearance=$groupModel->judgeEmailClearance($all_data["gid"], $all_data["email"]);
-        if ($targetClearance!=-3) return ResponseModel::err(7003);
+        if ($targetClearance!=-3) {
+            return ResponseModel::err(7003);
+        }
         $groupModel->inviteMember($all_data["gid"], $all_data["email"]);
         $basic=$groupModel->basic($all_data['gid']);
         $url=route('group.detail', ['gcode' => $basic['gcode']]);

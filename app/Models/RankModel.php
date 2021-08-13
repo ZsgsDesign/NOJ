@@ -65,20 +65,26 @@ class RankModel extends Model
 
     public static function getColor($rankTitle)
     {
-        if (is_null($rankTitle)) return "";
+        if (is_null($rankTitle)) {
+            return "";
+        }
         return self::$casualRanking[$rankTitle];
     }
 
     public static function getProfessionalColor($rankTitle)
     {
-        if (is_null($rankTitle)) return self::$professionalRanking["None"];
+        if (is_null($rankTitle)) {
+            return self::$professionalRanking["None"];
+        }
         return self::$professionalRanking[$rankTitle];
     }
 
     public function list($num)
     {
         $rankList=Cache::tags(['rank'])->get('general');
-        if ($rankList==null) $rankList=[];
+        if ($rankList==null) {
+            $rankList=[];
+        }
         $rankList=array_slice($rankList, 0, $num);
         $userInfoRaw=DB::table("users")->select("id as uid", "avatar", "name")->get()->all();
         $userInfo=[];
@@ -168,7 +174,9 @@ class RankModel extends Model
     public function getRankTitle($rankVal)
     {
         foreach ($this->casualRankingPer as $title=>$c) {
-            if ($rankVal<=$c) return $title;
+            if ($rankVal<=$c) {
+                return $title;
+            }
         }
         return Arr::last($this->casualRankingPer);
     }
@@ -176,7 +184,9 @@ class RankModel extends Model
     public static function getProfessionalTitle($rankVal)
     {
         foreach (self::$professionalRankingPer as $title=>$point) {
-            if ($rankVal>=$point) return $title;
+            if ($rankVal>=$point) {
+                return $title;
+            }
         }
         return Arr::last(self::$professionalRankingPer);
     }
