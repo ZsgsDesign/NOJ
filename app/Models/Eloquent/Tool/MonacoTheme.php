@@ -6,14 +6,14 @@ class MonacoTheme
 {
     protected static $theme=[
         "vs-dark"=>[
-            'id'=>'vs-dark',
-            'name'=>'Default',
-            'background'=>'rgb(30,30,30)'
+            "id" => "vs-dark",
+            "name" => "Default",
+            "background" => "rgb(30,30,30)"
         ],
         "vs"=>[
-            'id'=>'vs',
-            'name'=>'Default (White)',
-            'background'=>'rgb(255,255,254)'
+            "id" => "vs",
+            "name" => "Default (White)",
+            "background" => "rgb(255,255,254)"
         ],
         "hc-black"=>[
             "id" => "hc-black",
