@@ -12,9 +12,9 @@ return [
     */
 
     'number' => [
-        "major" => 0,
-        "minor" => 5,
-        "build" => 0,
+        'major' => 0,
+        'minor' => 5,
+        'build' => 0,
     ],
 
     /*
