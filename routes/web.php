@@ -35,17 +35,23 @@ Route::group(['prefix' => 'message','as' => 'message.','middleware' => ['user.ba
 });
 
 Route::group(['prefix' => 'account','middleware' => ['user.banned','auth']], function () {
-    Route::get('/', 'AccountController@index')->name('account_index');
-    Route::get('/dashboard', 'AccountController@dashboard')->name('account_dashboard');
-    Route::get('/settings', 'AccountController@settings')->name('account_settings');
+    Route::get('/', 'AccountController@index')->name('account.index');
+    Route::get('/dashboard', 'AccountController@dashboard')->name('account.dashboard');
+    Route::get('/settings', 'AccountController@settings')->name('account.settings');
 });
 
-Route::group(['prefix' => 'oauth', 'namespace' => 'OAuth', 'as' => 'oauth.', 'middleware' => ['user.banned','auth']], function () {
+Route::group(['prefix' => 'oauth', 'namespace' => 'OAuth', 'as' => 'oauth.', 'middleware' => ['user.banned']], function () {
     Route::group(['prefix' => 'github', 'as' => 'github.'], function () {
         Route::get('/', 'GithubController@redirectTo')->name('index');
         Route::get('/unbind','GithubController@unbind')->name('unbind');
         Route::get('/unbind/confirm','GithubController@confirmUnbind')->name('unbind.confirm');
         Route::get('/callback', 'GithubController@handleCallback')->name('callback');
+    });
+    Route::group(['prefix' => 'aauth', 'as' => 'aauth.'], function () {
+        Route::get('/', 'AAuthController@redirectTo')->name('index');
+        Route::get('/unbind','AAuthController@unbind')->name('unbind');
+        Route::get('/unbind/confirm','AAuthController@confirmUnbind')->name('unbind.confirm');
+        Route::get('/callback', 'AAuthController@handleCallback')->name('callback');
     });
 });
 
@@ -100,21 +106,23 @@ Route::group([
     Route::get('/', 'IndexController@index')->name('index');
     Route::get('/{cid}', 'IndexController@detail')->name('detail');
 
-    Route::group(['middleware' => ['contest.desktop']], function () {
-        Route::get('/{cid}/board', 'BoardController@board')->middleware('auth')->name('board');
-        Route::get('/{cid}/board/challenge', 'BoardController@challenge')->middleware('auth')->name('challenge');
-        Route::get('/{cid}/board/challenge/{ncode}', 'BoardController@editor')->middleware('auth')->name('editor');
-        Route::get('/{cid}/board/rank', 'BoardController@rank')->middleware('auth')->name('rank');
-        Route::get('/{cid}/board/status', 'BoardController@status')->middleware('auth')->name('status');
-        Route::get('/{cid}/board/clarification', 'BoardController@clarification')->middleware('auth')->name('clarification');
-        Route::get('/{cid}/board/print', 'BoardController@print')->middleware('auth')->name('print');
-        Route::get('/{cid}/board/analysis', 'BoardController@analysis')->middleware('auth')->name('analysis');
-    });
+    Route::group(['as' => 'board.'], function () {
+        Route::group(['middleware' => ['contest.desktop']], function () {
+            Route::get('/{cid}/board', 'BoardController@board')->middleware('auth')->name('index');
+            Route::get('/{cid}/board/challenge', 'BoardController@challenge')->middleware('auth')->name('challenge');
+            Route::get('/{cid}/board/challenge/{ncode}', 'BoardController@editor')->middleware('auth')->name('editor');
+            Route::get('/{cid}/board/rank', 'BoardController@rank')->middleware('auth')->name('rank');
+            Route::get('/{cid}/board/status', 'BoardController@status')->middleware('auth')->name('status');
+            Route::get('/{cid}/board/clarification', 'BoardController@clarification')->middleware('auth')->name('clarification');
+            Route::get('/{cid}/board/print', 'BoardController@print')->middleware('auth')->name('print');
+            Route::get('/{cid}/board/analysis', 'BoardController@analysis')->middleware('auth')->name('analysis');
+        });
 
-    Route::get('/{cid}/scrollBoard', 'AdminController@scrollBoard')->middleware('auth', 'contest_account', 'privileged')->name('scrollboard');
-    Route::get('/{cid}/board/admin', 'AdminController@admin')->middleware('auth', 'privileged')->name('admin');
-    Route::get('/{cid}/admin/downloadContestAccountXlsx', 'AdminController@downloadContestAccountXlsx')->middleware('auth')->name('downloadContestAccountXlsx');
-    Route::get('/{cid}/admin/refreshContestRank', 'AdminController@refreshContestRank')->middleware('auth')->name('refreshContestRank');
+        Route::get('/{cid}/board/admin', 'AdminController@admin')->middleware('auth', 'privileged')->name('admin');
+        Route::get('/{cid}/board/admin/scrollBoard', 'AdminController@scrollBoard')->middleware('auth', 'contest_account', 'privileged')->name('admin.scrollboard');
+        Route::get('/{cid}/board/admin/downloadContestAccountXlsx', 'AdminController@downloadContestAccountXlsx')->middleware('auth')->name('admin.download.contestaccountxlsx');
+        Route::get('/{cid}/board/admin/refreshContestRank', 'AdminController@refreshContestRank')->middleware('auth')->name('admin.refresh.contestrank');
+    });
 });
 
 Route::group(['prefix' => 'system', 'middleware' => ['user.banned']], function () {
@@ -126,9 +134,9 @@ Route::group(['prefix' => 'rank', 'middleware' => ['user.banned']], function () 
     Route::get('/', 'RankController@index')->middleware('contest_account')->name('rank_index');
 });
 
-Route::group(['prefix' => 'term', 'middleware' => ['user.banned']], function () {
-    Route::redirect('/', '/term/user', 301);
-    Route::get('/user', 'TermController@user')->name('term.user');
+Route::group(['prefix' => 'terms', 'middleware' => ['user.banned']], function () {
+    Route::redirect('/', '/terms/user', 301);
+    Route::get('/user', 'TermsController@user')->name('terms.user');
 });
 
 Route::group(['namespace' => 'Tool', 'middleware' => ['contest_account', 'user.banned']], function () {
@@ -136,16 +144,26 @@ Route::group(['namespace' => 'Tool', 'middleware' => ['contest_account', 'user.b
         Route::redirect('/', '/', 301);
         Route::group(['prefix' => 'pastebin'], function () {
             Route::redirect('/', '/tool/pastebin/create', 301);
-            Route::get('/create', 'PastebinController@create')->middleware('auth')->name('tool_pastebin_create');
-            Route::get('/view/{$code}', 'PastebinController@view')->name('tool_pastebin_view');
+            Route::get('/create', 'PastebinController@create')->middleware('auth')->name('tool.pastebin.create');
+            Route::get('/view/{code}', 'PastebinController@view')->name('tool.pastebin.view');
+        });
+        Route::group(['prefix' => 'imagehosting'], function () {
+            Route::redirect('/', '/tool/imagehosting/create', 301);
+            Route::get('/create', 'ImageHostingController@create')->middleware('auth')->name('tool.imagehosting.create');
+            Route::get('/list', 'ImageHostingController@list')->middleware('auth')->name('tool.imagehosting.list');
+            Route::redirect('/detail', '/tool/imagehosting/list', 301);
+            Route::get('/detail/{id}', 'ImageHostingController@detail')->middleware('auth')->name('tool.imagehosting.detail');
         });
         Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
             Route::group(['prefix' => 'pastebin'], function () {
-                Route::post('generate', 'PastebinController@generate')->middleware('auth')->name('tool_ajax_pastebin_generate');
+                Route::post('generate', 'PastebinController@generate')->middleware('auth')->name('tool.ajax.pastebin.generate');
+            });
+            Route::group(['prefix' => 'imagehosting'], function () {
+                Route::post('generate', 'ImageHostingController@generate')->middleware('auth')->name('tool.ajax.imagehosting.generate');
             });
         });
     });
-    Route::get('/pb/{code}', 'PastebinController@view')->name('tool_pastebin_view_shortlink');
+    Route::get('/pb/{code}', 'PastebinController@view')->name('tool.pastebin.view.shortlink');
 });
 
 Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.banned']], function () {
@@ -225,12 +243,13 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.
     });
 
     Route::group(['prefix' => 'account'], function () {
-        Route::post('update_avatar', 'AccountController@updateAvatar')->middleware('auth')->name('account_update_avatar');
-        Route::post('change_basic_info', 'AccountController@changeBasicInfo')->middleware('auth')->name('account_change_basic_info');
-        Route::post('change_extra_info', 'AccountController@changeExtraInfo')->middleware('auth')->name('account_change_extra_info');
-        Route::post('change_password', 'AccountController@changePassword')->middleware('auth')->name('account_change_password');
-        Route::post('check_email_cooldown', 'AccountController@checkEmailCooldown')->middleware('auth')->name('account_check_email_cooldown');
-        Route::post('save_editor_width', 'AccountController@saveEditorWidth')->middleware('auth')->name('account_save_editor_width');
+        Route::post('updateAvatar', 'AccountController@updateAvatar')->middleware('auth')->name('ajax.account.update.avatar');
+        Route::post('changeBasicInfo', 'AccountController@changeBasicInfo')->middleware('auth')->name('ajax.account.change.basicinfo');
+        Route::post('changeExtraInfo', 'AccountController@changeExtraInfo')->middleware('auth')->name('ajax.account.change.extrainfo');
+        Route::post('changePassword', 'AccountController@changePassword')->middleware('auth')->name('ajax.account.change.password');
+        Route::post('checkEmailCooldown', 'AccountController@checkEmailCooldown')->middleware('auth')->name('ajax.account.check.emailcooldown');
+        Route::post('saveEditorWidth', 'AccountController@saveEditorWidth')->middleware('auth')->name('ajax.account.save.editorwidth');
+        Route::post('saveEditorTheme', 'AccountController@saveEditorTheme')->middleware('auth')->name('ajax.account.save.editortheme');
     });
 
     Route::group(['prefix' => 'abuse'], function () {
@@ -242,4 +261,8 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.
     });
 });
 
-Auth::routes(['verify' => true]);
+if(config("function.register")){
+    Auth::routes(['verify' => true]);
+} else {
+    Auth::routes(['verify' => true, 'register' => false]);
+}

@@ -14,14 +14,14 @@ class BabelRequire extends Command
      *
      * @var string
      */
-    protected $signature = 'babel:require {extension : The package name of the extension} {--exception}';
+    protected $signature='babel:require {extension : The package name of the extension} {--ignore-platform-reqs : Ignore the Platform Requirements when install} {--exception}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Download a given Babel Extension to NOJ';
+    protected $description='Download a given Babel Extension to NOJ';
 
     /**
      * Create a new command instance.
@@ -40,9 +40,10 @@ class BabelRequire extends Command
      */
     public function handle()
     {
-        $extension = $this->argument('extension');
-        $exception = $this->option('exception');
-        $output = new BufferedOutput();
+        $extension=$this->argument('extension');
+        $exception=$this->option('exception');
+        $ignoreReqs=$this->option('ignore-platform-reqs');
+        $output=new BufferedOutput();
         if (is_dir(babel_path("Extension/$extension/"))) {
             if (!$exception) {
                 $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>An extension named <fg=green>$extension</> already took place, did you mean <fg=green>php artisan bable:update $extension</>?</>\n");
@@ -74,7 +75,7 @@ class BabelRequire extends Command
             mkdir(babel_path("Tmp/$extension/"));
         }
         try {
-            $zipFile = new ZipFile();
+            $zipFile=new ZipFile();
             $zipFile->openFile(babel_path("Tmp/$filename"))->extractTo(babel_path("Tmp/$extension/"))->close();
             $babelPath=glob_recursive(babel_path("Tmp/$extension/babel.json"));
             if (empty($babelPath)) {
@@ -108,7 +109,10 @@ class BabelRequire extends Command
         }
         $this->postProc($filename, $extension);
         $this->line("Downloaded <fg=green>$extension</>(<fg=yellow>{$targetPackage['version']}</>)");
-        $this->call("babel:install", ['extension' => $extension]);
+        $this->call("babel:install", [
+            'extension' => $extension,
+            '--ignore-platform-reqs' => $ignoreReqs,
+        ]);
         $output->fetch();
     }
 
@@ -123,8 +127,8 @@ class BabelRequire extends Command
         if (!is_dir($dir)) {
             return;
         }
-        $it = new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS);
-        $files = new \RecursiveIteratorIterator($it, \RecursiveIteratorIterator::CHILD_FIRST);
+        $it=new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS);
+        $files=new \RecursiveIteratorIterator($it, \RecursiveIteratorIterator::CHILD_FIRST);
         foreach ($files as $file) {
             if ($file->isDir()) {
                 rmdir($file->getRealPath());

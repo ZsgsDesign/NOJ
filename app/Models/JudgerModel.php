@@ -59,16 +59,20 @@ class JudgerModel extends Model
             "oid"=>$oid,
             "available"=>1,
             "status"=>0
-        ])->orderBy('usage','desc')->get()->first();
+        ])->orderBy('usage', 'asc')->get()->first();
 
         return $serverList;
     }
 
-    public function fetchServer($oid=1)
+    public function fetchServer($oid=0)
     {
-        $serverList=DB::table("judge_server")->where(["oid"=>$oid])->get()->all();
+        $serverList=DB::table("judge_server");
+        if ($oid) {
+            $serverList=$serverList->where(["oid"=>$oid]);
+        }
+        $serverList=$serverList->get()->all();
         foreach ($serverList as &$server) {
-            $server["status_parsed"]=is_null($server["status"])?self::$status["-1"]:self::$status[$server["status"]];
+            $server["status_parsed"]=is_null($server["status"]) ?self::$status["-1"] : self::$status[$server["status"]];
         }
         return $serverList;
     }

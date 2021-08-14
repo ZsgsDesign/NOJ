@@ -26,6 +26,8 @@ use Illuminate\Support\Facades\DB;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use App\Models\Eloquent\Message;
 use App\Models\Latex\LatexModel;
+use App\Models\Eloquent\Tool\Theme;
+use App\Models\Eloquent\Tool\AppSettings;
 
 if (!function_exists('version')) {
     function version()
@@ -64,20 +66,20 @@ if (!function_exists('emailVerified')) {
     }
 }
 
-if (! function_exists('babel_path')) {
+if (!function_exists('babel_path')) {
     /**
      * Get the path to the application folder.
      *
      * @param  string  $path
      * @return string
      */
-    function babel_path($path = '')
+    function babel_path($path='')
     {
         return app('path').DIRECTORY_SEPARATOR.'Babel'.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 }
 
-if (! function_exists('glob_recursive')) {
+if (!function_exists('glob_recursive')) {
     /**
      * Find pathnames matching a pattern recursively.
      *
@@ -85,11 +87,11 @@ if (! function_exists('glob_recursive')) {
      * @param  int     $flags   Valid flags: GLOB_MARK
      * @return array|false      an array containing the matched files/directories, an empty array if no file matched or false on error.
      */
-    function glob_recursive($pattern, $flags = 0)
+    function glob_recursive($pattern, $flags=0)
     {
-        $files = glob($pattern, $flags);
-        foreach (glob(dirname($pattern).'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir) {
-            $files = array_merge($files, glob_recursive($dir.'/'.basename($pattern), $flags));
+        $files=glob($pattern, $flags);
+        foreach (glob(dirname($pattern).'/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
+            $files=array_merge($files, glob_recursive($dir.'/'.basename($pattern), $flags));
         }
         return $files;
     }
@@ -123,8 +125,8 @@ if (!function_exists('delFile')) {
     function delFile($dirName)
     {
         if (file_exists($dirName) && $handle=opendir($dirName)) {
-            while (false!==($item = readdir($handle))) {
-                if ($item!= "." && $item != "..") {
+            while (false!==($item=readdir($handle))) {
+                if ($item!="." && $item!="..") {
                     if (file_exists($dirName.'/'.$item) && is_dir($dirName.'/'.$item)) {
                         delFile($dirName.'/'.$item);
                     } else {
@@ -142,7 +144,7 @@ if (!function_exists('delFile')) {
 if (!function_exists('convertMarkdownToHtml')) {
     function convertMarkdownToHtml($md)
     {
-        return is_string($md)?Markdown::convertToHtml($md):'';
+        return is_string($md) ?Markdown::convertToHtml($md) : '';
     }
 }
 
@@ -186,7 +188,7 @@ if (!function_exists('formatHumanReadableTime')) {
             $periods[$j]=__("helper.time.singular.$periods[$j]");
         }
 
-        return __("helper.time.formatter",[
+        return __("helper.time.formatter", [
             "time" => $difference,
             "unit" => $periods[$j],
             "tense" => $tense,
@@ -211,18 +213,53 @@ if (!function_exists('formatProblemSolvedTime')) {
 if (!function_exists('latex2Image')) {
     function latex2Image($content)
     {
-        $callback = function ($matches) use (&$patch, &$display) {
-            [$url,$width,$height]=LatexModel::info("$patch$matches[1]$patch");
+        $callback=function($matches) use (&$patch, &$display) {
+            [$url, $width, $height]=LatexModel::info("$patch$matches[1]$patch");
             return "<img src=\"$url\" style=\"display: $display;\" class=\"rendered-tex\" width=\"$width\" height=\"$height\">";
         };
-        $patch = '$';
-        $display = 'inline-block';
-        $content = preg_replace_callback('/\\$\\$\\$(.*?)\\$\\$\\$/', $callback, $content);
-        $content = preg_replace_callback('/\\\\\\((.*?)\\\\\\)/', $callback, $content);
-        $patch = '$$';
-        $display = 'block';
-        $content = preg_replace_callback('/\\$\\$(.*?)\\$\\$/', $callback, $content);
-        $content = preg_replace_callback('/\\\\\\[(.*?)\\\\\\]/', $callback, $content);
+        $patch='$';
+        $display='inline-block';
+        $content=preg_replace_callback('/\\$\\$\\$(.*?)\\$\\$\\$/', $callback, $content);
+        $content=preg_replace_callback('/\\\\\\((.*?)\\\\\\)/', $callback, $content);
+        $patch='$$';
+        $display='block';
+        $content=preg_replace_callback('/\\$\\$(.*?)\\$\\$/', $callback, $content);
+        $content=preg_replace_callback('/\\\\\\[(.*?)\\\\\\]/', $callback, $content);
         return $content;
+    }
+}
+
+if (!function_exists('vscodeLocale')) {
+    function vscodeLocale()
+    {
+        $locale=Str::lower(App::getLocale());
+        $vscodelocale='';
+        if (in_array($locale, ['de', 'es', 'fr', 'it', 'ja', 'ko', 'ru', 'zh-cn', 'zh-tw'])) {
+            $vscodelocale=$locale;
+        }
+        return $vscodelocale;
+    }
+}
+
+if (!function_exists('getTheme')) {
+    function getTheme($id=null)
+    {
+        if (is_null($id)) {
+            $id=config('app.theme');
+        }
+        return Theme::getTheme($id);
+    }
+}
+
+if (!function_exists('setting')) {
+    function setting($identifier, $default=null)
+    {
+        if (is_array($identifier)) {
+            foreach ($identifier as $key=>$content) {
+                AppSettings::set($key, $content);
+            }
+            return true;
+        }
+        return AppSettings::get($identifier, $default);
     }
 }

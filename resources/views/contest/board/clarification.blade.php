@@ -295,7 +295,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }, success: function(ret){
-                console.log(ret);
+                // console.log(ret);
                 if (ret.ret==200) {
                     alert("Success!");
                     location.reload();
@@ -315,7 +315,7 @@
                         break;
 
                     default:
-                        alert("Server Connection Error");
+                        alert("{{__('errors.default')}}");
                 }
                 console.log('Ajax error while posting to ' + type);
                 sending=false;
@@ -345,7 +345,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if (ret.ret==200) {
                         alert("Success!");
                         location.reload();
@@ -364,7 +364,7 @@
                             break;
 
                         default:
-                            alert("Server Connection Error");
+                            alert("{{__('errors.default')}}");
                     }
                     console.log('Ajax error while posting to ' + type);
                     sending=false;
@@ -388,7 +388,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }, success: function(ret){
-                console.log(ret);
+                // console.log(ret);
                 if (ret.ret==200) {
                     //alert("Success!");
                 } else {
@@ -406,7 +406,7 @@
                         break;
 
                     default:
-                        alert("Server Connection Error");
+                        alert("{{__('errors.default')}}");
                 }
                 console.log('Ajax error while posting to ' + type);
                 sending=false;

@@ -30,7 +30,7 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }, success: function(ret){
-                        console.log(ret);
+                        // console.log(ret);
                         if (ret.ret==200) {
                             alert("Your report has been submitted successfully.");
                         } else {
@@ -39,7 +39,7 @@
                         abusereporting=false;
                     }, error: function(xhr, type) {
                         console.log("Ajax error while posting to {{route('ajax.abuse.report')}}!");
-                        alert("Server Connection Error");
+                        alert("{{__('errors.default')}}");
                         abusereporting=false;
                     }
                 });

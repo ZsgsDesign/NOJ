@@ -23,7 +23,7 @@
             var output = '';
             var selectedText = cm.getSelection();
             var text = selectedText || 'x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}';
-            output = '$$' + text + '$$';
+            output = '$$$$$$' + text + '$$$$$$';
             cm.replaceSelection(output);
         }
     };

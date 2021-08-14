@@ -1,214 +1,128 @@
 <?php
 
-namespace App\Http\Controllers\Oauth;
+namespace App\Http\Controllers\OAuth;
 
-use App\Http\Controllers\Controller;
-use App\Models\AccountModel;
-use App\Models\UserModel;
+use App\Models\Eloquent\User;
+use App\Models\Eloquent\UserExtra;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Database\QueryException;
 use Auth;
+use Str;
 
-class GithubController extends Controller
+class GithubController extends OAuthController
 {
+    public function __construct()
+    {
+        $this->platform="Github";
+        $this->platformID="github";
+    }
+
     public function redirectTo()
     {
-        $accountModel = new AccountModel();
-        if(Auth::check()){
-            $info=$accountModel->detail(Auth::user()->id);
-            if(Auth::check() && $info['contest_account']){
-                return redirect('/account/settings');
+        // 2 ways to access this page, you want to bind(logined), you want to login(not logined)
+        if (Auth::check()) {
+            // logined user, only users with non-temp email & pass access and binded can unbind
+            if (!Auth::user()->isIndependent()) {
+                return redirect()->route('account.settings');
             }
-        }
-        if(Auth::check() && $accountModel->getExtra(Auth::user()->id ,'github_id')){
-            return view('oauth.index',[
-                'page_title'=>"OAuth",
-                'site_title'=>config("app.name"),
-                'navigation'=>"OAuth",
-                'platform' => 'Github',
-                'display_html' => 'You\'re already tied to the github account : <span class="text-info">'.$accountModel->getExtra(Auth::user()->id ,'github_email').'</span><br />
-                You can choose to unbind or go back to the homepage',
-                'buttons' => [
-                    [
-                        'text' => 'unbind',
-                        'href' => route('oauth.github.unbind'),
-                        'style' => 'btn-danger'
-                    ],
-                    [
-                        'text' => 'home',
-                        'href' => route('home'),
-                    ],
-                ]
-            ]);
+            if (Auth::user()->getExtra('github_id')) {
+                return $this->generateOperationView(Auth::user()->getExtra('github_email'));
+            }
         }
         return Socialite::driver('github')->redirect();
     }
 
     public function handleCallback()
     {
-        try{
-            $github_user = Socialite::driver('github')->user();
-        }catch(\Laravel\Socialite\Two\InvalidStateException $e){
-            return redirect('/');
+        try {
+            $github_user=Socialite::driver('github')->user();
+        } catch (\Laravel\Socialite\Two\InvalidStateException $e) {
+            return redirect()->route('home');
         }
 
-        $accountModel = new AccountModel();
-        if(Auth::check()){
-            $user_id = Auth::user()->id;
-            $ret = $accountModel->findExtra('github_id',$github_user->id);
-            if(!empty($ret) && $ret['uid'] != $user_id){
-                $user = UserModel::find($ret['uid']);
-                return view('oauth.index',[
-                    'page_title'=>"OAuth",
-                    'site_title'=>config("app.name"),
-                    'navigation'=>"OAuth",
-                    'platform' => 'Github',
-                    'display_html' => 'The github account is now tied to another '.config("app.name").' account : <span class="text-danger">'.$user->email.'</span><br />
-                    You can try logging in using github',
-                    'buttons' => [
-                        [
-                            'text' => 'home',
-                            'href' => route('home'),
-                        ],
-                    ]
-                ]);
+        if (Auth::check()) {
+            $user_id=Auth::user()->id;
+            $ret=UserExtra::search('github_id', $github_user->id);
+            if (!empty($ret) && $ret[0]['uid']!=$user_id) {
+                $user=User::find($ret[0]['uid']);
+                return $this->generateDuplicateView($user->email);
             }
-            $accountModel->setExtra($user_id,'github_id',$github_user->id);
-            $accountModel->setExtra($user_id,'github_email',$github_user->email);
-            $accountModel->setExtra($user_id,'github_nickname',$github_user->nickname);
-            $accountModel->setExtra($user_id,'github_homepage',($github_user->user)['html_url']);
-            $accountModel->setExtra($user_id,'github_token',$github_user->token,101);
-            return view('oauth.index',[
-                'page_title'=>"OAuth",
-                'site_title'=>config("app.name"),
-                'navigation'=>"OAuth",
-                'platform' => 'Github',
-                'display_html' => 'You have successfully tied up the github account : <span class="text-info">'.$accountModel->getExtra(Auth::user()->id ,'github_email').'</span><br />
-                You can log in to '.config("app.name").' later using this account',
-                'buttons' => [
-                    [
-                        'text' => 'home',
-                        'href' => route('home'),
-                    ],
-                ]
-            ]);
-        }else{
-            $ret = $accountModel->findExtra('github_id',$github_user->id);
-            if(!empty($ret)){
-                Auth::loginUsingId($ret['uid']);
-                $user_id = Auth::user()->id;
-                $accountModel->setExtra($user_id,'github_email',$github_user->email);
-                $accountModel->setExtra($user_id,'github_nickname',$github_user->nickname);
-                $accountModel->setExtra($user_id,'github_homepage',($github_user->user)['html_url']);
-                $accountModel->setExtra($user_id,'github_token',$github_user->token,101);
-                return redirect('/');
-            }else{
-                return view('oauth.index',[
-                    'page_title'=>"OAuth",
-                    'site_title'=>config("app.name"),
-                    'navigation'=>"OAuth",
-                    'platform' => 'Github',
-                    'display_text' => 'This github account doesn\'t seem to have a '.config("app.name").' account, please register or log in first',
-                    'buttons' => [
-                        [
-                            'text' => 'login',
-                            'href' => route('login'),
-                        ],
-                        [
-                            'text' => 'register',
-                            'href' => route('register'),
-                        ],
-                    ]
-                ]);
+            Auth::user()->setExtra('github_id', $github_user->id);
+            Auth::user()->setExtra('github_email', $github_user->email);
+            Auth::user()->setExtra('github_nickname', $github_user->nickname);
+            Auth::user()->setExtra('github_homepage', ($github_user->user)['html_url']);
+            Auth::user()->setExtra('github_token', $github_user->token, 101);
+            return $this->generateSuccessView(Auth::user()->getExtra('github_email'));
+        } else {
+            $ret=UserExtra::search('github_id', $github_user->id);
+            if (!empty($ret)) {
+                Auth::loginUsingId($ret[0]['uid'], true);
+                Auth::user()->setExtra('github_email', $github_user->email);
+                Auth::user()->setExtra('github_nickname', $github_user->nickname);
+                Auth::user()->setExtra('github_homepage', ($github_user->user)['html_url']);
+                Auth::user()->setExtra('github_token', $github_user->token, 101);
+                return redirect()->route('account.dashboard');
+            } else {
+                if (config('app.allow_oauth_temp_account')) {
+                    try {
+                        $createdUser=User::create([
+                            'name' => Str::random(12),
+                            'email' => Str::random(16)."@temporary.email",
+                            'password' => '',
+                            'avatar' => '/static/img/avatar/default.png',
+                        ]);
+                    } catch (QueryException $exception) {
+                        return $this->generateUnknownErrorView();
+                    }
+                    Auth::loginUsingId($createdUser->id, true);
+                    Auth::user()->setExtra('github_id', $github_user->id);
+                    Auth::user()->setExtra('github_email', $github_user->email);
+                    Auth::user()->setExtra('github_nickname', $github_user->nickname);
+                    Auth::user()->setExtra('github_homepage', ($github_user->user)['html_url']);
+                    Auth::user()->setExtra('github_token', $github_user->token, 101);
+                    return redirect()->route('account.dashboard');
+                }
+                $buttons=[[
+                    'text' => 'login',
+                    'href' => route('login'),
+                ]];
+                if (config('function.register')) {
+                    $buttons[]=[
+                        'text' => 'register',
+                        'href' => route('register'),
+                    ];
+                }
+                return $this->generateAccountNotFoundView();
             }
         }
     }
 
     public function unbind()
     {
-        if(!Auth::check()){
-            return redirect('/');
+        if (!Auth::check()) {
+            return redirect()->route('home');
         }
-        $accountModel = new AccountModel();
-        if($accountModel->getExtra(Auth::user()->id ,'github_id')){
-            return view('oauth.index',[
-                'page_title'=>"OAuth",
-                'site_title'=>config("app.name"),
-                'navigation'=>"OAuth",
-                'platform' => 'Github',
-                'display_html' => 'You are trying to unbind the following two : <br />
-                Your '.config("app.name").' account : <span class="text-info">'.Auth::user()->email.'</span><br />
-                This Github account : <span class="text-info">'.$accountModel->getExtra(Auth::user()->id ,'github_email').'</span><br />
-                Make your decision carefully, although you can later establish the binding again',
-                'buttons' => [
-                    [
-                        'text' => 'confirm',
-                        'href' => route('oauth.github.unbind.confirm'),
-                        'style' => 'btn-danger'
-                    ],
-                    [
-                        'text' => 'home',
-                        'href' => route('home'),
-                    ],
-                ]
-            ]);
-        }else{
-            return view('oauth.index',[
-                'page_title'=>"OAuth",
-                'site_title'=>config("app.name"),
-                'navigation'=>"OAuth",
-                'platform' => 'Github',
-                'display_html' => 'You\'re not tied to github',
-                'buttons' => [
-                    [
-                        'text' => 'home',
-                        'href' => route('home'),
-                    ],
-                ]
-            ]);
+        if (Auth::user()->getExtra('github_id')) {
+            return $this->generateUnbindConfirmView(Auth::user()->email, Auth::user()->getExtra('github_email'));
+        } else {
+            return $this->generateAlreadyUnbindView();
         }
     }
 
     public function confirmUnbind()
     {
-        if(!Auth::check()){
-            return redirect('/');
+        if (!Auth::check()) {
+            return redirect()->route('home');
         }
-        $accountModel = new AccountModel();
-        $user_id = Auth::user()->id;
-        if($accountModel->getExtra($user_id ,'github_id')){
-            $accountModel->setExtra($user_id,'github_id',null);
-            $accountModel->setExtra($user_id,'github_email',null);
-            $accountModel->setExtra($user_id,'github_nickname',null);
-            $accountModel->setExtra($user_id,'github_homepage',null);
-            $accountModel->setExtra($user_id,'github_token',null);
-            return view('oauth.index',[
-                'page_title'=>"OAuth",
-                'site_title'=>config("app.name"),
-                'navigation'=>"OAuth",
-                'platform' => 'Github',
-                'display_html' => 'You have successfully unbound your Github account from your '.config("app.name").' account',
-                'buttons' => [
-                    [
-                        'text' => 'home',
-                        'href' => route('home'),
-                    ],
-                ]
-            ]);
-        }else{
-            return view('oauth.index',[
-                'page_title'=>"OAuth",
-                'site_title'=>config("app.name"),
-                'navigation'=>"OAuth",
-                'platform' => 'Github',
-                'display_html' => 'You\'re not tied to github',
-                'buttons' => [
-                    [
-                        'text' => 'home',
-                        'href' => route('home'),
-                    ],
-                ]
-            ]);
+        if (Auth::user()->getExtra('github_id')) {
+            Auth::user()->setExtra('github_id', null);
+            Auth::user()->setExtra('github_email', null);
+            Auth::user()->setExtra('github_nickname', null);
+            Auth::user()->setExtra('github_homepage', null);
+            Auth::user()->setExtra('github_token', null);
+            return $this->generateUnbindSuccessView();
+        } else {
+            return $this->generateAlreadyUnbindView();
         }
-
     }
 }

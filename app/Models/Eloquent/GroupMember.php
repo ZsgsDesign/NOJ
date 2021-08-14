@@ -12,11 +12,13 @@ class GroupMember extends Model
     protected $table='group_member';
     protected $primaryKey='gmid';
 
+    protected $fillable=['gid', 'uid', 'role', 'nick_name', 'sub_group', 'ranking'];
+
     public function user() {
-        return $this->belongsTo('App\Models\Eloquent\UserModel','uid','id');
+        return $this->belongsTo('App\Models\Eloquent\User', 'uid', 'id');
     }
 
     public function group() {
-        return $this->belongsTo('App\Models\Eloquent\Group','gid','gid');
+        return $this->belongsTo('App\Models\Eloquent\Group', 'gid', 'gid');
     }
 }

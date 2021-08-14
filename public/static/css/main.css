@@ -375,3 +375,69 @@ img.cm-colorful-text {
     height: 5rem;
     width: 5rem;
 }
+
+nav.navbar .dropdown-menu .dropdown-item {
+    max-width: none;
+}
+
+/* NOJ Theme Data */
+
+html[noj-theme="default"] .bg-dark{
+    background-color: #3E4551!important;
+}
+
+html[noj-theme="classic"] .bg-dark{
+    background-color: #424242!important;
+}
+
+html[noj-theme="cranberry"] .bg-dark{
+    background-color: var(--wemd-red-darken-3)!important;
+}
+
+html[noj-theme="byzantium"] .bg-dark{
+    background-color: var(--wemd-pink-darken-3)!important;
+}
+
+html[noj-theme="orchids"] .bg-dark{
+    background-color: var(--wemd-purple-darken-3)!important;
+}
+
+html[noj-theme="blueberry"] .bg-dark{
+    background-color: var(--wemd-deep-purple-darken-3)!important;
+}
+
+html[noj-theme="starrynights"] .bg-dark{
+    background-color: var(--wemd-indigo-darken-3)!important;
+}
+
+html[noj-theme="electric"] .bg-dark{
+    background-color: var(--wemd-blue-darken-3)!important;
+}
+
+html[noj-theme="oceanic"] .bg-dark{
+    background-color: var(--wemd-light-blue-darken-3)!important;
+}
+
+html[noj-theme="emerald"] .bg-dark{
+    background-color: var(--wemd-teal-darken-3)!important;
+}
+
+html[noj-theme="aventurine"] .bg-dark{
+    background-color: var(--wemd-green-darken-3)!important;
+}
+
+html[noj-theme="tropical"] .bg-dark{
+    background-color: var(--wemd-orange-darken-3)!important;
+}
+
+html[noj-theme="ginger"] .bg-dark{
+    background-color: var(--wemd-deep-orange-darken-3)!important;
+}
+
+html[noj-theme="espresso"] .bg-dark{
+    background-color: var(--wemd-brown-darken-3)!important;
+}
+
+html[noj-theme="enigma"] .bg-dark{
+    background-color: var(--wemd-blue-grey-darken-3)!important;
+}

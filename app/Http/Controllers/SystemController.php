@@ -17,7 +17,7 @@ class SystemController extends Controller
     public function info()
     {
         $judgerModel=new JudgerModel();
-        $judgeServer=$judgerModel->fetchServer(1);
+        $judgeServer=$judgerModel->fetchServer(0);
         return view('system.info', [
             'page_title' => "System Info",
             'site_title' => config("app.name"),

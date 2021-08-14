@@ -55,15 +55,44 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Enable Backup
+    | Application Info
     |--------------------------------------------------------------------------
     |
-    | Set true when you want scheduling backup.
+    | Application Info.
     |
     */
 
     'logo' => env('APP_LOGO', "/static/img/icon/icon-white.png"),
     'desc' => env('APP_DESC', ''),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Theme
+    |--------------------------------------------------------------------------
+    |
+    | Set theme for NOJ.
+    |
+    */
+
+    'theme' => in_array(env('APP_THEME', 'default'), [
+        'default', 'classic', 'cranberry', 'byzantium',
+        'orchids', 'blueberry', 'starrynights', 'electric',
+        'oceanic', 'emerald', 'aventurine', 'tropical',
+        'ginger', 'espresso', 'enigma',
+    ]) ? env('APP_THEME', 'default') : 'default',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application OAuth Temp Account Allowance
+    |--------------------------------------------------------------------------
+    |
+    | This OAuth Temp Account Allowance is used by the OAuth Controller to
+    | determine whether a user can login without a binding account
+    | established or not.
+    |
+    */
+
+    'allow_oauth_temp_account' => env('APP_ALLOW_OAUTH_TEMP_ACCOUNT', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -77,8 +106,19 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
-
     'asset_url' => env('ASSET_URL', null),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application MultiDomain
+    |--------------------------------------------------------------------------
+    |
+    | This Multi Domain is used by the Provider to determine whether this
+    | application should run on Mutli Domain mode or not.
+    |
+    */
+
+    'multidomain' => env('APP_MULTI_DOMAIN', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -190,11 +230,14 @@ return [
         /*
          * Package Service Providers...
          */
-        Laravel\Socialite\SocialiteServiceProvider::class,
+        // Laravel\Socialite\SocialiteServiceProvider::class,
+        SocialiteProviders\Manager\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Imtigger\LaravelJobStatus\LaravelJobStatusServiceProvider::class,
+
+
         /*
          * Application Service Providers...
          */
@@ -260,22 +303,4 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Image' => Intervention\Image\Facades\Image::class
     ],
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Version Info
-    |--------------------------------------------------------------------------
-    |
-    | This us the version info.
-    |
-    */
-
-    'version' => [
-        "author"=>"John Zhang",
-        "organization"=>"NJUPT ICPC Team",
-        "developers"=>"John Zhang, David Diao",
-        "major"=>"0.1.0",
-    ],
-
 ];

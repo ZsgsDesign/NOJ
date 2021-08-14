@@ -43,6 +43,7 @@
         overflow-x: hidden;
         width: 100%;
         max-width:16rem;
+        background: #fff;
     }
 </style>
 <div class="container mundb-standard-container">
@@ -88,7 +89,7 @@
     </div>
     <div id="vscode_container_outline">
         <div id="vscode_container" style="width:100%;height:50vh;">
-            <div id="vscode" style="width:100%;height:100%;"></div>
+            <div id="monaco" style="width:100%;height:100%;"></div>
         </div>
     </div>
     <div style="text-align: right;margin-bottom:2rem;">
@@ -99,66 +100,40 @@
 @endsection
 
 @section('additionJS')
-    <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
+
+    @component('js.common.vscode')
+        editor = monaco.editor.create(document.getElementById('monaco'), {
+            value: "",
+            language: "plaintext",
+            theme: "vs-light",
+            fontSize: 16,
+            formatOnPaste: true,
+            formatOnType: true,
+            automaticLayout: true,
+        });
+        $("#vscode_container").css("opacity",1);
+        var all_lang=monaco.languages.getLanguages();
+        all_lang.forEach(function (lang_conf) {
+            aval_lang.push(lang_conf.id);
+            $("#pb_lang_option").append("<button class='dropdown-item' data-value='"+lang_conf.id+"'>"+lang_conf.aliases[0]+"</button>");
+            // console.log(lang_conf.id);
+        });
+        $('#pb_lang_option button').click(function(){
+            targ_lang=$(this).attr("data-value");
+            $("#pb_lang").text($(this).text());
+            monaco.editor.setModelLanguage(editor.getModel(), targ_lang);
+        });
+        $('#pb_time_option button').click(function(){
+            targ_expire=$(this).attr("data-value");
+            $("#pb_time").text($(this).text());
+        });
+        // monaco.editor.setModelLanguage(editor.getModel(), "plaintext");
+    @endcomponent
+
     <script>
         var aval_lang=[];
         var generate_processing=false;
         var targ_lang="plaintext",targ_expire=0,editor;
-
-        require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});
-
-        require.config({
-            'vs/nls' : {
-                availableLanguages: {
-                    '*': '{{Str::lower(App::getLocale())}}'
-                }
-            }
-        });
-
-        // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
-        // the default worker url location (used when creating WebWorkers). The problem here is that
-        // HTML5 does not allow cross-domain web workers, so we need to proxy the instantiation of
-        // a web worker through a same-domain script
-
-        window.MonacoEnvironment = {
-            getWorkerUrl: function(workerId, label) {
-                return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
-                self.MonacoEnvironment = {
-                    baseUrl: '{{env('APP_URL')}}/static/library/monaco-editor/min/'
-                };
-                importScripts('{{env('APP_URL')}}/static/library/monaco-editor/min/vs/base/worker/workerMain.js');`
-                )}`;
-            }
-        };
-
-        require(["vs/editor/editor.main"], function () {
-            editor = monaco.editor.create(document.getElementById('vscode'), {
-                value: "",
-                language: "plaintext",
-                theme: "vs-light",
-                fontSize: 16,
-                formatOnPaste: true,
-                formatOnType: true,
-                automaticLayout: true,
-            });
-            $("#vscode_container").css("opacity",1);
-            var all_lang=monaco.languages.getLanguages();
-            all_lang.forEach(function (lang_conf) {
-                aval_lang.push(lang_conf.id);
-                $("#pb_lang_option").append("<button class='dropdown-item' data-value='"+lang_conf.id+"'>"+lang_conf.aliases[0]+"</button>");
-                console.log(lang_conf.id);
-            });
-            $('#pb_lang_option button').click(function(){
-                targ_lang=$(this).attr("data-value");
-                $("#pb_lang").text($(this).text());
-                monaco.editor.setModelLanguage(editor.getModel(), targ_lang);
-            });
-            $('#pb_time_option button').click(function(){
-                targ_expire=$(this).attr("data-value");
-                $("#pb_time").text($(this).text());
-            });
-            // monaco.editor.setModelLanguage(editor.getModel(), "plaintext");
-        });
 
         function generate(){
             if(generate_processing) return;
@@ -176,7 +151,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if(ret.ret==200){
                         location.href="/pb/"+ret.data.code;
                     }else{

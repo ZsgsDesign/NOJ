@@ -23,7 +23,7 @@ class Synchronizer
         } catch (ErrorException $e) {
         } catch (Exception $e) {
         }
-        $className = "App\\Babel\\Extension\\$oj\\$synchronizerProvider";
+        $className="App\\Babel\\Extension\\$oj\\$synchronizerProvider";
         if (class_exists($className)) {
             return new $className($all_data);
         } else {

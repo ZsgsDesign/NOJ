@@ -355,7 +355,7 @@
                                                                 headers: {
                                                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                                                 }, success: function(ret){
-                                                                    console.log(ret);
+                                                                    // console.log(ret);
                                                                     if(ret.ret==200){
                                                                         location.reload();
                                                                     }else{
@@ -427,11 +427,11 @@
 
     @if(strtotime($detail['begin_time']) > time())
 
-    var remaining={{strtotime($detail['begin_time']) - time()}};
-    setInterval(()=>{
-        remaining--;
-        if(!remaining) location.reload();
-    },1000);
+    // var remaining={{strtotime($detail['begin_time']) - time()}};
+    // setInterval(()=>{
+    //     remaining--;
+    //     if(!remaining) location.reload();
+    // },1000);
 
     @endif
 

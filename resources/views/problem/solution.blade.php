@@ -590,16 +590,7 @@
 @section("additionJS")
 @include("js.common.hljsLight")
 @include("js.common.markdownEditor")
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ['$$$','$$$'], ["\\(","\\)"] ],
-            processEscapes: true
-        },
-        showMathMenu: false
-    });
-</script>
-<script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+@include("js.common.mathjax")
 <script>
     var simplemde = createNOJMarkdownEditor({
         autosave: {
@@ -630,7 +621,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }, success: function(ret){
-                console.log(ret);
+                // console.log(ret);
                 if (ret.ret==200) {
                     alert("Your Solution Has Been Recieved.");
                     localStorage.removeItem('{{$detail["pcode"]}}')
@@ -649,7 +640,7 @@
                         alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
                         break;
                     default:
-                        alert("Server Connection Error");
+                        alert("{{__('errors.default')}}");
                 }
                 console.log('Ajax error while posting to submitSolutionDiscussion!');
                 submitingSolutionDiscussion=false;
@@ -673,7 +664,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }, success: function(ret){
-                console.log(ret);
+                // console.log(ret);
                 if (ret.ret==200) {
                     $(`#vote_${psoid}`).text(ret.data.votes);
                     $(`#poll_${psoid} .btn-group div`).removeClass();
@@ -693,7 +684,7 @@
                         alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
                         break;
                     default:
-                        alert("Server Connection Error");
+                        alert("{{__('errors.default')}}");
                 }
                 console.log('Ajax error while posting to voteSolutionDiscussion!');
                 votingSolutionDiscussion=false;
@@ -719,7 +710,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if (ret.ret==200) {
                         alert("Your Solution Has Been Updated.");
                         location.reload();
@@ -737,7 +728,7 @@
                             alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
                             break;
                         default:
-                            alert("Server Connection Error");
+                            alert("{{__('errors.default')}}");
                     }
                     console.log('Ajax error while posting to updateSolutionDiscussion!');
                     updatingSolutionDiscussion=false;
@@ -760,7 +751,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if (ret.ret==200) {
                         alert("Your Solution Has Been Deleted.");
                         location.reload();
@@ -778,7 +769,7 @@
                             alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
                             break;
                         default:
-                            alert("Server Connection Error");
+                            alert("{{__('errors.default')}}");
                     }
                     console.log('Ajax error while posting to deleteSolutionDiscussion!');
                     updatingSolutionDiscussion=false;

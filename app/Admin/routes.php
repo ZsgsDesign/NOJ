@@ -10,17 +10,25 @@ Route::group([
     'middleware'    => config('admin.route.middleware'),
 ], function(Router $router) {
 
-    $router->get('/', 'HomeController@index');
+    $router->get('/', 'HomeController@index')->name('admin.index');
     $router->resource('users', UserController::class);
+    $router->resource('announcements', AnnouncementController::class);
     $router->get('problems/import', 'ProblemController@import');
     $router->resource('problems', ProblemController::class);
     $router->resource('solutions', SolutionController::class);
     $router->resource('submissions', SubmissionController::class);
     $router->resource('contests', ContestController::class);
     $router->resource('groups', GroupController::class);
+    $router->resource('dojos', DojoController::class);
+    $router->resource('dojophases', DojoPhaseController::class);
+    $router->resource('judge-server', JudgeServerController::class);
+    $router->resource('judger', JudgerController::class);
     $router->resource('abuses', AbuseController::class);
 
-    Route::group(['prefix' => 'babel'], function (Router $router) {
+    Route::match(['GET', 'POST'], 'codetester', 'CodeTesterController@tester')->name('admin.codetester.tester');
+    Route::match(['GET', 'POST'], 'settings', 'SettingsController@index')->name('admin.settings.index');
+
+    Route::group(['prefix' => 'babel'], function(Router $router) {
         $router->get('/', 'BabelController@index')->name('admin.babel.index');
         $router->get('installed', 'BabelController@installed')->name('admin.babel.installed');
         $router->get('marketspace', 'BabelController@marketspace')->name('admin.babel.marketspace');

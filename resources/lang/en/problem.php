@@ -14,13 +14,17 @@ return [
     "memorylimit"      => "Memory Limit",
     "download"         => "Download",
     "section" => [
-        "description"  => "Description",
-        "input"        => "Input",
-        "output"       => "Output",
-        "sampleinput"  => "Sample Input",
-        "sampleoutput" => "Sample Output",
-        "samplecopy"   => "Copy",
-        "note"         => "Note",
+        "description"  => "Description:",
+        "input"        => "Input:",
+        "output"       => "Output:",
+        "sample" => [
+            "input"  => "Sample Input:",
+            "output" => "Sample Output:",
+            "copy"   => "Copy",
+            "copied" => "Copied",
+            "failed" => "Failed",
+        ],
+        "note"         => "Note:",
     ],
     "action" => [
         "loginsubmit"  => "Login & Submit",
@@ -60,6 +64,9 @@ return [
             "submit"   => "Submitting",
             "unable"   => "Submit Unavailable",
             "original" => "Original Problem",
+        ],
+        "theme" => [
+            "title"    => "THEME:",
         ],
     ],
     "discussion" => [

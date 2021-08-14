@@ -27,7 +27,7 @@ class IndexController extends Controller
         $filter["rated"]=isset($all_data["rated"]) ? $all_data["rated"] : null;
         $filter["anticheated"]=isset($all_data["anticheated"]) ? $all_data["anticheated"] : null;
         $filter["practice"]=isset($all_data["practice"]) ? $all_data["practice"] : null;
-        $return_list=$contestModel->list($filter,Auth::check()?Auth::user()->id:0);
+        $return_list=$contestModel->list($filter, Auth::check() ?Auth::user()->id : 0);
         $featured=$contestModel->featured();
         if (is_null($return_list)) {
             if (isset($all_data["page"]) && $all_data["page"]>1) {
@@ -66,7 +66,7 @@ class IndexController extends Controller
         $contestModel=new ContestModel();
         $groupModel=new GroupModel();
         $clearance=Auth::check() ? $contestModel->judgeClearance($cid, Auth::user()->id) : 0;
-        $basic = $contestModel->basic($cid);
+        $basic=$contestModel->basic($cid);
         if (Auth::check()) {
             $contest_detail=$contestModel->detail($cid, Auth::user()->id);
             $registration=$contestModel->registration($cid, Auth::user()->id);

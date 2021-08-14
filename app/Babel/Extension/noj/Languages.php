@@ -14,7 +14,7 @@ class Languages
                     'max_cpu_time' => 3000,
                     'max_real_time' => 10000,
                     'max_memory' => 1024 * 1024 * 1024,
-                    'compile_command' => '/usr/bin/gcc -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c99 -static {src_path} -lm -o {exe_path}',
+                    'compile_command' => '/usr/bin/gcc -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c99 {src_path} -lm -o {exe_path}',
                 ],
                 'run' => [
                     'command' => '{exe_path}',
@@ -50,6 +50,7 @@ class Languages
                 'run' => [
                     'command' => '{exe_path}',
                     'seccomp_rule' => 'c_cpp',
+                    'env' => $default_env,
                     'memory_limit_check_only' => 1
                 ]
             ],
@@ -64,7 +65,7 @@ class Languages
                     'compile_command' => '/usr/bin/javac {src_path} -d {exe_dir} -encoding UTF8'
                 ],
                 'run' => [
-                    'command' => '/usr/bin/java -cp {exe_dir} -Xss1M -Xms16M -Xmx{max_memory}k -Djava.security.manager -Djava.security.policy==/etc/java_policy -Djava.awt.headless=true Main',
+                    'command' => '/usr/bin/java -cp {exe_dir} -XX:MaxRAM={max_memory}k -Djava.security.manager -Dfile.encoding=UTF-8 -Djava.security.policy==/etc/java_policy -Djava.awt.headless=true Main',
                     'seccomp_rule' => null,
                     'env' => $default_env,
                     'memory_limit_check_only' => 1
@@ -81,7 +82,7 @@ class Languages
                 ],
                 'run' => [
                     'command' => '/usr/bin/python {exe_path}',
-                    'seccomp_rule' => null,
+                    'seccomp_rule' => 'general',
                     'env' => $default_env
                 ]
             ],
@@ -97,14 +98,14 @@ class Languages
                 'run' => [
                     'command' => '/usr/bin/python3.7 {exe_path}',
                     'seccomp_rule' => 'general',
-                    'env' => array_merge(['MALLOC_ARENA_MAX=1'], $default_env)
+                    'env' => array_merge(['MALLOC_ARENA_MAX=1', 'PYTHONIOENCODING=UTF-8'], $default_env)
                 ]
             ],
             'php7_lang_config' => [
                 'compile' => null,
                 'run' => [
                     'exe_name' => 'solution.php',
-                    'command' => '/usr/bin/php {exe_path}',
+                    'command' => '/usr/bin/php -d error_reporting=0 -f {exe_path}',
                     'seccomp_rule' => null,
                     'env' => $default_env,
                     'memory_limit_check_only' => 1
@@ -120,21 +121,118 @@ class Languages
                 ]
             ],
             'go_lang_config' => [
-                'name' => 'go',
                 'compile' => [
                     'src_name' => 'main.go',
                     'exe_name' => 'main',
                     'max_cpu_time' => 3000,
                     'max_real_time' => 10000,
-                    'max_memory' => 1024 * 1024 * 1024,
+                    'max_memory' => -1,
                     'compile_command' => '/usr/bin/go build -o {exe_path} {src_path}',
+                    'env' => ["GOCACHE=/tmp", "GOPATH=/root/go"]
                 ],
                 'run' => [
                     'command' => '{exe_path}',
+                    'seccomp_rule' => "",
+                    'env' => array_merge(["GODEBUG=madvdontneed=1", "GOCACHE=off"], $default_env),
+                    'memory_limit_check_only' => 1
+                ]
+            ],
+            'csharp_lang_config' => [
+                'compile' => [
+                    'src_name' => 'main.cs',
+                    'exe_name' => 'main',
+                    'max_cpu_time' => 3000,
+                    'max_real_time' => 10000,
+                    'max_memory' => 1024 * 1024 * 1024,
+                    'compile_command' => '/usr/bin/mcs -optimize+ -out:{exe_path} {src_path}'
+                ],
+                'run' => [
+                    'command' => '/usr/bin/mono {exe_path}',
                     'seccomp_rule' => null,
+                    'env' => $default_env,
+                    'memory_limit_check_only' => 1
+                ]
+            ],
+            'ruby_lang_config' => [
+                'compile' => null,
+                'run' => [
+                    'exe_name' => 'solution.rb',
+                    'command' => '/usr/bin/ruby {exe_path}',
+                    'seccomp_rule' => null,
+                    'memory_limit_check_only' => 1
+                ]
+            ],
+            'rust_lang_config' => [
+                'compile' => [
+                    'src_name' => 'main.rs',
+                    'exe_name' => 'main',
+                    'max_cpu_time' => 3000,
+                    'max_real_time' => 10000,
+                    'max_memory' => 1024 * 1024 * 1024,
+                    'compile_command' => '/usr/bin/rustc -O -o {exe_path} {src_path}'
+                ],
+                'run' => [
+                    'command' => '{exe_path}',
+                    'seccomp_rule' => "general",
+                    'env' => $default_env,
+                    'memory_limit_check_only' => 1
+                ]
+            ],
+            'haskell_lang_config' => [
+                'compile' => [
+                    'src_name' => 'main.hs',
+                    'exe_name' => 'main',
+                    'max_cpu_time' => 3000,
+                    'max_real_time' => 10000,
+                    'max_memory' => 1024 * 1024 * 1024,
+                    'compile_command' => '/usr/bin/ghc -O -outputdir /tmp -o {exe_path} {src_path}'
+                ],
+                'run' => [
+                    'command' => '{exe_path}',
+                    'seccomp_rule' => "general",
+                    'env' => $default_env,
+                    'memory_limit_check_only' => 1
+                ]
+            ],
+            'pascal_lang_config' => [
+                'compile' => [
+                    'src_name' => 'main.pas',
+                    'exe_name' => 'main',
+                    'max_cpu_time' => 3000,
+                    'max_real_time' => 10000,
+                    'max_memory' => 1024 * 1024 * 1024,
+                    'compile_command' => '/usr/bin/fpc -O2 -o{exe_path} {src_path}'
+                ],
+                'run' => [
+                    'command' => '{exe_path}',
+                    'seccomp_rule' => "general",
                     'env' => $default_env
                 ]
-            ]
+            ],
+            'plaintext_lang_config' => [
+                'compile' => null,
+                'run' => [
+                    'exe_name' => 'solution.txt',
+                    'command' => '/bin/cat {exe_path}',
+                    'seccomp_rule' => "general",
+                    'memory_limit_check_only' => 1
+                ]
+            ],
+            'basic_lang_config' => [
+                'compile' => [
+                    'src_name' => 'main.bas',
+                    'exe_name' => 'main',
+                    'max_cpu_time' => 3000,
+                    'max_real_time' => 10000,
+                    'max_memory' => 1024 * 1024 * 1024,
+                    'compile_command' => '/usr/local/bin/fbc {src_path}'
+                ],
+                'run' => [
+                    'command' => '{exe_path}',
+                    'seccomp_rule' => "general",
+                    'env' => $default_env
+                ]
+            ],
         ];
     }
 }

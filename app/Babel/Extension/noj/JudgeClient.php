@@ -43,8 +43,8 @@ class JudgeClient
             'language_config' => $languageConfig,
             'src' => $src,
             'test_case_id' => $testCaseId,
-            'max_cpu_time' => $languageConfig['compile']['max_cpu_time'],
-            'max_memory' => $languageConfig['compile']['max_memory'],
+            'max_cpu_time' => is_null($languageConfig['compile']) ?null:$languageConfig['compile']['max_cpu_time'],
+            'max_memory' =>  is_null($languageConfig['compile']) ?null:$languageConfig['compile']['max_memory'],
             'spj_version' => null,
             'spj_config' => null,
             'spj_compile_config' => null,
@@ -64,7 +64,7 @@ class JudgeClient
     }
     public function getLanguageConfigByLanguage($language, $spj=false)
     {
-        return $this->getLanguageConfigByKey($language.($spj?'_lang_spj_config':'_lang_config'));
+        return $this->getLanguageConfigByKey($language.($spj ? '_lang_spj_config' : '_lang_config'));
     }
     public function getLanguageConfigByKey($key)
     {

@@ -5,6 +5,7 @@ use App\Babel\Monit\MonitorBase;
 use App\Models\OJModel;
 use App\Models\JudgerModel;
 use Exception;
+use Log;
 
 class Monitor extends MonitorBase
 {
@@ -79,7 +80,7 @@ class Monitor extends MonitorBase
         curl_close($curl);
 
         if ($err) {
-            \Log::error($err);
+            Log::error($err);
             return [];
         } else {
             return [

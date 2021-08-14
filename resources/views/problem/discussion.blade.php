@@ -445,16 +445,7 @@
 @section("additionJS")
 @include("js.common.hljsLight")
 @include("js.common.markdownEditor")
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ['$$$','$$$'], ["\\(","\\)"] ],
-            processEscapes: true
-        },
-        showMathMenu: false
-    });
-</script>
-<script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+@include("js.common.mathjax")
 <script>
     hljs.initHighlighting();
 
@@ -483,7 +474,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }, success: function(ret){
-                console.log(ret);
+                // console.log(ret);
                 if (ret.ret==200) {
                     location.href = "/discussion/" + ret.data;
                 } else {
@@ -500,7 +491,7 @@
                         alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
                         break;
                     default:
-                        alert("Server Connection Error");
+                        alert("{{__('errors.default')}}");
                 }
                 console.log('Ajax error while posting to postDiscussion!');
                 ajaxing=false;

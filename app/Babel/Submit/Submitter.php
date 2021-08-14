@@ -51,7 +51,7 @@ class Submitter
         } catch (ErrorException $e) {
         } catch (Exception $e) {
         }
-        $className = "App\\Babel\\Extension\\$oj\\$submitterProvider";
+        $className="App\\Babel\\Extension\\$oj\\$submitterProvider";
         if (class_exists($className)) {
             return new $className($sub, $all_data);
         } else {

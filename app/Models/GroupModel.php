@@ -58,10 +58,10 @@ class GroupModel extends Model
         foreach ($trending_groups as &$t) {
             $t["members"]=$this->countGroupMembers($t["gid"]);
         }
-        usort($trending_groups, function ($a, $b) {
+        usort($trending_groups, function($a, $b) {
             return $b["members"]<=>$a["members"];
         });
-        Cache::tags(['group'])->put('trending', array_slice($trending_groups,0,12), 3600*24);
+        Cache::tags(['group'])->put('trending', array_slice($trending_groups, 0, 12), 3600 * 24);
     }
 
     public function userGroups($uid)
@@ -101,13 +101,13 @@ class GroupModel extends Model
 
     public function changeGroupName($gid, $GroupName)
     {
-        return DB::table("group")->where('gid',$gid)->update([
+        return DB::table("group")->where('gid', $gid)->update([
             "name"=>$GroupName
         ]);
     }
 
-    public function changeJoinPolicy($gid, $JoinPolicy){
-        return DB::table("group")->where('gid',$gid)->update([
+    public function changeJoinPolicy($gid, $JoinPolicy) {
+        return DB::table("group")->where('gid', $gid)->update([
             "join_policy"=>$JoinPolicy
         ]);
     }
@@ -121,7 +121,9 @@ class GroupModel extends Model
     public function details($gcode)
     {
         $basic_info=DB::table($this->tableName)->where(["gcode"=>$gcode])->first();
-        if(empty($basic_info)) return [];
+        if (empty($basic_info)) {
+            return [];
+        }
         $basic_info["members"]=$this->countGroupMembers($basic_info["gid"]);
         $basic_info["tags"]=$this->getGroupTags($basic_info["gid"]);
         $basic_info["create_time_foramt"]=date_format(date_create($basic_info["created_at"]), 'M jS, Y');
@@ -138,10 +140,10 @@ class GroupModel extends Model
     public function userProfile($uid, $gid)
     {
         $info=DB::table("group_member")
-        ->join('users','users.id','=','group_member.uid')
+        ->join('users', 'users.id', '=', 'group_member.uid')
         ->where(["gid"=>$gid, "uid"=>$uid])
         ->where("role", ">", 0)
-        ->select('avatar','describes','email','gid','uid','name','nick_name','professional_rate','role','sub_group')
+        ->select('avatar', 'describes', 'email', 'gid', 'uid', 'name', 'nick_name', 'professional_rate', 'role', 'sub_group')
         ->first();
         if (!empty($info)) {
             $info["role_parsed"]=$this->role[$info["role"]];
@@ -169,7 +171,9 @@ class GroupModel extends Model
         foreach ($user_list as &$u) {
             $u["role_parsed"]=$this->role[$u["role"]];
             $u["role_color"]=$this->role_color[$u["role"]];
-            if(is_null($u["sub_group"])) $u["sub_group"]="None";
+            if (is_null($u["sub_group"])) {
+                $u["sub_group"]="None";
+            }
         }
         return $user_list;
     }
@@ -230,16 +234,16 @@ class GroupModel extends Model
         ])->where("role", ">", 0)->count();
     }
 
-    public function problemTags($gid,$pid = -1)
+    public function problemTags($gid, $pid=-1)
     {
-        if($pid == -1){
-            $tags =  DB::table('group_problem_tag')
+        if ($pid==-1) {
+            $tags=DB::table('group_problem_tag')
             ->select('tag')
-            ->where('gid',$gid)
+            ->where('gid', $gid)
             ->distinct()
             ->get()->all();
-        }else{
-            $tags =  DB::table('group_problem_tag')
+        } else {
+            $tags=DB::table('group_problem_tag')
             ->select('tag')
             ->where('gid', $gid)
             ->where('pid', $pid)
@@ -247,10 +251,10 @@ class GroupModel extends Model
             ->get()->all();
         }
 
-        $tags_arr = [];
-        if(!empty($tags)){
+        $tags_arr=[];
+        if (!empty($tags)) {
             foreach ($tags as $value) {
-                array_push($tags_arr,$value['tag']);
+                array_push($tags_arr, $value['tag']);
             }
         }
         return $tags_arr;
@@ -258,28 +262,28 @@ class GroupModel extends Model
 
     public function problems($gid)
     {
-        $contestModel = new ContestModel();
-        $problems = DB::table('contest_problem')
-        ->join('contest','contest_problem.cid', '=', 'contest.cid')
-        ->join('problem','contest_problem.pid', '=', 'problem.pid' )
+        $contestModel=new ContestModel();
+        $problems=DB::table('contest_problem')
+        ->join('contest', 'contest_problem.cid', '=', 'contest.cid')
+        ->join('problem', 'contest_problem.pid', '=', 'problem.pid')
         ->select('contest_problem.cid as cid', 'problem.pid as pid', 'pcode', 'title')
-        ->where('contest.gid',$gid)
-        ->where('contest.practice',1)
-        ->orderBy('contest.created_at','desc')
+        ->where('contest.gid', $gid)
+        ->where('contest.practice', 1)
+        ->orderBy('contest.created_at', 'desc')
         ->distinct()
         ->get()->all();
-        $user_id = Auth::user()->id;
-        foreach($problems as $key => $value){
-            if($contestModel->judgeClearance($value['cid'],$user_id) != 3){
+        $user_id=Auth::user()->id;
+        foreach ($problems as $key => $value) {
+            if ($contestModel->judgeClearance($value['cid'], $user_id)!=3) {
                 unset($problems[$key]);
-            }else{
-                $problems[$key]['tags'] = $this->problemTags($gid,$value['pid']);
+            } else {
+                $problems[$key]['tags']=$this->problemTags($gid, $value['pid']);
             }
         }
         return $problems;
     }
 
-    public function problemAddTag($gid,$pid,$tag)
+    public function problemAddTag($gid, $pid, $tag)
     {
         return DB::table("group_problem_tag")->insert([
             "gid"=>$gid,
@@ -288,7 +292,7 @@ class GroupModel extends Model
         ]);
     }
 
-    public function problemRemoveTag($gid,$pid,$tag)
+    public function problemRemoveTag($gid, $pid, $tag)
     {
         return DB::table("group_problem_tag")->where([
             "gid"=>$gid,
@@ -300,7 +304,9 @@ class GroupModel extends Model
     public function judgeEmailClearance($gid, $email)
     {
         $user=DB::table("users")->where(["email"=>$email])->first();
-        if(empty($user)) return -4;
+        if (empty($user)) {
+            return -4;
+        }
         $ret=DB::table("group_member")->where([
             "gid"=>$gid,
             "uid"=>$user["id"],
@@ -391,20 +397,20 @@ class GroupModel extends Model
 
     public function groupMemberPracticeContestStat($gid)
     {
-        $contestModel = new ContestModel();
+        $contestModel=new ContestModel();
 
-        $allPracticeContest = DB::table('contest')
+        $allPracticeContest=DB::table('contest')
             ->where([
                 'gid' => $gid,
                 'practice' => 1,
             ])
-            ->select('cid','name')
+            ->select('cid', 'name')
             ->get()->all();
-        $user_list = $this->userList($gid);
+        $user_list=$this->userList($gid);
 
-        $memberData = [];
+        $memberData=[];
         foreach ($user_list as $u) {
-            $memberData[$u['uid']] = [
+            $memberData[$u['uid']]=[
                 'name' => $u['name'],
                 'nick_name' => $u['nick_name'],
                 'elo' => $u['ranking'],
@@ -415,61 +421,61 @@ class GroupModel extends Model
             ];
         }
         foreach ($allPracticeContest as $c) {
-            $contestRankRaw = $contestModel->contestRank($c['cid']);
-            foreach($contestRankRaw as $key => $contestRank){
-                if(isset($contestRank['remote']) && $contestRank['remote']){
+            $contestRankRaw=$contestModel->contestRank($c['cid']);
+            foreach ($contestRankRaw as $key => $contestRank) {
+                if (isset($contestRank['remote']) && $contestRank['remote']) {
                     unset($contestRankRaw[$key]);
                 }
             }
-            $contestRank = array_values($contestRankRaw);
-            $problemsCount = DB::table('contest_problem')
-                ->where('cid',$c['cid'])
+            $contestRank=array_values($contestRankRaw);
+            $problemsCount=DB::table('contest_problem')
+                ->where('cid', $c['cid'])
                 ->count();
-            $index = 1;
-            $rank = 1;
-            $last_cr = [];
-            $last_rank = 1;
+            $index=1;
+            $rank=1;
+            $last_cr=[];
+            $last_rank=1;
             foreach ($contestRank as $cr) {
-                $last_rank = $index;
-                if(!empty($last_cr)){
-                    if($cr['solved'] == $last_cr['solved'] && $cr['penalty'] == $last_cr['penalty'] ){
-                        $rank = $last_rank;
-                    }else{
-                        $rank = $index;
-                        $last_rank = $rank;
+                $last_rank=$index;
+                if (!empty($last_cr)) {
+                    if ($cr['solved']==$last_cr['solved'] && $cr['penalty']==$last_cr['penalty']) {
+                        $rank=$last_rank;
+                    } else {
+                        $rank=$index;
+                        $last_rank=$rank;
                     }
                 }
-                if(in_array($cr['uid'],array_keys($memberData))) {
-                    $memberData[$cr['uid']]['solved_all'] += $cr['solved'];
-                    $memberData[$cr['uid']]['problem_all'] += $problemsCount;
-                    $memberData[$cr['uid']]['penalty'] += $cr['penalty'];
-                    $memberData[$cr['uid']]['contest_detial'][$c['cid']] = [
+                if (in_array($cr['uid'], array_keys($memberData))) {
+                    $memberData[$cr['uid']]['solved_all']+=$cr['solved'];
+                    $memberData[$cr['uid']]['problem_all']+=$problemsCount;
+                    $memberData[$cr['uid']]['penalty']+=$cr['penalty'];
+                    $memberData[$cr['uid']]['contest_detial'][$c['cid']]=[
                         'rank' => $rank,
                         'solved' => $cr['solved'],
                         'problems' => $problemsCount,
                         'penalty' => $cr['penalty']
                     ];
                 }
-                $last_cr = $cr;
+                $last_cr=$cr;
                 $index++;
             }
         }
-        $new_memberData = [];
+        $new_memberData=[];
         foreach ($memberData as $uid => $data) {
-            $contest_count = 0;
-            $rank_sum = 0;
+            $contest_count=0;
+            $rank_sum=0;
             foreach ($data['contest_detial'] as $cid => $c) {
-                $rank_sum += $c['rank'];
-                $contest_count += 1;
+                $rank_sum+=$c['rank'];
+                $contest_count+=1;
             }
-            $temp = $data;
-            $temp['uid'] = $uid;
-            if($contest_count != 0){
-                $temp['rank_ave'] = $rank_sum/$contest_count;
+            $temp=$data;
+            $temp['uid']=$uid;
+            if ($contest_count!=0) {
+                $temp['rank_ave']=$rank_sum / $contest_count;
             }
-            array_push($new_memberData,$temp);
+            array_push($new_memberData, $temp);
         }
-        $ret = [
+        $ret=[
             'contest_list' => $allPracticeContest,
             'member_data' => $new_memberData
         ];
@@ -478,58 +484,58 @@ class GroupModel extends Model
 
     public function groupMemberPracticeTagStat($gid)
     {
-        $tags = $this->problemTags($gid);
-        $tag_problems = [];
+        $tags=$this->problemTags($gid);
+        $tag_problems=[];
 
-        $user_list = $this->userList($gid);
+        $user_list=$this->userList($gid);
         foreach ($tags as $tag) {
-            $tag_problems[$tag] = DB::table('problem')
-                ->join('group_problem_tag','problem.pid','=','group_problem_tag.pid')
+            $tag_problems[$tag]=DB::table('problem')
+                ->join('group_problem_tag', 'problem.pid', '=', 'group_problem_tag.pid')
                 ->where([
                     'group_problem_tag.gid' => $gid,
                     'tag' => $tag
                 ])
-                ->select('group_problem_tag.pid as pid','pcode','title')
+                ->select('group_problem_tag.pid as pid', 'pcode', 'title')
                 ->get()->all();
         }
-        $all_problems = [];
+        $all_problems=[];
         foreach ($tag_problems as &$tag_problem_set) {
             foreach ($tag_problem_set as $problem) {
-                $all_problems[$problem['pid']] = $problem;
+                $all_problems[$problem['pid']]=$problem;
             }
-            $tag_problem_set = array_column($tag_problem_set,'pid');
+            $tag_problem_set=array_column($tag_problem_set, 'pid');
         }
-        $submission_data =  DB::table('submission')
-            ->whereIn('pid',array_keys($all_problems))
-            ->whereIn('uid',array_column($user_list,'uid'))
-            ->where('verdict','Accepted')
-            ->select('pid','uid')
+        $submission_data=DB::table('submission')
+            ->whereIn('pid', array_keys($all_problems))
+            ->whereIn('uid', array_column($user_list, 'uid'))
+            ->where('verdict', 'Accepted')
+            ->select('pid', 'uid')
             ->get()->all();
 
-        $memberData = [];
+        $memberData=[];
         foreach ($user_list as $member) {
-            $completion = [];
-            foreach($tag_problems as $tag => $problems) {
-                $completion[$tag] = [];
+            $completion=[];
+            foreach ($tag_problems as $tag => $problems) {
+                $completion[$tag]=[];
                 foreach ($problems as $problem) {
-                    $is_accepted = 0;
+                    $is_accepted=0;
                     foreach ($submission_data as $sd) {
-                        if($sd['pid'] == $problem && $sd['uid'] == $member['uid']){
-                            $is_accepted = 1;
+                        if ($sd['pid']==$problem && $sd['uid']==$member['uid']) {
+                            $is_accepted=1;
                             break;
                         }
                     }
-                    $completion[$tag][$problem] = $is_accepted;
+                    $completion[$tag][$problem]=$is_accepted;
                 }
             }
-            array_push($memberData,[
+            array_push($memberData, [
                 'uid' => $member['uid'],
                 'name' => $member['name'],
                 'nick_name' => $member['nick_name'],
                 'completion' => $completion,
             ]);
         }
-        $ret = [
+        $ret=[
             'all_problems' => $all_problems,
             'tag_problems' => $tag_problems,
             'member_data' => $memberData
@@ -539,10 +545,10 @@ class GroupModel extends Model
 
     public function refreshAllElo()
     {
-        $result = [];
-        $gids = DB::table('group')->select('gid','name')->get()->all();
+        $result=[];
+        $gids=DB::table('group')->select('gid', 'name')->get()->all();
         foreach ($gids as $gid) {
-            $result[$gid['gid']] = [
+            $result[$gid['gid']]=[
                 'name' => $gid['name'],
                 'result' => $this->refreshElo($gid['gid']),
             ];
@@ -553,41 +559,41 @@ class GroupModel extends Model
     public function refreshElo($gid)
     {
         DB::table('group_rated_change_log')
-            ->where('gid',$gid)
+            ->where('gid', $gid)
             ->delete();
         DB::table('group_member')
-            ->where('gid',$gid)
+            ->where('gid', $gid)
             ->update([
                 'ranking' => 1500
             ]);
-        $contests = DB::table('contest')
+        $contests=DB::table('contest')
             ->where([
                 'gid' => $gid,
                 'practice' => 1
             ])
-            ->where('end_time','<',date("Y-m-d H:i:s"))
-            ->select('cid','name')
+            ->where('end_time', '<', date("Y-m-d H:i:s"))
+            ->select('cid', 'name')
             ->orderBy('end_time')
             ->get()->all();
 
-        if(empty($contests)) {
+        if (empty($contests)) {
             return [];
         }
-        $result = [];
-        $contestModel = new ContestModel();
+        $result=[];
+        $contestModel=new ContestModel();
         foreach ($contests as $contest) {
-            $judge_status = $contestModel->judgeOver($contest['cid']);
-            if($judge_status['result'] == true){
-                $calc = new GroupRatingCalculator($contest['cid']);
+            $judge_status=$contestModel->judgeOver($contest['cid']);
+            if ($judge_status['result']==true) {
+                $calc=new GroupRatingCalculator($contest['cid']);
                 $calc->calculate();
                 $calc->storage();
-                $result[] = [
+                $result[]=[
                     'ret' => 'success',
                     'cid' => $contest['cid'],
                     'name' => $contest['name']
                 ];
-            }else{
-                $result[] = [
+            } else {
+                $result[]=[
                     'ret' => 'judging',
                     'cid' => $contest['cid'],
                     'name' => $contest['name'],
@@ -599,21 +605,21 @@ class GroupModel extends Model
         return $result;
     }
 
-    public function getEloChangeLog($gid,$uid)
+    public function getEloChangeLog($gid, $uid)
     {
-        $ret = DB::table('group_rated_change_log')
-            ->join('contest','group_rated_change_log.cid','=','contest.cid')
+        $ret=DB::table('group_rated_change_log')
+            ->join('contest', 'group_rated_change_log.cid', '=', 'contest.cid')
             ->where([
                 'group_rated_change_log.gid' => $gid,
                 'group_rated_change_log.uid' => $uid
             ])->select('group_rated_change_log.cid as cid', 'contest.name as name', 'ranking', 'end_time')
             ->orderBy('contest.end_time')
             ->get()->all();
-        $begin = [
+        $begin=[
             'cid' => -1,
             'name' => '',
             'ranking' => '1500',
-            'end_time' => date("Y-m-d H:i:s",(strtotime($ret[0]['end_time'] ?? time())  - 3600*24)),
+            'end_time' => date("Y-m-d H:i:s", (strtotime($ret[0]['end_time'] ?? time())-3600 * 24)),
         ];
         array_unshift($ret, $begin);
         return $ret;

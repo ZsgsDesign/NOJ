@@ -20,7 +20,7 @@ class ContestClarification extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\Eloquent\UserModel', 'uid');
+        return $this->belongsTo('App\Models\Eloquent\User', 'uid');
     }
 
     public function getPublicAttribute($value)
@@ -29,6 +29,6 @@ class ContestClarification extends Model
     }
 
     protected $fillable=[
-        'cid', 'type', 'title', 'content', 'public', 'uid'
+        'cid', 'type', 'title', 'content', 'reply', 'public', 'uid', 'remote_code'
     ];
 }

@@ -1,0 +1,10 @@
+{
+    "modifications":[{
+        "code":"pascal",
+        "compability":"pascal",
+        "language":"pascal",
+        "icon":"devicon-devicon-plain",
+        "display":"Free Pascal",
+        "method":"add"
+    }]
+}

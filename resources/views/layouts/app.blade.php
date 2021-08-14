@@ -14,7 +14,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" noj-theme="{{config('app.theme')}}">
 
 <head>
     <meta charset="UTF-8">
@@ -47,9 +47,9 @@
     <link rel="search" type="application/opensearchdescription+xml" title="{{config("app.name")}}" href="/opensearch.xml">
     <!-- Mobile Display Declarations -->
     <meta name="apple-touch-fullscreen" content="yes">
-    <meta name="theme-color" content="#3E4551">
+    <meta name="theme-color" content="{{ getTheme()['primaryColor'] }}">
     <!-- Desktop App Declarations -->
-    <meta name="msapplication-TileColor" content="#3E4551">
+    <meta name="msapplication-TileColor" content="{{ getTheme()['primaryColor'] }}">
     <!-- Third-Party Declarations -->
     <meta name="google-site-verification" content="{{ env("GOOGLE_SITE_VERIFICATION") }}" />
     <meta name="baidu-site-verification" content="{{ env("BAIDU_SITE_VERIFICATION") }}" />
@@ -167,7 +167,9 @@
     <link rel="stylesheet" href="/static/css/main.css?version={{version()}}">
     <link rel="stylesheet" href="/static/library/animate.css/animate.min.css">
     <link rel="stylesheet" href="/static/fonts/mdi-wxss/MDI.css">
-    <link rel="stylesheet" href="/static/fonts/devicon/devicon.css">
+    <link rel="stylesheet" href="/static/fonts/devicon/devicon.min.css?version=1.0.3">
+    <link rel="stylesheet" href="/static/fonts/langicon/langicon.css?version=1.0.2">
+    <link rel="stylesheet" href="/static/fonts/socialicon/socialicon.css?version=1.0.1">
     <!-- Background -->
     <div class="mundb-background-container">
         <img src="">
@@ -253,7 +255,7 @@
                     @endif
                     <li class="nav-item mundb-no-shrink />">
                         @guest
-                            <a class="nav-link @if ($navigation === "Account") active @endif" href="/account">{{__('navigation.account')}}</a>
+                            <a class="nav-link @if ($navigation === "Account") active @endif" href="/login">@if(config("function.register")){{__('navigation.account')}}@else {{__("Login")}} @endif</a>
                         @else
                             <li class="nav-item dropdown mundb-btn-ucenter">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{$greeting}}, <span id="nav-username" data-uid="{{Auth::user()->id}}">{{ Auth::user()["name"] }}</span></a>
@@ -266,14 +268,13 @@
                                     <a class="dropdown-item" href="/account/submissions"><i class="MDI airballoon"></i> Submissions</a>
                                     <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> Advanced Settings</a>
                                     -->
-                                    @if ("admin"===false)
-                                    <!--
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/admin"><i class="MDI view-dashboard"></i> Admin Tools</a>
-                                    -->
+                                    @if (Auth::user()->hasPermission(1))
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="{{route('admin.index')}}"><i class="MDI view-dashboard"></i> {{__('navigation.admin')}}</a>
                                     @endif
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/tool/pastebin/create"><i class="MDI content-paste"></i> {{__('navigation.pastebin')}}</a>
+                                    <a class="dropdown-item" href="/tool/imagehosting/create"><i class="MDI image-filter"></i> {{__('navigation.imagehosting')}}</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/system/info"><i class="MDI information-outline"></i> {{__('navigation.systeminfo')}}</a>
                                     <a class="dropdown-item" href="https://github.com/ZsgsDesign/NOJ/issues"><i class="MDI bug"></i> {{__('navigation.report')}}</a>
@@ -332,6 +333,7 @@
                         <p class="mb-1"><a href="/status">{{__('footer.queue')}}</a></p>
                         <p class="mb-1"><a href="/system/info">{{__('navigation.systeminfo')}}</a></p>
                         <p class="mb-1"><a href="/tool/pastebin/create">{{__('navigation.pastebin')}}</a></p>
+                        <p class="mb-1"><a href="/tool/imagehosting/create">{{__('navigation.imagehosting')}}</a></p>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">

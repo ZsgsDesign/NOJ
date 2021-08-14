@@ -17,78 +17,78 @@ class Message extends Model
      */
     public static function send($config)
     {
-        if(!empty($config['type'])){
-            if($config['type'] == 1) { //to a leader that member apply to join the group
-                $messages = Message::where([
+        if (!empty($config['type'])) {
+            if ($config['type']==1) { //to a leader that member apply to join the group
+                $messages=Message::where([
                     'receiver' => $config['receiver'],
                     'type'     => $config['type'],
                     'unread'   => 1
                 ])->get();
-                if(!empty($messages)) {
-                    foreach($messages as $message) {
-                        $data = json_decode($message->data,true);
-                        if($data['group']['gcode'] == $config['data']['group']['gcode']) {
-                            array_push($data['user'],$config['data']['user'][0]);
-                            $message->data = json_encode($data);
+                if (!empty($messages)) {
+                    foreach ($messages as $message) {
+                        $data=json_decode($message->data, true);
+                        if ($data['group']['gcode']==$config['data']['group']['gcode']) {
+                            array_push($data['user'], $config['data']['user'][0]);
+                            $message->data=json_encode($data);
                             $message->save();
                             return true;
                         }
                     }
                 }
-            }elseif ($config['type'] == 2) { //to a leader that member agree to join the group
-                $messages = Message::where([
+            } elseif ($config['type']==2) { //to a leader that member agree to join the group
+                $messages=Message::where([
                     'receiver' => $config['receiver'],
                     'type'     => $config['type'],
                     'unread'   => 1
                 ])->get();
-                if(!empty($messages)) {
-                    foreach($messages as $message) {
-                        $data = json_decode($message->data,true);
-                        if($data['group'] == $config['data']['group']) {
-                            array_push($data['user'],$config['data']['user'][0]);
-                            $message->data = json_encode($data);
+                if (!empty($messages)) {
+                    foreach ($messages as $message) {
+                        $data=json_decode($message->data, true);
+                        if ($data['group']==$config['data']['group']) {
+                            array_push($data['user'], $config['data']['user'][0]);
+                            $message->data=json_encode($data);
                             $message->save();
                             return true;
                         }
                     }
                 }
-            }elseif ($config['type'] == 3) { //to a person that solution was passed
-                $message = Message::where([
+            } elseif ($config['type']==3) { //to a person that solution was passed
+                $message=Message::where([
                     'receiver' => $config['receiver'],
                     'type'     => $config['type'],
                     'unread'   => 1
                 ])->first();
-                if(!empty($message)) {
-                    $data = json_decode($message->data,true);
-                    array_push($data,$config['data']);
-                    $message->data = json_encode($data);
+                if (!empty($message)) {
+                    $data=json_decode($message->data, true);
+                    array_push($data, $config['data']);
+                    $message->data=json_encode($data);
                     $message->save();
                     return true;
                 }
-            }elseif ($config['type'] == 4) { //to a person that solution was blocked
-                $message = Message::where([
+            } elseif ($config['type']==4) { //to a person that solution was blocked
+                $message=Message::where([
                     'receiver' => $config['receiver'],
                     'type'     => $config['type'],
                     'unread'   => 1
                 ])->first();
-                if(!empty($message)) {
-                    $data = json_decode($message->data,true);
-                    array_push($data,$config['data']);
-                    $message->data = json_encode($data);
+                if (!empty($message)) {
+                    $data=json_decode($message->data, true);
+                    array_push($data, $config['data']);
+                    $message->data=json_encode($data);
                     $message->save();
                     return true;
                 }
             }
         }
-        $message = new Message;
-        $message->sender = $config['sender'];
-        $message->receiver = $config['receiver'];
-        $message->title = $config['title'];
-        if(isset($config['data']) && isset($config['type'])){
-            $message->type = $config['type'] ?? null;
-            $message->data = json_encode($config['data']);
-        }else{
-            $message->content = $config['content'];
+        $message=new Message;
+        $message->sender=$config['sender'];
+        $message->receiver=$config['receiver'];
+        $message->title=$config['title'];
+        if (isset($config['data']) && isset($config['type'])) {
+            $message->type=$config['type'] ?? null;
+            $message->data=json_encode($config['data']);
+        } else {
+            $message->content=$config['content'];
         }
         /*
         if(isset($config['reply'])){
@@ -98,7 +98,7 @@ class Message extends Model
             $message->reply = $config['allow_reply'];
         }
         */
-        $message->official = 1;
+        $message->official=1;
         $message->save();
         return true;
     }
@@ -132,9 +132,9 @@ class Message extends Model
     {
 
         return static::with('sender_user')
-            ->where('receiver',$uid)
-            ->orderBy('unread','desc')
-            ->orderBy('updated_at','desc')
+            ->where('receiver', $uid)
+            ->orderBy('unread', 'desc')
+            ->orderBy('updated_at', 'desc')
             ->paginate(15);
     }
 
@@ -147,9 +147,9 @@ class Message extends Model
      */
     public static function read($mid)
     {
-        $message = static::with('sender_user')->find($mid);
-        if(!empty($message)){
-            $message->unread = 0;
+        $message=static::with('sender_user')->find($mid);
+        if (!empty($message)) {
+            $message->unread=0;
             $message->save();
         }
         return $message;
@@ -164,7 +164,7 @@ class Message extends Model
      */
     public static function allRead($uid)
     {
-        return static::where('receiver',$uid)
+        return static::where('receiver', $uid)
             ->update(['unread' => 0]);
     }
 
@@ -192,20 +192,20 @@ class Message extends Model
      */
     public static function remove($messages)
     {
-        $del_count = 0;
-        if(is_array($messages)){
+        $del_count=0;
+        if (is_array($messages)) {
             foreach ($messages as $mid) {
-                $message = static::find($mid);
-                if(!empty($message)){
+                $message=static::find($mid);
+                if (!empty($message)) {
                     $message->delete();
-                    $del_count ++;
+                    $del_count++;
                 }
             }
-        }else{
-            $message = static::find($messages);
-            if(!empty($message)){
+        } else {
+            $message=static::find($messages);
+            if (!empty($message)) {
                 $message->delete();
-                $del_count ++;
+                $del_count++;
             }
         }
         return $del_count;
@@ -213,36 +213,36 @@ class Message extends Model
 
     public function getContentAttribute($value)
     {
-        if(!empty($this->type)){
-            $data = json_decode($this->data,true);
-            $content = '';
-            if($this->type == 1) {
-                foreach($data['user'] as $user) {
-                    $content .= "[{$user['name']}]({$user['url']}), ";
+        if (!empty($this->type)) {
+            $data=json_decode($this->data, true);
+            $content='';
+            if ($this->type==1) {
+                foreach ($data['user'] as $user) {
+                    $content.="[{$user['name']}]({$user['url']}), ";
                 }
-                $content = substr($content,0,strlen($content)-2);
-                $content .= " want to join your group [{$data['group']['name']}]({$data['group']['url']})";
+                $content=substr($content, 0, strlen($content)-2);
+                $content.=" want to join your group [{$data['group']['name']}]({$data['group']['url']})";
                 return $content;
-            }elseif($this->type == 2) {
-                foreach($data['user'] as $user) {
-                    $content .= "[{$user['name']}]({$user['url']}), ";
+            } elseif ($this->type==2) {
+                foreach ($data['user'] as $user) {
+                    $content.="[{$user['name']}]({$user['url']}), ";
                 }
-                $content = substr($content,0,strlen($content)-2);
-                $content .= " have agreed to join your group [{$data['group']['name']}]({$data['group']['url']})";
+                $content=substr($content, 0, strlen($content)-2);
+                $content.=" have agreed to join your group [{$data['group']['name']}]({$data['group']['url']})";
                 return $content;
             } //todo
-        }else{
+        } else {
             return $value;
         }
     }
 
     public function sender_user()
     {
-        return $this->belongsTo('App\Models\Eloquent\UserModel','sender','id');
+        return $this->belongsTo('App\Models\Eloquent\User', 'sender', 'id');
     }
 
     public function receiver_user()
     {
-        return $this->belongsTo('App\Models\Eloquent\UserModel','receiver','id');
+        return $this->belongsTo('App\Models\Eloquent\User', 'receiver', 'id');
     }
 }

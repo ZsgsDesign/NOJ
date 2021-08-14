@@ -44,7 +44,7 @@ class VerificationController extends Controller
     {
         return $request->user()->hasVerifiedEmail()
                         ? redirect($this->redirectPath())
-                        : view('auth.verify',[
+                        : view('auth.verify', [
                             'page_title'=>"Verify Email",
                             'site_title'=>config("app.name"),
                             'navigation' => "Account"

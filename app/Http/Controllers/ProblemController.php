@@ -8,6 +8,7 @@ use App\Models\CompilerModel;
 use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Eloquent\Tool\MonacoTheme;
 use JavaScript;
 use Auth;
 
@@ -131,8 +132,10 @@ class ProblemController extends Controller
             ];
         }
 
-        $editor_left_width = $account->getExtra(Auth::user()->id, 'editor_left_width');
-        if(empty($editor_left_width)) $editor_left_width='40';
+        $accountExt=Auth::user()->getExtra(['editor_left_width', 'editor_theme']);
+        $editor_left_width=isset($accountExt['editor_left_width']) ? $accountExt['editor_left_width'] : '40';
+        $editor_theme=isset($accountExt['editor_theme']) ? $accountExt['editor_theme'] : 'vs-dark';
+        $themeConfig=MonacoTheme::getTheme($editor_theme);
 
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.editor', [
                                             'page_title'=>$prob_detail["title"],
@@ -146,10 +149,12 @@ class ProblemController extends Controller
                                             'contest_mode'=> false,
                                             'oj_detail'=>$oj_detail,
                                             'editor_left_width'=>$editor_left_width,
+                                            'theme_config'=>$themeConfig,
+                                            'editor_themes'=>MonacoTheme::getAll(),
                                         ]);
     }
 
-        /**
+    /**
      * Show the Problem Discussion Page.
      *
      * @return Response

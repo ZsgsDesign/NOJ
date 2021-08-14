@@ -47,8 +47,15 @@ class IndexController extends Controller
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
         $member_list=$groupModel->userList($basic_info["gid"]);
         $group_notice=$groupModel->groupNotice($basic_info["gid"]);
-        $contest_list=$contestModel->listByGroup($basic_info["gid"])['contest_list'];
-        $paginator=$contestModel->listByGroup($basic_info["gid"])['paginator'];
+        // PHP 7.4 Fix
+        $groupContest=$contestModel->listByGroup($basic_info["gid"]);
+        if (is_null($groupContest)) {
+            $contest_list=null;
+            $paginator=null;
+        } else {
+            $contest_list=$contestModel->listByGroup($basic_info["gid"])['contest_list'];
+            $paginator=$contestModel->listByGroup($basic_info["gid"])['paginator'];
+        }
         return view('group.detail', [
             'page_title'=>"Group Detail",
             'site_title'=>config("app.name"),
@@ -85,12 +92,14 @@ class IndexController extends Controller
      *
      * @return Response
      */
-    public function analysis($gcode){
-        $groupModel = new GroupModel();
+    public function analysis($gcode) {
+        $groupModel=new GroupModel();
         $basic_info=$groupModel->details($gcode);
         $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
-        if($clearance < 1) return Redirect::route('group.detail',['gcode' => $gcode]);
-        $group_info = $groupModel->details($gcode);
+        if ($clearance<1) {
+            return Redirect::route('group.detail', ['gcode' => $gcode]);
+        }
+        $group_info=$groupModel->details($gcode);
         return view('group.settings.analysis', [
             'page_title'=>"Group Analysis",
             'site_title'=>"NOJ",
@@ -100,13 +109,13 @@ class IndexController extends Controller
         ]);
     }
 
-    public function analysisDownload($gcode,Request $request){
-        $all_data = $request->all();
-        $groupModel = new GroupModel();
-        $group_info = $groupModel->details($gcode);
-        $mode = $all_data['mode'] ?? 'contest';
-        if($mode == 'contest'){
-            $data = $groupModel->groupMemberPracticeContestStat($group_info['gid']);
+    public function analysisDownload($gcode, Request $request) {
+        $all_data=$request->all();
+        $groupModel=new GroupModel();
+        $group_info=$groupModel->details($gcode);
+        $mode=$all_data['mode'] ?? 'contest';
+        if ($mode=='contest') {
+            $data=$groupModel->groupMemberPracticeContestStat($group_info['gid']);
             return Excel::download(
                 new GroupAnalysisExport(
                     [
@@ -119,10 +128,10 @@ class IndexController extends Controller
                         'percent' => $all_data['percent'] ?? false,
                     ]
                 ),
-                $gcode . '_Group_Contest_Analysis.xlsx'
+                $gcode.'_Group_Contest_Analysis.xlsx'
             );
-        }else{
-            $data = $groupModel->groupMemberPracticeTagStat($group_info['gid']);
+        } else {
+            $data=$groupModel->groupMemberPracticeTagStat($group_info['gid']);
             return Excel::download(
                 new GroupAnalysisExport(
                     [
@@ -135,7 +144,7 @@ class IndexController extends Controller
                         'percent' => $all_data['percent'] ?? false,
                     ]
                 ),
-                $gcode . '_Group_Tag_Analysis.xlsx'
+                $gcode.'_Group_Tag_Analysis.xlsx'
             );
         }
     }

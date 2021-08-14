@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" noj-theme="{{config('app.theme')}}">
 
 <head>
     <meta charset="UTF-8">
@@ -21,9 +21,9 @@
     <link rel="alternate icon" type="image/png" href="/favicon.png">
     <!-- Mobile Display Declarations -->
     <meta name="apple-touch-fullscreen" content="yes">
-    <meta name="theme-color" content="#3E4551">
+    <meta name="theme-color" content="{{ getTheme()['primaryColor'] }}">
     <!-- Desktop App Declarations -->
-    <meta name="msapplication-TileColor" content="#3E4551">
+    <meta name="msapplication-TileColor" content="{{ getTheme()['primaryColor'] }}">
     <!-- Loading Style -->
     <style>
         loading>div {
@@ -137,7 +137,9 @@
     <link rel="stylesheet" href="/static/css/main.css?version={{version()}}">
     <link rel="stylesheet" href="/static/library/animate.css/animate.min.css">
     <link rel="stylesheet" href="/static/fonts/mdi-wxss/MDI.css">
-    <link rel="stylesheet" href="/static/fonts/devicon/devicon.css">
+    <link rel="stylesheet" href="/static/fonts/devicon/devicon.min.css?version=1.0.3">
+    <link rel="stylesheet" href="/static/fonts/langicon/langicon.css?version=1.0.2">
+    <link rel="stylesheet" href="/static/fonts/socialicon/socialicon.css?version=1.0.1">
     <style>
         paper-card {
             display: block;
@@ -370,7 +372,7 @@
 
         left-side{
             overflow-y: scroll;
-            box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
+            /* box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px; */
             padding: 3rem;
             padding-top: 0;
         }
@@ -416,7 +418,7 @@
             box-shadow: inset rgba(0, 0, 0, 0.25) 0px 0px 15px;
         }
 
-        [class^="devicon-"], [class*=" devicon-"] {
+        [class^="devicon-"], [class*=" devicon-"], [class^="langicon-"], [class*=" langicon-"] {
             display:inline-block;
             transform: scale(1.3);
             padding-right:1rem;
@@ -425,6 +427,21 @@
 
         #cur_lang_selector > i{
             padding-right:0.25rem;
+        }
+
+        #cur_theme_selector{
+            color: var(--wemd-purple);
+            /* transform: scale(0.9); */
+        }
+
+        #cur_theme_selector > i{
+            padding-right:0.25rem;
+        }
+
+        .theme-selector > i{
+            display: inline-block;
+            transform: scale(1.3);
+            padding-right: 1rem;
         }
 
         .dropdown-item{
@@ -461,7 +478,8 @@
             background-color: rgba(0, 0, 0, 0.2);
         }
 
-        .dropdown-menu .dropdown-item.lang-selector{
+        .dropdown-menu .dropdown-item.lang-selector,
+        .dropdown-menu .dropdown-item.theme-selector{
             flex-wrap: nowrap;
         }
 
@@ -469,6 +487,7 @@
             height: auto;
             max-height: 61.8vh;
             overflow-x: hidden;
+            background: #fff;
         }
 
         .btn-group .dropdown-menu {
@@ -560,6 +579,7 @@
             border-bottom: dashed 1px currentColor;
             position: relative;
             top: -1px;
+            cursor: pointer;
         }
 
         @-webkit-keyframes cm-rotate{
@@ -690,7 +710,7 @@
 
                         @unless(blank($detail["parsed"]["description"]))
 
-                        <h2>{{__("problem.section.description")}}:</h2>
+                        <h2>{{__("problem.section.description")}}</h2>
 
                         {!!$detail["parsed"]["description"]!!}
 
@@ -698,7 +718,7 @@
 
                         @unless(blank($detail["parsed"]["input"]))
 
-                        <h2>{{__("problem.section.input")}}:</h2>
+                        <h2>{{__("problem.section.input")}}</h2>
 
                         {!!$detail["parsed"]["input"]!!}
 
@@ -706,7 +726,7 @@
 
                         @unless(blank($detail["parsed"]["output"]))
 
-                        <h2>{{__("problem.section.output")}}:</h2>
+                        <h2>{{__("problem.section.output")}}</h2>
 
                         {!!$detail["parsed"]["output"]!!}
 
@@ -715,13 +735,13 @@
                         @foreach($detail["samples"] as $ps)
 
                             @if (!is_null($ps['sample_input']) && $ps['sample_input'] !== '')
-                            <h2>{{__("problem.section.sampleinput")}}:</h2>
-                            <div class="cm-pre-wrapper"><pre id="input{{$loop->index}}">{!!$ps['sample_input']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#input{{$loop->index}}">{{__("problem.section.samplecopy")}}</button></div>
+                            <h2>{{__("problem.section.sample.input")}}</h2>
+                            <div class="cm-pre-wrapper"><pre id="input{{$loop->index}}">{!!$ps['sample_input']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#input{{$loop->index}}">{{__("problem.section.sample.copy")}}</button></div>
                             @endif
 
                             @if (!is_null($ps['sample_output']) && $ps['sample_output'] !== '')
-                            <h2>{{__("problem.section.sampleoutput")}}:</h2>
-                            <div class="cm-pre-wrapper"><pre id="output{{$loop->index}}">{!!$ps['sample_output']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#output{{$loop->index}}">{{__("problem.section.samplecopy")}}</button></div>
+                            <h2>{{__("problem.section.sample.output")}}</h2>
+                            <div class="cm-pre-wrapper"><pre id="output{{$loop->index}}">{!!$ps['sample_output']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#output{{$loop->index}}">{{__("problem.section.sample.copy")}}</button></div>
                             @endif
 
                             @unless (blank($ps['sample_note'])) {!!$ps['sample_note']!!} @endunless
@@ -730,7 +750,7 @@
 
                         @unless(blank($detail["parsed"]["note"]))
 
-                        <h2>{{__("problem.section.note")}}:</h2>
+                        <h2>{{__("problem.section.note")}}</h2>
 
                         {!!$detail["parsed"]["note"]!!}
 
@@ -747,15 +767,25 @@
             </slide-curtain>
             <middle-slider>
             </middle-slider>
-            <right-side style="background: rgb(30, 30, 30);">
+            <right-side style="background: {{$theme_config['background']}};">
                 <div id="vscode_container" class="notranslate" style="width:100%;height:100%;">
-                    <div id="vscode" style="width:100%;height:100%;"></div>
+                    <div id="monaco" style="width:100%;height:100%;"></div>
                 </div>
             </right-side>
         </top-side>
         <bottom-side>
-            <a tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="top" @if($status["verdict"]=="Compile Error") title="Compile Info" data-content="{{$status["compile_info"]}}"@endif style="color: #7a8e97" id="verdict_info" class="{{$status["color"]}}"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">{{$status["verdict"]}} @if($status["verdict"]=="Partially Accepted")({{round($status["score"]/$detail["tot_score"]*$detail["points"])}})@endif</span></a>
+            <a tabindex="0" @if($status["verdict"]=="Compile Error") title="Compile Info" data-content="{{$status["compile_info"]}}"@endif style="color: #7a8e97" id="verdict_info" class="{{$status["color"]}}"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">{{$status["verdict"]}} @if($status["verdict"]=="Partially Accepted")({{round($status["score"]/$detail["tot_score"]*$detail["points"])}})@endif</span></a>
             <div>
+                <div class="btn-group dropup">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_theme_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="MDI format-paint"></i> {{__('problem.editor.theme.title')}} {{$theme_config['name']}}
+                    </button>
+                    <div class="dropdown-menu cm-scrollable-menu">
+                        @foreach ($editor_themes as $et)
+                            <button class="dropdown-item theme-selector" data-themeid="{{$et['id']}}"><i class="MDI @if($et['id']==$theme_config['id']) checkbox-marked-circle wemd-purple-text @else checkbox-blank-circle-outline wemd-purple-text wemd-text-lighten-4 @endif"></i> {{$et['name']}}</button>
+                        @endforeach
+                    </div>
+                </div>
                 <button type="button" class="btn btn-secondary cm-active" id="problemBtn"> <i class="MDI book"></i></button>
                 <button type="button" class="btn btn-secondary cm-active" id="editorBtn"> <i class="MDI pencil"></i></button>
                 <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> {{__("problem.editor.history.button")}}</button>
@@ -853,17 +883,17 @@
         var clipboard = new ClipboardJS('.cm-copy-snippet');
 
         clipboard.on('success', function(e) {
-            $(e.trigger).text("Copied");
+            $(e.trigger).text("{{__("problem.section.sample.copied")}}");
             e.clearSelection();
             setTimeout(()=>{
-                $(e.trigger).text("Copy");
+                $(e.trigger).text("{{__("problem.section.sample.copy")}}");
             }, 2000);
         });
 
         clipboard.on('error', function(e) {
-            $(e.trigger).text("Failed");
+            $(e.trigger).text("{{__("problem.section.sample.failed")}}");
             setTimeout(()=>{
-                $(e.trigger).text("Copy");
+                $(e.trigger).text("{{__("problem.section.sample.copy")}}");
             }, 2000);
         });
     </script>
@@ -871,23 +901,26 @@
     <script src="/static/library/jquery/dist/jquery.min.js"></script>
     <script src="/static/library/popper.js/dist/umd/popper.min.js"></script>
     <script src="/static/library/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"></script>
-    <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-            tex2jax: {
-                inlineMath: [ ['$$$','$$$'], ["\\(","\\)"] ],
-                processEscapes: true
-            },
-            showMathMenu: false
-        });
-    </script>
-    <script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    @include("js.common.mathjax")
     @include('layouts.primaryJS')
     @include('js.submission.detail')
 
     @if(!$contest_mode)
     @include('components.congratulation')
     @endif
+
+    @component('js.common.vscode')
+        editor = monaco.editor.create(document.getElementById('monaco'), {
+                value: "{!!$submit_code!!}",
+                language: "@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['lang']}}@else{{'plaintext'}}@endif",
+                theme: "{{$theme_config['id']}}",
+                fontSize: 16,
+                formatOnPaste: true,
+                formatOnType: true,
+                automaticLayout: true
+            });
+        $("#vscode_container").css("opacity",1);
+    @endcomponent
 
     <script>
         var historyOpen=false;
@@ -929,7 +962,7 @@
             clearTimeout(saveWidthTimeout);
             saveWidthTimeout = setTimeout(function(){
                 $.ajax({
-                    url : '{{route("account_save_editor_width")}}',
+                    url : '{{route("ajax.account.save.editorwidth")}}',
                     type : 'POST',
                     data : {
                         editor_left_width : left_vw
@@ -976,6 +1009,12 @@
             adjustAppearance();
         });
 
+        $( "#verdict_info" ).click(function() {
+            if($("#verdict_text").hasClass('cm-popover-decoration')){
+                alert('<pre class="mb-0" style="white-space: pre-wrap;">'+hljs.highlight('accesslog',$("#verdict_info").attr('data-content')).value+'</pre>', $("#verdict_info").attr('title'),'bug',"true");
+            }
+        });
+
         function adjustAppearance(){
             if(problemEnable && editorEnable){
                 $("top-side").removeClass("editor-only");
@@ -996,6 +1035,26 @@
             chosen_coid=$( this ).data("coid");
         });
 
+        $( ".theme-selector" ).click(function() {
+            $('.theme-selector i').removeClass();
+            $('.theme-selector i').addClass('MDI checkbox-blank-circle-outline wemd-purple-text wemd-text-lighten-4');
+            $(this).children('i').removeClass();
+            $(this).children('i').addClass('MDI checkbox-marked-circle wemd-purple-text');
+            var themeid=$(this).data("themeid");
+            monaco.editor.setTheme(themeid);
+            $("#cur_theme_selector").html('<i class="MDI format-paint"></i> {{__('problem.editor.theme.title')}} '+$(this).text());
+            $.ajax({
+                url : '{{route("ajax.account.save.editortheme")}}',
+                type : 'POST',
+                data : {
+                    editor_theme : themeid
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        });
+
         $( "#historyBtn" ).click(function(){
             if(historyOpen) return;
             historyOpen=true;
@@ -1010,7 +1069,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if(ret.ret==200){
                         $("#history_container").html("");
                         ret.data.history.forEach(ele => {
@@ -1080,10 +1139,10 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if(ret.ret==200){
                         // submitted
-                        $("#verdict_info").popover('dispose');
+                        // $("#verdict_info").popover('dispose');
                         $("#verdict_text").text("Pending");
                         $("#verdict_text").removeClass("cm-popover-decoration");
                         $("#verdict_info").removeClass();
@@ -1099,13 +1158,13 @@
                                 headers: {
                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                 }, success: function(ret){
-                                    console.log(ret);
+                                    // console.log(ret);
                                     if(ret.ret==200){
                                         if(ret.data.verdict=="Compile Error"){
                                             $("#verdict_info").attr('title',"Compile Info");
                                             $("#verdict_info").attr('data-content',ret.data.compile_info);
                                             $("#verdict_text").addClass("cm-popover-decoration");
-                                            $("#verdict_info").popover();
+                                            // $("#verdict_info").popover();
                                         }
                                         if(ret.data.verdict=="Partially Accepted"){
                                             let real_score = Math.round(ret.data.score / tot_scores * tot_points);
@@ -1192,46 +1251,8 @@
 
             $(".pre-animated").addClass("fadeInLeft");
             @if($status["verdict"]=="Compile Error")$("#verdict_text").addClass("cm-popover-decoration");@endif
-            $("#verdict_info").popover();
+            // $("#verdict_info").popover();
 
-            require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});
-
-            // require.config({
-            //     'vs/nls' : {
-            //         availableLanguages: {
-            //             '*': '{{Str::lower(App::getLocale())}}'
-            //         }
-            //     }
-            // });
-
-            // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
-            // the default worker url location (used when creating WebWorkers). The problem here is that
-            // HTML5 does not allow cross-domain web workers, so we need to proxy the instantiation of
-            // a web worker through a same-domain script
-
-            window.MonacoEnvironment = {
-                getWorkerUrl: function(workerId, label) {
-                    return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
-                    self.MonacoEnvironment = {
-                        baseUrl: '{{env('APP_URL')}}/static/library/monaco-editor/min/'
-                    };
-                    importScripts('{{env('APP_URL')}}/static/library/monaco-editor/min/vs/base/worker/workerMain.js');`
-                    )}`;
-                }
-            };
-
-            require(["vs/editor/editor.main"], function () {
-                editor = monaco.editor.create(document.getElementById('vscode'), {
-                    value: "{!!$submit_code!!}",
-                    language: "@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['lang']}}@else{{'plaintext'}}@endif",
-                    theme: "vs-dark",
-                    fontSize: 16,
-                    formatOnPaste: true,
-                    formatOnType: true,
-                    automaticLayout: true
-                });
-                $("#vscode_container").css("opacity",1);
-            });
         }, false);
     </script>
 </body>

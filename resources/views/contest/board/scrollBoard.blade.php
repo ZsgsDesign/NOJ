@@ -35,11 +35,12 @@
         text-align: center;
         font-size:1.25rem;
         font-weight: bold;
-        transition: .2s ease-out .0s;
+        transition: .5s ease-out .0s;
+        line-height: 1;
     }
 
     .table tbody tr:hover{
-        background:rgba(0,0,0,0.05);
+        /* background:rgba(0,0,0,0.05); */
     }
 
     .table thead th.cm-problem-header{
@@ -125,15 +126,40 @@
     }
 
     tr.gold{
-        background: #fff9c0;
+        background: var(--wemd-yellow-lighten-3);
     }
 
     tr.silver{
-        background: #f6f6f6;
+        background: var(--wemd-blue-grey-lighten-4);
     }
 
     tr.bronze{
-        background: #eddccf;
+        background: var(--wemd-orange-lighten-4);
+    }
+
+    .table td, .table th{
+        border: none;
+    }
+
+    .table tbody tr{
+        position: relative;
+        height: 5rem;
+    }
+
+    .table tbody tr::after{
+        content: '';
+        top: 0;
+        left: 0;
+        right: 0;
+        position: absolute;
+        background: rgba(0,0,0,.06);
+        height: 1px;
+        display: block;
+    }
+
+    .table tbody tr td:last-of-type,
+    .table thead tr th:last-of-type {
+        display: none;
     }
 
     .col-account{
@@ -148,30 +174,28 @@
     }
 </style>
 <div class="container-fluid mundb-standard-container">
-    <paper-card>
-        <h5 data-cid="{{$basic_info['cid']}}">{{$basic_info['name']}}</h5>
-        <div class="table-responsive">
-            <div class="text-center">
-                <div style="display:inline-block; width:40vw;">
-                    <form>
-                        <div class="form-group">
-                            <label for="gold-num" style="font-size:0.75rem; top:1rem; left: 0" class="bmd-label-floating">Gold medal</label>
-                            <input type="integer" style="text-align:center" class="form-control" id="gold-num" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="silver-num" style="font-size:0.75rem; top:1rem; left: 0" class="bmd-label-floating">Silver medal</label>
-                            <input type="integer" style="text-align:center" class="form-control" id="silver-num" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="bronze-num" style="font-size:0.75rem; top:1rem; left: 0" class="bmd-label-floating">Bronze medal</label>
-                            <input type="integer" style="text-align:center" class="form-control" id="bronze-num" required>
-                        </div>
-                        <button type="button" id="medal-confirm" class="btn btn-primary">Confirm</button>
-                    </form>
+    <div class="container">
+        <paper-card>
+            <h5 data-cid="{{$basic_info['cid']}}">{{$basic_info['name']}}</h5>
+            <div>
+                <div class="form-group">
+                    <label for="gold-num" class="bmd-label-floating">{{__('contest.inside.admin.scrollboard.gold')}}</label>
+                    <input type="integer" name="gold-num" class="form-control" id="gold-num" required>
+                </div>
+                <div class="form-group">
+                    <label for="silver-num" class="bmd-label-floating">{{__('contest.inside.admin.scrollboard.silver')}}</label>
+                    <input type="integer" name="silver-num" class="form-control" id="silver-num" required>
+                </div>
+                <div class="form-group">
+                    <label for="bronze-num" class="bmd-label-floating">{{__('contest.inside.admin.scrollboard.bronze')}}</label>
+                    <input type="integer" name="bronze-num" class="form-control" id="bronze-num" required>
+                </div>
+                <div class="text-right">
+                    <button type="button" id="medal-confirm" class="btn btn-primary">{{__('contest.inside.admin.scrollboard.confirm')}}</button>
                 </div>
             </div>
-        </div>
-    </paper-card>
+        </paper-card>
+    </div>
 </div>
 <script>
     let ajaxing = false;
@@ -184,6 +208,7 @@
         ncodes : []
     };
     var board;
+    var boardRunningIntervalID=null;
 
     window.addEventListener("load",function() {
         $('#medal-confirm').on('click',function(){
@@ -208,15 +233,18 @@
                                 problems['map'][p['pid']] = p['ncode'];
                                 problems['ncodes'].push(p['ncode']);
                             }
-                            for (const m_key in result.data.members) {
-                                var member = result.data.members[m_key];
-                                members[member.uid] = new Member(member.uid, member.name, member.nick_name == null ? '' : member.nick_name);
-                            }
+                            problems['map'][-1] = 'HIDDEN';
+                            problems['ncodes'].push('HIDDEN');
+                            contest = result.data.contest;
                             for (const s_key in result.data.submissions) {
                                 var submission = result.data.submissions[s_key];
                                 submissions.push(new Submission(submission.sid, submission.uid, problems.map[submission.pid], submission.submission_date, submission.verdict));
                             }
-                            contest = result.data.contest;
+                            for (const m_key in result.data.members) {
+                                var member = result.data.members[m_key];
+                                members[member.uid] = new Member(member.uid, member.name, member.nick_name == null ? '' : member.nick_name);
+                                submissions.push(new Submission(-1, member.uid, problems.map[-1], Date.parse(contest.end_time)/1000, 'Place Holder'));
+                            }
                             board = new Board({
                                 selector : 'div.table-responsive',
                                 problemList : problems['ncodes'],
@@ -226,11 +254,38 @@
                                 submissions : submissions
                             })
 
+                            $('#nav-container').css('display','none');
+                            $('footer').css('display','none');
+                            $('.container-fluid').html(`<div class="table-responsive"></div>`).css('padding','0');
+
                             board.showInitBoard();
-                            $('html').keydown(function(e) {
-                                if (e.keyCode == 13) {
-                                    board.keydown();
-                                }
+                            if (!document.fullscreenElement) {
+                                document.documentElement.requestFullscreen();
+                            }
+                            confirm({
+                                backdrop : "static",
+                                content : "{!!__('contest.inside.admin.scrollboard.guide.content')!!}",
+                                title: "{{__('contest.inside.admin.scrollboard.guide.title')}}",
+                                icon: "wrap",
+                                noText : "{{__('contest.inside.admin.scrollboard.guide.no')}}",
+                                yesText : "{{__('contest.inside.admin.scrollboard.guide.yes')}}"
+                            },function(deny){
+                                $('html').keydown(function(e) {
+                                    if(e.keyCode == 13 && e.ctrlKey) {
+                                        if(boardRunningIntervalID===null){
+                                            boardRunningIntervalID = setInterval(function(){
+                                                board.keydown();
+                                            }, 500);
+                                        }
+                                        else {
+                                            clearInterval(boardRunningIntervalID);
+                                            boardRunningIntervalID=null;
+                                        }
+                                    }
+                                    else if (boardRunningIntervalID===null && e.keyCode == 13) {
+                                        board.keydown();
+                                    }
+                                });
                             });
                         }else{
                             alert(result.desc);
@@ -243,10 +298,10 @@
                                 alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
                                 break;
                             case 429:
-                                alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                                alert(`Request too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
                                 break;
                             default:
-                                alert("Server Connection Error");
+                                alert("{{__('errors.default')}}");
                         }
                         console.log('Ajax error while posting to ' + type);
                         ajaxing = false;
@@ -413,7 +468,7 @@
         //push submission into their owner
         for (const key in this.submissions) {
             var submission = this.submissions[key];
-            this.members[submission.uid].submissions.push(submission);
+            if(typeof this.members[submission.uid] !== "undefined") this.members[submission.uid].submissions.push(submission);
         }
 
         //init member object, push member id into sequence
@@ -508,7 +563,7 @@
                 if(mp != undefined){
                     if(mp.is_unkonwn){
                         $(`${this.selector} tbody tr#member-${member.uid}`).append(`
-                            <td class="col-problem"><span class="cm-unknown ncode-${mp.ncode}">${mp.tries} submit</span></td>
+                            <td class="col-problem"><span class="cm-unknown ncode-${mp.ncode}">${mp.tries} {{__('contest.inside.admin.scrollboard.submits')}}</span></td>
                         `);
                     }else{
                         $(`${this.selector} tbody tr#member-${member.uid}`).append(`
@@ -573,8 +628,9 @@
             var ncode = ret['ncode'];
             if (member) {
                 var toPos = this.updateMemberSequence();
-                this.updateMemberStatus(member,ncode);
-                if(toPos != -1){
+                var toPosCheck = (toPos != -1);
+                this.updateMemberStatus(member,ncode,toPosCheck);
+                if(toPosCheck){
                     this.moveMember(member,toPos);
                 }
             } else {
@@ -583,7 +639,7 @@
         }
     }
 
-    Board.prototype.updateMemberStatus = function(member,ncode) {
+    Board.prototype.updateMemberStatus = function(member,ncode,animateContinues) {
         var thisBoard = this;
         var uid = member.uid;
         var mp = member.submitProblemList[ncode];
@@ -604,8 +660,12 @@
         },500);
 
         setTimeout(function(){
-            var speed = 100;
-            $(`tr#member-${uid} .cm-unknown.ncode-${mp.ncode}`).fadeOut(speed).fadeIn(speed).fadeOut(speed).fadeIn(speed, function() {
+            var speed = 150;
+            var fadeInOut = function(element, times, speed){
+                if(times==0) return element;
+                return fadeInOut(element, times-1, speed).fadeOut(speed).fadeIn(speed);
+            };
+            fadeInOut($(`tr#member-${uid} .cm-unknown.ncode-${mp.ncode}`), 3, speed).fadeOut(speed).fadeIn(speed, function() {
                 //callback 2
                 $(`tr#member-${uid} .cm-unknown.ncode-${mp.ncode}`).html(newHTML);
                 $(`tr#member-${uid} .cm-unknown.ncode-${mp.ncode}`).addClass('wemd-green-text');
@@ -637,22 +697,22 @@
                 }
                 $(`tr#member-${uid} td.solved`).text(member.solved);
                 $(`tr#member-${uid} td.penalty`).text(Math.round(member.penalty));
-                thisBoard.noAnimate = true;
+                if(!animateContinues) thisBoard.noAnimate = true;
             });
-        },600)
+        },600);
     }
 
     Board.prototype.moveMember = function(member,toPos) {
         var thisBoard = this;
         setTimeout(function(){
-            $(`tr#member-${member.uid}`).fadeOut(400,function(){
+            $(`tr#member-${member.uid}`).fadeOut(1600,function(){
                 var trOffsetY = $(`tbody tr`).eq(toPos).offset().top - 400;
                 $('body,html').stop().animate({
                     scrollTop: trOffsetY
                 },500,function(){
                     setTimeout(function(){
                         $(`tbody tr`).eq(toPos).before($(`tr#member-${member.uid}`));
-                        $(`tr#member-${member.uid}`).fadeIn(400,function(){
+                        $(`tr#member-${member.uid}`).fadeIn(800,function(){
                             thisBoard.noAnimate = true;
                         });
                     },300);

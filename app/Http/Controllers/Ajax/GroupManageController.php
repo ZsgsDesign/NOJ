@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Ajax;
 use App\Models\ContestModel;
 use App\Models\GroupModel;
 use App\Models\ResponseModel;
-use App\Models\UserModel;
+use App\Models\Eloquent\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -36,7 +36,7 @@ class GroupManageController extends Controller
 
         $all_data=$request->all();
 
-        if(($all_data['public'] ?? 0) && ($all_data['practice'] ?? 0)){
+        if (($all_data['public'] ?? 0) && ($all_data['practice'] ?? 0)) {
             return ResponseModel::err(4007);
         }
 
@@ -67,7 +67,7 @@ class GroupManageController extends Controller
             return ResponseModel::err(1003);
         }
 
-        $cid = $contestModel->arrangeContest($all_data["gid"], [
+        $cid=$contestModel->arrangeContest($all_data["gid"], [
             "assign_uid"=>Auth::user()->id,
             "name"=>$all_data["name"],
             "description"=>$all_data["description"],
@@ -78,7 +78,7 @@ class GroupManageController extends Controller
             "public"=>$all_data["public"] ?? 0,
         ], $problemSet);
 
-        return ResponseModel::success(200,'Successful!',$cid);
+        return ResponseModel::success(200, 'Successful!', $cid);
     }
 
     public function changeGroupName(Request $request)
@@ -92,7 +92,7 @@ class GroupManageController extends Controller
 
         $groupModel=new GroupModel();
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
-        if ($clearance < 2){
+        if ($clearance<2) {
             return ResponseModel::err(2001);
         }
 
@@ -111,11 +111,11 @@ class GroupManageController extends Controller
 
         $groupModel=new GroupModel();
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
-        if ($clearance < 2){
+        if ($clearance<2) {
             return ResponseModel::err(2001);
         }
 
-        if ($all_data["join_policy"] < 1 || $all_data["join_policy"] > 3){
+        if ($all_data["join_policy"]<1 || $all_data["join_policy"]>3) {
             return ResponseModel::err(1007);
         }
 
@@ -129,7 +129,7 @@ class GroupManageController extends Controller
             'gid' => 'required|integer',
         ]);
 
-        $all_data = $request->all();
+        $all_data=$request->all();
 
         if (!empty($request->file('img')) && $request->file('img')->isValid()) {
             $extension=$request->file('img')->extension();
@@ -141,7 +141,7 @@ class GroupManageController extends Controller
 
         $groupModel=new GroupModel();
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
-        if ($clearance < 2){
+        if ($clearance<2) {
             return ResponseModel::err(2001);
         }
 
@@ -179,18 +179,18 @@ class GroupManageController extends Controller
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         $target_clearance=$groupModel->judgeClearance($all_data["gid"], $all_data['uid']);
 
-        if($target_clearance == -3){
+        if ($target_clearance==-3) {
             return ResponseModel::err(7004);
         }
 
-        if($target_clearance >= $clearance || $clearance < 2 || $all_data['permission'] >= $clearance){
+        if ($target_clearance>=$clearance || $clearance<2 || $all_data['permission']>=$clearance) {
             return ResponseModel::err(2001);
         }
 
         $groupModel->changeClearance($all_data['uid'], $all_data["gid"], $all_data['permission']);
 
-        $result_info = $groupModel->userProfile($all_data['uid'],$all_data["gid"]);
-        return ResponseModel::success(200,null,$result_info);
+        $result_info=$groupModel->userProfile($all_data['uid'], $all_data["gid"]);
+        return ResponseModel::success(200, null, $result_info);
     }
 
     public function approveMember(Request $request)
@@ -206,7 +206,7 @@ class GroupManageController extends Controller
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         $targetClearance=$groupModel->judgeClearance($all_data["gid"], $all_data["uid"]);
         if ($clearance>1) {
-            if($targetClearance!=0) {
+            if ($targetClearance!=0) {
                 return ResponseModel::err(7003);
             }
             $groupModel->changeClearance($all_data["uid"], $all_data["gid"], 1);
@@ -227,7 +227,7 @@ class GroupManageController extends Controller
         $groupModel=new GroupModel();
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         $targetClearance=$groupModel->judgeClearance($all_data["gid"], $all_data["uid"]);
-        if ($clearance <= 1 || $clearance <= $targetClearance){
+        if ($clearance<=1 || $clearance<=$targetClearance) {
             return ResponseModel::err(7002);
         }
 
@@ -247,16 +247,22 @@ class GroupManageController extends Controller
 
         $groupModel=new GroupModel();
         $is_user=$groupModel->isUser($all_data["email"]);
-        if(!$is_user) return ResponseModel::err(2006);
+        if (!$is_user) {
+            return ResponseModel::err(2006);
+        }
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
-        if($clearance<2) return ResponseModel::err(7002);
+        if ($clearance<2) {
+            return ResponseModel::err(7002);
+        }
         $targetClearance=$groupModel->judgeEmailClearance($all_data["gid"], $all_data["email"]);
-        if($targetClearance!=-3) return ResponseModel::err(7003);
+        if ($targetClearance!=-3) {
+            return ResponseModel::err(7003);
+        }
         $groupModel->inviteMember($all_data["gid"], $all_data["email"]);
-        $basic = $groupModel->basic($all_data['gid']);
-        $url = route('group.detail',['gcode' => $basic['gcode']]);
-        $receiverInfo = UserModel::where('email',$all_data['email'])->first();
-        $sender_name = Auth::user()->name;
+        $basic=$groupModel->basic($all_data['gid']);
+        $url=route('group.detail', ['gcode' => $basic['gcode']]);
+        $receiverInfo=User::where('email', $all_data['email'])->first();
+        $sender_name=Auth::user()->name;
         sendMessage([
             'receiver' => $receiverInfo["id"],
             'sender' => Auth::user()->id,
@@ -298,7 +304,7 @@ class GroupManageController extends Controller
 
         $groupModel=new GroupModel();
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
-        if ($clearance < 2){
+        if ($clearance<2) {
             return ResponseModel::err(2001);
         }
         $groupModel->createNotice($all_data["gid"], Auth::user()->id, $all_data["title"], $all_data["content"]);

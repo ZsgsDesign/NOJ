@@ -12,19 +12,19 @@ class GroupSearchModel extends Model
 
     public function search($key)
     {
-        $result = [];
+        $result=[];
         //group name or gcode find
-        if(strlen($key) >= 2){
-            $ret = self::where(function($query) use ($key){
-                $query->whereRaw('MATCH(`name`) AGAINST (? IN BOOLEAN MODE)',[$key])
+        if (strlen($key)>=2) {
+            $ret=self::where(function($query) use ($key){
+                $query->whereRaw('MATCH(`name`) AGAINST (? IN BOOLEAN MODE)', [$key])
                     ->orWhere('gcode', $key);
                 })
-                ->where('public',1)
-                ->select('gid','gcode', 'img', 'name', 'description')
+                ->where('public', 1)
+                ->select('gid', 'gcode', 'img', 'name', 'description')
                 ->limit(120)
                 ->get()->all();
-            if(!empty($ret)){
-                $result += $ret;
+            if (!empty($ret)) {
+                $result+=$ret;
             }
         }
 

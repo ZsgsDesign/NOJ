@@ -13,19 +13,19 @@ class BabelCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'babel';
+    protected $signature='babel';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'List all babel commands';
+    protected $description='List all babel commands';
 
     /**
      * @var string
      */
-    public static $logo = <<<LOGO
+    public static $logo=<<<LOGO
 
 ███╗   ██╗ ██████╗      ██╗    ██████╗  █████╗ ██████╗ ███████╗██╗
 ████╗  ██║██╔═══██╗     ██║    ██╔══██╗██╔══██╗██╔══██╗██╔════╝██║
@@ -42,7 +42,7 @@ LOGO;
     public function handle()
     {
         $this->line(static::$logo);
-        $this->line(sprintf('NOJ <comment>version</comment> <info>%s</info>',version()));
+        $this->line(sprintf('NOJ <comment>version</comment> <info>%s</info>', version()));
 
         $this->comment('');
         $this->comment('Available commands:');
@@ -57,7 +57,7 @@ LOGO;
      */
     protected function listBabelCommands()
     {
-        $commands = collect(Artisan::all())->mapWithKeys(function ($command, $key) {
+        $commands=collect(Artisan::all())->mapWithKeys(function($command, $key) {
             if (Str::startsWith($key, 'babel:')) {
                 return [$key => $command];
             }
@@ -65,7 +65,7 @@ LOGO;
             return [];
         })->toArray();
 
-        $width = $this->getColumnWidth($commands);
+        $width=$this->getColumnWidth($commands);
 
         /** @var Command $command */
         foreach ($commands as $command) {
@@ -80,16 +80,16 @@ LOGO;
      */
     private function getColumnWidth(array $commands)
     {
-        $widths = [];
+        $widths=[];
 
         foreach ($commands as $command) {
-            $widths[] = static::strlen($command->getName());
+            $widths[]=static::strlen($command->getName());
             foreach ($command->getAliases() as $alias) {
-                $widths[] = static::strlen($alias);
+                $widths[]=static::strlen($alias);
             }
         }
 
-        return $widths ? max($widths) + 2 : 0;
+        return $widths ? max($widths)+2 : 0;
     }
 
     /**
@@ -101,7 +101,7 @@ LOGO;
      */
     public static function strlen($string)
     {
-        if (false === $encoding = mb_detect_encoding($string, null, true)) {
+        if (false===$encoding=mb_detect_encoding($string, null, true)) {
             return strlen($string);
         }
 

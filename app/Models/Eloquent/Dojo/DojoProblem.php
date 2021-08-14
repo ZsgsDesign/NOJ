@@ -9,6 +9,10 @@ class DojoProblem extends Model
 {
     use SoftDeletes;
 
+    protected $fillable=[
+        'dojo_id', 'problem_id', 'order'
+    ];
+
     public function dojo()
     {
         return $this->belongsTo('App\Models\Eloquent\Dojo\Dojo', 'dojo_id');

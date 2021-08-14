@@ -14,13 +14,17 @@ return [
     "memorylimit"      => "内存限制",
     "download"         => "下载",
     "section" => [
-        "description"  => "描述",
-        "input"        => "输入",
-        "output"       => "输出",
-        "sampleinput"  => "样例输入",
-        "sampleoutput" => "样例输出",
-        "samplecopy"   => "复制",
-        "note"         => "注释",
+        "description"  => "描述：",
+        "input"        => "输入：",
+        "output"       => "输出：",
+        "sample" => [
+            "input"  => "样例输入：",
+            "output" => "样例输出：",
+            "copy"   => "复制",
+            "copied" => "已复制",
+            "failed" => "复制失败",
+        ],
+        "note"         => "注释：",
     ],
     "action" => [
         "loginsubmit"  => "登录并提交",
@@ -60,6 +64,9 @@ return [
             "submit"   => "提交中",
             "unable"   => "提交不可用",
             "original" => "原始题目",
+        ],
+        "theme" => [
+            "title"    => "当前主题：",
         ],
     ],
     "discussion" => [

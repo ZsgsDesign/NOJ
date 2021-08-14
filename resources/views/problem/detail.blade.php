@@ -293,7 +293,7 @@
 
                     @unless(blank($detail["parsed"]["description"]))
 
-                    <h2>{{__("problem.section.description")}}:</h2>
+                    <h2>{{__("problem.section.description")}}</h2>
 
                     {!!$detail["parsed"]["description"]!!}
 
@@ -301,7 +301,7 @@
 
                     @unless(blank($detail["parsed"]["input"]))
 
-                    <h2>{{__("problem.section.input")}}:</h2>
+                    <h2>{{__("problem.section.input")}}</h2>
 
                     {!!$detail["parsed"]["input"]!!}
 
@@ -309,7 +309,7 @@
 
                     @unless(blank($detail["parsed"]["output"]))
 
-                    <h2>{{__("problem.section.output")}}:</h2>
+                    <h2>{{__("problem.section.output")}}</h2>
 
                     {!!$detail["parsed"]["output"]!!}
 
@@ -318,12 +318,12 @@
                     @foreach($detail["samples"] as $ps)
 
                         @if (!is_null($ps['sample_input']) && $ps['sample_input'] !== '')
-                        <h2>{{__("problem.section.sampleinput")}}:</h2>
+                        <h2>{{__("problem.section.sample.input")}}</h2>
                         <pre>{!!$ps['sample_input']!!}</pre>
                         @endif
 
                         @if (!is_null($ps['sample_output']) && $ps['sample_output'] !== '')
-                        <h2>{{__("problem.section.sampleoutput")}}:</h2>
+                        <h2>{{__("problem.section.sample.output")}}</h2>
                         <pre>{!!$ps['sample_output']!!}</pre>
                         @endif
 
@@ -333,7 +333,7 @@
 
                     @unless(blank($detail["parsed"]["note"]))
 
-                    <h2>{{__("problem.section.note")}}:</h2>
+                    <h2>{{__("problem.section.note")}}</h2>
 
                     {!!$detail["parsed"]["note"]!!}
 
@@ -396,14 +396,5 @@
         location.href="/problem/{{$detail["pcode"]}}/discussion";
     },false)
 </script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ['$$$','$$$'], ["\\(","\\)"] ],
-            processEscapes: true
-        },
-        showMathMenu: false
-    });
-</script>
-<script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+@include("js.common.mathjax")
 @endsection

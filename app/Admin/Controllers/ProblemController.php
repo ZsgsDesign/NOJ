@@ -143,11 +143,11 @@ class ProblemController extends Controller
      *
      * @return Form
      */
-    protected function form($create = false)
+    protected function form($create=false)
     {
         $form=new Form(new EloquentProblemModel);
         $form->model()->makeVisible('password');
-        $form->tab('Basic', function(Form $form){
+        $form->tab('Basic', function(Form $form) {
             $form->text('pid')->readonly();
             $form->text('pcode')->rules('required');
             $form->text('title')->rules('required');
@@ -157,7 +157,7 @@ class ProblemController extends Controller
             $form->simplemde('input');
             $form->simplemde('output');
             $form->simplemde('note');
-            $form->hasMany('problemSamples', 'samples', function (Form\NestedForm $form) {
+            $form->hasMany('problemSamples', 'samples', function(Form\NestedForm $form) {
                 $form->textarea('sample_input', 'sample input')->rows(3);
                 $form->textarea('sample_output', 'sample output')->rows(3);
                 $form->textarea('sample_note', 'sample note')->rows(3);
@@ -167,10 +167,10 @@ class ProblemController extends Controller
                 $table->textarea('sample_output', 'sample output');
                 $table->textarea('sample_note', 'sample note');
             }); */
-            $ojs_temp = EloquentOJModel::select('oid', 'name')->get()->all();
-            $ojs = [];
-            foreach($ojs_temp as $v){
-                $ojs[$v->oid] = $v->name;
+            $ojs_temp=EloquentOJModel::select('oid', 'name')->get()->all();
+            $ojs=[];
+            foreach ($ojs_temp as $v) {
+                $ojs[$v->oid]=$v->name;
             }
             $form->select('oj', 'OJ')->options($ojs)->default(1)->rules('required');
             /* $form->display('update_date'); */
@@ -189,7 +189,7 @@ class ProblemController extends Controller
                     0 => 'NO',
                     1 => 'YES',
                 ])->default(0)->rules('required');
-            $form->clang('spj_src','SPJ Source Code');
+            $form->clang('spj_src', 'SPJ Source Code');
             $form->file('test_case')->rules('required');
             $form->ignore(['test_case']);
 
@@ -211,125 +211,128 @@ class ProblemController extends Controller
                 $tools->append('<a href="/'.config('admin.route.prefix').'/problems/import" class="btn btn-sm btn-success" style="margin-right:1rem"><i class="MDI file-powerpoint-box"></i>&nbsp;&nbsp;Import from file</a>');
             });
         } */
-        $form->saving(function (Form $form){
-            $err = function ($msg, $title = 'Test case file parse faild.') {
-                $error = new MessageBag([
+        $form->saving(function(Form $form) {
+            $err=function($msg, $title='Test case file parse faild.') {
+                $error=new MessageBag([
                     'title'   => $title,
                     'message' => $msg,
                 ]);
                 return back()->with(compact('error'));
             };
-            $pcode = $form->pcode;
-            $p = EloquentProblemModel::where('pcode',$pcode)->first();
+            $pcode=$form->pcode;
+            $p=EloquentProblemModel::where('pcode', $pcode)->first();
             //check pcode has been token.
-            $pid = $form->pid ?? null;
-            if(!empty($p) && $p->pid != $pid){
+            $pid=$form->pid ?? null;
+            if (!empty($p) && $p->pid!=$pid) {
                 $err('Pcode has been token', 'Error occur.');
             }
-            $test_case = \request()->file('test_case');
+            $test_case=\request()->file('test_case');
             //Make sure the user enters SPJ_SRc in spj problem.
-            if($form->spj && empty($form->spj_src)) {
+            if ($form->spj && empty($form->spj_src)) {
                 $err('The SPJ problem must provide spj_src', 'create problem error');
             }
             //check info file. Try to generate if it does not exist.
-            $info_content = [];
-            if(!empty($test_case)){
-                if($test_case->extension() != 'zip'){
+            $info_content=[];
+            if (!empty($test_case)) {
+                if ($test_case->extension()!='zip') {
                     $err('You must upload a zip file iuclude test case info and content.');
                 }
-                $path = $test_case->path();
-                $zip = new ZipArchive;
-                if($zip->open($path) !== true) {
+                $path=$test_case->path();
+                $zip=new ZipArchive;
+                if ($zip->open($path)!==true) {
                     $err('You must upload a zip file without encrypt and can open successfully.');
                 };
-                $info_content = [];
-                if(($zip->getFromName('info')) === false){
-                    if(!$form->spj){
-                        $info_content = [
+                $info_content=[];
+                if (($zip->getFromName('info'))===false) {
+                    if (!$form->spj) {
+                        $info_content=[
                             'spj' => false,
                             'test_cases' => []
                         ];
-                        $files = [];
-                        for ($i = 0; $i < $zip->numFiles; $i++) {
-                            $filename = $zip->getNameIndex($i);
-                            $files[] = $filename;
+                        $files=[];
+                        for ($i=0; $i<$zip->numFiles; $i++) {
+                            $filename=$zip->getNameIndex($i);
+                            $files[]=$filename;
                         }
-                        $files_in = array_filter($files, function ($filename) {
-                            return strpos('.in', $filename) != -1;
+                        $files_in=array_filter($files, function($filename) {
+                            return strpos('.in', $filename)!=-1;
                         });
                         sort($files_in);
-                        $testcase_index = 1;
-                        foreach($files_in as $filename_in){
-                            $filename = basename($filename_in, '.in');
-                            $filename_out = $filename.'.out';
-                            if(($zip->getFromName($filename_out)) === false) {
+                        $testcase_index=1;
+                        if (!count($files_in)) {
+                            $err('Cannot detect any .in file, please make sure they are placed under the root directory of the zip file.');
+                        }
+                        foreach ($files_in as $filename_in) {
+                            $filename=basename($filename_in, '.in');
+                            $filename_out=$filename.'.out';
+                            if (($zip->getFromName($filename_out))===false) {
                                 continue;
                             }
-                            $test_case_in = preg_replace('~(*BSR_ANYCRLF)\R~',"\n", $zip->getFromName($filename_in));
-                            $test_case_out = preg_replace('~(*BSR_ANYCRLF)\R~',"\n", $zip->getFromName($filename_out));
-                            $info_content['test_cases']["{$testcase_index}"] = [
+                            $test_case_in=preg_replace('~(*BSR_ANYCRLF)\R~', "\n", $zip->getFromName($filename_in));
+                            $test_case_out=preg_replace('~(*BSR_ANYCRLF)\R~', "\n", $zip->getFromName($filename_out));
+                            $info_content['test_cases']["{$testcase_index}"]=[
                                 'input_size' => strlen($test_case_in),
                                 'input_name' => $filename_in,
                                 'output_size' => strlen($test_case_out),
                                 'output_name' => $filename_out,
                                 'stripped_output_md5' => md5(utf8_encode(rtrim($test_case_out)))
                             ];
-                            $testcase_index += 1;
+                            $testcase_index+=1;
                         }
-                    }else{
-                        $info_content = [
+                    } else {
+                        $info_content=[
                             'spj' => true,
                             'test_cases' => []
                         ];
-                        $files = [];
-                        for ($i = 0; $i < $zip->numFiles; $i++) {
-                            $filename = $zip->getNameIndex($i);
-                            $files[] = $filename;
+                        $files=[];
+                        for ($i=0; $i<$zip->numFiles; $i++) {
+                            $filename=$zip->getNameIndex($i);
+                            $files[]=$filename;
                         }
-                        $files_in = array_filter($files, function ($filename) {
-                            return strpos($filename, '.in') !== false;
+                        $files_in=array_filter($files, function($filename) {
+                            return strpos($filename, '.in')!==false;
                         });
                         sort($files_in);
-                        $testcase_index = 1;
-                        foreach($files_in as $filename_in){
-                            $test_case_in = $zip->getFromName($filename_in);
-                            $info_content['test_cases']["{$testcase_index}"] = [
+                        $testcase_index=1;
+                        foreach ($files_in as $filename_in) {
+                            $test_case_in=$zip->getFromName($filename_in);
+                            $info_content['test_cases']["{$testcase_index}"]=[
                                 'input_size' => strlen($test_case_in),
                                 'input_name' => $filename_in
                             ];
-                            $testcase_index += 1;
+                            $testcase_index+=1;
                         }
                     }
                     $zip->addFromString('info', json_encode($info_content));
                     $zip->close();
                     //$err('The zip files must include a file named info including info of test cases, and the format can see ZsgsDesign/NOJ wiki.');
-                }else{
-                    $info_content = json_decode($zip->getFromName('info'),true);
+                } else {
+                    $info_content=json_decode($zip->getFromName('info'), true);
                 };
                 $zip->open($path);
                 //If there is an INFO file, check that the contents of the file match the actual situation
-                $test_cases = $info_content['test_cases'];
+                $test_cases=$info_content['test_cases'];
                 //dd($test_cases);
-                foreach($test_cases as $index => $case) {
-                    if(!isset($case['input_name']) || (!$form->spj && !isset($case['output_name']))) {
+                foreach ($test_cases as $index => $case) {
+                    if (!isset($case['input_name']) || (!$form->spj && !isset($case['output_name']))) {
                         $err("Test case index {$index}: configuration missing input/output files name.");
                     }
-                    if($zip->getFromName($case['input_name']) === false || (!$form->spj && $zip->getFromName($case['output_name']) === false)) {
+                    if ($zip->getFromName($case['input_name'])===false || (!$form->spj && $zip->getFromName($case['output_name'])===false)) {
                         $err("Test case index {$index}: missing input/output files that record in the configuration.");
                     }
                 }
-                if(!empty($form->pid)){
-                    $problem = EloquentProblemModel::find($form->pid);
-                    if(!empty($problem)){
-                        $pcode = $problem->pcode;
-                    }else{
-                        $pcode = $form->pcode;
+                if (!empty($form->pid)) {
+                    $problem=EloquentProblemModel::find($form->pid);
+                    if (!empty($problem)) {
+                        $pcode=$problem->pcode;
+                    } else {
+                        $pcode=$form->pcode;
                     }
-                }else{
-                    $pcode = $form->pcode;
+                } else {
+                    $pcode=$form->pcode;
                 }
 
-                if(Storage::exists(base_path().'/storage/test_case/'.$pcode)){
+                if (Storage::exists(base_path().'/storage/test_case/'.$pcode)) {
                     Storage::deleteDirectory(base_path().'/storage/test_case/'.$pcode);
                 }
                 Storage::makeDirectory(base_path().'/storage/test_case/'.$pcode);
@@ -337,19 +340,19 @@ class ProblemController extends Controller
 
             }
             //Set the spj-related data
-            if($form->spj){
-                $form->spj_lang = 'c';
-                $form->spj_version = "{$form->pcode}#".time();
+            if ($form->spj) {
+                $form->spj_lang='c';
+                $form->spj_version="{$form->pcode}#".time();
             }
             //Set default data
-            $form->tot_score = count($info_content['test_cases']);
-            $form->markdown = true;
-            $form->input_type = 'standard input';
-            $form->output_type = 'standard output';
-            $form->solved_count = 0;
-            $form->difficulty = -1;
-            $form->partial = 1;
-            $form->file = 0;
+            $form->tot_score=count($info_content['test_cases']);
+            $form->markdown=true;
+            $form->input_type='standard input';
+            $form->output_type='standard output';
+            $form->solved_count=0;
+            $form->difficulty=-1;
+            $form->partial=1;
+            $form->file=0;
         });
         return $form;
     }

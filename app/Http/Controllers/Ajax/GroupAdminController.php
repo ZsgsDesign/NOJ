@@ -48,11 +48,11 @@ class GroupAdminController extends Controller
 
         $groupModel=new GroupModel();
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
-        if ($clearance < 2) {
+        if ($clearance<2) {
             return ResponseModel::err(7002);
         }
-        $tags = $groupModel->problemTags($all_data['gid'],$all_data['pid']);
-        if(in_array($all_data['tag'],$tags)){
+        $tags=$groupModel->problemTags($all_data['gid'], $all_data['pid']);
+        if (in_array($all_data['tag'], $tags)) {
             return ResponseModel::err(7007);
         }
 
@@ -84,9 +84,9 @@ class GroupAdminController extends Controller
         $request->validate([
             'gid' => 'required|string',
         ]);
-        $gid = $request->input('gid');
+        $gid=$request->input('gid');
         $groupModel=new GroupModel();
-        if($groupModel->judgeClearance($gid,Auth::user()->id) < 2) {
+        if ($groupModel->judgeClearance($gid, Auth::user()->id)<2) {
             return ResponseModel::err(2001);
         }
         $groupModel->refreshElo($gid);

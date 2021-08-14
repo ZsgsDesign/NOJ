@@ -8,9 +8,9 @@ return [
     ],
 
     'street' => env("TERM_STREET", '9 Wenyuan Road'),
-    'city' => env("TERM_STREET", 'Nanjing'),
-    'province' => env("TERM_STREET", 'Jiangsu'),
-    'state' => env("TERM_STREET", 'China'),
+    'city' => env("TERM_CITY", 'Nanjing'),
+    'province' => env("TERM_PROVINCE", 'Jiangsu'),
+    'state' => env("TERM_STATE", 'China'),
     'zip' => env("TERM_ZIP", '221000'),
 
     'contact' => [

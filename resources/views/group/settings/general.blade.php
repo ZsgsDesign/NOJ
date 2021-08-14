@@ -262,7 +262,7 @@
                     ajaxing=false;
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                 }
             });
@@ -294,7 +294,7 @@
                     ajaxing=false;
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to joinGroup!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                 }
             });
@@ -353,7 +353,7 @@
                     ajaxing=false;
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to joinGroup!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                 }
             });
@@ -407,7 +407,7 @@
                         ajaxing=false;
                     }, error: function(xhr, type){
                         console.log('Ajax error while posting to joinGroup!');
-                        alert("Server Connection Error");
+                        alert("{{__('errors.default')}}");
                         ajaxing=false;
                     }
                 });
@@ -448,7 +448,7 @@
                     $("#joinGroup > i").addClass("d-none");
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to joinGroup!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                     $("#joinGroup > i").addClass("d-none");
                 }
@@ -470,7 +470,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if (ret.ret==200) {
                         location.reload();
                     } else {
@@ -480,7 +480,7 @@
                     $("#changeProfileBtn > i").addClass("d-none");
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to changeNickName!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                     $("#changeProfileBtn > i").addClass("d-none");
                 }

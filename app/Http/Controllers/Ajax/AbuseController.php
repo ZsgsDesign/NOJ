@@ -17,8 +17,8 @@ class AbuseController extends Controller
 {
     protected static $cause=[];
 
-    public static function findCause($causeDesc){
-        if(empty($cause)){
+    public static function findCause($causeDesc) {
+        if (empty($cause)) {
             self::$cause=array_flip(Abuse::$cause);
         }
         $causeID=Arr::get(self::$cause, $causeDesc, 0);
@@ -34,24 +34,24 @@ class AbuseController extends Controller
             "subject_id" => "required|integer"
         ]);
         $category2link=[
-            'group'=>function($id){
-                return route('group.detail',['gcode'=>Group::findOrFail($id)->gcode]);
+            'group'=>function($id) {
+                return route('group.detail', ['gcode'=>Group::findOrFail($id)->gcode]);
             },
-            'user'=>function($id){
-                return route('user.view',['uid' => $id]);
+            'user'=>function($id) {
+                return route('user.view', ['uid' => $id]);
             }
         ];
-        $supplement = $request->input('supplement');
-        $category = $request->input('category');
-        $subject_id = $request->input('subject_id');
+        $supplement=$request->input('supplement');
+        $category=$request->input('category');
+        $subject_id=$request->input('subject_id');
         try {
-            $link = $category2link[$category]($subject_id);
-        } catch(Throwable $e){
+            $link=$category2link[$category]($subject_id);
+        } catch (Throwable $e) {
             return ResponseModel::err(9001);
         }
-        $uid = Auth::user()->id;
-        [$causeID, $causeDesc] = self::findCause('General');
-        $abuseRecord = Abuse::create([
+        $uid=Auth::user()->id;
+        [$causeID, $causeDesc]=self::findCause('General');
+        $abuseRecord=Abuse::create([
             'title' => Str::title($category)." #$subject_id Abused - $causeDesc",
             'category' => array_search($category, Abuse::$supportCategory),
             'cause' => $causeID,

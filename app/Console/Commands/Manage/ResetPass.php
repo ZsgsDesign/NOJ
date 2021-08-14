@@ -4,9 +4,8 @@ namespace App\Console\Commands\Manage;
 
 use Illuminate\Console\Command;
 use Exception;
-use function GuzzleHttp\json_decode;
 use Symfony\Component\Console\Output\BufferedOutput;
-use App\Models\UserModel;
+use App\Models\Eloquent\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,14 +16,14 @@ class ResetPass extends Command
      *
      * @var string
      */
-    protected $signature = 'manage:resetpass {--uid=: the user you want to reset} {--digit=: the number of the password, should be larger than 8}';
+    protected $signature='manage:resetpass {--uid= : the user you want to reset} {--digit= : the number of the password, should be larger than 8}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Reset user passwords of NOJ';
+    protected $description='Reset user passwords of NOJ';
 
     /**
      * Create a new command instance.
@@ -45,7 +44,7 @@ class ResetPass extends Command
     {
         $uid=$this->option('uid');
         $digit=intval($this->option('digit'));
-        $userInfo=UserModel::find($uid);
+        $userInfo=User::find($uid);
         if (is_null($userInfo)) {
             $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>User Not Found</>\n");
             return;

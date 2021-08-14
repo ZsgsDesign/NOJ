@@ -4,7 +4,6 @@ namespace App\Console\Commands\Babel;
 
 use Illuminate\Console\Command;
 use Exception;
-use function GuzzleHttp\json_decode;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 class Install extends Command
@@ -14,14 +13,14 @@ class Install extends Command
      *
      * @var string
      */
-    protected $signature = 'babel:install {extension : The package name of the extension} {--ignore-platform-reqs : Ignore the Platform Requirements when install}';
+    protected $signature='babel:install {extension : The package name of the extension} {--ignore-platform-reqs : Ignore the Platform Requirements when install}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Install a given Babel Extension to NOJ';
+    protected $description='Install a given Babel Extension to NOJ';
 
     /**
      * Create a new command instance.
@@ -40,16 +39,19 @@ class Install extends Command
      */
     public function handle()
     {
-        $extension = $this->argument('extension');
-        $ignoreReqs = $this->option('ignore-platform-reqs');
-        $output = new BufferedOutput();
+        $extension=$this->argument('extension');
+        $ignoreReqs=$this->option('ignore-platform-reqs');
+        $output=new BufferedOutput();
         $installerProvider="Installer";
         try {
             $BabelConfig=json_decode(file_get_contents(babel_path("Extension/$extension/babel.json")), true);
         } catch (Exception $e) {
             $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>babel.json parse error, The extension may not exist.</>\n");
             if ($this->confirm("Would you like to download it from the marketspace first?")) {
-                $this->call("babel:require", ['extension' => $extension]);
+                $this->call("babel:require", [
+                    'extension' => $extension,
+                    '--ignore-platform-reqs' => $ignoreReqs,
+                ]);
                 $output->fetch();
             }
             return;
@@ -69,7 +71,7 @@ class Install extends Command
 
     public static function create($oj, $installerProvider, $class)
     {
-        $className = "App\\Babel\\Extension\\$oj\\$installerProvider";
+        $className="App\\Babel\\Extension\\$oj\\$installerProvider";
         if (class_exists($className)) {
             return new $className($class);
         } else {

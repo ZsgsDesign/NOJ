@@ -56,7 +56,7 @@ class Judger extends Curl
         } catch (ErrorException $e) {
         } catch (Exception $e) {
         }
-        $className = "App\\Babel\\Extension\\$name\\$judgerProvider";
+        $className="App\\Babel\\Extension\\$name\\$judgerProvider";
         if (class_exists($className)) {
             return new $className();
         } else {

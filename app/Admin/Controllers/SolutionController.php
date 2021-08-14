@@ -2,8 +2,9 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\ProblemModel;
-use App\Models\Eloquent\SolutionModel as EloquentSolutionModel;
+use App\Models\Eloquent\Solution;
+use App\Models\Eloquent\Problem;
+use App\Models\Eloquent\User;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -80,7 +81,7 @@ class SolutionController extends Controller
      */
     protected function grid()
     {
-        $grid=new Grid(new EloquentSolutionModel);
+        $grid=new Grid(new Solution);
         $grid->psoid("ID")->sortable();
         $grid->uid("Uid")->editable();
         $grid->pid("Pid")->editable();
@@ -113,7 +114,7 @@ class SolutionController extends Controller
      */
     protected function detail($id)
     {
-        $show=new Show(EloquentSolutionModel::findOrFail($id));
+        $show=new Show(Solution::findOrFail($id));
         return $show;
     }
 
@@ -124,25 +125,21 @@ class SolutionController extends Controller
      */
     protected function form()
     {
-        $form=new Form(new EloquentSolutionModel);
+        $form=new Form(new Solution);
         $form->model()->makeVisible('password');
         $form->tab('Basic', function(Form $form) {
             $form->display("psoid");
-            $form->text("uid")->rules('required');
-            $form->text("pid")->rules('required');
-            $form->text("content")->rules('required');
-            $form->text("audit")->rules('required');
-            $form->text("votes")->rules('required');
+            $form->select('uid', 'Author')->options(User::all()->pluck('name', 'id'))->required();
+            $form->select('pid', 'Problem')->options(Problem::all()->pluck('readable_name', 'pid'))->required();
+            $form->simplemde("content")->rules('required');
+            $form->select("audit")->options([
+                '0'   => 'Waiting',
+                '1'   => 'Accepted',
+                '2'   => 'Declined',
+            ])->default(1)->required();
+            $form->number("votes")->rules('required');
             $form->display("created_at");
             $form->display("updated_at");
-            $form->select('partial', 'Partial Score')->options([
-                0  => "No",
-                1 => "Yes"
-            ])->rules('required');
-            $form->select('markdown', 'Markdown Support')->options([
-                0  => "No",
-                1 => "Yes"
-            ])->rules('required');
         });
         return $form;
     }

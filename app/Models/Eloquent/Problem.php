@@ -11,23 +11,26 @@ class Problem extends Model
 {
     protected $table='problem';
     protected $primaryKey='pid';
-    const DELETED_AT=null;
     const UPDATED_AT="update_date";
-    const CREATED_AT=null;
+
+    public function getReadableNameAttribute()
+    {
+        return $this->pcode.'. '.$this->title;
+    }
 
     public function submissions()
     {
-        return $this->hasMany('App\Models\Eloquent\Submission','pid','pid');
+        return $this->hasMany('App\Models\Eloquent\Submission', 'pid', 'pid');
     }
 
     public function problemSamples()
     {
-        return $this->hasMany('App\Models\Eloquent\ProblemSample','pid','pid');
+        return $this->hasMany('App\Models\Eloquent\ProblemSample', 'pid', 'pid');
     }
 
     public function getProblemStatusAttribute()
     {
-        if(Auth::check()){
+        if (Auth::check()) {
             $prob_status=(new OutdatedSubmissionModel())->getProblemStatus($this->pid, Auth::user()->id);
             if (empty($prob_status)) {
                 return [

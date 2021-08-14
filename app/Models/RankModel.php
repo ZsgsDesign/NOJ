@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use App\Models\Rating\RatingCalculator;
-use Cache,Redis;
+use Cache, Redis;
 
 class RankModel extends Model
 {
@@ -65,28 +65,34 @@ class RankModel extends Model
 
     public static function getColor($rankTitle)
     {
-        if(is_null($rankTitle)) return "";
+        if (is_null($rankTitle)) {
+            return "";
+        }
         return self::$casualRanking[$rankTitle];
     }
 
     public static function getProfessionalColor($rankTitle)
     {
-        if(is_null($rankTitle)) return self::$professionalRanking["None"];
+        if (is_null($rankTitle)) {
+            return self::$professionalRanking["None"];
+        }
         return self::$professionalRanking[$rankTitle];
     }
 
     public function list($num)
     {
         $rankList=Cache::tags(['rank'])->get('general');
-        if($rankList==null) $rankList=[];
-        $rankList=array_slice($rankList,0,$num);
-        $userInfoRaw=DB::table("users")->select("id as uid","avatar","name")->get()->all();
+        if ($rankList==null) {
+            $rankList=[];
+        }
+        $rankList=array_slice($rankList, 0, $num);
+        $userInfoRaw=DB::table("users")->select("id as uid", "avatar", "name")->get()->all();
         $userInfo=[];
-        foreach($userInfoRaw as $u){
+        foreach ($userInfoRaw as $u) {
             $userInfo[$u["uid"]]=$u;
         }
-        foreach($rankList as &$r){
-            $r["details"]=isset($userInfo[$r["uid"]])?$userInfo[$r["uid"]]:[];
+        foreach ($rankList as &$r) {
+            $r["details"]=isset($userInfo[$r["uid"]]) ? $userInfo[$r["uid"]] : [];
         }
         // var_dump($rankList); exit();
         return $rankList;
@@ -109,8 +115,8 @@ class RankModel extends Model
                     $rankSolved=$rankItem["totValue"];
                 }
                 $rankTitle=$this->getRankTitle($rankValue);
-                Cache::tags(['rank',$rankItem["uid"]])->put("rank", $rankValue, 86400);
-                Cache::tags(['rank',$rankItem["uid"]])->put("title", $rankTitle, 86400);
+                Cache::tags(['rank', $rankItem["uid"]])->put("rank", $rankValue, 86400);
+                Cache::tags(['rank', $rankItem["uid"]])->put("title", $rankTitle, 86400);
                 $rankListCached[]=[
                     "uid"=>$rankItem["uid"],
                     "rank"=>$rankValue,
@@ -127,14 +133,14 @@ class RankModel extends Model
 
     public function getProfessionalRanking()
     {
-        $professionalRankList = [];
-        $verifiedUsers = DB::table("users")->select("professional_rate","id as uid","avatar","name")->get()->all();
-        $rankIter = 0;
-        foreach($verifiedUsers as $user) {
-            $rankVal = $user['professional_rate'];
-            $rankTitle = self::getProfessionalTitle($rankVal);
-            $titleColor = self::getProfessionalColor($rankTitle);
-            $professionalRankList[$rankIter++] = [
+        $professionalRankList=[];
+        $verifiedUsers=DB::table("users")->select("professional_rate", "id as uid", "avatar", "name")->get()->all();
+        $rankIter=0;
+        foreach ($verifiedUsers as $user) {
+            $rankVal=$user['professional_rate'];
+            $rankTitle=self::getProfessionalTitle($rankVal);
+            $titleColor=self::getProfessionalColor($rankTitle);
+            $professionalRankList[$rankIter++]=[
                 "name"=>$user["name"],
                 "uid"=>$user["uid"],
                 "avatar"=>$user["avatar"],
@@ -156,7 +162,7 @@ class RankModel extends Model
                 $tot+=$c;
             }
             foreach ($this->casualRankingPer as &$c) {
-                $c=round($c*$totUsers/$tot);
+                $c=round($c * $totUsers / $tot);
                 $cur+=$c;
                 $c=$cur;
             }
@@ -167,16 +173,20 @@ class RankModel extends Model
 
     public function getRankTitle($rankVal)
     {
-        foreach($this->casualRankingPer as $title=>$c){
-            if($rankVal<=$c) return $title;
+        foreach ($this->casualRankingPer as $title=>$c) {
+            if ($rankVal<=$c) {
+                return $title;
+            }
         }
         return Arr::last($this->casualRankingPer);
     }
 
     public static function getProfessionalTitle($rankVal)
     {
-        foreach(self::$professionalRankingPer as $title=>$point) {
-            if($rankVal >= $point) return $title;
+        foreach (self::$professionalRankingPer as $title=>$point) {
+            if ($rankVal>=$point) {
+                return $title;
+            }
         }
         return Arr::last(self::$professionalRankingPer);
     }

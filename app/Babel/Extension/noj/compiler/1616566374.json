@@ -1,0 +1,10 @@
+{
+    "modifications":[{
+        "code":"basic",
+        "compability":"basic",
+        "language":"vb",
+        "icon":"langicon-basic",
+        "display":"Free Basic",
+        "method":"add"
+    }]
+}

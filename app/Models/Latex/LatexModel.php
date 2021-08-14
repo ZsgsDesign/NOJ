@@ -9,12 +9,14 @@ class LatexModel extends Model
 {
     public static function info($ltxsource, $type="png")
     {
-        if(!in_array($type,['png','svg'])) return [];
+        if (!in_array($type, ['png', 'svg'])) {
+            return [];
+        }
         $url=route("latex.$type", ['ltxsource' => $ltxsource]);
-        $image = new Imagick();
+        $image=new Imagick();
         $image->readImageBlob(Storage::get('latex-svg/'.urlencode($ltxsource).'.svg'));
-        $width = $image->getImageWidth();
-        $height = $image->getImageHeight();
-        return [$url,$width/5,$height/5];
+        $width=$image->getImageWidth();
+        $height=$image->getImageHeight();
+        return [$url, $width / 5, $height / 5];
     }
 }

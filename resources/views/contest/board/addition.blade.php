@@ -14,7 +14,7 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }, success: function(ret){
-                        console.log(ret);
+                        // console.log(ret);
                         if(ret.ret==200){
                             if(ret.data){
                                 var clarification_ed = localStorage.clarification_ed == null ? [] : JSON.parse(localStorage.clarification_ed);

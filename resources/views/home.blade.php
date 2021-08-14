@@ -112,7 +112,7 @@
                     <inline-div>{{__('homepage.version')}}</inline-div><inline-div>{{version()}}</inline-div>
                 </version-badge>
             </div>
-            @unless(empty($carousel))
+            @unless(blank($carousel))
                 <div id="NOJFocusCarousel" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         @foreach ($carousel as $c)
@@ -122,7 +122,7 @@
                     <div class="carousel-inner">
                         @foreach ($carousel as $c)
                             <div class="carousel-item @unless($loop->index) active @endunless">
-                                <a href="{{$c["url"]}}" target="_blank"><img class="d-block w-100" src="{{$c["image"]}}" alt="{{$c["title"]}}"></a>
+                                <a href="{{$c->url}}" target="_blank"><img class="d-block w-100" src="{{$c->image}}" alt="{{$c->title}}"></a>
                             </div>
                         @endforeach
                     </div>
@@ -150,17 +150,17 @@
         <div class="col-sm-12 col-lg-4">
             <p class="cm-anno"><i class="MDI newspaper"></i> {{__('homepage.announcements.title')}}</p>
             <div>
-                @unless(empty($announcements))
+                @unless(blank($announcements))
                     @foreach($announcements as $announcement)
                         <timeline-container>
                             <timeline-item data-type="notice">
                                 <div>
-                                    <div>{{$announcement["name"]}} <span class="wemd-green-text">&rtrif; {{$announcement["post_date_parsed"]}}</span></div>
-                                    <div><img src="{{$announcement["avatar"]}}" class="cm-avatar"></div>
+                                    <div>{{$announcement->user->name}} <span class="wemd-green-text">&rtrif; {{$announcement->post_date_parsed}}</span></div>
+                                    <div><img src="{{$announcement->user->avatar}}" class="cm-avatar"></div>
                                 </div>
                                 <div>
-                                    <h5>{{$announcement["title"]}}</h5>
-                                    <p>{!!$announcement["content_parsed"]!!}</p>
+                                    <h5>{{$announcement->title}}</h5>
+                                    <p>{!!$announcement->content_parsed!!}</p>
                                 </div>
                             </timeline-item>
                         </timeline-container>

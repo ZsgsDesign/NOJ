@@ -40,6 +40,7 @@
         overflow-x: hidden;
         width: 100%;
         max-width:16rem;
+        background: #fff;
     }
 
     user-section{
@@ -106,32 +107,9 @@
 @endsection
 
 @section('additionJS')
-    <script src="/static/library/monaco-editor/min/vs/loader.js"></script>
-    <script>
-        require.config({ paths: { 'vs': '{{env('APP_URL')}}/static/library/monaco-editor/min/vs' }});
+    @component('js.common.vscode')
+        monaco.editor.colorizeElement(document.getElementById("pb_content"));
+    @endcomponent
 
-        require.config({
-            'vs/nls' : {
-                availableLanguages: {
-                    '*': '{{Str::lower(App::getLocale())}}'
-                }
-            }
-        });
-
-        window.MonacoEnvironment = {
-            getWorkerUrl: function(workerId, label) {
-                return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
-                self.MonacoEnvironment = {
-                    baseUrl: '{{env('APP_URL')}}/static/library/monaco-editor/min/'
-                };
-                importScripts('{{env('APP_URL')}}/static/library/monaco-editor/min/vs/base/worker/workerMain.js');`
-                )}`;
-            }
-        };
-
-        require(["vs/editor/editor.main"], function () {
-            monaco.editor.colorizeElement(document.getElementById("pb_content"));
-        });
-    </script>
 @endsection
 

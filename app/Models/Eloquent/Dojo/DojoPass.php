@@ -21,14 +21,14 @@ class DojoPass extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\Eloquent\UserModel', 'user_id');
+        return $this->belongsTo('App\Models\Eloquent\User', 'user_id');
     }
 
     public static function isPassed($dojo_id)
     {
-        return Auth::check()?self::where([
+        return Auth::check() ?self::where([
             "dojo_id"=>$dojo_id,
             "user_id"=>Auth::user()->id,
-        ])->count()>0:false;
+        ])->count()>0 : false;
     }
 }

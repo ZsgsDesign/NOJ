@@ -6,6 +6,7 @@ use App\Babel\Crawl\Crawler;
 use App\Babel\Judge\Judger;
 use App\Babel\Synchronize\Synchronizer;
 use App\Babel\Monit\Monitor;
+use App\Babel\TestRun\TestRunner;
 
 class Babel
 {
@@ -32,5 +33,10 @@ class Babel
     public function monitor($conf)
     {
         return new Monitor($conf);
+    }
+
+    public function testrun($conf)
+    {
+        return new TestRunner($conf);
     }
 }

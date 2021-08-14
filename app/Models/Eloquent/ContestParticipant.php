@@ -8,17 +8,14 @@ class ContestParticipant extends Model
 {
     protected $table='contest_participant';
     protected $primaryKey='cpid';
-    const DELETED_AT=null;
-    const UPDATED_AT=null;
-    const CREATED_AT=null;
 
     public function user()
     {
-        return $this->belongsTo('App\Models\Eloquent\UserModel', 'uid');
+        return $this->belongsTo('App\Models\Eloquent\User', 'uid');
     }
 
     public function contest()
     {
-        return $this->belongsTo('App\Models\Eloquent\Contest','cid','cid');
+        return $this->belongsTo('App\Models\Eloquent\Contest', 'cid', 'cid');
     }
 }

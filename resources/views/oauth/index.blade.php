@@ -22,7 +22,7 @@
 </style>
 <div class="container mundb-standard-container">
     <div class="paper-card">
-        <p>Socialite Account | {{ $platform }}</p>
+        <p>{{__("oauth.title.plain")}} | {{ $platform }}</p>
         <div class="text-center">
             <p style="padding: 1rem 0">
                 @if(!empty($display_html))
@@ -45,7 +45,6 @@
     window.addEventListener("load",function() {
 
     }, false);
-
 </script>
 
 @endsection

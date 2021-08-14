@@ -105,6 +105,10 @@ class SubmissionModel extends Model
             "aliases" => ["Handlebars", "handlebars"],
             "mimetypes" => ["text/x-handlebars-template"]
         ], [
+            "id" => "haskell",
+            "extensions" => [".hs"],
+            "aliases" => ["Haskell", "haskell"]
+        ], [
             "id" => "html",
             "extensions" => [".html", ".htm", ".shtml", ".xhtml", ".mdoc", ".jsp", ".asp", ".aspx", ".jshtm"],
             "aliases" => ["HTML", "htm", "html", "xhtml"],
@@ -371,7 +375,7 @@ class SubmissionModel extends Model
                                             ->where(['verdict'=>'Waiting'])
                                             ->get()
                                             ->all();
-        foreach($ret as &$r){
+        foreach ($ret as &$r) {
             $r["ocode"]=DB::table("oj")->where(["oid"=>$r["oid"]])->first()["ocode"];
         }
         return $ret;
@@ -389,14 +393,14 @@ class SubmissionModel extends Model
         if (isset($sub['verdict'])) {
             $sub["color"]=$this->colorScheme[$sub['verdict']];
         }
-        $result = DB::table($this->tableName)->where(['sid'=>$sid])->update($sub);
-        $contestModel = new ContestModel();
-        $submission_info = DB::table($this->tableName) -> where(['sid'=>$sid]) -> get() -> first();
-        if ($result==1 && $submission_info['cid'] && $contestModel->isContestRunning($submission_info['cid'])){
-            $sub['pid'] = $submission_info['pid'];
-            $sub['uid'] = $submission_info['uid'];
-            $sub['cid'] = $submission_info['cid'];
-            $sub['sid'] = $sid;
+        $result=DB::table($this->tableName)->where(['sid'=>$sid])->update($sub);
+        $contestModel=new ContestModel();
+        $submission_info=DB::table($this->tableName) -> where(['sid'=>$sid]) -> get() -> first();
+        if ($result==1 && $submission_info['cid'] && $contestModel->isContestRunning($submission_info['cid'])) {
+            $sub['pid']=$submission_info['pid'];
+            $sub['uid']=$submission_info['uid'];
+            $sub['cid']=$submission_info['cid'];
+            $sub['sid']=$sid;
             // $contestModel->updateContestRankTable($submission_info['cid'],$sub);
         }
         return $result;
@@ -435,15 +439,15 @@ class SubmissionModel extends Model
             'desc'
         );
 
-        if($filter["pcode"]){
+        if ($filter["pcode"]) {
             $paginator=$paginator->where(["pcode"=>$filter["pcode"]]);
         }
 
-        if($filter["result"]){
+        if ($filter["result"]) {
             $paginator=$paginator->where(["verdict"=>$filter["result"]]);
         }
 
-        if($filter["account"]){
+        if ($filter["account"]) {
             $paginator=$paginator->where(["name"=>$filter["account"]]);
         }
 

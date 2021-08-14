@@ -13,7 +13,7 @@ class Submission extends Model
     const UPDATED_AT=null;
     const CREATED_AT=null;
 
-    protected $guarded = [];
+    protected $guarded=[];
 
     public function compiler()
     {
@@ -22,7 +22,7 @@ class Submission extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\Eloquent\UserModel', 'uid');
+        return $this->belongsTo('App\Models\Eloquent\User', 'uid');
     }
 
     public function contest()
@@ -35,16 +35,29 @@ class Submission extends Model
         return $this->belongsTo('App\Models\Eloquent\Problem', 'pid');
     }
 
+    public function judger()
+    {
+        return $this->belongsTo('App\Models\Eloquent\Judger', 'jid');
+    }
+
+    public function getJudgerNameAttribute()
+    {
+        if (!is_null($this->judger)) {
+            return $this->judger->readable_name;
+        }
+        return '-';
+    }
+
     public function getNcodeAttribute()
     {
-        $contest = $this->contest;
+        $contest=$this->contest;
         return $contest->problems->where('pid', $this->pid)->first()->ncode;
     }
 
     public function getNickNameAttribute()
     {
-        $member = $this->contest->group->members()->where('uid', $this->user->id)->first();
-        if(!empty($member)) {
+        $member=$this->contest->group->members()->where('uid', $this->user->id)->first();
+        if (!empty($member)) {
             return $member->nickname;
         }
         return null;
@@ -79,9 +92,19 @@ class Submission extends Model
         return $this->compiler->lang;
     }
 
+    public function getParsedScoreAttribute()
+    {
+        if (is_null($this->contest)) {
+            $tot_score=100;
+        } else {
+            $tot_score=$this->contest->problems->where('pid', $this->pid)->first()->points;
+        }
+        return round($this->score / max($this->problem->tot_score, 1) * $tot_score, 1);
+    }
+
     public function getSubmissionDateParsedAttribute()
     {
-        $submission_date = date('Y-m-d H:i:s', $this->submission_date);
+        $submission_date=date('Y-m-d H:i:s', $this->submission_date);
         return formatHumanReadableTime($submission_date);
     }
 

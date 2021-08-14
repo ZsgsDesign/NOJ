@@ -244,7 +244,7 @@
                     processing=false;
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     processing=false;
                 }
             });

@@ -5,7 +5,6 @@ namespace App\Console\Commands\Babel;
 use Illuminate\Console\Command;
 use App\Babel\Babel;
 use Exception;
-use function GuzzleHttp\json_decode;
 
 class Crawl extends Command
 {
@@ -14,7 +13,7 @@ class Crawl extends Command
      *
      * @var string
      */
-    protected $signature = 'babel:crawl
+    protected $signature='babel:crawl
         {extension : The package name of the extension}
         {--action=crawl_problem : The action of the Crawler}
         {--con=all : The target problemset of the Crawler}
@@ -26,7 +25,7 @@ class Crawl extends Command
      *
      * @var string
      */
-    protected $description = 'Crawl problems for a given Babel Extension to NOJ';
+    protected $description='Crawl problems for a given Babel Extension to NOJ';
 
     /**
      * Create a new command instance.
@@ -45,11 +44,11 @@ class Crawl extends Command
      */
     public function handle()
     {
-        $extension = $this->argument('extension');
-        $action = $this->option('action');
-        $con = $this->option('con');
-        [$from, $to] = sscanf($this->option('range'),"%d:%d");
-        $cached = $this->option('cached');
+        $extension=$this->argument('extension');
+        $action=$this->option('action');
+        $con=$this->option('con');
+        [$from, $to]=sscanf($this->option('range'), "%d:%d");
+        $cached=$this->option('cached');
         $babel=new Babel();
         $babel->crawl([
             "name" => $extension,

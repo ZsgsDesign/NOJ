@@ -6,8 +6,8 @@ use App\Models\ContestModel;
 use App\Models\ProblemModel;
 use App\Models\CompilerModel;
 use App\Models\Submission\SubmissionModel;
-use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
+use App\Models\Eloquent\Tool\MonacoTheme;
 use Illuminate\Http\Request;
 use Auth;
 use Redirect;
@@ -21,7 +21,7 @@ class BoardController extends Controller
      */
     public function board($cid)
     {
-        return Redirect::route('contest.challenge', ['cid' => $cid]);
+        return Redirect::route('contest.board.challenge', ['cid' => $cid]);
     }
 
     /**
@@ -34,10 +34,10 @@ class BoardController extends Controller
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         $basicInfo=$contestModel->basic($cid);
-        if (!$clearance || time() < strtotime($basicInfo['begin_time'])) {
-            if($clearance == 3){
-                return Redirect::route('contest.admin', ['cid' => $cid]);
-            }else{
+        if (!$clearance || time()<strtotime($basicInfo['begin_time'])) {
+            if ($clearance==3) {
+                return Redirect::route('contest.board.admin', ['cid' => $cid]);
+            } else {
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
         }
@@ -50,7 +50,7 @@ class BoardController extends Controller
         if ($remainingTime<=0) {
             $remainingTime=0;
         }
-        if($basicInfo['public'] && !$basicInfo['audit_status']){
+        if ($basicInfo['public'] && !$basicInfo['audit_status']) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         return view('contest.board.challenge', [
@@ -80,18 +80,17 @@ class BoardController extends Controller
         $problemModel=new ProblemModel();
         $compilerModel=new CompilerModel();
         $submissionModel=new SubmissionModel();
-        $accountModel=new AccountModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         $basicInfo=$contestModel->basic($cid);
-        if (!$clearance || time() < strtotime($basicInfo['begin_time'])) {
-            if($clearance == 3){
-                return Redirect::route('contest.admin', ['cid' => $cid]);
-            }else{
+        if (!$clearance || time()<strtotime($basicInfo['begin_time'])) {
+            if ($clearance==3) {
+                return Redirect::route('contest.board.admin', ['cid' => $cid]);
+            } else {
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
         }
         $basicInfo=$contestModel->basic($cid);
-        if($basicInfo['public'] && !$basicInfo['audit_status']){
+        if ($basicInfo['public'] && !$basicInfo['audit_status']) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
@@ -99,7 +98,7 @@ class BoardController extends Controller
         $contest_ended=$contestModel->isContestEnded($cid);
         $pid=$contestModel->getPid($cid, $ncode);
         if (empty($pid)) {
-            return Redirect::route('contest.board', ['cid' => $cid]);
+            return Redirect::route('contest.board.index', ['cid' => $cid]);
         }
         $pcode=$problemModel->pcode($pid);
 
@@ -122,8 +121,10 @@ class BoardController extends Controller
             ];
         }
 
-        $editor_left_width = $accountModel->getExtra(Auth::user()->id, 'editor_left_width');
-        if(empty($editor_left_width)) $editor_left_width='40';
+        $accountExt=Auth::user()->getExtra(['editor_left_width', 'editor_theme']);
+        $editor_left_width=isset($accountExt['editor_left_width']) ? $accountExt['editor_left_width'] : '40';
+        $editor_theme=isset($accountExt['editor_theme']) ? $accountExt['editor_theme'] : 'vs-dark';
+        $themeConfig=MonacoTheme::getTheme($editor_theme);
 
         return view('contest.board.editor', [
             'page_title'=>"Problem Detail",
@@ -144,6 +145,8 @@ class BoardController extends Controller
             'clearance' => $clearance,
             'oj_detail' => $oj_detail,
             'editor_left_width'=>$editor_left_width,
+            'theme_config'=>$themeConfig,
+            'editor_themes'=>MonacoTheme::getAll(),
         ]);
     }
 
@@ -157,15 +160,15 @@ class BoardController extends Controller
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         $basicInfo=$contestModel->basic($cid);
-        if (!$clearance || time() < strtotime($basicInfo['begin_time'])) {
-            if($clearance == 3){
-                return Redirect::route('contest.admin', ['cid' => $cid]);
-            }else{
+        if (!$clearance || time()<strtotime($basicInfo['begin_time'])) {
+            if ($clearance==3) {
+                return Redirect::route('contest.board.admin', ['cid' => $cid]);
+            } else {
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
         }
         $basicInfo=$contestModel->basic($cid);
-        if($basicInfo['public'] && !$basicInfo['audit_status']){
+        if ($basicInfo['public'] && !$basicInfo['audit_status']) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
@@ -176,14 +179,14 @@ class BoardController extends Controller
 
         // To determine the ranking
         foreach ($contestRank as $i => &$r) {
-            if($i != 0) {
-                if($r['score'] == $contestRank[$i-1]['score'] && ($contest_rule == 1 ? ($r['penalty'] == $contestRank[$i-1]['penalty']) : 1) ){
-                    $r['rank'] = $contestRank[$i-1]['rank'];
-                }else{
-                    $r['rank'] = $i + 1;
+            if ($i!=0) {
+                if ($r['score']==$contestRank[$i-1]['score'] && ($contest_rule==1 ? ($r['penalty']==$contestRank[$i-1]['penalty']) : 1)) {
+                    $r['rank']=$contestRank[$i-1]['rank'];
+                } else {
+                    $r['rank']=$i+1;
                 }
-            }else{
-                $r['rank'] = 1;
+            } else {
+                $r['rank']=1;
             }
         }
         $rankFrozen=$contestModel->isFrozen($cid);
@@ -220,15 +223,15 @@ class BoardController extends Controller
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         $basicInfo=$contestModel->basic($cid);
-        if (!$clearance || time() < strtotime($basicInfo['begin_time'])) {
-            if($clearance == 3){
-                return Redirect::route('contest.admin', ['cid' => $cid]);
-            }else{
+        if (!$clearance || time()<strtotime($basicInfo['begin_time'])) {
+            if ($clearance==3) {
+                return Redirect::route('contest.board.admin', ['cid' => $cid]);
+            } else {
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
         }
         $basicInfo=$contestModel->basic($cid);
-        if($basicInfo['public'] && !$basicInfo['audit_status']){
+        if ($basicInfo['public'] && !$basicInfo['audit_status']) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
@@ -262,14 +265,14 @@ class BoardController extends Controller
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         $basicInfo=$contestModel->basic($cid);
-        if (!$clearance || time() < strtotime($basicInfo['begin_time'])) {
-            if($clearance == 3){
-                return Redirect::route('contest.admin', ['cid' => $cid]);
-            }else{
+        if (!$clearance || time()<strtotime($basicInfo['begin_time'])) {
+            if ($clearance==3) {
+                return Redirect::route('contest.board.admin', ['cid' => $cid]);
+            } else {
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
         }
-        if($basicInfo['public'] && !$basicInfo['audit_status']){
+        if ($basicInfo['public'] && !$basicInfo['audit_status']) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
@@ -300,14 +303,14 @@ class BoardController extends Controller
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         $basicInfo=$contestModel->basic($cid);
-        if (!$clearance || time() < strtotime($basicInfo['begin_time'])) {
-            if($clearance == 3){
-                return Redirect::route('contest.admin', ['cid' => $cid]);
-            }else{
+        if (!$clearance || time()<strtotime($basicInfo['begin_time'])) {
+            if ($clearance==3) {
+                return Redirect::route('contest.board.admin', ['cid' => $cid]);
+            } else {
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
         }
-        if($basicInfo['public'] && !$basicInfo['audit_status']){
+        if ($basicInfo['public'] && !$basicInfo['audit_status']) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);
@@ -324,19 +327,19 @@ class BoardController extends Controller
         ]);
     }
 
-    public function analysis($cid){
+    public function analysis($cid) {
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         $basicInfo=$contestModel->basic($cid);
-        if (!$clearance || time() < strtotime($basicInfo['begin_time'])) {
-            if($clearance == 3){
-                return Redirect::route('contest.admin', ['cid' => $cid]);
-            }else{
+        if (!$clearance || time()<strtotime($basicInfo['begin_time'])) {
+            if ($clearance==3) {
+                return Redirect::route('contest.board.admin', ['cid' => $cid]);
+            } else {
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
         }
         $basicInfo=$contestModel->basic($cid);
-        if($basicInfo['public'] && !$basicInfo['audit_status']){
+        if ($basicInfo['public'] && !$basicInfo['audit_status']) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         $contest_name=$contestModel->contestName($cid);

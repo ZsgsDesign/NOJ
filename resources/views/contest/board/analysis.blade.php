@@ -106,7 +106,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }, success: function(ret){
                 if(ret.ret == '200'){
-                    console.log(ret);
+                    // console.log(ret);
                     data = ret.data;
                     displayTable();
                     ajaxing = false;
@@ -121,7 +121,7 @@
                         alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
                         break;
                     default:
-                        alert("Server Connection Error");
+                        alert("{{__('errors.default')}}");
                 }
                 console.log('Ajax error while posting to ' + type);
                 ajaxing = false;

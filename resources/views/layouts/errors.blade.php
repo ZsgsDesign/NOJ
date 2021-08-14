@@ -14,7 +14,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" noj-theme="{{config('app.theme')}}">
 
 <head>
     <meta charset="UTF-8">
@@ -35,7 +35,12 @@
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="alternate icon" type="image/png" href="/favicon.png">
     <!-- OpenSearch -->
-    {{-- <link rel="search" type="application/opensearchdescription+xml" title="{{config("app.name")}}" href="/opensearch.xml"> --}}
+    <link rel="search" type="application/opensearchdescription+xml" title="{{config("app.name")}}" href="/opensearch.xml">
+    <!-- Mobile Display Declarations -->
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="theme-color" content="{{ getTheme()['primaryColor'] }}">
+    <!-- Desktop App Declarations -->
+    <meta name="msapplication-TileColor" content="{{ getTheme()['primaryColor'] }}">
     <!-- Third-Party Declarations -->
     <meta name="google-site-verification" content="{{ env("GOOGLE_SITE_VERIFICATION") }}" />
     <meta name="baidu-site-verification" content="{{ env("BAIDU_SITE_VERIFICATION") }}" />
@@ -151,7 +156,9 @@
     <link rel="stylesheet" href="/static/css/main.css?version={{version()}}">
     <link rel="stylesheet" href="/static/library/animate.css/animate.min.css">
     <link rel="stylesheet" href="/static/fonts/mdi-wxss/MDI.css">
-    <link rel="stylesheet" href="/static/fonts/devicon/devicon.css">
+    <link rel="stylesheet" href="/static/fonts/devicon/devicon.min.css?version=1.0.3">
+    <link rel="stylesheet" href="/static/fonts/langicon/langicon.css?version=1.0.2">
+    <link rel="stylesheet" href="/static/fonts/socialicon/socialicon.css?version=1.0.1">
     <!-- Background -->
     <div class="mundb-background-container">
         <img src="">
@@ -213,7 +220,7 @@
 
                     <li class="nav-item mundb-no-shrink />">
                         @guest
-                            <a class="nav-link" href="/account">Account</a>
+                            <a class="nav-link" href="/login">Account</a>
                         @else
                             <li class="nav-item dropdown mundb-btn-ucenter">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{$greeting}}, <span id="nav-username">{{ Auth::user()["name"] }}</span></a>
@@ -292,6 +299,7 @@
                         <p class="mb-1"><a href="/status">{{__('footer.queue')}}</a></p>
                         <p class="mb-1"><a href="/system/info">{{__('navigation.systeminfo')}}</a></p>
                         <p class="mb-1"><a href="/tool/pastebin/create">{{__('navigation.pastebin')}}</a></p>
+                        <p class="mb-1"><a href="/tool/imagehosting/create">{{__('navigation.imagehosting')}}</a></p>
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">

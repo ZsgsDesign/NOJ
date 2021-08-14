@@ -20,7 +20,7 @@
     }
 
     .updating::after{
-        content: " - waiting"
+        content: " - {{__('dashboard.waiting')}}"
     }
 
     .cooldown::after{

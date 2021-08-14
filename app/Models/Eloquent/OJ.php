@@ -9,7 +9,19 @@ class OJ extends Model
 {
     protected $table='oj';
     protected $primaryKey='oid';
-    const DELETED_AT=null;
-    const UPDATED_AT=null;
-    const CREATED_AT=null;
+
+    public function judge_servers()
+    {
+        return $this->hasMany('App\Models\Eloquent\JudgeServer', 'oid', 'oid');
+    }
+
+    public function compilers()
+    {
+        return $this->hasMany('App\Models\Eloquent\Compiler', 'oid', 'oid');
+    }
+
+    public function judgers()
+    {
+        return $this->hasMany('App\Models\Eloquent\Judger', 'oid', 'oid');
+    }
 }

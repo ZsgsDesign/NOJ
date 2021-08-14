@@ -2,7 +2,7 @@
 
 namespace App\Babel\Monit;
 
-use App\Models\Eloquent\JudgeServerModel;
+use App\Models\Eloquent\JudgeServer;
 use ErrorException;
 use Exception;
 use Throwable;
@@ -11,7 +11,7 @@ class MonitorBase
 {
     public function updateStatus($jsid, $status, $usage=null)
     {
-        $judgeServer=JudgeServerModel::find($jsid);
+        $judgeServer=JudgeServer::find($jsid);
         if (is_null($judgeServer)) {
             return false;
         } else {

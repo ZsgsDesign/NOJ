@@ -975,16 +975,7 @@
     <script src="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
     <script src="/static/js/jquery-ui-sortable.min.js"></script>
     @include("js.common.markdownEditor")
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-            tex2jax: {
-                inlineMath: [ ['$$$','$$$'], ["\\(","\\)"] ],
-                processEscapes: true
-            },
-            showMathMenu: false
-        });
-    </script>
-    <script type="text/javascript" src="/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    @include("js.common.mathjax")
     <script src="/static/js/parazoom.min.js"></script>
     <script>
         function sortableInit(){
@@ -1020,7 +1011,7 @@
                     ajaxing=false;
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                 }
             });
@@ -1057,7 +1048,7 @@
                     ajaxing=false;
                 }, error: function(xhr, type){
                     console.log('Ajax error!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                 }
             });
@@ -1109,7 +1100,7 @@
                     $("#joinGroup > i").addClass("d-none");
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to joinGroup!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                     $("#joinGroup > i").addClass("d-none");
                 }
@@ -1147,7 +1138,7 @@
                             $("#exitGroup > i").addClass("d-none");
                         }, error: function(xhr, type){
                             console.log('Ajax error while posting to joinGroup!');
-                            alert("Server Connection Error");
+                            alert("{{__('errors.default')}}");
                             ajaxing=false;
                             $("#exitGroup > i").addClass("d-none");
                         }
@@ -1171,7 +1162,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if (ret.ret==200) {
                         location.reload();
                     } else {
@@ -1181,7 +1172,7 @@
                     $("#changeProfileBtn > i").addClass("d-none");
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to changeNickName!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                     $("#changeProfileBtn > i").addClass("d-none");
                 }
@@ -1240,7 +1231,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if (ret.ret==200) {
                         confirm({
                             content: "{{__('group.contest.successArrange')}}",
@@ -1261,7 +1252,7 @@
                     $("#arrangeBtn > i").addClass("d-none");
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to arrangeContest!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                     $("#arrangeBtn > i").addClass("d-none");
                 }
@@ -1297,7 +1288,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if (ret.ret==200) {
                         alert(ret.desc);
                         //location.reload();
@@ -1308,7 +1299,7 @@
                     $("#InviteBtn > i").addClass("d-none");
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to arrangeContest!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                     $("#InviteBtn > i").addClass("d-none");
                 }
@@ -1333,7 +1324,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if (ret.ret==200) {
                         alert(ret.desc);
                         setTimeout(function(){
@@ -1346,7 +1337,7 @@
                     $("#noticeBtn > i").addClass("d-none");
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to arrangeContest!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                     $("#noticeBtn > i").addClass("d-none");
                 }
@@ -1368,7 +1359,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(ret){
-                    console.log(ret);
+                    // console.log(ret);
                     if (ret.ret==200) {
                         var sameFlag=false;
                         $("#contestProblemSet td:first-of-type").each(function(){
@@ -1401,7 +1392,7 @@
                     $("#addProblemBtn > i").addClass("d-none");
                 }, error: function(xhr, type){
                     console.log('Ajax error while posting to problemExists!');
-                    alert("Server Connection Error");
+                    alert("{{__('errors.default')}}");
                     $('#addProblemModal').modal('toggle');
                     ajaxing=false;
                     $("#problemCode").val("");

@@ -31,7 +31,7 @@ return [
     ],
 
     'stripe' => [
-        'model' => App\User::class,
+        'model' => App\Models\Eloquent\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
         'webhook' => [
@@ -41,9 +41,17 @@ return [
     ],
 
     'github' => [
+        'enable' => env('GITHUB_ENABLE', false),
         'client_id' => env('GITHUB_KEY'),
         'client_secret' => env('GITHUB_SECRET'),
         'redirect' => env('GITHUB_CALLBACK_URL'),
+    ],
+
+    'aauth' => [
+        'enable' => env('AAUTH_ENABLE', false),
+        'client_id' => env('AAUTH_KEY'),
+        'client_secret' => env('AAUTH_SECRET'),
+        'redirect' => env('AAUTH_CALLBACK_URL'),
     ],
 
 ];

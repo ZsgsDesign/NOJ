@@ -52,9 +52,9 @@ class ResetPasswordController extends Controller
      * @param  string|null  $token
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showResetForm(Request $request, $token = null)
+    public function showResetForm(Request $request, $token=null)
     {
-        return view('auth.passwords.reset',[
+        return view('auth.passwords.reset', [
             'token' => $token,
             'email' => $request->email,
             'page_title'=>"Reset Password",

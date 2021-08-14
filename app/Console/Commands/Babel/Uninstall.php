@@ -12,14 +12,14 @@ class Uninstall extends Command
      *
      * @var string
      */
-    protected $signature = 'babel:uninstall {extension : The package name of the extension}';
+    protected $signature='babel:uninstall {extension : The package name of the extension}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Uninstall a given Babel Extension to NOJ';
+    protected $description='Uninstall a given Babel Extension to NOJ';
 
     /**
      * Create a new command instance.
@@ -38,7 +38,7 @@ class Uninstall extends Command
      */
     public function handle()
     {
-        $extension = $this->argument('extension');
+        $extension=$this->argument('extension');
         $submitter=self::create($extension, $this);
         if (!is_null($submitter)) {
             $submitter->uninstall();
@@ -56,7 +56,7 @@ class Uninstall extends Command
         } catch (ErrorException $e) {
         } catch (Exception $e) {
         }
-        $className = "App\\Babel\\Extension\\$oj\\$installerProvider";
+        $className="App\\Babel\\Extension\\$oj\\$installerProvider";
         if (class_exists($className)) {
             return new $className($class);
         } else {

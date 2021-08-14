@@ -2,7 +2,6 @@
 
 namespace App\Models\Eloquent;
 
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ProblemModel as OutdatedProblemModel;
 use Illuminate\Support\Facades\DB;
@@ -13,33 +12,49 @@ class Contest extends Model
 {
     protected $table='contest';
     protected $primaryKey='cid';
-    const DELETED_AT=null;
-    const UPDATED_AT=null;
-    const CREATED_AT=null;
+
+    public function getParsedRuleAttribute()
+    {
+        $rule=["Unknown", "ICPC", "IOI", "Custom ICPC", "Custom IOI", "HASAAOSE Compulter Exam"];
+        return $rule[$this->rule];
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        static::saving(function($model) {
+            if ($model->custom_icon!="" && $model->custom_icon!=null && $model->custom_icon[0]!="/") {
+                $model->custom_icon="/$model->custom_icon";
+            }
+            if ($model->img!="" && $model->img!=null && $model->img[0]!="/") {
+                $model->img="/$model->img";
+            }
+        });
+    }
 
     //Repository function
-    public function participants($ignore_frozen = true)
+    public function participants($ignore_frozen=true)
     {
-        if($this->registration){
-            $participants = ContestParticipant::where('cid',$this->cid)->get();
+        if ($this->registration) {
+            $participants=ContestParticipant::where('cid', $this->cid)->get();
             $participants->load('user');
-            $users = new EloquentCollection;
+            $users=collect();
             foreach ($participants as $participant) {
-                $user = $participant->user;
+                $user=$participant->user;
                 $users->add($user);
             }
             return $users->unique();
-        }else{
+        } else {
             $this->load('submissions.user');
-            if($ignore_frozen){
-                $frozen_time = $this->frozen_time;
-                $submissions = $this->submissions()->where('submission_date','<',$frozen_time)->get();
-            }else{
-                $submissions = $this->submissions;
+            if ($ignore_frozen) {
+                $frozen_time=$this->frozen_time;
+                $submissions=$this->submissions()->where('submission_date', '<', $frozen_time)->get();
+            } else {
+                $submissions=$this->submissions;
             }
-            $users = new EloquentCollection;
+            $users=collect();
             foreach ($submissions as $submission) {
-                $user = $submission->user;
+                $user=$submission->user;
                 $users->add($user);
             }
             return $users->unique();
@@ -49,18 +64,18 @@ class Contest extends Model
     // Repository/Service? function
     public function rankRefresh()
     {
-        $ret = [];
-        $participants = $this->participants();
-        $contest_problems = $this->problems;
+        $ret=[];
+        $participants=$this->participants();
+        $contest_problems=$this->problems;
         $contest_problems->load('problem');
-        if($this->rule == 1){
+        if ($this->rule==1) {
             // ACM/ICPC Mode
             foreach ($participants as $participant) {
                 $prob_detail=[];
                 $totPen=0;
                 $totScore=0;
                 foreach ($contest_problems as $contest_problem) {
-                    $prob_stat = $contest_problem->userStatus($participant);
+                    $prob_stat=$contest_problem->userStatus($participant);
                     $prob_detail[]=[
                         'ncode'=>$contest_problem->ncode,
                         'pid'=>$contest_problem->pid,
@@ -86,7 +101,7 @@ class Contest extends Model
                     "problem_detail" => $prob_detail
                 ];
             }
-            usort($ret, function ($a, $b) {
+            usort($ret, function($a, $b) {
                 if ($a["score"]==$b["score"]) {
                     if ($a["penalty"]==$b["penalty"]) {
                         return 0;
@@ -103,53 +118,53 @@ class Contest extends Model
             });
             Cache::tags(['contest', 'rank'])->put($this->cid, $ret, 60);
             return $ret;
-        }else{
+        } else {
             // IO Mode
-            $c = new OutdatedContestModel();
+            $c=new OutdatedContestModel();
             return $c->contestRankCache($this->cid);
         }
     }
 
     public function clarifications()
     {
-        return $this->hasMany('App\Models\Eloquent\ContestClarification','cid','cid');
+        return $this->hasMany('App\Models\Eloquent\ContestClarification', 'cid', 'cid');
     }
 
     public function problems()
     {
-        return $this->hasMany('App\Models\Eloquent\ContestProblem','cid','cid');
+        return $this->hasMany('App\Models\Eloquent\ContestProblem', 'cid', 'cid');
     }
 
     public function submissions()
     {
-        return $this->hasMany('App\Models\Eloquent\Submission','cid','cid');
+        return $this->hasMany('App\Models\Eloquent\Submission', 'cid', 'cid');
     }
 
     public function group()
     {
-        return $this->hasOne('App\Models\Eloquent\Group','gid','gid');
+        return $this->hasOne('App\Models\Eloquent\Group', 'gid', 'gid');
     }
 
     public function getFrozenTimeAttribute()
     {
-        $end_time = strtotime($this->end_time);
-        return $end_time - $this->froze_length;
+        $end_time=strtotime($this->end_time);
+        return $end_time-$this->froze_length;
     }
 
     public function getIsEndAttribute()
     {
-        return strtotime($this->end_time) < time();
+        return strtotime($this->end_time)<time();
     }
 
     public static function getProblemSet($cid, $renderLatex=false)
     {
         $ret=[];
-        $problemset=ContestProblemModel::where('cid', $cid)->orderBy('number','asc')->get();
-        foreach($problemset as $problem){
+        $problemset=ContestProblem::where('cid', $cid)->orderBy('number', 'asc')->get();
+        foreach ($problemset as $problem) {
             $problemDetail=ProblemModel::find($problem->pid);
             $problemRet=(new OutdatedProblemModel())->detail($problemDetail->pcode);
-            if ($renderLatex){
-                foreach (['description','input','output','note'] as $section){
+            if ($renderLatex) {
+                foreach (['description', 'input', 'output', 'note'] as $section) {
                     $problemRet['parsed'][$section]=latex2Image($problemRet['parsed'][$section]);
                 }
             }
@@ -163,6 +178,6 @@ class Contest extends Model
 
     public function isJudgingComplete()
     {
-        return $this->submissions->whereIn('verdict',['Waiting','Pending'])->count()==0;
+        return $this->submissions->whereIn('verdict', ['Waiting', 'Pending'])->count()==0;
     }
 }

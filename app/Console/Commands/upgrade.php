@@ -11,14 +11,14 @@ class upgrade extends Command
      *
      * @var string
      */
-    protected $signature = 'upgrade';
+    protected $signature='upgrade';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Upgrade to the Latest of NOJ';
+    protected $description='Upgrade to the Latest of NOJ';
 
     /**
      * Create a new command instance.
@@ -37,7 +37,7 @@ class upgrade extends Command
      */
     public function handle()
     {
-        $bar = $this->output->createProgressBar(8);
+        $bar=$this->output->createProgressBar(8);
         $bar->setFormat("%current%/%max% [%bar%] %percent:3s%%\n<info>%message%</info>");
 
         $bar->setMessage("Enable Maintenance Mode.");

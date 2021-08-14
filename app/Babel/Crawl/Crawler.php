@@ -32,7 +32,7 @@ class Crawler
         } catch (ErrorException $e) {
         } catch (Exception $e) {
         }
-        $className = "App\\Babel\\Extension\\$name\\$crawlerProvider";
+        $className="App\\Babel\\Extension\\$name\\$crawlerProvider";
         if (class_exists($className)) {
             $temp=new $className();
             $temp->importCommandLine($commandLineObject);

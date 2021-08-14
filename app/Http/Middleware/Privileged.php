@@ -18,16 +18,16 @@ class Privileged
     public function handle($request, Closure $next)
     {
         if (Auth::check()) {
-            if(isset($request->gcode)){
+            if (isset($request->gcode)) {
                 //group privilege
                 $groupModel=new GroupModel();
-                if($groupModel->judgeClearance($groupModel->gid($request->gcode), Auth::user()->id)>=2){
+                if ($groupModel->judgeClearance($groupModel->gid($request->gcode), Auth::user()->id)>=2) {
                     return $next($request);
                 }
-            }elseif(isset($request->cid)) {
+            } elseif (isset($request->cid)) {
                 //contest privilege
                 $contestModel=new ContestModel();
-                if($contestModel->judgeClearance($request->cid, Auth::user()->id)==3){
+                if ($contestModel->judgeClearance($request->cid, Auth::user()->id)==3) {
                     return $next($request);
                 }
             }
