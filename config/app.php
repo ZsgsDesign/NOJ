@@ -303,22 +303,4 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Image' => Intervention\Image\Facades\Image::class
     ],
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Version Info
-    |--------------------------------------------------------------------------
-    |
-    | This us the version info.
-    |
-    */
-
-    'version' => [
-        "author"=>"John Zhang",
-        "organization"=>"NJUPT ICPC Team",
-        "developers"=>"John Zhang, David Diao",
-        "major"=>"0.1.0",
-    ],
-
 ];
