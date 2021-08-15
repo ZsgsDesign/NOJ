@@ -80,7 +80,7 @@ class AAuthController extends OAuthController
                 if (config('app.allow_oauth_temp_account')) {
                     try {
                         $createdUser=User::create([
-                            'name' => Str::random(12),
+                            'name' => $aauth_user->name."#".substr($aauth_user->id , 0 , 4),
                             'email' => Str::random(16)."@temporary.email",
                             'password' => '',
                             'avatar' => '/static/img/avatar/default.png',
