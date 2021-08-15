@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.3",
+        "php": "^7.4",
         "barryvdh/laravel-dompdf": "^0.8.5",
         "encore/laravel-admin": "^1.7",
         "fideloper/proxy": "^4.0",
