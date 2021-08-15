@@ -100,7 +100,6 @@ class InstallerBase
                     throw new Exception();
                 }
             }
-            $needTLS=false;
             if (isset($this->babelConfig["require"]["tlsv1.3"])) {
                 $supportTLS=in_array("tlsv1.3", stream_get_transports());
                 if ($this->babelConfig["require"]["tlsv1.3"] && !$supportTLS) {
