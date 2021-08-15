@@ -100,6 +100,18 @@ class InstallerBase
                     throw new Exception();
                 }
             }
+            $needTLS=false;
+            if (isset($this->babelConfig["require"]["tlsv1.3"])) {
+                $needTLS=$this->babelConfig["require"]["tlsv1.3"]?true:false;
+                $supportTLS=in_array("tlsv1.3", stream_get_transports());
+                if ($needTLS && !$supportTLS) {
+                    if (!$this->command->option('ignore-platform-reqs')) {
+                        $this->command->line("Your Current PHP Registered Stream Socket Transports doesn't support the following extension: ");
+                        $this->command->line("  - <fg=green>{$this->ocode}</> requires PHP Registered Stream Socket Transports supports <fg=yellow>TLS v1.3</>");
+                        throw new Exception();
+                    }
+                }
+            }
         } catch (InvalidVersionException $e) {
             throw new Exception('Illegal Compability Info.');
         }
