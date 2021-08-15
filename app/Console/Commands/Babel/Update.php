@@ -13,7 +13,7 @@ class Update extends Command
      *
      * @var string
      */
-    protected $signature='babel:update {extension : The package name of the extension}';
+    protected $signature='babel:update {extension : The package name of the extension}  {--ignore-platform-reqs : Ignore the Platform Requirements when install}';
 
     /**
      * The console command description.
@@ -40,6 +40,7 @@ class Update extends Command
     public function handle()
     {
         $extension=$this->argument('extension');
+        $ignoreReqs=$this->option('ignore-platform-reqs');
         $output=new BufferedOutput();
         $this->line("Updating <fg=green>$extension</>");
         try {
@@ -47,7 +48,10 @@ class Update extends Command
         } catch (Exception $e) {
             $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>babel.json parse error, The extension may not exist.</>\n");
             if ($this->confirm("Would you like to download it from the marketspace first?")) {
-                $this->call("babel:require", ['extension' => $extension]);
+                $this->call("babel:require", [
+                    'extension' => $extension,
+                    '--ignore-platform-reqs' => $ignoreReqs,
+                ]);
                 $output->fetch();
             }
             return;
@@ -55,7 +59,11 @@ class Update extends Command
         $this->backup($extension);
         $this->delDir(babel_path("Extension/$extension/"));
         try {
-            $this->call("babel:require", ['extension' => $extension, '--exception' => true]);
+            $this->call("babel:require", [
+                'extension' => $extension,
+                '--ignore-platform-reqs' => $ignoreReqs,
+                '--exception' => true
+            ]);
             $output->fetch();
             $this->delDir(babel_path("Tmp/backup/$extension/"));
             $this->line("Updated <fg=green>$extension</>");
