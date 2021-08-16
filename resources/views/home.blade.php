@@ -178,7 +178,7 @@
 <script>
     window.addEventListener("load",function() {
         @if(is_null(request()->cookie('isNotified')))
-            notify("Welcome",'Hi, welcome back to the Fully new {{config("app.name")}}',"/static/img/notify/njupt.png",'welcome');
+            notify("Welcome",'Hi, welcome back to {{config("app.name")}}', "/static/img/notify/noj.png", 'welcome');
             setCookie('isNotified',1,7);
         @endif
     }, false);
