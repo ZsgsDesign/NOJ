@@ -3,8 +3,8 @@
     window.addEventListener("load",function() {
         require.config({
             paths: {
-                vs: '{{config('app.url')}}/static/library/monaco-editor/min/vs',
-                tokenizer: '{{config('app.url')}}/static/library/monaco-ace-tokenizer/dist'
+                vs: '{{url('/static/library/monaco-editor/min/vs')}}',
+                tokenizer: '{{url('/static/library/monaco-ace-tokenizer/dist')}}'
             },
             'vs/nls' : {
                 availableLanguages: {
@@ -22,9 +22,9 @@
             getWorkerUrl: function(workerId, label) {
                 return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
                 self.MonacoEnvironment = {
-                    baseUrl: '{{config('app.url')}}/static/library/monaco-editor/min/'
+                    baseUrl: '{{url('/static/library/monaco-editor/min/')}}'
                 };
-                importScripts('{{config('app.url')}}/static/library/monaco-editor/min/vs/base/worker/workerMain.js');`
+                importScripts('{{url('/static/library/monaco-editor/min/vs/base/worker/workerMain.js')}}');`
                 )}`;
             }
         };
