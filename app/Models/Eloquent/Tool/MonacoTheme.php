@@ -5,15 +5,15 @@ namespace App\Models\Eloquent\Tool;
 class MonacoTheme
 {
     protected static $theme=[
-        "vs-dark"=>[
-            "id" => "vs-dark",
+        "material-design-darker"=>[
+            "id" => "material-design-darker",
             "name" => "Default",
-            "background" => "rgb(30,30,30)"
+            "background" => "#212121"
         ],
-        "vs"=>[
-            "id" => "vs",
+        "material-design-lighter"=>[
+            "id" => "material-design-lighter",
             "name" => "Default (White)",
-            "background" => "rgb(255,255,254)"
+            "background" => "#FAFAFA"
         ],
         "hc-black"=>[
             "id" => "hc-black",
@@ -39,6 +39,11 @@ class MonacoTheme
             "id" => "birds-of-paradise",
             "name" => "Birds of Paradise",
             "background" => "#372725"
+        ],
+        "behave" => [
+            "id" => "behave",
+            "name" => "Behave",
+            "background" => "#2C333D"
         ],
         "blackboard" => [
             "id" => "blackboard",
@@ -79,6 +84,11 @@ class MonacoTheme
             "id" => "dawn",
             "name" => "Dawn",
             "background" => "#F9F9F9"
+        ],
+        "dracula" => [
+            "id" => "dracula",
+            "name" => "Dracula",
+            "background" => "#282a36"
         ],
         "dominion-day" => [
             "id" => "dominion-day",
@@ -170,6 +180,11 @@ class MonacoTheme
             "name" => "Oceanic Next",
             "background" => "#1B2B34"
         ],
+        "one-half"=>[
+            "id" => "one-half",
+            "name" => "One Half",
+            "background" => "#282C34"
+        ],
         "pastels-on-dark" => [
             "id" => "pastels-on-dark",
             "name" => "Pastels on Dark",
@@ -244,6 +259,16 @@ class MonacoTheme
             "id" => "vibrant-ink",
             "name" => "Vibrant Ink",
             "background" => "#000000"
+        ],
+        "vs-dark"=>[
+            "id" => "vs-dark",
+            "name" => "Visual Studio",
+            "background" => "rgb(30,30,30)"
+        ],
+        "vs"=>[
+            "id" => "vs",
+            "name" => "Visual Studio (White)",
+            "background" => "rgb(255,255,254)"
         ],
         "xcode-default" => [
             "id" => "xcode-default",
