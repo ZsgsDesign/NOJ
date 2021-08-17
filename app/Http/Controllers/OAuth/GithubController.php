@@ -71,6 +71,7 @@ class GithubController extends OAuthController
                             'password' => '',
                             'avatar' => '/static/img/avatar/default.png',
                         ]);
+                        $createdUser->markEmailAsVerified();
                     } catch (QueryException $exception) {
                         return $this->generateUnknownErrorView();
                     }
