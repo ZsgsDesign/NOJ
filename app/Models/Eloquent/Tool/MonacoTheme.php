@@ -80,6 +80,11 @@ class MonacoTheme
             "name" => "Dawn",
             "background" => "#F9F9F9"
         ],
+        "dominion-day" => [
+            "id" => "dominion-day",
+            "name" => "Dominion Day",
+            "background" => "#372725"
+        ],
         "dreamweaver" => [
             "id" => "dreamweaver",
             "name" => "Dreamweaver",
@@ -125,6 +130,11 @@ class MonacoTheme
             "name" => "MagicWB (Amiga)",
             "background" => "#969696"
         ],
+        "material-design" => [
+            "id" => "material-design",
+            "name" => "Material Design",
+            "background" => "#263238"
+        ],
         "merbivore-soft" => [
             "id" => "merbivore-soft",
             "name" => "Merbivore Soft",
@@ -134,6 +144,11 @@ class MonacoTheme
             "id" => "merbivore",
             "name" => "Merbivore",
             "background" => "#161616"
+        ],
+        "monoindustrial" => [
+            "id" => "monoindustrial",
+            "name" => "MonoIndustrial",
+            "background" => "#222C28"
         ],
         "monokai-bright" => [
             "id" => "monokai-bright",
@@ -167,12 +182,12 @@ class MonacoTheme
         ],
         "solarized-dark" => [
             "id" => "solarized-dark",
-            "name" => "Solarized-dark",
+            "name" => "Solarized Dark",
             "background" => "#002B36"
         ],
         "solarized-light" => [
             "id" => "solarized-light",
-            "name" => "Solarized-light",
+            "name" => "Solarized Light",
             "background" => "#FDF6E3"
         ],
         "spacecadet" => [
@@ -192,22 +207,22 @@ class MonacoTheme
         ],
         "tomorrow-night-blue" => [
             "id" => "tomorrow-night-blue",
-            "name" => "Tomorrow-Night-Blue",
+            "name" => "Tomorrow Night Blue",
             "background" => "#002451"
         ],
         "tomorrow-night-bright" => [
             "id" => "tomorrow-night-bright",
-            "name" => "Tomorrow-Night-Bright",
+            "name" => "Tomorrow Night Bright",
             "background" => "#000000"
         ],
         "tomorrow-night-eighties" => [
             "id" => "tomorrow-night-eighties",
-            "name" => "Tomorrow-Night-Eighties",
+            "name" => "Tomorrow Night Eighties",
             "background" => "#2D2D2D"
         ],
         "tomorrow-night" => [
             "id" => "tomorrow-night",
-            "name" => "Tomorrow-Night",
+            "name" => "Tomorrow Night",
             "background" => "#1D1F21"
         ],
         "tomorrow" => [
@@ -232,7 +247,7 @@ class MonacoTheme
         ],
         "xcode-default" => [
             "id" => "xcode-default",
-            "name" => "Xcode_default",
+            "name" => "Xcode Default",
             "background" => "#FFFFFF"
         ],
         "zenburnesque" => [
@@ -255,11 +270,6 @@ class MonacoTheme
             "name" => "krTheme",
             "background" => "#0B0A09"
         ],
-        "monoindustrial" => [
-            "id" => "monoindustrial",
-            "name" => "monoindustrial",
-            "background" => "#222C28"
-        ]
     ];
 
     public static function getTheme($id) {

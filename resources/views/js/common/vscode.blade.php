@@ -1,6 +1,7 @@
-@include('js.common.vscodeThemes')
 <script type="text/javascript" src="/static/library/monaco-editor/min/vs/loader.js"></script>
 <script>
+    var loadedThemesData=JSON.parse(`@include('js.common.vscodeThemes')`);
+
     window.addEventListener("load",function() {
         require.config({
             paths: {
