@@ -107,12 +107,13 @@
     }
 
     .cm-avatar{
-        height:4rem;
-        width:4rem;
+        height: 4rem;
+        width: 4rem;
         object-fit: cover;
         border-radius: 2000px;
         border: 2px solid currentColor;
-        margin-right:1rem;
+        margin-right: 1rem;
+        padding: 1px;
     }
 
     th[scope="row"] > div{
