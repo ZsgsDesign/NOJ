@@ -1,3 +1,4 @@
+@include('js.common.vscodeThemes')
 <script type="text/javascript" src="/static/library/monaco-editor/min/vs/loader.js"></script>
 <script>
     window.addEventListener("load",function() {
@@ -80,21 +81,10 @@
                 });
             });
 
-            var loadedThemesData = {};
-
-            async function initThemes() {
-                await fetch('/static/library/noj-monaco-themes/theme.min.json')
-                .then(r => r.json())
-                .then(async data => {
-                    loadedThemesData = data;
-                    var themes = Object.keys(data);
-                    themes.forEach(theme => {
-                        monaco.editor.defineTheme(theme, loadedThemesData[theme]);
-                    });
-                });
-            }
-
-            await initThemes();
+            var themes = Object.keys(loadedThemesData);
+            themes.forEach(theme => {
+                monaco.editor.defineTheme(theme, loadedThemesData[theme]);
+            });
 
             {{ $slot }}
         });
