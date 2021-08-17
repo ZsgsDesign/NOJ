@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e10770d1b77f8c21372cb5b79ecaf7d7",
+    "content-hash": "3d92c5fa3ec34d9ec53b5c9fedf06d7a",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -5104,6 +5104,18 @@
             },
             "require": {
                 "npm-asset/fast-plist": ">=0.1.2,<0.2.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "npm-asset/noj-monaco-themes",
+            "version": "1.0.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/noj-monaco-themes/-/noj-monaco-themes-1.0.0.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -11561,8 +11573,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.3"
+        "php": "^7.4"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }

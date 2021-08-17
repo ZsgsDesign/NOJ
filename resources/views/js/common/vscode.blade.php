@@ -1,4 +1,3 @@
-<script type="text/javascript" src="/static/library/monaco-themes/dist/monaco-themes.js"></script>
 <script type="text/javascript" src="/static/library/monaco-editor/min/vs/loader.js"></script>
 <script>
     window.addEventListener("load",function() {
@@ -81,24 +80,17 @@
                 });
             });
 
-            var loadedThemes = null;
             var loadedThemesData = {};
 
             async function initThemes() {
-                await fetch('/static/library/monaco-themes/themes/themelist.json')
+                await fetch('/static/library/noj-monaco-themes/theme.min.json')
                 .then(r => r.json())
                 .then(async data => {
-                    loadedThemes = data;
+                    loadedThemesData = data;
                     var themes = Object.keys(data);
-                    await themes.reduce(async (promise, theme) => {
-                        await promise;
-                        const contents = await fetch('/static/library/monaco-themes/themes/' + loadedThemes[theme] + '.json')
-                            .then(r => r.json())
-                            .then(data => {
-                                loadedThemesData[theme] = data;
-                                monaco.editor.defineTheme(theme, data);
-                            });;
-                    }, Promise.resolve());
+                    themes.forEach(theme => {
+                        monaco.editor.defineTheme(theme, loadedThemesData[theme]);
+                    });
                 });
             }
 
