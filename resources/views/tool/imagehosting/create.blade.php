@@ -59,7 +59,7 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        z-index: 999;
+        z-index: 99;
     }
 
     #image_choser_tooltop i{
