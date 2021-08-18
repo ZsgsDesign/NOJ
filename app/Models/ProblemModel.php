@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Submission\SubmissionModel;
 use Illuminate\Support\Str;
+use App\Models\Eloquent\OJ;
 use Cache;
 
 class ProblemModel extends Model
@@ -107,7 +108,7 @@ class ProblemModel extends Model
 
     public function ojs()
     {
-        return DB::table("oj")->orderBy('oid', 'asc')->get()->all();
+        return DB::table("oj")->where("status", 1)->orderBy('oid', 'asc')->get()->all();
     }
 
     public function ojdetail($oid)
@@ -294,6 +295,10 @@ class ProblemModel extends Model
         $submissionModel=new SubmissionModel();
         $preQuery=DB::table($this->table)->where('hide', '=', 0);
         if ($filter['oj']) {
+            $OJ=OJ::find($filter['oj']);
+            if(blank($OJ) || !$OJ->status) {
+                return null;
+            }
             $preQuery=$preQuery->where(["OJ"=>$filter['oj']]);
         }
         if ($filter['tag']) {
