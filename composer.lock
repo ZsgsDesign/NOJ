@@ -1293,16 +1293,16 @@
         },
         {
             "name": "fonts-asset/devicon",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ZsgsDesign/fonts-asset-Devicon.git",
-                "reference": "60b758649dac34cb7498fc450e8f4eec120e78df"
+                "reference": "8faf90b4055a7c7d0eea2cf59729dcdf1d8ba0a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Devicon/zipball/60b758649dac34cb7498fc450e8f4eec120e78df",
-                "reference": "60b758649dac34cb7498fc450e8f4eec120e78df",
+                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Devicon/zipball/8faf90b4055a7c7d0eea2cf59729dcdf1d8ba0a1",
+                "reference": "8faf90b4055a7c7d0eea2cf59729dcdf1d8ba0a1",
                 "shasum": ""
             },
             "type": "fonts-asset",
@@ -1319,9 +1319,9 @@
             "description": "Devicon for composer.",
             "support": {
                 "issues": "https://github.com/ZsgsDesign/fonts-asset-Devicon/issues",
-                "source": "https://github.com/ZsgsDesign/fonts-asset-Devicon/tree/1.0.3"
+                "source": "https://github.com/ZsgsDesign/fonts-asset-Devicon/tree/1.0.4"
             },
-            "time": "2021-03-21T12:24:52+00:00"
+            "time": "2021-08-19T13:46:04+00:00"
         },
         {
             "name": "fonts-asset/langicon",
@@ -11576,5 +11576,5 @@
         "php": "^7.4"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
