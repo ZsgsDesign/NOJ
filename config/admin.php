@@ -394,16 +394,11 @@ return [
     */
     'extensions' => [
         'media-manager' => [
-
-            // Select a local disk that you configured in `config/filesystem.php`
             'disk' => 'NOJPublic'
         ],
         // 'api-tester' => [
-
         //     'prefix' => 'api',
-
         //     'guard'  => 'api',
-
         //     'user_retriever' => function ($id) {
         //         return \App\Models\Eloquent\User::find($id);
         //     },
@@ -415,6 +410,7 @@ return [
             'appid' => env('ADMIN_RECAPTCHAV2_SITEKEY', null),
             'secret' => env('ADMIN_RECAPTCHAV2_SECRET', null),
             'domain' => env('ADMIN_RECAPTCHAV2_DOMAIN', 'https://recaptcha.net'),
+            'timeout' => env('ADMIN_RECAPTCHAV2_TIMEOUT', 30),
         ],
     ],
 ];
