@@ -42,5 +42,8 @@
   "We won't ask for your password again for a few hours.": "确认完成后，接下来几个小时内您不需再输入密码。",
   "You are receiving this email because we received a password reset request for your account.": "您收到此电子邮件是因为我们收到了您帐户的密码重设请求。",
   "Your email address is not verified.": "您的电子邮件尚未验证通过",
-  "Whoops!": "哎呦！"
+  "Whoops!": "哎呦！",
+  "Sliding validation failed. Please try again.": "验证未通过，请重试。",
+  "Please complete the validation.": "请完成验证。",
+  "Config Error.": "配置错误。"
 }

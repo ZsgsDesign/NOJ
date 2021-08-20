@@ -42,5 +42,8 @@
   "We won't ask for your password again for a few hours.": "We won't ask for your password again for a few hours.",
   "You are receiving this email because we received a password reset request for your account.": "You are receiving this email because we received a password reset request for your account.",
   "Your email address is not verified.": "Your email address is not verified.",
-  "Whoops!": "Whoops!"
+  "Whoops!": "Whoops!",
+  "Sliding validation failed. Please try again.": "Validation failed. Please try again.",
+  "Please complete the validation.": "Please complete the validation.",
+  "Config Error.": "Config Error."
 }
