@@ -178,7 +178,7 @@
     }
 
     @if($filter['oj'])
-        var cur_oid = {{ $filter['oj'] }};
+        var cur_oid = "{{ $filter['oj'] }}";
     @else
         var cur_oid = null;
     @endif
