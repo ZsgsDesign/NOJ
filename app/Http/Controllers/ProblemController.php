@@ -134,7 +134,7 @@ class ProblemController extends Controller
 
         $accountExt=Auth::user()->getExtra(['editor_left_width', 'editor_theme']);
         $editor_left_width=isset($accountExt['editor_left_width']) ? $accountExt['editor_left_width'] : '40';
-        $editor_theme=isset($accountExt['editor_theme']) ? $accountExt['editor_theme'] : 'vs-dark';
+        $editor_theme=isset($accountExt['editor_theme']) ? $accountExt['editor_theme'] : config('app.editor_theme');
         $themeConfig=MonacoTheme::getTheme($editor_theme);
 
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.editor', [
