@@ -1293,16 +1293,16 @@
         },
         {
             "name": "fonts-asset/devicon",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ZsgsDesign/fonts-asset-Devicon.git",
-                "reference": "60b758649dac34cb7498fc450e8f4eec120e78df"
+                "reference": "8faf90b4055a7c7d0eea2cf59729dcdf1d8ba0a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Devicon/zipball/60b758649dac34cb7498fc450e8f4eec120e78df",
-                "reference": "60b758649dac34cb7498fc450e8f4eec120e78df",
+                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Devicon/zipball/8faf90b4055a7c7d0eea2cf59729dcdf1d8ba0a1",
+                "reference": "8faf90b4055a7c7d0eea2cf59729dcdf1d8ba0a1",
                 "shasum": ""
             },
             "type": "fonts-asset",
@@ -1319,22 +1319,22 @@
             "description": "Devicon for composer.",
             "support": {
                 "issues": "https://github.com/ZsgsDesign/fonts-asset-Devicon/issues",
-                "source": "https://github.com/ZsgsDesign/fonts-asset-Devicon/tree/1.0.3"
+                "source": "https://github.com/ZsgsDesign/fonts-asset-Devicon/tree/1.0.4"
             },
-            "time": "2021-03-21T12:24:52+00:00"
+            "time": "2021-08-19T13:46:04+00:00"
         },
         {
             "name": "fonts-asset/langicon",
-            "version": "1.0.2",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ZsgsDesign/fonts-asset-Langicon.git",
-                "reference": "4d2929fb9ffc0fc7b0c974247a21621260004c76"
+                "reference": "fe0b92166873c043fa336196f9324ea7609478dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Langicon/zipball/4d2929fb9ffc0fc7b0c974247a21621260004c76",
-                "reference": "4d2929fb9ffc0fc7b0c974247a21621260004c76",
+                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Langicon/zipball/fe0b92166873c043fa336196f9324ea7609478dc",
+                "reference": "fe0b92166873c043fa336196f9324ea7609478dc",
                 "shasum": ""
             },
             "type": "fonts-asset",
@@ -1351,9 +1351,9 @@
             "description": "Langicon for composer.",
             "support": {
                 "issues": "https://github.com/ZsgsDesign/fonts-asset-Langicon/issues",
-                "source": "https://github.com/ZsgsDesign/fonts-asset-Langicon/tree/1.0.2"
+                "source": "https://github.com/ZsgsDesign/fonts-asset-Langicon/tree/1.0.5"
             },
-            "time": "2021-08-11T15:50:43+00:00"
+            "time": "2021-08-19T14:04:04+00:00"
         },
         {
             "name": "fonts-asset/mdi-wxss",
