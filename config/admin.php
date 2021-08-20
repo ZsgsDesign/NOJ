@@ -408,5 +408,13 @@ return [
         //         return \App\Models\Eloquent\User::find($id);
         //     },
         // ]
+        'auth-captcha' => [
+            'enable' => env('ADMIN_ENABLE_RECAPTCHAV2', true),
+            'provider' => 'recaptchav2',
+            'style' => env('ADMIN_RECAPTCHAV2_STYLE', 'invisible'),
+            'appid' => env('ADMIN_RECAPTCHAV2_SITEKEY', null),
+            'secret' => env('ADMIN_RECAPTCHAV2_SECRET', null),
+            'domain' => env('ADMIN_RECAPTCHAV2_DOMAIN', 'https://recaptcha.net'),
+        ],
     ],
 ];
