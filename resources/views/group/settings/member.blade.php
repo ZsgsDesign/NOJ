@@ -144,8 +144,6 @@
 
 @section('additionJS')
     @include("js.common.hljsLight")
-    <script src="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
-    <script src="/static/js/jquery-ui-sortable.min.js"></script>
     @include("js.common.markdownEditor")
     @include("js.common.mathjax")
     <script>

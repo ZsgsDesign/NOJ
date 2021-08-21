@@ -19,6 +19,9 @@ mix.scripts([
     'node_modules/popper.js/dist/umd/popper.min.js',
     'node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js',
     'node_modules/pdfobject/pdfobject.min.js',
+    'node_modules/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js',
+    'node_modules/noj-jquery-ui-sortable/dist/jquery-ui-sortable.min.js',
+    'node_modules/parazoom/dist/parazoom.min.js',
 ], 'public/static/js/build/noj.js');
 
 mix.styles([
