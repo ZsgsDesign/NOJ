@@ -37,6 +37,7 @@
         "mathjax": "^2.7",
         "monaco-ace-tokenizer": "^0.2.1",
         "monaco-editor": "0.23.0",
+        "monaco-editor-webpack-plugin": "^4.1.2",
         "monaco-themes": "^0.3.3",
         "noj-jquery-ui-sortable": "^1.0.0",
         "noj-monaco-themes": "^1.0",
@@ -44,6 +45,9 @@
         "pdfobject": "^2.1",
         "perfect-scrollbar": "^1.4",
         "popper.js": "^1.5",
-        "simplemde": "^1.11"
+        "simplemde": "^1.11",
+        "vscode-oniguruma": "^1.5.1",
+        "vscode-textmate": "^5.4.0",
+        "wasm-loader": "^1.3.0"
     }
 }
