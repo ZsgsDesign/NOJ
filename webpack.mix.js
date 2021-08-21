@@ -18,6 +18,7 @@ mix.scripts([
     'node_modules/jquery/dist/jquery.min.js',
     'node_modules/popper.js/dist/umd/popper.min.js',
     'node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js',
+    'node_modules/pdfobject/pdfobject.min.js',
 ], 'public/static/js/build/noj.js');
 
 mix.styles([
