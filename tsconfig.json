@@ -9,6 +9,6 @@
         "noImplicitAny": false // Bypass raising errors on `any` type
     },
     "include": [
-        "resources/js/**/*"
+        "resources/ts/**/*"
     ] // Frontend paths pattern
 }
