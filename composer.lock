@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7290ac7935805bc1fd9bf504e9726d37",
+    "content-hash": "a620c6b0a55b3e184e40911d893e4f78",
     "packages": [
         {
             "name": "asundust/auth-captcha",
@@ -5069,10 +5069,10 @@
         },
         {
             "name": "npm-asset/monaco-editor",
-            "version": "0.23.0",
+            "version": "0.21.2",
             "dist": {
                 "type": "tar",
-                "url": "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.23.0.tgz"
+                "url": "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.21.2.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -5097,6 +5097,18 @@
             "dist": {
                 "type": "tar",
                 "url": "https://registry.npmjs.org/tiny-emitter/-/tiny-emitter-2.1.0.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "npm-asset/vscode-oniguruma",
+            "version": "1.3.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/vscode-oniguruma/-/vscode-oniguruma-1.3.0.tgz"
             },
             "type": "npm-asset",
             "license": [
