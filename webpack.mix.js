@@ -27,6 +27,10 @@ mix.styles([
     'resources/css/main.css',
 ], 'public/static/css/build/noj.css');
 
+mix.styles([
+    'resources/css/wemd-color-scheme.css',
+], 'public/static/css/build/color.css');
+
 if (mix.inProduction()) {
     mix.version();
 }

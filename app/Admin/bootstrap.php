@@ -18,7 +18,7 @@
  *
  */
 
-Admin::css('/static/css/wemd-color-scheme.css');
+Admin::css(mix('/static/css/build/color.css'));
 Admin::css('/static/fonts/mdi-wxss/MDI.css');
 Admin::favicon('/favicon.png');
 Admin::css('/static/library/highlightjs/styles/atom-one-light.css');
