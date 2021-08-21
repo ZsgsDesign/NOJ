@@ -21,18 +21,10 @@ mix.scripts([
 ], 'public/static/js/build/noj.js');
 
 mix.styles([
-    'public/static/fonts/roboto/roboto.css',
-    'public/static/fonts/roboto/roboto.css',
-    'public/static/fonts/montserrat/montserrat.css',
-    'public/static/fonts/roboto-slab/roboto-slab.css',
-    'public/static/fonts/mdi-wxss/MDI.css',
-    'public/static/fonts/devicon/devicon.min.css',
-    'public/static/fonts/langicon/langicon.css',
-    'public/static/fonts/socialicon/socialicon.css',
     'node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.min.css',
     'node_modules/animate.css/animate.min.css',
-    'public/static/css/wemd-color-scheme.css',
-    'public/static/css/main.css',
+    'resources/css/wemd-color-scheme.css',
+    'resources/css/main.css',
 ], 'public/static/css/build/noj.css');
 
 if (mix.inProduction()) {
