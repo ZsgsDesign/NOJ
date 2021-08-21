@@ -1,4 +1,6 @@
 const mix = require('laravel-mix');
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
 
 /*
  |--------------------------------------------------------------------------
@@ -29,6 +31,8 @@ mix.scripts([
     'node_modules/dompurify/dist/purify.min.js',
 ], 'public/static/js/build/noj.js');
 
+mix.copy('node_modules/dompurify/dist/purify.min.js.map','public/static/js/build/purify.min.js.map');
+
 mix.styles([
     'node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.min.css',
     'node_modules/animate.css/animate.min.css',
@@ -49,3 +53,41 @@ if (mix.inProduction()) {
 }
 
 mix.disableNotifications();
+
+mix.options({
+    postCss: [
+        require('autoprefixer')
+    ],
+    fileLoaderDirs: {
+        images: 'static/img',
+        fonts: 'static/fonts'
+    },
+});
+
+mix.webpackConfig({
+    devtool: false,
+    entry: {
+        // Package each language's worker and give these filenames in `getWorkerUrl`
+        'static/js/build/worker/editor': 'monaco-editor/esm/vs/editor/editor.worker.js',
+        'static/js/build/worker/json': 'monaco-editor/esm/vs/language/json/json.worker',
+        'static/js/build/worker/css': 'monaco-editor/esm/vs/language/css/css.worker',
+        'static/js/build/worker/html': 'monaco-editor/esm/vs/language/html/html.worker',
+        'static/js/build/worker/ts': 'monaco-editor/esm/vs/language/typescript/ts.worker',
+    },
+    module: {
+        rules: [
+            {
+                test: /\.wasm$/,
+                use: ['wasm-loader'],
+            }
+        ],
+    },
+    // As suggested on:
+    // https://github.com/NeekSandhu/monaco-editor-textmate/blame/45e137e5604504bcf744ef86215becbbb1482384/README.md#L58-L59
+    //
+    // Use the MonacoWebpackPlugin to disable all built-in tokenizers/languages.
+    plugins: [
+        new MonacoWebpackPlugin({languages: []}),
+        new IgnoreEmitPlugin([/editor\.worker\.js/])
+    ],
+});
