@@ -25,6 +25,8 @@ mix.styles([
     'node_modules/animate.css/animate.min.css',
     'resources/css/wemd-color-scheme.css',
     'resources/css/main.css',
+    'node_modules/jquery-datetimepicker/build/jquery.datetimepicker.min.css',
+    'node_modules/simplemde/dist/simplemde.min.css',
 ], 'public/static/css/build/noj.css');
 
 mix.styles([

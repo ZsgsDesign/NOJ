@@ -129,7 +129,6 @@
         </div>
         <div class="form-group">
             <small class="" style="margin-bottom:10px;font-size:17px;">{{__('group.member.content')}}</small>
-            <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
             <markdown-editor class="mt-3 mb-3">
                 <textarea id="notice_editor"></textarea>
             </markdown-editor>

@@ -415,7 +415,6 @@
                     <label for="post_title" class="bmd-label-floating">{{__("problem.discussion.title")}}</label>
                     <input type="text" class="form-control" id="post_title">
                 </div>
-                <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
                 <markdown-editor class="mt-3 mb-3">
                     <textarea id="markdown_editor"></textarea>
                 </markdown-editor>

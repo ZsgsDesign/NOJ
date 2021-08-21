@@ -1,7 +1,6 @@
 @extends('group.settings.common', ['selectedTab' => "contest"])
 
 @section('settingsTab')
-<link rel="stylesheet" href="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.min.css">
 <style>
      paper-card {
         display: block;
@@ -335,7 +334,6 @@
                             <button class="btn btn-info" onclick="$('#addProblemModal').modal({backdrop:'static'});"><i class="MDI plus"></i> {{__('group.contest.addProblem')}}</button>
                         </div>
                         <p>{{__('group.contest.description')}}</p>
-                        <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
                         <markdown-editor class="mt-3 mb-3">
                             <textarea id="description_editor"></textarea>
                         </markdown-editor>

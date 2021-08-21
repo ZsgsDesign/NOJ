@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('template')
-<link rel="stylesheet" href="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.min.css">
 <style>
     body{
         display: flex;
@@ -855,7 +854,6 @@
                     </div>
                     <div class="col-md-8">
                         <p>{{__('group.contest.description')}}</p>
-                        <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
                         <markdown-editor class="mt-3 mb-3">
                             <textarea id="description_editor"></textarea>
                         </markdown-editor>

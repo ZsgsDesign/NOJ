@@ -530,7 +530,6 @@
                     </h5>
                 </div>
                 <div class="modal-body">
-                    <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
                     <markdown-editor class="mt-3 mb-3">
                         <textarea id="markdown_editor"></textarea>
                     </markdown-editor>
