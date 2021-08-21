@@ -7,6 +7,7 @@ import { registerLanguages } from './register';
 import { rehydrateRegexps } from './configuration';
 import VsCodeDarkTheme from './themes/vs-dark-plus-theme';
 import { IRawTheme } from 'vscode-textmate';
+import { languagesConfig } from './languages';
 
 self.MonacoEnvironment = {
     getWorkerUrl: function (moduleId, label) {
@@ -48,6 +49,11 @@ async function main(language: LanguageId, themeKey: string, elementID: string) {
     //
     // You likely also want to add an entry in getSampleCodeForLanguage() and
     // change the call to main() above to pass your LanguageId.
+    let _languagesArray = JSON.parse(languagesConfig);
+    let languagesArray={};
+    _languagesArray.forEach((value)=>{
+        languagesArray[value.id] = value;
+    });
     const languages: monaco.languages.ILanguageExtensionPoint[] = [
         {
             id: 'python',
@@ -71,12 +77,20 @@ async function main(language: LanguageId, themeKey: string, elementID: string) {
             aliases: ['Python', 'py'],
             filenames: ['Snakefile', 'BUILD', 'BUCK', 'TARGETS'],
             firstLine: '^#!\\s*/?.*\\bpython[0-9.-]*\\b',
+        }, {
+            id: 'cpp',
+            extensions: languagesArray['cpp'].extensions,
+            aliases: languagesArray['cpp'].aliases
         },
     ];
     const grammars: { [scopeName: string]: DemoScopeNameInfo } = {
         'source.python': {
             language: 'python',
             path: 'python.tmLanguage.json',
+        },
+        'source.cpp': {
+            language: 'cpp',
+            path: 'cpp.tmLanguage.json',
         },
     };
 
