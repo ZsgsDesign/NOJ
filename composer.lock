@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f77707550f4b7cee7e1179385f527086",
+    "content-hash": "3d1ed4ce2c688fbe14abd5003388d6a2",
     "packages": [
         {
             "name": "asundust/auth-captcha",
@@ -5236,24 +5236,6 @@
             "dist": {
                 "type": "tar",
                 "url": "https://registry.npmjs.org/jquery-ui/-/jquery-ui-1.12.1.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/lodash",
-            "version": "4.17.21-patch1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lodash/lodash.git",
-                "reference": "c6e281b878b315c7a10d90f9c2af4cdb112d9625"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lodash/lodash/zipball/c6e281b878b315c7a10d90f9c2af4cdb112d9625",
-                "reference": "c6e281b878b315c7a10d90f9c2af4cdb112d9625"
             },
             "type": "npm-asset",
             "license": [

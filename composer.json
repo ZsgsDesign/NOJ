@@ -56,7 +56,6 @@
         "npm-asset/jquery": "^3.3",
         "npm-asset/jquery-datetimepicker": "^2.5",
         "npm-asset/jquery-ui": "^1.12",
-        "npm-asset/lodash": "^4.17",
         "npm-asset/marked": "^0.6.2",
         "npm-asset/mathjax": "^2.7",
         "npm-asset/monaco-ace-tokenizer": "^0.2.1",
