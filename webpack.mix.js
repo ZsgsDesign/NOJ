@@ -15,9 +15,10 @@ const mix = require('laravel-mix');
 //    .sass('resources/sass/app.scss', 'public/css');
 
 mix.scripts([
-    'public/js/admin.js',
-    'public/js/dashboard.js'
-], 'public/static/js/noj.js');
+    'node_modules/jquery/dist/jquery.min.js',
+    'node_modules/popper.js/dist/umd/popper.min.js',
+    'node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js',
+], 'public/static/js/build/noj.js');
 
 mix.styles([
     'public/static/fonts/roboto/roboto.css',
@@ -32,8 +33,10 @@ mix.styles([
     'node_modules/animate.css/animate.min.css',
     'public/static/css/wemd-color-scheme.css',
     'public/static/css/main.css',
-], 'public/static/css/noj.css').options({
-    processCssUrls: false
-});
+], 'public/static/css/build/noj.css');
+
+if (mix.inProduction()) {
+    mix.version();
+}
 
 mix.copyDirectory('node_modules', 'public/static/library');
