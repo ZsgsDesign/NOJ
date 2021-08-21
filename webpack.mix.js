@@ -46,7 +46,7 @@ mix.styles([
     'resources/css/wemd-color-scheme.css',
 ], 'public/static/css/build/color.css');
 
-mix.ts('resources/ts/monaco-editor/monaco.ts', 'public/static/js/build/noj-monaco.js');
+mix.ts('resources/ts/monaco-editor/monaco.ts', 'public/static/js/build/noj-editor.js');
 
 if (mix.inProduction()) {
     mix.version();
