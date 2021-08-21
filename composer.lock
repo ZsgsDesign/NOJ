@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3d1ed4ce2c688fbe14abd5003388d6a2",
+    "content-hash": "7290ac7935805bc1fd9bf504e9726d37",
     "packages": [
         {
             "name": "asundust/auth-captcha",
@@ -3747,16 +3747,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.1.4",
+            "version": "1.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "f3ad69181b8afed2c9edf7be5a2918144ff4ea32"
+                "reference": "18634df356bfd4119fe3d6156bdb990c414c14ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/f3ad69181b8afed2c9edf7be5a2918144ff4ea32",
-                "reference": "f3ad69181b8afed2c9edf7be5a2918144ff4ea32",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/18634df356bfd4119fe3d6156bdb990c414c14ea",
+                "reference": "18634df356bfd4119fe3d6156bdb990c414c14ea",
                 "shasum": ""
             },
             "require": {
@@ -3829,7 +3829,7 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/1.1.4"
+                "source": "https://github.com/thephpleague/flysystem/tree/1.1.5"
             },
             "funding": [
                 {
@@ -3837,7 +3837,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2021-06-23T21:56:05+00:00"
+            "time": "2021-08-17T13:49:42+00:00"
         },
         {
             "name": "league/mime-type-detection",
@@ -3897,16 +3897,16 @@
         },
         {
             "name": "league/oauth1-client",
-            "version": "1.9.2",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/oauth1-client.git",
-                "reference": "6247ffbf6b74fcc7f21313315b79e9b2560e68b0"
+                "reference": "88dd16b0cff68eb9167bfc849707d2c40ad91ddc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth1-client/zipball/6247ffbf6b74fcc7f21313315b79e9b2560e68b0",
-                "reference": "6247ffbf6b74fcc7f21313315b79e9b2560e68b0",
+                "url": "https://api.github.com/repos/thephpleague/oauth1-client/zipball/88dd16b0cff68eb9167bfc849707d2c40ad91ddc",
+                "reference": "88dd16b0cff68eb9167bfc849707d2c40ad91ddc",
                 "shasum": ""
             },
             "require": {
@@ -3967,9 +3967,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/oauth1-client/issues",
-                "source": "https://github.com/thephpleague/oauth1-client/tree/1.9.2"
+                "source": "https://github.com/thephpleague/oauth1-client/tree/v1.10.0"
             },
-            "time": "2021-08-03T23:29:01+00:00"
+            "time": "2021-08-15T23:05:49+00:00"
         },
         {
             "name": "league/oauth2-server",
@@ -4747,16 +4747,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.51.1",
+            "version": "2.52.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "8619c299d1e0d4b344e1f98ca07a1ce2cfbf1922"
+                "reference": "369c0e2737c56a0f39c946dd261855255a6fccbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/8619c299d1e0d4b344e1f98ca07a1ce2cfbf1922",
-                "reference": "8619c299d1e0d4b344e1f98ca07a1ce2cfbf1922",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/369c0e2737c56a0f39c946dd261855255a6fccbe",
+                "reference": "369c0e2737c56a0f39c946dd261855255a6fccbe",
                 "shasum": ""
             },
             "require": {
@@ -4837,7 +4837,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-28T13:16:28+00:00"
+            "time": "2021-08-14T19:10:52+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -4976,77 +4976,6 @@
             "time": "2019-10-10T12:19:21+00:00"
         },
         {
-            "name": "npm-asset/animate.css",
-            "version": "3.7.2",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/animate.css/-/animate.css-3.7.2.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/bootstrap-material-design",
-            "version": "4.1.2",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/bootstrap-material-design/-/bootstrap-material-design-4.1.2.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/chart.js",
-            "version": "2.9.4",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/chart.js/-/chart.js-2.9.4.tgz"
-            },
-            "require": {
-                "npm-asset/chartjs-color": ">=2.1.0,<3.0.0",
-                "npm-asset/moment": ">=2.10.2,<3.0.0"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/chartjs-color",
-            "version": "2.4.1",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/chartjs-color/-/chartjs-color-2.4.1.tgz"
-            },
-            "require": {
-                "npm-asset/chartjs-color-string": ">=0.6.0,<0.7.0",
-                "npm-asset/color-convert": ">=1.9.3,<2.0.0"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/chartjs-color-string",
-            "version": "0.6.0",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/chartjs-color-string/-/chartjs-color-string-0.6.0.tgz"
-            },
-            "require": {
-                "npm-asset/color-name": ">=1.0.0,<2.0.0"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
             "name": "npm-asset/clipboard",
             "version": "2.0.8",
             "dist": {
@@ -5064,89 +4993,11 @@
             ]
         },
         {
-            "name": "npm-asset/codemirror",
-            "version": "5.62.2",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/codemirror/-/codemirror-5.62.2.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/codemirror-spell-checker",
-            "version": "1.1.2",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/codemirror-spell-checker/-/codemirror-spell-checker-1.1.2.tgz"
-            },
-            "require": {
-                "npm-asset/typo-js": "*"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/color-convert",
-            "version": "1.9.3",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/color-convert/-/color-convert-1.9.3.tgz"
-            },
-            "require": {
-                "npm-asset/color-name": "1.1.3"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/color-name",
-            "version": "1.1.3",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/color-name/-/color-name-1.1.3.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
             "name": "npm-asset/delegate",
             "version": "3.2.0",
             "dist": {
                 "type": "tar",
                 "url": "https://registry.npmjs.org/delegate/-/delegate-3.2.0.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/dompurify",
-            "version": "1.0.11",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/dompurify/-/dompurify-1.0.11.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MPL-2.0 OR Apache-2.0"
-            ]
-        },
-        {
-            "name": "npm-asset/fast-plist",
-            "version": "0.1.2",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/fast-plist/-/fast-plist-0.1.2.tgz"
             },
             "type": "npm-asset",
             "license": [
@@ -5193,68 +5044,6 @@
             ]
         },
         {
-            "name": "npm-asset/jquery",
-            "version": "3.6.0",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/jquery/-/jquery-3.6.0.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/jquery-datetimepicker",
-            "version": "2.5.21",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/jquery-datetimepicker/-/jquery-datetimepicker-2.5.21.tgz"
-            },
-            "require": {
-                "npm-asset/jquery": ">=1.7.2",
-                "npm-asset/jquery-mousewheel": ">=3.1.13",
-                "npm-asset/php-date-formatter": ">=1.3.4,<2.0.0"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/jquery-mousewheel",
-            "version": "3.1.13",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/jquery-mousewheel/-/jquery-mousewheel-3.1.13.tgz"
-            },
-            "type": "npm-asset"
-        },
-        {
-            "name": "npm-asset/jquery-ui",
-            "version": "1.12.1",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/jquery-ui/-/jquery-ui-1.12.1.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/marked",
-            "version": "0.6.3",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/marked/-/marked-0.6.3.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
             "name": "npm-asset/mathjax",
             "version": "2.7.9",
             "dist": {
@@ -5264,18 +5053,6 @@
             "type": "npm-asset",
             "license": [
                 "Apache-2.0"
-            ]
-        },
-        {
-            "name": "npm-asset/moment",
-            "version": "2.29.1",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/moment/-/moment-2.29.1.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
             ]
         },
         {
@@ -5303,103 +5080,11 @@
             ]
         },
         {
-            "name": "npm-asset/monaco-themes",
-            "version": "0.3.3",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/monaco-themes/-/monaco-themes-0.3.3.tgz"
-            },
-            "require": {
-                "npm-asset/fast-plist": ">=0.1.2,<0.2.0"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/noj-monaco-themes",
-            "version": "1.0.0",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/noj-monaco-themes/-/noj-monaco-themes-1.0.0.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/pdfobject",
-            "version": "2.2.6",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/pdfobject/-/pdfobject-2.2.6.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/perfect-scrollbar",
-            "version": "1.5.2",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/perfect-scrollbar/-/perfect-scrollbar-1.5.2.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/php-date-formatter",
-            "version": "1.3.6",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/php-date-formatter/-/php-date-formatter-1.3.6.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "BSD-3-Clause"
-            ]
-        },
-        {
-            "name": "npm-asset/popper.js",
-            "version": "1.16.1-patch1",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/popper.js/-/popper.js-1.16.1-lts.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
             "name": "npm-asset/select",
             "version": "1.1.2",
             "dist": {
                 "type": "tar",
                 "url": "https://registry.npmjs.org/select/-/select-1.1.2.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/simplemde",
-            "version": "1.11.2",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/simplemde/-/simplemde-1.11.2.tgz"
-            },
-            "require": {
-                "npm-asset/codemirror": "*",
-                "npm-asset/codemirror-spell-checker": "*",
-                "npm-asset/marked": "*"
             },
             "type": "npm-asset",
             "license": [
@@ -5416,18 +5101,6 @@
             "type": "npm-asset",
             "license": [
                 "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/typo-js",
-            "version": "1.1.0",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/typo-js/-/typo-js-1.1.0.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "BSD-3-Clause"
             ]
         },
         {
@@ -6107,16 +5780,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "2.0.32",
+            "version": "2.0.33",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "f5c4c19880d45d0be3e7d24ae8ac434844a898cd"
+                "reference": "fb53b7889497ec7c1362c94e61d8127ac67ea094"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/f5c4c19880d45d0be3e7d24ae8ac434844a898cd",
-                "reference": "f5c4c19880d45d0be3e7d24ae8ac434844a898cd",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/fb53b7889497ec7c1362c94e61d8127ac67ea094",
+                "reference": "fb53b7889497ec7c1362c94e61d8127ac67ea094",
                 "shasum": ""
             },
             "require": {
@@ -6196,7 +5869,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/2.0.32"
+                "source": "https://github.com/phpseclib/phpseclib/tree/2.0.33"
             },
             "funding": [
                 {
@@ -6212,7 +5885,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-06-12T12:12:59+00:00"
+            "time": "2021-08-16T04:20:12+00:00"
         },
         {
             "name": "predis/predis",
@@ -7140,16 +6813,16 @@
         },
         {
             "name": "spatie/laravel-backup",
-            "version": "6.16.1",
+            "version": "6.16.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-backup.git",
-                "reference": "11a3fdb6938566ba75f3dd9ab790319d5e90b0fc"
+                "reference": "409acef61feedb47bf47da961740217071d22107"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-backup/zipball/11a3fdb6938566ba75f3dd9ab790319d5e90b0fc",
-                "reference": "11a3fdb6938566ba75f3dd9ab790319d5e90b0fc",
+                "url": "https://api.github.com/repos/spatie/laravel-backup/zipball/409acef61feedb47bf47da961740217071d22107",
+                "reference": "409acef61feedb47bf47da961740217071d22107",
                 "shasum": ""
             },
             "require": {
@@ -7214,7 +6887,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-backup/issues",
-                "source": "https://github.com/spatie/laravel-backup/tree/6.16.1"
+                "source": "https://github.com/spatie/laravel-backup/tree/6.16.2"
             },
             "funding": [
                 {
@@ -7226,7 +6899,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2021-07-10T14:54:21+00:00"
+            "time": "2021-08-11T21:09:11+00:00"
         },
         {
             "name": "spatie/temporary-directory",
