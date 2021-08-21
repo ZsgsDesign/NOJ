@@ -34,5 +34,3 @@ mix.styles([
 if (mix.inProduction()) {
     mix.version();
 }
-
-mix.copyDirectory('node_modules', 'public/static/library');
