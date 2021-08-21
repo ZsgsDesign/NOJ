@@ -218,7 +218,6 @@
     </div>
 
 </div>
-<script type="text/javascript" src="/static/library/chart.js/dist/Chart.bundle.min.js"></script>
 <script>
     let ajaxing = true;
 

@@ -22,6 +22,11 @@ mix.scripts([
     'node_modules/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js',
     'node_modules/noj-jquery-ui-sortable/dist/jquery-ui-sortable.min.js',
     'node_modules/parazoom/dist/parazoom.min.js',
+    'node_modules/chart.js/dist/Chart.bundle.min.js',
+    'node_modules/highlightjs/highlight.pack.min.js',
+    'node_modules/simplemde/dist/simplemde.min.js',
+    'node_modules/marked/marked.min.js',
+    'node_modules/dompurify/dist/purify.min.js',
 ], 'public/static/js/build/noj.js');
 
 mix.styles([
