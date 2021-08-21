@@ -345,9 +345,7 @@
         </div>
         <div class="mundb-footer mundb-copyright">&copy; 2018-{{date('Y')}}, {{config("app.name")}}. <a href="https://github.com/ZsgsDesign/NOJ" target="_blank"><i class="MDI github-circle"></i></a></div>
     </footer>
-    <script src="/static/library/jquery/dist/jquery.min.js"></script>
-    <script src="/static/library/popper.js/dist/umd/popper.min.js"></script>
-    <script src="/static/library/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"></script>
+    @include('layouts.js')
     @include('layouts.primaryJS')
     @yield('additionJS')
 </body>
