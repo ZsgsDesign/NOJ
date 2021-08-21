@@ -47,3 +47,5 @@ mix.ts('resources/ts/monaco-editor/monaco.ts', 'public/static/js/build/noj-monac
 if (mix.inProduction()) {
     mix.version();
 }
+
+mix.disableNotifications();
