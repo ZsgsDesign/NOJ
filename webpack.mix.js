@@ -42,6 +42,8 @@ mix.styles([
     'resources/css/wemd-color-scheme.css',
 ], 'public/static/css/build/color.css');
 
+mix.ts('resources/ts/noj.ts', 'public/static/js/build/noj.ts.js');
+
 if (mix.inProduction()) {
     mix.version();
 }
