@@ -125,6 +125,11 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
             aliases: languagesArray['java'].aliases,
             mimetypes: languagesArray['java'].mimetypes
         },
+        {
+            id: 'go',
+            extensions: languagesArray['go'].extensions,
+            aliases: languagesArray['go'].aliases,
+        },
     ];
     const grammars: { [scopeName: string]: NOJScopeNameInfo } = {
         'source.python': {
@@ -186,6 +191,10 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
             language: "java",
             path: "java.tmLanguage.json",
         },
+        'source.go': {
+            language: "go",
+            path: "go.tmLanguage.json"
+          }
     };
 
     const fetchGrammar = async (scopeName: ScopeName): Promise<TextMateGrammar> => {
