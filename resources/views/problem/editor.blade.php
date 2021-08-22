@@ -899,7 +899,8 @@
 
     @component('js.common.vscodeNeo')
         editorInstance.create("@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['lang']}}@else{{'plaintext'}}@endif", "{{$theme_config['id']}}", 'monaco', "{!!$submit_code!!}").then((value) => {
-            editor = value;
+            editor = value[0];
+            editorProvider = value[1];
         });
         $("#vscode_container").css("opacity",1);
     @endcomponent
@@ -1024,6 +1025,7 @@
             $(this).children('i').addClass('MDI checkbox-marked-circle wemd-purple-text');
             var themeid=$(this).data("themeid");
             monaco.editor.setTheme(themeid);
+            editorInstance.changeTheme(editorProvider, themeid);
             $("#cur_theme_selector").html('<i class="MDI format-paint"></i> {{__('problem.editor.theme.title')}} '+$(this).text());
             $.ajax({
                 url : '{{route("ajax.account.save.editortheme")}}',
