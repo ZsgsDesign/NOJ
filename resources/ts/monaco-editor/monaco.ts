@@ -114,6 +114,11 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
             aliases: ["Haskell", "haskell"],
             extensions: [".hsig", "hs-boot", ".hs"],
         },
+        {
+            id: "elixir",
+            extensions: languagesArray['elixir'].extensions,
+            aliases: languagesArray['elixir'].aliases,
+        },
     ];
     const grammars: { [scopeName: string]: NOJScopeNameInfo } = {
         'source.python': {
@@ -182,6 +187,10 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
         'source.haskell': {
             language: "haskell",
             path: "haskell.tmLanguage.json"
+        },
+        'source.elixir': {
+            language: "elixir",
+            path: "elixir.tmLanguage.json"
         },
     };
 

@@ -1,0 +1,69 @@
+{
+    "comments": {
+        "lineComment": "#"
+    },
+    "brackets": [
+        ["{", "}"],
+        ["[", "]"],
+        ["(", ")"]
+    ],
+    "surroundingPairs": [
+        ["{", "}"],
+        ["[", "]"],
+        ["(", ")"],
+        ["'", "'"],
+        ["\"", "\""]
+    ],
+    "autoClosingPairs": [
+        { "open": "'", "close": "'", "notIn": ["string", "comment"] },
+        { "open": "\"", "close": "\"", "notIn": ["comment"] },
+        { "open": "~B\"", "close": "\"" },
+        { "open": "~C\"", "close": "\"" },
+        { "open": "~D\"", "close": "\"" },
+        { "open": "~E\"", "close": "\"" },
+        { "open": "~L\"", "close": "\"" },
+        { "open": "~N\"", "close": "\"" },
+        { "open": "~R\"", "close": "\"" },
+        { "open": "~S\"", "close": "\"" },
+        { "open": "~T\"", "close": "\"" },
+        { "open": "~U\"", "close": "\"" },
+        { "open": "~b\"", "close": "\"" },
+        { "open": "~c\"", "close": "\"" },
+        { "open": "~e\"", "close": "\"" },
+        { "open": "~r\"", "close": "\"" },
+        { "open": "~s\"", "close": "\"" },
+        { "open": "~w\"", "close": "\"" },
+        { "open": "\"\"\"", "close": "\"\"\"" },
+        { "open": "~B\"\"\"", "close": "\"\"\"" },
+        { "open": "~C\"\"\"", "close": "\"\"\"" },
+        { "open": "~D\"\"\"", "close": "\"\"\"" },
+        { "open": "~E\"\"\"", "close": "\"\"\"" },
+        { "open": "~L\"\"\"", "close": "\"\"\"" },
+        { "open": "~N\"\"\"", "close": "\"\"\"" },
+        { "open": "~R\"\"\"", "close": "\"\"\"" },
+        { "open": "~S\"\"\"", "close": "\"\"\"" },
+        { "open": "~T\"\"\"", "close": "\"\"\"" },
+        { "open": "~U\"\"\"", "close": "\"\"\"" },
+        { "open": "~b\"\"\"", "close": "\"\"\"" },
+        { "open": "~c\"\"\"", "close": "\"\"\"" },
+        { "open": "~e\"\"\"", "close": "\"\"\"" },
+        { "open": "~r\"\"\"", "close": "\"\"\"" },
+        { "open": "~s\"\"\"", "close": "\"\"\"" },
+        { "open": "~w\"\"\"", "close": "\"\"\"" },
+        { "open": "`", "close": "`", "notIn": ["string", "comment"] },
+        { "open": "(", "close": ")" },
+        { "open": "{", "close": "}" },
+        { "open": "[", "close": "]" },
+        { "open": "<<", "close": ">>" }
+    ],
+    "indentationRules": {
+        "increaseIndentPattern": "(after|else|catch|rescue|fn|^.*(do|<\\-|\\->|\\{|\\[|\\=))\\s*$",
+        "decreaseIndentPattern": "^\\s*((\\}|\\])\\s*$|(after|else|catch|rescue|end)\\b)"
+    },
+    "folding": {
+        "markers": {
+            "start": "^\\s*(@(moduledoc|typedoc|doc)\\b\\s+(~S)?\"\"\")|(#\\s*region\\b)",
+            "end": "^\\s+(\"\"\")|(#\\s*endregion\\b)"
+        }
+    }
+}
