@@ -2,7 +2,7 @@ import type { LanguageId } from './register';
 import type { ScopeName, TextMateGrammar, ScopeNameInfo } from './providers';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { createOnigScanner, createOnigString, loadWASM } from 'vscode-oniguruma';
-import { SimpleLanguageInfoProvider } from './providers';
+import { NOJLanguageInfoProvider } from './providers';
 import { registerLanguages } from './register';
 import { rehydrateRegexps } from './configuration';
 import VsCodeDarkTheme from './themes/vs-dark-plus-theme';
@@ -32,11 +32,12 @@ interface NOJScopeNameInfo extends ScopeNameInfo {
 }
 
 async function main(language: LanguageId, themeKey: string, elementID: string, defaultValue: string) {
-    let _languagesArray = JSON.parse(languagesConfig);
     let languagesArray = {};
-    _languagesArray.forEach((value) => {
+
+    JSON.parse(languagesConfig).forEach((value) => {
         languagesArray[value.id] = value;
     });
+
     const languages: monaco.languages.ILanguageExtensionPoint[] = [
         {
             id: 'python',
@@ -169,6 +170,7 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
             mimetypes: languagesArray['pascal'].mimetypes
         },
     ];
+
     const grammars: { [scopeName: string]: NOJScopeNameInfo } = {
         'source.python': {
             language: 'python',
@@ -304,7 +306,7 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
         createOnigString,
     });
 
-    const provider = new SimpleLanguageInfoProvider({
+    const provider = new NOJLanguageInfoProvider({
         grammars,
         fetchGrammar,
         configurations: languages.map((language) => language.id),

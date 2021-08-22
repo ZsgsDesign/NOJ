@@ -19,7 +19,7 @@ export type TextMateGrammar = {
   grammar: string;
 };
 
-export type SimpleLanguageInfoProviderConfig = {
+export type NOJLanguageInfoProviderConfig = {
   // Key is a ScopeName.
   grammars: {[scopeName: string]: ScopeNameInfo};
 
@@ -29,9 +29,9 @@ export type SimpleLanguageInfoProviderConfig = {
 
   fetchConfiguration: (language: LanguageId) => Promise<monaco.languages.LanguageConfiguration>;
 
-  // This must be available synchronously to the SimpleLanguageInfoProvider
+  // This must be available synchronously to the NOJLanguageInfoProvider
   // constructor, so the user is responsible for fetching the theme data rather
-  // than SimpleLanguageInfoProvider.
+  // than NOJLanguageInfoProvider.
   theme: IRawTheme;
 
   onigLib: Promise<IOnigLib>;
@@ -53,12 +53,12 @@ export interface ScopeNameInfo {
   injections?: ScopeName[];
 }
 
-export class SimpleLanguageInfoProvider {
+export class NOJLanguageInfoProvider {
   private monaco: Monaco;
   private registry: Registry;
   private tokensProviderCache: TokensProviderCache;
 
-  constructor(private config: SimpleLanguageInfoProviderConfig) {
+  constructor(private config: NOJLanguageInfoProviderConfig) {
     const {grammars, fetchGrammar, theme, onigLib, monaco} = config;
     this.monaco = monaco;
 
