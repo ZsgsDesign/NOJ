@@ -153,6 +153,12 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
             aliases: languagesArray['scala'].aliases,
             mimetypes: languagesArray['scala'].mimetypes
         },
+        {
+            id: "typescript",
+            extensions: languagesArray['typescript'].extensions,
+            aliases: languagesArray['typescript'].aliases,
+            mimetypes: languagesArray['typescript'].mimetypes
+        },
     ];
     const grammars: { [scopeName: string]: NOJScopeNameInfo } = {
         'source.python': {
@@ -249,6 +255,10 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
         'source.scala': {
             language: "scala",
             path: "scala.tmLanguage.json"
+        },
+        'source.ts': {
+            language: "typescript",
+            path: "typescript.tmLanguage.json"
         },
     };
 
