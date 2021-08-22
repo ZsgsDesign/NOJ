@@ -130,6 +130,12 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
             extensions: languagesArray['rust'].extensions,
             aliases: languagesArray['rust'].aliases,
         },
+        {
+            id: "swift",
+            extensions: languagesArray['swift'].extensions,
+            aliases: languagesArray['swift'].aliases,
+            mimetypes: languagesArray['swift'].mimetypes
+        },
     ];
     const grammars: { [scopeName: string]: NOJScopeNameInfo } = {
         'source.python': {
@@ -210,6 +216,10 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
         'source.rust': {
             language: "rust",
             path: "rust.tmLanguage.json"
+        },
+        'source.swift': {
+            language: "swift",
+            path: "swift.tmLanguage.json"
         },
     };
 
