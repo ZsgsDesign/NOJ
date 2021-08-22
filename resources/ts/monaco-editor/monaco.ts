@@ -9,6 +9,9 @@ import VsCodeDarkTheme from './themes/vs-dark-plus-theme';
 import VsCodeLightTheme from './themes/vs-light-plus-theme';
 import { IRawTheme } from 'vscode-textmate';
 import { languagesConfig } from './languages';
+import { NOJThemeInfo, themes } from './themes';
+import { loadedThemesData } from './themeConfigs';
+import * as plist from './plist';
 
 self.MonacoEnvironment = {
     getWorkerUrl: function (moduleId, label) {
@@ -307,20 +310,28 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
         createOnigString,
     });
 
+    let themeData = await getTheme(themeKey);
+
     const provider = new NOJLanguageInfoProvider({
         grammars,
         fetchGrammar,
         configurations: languages.map((language) => language.id),
         fetchConfiguration,
-        theme: getTheme(themeKey),
+        theme: themeData,
         onigLib,
         monaco,
     });
+
     registerLanguages(
         languages,
         (language: LanguageId) => provider.fetchLanguageInfo(language),
         monaco,
     );
+
+    let themes = Object.keys(loadedThemesData);
+    themes.forEach(theme => {
+        monaco.editor.defineTheme(theme, loadedThemesData[theme]);
+    });
 
     const value = defaultValue;
     const id = elementID;
@@ -344,7 +355,7 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
 
     provider.injectCSS();
 
-    return editor;
+    return [editor, provider];
 }
 
 async function loadVSCodeOnigurumWASM(): Promise<Response | ArrayBuffer> {
@@ -357,13 +368,49 @@ async function loadVSCodeOnigurumWASM(): Promise<Response | ArrayBuffer> {
     return await response.arrayBuffer();
 }
 
-function getTheme(themeKey: string): IRawTheme {
-    return VsCodeDarkTheme;
+const fetchTheme = async (themeID: string): Promise<IRawTheme> => {
+    const { path } = themes[themeID];
+    const uri = `/static/language-services/themes/${path}`;
+    const response = await fetch(uri);
+    const themeData = await response.text();
+    if (path.endsWith('.json')) {
+        return JSON.parse(themeData);
+    }
+    return plist.parse(themeData);
+};
+
+const getTheme = async (themeID: string) => {
+    let themeData;
+
+    if(themeID === 'vs-dark') {
+        themeData = VsCodeDarkTheme;
+    }
+    else if(themeID === 'vs') {
+        themeData = VsCodeLightTheme;
+    }
+    else {
+        themeData = await fetchTheme(themeID);
+    }
+
+    if ('tokenColors' in themeData) {
+        themeData.settings = themeData.tokenColors;
+    }
+
+    return themeData;
+}
+
+const changeTheme = (provider: NOJLanguageInfoProvider, themeID: string) => {
+    Promise.resolve(getTheme(themeID)).then((themeData) => {
+        provider.setTheme(themeData);
+    });
 }
 
 window.NOJEditor = class NOJEditor {
     create(language, themeKey, elementID, defaultValue) {
         return main(language, themeKey, elementID, defaultValue);
+    }
+    changeTheme(provider: NOJLanguageInfoProvider, themeID: string) {
+        changeTheme(provider, themeID);
     }
     monaco = monaco;
     editor;
