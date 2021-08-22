@@ -57,30 +57,19 @@ async function main(language: LanguageId, themeKey: string, elementID: string) {
     const languages: monaco.languages.ILanguageExtensionPoint[] = [
         {
             id: 'python',
-            extensions: [
-                '.py',
-                '.rpy',
-                '.pyw',
-                '.cpy',
-                '.gyp',
-                '.gypi',
-                '.pyi',
-                '.ipy',
-                '.bzl',
-                '.cconf',
-                '.cinc',
-                '.mcconf',
-                '.sky',
-                '.td',
-                '.tw',
-            ],
-            aliases: ['Python', 'py'],
-            filenames: ['Snakefile', 'BUILD', 'BUCK', 'TARGETS'],
-            firstLine: '^#!\\s*/?.*\\bpython[0-9.-]*\\b',
+            extensions: languagesArray['python'].extensions,
+            aliases: languagesArray['python'].aliases,
+            filenames: languagesArray['python'].filenames,
+            firstLine: languagesArray['python'].firstLine,
         }, {
             id: 'cpp',
             extensions: languagesArray['cpp'].extensions,
             aliases: languagesArray['cpp'].aliases
+        }, {
+            id: 'kotlin',
+            extensions: languagesArray['kotlin'].extensions,
+            aliases: languagesArray['kotlin'].aliases,
+            mimetypes: languagesArray['kotlin'].mimetypes
         },
     ];
     const grammars: { [scopeName: string]: DemoScopeNameInfo } = {
@@ -91,6 +80,10 @@ async function main(language: LanguageId, themeKey: string, elementID: string) {
         'source.cpp': {
             language: 'cpp',
             path: 'cpp.tmLanguage.json',
+        },
+        'source.kotlin': {
+            language: 'kotlin',
+            path: 'kotlin.tmLanguage',
         },
     };
 
