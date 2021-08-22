@@ -34,27 +34,6 @@ interface NOJScopeNameInfo extends ScopeNameInfo {
 // main('python', 'vs', 'vscode_container');
 
 async function main(language: LanguageId, themeKey: string, elementID: string, defaultValue: string) {
-    let supportLang = [
-        'c',
-        'cpp',
-        'csharp',
-        'css',
-        'elixir',
-        'erlang',
-        'go',
-        'html',
-        'java',
-        'javascript',
-        'kotlin',
-        'php',
-        'python',
-        'racket',
-        'ruby',
-        'rust',
-        'scala',
-        'swift',
-        'typescript'
-    ];
     let _languagesArray = JSON.parse(languagesConfig);
     let languagesArray = {};
     _languagesArray.forEach((value) => {
@@ -130,6 +109,11 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
             extensions: languagesArray['go'].extensions,
             aliases: languagesArray['go'].aliases,
         },
+        {
+            id: "haskell",
+            aliases: ["Haskell", "haskell"],
+            extensions: [".hsig", "hs-boot", ".hs"],
+        },
     ];
     const grammars: { [scopeName: string]: NOJScopeNameInfo } = {
         'source.python': {
@@ -194,7 +178,11 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
         'source.go': {
             language: "go",
             path: "go.tmLanguage.json"
-          }
+        },
+        'source.haskell': {
+            language: "haskell",
+            path: "haskell.tmLanguage.json"
+        },
     };
 
     const fetchGrammar = async (scopeName: ScopeName): Promise<TextMateGrammar> => {
