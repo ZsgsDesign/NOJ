@@ -83,6 +83,11 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
             aliases: ["CUDA C++"],
         },
         {
+            id: 'csharp',
+            extensions: languagesArray['csharp'].extensions,
+            aliases: languagesArray['csharp'].aliases,
+        },
+        {
             id: 'kotlin',
             extensions: languagesArray['kotlin'].extensions,
             aliases: languagesArray['kotlin'].aliases,
@@ -133,6 +138,10 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
         'source.cpp': {
             language: 'cpp',
             path: 'cpp.tmLanguage.json',
+        },
+        'source.csharp': {
+            language: 'csharp',
+            path: 'csharp.tmLanguage.json',
         },
         'source.cuda-cpp': {
             language: 'cuda-cpp',
