@@ -82,6 +82,9 @@ mix.webpackConfig({
             }
         ],
     },
+    stats: {
+        warnings: false,
+    },
     // As suggested on:
     // https://github.com/NeekSandhu/monaco-editor-textmate/blame/45e137e5604504bcf744ef86215becbbb1482384/README.md#L58-L59
     //
