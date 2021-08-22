@@ -31,8 +31,6 @@ interface NOJScopeNameInfo extends ScopeNameInfo {
     path: string;
 }
 
-// main('python', 'vs', 'vscode_container');
-
 async function main(language: LanguageId, themeKey: string, elementID: string, defaultValue: string) {
     let _languagesArray = JSON.parse(languagesConfig);
     let languagesArray = {};
