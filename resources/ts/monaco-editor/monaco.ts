@@ -6,6 +6,7 @@ import { NOJLanguageInfoProvider } from './providers';
 import { registerLanguages } from './register';
 import { rehydrateRegexps } from './configuration';
 import VsCodeDarkTheme from './themes/vs-dark-plus-theme';
+import VsCodeLightTheme from './themes/vs-light-plus-theme';
 import { IRawTheme } from 'vscode-textmate';
 import { languagesConfig } from './languages';
 
