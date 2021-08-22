@@ -157,6 +157,11 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
             aliases: languagesArray['typescript'].aliases,
             mimetypes: languagesArray['typescript'].mimetypes
         },
+        {
+            id: "vb",
+            extensions: languagesArray['vb'].extensions,
+            aliases: languagesArray['vb'].aliases,
+        },
     ];
     const grammars: { [scopeName: string]: NOJScopeNameInfo } = {
         'source.python': {
@@ -257,6 +262,10 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
         'source.ts': {
             language: "typescript",
             path: "typescript.tmLanguage.json"
+        },
+        'source.asp.vb.net': {
+            language: "vb",
+            path: "asp-vb-net.tmlanguage.json"
         },
     };
 
