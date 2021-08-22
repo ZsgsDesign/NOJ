@@ -190,7 +190,7 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
             language: 'cpp',
             path: 'cpp.tmLanguage.json',
         },
-        'source.csharp': {
+        'source.cs': {
             language: 'csharp',
             path: 'csharp.tmLanguage.json',
         },
