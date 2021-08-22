@@ -897,16 +897,10 @@
     @include('components.congratulation')
     @endif
 
-    @component('js.common.vscode')
-        editor = monaco.editor.create(document.getElementById('monaco'), {
-                value: "{!!$submit_code!!}",
-                language: "@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['lang']}}@else{{'plaintext'}}@endif",
-                theme: "{{$theme_config['id']}}",
-                fontSize: 16,
-                formatOnPaste: true,
-                formatOnType: true,
-                automaticLayout: true
-            });
+    @component('js.common.vscodeNeo')
+        editorInstance.create("@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['lang']}}@else{{'plaintext'}}@endif", "{{$theme_config['id']}}", 'monaco', "{!!$submit_code!!}").then((value) => {
+            editor = value;
+        });
         $("#vscode_container").css("opacity",1);
     @endcomponent
 
