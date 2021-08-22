@@ -27,7 +27,7 @@ self.MonacoEnvironment = {
     }
 }
 
-interface DemoScopeNameInfo extends ScopeNameInfo {
+interface NOJScopeNameInfo extends ScopeNameInfo {
     path: string;
 }
 
@@ -49,8 +49,29 @@ async function main(language: LanguageId, themeKey: string, elementID: string) {
     //
     // You likely also want to add an entry in getSampleCodeForLanguage() and
     // change the call to main() above to pass your LanguageId.
+    let supportLang = [
+        'c',
+        'cpp',
+        'csharp',
+        'css',
+        'elixir',
+        'erlang',
+        'go',
+        'html',
+        'java',
+        'javascript',
+        'kotlin',
+        'php',
+        'python',
+        'racket',
+        'ruby',
+        'rust',
+        'scala',
+        'swift',
+        'typescript'
+    ];
     let _languagesArray = JSON.parse(languagesConfig);
-    let languagesArray={};
+    let languagesArray = {};
     _languagesArray.forEach((value)=>{
         languagesArray[value.id] = value;
     });
@@ -59,20 +80,47 @@ async function main(language: LanguageId, themeKey: string, elementID: string) {
             id: 'python',
             extensions: languagesArray['python'].extensions,
             aliases: languagesArray['python'].aliases,
-            filenames: languagesArray['python'].filenames,
             firstLine: languagesArray['python'].firstLine,
-        }, {
+        },
+        {
             id: 'cpp',
             extensions: languagesArray['cpp'].extensions,
             aliases: languagesArray['cpp'].aliases
-        }, {
+        },
+        {
             id: 'kotlin',
             extensions: languagesArray['kotlin'].extensions,
             aliases: languagesArray['kotlin'].aliases,
             mimetypes: languagesArray['kotlin'].mimetypes
         },
+        {
+            id: 'css',
+            extensions: languagesArray['css'].extensions,
+            aliases: languagesArray['css'].aliases,
+            mimetypes: languagesArray['css'].mimetypes
+        },
+        {
+            id: 'html',
+            extensions: languagesArray['html'].extensions,
+            aliases: languagesArray['html'].aliases,
+            mimetypes: languagesArray['html'].mimetypes
+        },
+        {
+            id: 'javascript',
+            extensions: languagesArray['javascript'].extensions,
+            aliases: languagesArray['javascript'].aliases,
+            mimetypes: languagesArray['javascript'].mimetypes,
+            firstLine: languagesArray['javascript'].firstLine,
+            filenames: languagesArray['javascript'].filenames,
+        },
+        {
+            id: 'php',
+            extensions: languagesArray['php'].extensions,
+            aliases: languagesArray['php'].aliases,
+            mimetypes: languagesArray['php'].mimetypes
+        },
     ];
-    const grammars: { [scopeName: string]: DemoScopeNameInfo } = {
+    const grammars: { [scopeName: string]: NOJScopeNameInfo } = {
         'source.python': {
             language: 'python',
             path: 'python.tmLanguage.json',
@@ -84,6 +132,31 @@ async function main(language: LanguageId, themeKey: string, elementID: string) {
         'source.kotlin': {
             language: 'kotlin',
             path: 'kotlin.tmLanguage',
+        },
+        'source.css': {
+            language: 'css',
+            path: 'css.tmLanguage.json',
+        },
+        'text.html.basic': {
+            path: 'html.tmLanguage.json',
+        },
+        'text.html.derivative': {
+            language: 'html',
+            path: 'html-derivative.tmLanguage.json',
+        },
+        'source.js': {
+            path: 'javascript.tmLanguage.json',
+        },
+        'source.js.jsx': {
+            language: 'javascript',
+            path: 'javascript-react.tmLanguage.json',
+        },
+        'source.php': {
+            path: 'php.tmLanguage.json',
+        },
+        'text.html.php': {
+            language: "php",
+            path: "html-php.tmLanguage.json",
         },
     };
 
