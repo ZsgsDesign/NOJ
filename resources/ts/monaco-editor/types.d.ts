@@ -1,8 +1,8 @@
-declare interface Window{
+declare interface Window {
     MonacoEnvironment: Object;
     NOJEditor: Class;
 }
 
-declare interface NOJEditor{
+declare interface NOJEditor {
     editor: any;
 }

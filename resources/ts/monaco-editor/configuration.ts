@@ -5,62 +5,52 @@ import type * as monaco from 'monaco-editor';
  * rather than a string literal.
  */
 const REGEXP_PROPERTIES = [
-  // indentation
-  'indentationRules.decreaseIndentPattern',
-  'indentationRules.increaseIndentPattern',
-  'indentationRules.indentNextLinePattern',
-  'indentationRules.unIndentedLinePattern',
+    // indentation
+    'indentationRules.decreaseIndentPattern',
+    'indentationRules.increaseIndentPattern',
+    'indentationRules.indentNextLinePattern',
+    'indentationRules.unIndentedLinePattern',
 
-  // code folding
-  'folding.markers.start',
-  'folding.markers.end',
+    // code folding
+    'folding.markers.start',
+    'folding.markers.end',
 
-  // language's "word definition"
-  'wordPattern',
+    // language's "word definition"
+    'wordPattern',
 ];
 
-/**
- * Configuration data is read from JSON and JSONC files, which cannot contain
- * regular expression literals. Although Monarch grammars will often accept
- * either the source of a RegExp as a string OR a RegExp object, certain Monaco
- * APIs accept only a RegExp object, so we must "rehydrate" those, as appropriate.
- *
- * It would probably save everyone a lot of trouble if we updated the APIs to
- * accept a RegExp or a string literal. Possibly a small struct if flags need
- * to be specified to the RegExp constructor.
- */
 export function rehydrateRegexps(rawConfiguration: string): monaco.languages.LanguageConfiguration {
-  const out = JSON.parse(rawConfiguration);
-  for (const property of REGEXP_PROPERTIES) {
-    const value = getProp(out, property);
-    if (typeof value === 'string') {
-      setProp(out, property, new RegExp(value));
+    const out = JSON.parse(rawConfiguration);
+    for (const property of REGEXP_PROPERTIES) {
+        const value = getProp(out, property);
+        if (typeof value === 'string') {
+            setProp(out, property, new RegExp(value));
+        }
     }
-  }
-  return out;
+    return out;
 }
 
-function getProp(obj: {string: any}, selector: string): any {
-  const components = selector.split('.');
-  // @ts-ignore
-  return components.reduce((acc, cur) => (acc != null ? acc[cur] : null), obj);
+function getProp(obj: { string: any }, selector: string): any {
+    const components = selector.split('.');
+    // @ts-ignore
+    return components.reduce((acc, cur) => (acc != null ? acc[cur] : null), obj);
 }
 
-function setProp(obj: {string: any}, selector: string, value: RegExp): void {
-  const components = selector.split('.');
-  const indexToSet = components.length - 1;
-  components.reduce((acc, cur, index) => {
-    if (acc == null) {
-      return acc;
-    }
+function setProp(obj: { string: any }, selector: string, value: RegExp): void {
+    const components = selector.split('.');
+    const indexToSet = components.length - 1;
+    components.reduce((acc, cur, index) => {
+        if (acc == null) {
+            return acc;
+        }
 
-    if (index === indexToSet) {
-      // @ts-ignore
-      acc[cur] = value;
-      return null;
-    } else {
-      // @ts-ignore
-      return acc[cur];
-    }
-  }, obj);
+        if (index === indexToSet) {
+            // @ts-ignore
+            acc[cur] = value;
+            return null;
+        } else {
+            // @ts-ignore
+            return acc[cur];
+        }
+    }, obj);
 }

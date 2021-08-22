@@ -53,11 +53,6 @@ export interface ScopeNameInfo {
   injections?: ScopeName[];
 }
 
-/**
- * Basic provider to implement the fetchLanguageInfo() function needed to
- * power registerLanguages(). It is designed to fetch all resources
- * asynchronously based on a simple layout of static resources on the server.
- */
 export class SimpleLanguageInfoProvider {
   private monaco: Monaco;
   private registry: Registry;
