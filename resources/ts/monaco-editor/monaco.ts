@@ -119,6 +119,12 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
             aliases: languagesArray['php'].aliases,
             mimetypes: languagesArray['php'].mimetypes
         },
+        {
+            id: 'java',
+            extensions: languagesArray['java'].extensions,
+            aliases: languagesArray['java'].aliases,
+            mimetypes: languagesArray['java'].mimetypes
+        },
     ];
     const grammars: { [scopeName: string]: NOJScopeNameInfo } = {
         'source.python': {
@@ -175,6 +181,10 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
         'text.html.php': {
             language: "php",
             path: "html-php.tmLanguage.json",
+        },
+        'source.java': {
+            language: "java",
+            path: "java.tmLanguage.json",
         },
     };
 
