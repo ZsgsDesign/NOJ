@@ -33,22 +33,7 @@ interface NOJScopeNameInfo extends ScopeNameInfo {
 
 // main('python', 'vs', 'vscode_container');
 
-async function main(language: LanguageId, themeKey: string, elementID: string) {
-    // In this demo, the following values are hardcoded to support Python using
-    // the VS Code Dark+ theme. Currently, end users are responsible for
-    // extracting the data from the relevant VS Code extensions themselves to
-    // leverage other TextMate grammars or themes. Scripts may be provided to
-    // facilitate this in the future.
-    //
-    // Note that adding a new TextMate grammar entails the following:
-    // - adding an entry in the languages array
-    // - adding an entry in the grammars map
-    // - making the TextMate file available in the grammars/ folder
-    // - making the monaco.languages.LanguageConfiguration available in the
-    //   configurations/ folder.
-    //
-    // You likely also want to add an entry in getSampleCodeForLanguage() and
-    // change the call to main() above to pass your LanguageId.
+async function main(language: LanguageId, themeKey: string, elementID: string, defaultValue: string) {
     let supportLang = [
         'c',
         'cpp',
@@ -72,7 +57,7 @@ async function main(language: LanguageId, themeKey: string, elementID: string) {
     ];
     let _languagesArray = JSON.parse(languagesConfig);
     let languagesArray = {};
-    _languagesArray.forEach((value)=>{
+    _languagesArray.forEach((value) => {
         languagesArray[value.id] = value;
     });
     const languages: monaco.languages.ILanguageExtensionPoint[] = [
@@ -83,9 +68,19 @@ async function main(language: LanguageId, themeKey: string, elementID: string) {
             firstLine: languagesArray['python'].firstLine,
         },
         {
+            id: 'c',
+            extensions: languagesArray['c'].extensions,
+            aliases: languagesArray['c'].aliases
+        },
+        {
             id: 'cpp',
             extensions: languagesArray['cpp'].extensions,
             aliases: languagesArray['cpp'].aliases
+        },
+        {
+            id: 'cuda-cpp',
+            extensions: [".cu", ".cuh"],
+            aliases: ["CUDA C++"],
         },
         {
             id: 'kotlin',
@@ -125,9 +120,23 @@ async function main(language: LanguageId, themeKey: string, elementID: string) {
             language: 'python',
             path: 'python.tmLanguage.json',
         },
+        'source.cpp.embedded.macro': {
+            path: "cpp.embedded.macro.tmLanguage.json"
+        },
+        'source.c.platform': {
+            path: "c.platform.tmLanguage.json"
+        },
+        'source.c': {
+            language: 'c',
+            path: 'c.tmLanguage.json',
+        },
         'source.cpp': {
             language: 'cpp',
             path: 'cpp.tmLanguage.json',
+        },
+        'source.cuda-cpp': {
+            language: 'cuda-cpp',
+            path: 'cuda-cpp.tmLanguage.json',
         },
         'source.kotlin': {
             language: 'kotlin',
@@ -200,7 +209,7 @@ async function main(language: LanguageId, themeKey: string, elementID: string) {
         monaco,
     );
 
-    const value = getSampleCodeForLanguage(language);
+    const value = defaultValue;
     const id = elementID;
     const element = document.getElementById(id);
     if (element == null) {
@@ -225,7 +234,6 @@ async function main(language: LanguageId, themeKey: string, elementID: string) {
     return editor;
 }
 
-// Taken from https://github.com/microsoft/vscode/blob/829230a5a83768a3494ebbc61144e7cde9105c73/src/vs/workbench/services/textMate/browser/textMateService.ts#L33-L40
 async function loadVSCodeOnigurumWASM(): Promise<Response | ArrayBuffer> {
     const response = await fetch('/static/library/vscode-oniguruma/release/onig.wasm');
     const contentType = response.headers.get('content-type');
@@ -233,25 +241,7 @@ async function loadVSCodeOnigurumWASM(): Promise<Response | ArrayBuffer> {
         return response;
     }
 
-    // Using the response directly only works if the server sets the MIME type 'application/wasm'.
-    // Otherwise, a TypeError is thrown when using the streaming compiler.
-    // We therefore use the non-streaming compiler :(.
     return await response.arrayBuffer();
-}
-
-function getSampleCodeForLanguage(language: LanguageId): string {
-    if (language === 'python') {
-        return `\
-import foo
-
-async def bar(): string:
-  f = await foo()
-  f_string = f"Hooray {f}! format strings are not supported in current Monarch grammar"
-  return foo_string
-`;
-    }
-
-    throw Error(`unsupported language: ${language}`);
 }
 
 function getTheme(themeKey: string): IRawTheme {
@@ -259,8 +249,8 @@ function getTheme(themeKey: string): IRawTheme {
 }
 
 window.NOJEditor = class NOJEditor {
-    create(language, themeKey, elementID) {
-        return main(language, themeKey, elementID);
+    create(language, themeKey, elementID, defaultValue) {
+        return main(language, themeKey, elementID, defaultValue);
     }
     monaco = monaco;
     editor;
