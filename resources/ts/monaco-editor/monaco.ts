@@ -136,6 +136,23 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
             aliases: languagesArray['swift'].aliases,
             mimetypes: languagesArray['swift'].mimetypes
         },
+        {
+            id: "erlang",
+            aliases: ["Erlang", "erlang"],
+            extensions: [".erl", ".hrl", ".xrl", ".yrl", ".es", ".escript", ".app.src", "rebar.config"],
+        },
+        {
+            id: "racket",
+            extensions: [".rkt"],
+            aliases: ["Racket", "racket"],
+            filenames: [".rkt"],
+        },
+        {
+            id: "scala",
+            extensions: languagesArray['scala'].extensions,
+            aliases: languagesArray['scala'].aliases,
+            mimetypes: languagesArray['scala'].mimetypes
+        },
     ];
     const grammars: { [scopeName: string]: NOJScopeNameInfo } = {
         'source.python': {
@@ -220,6 +237,18 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
         'source.swift': {
             language: "swift",
             path: "swift.tmLanguage.json"
+        },
+        'source.erlang': {
+            language: "erlang",
+            path: "erlang.tmLanguage.json"
+        },
+        'source.racket': {
+            language: "racket",
+            path: "racket.tmLanguage.json"
+        },
+        'source.scala': {
+            language: "scala",
+            path: "scala.tmLanguage.json"
         },
     };
 
