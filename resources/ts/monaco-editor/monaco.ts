@@ -119,6 +119,17 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
             extensions: languagesArray['elixir'].extensions,
             aliases: languagesArray['elixir'].aliases,
         },
+        {
+            id: "ruby",
+            extensions: languagesArray['ruby'].extensions,
+            filenames: languagesArray['ruby'].filenames,
+            aliases: languagesArray['ruby'].aliases,
+        },
+        {
+            id: "rust",
+            extensions: languagesArray['rust'].extensions,
+            aliases: languagesArray['rust'].aliases,
+        },
     ];
     const grammars: { [scopeName: string]: NOJScopeNameInfo } = {
         'source.python': {
@@ -191,6 +202,14 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
         'source.elixir': {
             language: "elixir",
             path: "elixir.tmLanguage.json"
+        },
+        'source.ruby': {
+            language: "ruby",
+            path: "ruby.tmLanguage.json"
+        },
+        'source.rust': {
+            language: "rust",
+            path: "rust.tmLanguage.json"
         },
     };
 
