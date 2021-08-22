@@ -162,6 +162,12 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
             extensions: languagesArray['vb'].extensions,
             aliases: languagesArray['vb'].aliases,
         },
+        {
+            id: "pascal",
+            extensions: languagesArray['pascal'].extensions,
+            aliases: languagesArray['pascal'].aliases,
+            mimetypes: languagesArray['pascal'].mimetypes
+        },
     ];
     const grammars: { [scopeName: string]: NOJScopeNameInfo } = {
         'source.python': {
@@ -266,6 +272,10 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
         'source.asp.vb.net': {
             language: "vb",
             path: "asp-vb-net.tmlanguage.json"
+        },
+        'source.pascal': {
+            language: "pascal",
+            path: "pascal.tmLanguage"
         },
     };
 
