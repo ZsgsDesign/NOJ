@@ -13,11 +13,12 @@ const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
  |
  */
 
-// mix.js('resources/js/app.js', 'public/js')
-//    .sass('resources/sass/app.scss', 'public/css');
+// Pre-compile supporting libraries first
+mix.ts('resources/ts/noj.ts', 'public/static/js/build/app.js');
 
+// Bundling js libraries
 mix.scripts([
-    'node_modules/jquery/dist/jquery.min.js',
+    'public/static/js/build/app.js',
     'node_modules/popper.js/dist/umd/popper.min.js',
     'node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js',
     'node_modules/pdfobject/pdfobject.min.js',
@@ -25,7 +26,6 @@ mix.scripts([
     'node_modules/noj-jquery-ui-sortable/dist/jquery-ui-sortable.min.js',
     'node_modules/parazoom/dist/parazoom.min.js',
     'node_modules/chart.js/dist/Chart.bundle.min.js',
-    'node_modules/highlightjs/highlight.pack.min.js',
     'node_modules/simplemde/dist/simplemde.min.js',
     'node_modules/marked/marked.min.js',
     'node_modules/dompurify/dist/purify.min.js',
