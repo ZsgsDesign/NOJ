@@ -1,1 +1,6 @@
-<link rel="stylesheet" href="/static/library/highlight.js/styles/atom-one-light.css">
+<link rel="stylesheet" href="/static/library/highlight.js/styles/vs.css">
+<style>
+    .hljs {
+        background: #fafafa;
+    }
+</style>

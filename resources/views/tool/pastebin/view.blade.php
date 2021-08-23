@@ -108,6 +108,11 @@
 
 @section('additionJS')
     @include("js.common.hljsLight")
+    <style>
+        .hljs {
+            background: #fff;
+        }
+    </style>
     <script>
         hljs.highlightBlock(document.querySelector(`#pb_content`));
     </script>
