@@ -868,7 +868,12 @@
 
     @yield("addition")
 
-    <script src="/static/library/clipboard/dist/clipboard.min.js"></script>
+    @include('js.common.markerPen')
+    @include('layouts.js')
+    @include("js.common.mathjax")
+    @include('layouts.primaryJS')
+    @include('js.submission.detail')
+
     <script>
         var clipboard = new ClipboardJS('.cm-copy-snippet');
 
@@ -887,11 +892,6 @@
             }, 2000);
         });
     </script>
-    @include('js.common.markerPen')
-    @include('layouts.js')
-    @include("js.common.mathjax")
-    @include('layouts.primaryJS')
-    @include('js.submission.detail')
 
     @if(!$contest_mode)
     @include('components.congratulation')
