@@ -114,7 +114,7 @@
         }
     </style>
     <script>
-        hljs.highlightBlock(document.querySelector(`#pb_content`));
+        hljs.highlightElement(document.querySelector(`#pb_content`));
     </script>
 @endsection
 

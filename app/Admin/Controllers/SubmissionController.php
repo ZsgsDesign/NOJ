@@ -194,9 +194,9 @@ class SubmissionController extends Controller
                 <pre id='x$hash'><code class='$lang'>".htmlspecialchars($value)."</code></pre>
                 <script>
                     try{
-                        hljs.highlightBlock(document.querySelector('#x$hash code'));
+                        hljs.highlightElement(document.querySelector('#x$hash code'));
                     }catch(err){
-                        window.addEventListener('load', function(){hljs.highlightBlock(document.querySelector('#x$hash code'));});
+                        window.addEventListener('load', function(){hljs.highlightElement(document.querySelector('#x$hash code'));});
                     }
                 </script>
             ";
