@@ -13,24 +13,6 @@ import { NOJThemeInfo, themes } from './themes';
 import { loadedThemesData } from './themeConfigs';
 import * as plist from './plist';
 
-self.MonacoEnvironment = {
-    getWorkerUrl: function (moduleId, label) {
-        if (label === 'json') {
-            return '/static/js/build/worker/json.js';
-        }
-        if (label === 'css' || label === 'scss' || label === 'less') {
-            return '/static/js/build/worker/css.js';
-        }
-        if (label === 'html' || label === 'handlebars' || label === 'razor') {
-            return '/static/js/build/worker/html.js';
-        }
-        if (label === 'typescript' || label === 'javascript') {
-            return '/static/js/build/worker/ts.js';
-        }
-        return '/static/js/build/worker/editor.js';
-    }
-}
-
 interface NOJScopeNameInfo extends ScopeNameInfo {
     path: string;
 }

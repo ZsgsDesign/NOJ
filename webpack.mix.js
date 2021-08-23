@@ -90,7 +90,11 @@ mix.webpackConfig({
     //
     // Use the MonacoWebpackPlugin to disable all built-in tokenizers/languages.
     plugins: [
-        new MonacoWebpackPlugin({languages: []}),
+        new MonacoWebpackPlugin({
+            filename: 'static/js/build/worker/[name].js',
+            publicPath: '/',
+            languages: []
+        }),
         new IgnoreEmitPlugin([/editor\.worker\.js/])
     ],
 });
