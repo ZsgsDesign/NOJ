@@ -12,9 +12,13 @@ const themes: { [themeID: string]: NOJThemeInfo } = {
     //     name: 'Kimbie Dark',
     //     path: 'kimbie-dark-color-theme.json',
     // },
-    'monokai': {
-        name: 'Monokai',
-        path: 'Monokai.tmTheme',
+    'monokai-classic': {
+        name: 'Monokai Classic',
+        path: 'monokai-classic.json',
+    },
+    'monokai-pro': {
+        name: 'Monokai Pro',
+        path: 'monokai-pro.json',
     },
     'material-design': {
         name: 'Material Design',

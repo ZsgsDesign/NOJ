@@ -165,14 +165,14 @@ class MonacoTheme
         //     "name" => "MonoIndustrial",
         //     "background" => "#222C28"
         // ],
-        // "monokai-bright" => [
-        //     "id" => "monokai-bright",
-        //     "name" => "Monokai Bright",
-        //     "background" => "#272822"
-        // ],
-        "monokai" => [
-            "id" => "monokai",
-            "name" => "Monokai",
+        "monokai-pro" => [
+            "id" => "monokai-pro",
+            "name" => "Monokai Pro",
+            "background" => "#2d2a2e"
+        ],
+        "monokai-classic" => [
+            "id" => "monokai-classic",
+            "name" => "Monokai Classic",
             "background" => "#272822"
         ],
         // "night-owl" => [
