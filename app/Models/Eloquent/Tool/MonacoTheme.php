@@ -205,16 +205,16 @@ class MonacoTheme
         //     "name" => "Slush and Poppies",
         //     "background" => "#F1F1F1"
         // ],
-        // "solarized-dark" => [
-        //     "id" => "solarized-dark",
-        //     "name" => "Solarized Dark",
-        //     "background" => "#002B36"
-        // ],
-        // "solarized-light" => [
-        //     "id" => "solarized-light",
-        //     "name" => "Solarized Light",
-        //     "background" => "#FDF6E3"
-        // ],
+        "solarized-dark" => [
+            "id" => "solarized-dark",
+            "name" => "Solarized Dark",
+            "background" => "#002B36"
+        ],
+        "solarized-light" => [
+            "id" => "solarized-light",
+            "name" => "Solarized Light",
+            "background" => "#FDF6E3"
+        ],
         // "spacecadet" => [
         //     "id" => "spacecadet",
         //     "name" => "SpaceCadet",

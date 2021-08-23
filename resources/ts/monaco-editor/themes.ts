@@ -40,6 +40,14 @@ const themes: { [themeID: string]: NOJThemeInfo } = {
         name: 'Github Light',
         path: 'github-light-default.json',
     },
+    'solarized-light': {
+        name: 'Solarized Light',
+        path: 'solarized-light.json',
+    },
+    'solarized-dark': {
+        name: 'Solarized Dark',
+        path: 'solarized-dark.json',
+    },
 };
 
 export { themes };
