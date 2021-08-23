@@ -16,7 +16,14 @@ const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
 // Pre-compile supporting libraries first
 mix.ts('resources/ts/noj.ts', 'public/static/js/build/app.js');
 
-// Bundling js libraries
+// Export resources for Admin Porta;
+mix.styles([
+    'resources/css/wemd-color-scheme.css',
+], 'public/static/css/build/color.css');
+
+mix.ts('resources/ts/hljs.ts', 'public/static/js/build/highlight.pack.min.js');
+
+// Compile JS libraries bundle
 mix.scripts([
     'public/static/js/build/app.js',
     'node_modules/popper.js/dist/umd/popper.min.js',
@@ -32,8 +39,10 @@ mix.scripts([
     'node_modules/clipboard/dist/clipboard.min.js',
 ], 'public/static/js/build/noj.js');
 
+// Debugger for dompurify
 mix.copy('node_modules/dompurify/dist/purify.min.js.map', 'public/static/js/build/purify.min.js.map');
 
+// Compile CSS libraries bundle
 mix.styles([
     'node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.min.css',
     'node_modules/animate.css/animate.min.css',
@@ -43,10 +52,7 @@ mix.styles([
     'node_modules/simplemde/dist/simplemde.min.css',
 ], 'public/static/css/build/noj.css');
 
-mix.styles([
-    'resources/css/wemd-color-scheme.css',
-], 'public/static/css/build/color.css');
-
+// Compile NOJ Editor
 mix.ts('resources/ts/monaco-editor/monaco.ts', 'public/static/js/build/noj-editor.js');
 
 if (mix.inProduction()) {
