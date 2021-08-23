@@ -245,31 +245,31 @@ class MonacoTheme
         //     "name" => "Textmate (Mac Classic)",
         //     "background" => "#FFFFFF"
         // ],
-        // "tomorrow-night-blue" => [
-        //     "id" => "tomorrow-night-blue",
-        //     "name" => "Tomorrow Night Blue",
-        //     "background" => "#002451"
-        // ],
-        // "tomorrow-night-bright" => [
-        //     "id" => "tomorrow-night-bright",
-        //     "name" => "Tomorrow Night Bright",
-        //     "background" => "#000000"
-        // ],
-        // "tomorrow-night-eighties" => [
-        //     "id" => "tomorrow-night-eighties",
-        //     "name" => "Tomorrow Night Eighties",
-        //     "background" => "#2D2D2D"
-        // ],
-        // "tomorrow-night" => [
-        //     "id" => "tomorrow-night",
-        //     "name" => "Tomorrow Night",
-        //     "background" => "#1D1F21"
-        // ],
-        // "tomorrow" => [
-        //     "id" => "tomorrow",
-        //     "name" => "Tomorrow",
-        //     "background" => "#FFFFFF"
-        // ],
+        "tomorrow-night-blue" => [
+            "id" => "tomorrow-night-blue",
+            "name" => "Tomorrow Night Blue",
+            "background" => "#002451"
+        ],
+        "tomorrow-night-bright" => [
+            "id" => "tomorrow-night-bright",
+            "name" => "Tomorrow Night Bright",
+            "background" => "#000000"
+        ],
+        "tomorrow-night-eighties" => [
+            "id" => "tomorrow-night-eighties",
+            "name" => "Tomorrow Night Eighties",
+            "background" => "#2D2D2D"
+        ],
+        "tomorrow-night" => [
+            "id" => "tomorrow-night",
+            "name" => "Tomorrow Night",
+            "background" => "#1D1F21"
+        ],
+        "tomorrow" => [
+            "id" => "tomorrow",
+            "name" => "Tomorrow",
+            "background" => "#FFFFFF"
+        ],
         // "twilight" => [
         //     "id" => "twilight",
         //     "name" => "Twilight",

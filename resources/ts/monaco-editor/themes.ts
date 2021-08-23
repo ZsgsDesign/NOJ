@@ -60,6 +60,26 @@ const themes: { [themeID: string]: NOJThemeInfo } = {
         name: 'Red',
         path: 'red.json',
     },
+    'tomorrow-night-blue': {
+        name: 'Tomorrow Night Blue',
+        path: 'tomorrow-night-blue.json',
+    },
+    'tomorrow-night-bright': {
+        name: 'Tomorrow Night Bright',
+        path: 'tomorrow-night-bright.json',
+    },
+    'tomorrow-night-eighties': {
+        name: 'Tomorrow Night Eighties',
+        path: 'tomorrow-night-eighties.json',
+    },
+    'tomorrow-night': {
+        name: 'Tomorrow Night',
+        path: 'tomorrow-night.json',
+    },
+    'tomorrow': {
+        name: 'Tomorrow',
+        path: 'tomorrow.json',
+    },
 };
 
 export { themes };
