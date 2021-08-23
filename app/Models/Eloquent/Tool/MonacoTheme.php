@@ -210,6 +210,11 @@ class MonacoTheme
             "name" => "Quiet Light",
             "background" => "#F5F5F5"
         ],
+        "red" => [
+            "id" => "red",
+            "name" => "Red",
+            "background" => "#390000"
+        ],
         // "slush-and-poppies" => [
         //     "id" => "slush-and-poppies",
         //     "name" => "Slush and Poppies",
