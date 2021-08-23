@@ -21,8 +21,8 @@
 Admin::css(mix('/static/css/build/color.css'));
 Admin::css('/static/fonts/mdi-wxss/MDI.css');
 Admin::favicon('/favicon.png');
-Admin::css('/static/library/highlightjs/styles/atom-one-light.css');
-Admin::js('/static/library/highlightjs/highlight.pack.min.js');
+Admin::css('/static/library/highlight.js/styles/vs.css');
+Admin::js('/static/js/build/highlight.pack.min.js');
 Encore\Admin\Form::forget(['map', 'editor']);
 app('view')->prependNamespace('admin', resource_path('views/admin'));
 
