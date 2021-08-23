@@ -177,6 +177,7 @@
   "semanticHighlighting": true,
   "tokenColors": [
     {
+        "name": "Global settings",
         "settings": {
             "foreground": "#c9d1d9",
             "background": "#0d1117"
