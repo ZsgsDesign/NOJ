@@ -52,6 +52,10 @@ const themes: { [themeID: string]: NOJThemeInfo } = {
         name: 'Abyss',
         path: 'abyss.json',
     },
+    'quietlight': {
+        name: 'Quiet Light',
+        path: 'quietlight.json',
+    },
 };
 
 export { themes };

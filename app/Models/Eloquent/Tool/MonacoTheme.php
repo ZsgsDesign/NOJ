@@ -205,6 +205,11 @@ class MonacoTheme
         //     "name" => "Pastels on Dark",
         //     "background" => "#211E1E"
         // ],
+        "quietlight" => [
+            "id" => "quietlight",
+            "name" => "Quiet Light",
+            "background" => "#F5F5F5"
+        ],
         // "slush-and-poppies" => [
         //     "id" => "slush-and-poppies",
         //     "name" => "Slush and Poppies",
