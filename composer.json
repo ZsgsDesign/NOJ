@@ -9,7 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.4",
-        "asundust/auth-captcha": "2.0.13",
+        "asundust/auth-captcha": "^2.0.13",
         "barryvdh/laravel-dompdf": "^0.8.5",
         "encore/laravel-admin": "^1.7",
         "fideloper/proxy": "^4.0",
