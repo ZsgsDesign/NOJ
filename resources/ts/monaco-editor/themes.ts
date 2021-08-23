@@ -20,6 +20,14 @@ const themes: { [themeID: string]: NOJThemeInfo } = {
         name: 'Material Design',
         path: 'material.json',
     },
+    'material-design-darker': {
+        name: 'Material Design Darker',
+        path: 'material_dark.json',
+    },
+    'material-design-lighter': {
+        name: 'Material Design Lighter',
+        path: 'material_light.json',
+    },
     'github-dark': {
         name: 'Github Dark',
         path: 'github-dark-default.json',

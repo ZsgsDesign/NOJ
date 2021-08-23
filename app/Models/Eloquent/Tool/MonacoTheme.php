@@ -5,16 +5,16 @@ namespace App\Models\Eloquent\Tool;
 class MonacoTheme
 {
     protected static $theme=[
-        // "material-design-darker"=>[
-        //     "id" => "material-design-darker",
-        //     "name" => "Default",
-        //     "background" => "#212121"
-        // ],
-        // "material-design-lighter"=>[
-        //     "id" => "material-design-lighter",
-        //     "name" => "Default (White)",
-        //     "background" => "#FAFAFA"
-        // ],
+        "material-design-darker"=>[
+            "id" => "material-design-darker",
+            "name" => "Default",
+            "background" => "#212121"
+        ],
+        "material-design-lighter"=>[
+            "id" => "material-design-lighter",
+            "name" => "Default (White)",
+            "background" => "#FAFAFA"
+        ],
         "hc-black"=>[
             "id" => "hc-black",
             "name" => "High Contrast (Dark)",
