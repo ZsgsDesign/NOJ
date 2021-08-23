@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ace248bf53e0343a358a0f447f2c84c5",
+    "content-hash": "f46e36e2c943834cc40ce05d0f9d93bf",
     "packages": [
         {
             "name": "asundust/auth-captcha",
@@ -5074,18 +5074,6 @@
             "dist": {
                 "type": "tar",
                 "url": "https://registry.npmjs.org/highlight.js/-/highlight.js-11.2.0.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "BSD-3-Clause"
-            ]
-        },
-        {
-            "name": "npm-asset/highlightjs",
-            "version": "9.16.2",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/highlightjs/-/highlightjs-9.16.2.tgz"
             },
             "type": "npm-asset",
             "license": [
