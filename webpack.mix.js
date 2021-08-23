@@ -31,7 +31,7 @@ mix.scripts([
     'node_modules/dompurify/dist/purify.min.js',
 ], 'public/static/js/build/noj.js');
 
-mix.copy('node_modules/dompurify/dist/purify.min.js.map','public/static/js/build/purify.min.js.map');
+mix.copy('node_modules/dompurify/dist/purify.min.js.map', 'public/static/js/build/purify.min.js.map');
 
 mix.styles([
     'node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.min.css',
@@ -93,7 +93,8 @@ mix.webpackConfig({
         new MonacoWebpackPlugin({
             filename: 'static/js/build/worker/[name].js',
             publicPath: '/',
-            languages: []
+            languages: [],
+            features: ['accessibilityHelp', 'anchorSelect', 'bracketMatching', 'caretOperations', 'clipboard', 'codeAction', 'codelens', 'colorPicker', 'comment', 'contextmenu', 'coreCommands', 'cursorUndo', 'dnd', 'documentSymbols', 'find', 'folding', 'fontZoom', 'format', 'gotoError', 'gotoLine', 'gotoSymbol', 'hover', 'iPadShowKeyboard', 'inPlaceReplace', 'indentation', 'inlayHints', 'inlineCompletions', 'inspectTokens', 'linesOperations', 'linkedEditing', 'links', 'multicursor', 'parameterHints', 'quickCommand', 'quickHelp', 'quickOutline', 'referenceSearch', 'rename', 'smartSelect', 'snippets', 'suggest', 'toggleTabFocusMode', 'transpose', 'unusualLineTerminators', 'viewportSemanticTokens', 'wordHighlighter', 'wordOperations', 'wordPartOperations']
         }),
         new IgnoreEmitPlugin([/editor\.worker\.js/])
     ],

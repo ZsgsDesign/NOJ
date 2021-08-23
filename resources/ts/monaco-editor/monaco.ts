@@ -330,6 +330,7 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
         formatOnPaste: true,
         formatOnType: true,
         automaticLayout: true,
+        autoDetectHighContrast: false,
         minimap: {
             enabled: true,
         },
