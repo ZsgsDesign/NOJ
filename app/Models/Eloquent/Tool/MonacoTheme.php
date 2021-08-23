@@ -130,6 +130,11 @@ class MonacoTheme
         //     "name" => "Katzenmilch",
         //     "background" => "#E8E9E8"
         // ],
+        "kimbie-dark"=>[
+            "id" => "kimbie-dark",
+            "name" => "Kimbie Dark",
+            "background" => "#221a0f"
+        ],
         // "kuroir-theme" => [
         //     "id" => "kuroir-theme",
         //     "name" => "Kuroir Theme",

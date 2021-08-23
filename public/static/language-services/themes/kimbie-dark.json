@@ -53,7 +53,7 @@
         "progressBar.background": "#7f5d38"
     },
     "tokenColors": [
-        { "settings": { "foreground": "#d3af86" } },
+        { "settings": { "foreground": "#d3af86", "background": "#221a0f" } },
         {
             "scope": ["meta.embedded", "source.groovy.embedded"],
             "settings": { "foreground": "#d3af86" }

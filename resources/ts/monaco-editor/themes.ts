@@ -8,10 +8,10 @@ const themes: { [themeID: string]: NOJThemeInfo } = {
         name: 'High Contrast (Dark)',
         path: 'hc_black.json',
     },
-    // 'kimbie-dark': {
-    //     name: 'Kimbie Dark',
-    //     path: 'kimbie-dark-color-theme.json',
-    // },
+    'kimbie-dark': {
+        name: 'Kimbie Dark',
+        path: 'kimbie-dark.json',
+    },
     'monokai-classic': {
         name: 'Monokai Classic',
         path: 'monokai-classic.json',
