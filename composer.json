@@ -59,7 +59,7 @@
         "rmccue/requests": "^1.7",
         "sebastian/version": "^2.0",
         "socialiteproviders/github": "^4.1",
-        "x3zvawq/noj_simplemde": "dev-main",
+        "x3zvawq/noj_simplemde": "^1.0.0",
         "zsgsdesign/noj-admin-clike-editor": "dev-main"
     },
     "require-dev": {
