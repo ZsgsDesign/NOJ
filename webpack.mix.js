@@ -19,9 +19,16 @@ mix.ts('resources/ts/noj.ts', 'public/static/js/build/app.js');
 // Export resources for Admin Porta;
 mix.styles([
     'resources/css/wemd-color-scheme.css',
-], 'public/static/css/build/color.css');
+    'node_modules/simplemde/dist/simplemde.min.css',
+], 'public/static/css/build/noj_admin.css');
 
-mix.ts('resources/ts/hljs.ts', 'public/static/js/build/highlight.pack.min.js');
+mix.ts('resources/ts/app_admin.ts', 'public/static/js/build/app_admin.js');
+mix.scripts([
+    'public/static/js/build/app_admin.js',
+    'node_modules/simplemde/dist/simplemde.min.js',
+    'node_modules/marked/marked.min.js',
+    'node_modules/dompurify/dist/purify.min.js',
+], 'public/static/js/build/noj_admin.js');
 
 // Compile JS libraries bundle
 mix.scripts([
