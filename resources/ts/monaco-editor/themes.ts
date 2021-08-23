@@ -18,7 +18,7 @@ const themes: { [themeID: string]: NOJThemeInfo } = {
     },
     'material-design': {
         name: 'Material Design',
-        path: 'Material-Theme.tmTheme',
+        path: 'material.json',
     },
     'github-dark': {
         name: 'Github Dark',
