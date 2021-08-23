@@ -20,6 +20,8 @@ mix.ts('resources/ts/noj.ts', 'public/static/js/build/app.js');
 mix.styles([
     'resources/css/wemd-color-scheme.css',
     'node_modules/simplemde/dist/simplemde.min.css',
+    'node_modules/codemirror/lib/codemirror.css',
+    'node_modules/codemirror/addon/hint/show-hint.css',
 ], 'public/static/css/build/noj_admin.css');
 
 mix.ts('resources/ts/app_admin.ts', 'public/static/js/build/app_admin.js');
@@ -27,7 +29,10 @@ mix.scripts([
     'public/static/js/build/app_admin.js',
     'node_modules/simplemde/dist/simplemde.min.js',
     'node_modules/marked/marked.min.js',
-    'node_modules/dompurify/dist/purify.min.js',
+    'node_modules/codemirror/lib/codemirror.js',
+    'node_modules/codemirror/addon/edit/matchbrackets.js',
+    'node_modules/codemirror/addon/hint/show-hint.js',
+    'node_modules/codemirror/mode/clike/clike.js',
 ], 'public/static/js/build/noj_admin.js');
 
 // Compile JS libraries bundle
