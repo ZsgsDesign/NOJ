@@ -18,11 +18,11 @@
  *
  */
 
-Admin::css(mix('/static/css/build/color.css'));
+Admin::css(mix('/static/css/build/noj_admin.css'));
 Admin::css('/static/fonts/mdi-wxss/MDI.css');
+Admin::js(mix('/static/js/build/noj_admin.js'));
 Admin::favicon('/favicon.png');
 Admin::css('/static/library/highlight.js/styles/vs.css');
-Admin::js('/static/js/build/highlight.pack.min.js');
 Encore\Admin\Form::forget(['map', 'editor']);
 app('view')->prependNamespace('admin', resource_path('views/admin'));
 
