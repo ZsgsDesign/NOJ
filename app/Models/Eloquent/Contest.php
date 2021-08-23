@@ -132,7 +132,7 @@ class Contest extends Model
 
     public function problems()
     {
-        return $this->hasMany('App\Models\Eloquent\ContestProblem', 'cid', 'cid');
+        return $this->hasMany('App\Models\Eloquent\ContestProblem', 'cid', 'cid')->orderBy('index');
     }
 
     public function submissions()
