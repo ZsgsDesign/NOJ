@@ -20,6 +20,14 @@ const themes: { [themeID: string]: NOJThemeInfo } = {
         name: 'Material Design',
         path: 'Material-Theme.tmTheme',
     },
+    'github-dark': {
+        name: 'Github Dark',
+        path: 'github-dark-default.json',
+    },
+    'github': {
+        name: 'Github Light',
+        path: 'github-light-default.json',
+    },
 };
 
 export { themes };

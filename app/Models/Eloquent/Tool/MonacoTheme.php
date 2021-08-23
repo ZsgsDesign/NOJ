@@ -110,11 +110,16 @@ class MonacoTheme
         //     "name" => "Espresso Libre",
         //     "background" => "#2A211C"
         // ],
-        // "github" => [
-        //     "id" => "github",
-        //     "name" => "GitHub",
-        //     "background" => "#F8F8FF"
-        // ],
+        "github" => [
+            "id" => "github",
+            "name" => "GitHub",
+            "background" => "#ffffff"
+        ],
+        "github-dark" => [
+            "id" => "github-dark",
+            "name" => "GitHub Dark",
+            "background" => "#0d1117"
+        ],
         // "idle" => [
         //     "id" => "idle",
         //     "name" => "IDLE",
