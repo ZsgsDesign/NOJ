@@ -17,8 +17,13 @@ class MonacoTheme
         ],
         "hc-black"=>[
             "id" => "hc-black",
-            "name" => "High Contrast (Dark)",
-            "background" => "rgb(0,0,0)"
+            "name" => "Default (High Contrast)",
+            "background" => "#000000"
+        ],
+        "abyss" => [
+            "id" => "abyss",
+            "name" => "Abyss",
+            "background" => "#000c18"
         ],
         // "active4d" => [
         //     "id" => "active4d",

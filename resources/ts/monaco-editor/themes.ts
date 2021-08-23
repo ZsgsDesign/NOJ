@@ -48,6 +48,10 @@ const themes: { [themeID: string]: NOJThemeInfo } = {
         name: 'Solarized Dark',
         path: 'solarized-dark.json',
     },
+    'abyss': {
+        name: 'Abyss',
+        path: 'abyss.json',
+    },
 };
 
 export { themes };
