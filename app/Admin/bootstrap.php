@@ -23,5 +23,6 @@ Admin::css('/static/fonts/mdi-wxss/MDI.css?version=1.0.1');
 Admin::js(mix('/static/js/build/noj_admin.js'));
 Admin::favicon('/favicon.png');
 Encore\Admin\Form::forget(['map', 'editor']);
+Encore\Admin\Form::extend('chunk_file', \Encore\ChunkFileUpload\ChunkFileField::class);
 app('view')->prependNamespace('admin', resource_path('views/admin'));
 

@@ -206,9 +206,9 @@ class ProblemController extends Controller
                 ])->default(0)->rules('required');
             $form->clang('spj_src', 'SPJ Source Code');
             if($form->isCreating()) {
-                $form->file('test_case')->rules('required');
+                $form->chunk_file('test_case')->rules('required');
             } else {
-                $form->file('test_case');
+                $form->chunk_file('test_case');
             }
 
             $form->ignore(['test_case']);
@@ -246,22 +246,28 @@ class ProblemController extends Controller
             if (!empty($p) && $p->pid!=$pid) {
                 return $err('Pcode has been token', 'Error occur.');
             }
-            $test_case=\request()->file('test_case');
             //Make sure the user enters SPJ_SRc in spj problem.
             if ($form->spj && empty($form->spj_src)) {
                 return $err('The SPJ problem must provide spj_src', 'create problem error');
             }
-            //check info file. Try to generate if it does not exist.
-            $info_content=[];
-            if (!empty($test_case)) {
-                if ($test_case->extension()!='zip') {
+
+            $test_case = null;
+
+            if(!is_null(request()->get('test_case'))) {
+                $test_case = explode('http://fake.path/',request()->get('test_case'), 2)[1];
+                $path=Storage::disk('temp')->path($test_case);
+
+                if (pathinfo($path, PATHINFO_EXTENSION) !== 'zip') {
                     return $err('You must upload a zip file iuclude test case info and content.');
                 }
-                $path=$test_case->path();
+
                 $zip=new ZipArchive;
+
                 if ($zip->open($path)!==true) {
                     return $err('You must upload a zip file without encrypt and can open successfully.');
                 };
+
+                //check info file. Try to generate if it does not exist.
                 $info_content=[];
                 if (($zip->getFromName('info'))===false) {
                     if (!$form->spj) {
