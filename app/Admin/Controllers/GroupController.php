@@ -153,7 +153,7 @@ class GroupController extends Controller
                 $gcode=$form->gcode;
                 $g=Group::where('gcode', $gcode)->first();
                 //check gcode has been token.
-                $gid=$form->pid ?? null;
+                $gid=$form->model()->gid ?? null;
                 if (!empty($gcode) && !blank($g) && $g->gid!=$gid) {
                     $err('Gcode has been token', 'Error occur.');
                 }
