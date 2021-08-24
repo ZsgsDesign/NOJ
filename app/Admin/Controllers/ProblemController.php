@@ -2,8 +2,8 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Eloquent\Problem as EloquentProblemModel;
-use App\Models\Eloquent\OJ as EloquentOJModel;
+use App\Models\Eloquent\Problem;
+use App\Models\Eloquent\OJ;
 use App\Http\Controllers\Controller;
 use App\Admin\Forms\ImportPOEM;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -11,6 +11,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Exception;
 use Illuminate\Support\MessageBag;
 use ZipArchive;
 use Illuminate\Support\Facades\Storage;
@@ -29,7 +30,7 @@ class ProblemController extends Controller
     {
         return $content
             ->header('Problems')
-            ->description('all problems')
+            ->description('all problems, problems managed by babel will not show here')
             ->body($this->grid()->render());
     }
 
@@ -42,6 +43,10 @@ class ProblemController extends Controller
      */
     public function show($id, Content $content)
     {
+        $problem=Problem::findOrFail($id);
+        if(!$problem->markdown || $problem->onlinejudge->ocode !== 'noj'){
+            return abort('403', 'Problem managed by BABEL cannot be accessed by Admin Portal.');
+        }
         return $content
             ->header('Problem Detail')
             ->description('the detail of problems')
@@ -57,6 +62,10 @@ class ProblemController extends Controller
      */
     public function edit($id, Content $content)
     {
+        $problem=Problem::findOrFail($id);
+        if(!$problem->markdown || $problem->onlinejudge->ocode !== 'noj'){
+            return abort('403', 'Problem managed by BABEL cannot be accessed by Admin Portal.');
+        }
         return $content
             ->header('Edit Problem')
             ->description('edit the detail of problems')
@@ -98,14 +107,20 @@ class ProblemController extends Controller
      */
     protected function grid()
     {
-        $grid=new Grid(new EloquentProblemModel);
+        $grid=new Grid(new Problem);
+        $grid->model()->where([
+            'markdown'=>1,
+            'OJ'=>OJ::where(['ocode'=>'noj'])->first()->oid,
+        ])->orderBy('pcode','asc');
         $grid->column('pid', "ID")->sortable();
-        $grid->column('pcode', "PCode")->editable();
+        $grid->column('pcode', "PCode")->editable()->sortable();
         $grid->title("Title")->editable();
         $grid->solved_count();
         $grid->time_limit("Time/ms")->editable();
         $grid->memory_limit("Memory/kb")->editable();
-        $grid->OJ();
+        $grid->OJ("OJ")->display(function() {
+            return $this->onlinejudge->name;
+        });
         $grid->update_date();
         $grid->tot_score("Score");
         $grid->partial("Partial")->display(function($partial) {
@@ -134,7 +149,7 @@ class ProblemController extends Controller
      */
     protected function detail($id)
     {
-        $show=new Show(EloquentProblemModel::findOrFail($id));
+        $show=new Show(Problem::findOrFail($id));
         return $show;
     }
 
@@ -145,8 +160,7 @@ class ProblemController extends Controller
      */
     protected function form($create=false)
     {
-        $form=new Form(new EloquentProblemModel);
-        $form->model()->makeVisible('password');
+        $form=new Form(new Problem);
         $form->tab('Basic', function(Form $form) {
             $form->text('pid')->readonly();
             $form->text('pcode')->rules('required');
@@ -167,7 +181,7 @@ class ProblemController extends Controller
                 $table->textarea('sample_output', 'sample output');
                 $table->textarea('sample_note', 'sample note');
             }); */
-            $ojs_temp=EloquentOJModel::select('oid', 'name')->get()->all();
+            $ojs_temp=OJ::select('oid', 'name')->get()->all();
             $ojs=[];
             foreach ($ojs_temp as $v) {
                 $ojs[$v->oid]=$v->name;
@@ -225,7 +239,7 @@ class ProblemController extends Controller
                 return back()->with(compact('error'));
             };
             $pcode=$form->pcode;
-            $p=EloquentProblemModel::where('pcode', $pcode)->first();
+            $p=Problem::where('pcode', $pcode)->first();
             //check pcode has been token.
             $pid=$form->pid ?? null;
             if (!empty($p) && $p->pid!=$pid) {
@@ -327,7 +341,7 @@ class ProblemController extends Controller
                     }
                 }
                 if (!empty($form->pid)) {
-                    $problem=EloquentProblemModel::find($form->pid);
+                    $problem=Problem::find($form->pid);
                     if (!empty($problem)) {
                         $pcode=$problem->pcode;
                     } else {
