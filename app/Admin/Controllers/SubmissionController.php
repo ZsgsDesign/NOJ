@@ -113,10 +113,7 @@ class SubmissionController extends Controller
         $grid->column("judger_name", __('admin.submissions.judger_name'))->display(function() {
             return $this->judger_name;
         });
-        $grid->column("share", __('admin.submissions.share'))->editable('select', [
-            0 => __('admin.submissions.disableshare'),
-            1 => __('admin.submissions.enableshare')
-        ]);
+        $grid->column("share", __('admin.submissions.share'))->switch();
         $grid->column("parsed_score", __('admin.submissions.parsed_score'))->display(function() {
             return $this->parsed_score;
         });
