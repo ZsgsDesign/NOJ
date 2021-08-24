@@ -897,7 +897,7 @@
     @include('components.congratulation')
     @endif
 
-    @component('js.common.vscodeNeo')
+    @component('components.vscode')
         editorInstance.create("@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['lang']}}@else{{'plaintext'}}@endif", "{{$theme_config['id']}}", 'monaco', "{!!$submit_code!!}").then((value) => {
             editor = value[0];
             editorProvider = value[1];

@@ -101,7 +101,7 @@
 
 @section('additionJS')
 
-    @component('js.common.vscodeNeo')
+    @component('components.vscode')
         editorInstance.create("plaintext", "vs", 'monaco', "").then((value) => {
             editor = value[0];
             editorProvider = value[1];
