@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f4f018803180869f73b34b74e884f952",
+    "content-hash": "75c81248890dde1ea3486afac97f2cae",
     "packages": [
         {
             "name": "asundust/auth-captcha",
@@ -4966,16 +4966,16 @@
         },
         {
             "name": "njuptaaa/laravel-admin-assets",
-            "version": "1.8.15",
+            "version": "1.8.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NJUPTAAA/laravel-admin-assets.git",
-                "reference": "653e75b8972c890930fa79b2698f524e23a8bfcd"
+                "reference": "33d2097142287e04feb63c1f434609360ee819e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NJUPTAAA/laravel-admin-assets/zipball/653e75b8972c890930fa79b2698f524e23a8bfcd",
-                "reference": "653e75b8972c890930fa79b2698f524e23a8bfcd",
+                "url": "https://api.github.com/repos/NJUPTAAA/laravel-admin-assets/zipball/33d2097142287e04feb63c1f434609360ee819e5",
+                "reference": "33d2097142287e04feb63c1f434609360ee819e5",
                 "shasum": ""
             },
             "type": "laravel-admin-asset",
@@ -4992,9 +4992,9 @@
             "description": "laravel-admin-assets",
             "support": {
                 "issues": "https://github.com/NJUPTAAA/laravel-admin-assets/issues",
-                "source": "https://github.com/NJUPTAAA/laravel-admin-assets/tree/1.8.15"
+                "source": "https://github.com/NJUPTAAA/laravel-admin-assets/tree/1.8.16"
             },
-            "time": "2021-08-24T13:00:14+00:00"
+            "time": "2021-08-24T21:51:18+00:00"
         },
         {
             "name": "njuptaaa/moss",
