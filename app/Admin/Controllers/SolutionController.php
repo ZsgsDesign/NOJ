@@ -130,7 +130,12 @@ class SolutionController extends Controller
         $form->tab('Basic', function(Form $form) {
             $form->display("psoid");
             $form->select('uid', 'Author')->options(User::all()->pluck('name', 'id'))->required();
-            $form->select('pid', 'Problem')->options(Problem::all()->pluck('readable_name', 'pid'))->required();
+            $form->select('pid', 'Problem')->options(function ($pid) {
+                $problem = Problem::find($pid);
+                if ($problem) {
+                    return [$problem->pid => $problem->readable_name];
+                }
+            })->config('minimumInputLength', 4)->ajax(route('admin.api.problems'))->required();
             $form->simplemde("content")->rules('required');
             $form->select("audit")->options([
                 '0'   => 'Waiting',

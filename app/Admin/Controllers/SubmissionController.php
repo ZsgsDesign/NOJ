@@ -127,7 +127,12 @@ class SubmissionController extends Controller
             $filter->column(6, function($filter) {
                 $filter->equal('cid', __('admin.submissions.cid'))->select(Contest::all()->pluck('name', 'cid'));
                 $filter->equal('uid', __('admin.submissions.uid'))->select(User::all()->pluck('name', 'id'));
-                $filter->equal('pid', __('admin.submissions.pid'))->select(Problem::all()->pluck('readable_name', 'pid'));
+                $filter->equal('pid', __('admin.submissions.pid'))->select(function ($pid) {
+                    $problem = Problem::find($pid);
+                    if ($problem) {
+                        return [$problem->pid => $problem->readable_name];
+                    }
+                })->config('minimumInputLength', 4)->ajax(route('admin.api.problems'));
                 $filter->equal('share', __('admin.submissions.share'))->select([
                     0 => __('admin.submissions.disableshare'),
                     1 => __('admin.submissions.enableshare')
@@ -221,7 +226,12 @@ class SubmissionController extends Controller
             $form->display('submission_date', __('admin.submissions.submission_date'));
             $form->select('uid', __('admin.submissions.uid'))->options(User::all()->pluck('name', 'id'))->required();
             $form->select('cid', __('admin.submissions.cid'))->options(Contest::all()->pluck('name', 'cid'));
-            $form->select('pid', __('admin.submissions.pid'))->options(Problem::all()->pluck('readable_name', 'pid'))->rules('required');
+            $form->select('pid', __('admin.submissions.pid'))->options(function ($pid) {
+                $problem = Problem::find($pid);
+                if ($problem) {
+                    return [$problem->pid => $problem->readable_name];
+                }
+            })->config('minimumInputLength', 4)->ajax(route('admin.api.problems'))->required();
             $form->select('jid', __('admin.submissions.jid'))->options(Judger::all()->pluck('readable_name', 'jid'));
             $form->select('coid', __('admin.submissions.coid'))->options(Compiler::all()->pluck('readable_name', 'coid'))->rules('required');
             $form->number('score', __('admin.submissions.rawscore'))->rules('required');

@@ -148,7 +148,12 @@ class DojoController extends Controller
             $form->number('order', __('admin.dojos.order'))->default(0)->rules('required');
             $form->multipleSelect('precondition', __('admin.dojos.precondition'))->options(Dojo::all()->pluck('name', 'id'));
             $form->hasMany('problems', __('admin.dojos.problems'), function(Form\NestedForm $form) {
-                $form->select('problem_id', __('admin.dojos.problem'))->options(Problem::all()->pluck('readable_name', 'pid'))->required();
+                $form->select('problem_id', __('admin.dojos.problem'))->options(function ($pid) {
+                    $problem = Problem::find($pid);
+                    if ($problem) {
+                        return [$problem->pid => $problem->readable_name];
+                    }
+                })->config('minimumInputLength', 4)->ajax(route('admin.api.problems'))->required();
                 $form->number('order', __('admin.dojos.problemorder'))->default(0)->required();
             });
         });
