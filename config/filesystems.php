@@ -83,6 +83,12 @@ return [
             'visibility' => 'private',
         ],
 
+        'temp' => [
+            'driver' => 'local',
+            'root' => storage_path('temp'),
+            'visibility' => 'private',
+        ],
+
     ],
 
 ];
