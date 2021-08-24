@@ -42,7 +42,7 @@ class AbuseController extends AdminController
         $grid->column('link', __('Link'));
         $grid->column('audit', __('Status'))->using(['0' => 'Pending', '1' => 'Passed']);
         $grid->column('user', __('Submitter'))->display(function() {
-            return "#{$this->user_id} {$this->user->name}";
+            return $this->user->readable_name;
         });
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));

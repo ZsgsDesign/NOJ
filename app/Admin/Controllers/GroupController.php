@@ -139,7 +139,12 @@ class GroupController extends Controller
             ])->default(1);
             $form->image('img', 'Custom Group Focus Image')->uniqueName()->move("static/img/group");
             if ($form->isCreating()) {
-                $form->select('leader_uid', 'Group Leader')->options(User::all()->pluck('name', 'id'))->required();
+                $form->select('leader_uid', 'Group Leader')->options(function ($id) {
+                    $user = User::find($id);
+                    if ($user) {
+                        return [$user->id => $user->readable_name];
+                    }
+                })->config('minimumInputLength', 4)->ajax(route('admin.api.users'))->required();
             }
             $form->ignore(['leader_uid']);
             $form->saving(function(Form $form) {
