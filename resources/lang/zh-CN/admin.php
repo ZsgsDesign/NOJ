@@ -429,4 +429,8 @@ return [
             'description'   => '创建一个新的轮播图',
         ],
     ],
+    'chunkUpload' => [
+        'tooltip'           => '或者拖拽文件到此处',
+        'start'             => '开始上传',
+    ],
 ];

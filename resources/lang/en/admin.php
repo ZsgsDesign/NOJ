@@ -429,4 +429,8 @@ return [
             'description'   => 'create a new carousel',
         ],
     ],
+    'chunkUpload' => [
+        'tooltip'           => 'Or drag files here',
+        'start'             => 'Start Uploading',
+    ],
 ];
