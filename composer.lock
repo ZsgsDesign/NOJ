@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fa0d3ee533824eddbe30078ea15cdbae",
+    "content-hash": "a521d934bbd9c379b8aec127375899bc",
     "packages": [
         {
             "name": "asundust/auth-captcha",
@@ -5075,18 +5075,6 @@
                 "source": "https://github.com/NJUPTAAA/POEM_Composer/tree/master"
             },
             "time": "2019-10-10T12:19:21+00:00"
-        },
-        {
-            "name": "npm-asset/fileicon-svg",
-            "version": "1.0.0",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/fileicon-svg/-/fileicon-svg-1.0.0.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
         },
         {
             "name": "npm-asset/mathjax",
