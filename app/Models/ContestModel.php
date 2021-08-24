@@ -568,7 +568,7 @@ class ContestModel extends Model
 
             $ret["color"]=($ret["score"]==$tot_score) ? "wemd-teal-text" : "wemd-green-text";
             $ret["solved"]=($ret["score"]==$tot_score) ? 1 : 0;
-            $ret["score_parsed"]=$ret["score"] / $tot_score * ($ret["points"]);
+            $ret["score_parsed"]=$ret["score"] / max($tot_score, 1) * ($ret["points"]);
         }
         return $ret;
     }
