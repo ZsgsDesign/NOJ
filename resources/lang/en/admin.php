@@ -108,6 +108,7 @@ return [
         'adminCatg'         => 'Admin',
         'users'             => 'Users',
         'abuses'            => 'Abuses',
+        'carousels'         => 'Carousels',
         'announcements'     => 'Announcements',
         'problemsCatg'      => 'Problems',
         'problems'          => 'Problems',
@@ -402,6 +403,30 @@ return [
             'success' => [
                 'message'   => 'Settings saved successfully.',
             ],
+        ],
+    ],
+    'carousels' => [
+        'image'             => 'Image',
+        'url'               => 'URL',
+        'title'             => 'Title',
+        'availability'      => 'Availability',
+        'available'         => 'Available',
+        'unavailable'       => 'Unavailable',
+        'index' => [
+            'header'        => 'Carousels',
+            'description'   => 'all carousels',
+        ],
+        'show' => [
+            'header'        => 'Carousel Detail',
+            'description'   => 'the detail of the carousel',
+        ],
+        'edit' => [
+            'header'        => 'Edit Carousel',
+            'description'   => 'edit the detail of carousel',
+        ],
+        'create' => [
+            'header'        => 'Create New Carousel',
+            'description'   => 'create a new carousel',
         ],
     ],
 ];

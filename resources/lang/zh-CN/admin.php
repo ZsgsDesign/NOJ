@@ -108,6 +108,7 @@ return [
         'adminCatg'         => '管理员',
         'users'             => '用户',
         'abuses'            => '违规行为',
+        'carousels'         => '轮播图',
         'announcements'     => '通知与公告',
         'problemsCatg'      => '题库',
         'problems'          => '题目',
@@ -402,6 +403,30 @@ return [
             'success' => [
                 'message'   => '系统设置已成功保存。',
             ],
+        ],
+    ],
+    'carousels' => [
+        'image'             => '轮播图片',
+        'url'               => '超链接',
+        'title'             => '标题',
+        'availability'      => '可用性',
+        'available'         => '启用',
+        'unavailable'       => '禁用',
+        'index' => [
+            'header'        => '轮播图',
+            'description'   => '所有轮播图',
+        ],
+        'show' => [
+            'header'        => '轮播图详情',
+            'description'   => '查看轮播图详情',
+        ],
+        'edit' => [
+            'header'        => '编辑轮播图',
+            'description'   => '编辑轮播图信息',
+        ],
+        'create' => [
+            'header'        => '创建新轮播图',
+            'description'   => '创建一个新的轮播图',
         ],
     ],
 ];
