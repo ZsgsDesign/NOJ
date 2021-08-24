@@ -310,7 +310,7 @@ class ProblemController extends Controller
                             $files[]=$filename;
                         }
                         $files_in=array_filter($files, function($filename) {
-                            return strpos($filename, '.in')!==false;
+                            return pathinfo($filename, PATHINFO_EXTENSION) == 'in';
                         });
                         sort($files_in);
                         $testcase_index=1;
@@ -321,6 +321,9 @@ class ProblemController extends Controller
                                 'input_name' => $filename_in
                             ];
                             $testcase_index+=1;
+                        }
+                        if ($testcase_index==1) {
+                            return $err('Cannot detect any validate testcases, please make sure they are placed under the root directory of the zip file.');
                         }
                     }
                     $zip->addFromString('info', json_encode($info_content));
