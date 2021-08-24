@@ -28,6 +28,10 @@ Route::group([
     Route::match(['GET', 'POST'], 'codetester', 'CodeTesterController@tester')->name('admin.codetester.tester');
     Route::match(['GET', 'POST'], 'settings', 'SettingsController@index')->name('admin.settings.index');
 
+    Route::group(['prefix' => 'api'], function(Router $router) {
+        $router->get('/problems', 'ApiController@problems')->name('admin.api.problems');
+    });
+
     Route::group(['prefix' => 'babel'], function(Router $router) {
         $router->get('/', 'BabelController@index')->name('admin.babel.index');
         $router->get('installed', 'BabelController@installed')->name('admin.babel.installed');
