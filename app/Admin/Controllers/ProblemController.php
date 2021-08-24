@@ -279,9 +279,6 @@ class ProblemController extends Controller
                         });
                         sort($files_in);
                         $testcase_index=1;
-                        if (!count($files_in)) {
-                            return $err('Cannot detect any .in file, please make sure they are placed under the root directory of the zip file.');
-                        }
                         foreach ($files_in as $filename_in) {
                             $filename=basename($filename_in, '.in');
                             $filename_out=$filename.'.out';
@@ -298,6 +295,9 @@ class ProblemController extends Controller
                                 'stripped_output_md5' => md5(utf8_encode(rtrim($test_case_out)))
                             ];
                             $testcase_index+=1;
+                        }
+                        if ($testcase_index==1) {
+                            return $err('Cannot detect any validate testcases, please make sure they are placed under the root directory of the zip file.');
                         }
                     } else {
                         $info_content=[
