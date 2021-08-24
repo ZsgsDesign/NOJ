@@ -19,7 +19,7 @@
  */
 
 Admin::css(mix('/static/css/build/noj_admin.css'));
-Admin::css('/static/fonts/mdi-wxss/MDI.css');
+Admin::css('/static/fonts/mdi-wxss/MDI.css?version=1.0.1');
 Admin::js(mix('/static/js/build/noj_admin.js'));
 Admin::favicon('/favicon.png');
 Encore\Admin\Form::forget(['map', 'editor']);
