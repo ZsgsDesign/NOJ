@@ -4,4 +4,5 @@ declare interface Window{
     $: any;
     jQuery: any;
     axios: any;
+    NOJVariables: any;
 }
