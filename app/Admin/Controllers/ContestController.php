@@ -209,7 +209,7 @@ class ContestController extends Controller
                 $form->select('pid', 'Problem')->options(function ($pid) {
                     $problem = Problem::find($pid);
                     if ($problem) {
-                        return [$problem->pid => $problem->pcode];
+                        return [$problem->pid => $problem->readable_name];
                     }
                 })->ajax(route('admin.api.problems'))->required();
                 $form->text('alias', 'Problem Alias Title');
