@@ -193,7 +193,7 @@ class ProblemController extends Controller
                 0 => "No",
                 1 => "Yes"
             ])->rules('required'); */
-            $form->radio('Hide')
+            $form->radio('hide', 'Hide')
                 ->options([
                     0 => 'NO',
                     1 => 'YES'
