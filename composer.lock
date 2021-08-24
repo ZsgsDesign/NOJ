@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b3f88ddc9bd17dd062cb48bc1a90e9d1",
+    "content-hash": "8edb257c3f271d707a4fab2205a26f17",
     "packages": [
         {
             "name": "asundust/auth-captcha",
@@ -9466,16 +9466,16 @@
         },
         {
             "name": "x3zvawq/noj_simplemde",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/X3ZvaWQ/NOJ_simpleMDE.git",
-                "reference": "6718209be518f48d18ac9fc72657fc9c35f815d9"
+                "reference": "5728b97a6bf4db507deb9b737325e250ed42c793"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/X3ZvaWQ/NOJ_simpleMDE/zipball/6718209be518f48d18ac9fc72657fc9c35f815d9",
-                "reference": "6718209be518f48d18ac9fc72657fc9c35f815d9",
+                "url": "https://api.github.com/repos/X3ZvaWQ/NOJ_simpleMDE/zipball/5728b97a6bf4db507deb9b737325e250ed42c793",
+                "reference": "5728b97a6bf4db507deb9b737325e250ed42c793",
                 "shasum": ""
             },
             "require": {
@@ -9511,9 +9511,9 @@
             "description": "Simplemde markdown editor for noj",
             "support": {
                 "issues": "https://github.com/X3ZvaWQ/NOJ_simpleMDE/issues",
-                "source": "https://github.com/X3ZvaWQ/NOJ_simpleMDE/tree/1.0.0"
+                "source": "https://github.com/X3ZvaWQ/NOJ_simpleMDE/tree/1.0.1"
             },
-            "time": "2021-08-23T22:53:23+00:00"
+            "time": "2021-08-24T03:47:54+00:00"
         },
         {
             "name": "zsgsdesign/noj-admin-clike-editor",
