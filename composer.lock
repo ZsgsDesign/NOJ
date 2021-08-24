@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1ec107db2ccd32167f383514083a8765",
+    "content-hash": "fa0d3ee533824eddbe30078ea15cdbae",
     "packages": [
         {
             "name": "asundust/auth-captcha",
@@ -1387,6 +1387,38 @@
                 "source": "https://github.com/ZsgsDesign/fonts-asset-Devicon/tree/1.0.4"
             },
             "time": "2021-08-19T13:46:04+00:00"
+        },
+        {
+            "name": "fonts-asset/fileicon",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NJUPTAAA/fileicon-svg.git",
+                "reference": "fe013e06fe4052e700f7b2af0639e6bfc27ba3e2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NJUPTAAA/fileicon-svg/zipball/fe013e06fe4052e700f7b2af0639e6bfc27ba3e2",
+                "reference": "fe013e06fe4052e700f7b2af0639e6bfc27ba3e2",
+                "shasum": ""
+            },
+            "type": "fonts-asset",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zsgsdesign",
+                    "email": "zsgsdesign@gmail.com"
+                }
+            ],
+            "description": "fonts asset fileicon",
+            "support": {
+                "issues": "https://github.com/NJUPTAAA/fileicon-svg/issues",
+                "source": "https://github.com/NJUPTAAA/fileicon-svg/tree/1.0.0"
+            },
+            "time": "2021-08-24T01:03:43+00:00"
         },
         {
             "name": "fonts-asset/langicon",
