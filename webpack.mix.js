@@ -16,7 +16,7 @@ const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
 // Pre-compile supporting libraries first
 mix.ts('resources/ts/noj.ts', 'public/static/js/build/app.js');
 
-// Export resources for Admin Portal
+// Export css for Admin Portal
 mix.styles([
     'resources/css/wemd-color-scheme.css',
     'node_modules/simplemde/dist/simplemde.min.css',
@@ -25,6 +25,7 @@ mix.styles([
     'node_modules/highlight.js/styles/vs.css',
 ], 'public/static/css/build/noj_admin.css');
 
+// Export js for Admin Portal
 mix.ts('resources/ts/app_admin.ts', 'public/static/js/build/app_admin.js');
 mix.scripts([
     'public/static/js/build/app_admin.js',
