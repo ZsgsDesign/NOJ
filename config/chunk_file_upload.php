@@ -6,6 +6,7 @@ return [
             'driver' => 'local',
             'root' => storage_path('temp'),
             'visibility' => 'private',
+            'url' => 'fake.path',
         ],
     ],
     'default' => [
