@@ -39,7 +39,7 @@ return [
         'contestCount' => ':ahead Ahead, :going On Going, :passed Passed',
         'contests' => 'Contests',
         'createTime' => 'CreateTime',
-        'analysis' => 'analysis',
+        'analysis' => 'Analysis',
         'notice' => 'Notice',
         'contest' => 'Contest',
         'invite' => 'Invite',
