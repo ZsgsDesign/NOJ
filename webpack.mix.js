@@ -22,6 +22,7 @@ mix.styles([
     'node_modules/simplemde/dist/simplemde.min.css',
     'node_modules/codemirror/lib/codemirror.css',
     'node_modules/codemirror/addon/hint/show-hint.css',
+    'node_modules/highlight.js/styles/vs.css',
 ], 'public/static/css/build/noj_admin.css');
 
 mix.ts('resources/ts/app_admin.ts', 'public/static/js/build/app_admin.js');
