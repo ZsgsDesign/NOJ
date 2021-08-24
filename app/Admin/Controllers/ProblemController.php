@@ -163,9 +163,9 @@ class ProblemController extends Controller
     {
         $form=new Form(new Problem);
         $form->tab('Basic', function(Form $form) {
-            $form->text('pid')->readonly();
-            $form->text('pcode')->rules('required');
-            $form->text('title')->rules('required');
+            $form->text('pid')->icon('MDI key')->readonly();
+            $form->text('pcode')->icon('MDI label-black')->rules('required');
+            $form->text('title')->icon('MDI format-title')->rules('required');
             $form->text('time_limit')->icon('MDI timer')->default(1000)->append('MS')->rules('required');
             $form->text('memory_limit')->icon('MDI memory')->default(65536)->append('Kb')->rules('required');
             $form->simplemde('description')->rules('required');
