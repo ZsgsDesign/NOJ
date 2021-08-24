@@ -159,12 +159,14 @@ class GroupController extends Controller
                 }
             });
             $form->saved(function(Form $form) {
-                $form->model()->members()->saveMany([new GroupMember([
-                    'gid' => $form->model()->gid,
-                    'uid' => request('leader_uid'),
-                    'role' => 3,
-                    'ranking' => 1500,
-                ])]);
+                if ($form->isCreating()) {
+                    $form->model()->members()->saveMany([new GroupMember([
+                        'gid' => $form->model()->gid,
+                        'uid' => request('leader_uid'),
+                        'role' => 3,
+                        'ranking' => 1500,
+                    ])]);
+                }
             });
         });
         return $form;
