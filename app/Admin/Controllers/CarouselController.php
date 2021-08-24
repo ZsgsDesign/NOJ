@@ -132,7 +132,7 @@ class CarouselController extends AdminController
     {
         $form=new Form(new Carousel());
 
-        $form->image('image', __('admin.carousels.image'))->uniqueName()->move("static/img/carousel");
+        $form->image('image', __('admin.carousels.image'))->uniqueName()->move("static/img/carousel")->required();
 
         $form->text('url', __('admin.carousels.url'))->icon('MDI link-variant')->required();
         $form->text('title', __('admin.carousels.title'))->icon('MDI format-title');
