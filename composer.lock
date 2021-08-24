@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a521d934bbd9c379b8aec127375899bc",
+    "content-hash": "b3f88ddc9bd17dd062cb48bc1a90e9d1",
     "packages": [
         {
             "name": "asundust/auth-captcha",
@@ -5075,6 +5075,102 @@
                 "source": "https://github.com/NJUPTAAA/POEM_Composer/tree/master"
             },
             "time": "2019-10-10T12:19:21+00:00"
+        },
+        {
+            "name": "noj-language-service/configurations",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NJUPTAAA/NOJ_Language_Services_Configurations.git",
+                "reference": "1a3e7f12a0bd3952432adb0988f54e3c308d0b1b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NJUPTAAA/NOJ_Language_Services_Configurations/zipball/1a3e7f12a0bd3952432adb0988f54e3c308d0b1b",
+                "reference": "1a3e7f12a0bd3952432adb0988f54e3c308d0b1b",
+                "shasum": ""
+            },
+            "type": "noj-language-services",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zsgsdesign",
+                    "email": "zsgsdesign@gmail.com"
+                }
+            ],
+            "description": "Standalone Configurations for Language Services of NOJ.",
+            "support": {
+                "issues": "https://github.com/NJUPTAAA/NOJ_Language_Services_Configurations/issues",
+                "source": "https://github.com/NJUPTAAA/NOJ_Language_Services_Configurations/tree/1.0.0"
+            },
+            "time": "2021-08-24T02:59:34+00:00"
+        },
+        {
+            "name": "noj-language-service/grammars",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NJUPTAAA/NOJ_Language_Services_Grammars.git",
+                "reference": "02037d63a9309e6927af1ffbfd4cdaf99df6cf59"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NJUPTAAA/NOJ_Language_Services_Grammars/zipball/02037d63a9309e6927af1ffbfd4cdaf99df6cf59",
+                "reference": "02037d63a9309e6927af1ffbfd4cdaf99df6cf59",
+                "shasum": ""
+            },
+            "type": "noj-language-services",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zsgsdesign",
+                    "email": "zsgsdesign@gmail.com"
+                }
+            ],
+            "description": "Standalone Grammars for Language Services of NOJ.",
+            "support": {
+                "issues": "https://github.com/NJUPTAAA/NOJ_Language_Services_Grammars/issues",
+                "source": "https://github.com/NJUPTAAA/NOJ_Language_Services_Grammars/tree/1.0.0"
+            },
+            "time": "2021-08-24T02:59:24+00:00"
+        },
+        {
+            "name": "noj-language-service/themes",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NJUPTAAA/NOJ_Language_Services_Themes.git",
+                "reference": "a7d66a22e174353236c14ca5ca8c29a2e3660f25"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NJUPTAAA/NOJ_Language_Services_Themes/zipball/a7d66a22e174353236c14ca5ca8c29a2e3660f25",
+                "reference": "a7d66a22e174353236c14ca5ca8c29a2e3660f25",
+                "shasum": ""
+            },
+            "type": "noj-language-services",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zsgsdesign",
+                    "email": "zsgsdesign@gmail.com"
+                }
+            ],
+            "description": "Standalone Themes for Language Services of NOJ.",
+            "support": {
+                "issues": "https://github.com/NJUPTAAA/NOJ_Language_Services_Themes/issues",
+                "source": "https://github.com/NJUPTAAA/NOJ_Language_Services_Themes/tree/1.0.0"
+            },
+            "time": "2021-08-24T02:59:04+00:00"
         },
         {
             "name": "npm-asset/mathjax",
