@@ -5,4 +5,5 @@ declare interface Window{
     jQuery: any;
     axios: any;
     NOJVariables: any;
+    DOMPurify: any;
 }
