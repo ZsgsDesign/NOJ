@@ -46,6 +46,7 @@
         "mews/purifier": "^3.2",
         "nelexa/zip": "^3.1",
         "njuptaaa/moss": "^1.2",
+        "njuptaaa/noj-large-file-upload": "^1.0",
         "njuptaaa/poem": "^1.0.3",
         "njuptaaa/laravel-admin-assets": "^1.8.16",
         "noj-language-service/configurations": "^1.0.0",
@@ -60,8 +61,7 @@
         "sebastian/version": "^2.0",
         "socialiteproviders/github": "^4.1",
         "x3zvawq/noj_simplemde": "^1.0.1",
-        "zsgsdesign/noj-admin-clike-editor": "^1.0.0",
-        "njuptaaa/noj-large-file-upload": "dev-main"
+        "zsgsdesign/noj-admin-clike-editor": "^1.0.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
