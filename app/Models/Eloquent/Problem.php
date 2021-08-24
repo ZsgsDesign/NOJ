@@ -28,6 +28,11 @@ class Problem extends Model
         return $this->hasMany('App\Models\Eloquent\ProblemSample', 'pid', 'pid');
     }
 
+    public function onlinejudge()
+    {
+        return $this->belongsTo('App\Models\Eloquent\OJ', 'OJ', 'oid');
+    }
+
     public function getProblemStatusAttribute()
     {
         if (Auth::check()) {
