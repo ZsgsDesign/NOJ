@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "75c81248890dde1ea3486afac97f2cae",
+    "content-hash": "c6735d7bad1d1b35380656de6742b370",
     "packages": [
         {
             "name": "asundust/auth-captcha",
@@ -5037,6 +5037,72 @@
             "time": "2021-04-03T06:27:21+00:00"
         },
         {
+            "name": "njuptaaa/noj-large-file-upload",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NJUPTAAA/NOJ_Large_File_Upload.git",
+                "reference": "059cec8fc606e67aedb67998d4c6a789b92042ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NJUPTAAA/NOJ_Large_File_Upload/zipball/059cec8fc606e67aedb67998d4c6a789b92042ba",
+                "reference": "059cec8fc606e67aedb67998d4c6a789b92042ba",
+                "shasum": ""
+            },
+            "require": {
+                "encore/laravel-admin": "~1.6",
+                "php": ">=7.0.0",
+                "qiniu/php-sdk": "^7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Encore\\ChunkFileUpload\\ChunkFileUploadServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Encore\\ChunkFileUpload\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "杨宇辉",
+                    "email": "catlane@foxmail.com"
+                },
+                {
+                    "name": "ZsgsDesign",
+                    "email": "zsgsdesign@gmail.com"
+                }
+            ],
+            "description": "NOJ large file upload extension.",
+            "homepage": "https://github.com/NJUPTAAA/NOJ_Large_File_Upload",
+            "keywords": [
+                "catlane",
+                "chunk_file",
+                "extension",
+                "laravel-admin",
+                "large-file-upload",
+                "noj"
+            ],
+            "support": {
+                "issues": "https://github.com/NJUPTAAA/NOJ_Large_File_Upload/issues",
+                "source": "https://github.com/NJUPTAAA/NOJ_Large_File_Upload/tree/main"
+            },
+            "time": "2021-08-24T21:53:06+00:00"
+        },
+        {
             "name": "njuptaaa/poem",
             "version": "1.1.0",
             "source": {
@@ -6432,6 +6498,61 @@
                 "source": "https://github.com/bobthecow/psysh/tree/v0.9.12"
             },
             "time": "2019-12-06T14:19:43+00:00"
+        },
+        {
+            "name": "qiniu/php-sdk",
+            "version": "v7.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/qiniu/php-sdk.git",
+                "reference": "1c6bc89166e524a40ee42bf516fb99ffc6401c82"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/qiniu/php-sdk/zipball/1c6bc89166e524a40ee42bf516fb99ffc6401c82",
+                "reference": "1c6bc89166e524a40ee42bf516fb99ffc6401c82",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~3.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Qiniu\\": "src/Qiniu"
+                },
+                "files": [
+                    "src/Qiniu/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Qiniu",
+                    "email": "sdk@qiniu.com",
+                    "homepage": "http://www.qiniu.com"
+                }
+            ],
+            "description": "Qiniu Resource (Cloud) Storage SDK for PHP",
+            "homepage": "http://developer.qiniu.com/",
+            "keywords": [
+                "cloud",
+                "qiniu",
+                "sdk",
+                "storage"
+            ],
+            "support": {
+                "issues": "https://github.com/qiniu/php-sdk/issues",
+                "source": "https://github.com/qiniu/php-sdk/tree/v7.4.0"
+            },
+            "time": "2021-07-19T07:41:36+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -11537,7 +11658,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "njuptaaa/noj-large-file-upload": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
