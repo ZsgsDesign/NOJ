@@ -211,7 +211,7 @@ class ContestController extends Controller
                     if ($problem) {
                         return [$problem->pid => $problem->readable_name];
                     }
-                })->ajax(route('admin.api.problems'))->required();
+                })->config('minimumInputLength', 4)->ajax(route('admin.api.problems'))->required();
                 $form->text('alias', 'Problem Alias Title');
                 $form->number('points', 'Points Value')->default(100)->required();
             });
