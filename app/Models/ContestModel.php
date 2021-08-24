@@ -439,7 +439,7 @@ class ContestModel extends Model
         ->join("contest", "contest_problem.cid", "=", "contest.cid")
         ->where([
             "contest_problem.cid"=>$cid
-        ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title", "contest.gid as gid", "contest.practice as practice")->get()->all();
+        ])->orderBy('number', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title", "contest.gid as gid", "contest.practice as practice")->get()->all();
 
         $frozen_time=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
         $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
@@ -680,7 +680,7 @@ class ContestModel extends Model
 
         $problemSet=DB::table("contest_problem")->join("problem", "contest_problem.pid", "=", "problem.pid")->where([
             "cid"=>$cid
-        ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title")->get()->all();
+        ])->orderBy('number', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title")->get()->all();
 
         if ($contest_info["rule"]==1) {
             // ACM/ICPC Mode
@@ -1040,7 +1040,7 @@ class ContestModel extends Model
         $userInfo=DB::table('group_member')->where('gid', $basicInfo["gid"])->where('uid', Auth::user()->id)->get()->first();
         $problemSet_temp=DB::table("contest_problem")->join("problem", "contest_problem.pid", "=", "problem.pid")->where([
             "cid"=>$cid
-        ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title", "points", "tot_score")->get()->all();
+        ])->orderBy('number', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title", "points", "tot_score")->get()->all();
         $problemSet=[];
         foreach ($problemSet_temp as $p) {
             $problemSet[(string) $p["pid"]]=["ncode"=>$p["ncode"], "points"=>$p["points"], "tot_score"=>$p["tot_score"]];
@@ -1542,7 +1542,7 @@ class ContestModel extends Model
                     $chache['contest_info']=DB::table("contest")->where("cid", $cid)->first();
                     $chache['problemSet']=DB::table("contest_problem")->join("problem", "contest_problem.pid", "=", "problem.pid")->where([
                         "cid"=>$cid
-                    ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title")->get()->all();
+                    ])->orderBy('number', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title")->get()->all();
                     $chache['frozen_time']=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
                     $chache['end_time']=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
 
@@ -1571,7 +1571,7 @@ class ContestModel extends Model
                     $chache['contest_info']=DB::table("contest")->where("cid", $cid)->first();
                     $chache['problemSet']=DB::table("contest_problem")->join("problem", "contest_problem.pid", "=", "problem.pid")->where([
                         "cid"=>$cid
-                    ])->orderBy('ncode', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title")->get()->all();
+                    ])->orderBy('number', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title")->get()->all();
                     $chache['frozen_time']=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
                     $chache['end_time']=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
 
