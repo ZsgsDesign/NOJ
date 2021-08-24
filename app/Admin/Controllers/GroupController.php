@@ -155,7 +155,7 @@ class GroupController extends Controller
                 //check gcode has been token.
                 $gid=$form->model()->gid ?? null;
                 if (!empty($gcode) && !blank($g) && $g->gid!=$gid) {
-                    $err('Gcode has been token', 'Error occur.');
+                    return $err('Gcode has been token', 'Error occur.');
                 }
             });
             $form->saved(function(Form $form) {

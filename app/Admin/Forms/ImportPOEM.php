@@ -39,7 +39,7 @@ class ImportPOEM extends Form
 
         $file=$request->file('Files');
         if (!$file->isValid()) {
-            $err('Invalid POEM files');
+            return $err('Invalid POEM files');
         }
 
         $path=$file->getRealPath();
@@ -47,7 +47,7 @@ class ImportPOEM extends Form
         $parser=new POEMParser();
         $poem=$parser->parse($poetryRaw);
         if (empty($poem)) {
-            $err('Malformed POEM files');
+            return $err('Malformed POEM files');
         }
 
         $success_message.="

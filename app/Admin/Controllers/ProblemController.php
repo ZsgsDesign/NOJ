@@ -243,23 +243,23 @@ class ProblemController extends Controller
             //check pcode has been token.
             $pid=$form->pid ?? null;
             if (!empty($p) && $p->pid!=$pid) {
-                $err('Pcode has been token', 'Error occur.');
+                return $err('Pcode has been token', 'Error occur.');
             }
             $test_case=\request()->file('test_case');
             //Make sure the user enters SPJ_SRc in spj problem.
             if ($form->spj && empty($form->spj_src)) {
-                $err('The SPJ problem must provide spj_src', 'create problem error');
+                return $err('The SPJ problem must provide spj_src', 'create problem error');
             }
             //check info file. Try to generate if it does not exist.
             $info_content=[];
             if (!empty($test_case)) {
                 if ($test_case->extension()!='zip') {
-                    $err('You must upload a zip file iuclude test case info and content.');
+                    return $err('You must upload a zip file iuclude test case info and content.');
                 }
                 $path=$test_case->path();
                 $zip=new ZipArchive;
                 if ($zip->open($path)!==true) {
-                    $err('You must upload a zip file without encrypt and can open successfully.');
+                    return $err('You must upload a zip file without encrypt and can open successfully.');
                 };
                 $info_content=[];
                 if (($zip->getFromName('info'))===false) {
@@ -279,7 +279,7 @@ class ProblemController extends Controller
                         sort($files_in);
                         $testcase_index=1;
                         if (!count($files_in)) {
-                            $err('Cannot detect any .in file, please make sure they are placed under the root directory of the zip file.');
+                            return $err('Cannot detect any .in file, please make sure they are placed under the root directory of the zip file.');
                         }
                         foreach ($files_in as $filename_in) {
                             $filename=basename($filename_in, '.in');
@@ -324,7 +324,7 @@ class ProblemController extends Controller
                     }
                     $zip->addFromString('info', json_encode($info_content));
                     $zip->close();
-                    //$err('The zip files must include a file named info including info of test cases, and the format can see ZsgsDesign/NOJ wiki.');
+                    //return $err('The zip files must include a file named info including info of test cases, and the format can see ZsgsDesign/NOJ wiki.');
                 } else {
                     $info_content=json_decode($zip->getFromName('info'), true);
                 };
@@ -334,10 +334,10 @@ class ProblemController extends Controller
                 //dd($test_cases);
                 foreach ($test_cases as $index => $case) {
                     if (!isset($case['input_name']) || (!$form->spj && !isset($case['output_name']))) {
-                        $err("Test case index {$index}: configuration missing input/output files name.");
+                        return $err("Test case index {$index}: configuration missing input/output files name.");
                     }
                     if ($zip->getFromName($case['input_name'])===false || (!$form->spj && $zip->getFromName($case['output_name'])===false)) {
-                        $err("Test case index {$index}: missing input/output files that record in the configuration.");
+                        return $err("Test case index {$index}: missing input/output files that record in the configuration.");
                     }
                 }
                 if (!empty($form->pid)) {
