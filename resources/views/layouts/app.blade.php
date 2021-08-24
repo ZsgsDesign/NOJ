@@ -186,27 +186,28 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    @php $userNotContestAccount = (!Auth::guard('web')->check() || is_null(Auth::guard('web')->user()->contest_account)) @endphp
+                    @if($userNotContestAccount)
                     <li class="nav-item">
                         <a class="nav-link @if ($navigation === "Home") active @endif" href="/"> {{__('navigation.home')}}<span class="sr-only">(current)</span></a>
                     </li>
                     @endif
-                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    @if($userNotContestAccount)
                         <li class="nav-item">
                             <a class="nav-link @if ($navigation === "Problem") active @endif" href="/problem">{{__('navigation.problem')}}</a>
                         </li>
                     @endif
-                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    @if($userNotContestAccount)
                         <li class="nav-item">
                             <a class="nav-link @if ($navigation === "Dojo") active @endif" href="/dojo">{{__('navigation.dojo')}}</a>
                         </li>
                     @endif
-                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    @if($userNotContestAccount)
                         <li class="nav-item">
                             <a class="nav-link @if ($navigation === "Status") active @endif" href="/status">{{__('navigation.status')}}</a>
                         </li>
                     @endif
-                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    @if($userNotContestAccount)
                         <li class="nav-item">
                             <a class="nav-link @if ($navigation === "Rank") active @endif" href="/rank">{{__('navigation.rank')}}</a>
                         </li>
@@ -214,12 +215,12 @@
                     <li class="nav-item">
                         <a class="nav-link @if ($navigation === "Contest") active @endif" href="/contest">{{__('navigation.contest')}}</a>
                     </li>
-                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    @if($userNotContestAccount)
                     <li class="nav-item">
                         <a class="nav-link @if ($navigation === "Group") active @endif" href="/group">{{__('navigation.group')}}</a>
                     </li>
                     @endif
-                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    @if($userNotContestAccount)
                         @foreach(getCustomUrl() as $u)
                             <li class="nav-item">
                                 <a class="nav-link" href="{{$u["url"]}}" target="{{$u["newtab"]?'_blank':''}}">{{$u["display_name"]}}</a>
@@ -229,7 +230,7 @@
                 </ul>
 
                 <ul class="navbar-nav mundb-nav-right">
-                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    @if($userNotContestAccount)
                     <form id="search-box" action="/search" method="get" class="form-inline my-2 my-lg-0 mundb-inline">
                         <span class="bmd-form-group"><input id="search-key" class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" value="{{$search_key ?? ''}}" placeholder="{{__('navigation.search')}}" autocomplete="off" aria-label="search"></span>
                         <input type="hidden" name="tab" value="{{
@@ -240,7 +241,7 @@
                         }}">
                     </form>
                     @endif
-                    @if(Auth::check())
+                    @if(Auth::guard('web')->check())
                     <i style="color:hsla(0,0%,100%,.5);margin-left:0.9rem;margin-top:-0.05rem;cursor:pointer" onclick="window.location='/message'" id="message-tip" class="MDI bell" data-toggle="tooltip" data-placement="bottom" title="loading..."></i>
                     @endif
                     <li class="nav-item mundb-no-shrink />">
@@ -248,9 +249,9 @@
                             <a class="nav-link @if ($navigation === "Account") active @endif" href="/login">@if(config("function.register")){{__('navigation.account')}}@else {{__("Login")}} @endif</a>
                         @else
                             <li class="nav-item dropdown mundb-btn-ucenter">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{$greeting}}, <span id="nav-username" data-uid="{{Auth::user()->id}}">{{ Auth::user()["name"] }}</span></a>
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{$greeting}}, <span id="nav-username" data-uid="{{Auth::guard('web')->user()->id}}">{{ Auth::guard('web')->user()["name"] }}</span></a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <div class="dropdown-header"><img src="{{ Auth::user()->avatar }}" class="mundb-avatar" id="atsast_nav_avatar" /><div><h6><span id="nav-dropdown-username">{{ Auth::user()["name"] }}</span><br/><small>{{ Auth::user()->email }}</small></h6></div></div>
+                                    <div class="dropdown-header"><img src="{{ Auth::guard('web')->user()->avatar }}" class="mundb-avatar" id="atsast_nav_avatar" /><div><h6><span id="nav-dropdown-username">{{ Auth::guard('web')->user()["name"] }}</span><br/><small>{{ Auth::guard('web')->user()->email }}</small></h6></div></div>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/account/dashboard"><i class="MDI account-circle"></i> {{__('navigation.dashboard')}}</a>
                                     <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> {{__('navigation.settings')}}</a>
@@ -258,7 +259,7 @@
                                     <a class="dropdown-item" href="/account/submissions"><i class="MDI airballoon"></i> Submissions</a>
                                     <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> Advanced Settings</a>
                                     -->
-                                    @if (Auth::user()->hasPermission(1))
+                                    @if (Auth::guard('web')->user()->hasPermission(1))
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="{{route('admin.index')}}"><i class="MDI view-dashboard"></i> {{__('navigation.admin')}}</a>
                                     @endif

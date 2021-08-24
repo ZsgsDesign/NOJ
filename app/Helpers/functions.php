@@ -58,8 +58,8 @@ if (!function_exists('getCustomUrl')) {
 if (!function_exists('emailVerified')) {
     function emailVerified()
     {
-        if (Auth::check()) {
-            return !is_null(Auth::user()->email_verified_at);
+        if (Auth::guard('web')->check()) {
+            return !is_null(Auth::guard('web')->user()->email_verified_at);
         }
 
         return null;
