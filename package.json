@@ -10,7 +10,7 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
-        "axios": "^0.19",
+        "axios": "^0.21",
         "cross-env": "^7.0",
         "laravel-mix": "^5.0.1",
         "lodash": "^4.17.19",
@@ -39,10 +39,8 @@
         "lodash": "^4.17",
         "marked": "^0.6.2",
         "mathjax": "^2.7",
-        "monaco-ace-tokenizer": "^0.2.1",
         "monaco-editor": "0.25.2",
         "monaco-editor-webpack-plugin": "4.0.0",
-        "monaco-themes": "^0.3.3",
         "noj-jquery-ui-sortable": "^1.0.0",
         "noj-monaco-themes": "^1.0",
         "parazoom": "^1.0.0",
