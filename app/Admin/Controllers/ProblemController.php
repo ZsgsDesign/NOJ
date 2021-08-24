@@ -275,7 +275,7 @@ class ProblemController extends Controller
                             $files[]=$filename;
                         }
                         $files_in=array_filter($files, function($filename) {
-                            return strpos('.in', $filename)!=-1;
+                            return pathinfo($filename, PATHINFO_EXTENSION) == 'in';
                         });
                         sort($files_in);
                         $testcase_index=1;
