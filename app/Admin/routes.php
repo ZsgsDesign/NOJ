@@ -24,7 +24,7 @@ Route::group([
     $router->resource('judge-server', JudgeServerController::class);
     $router->resource('judger', JudgerController::class);
     $router->resource('abuses', AbuseController::class);
-    $router->resource('carousel', CarouselController::class);
+    $router->resource('carousels', CarouselController::class);
 
     Route::match(['GET', 'POST'], 'codetester', 'CodeTesterController@tester')->name('admin.codetester.tester');
     Route::match(['GET', 'POST'], 'settings', 'SettingsController@index')->name('admin.settings.index');
