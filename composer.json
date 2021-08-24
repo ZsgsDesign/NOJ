@@ -81,7 +81,8 @@
             "bower-asset",
             "npm-asset",
             "fonts-asset",
-            "laravel-admin-asset"
+            "laravel-admin-asset",
+            "noj-language-services"
         ],
         "installer-paths": {
             "public/static/library/{$name}": [
@@ -93,6 +94,9 @@
             ],
             "public/vendor/laravel-admin/": [
                 "njuptaaa/laravel-admin-assets"
+            ],
+            "public/static/language-services/{$name}": [
+                "type:noj-language-services"
             ]
         }
     },
