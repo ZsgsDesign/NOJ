@@ -69,6 +69,11 @@ class User extends Authenticatable
         return $this->hasIndependentPassword() && $this->hasIndependentEmail();
     }
 
+    public function getReadableNameAttribute()
+    {
+        return $this->name.' ('.$this->email.')';
+    }
+
     /**
      * To get some extra info of a user.
      *
