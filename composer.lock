@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "13a9d20ac0d8df23362801e3b436725d",
+    "content-hash": "1ec107db2ccd32167f383514083a8765",
     "packages": [
         {
             "name": "asundust/auth-captcha",
@@ -5045,35 +5045,6 @@
             "time": "2019-10-10T12:19:21+00:00"
         },
         {
-            "name": "npm-asset/clipboard",
-            "version": "2.0.8",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/clipboard/-/clipboard-2.0.8.tgz"
-            },
-            "require": {
-                "npm-asset/good-listener": ">=1.2.2,<2.0.0",
-                "npm-asset/select": ">=1.1.2,<2.0.0",
-                "npm-asset/tiny-emitter": ">=2.0.0,<3.0.0"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/delegate",
-            "version": "3.2.0",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/delegate/-/delegate-3.2.0.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
             "name": "npm-asset/fileicon-svg",
             "version": "1.0.0",
             "dist": {
@@ -5086,33 +5057,6 @@
             ]
         },
         {
-            "name": "npm-asset/good-listener",
-            "version": "1.2.2",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/good-listener/-/good-listener-1.2.2.tgz"
-            },
-            "require": {
-                "npm-asset/delegate": ">=3.1.2,<4.0.0"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/highlight.js",
-            "version": "11.2.0",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/highlight.js/-/highlight.js-11.2.0.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "BSD-3-Clause"
-            ]
-        },
-        {
             "name": "npm-asset/mathjax",
             "version": "2.7.9",
             "dist": {
@@ -5122,54 +5066,6 @@
             "type": "npm-asset",
             "license": [
                 "Apache-2.0"
-            ]
-        },
-        {
-            "name": "npm-asset/monaco-ace-tokenizer",
-            "version": "0.2.1",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/monaco-ace-tokenizer/-/monaco-ace-tokenizer-0.2.1.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/monaco-editor",
-            "version": "0.21.2",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.21.2.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/select",
-            "version": "1.1.2",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/select/-/select-1.1.2.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
-            ]
-        },
-        {
-            "name": "npm-asset/tiny-emitter",
-            "version": "2.1.0",
-            "dist": {
-                "type": "tar",
-                "url": "https://registry.npmjs.org/tiny-emitter/-/tiny-emitter-2.1.0.tgz"
-            },
-            "type": "npm-asset",
-            "license": [
-                "MIT"
             ]
         },
         {
