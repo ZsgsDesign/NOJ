@@ -680,7 +680,7 @@
                             @if($detail["file"] && !blank($detail["file_url"]))
                             <file-card class="mt-4 mb-3">
                                 <div>
-                                    <img src="/static/library/fileicon-svg/svg/{{$detail["file_ext"]}}.svg" onerror="this.src=NOJVariables.unknownfileSVG;">
+                                    <img src="/static/fonts/fileicon/svg/{{$detail["file_ext"]}}.svg" onerror="this.src=NOJVariables.unknownfileSVG;">
                                 </div>
                                 <div>
                                     <h5 class="mundb-text-truncate-1">{{basename($detail["file_url"])}}</h5>

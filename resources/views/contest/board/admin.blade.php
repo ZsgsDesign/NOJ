@@ -262,7 +262,7 @@
                             @if($basic['pdf'])
                                 <file-card class="mt-4 mb-3">
                                     <div>
-                                        <img src="/static/library/fileicon-svg/svg/pdf.svg" onerror="this.src=NOJVariables.unknownfileSVG;">
+                                        <img src="/static/fonts/fileicon/svg/pdf.svg" onerror="this.src=NOJVariables.unknownfileSVG;">
                                     </div>
                                     <div>
                                         <h5 class="mundb-text-truncate-1">{{$contest_name}}.pdf</h5>
@@ -272,7 +272,7 @@
                             @else
                                 <file-card class="mt-4 mb-3">
                                     <div>
-                                        <img src="/static/library/fileicon-svg/svg/unknown.svg" onerror="this.src=NOJVariables.unknownfileSVG;">
+                                        <img src="/static/fonts/fileicon/svg/unknown.svg" onerror="this.src=NOJVariables.unknownfileSVG;">
                                     </div>
                                     <div>
                                         <h5 class="mundb-text-truncate-1">Upload your own or generate below</h5>
