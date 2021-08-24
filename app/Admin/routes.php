@@ -30,6 +30,7 @@ Route::group([
 
     Route::group(['prefix' => 'api'], function(Router $router) {
         $router->get('/problems', 'ApiController@problems')->name('admin.api.problems');
+        $router->get('/users', 'ApiController@users')->name('admin.api.users');
     });
 
     Route::group(['prefix' => 'babel'], function(Router $router) {
