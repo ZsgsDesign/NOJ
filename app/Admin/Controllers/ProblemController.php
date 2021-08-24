@@ -121,7 +121,6 @@ class ProblemController extends Controller
         $grid->OJ("OJ")->display(function() {
             return $this->onlinejudge->name;
         });
-        $grid->update_date();
         $grid->tot_score("Score");
         $grid->partial("Partial")->display(function($partial) {
             return $partial ? 'Yes' : 'No';
@@ -129,7 +128,9 @@ class ProblemController extends Controller
         $grid->markdown("Markdown")->display(function($markdown) {
             return $markdown ? 'Yes' : 'No';
         });
-        $grid->order_index("order")->sortable();
+        $grid->column('hide', 'Hide')->switch();
+        $grid->update_date('Updated At');
+        // $grid->order_index("order")->sortable();
         $grid->filter(function(Grid\Filter $filter) {
             $filter->disableIdFilter();
             $filter->like('pcode');
