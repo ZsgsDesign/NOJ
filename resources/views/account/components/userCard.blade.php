@@ -152,8 +152,9 @@
         margin: 0;
     }
 </style>
+@include('account.components.userDefaultTheme')
 <user-card>
-    <img class="cm-dashboard-focus" src="{{$info["image"]}}">
+    <img class="cm-dashboard-focus" src="{{$info["image"]}}" onerror="this.src=unknown_theme;">
     <avatar-section>
         <img id="avatar" src="{{$info["avatar"]}}" alt="avatar">
     </avatar-section>

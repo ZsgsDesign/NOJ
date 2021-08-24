@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Eloquent\User;
 use grubersjoe\BingPhoto;
 use Cache;
+use Exception;
 use Storage;
 
 class AccountModel extends Model
@@ -115,14 +116,18 @@ class AccountModel extends Model
         $ret["professionalTitleColor"]=RankModel::getProfessionalColor($ret["professionalTitle"]);
         // Administration Group
         $ret["admin"]=User::find($uid)->hasPermission(1);
-        if (Cache::tags(['bing', 'pic'])->get(date("Y-m-d"))==null) {
-            $bing=new BingPhoto([
-                'locale' => 'zh-CN',
-            ]);
-            Storage::disk('NOJPublic')->put("static/img/bing/".date("Y-m-d").".jpg", file_get_contents($bing->getImage()['url']), 86400);
-            Cache::tags(['bing', 'pic'])->put(date("Y-m-d"), "/static/img/bing/".date("Y-m-d").".jpg");
+        try {
+            if (Cache::tags(['bing', 'pic'])->get(date("Y-m-d"))==null) {
+                $bing=new BingPhoto([
+                    'locale' => 'zh-CN',
+                ]);
+                Storage::disk('NOJPublic')->put("static/img/themes/bing/".date("Y-m-d").".jpg", file_get_contents($bing->getImage()['url']), 86400);
+                Cache::tags(['bing', 'pic'])->put(date("Y-m-d"), "/static/img/themes/bing/".date("Y-m-d").".jpg");
+            }
+            $ret["image"]=Cache::tags(['bing', 'pic'])->get(date("Y-m-d"));
+        } catch(Exception $e) {
+            $ret["image"]="/static/img/themes/material.png";
         }
-        $ret["image"]=Cache::tags(['bing', 'pic'])->get(date("Y-m-d"));
         return $ret;
     }
 }

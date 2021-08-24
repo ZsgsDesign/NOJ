@@ -1245,11 +1245,17 @@
                     }
                     ajaxing=false;
                     $("#arrangeBtn > i").addClass("d-none");
-                }, error: function(xhr, type){
+                }, error: function(xhr, type) {
                     console.log('Ajax error while posting to arrangeContest!');
-                    alert("{{__('errors.default')}}");
                     ajaxing=false;
                     $("#arrangeBtn > i").addClass("d-none");
+                    switch(xhr.status) {
+                        case 422:
+                            alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                            break;
+                        default:
+                            alert("{{__('errors.default')}}");
+                    }
                 }
             });
         });
