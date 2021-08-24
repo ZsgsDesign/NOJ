@@ -48,12 +48,8 @@ mix.scripts([
     'node_modules/chart.js/dist/Chart.bundle.min.js',
     'node_modules/simplemde/dist/simplemde.min.js',
     'node_modules/marked/marked.min.js',
-    'node_modules/dompurify/dist/purify.min.js',
     'node_modules/clipboard/dist/clipboard.min.js',
 ], 'public/static/js/build/noj.js');
-
-// Debugger for dompurify
-mix.copy('node_modules/dompurify/dist/purify.min.js.map', 'public/static/js/build/purify.min.js.map');
 
 // Compile CSS libraries bundle
 mix.styles([
