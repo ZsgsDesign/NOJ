@@ -190,7 +190,12 @@ class ProblemController extends Controller
                     1 => 'YES',
                 ])->default(0)->rules('required');
             $form->clang('spj_src', 'SPJ Source Code');
-            $form->file('test_case')->rules('required');
+            if($form->isCreating()) {
+                $form->file('test_case')->rules('required');
+            } else {
+                $form->file('test_case');
+            }
+
             $form->ignore(['test_case']);
 
             //Hidden parameters
@@ -338,6 +343,8 @@ class ProblemController extends Controller
                 Storage::makeDirectory(base_path().'/storage/test_case/'.$pcode);
                 $zip->extractTo(base_path().'/storage/test_case/'.$pcode.'/');
 
+                $form->tot_score=count($info_content['test_cases']);
+
             }
             //Set the spj-related data
             if ($form->spj) {
@@ -345,7 +352,9 @@ class ProblemController extends Controller
                 $form->spj_version="{$form->pcode}#".time();
             }
             //Set default data
-            $form->tot_score=count($info_content['test_cases']);
+            if($form->isCreating() && empty($test_case)) {
+                $form->tot_score=0;
+            }
             $form->markdown=true;
             $form->input_type='standard input';
             $form->output_type='standard output';
