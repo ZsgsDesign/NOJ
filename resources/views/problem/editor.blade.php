@@ -1231,8 +1231,12 @@
             MarkerPen.initAll();
 
             $(".pre-animated").addClass("fadeInLeft");
+
+            mediumZoom(document.querySelectorAll('fresh-container img'), {
+                margin: 48,
+            });
+
             @if($status["verdict"]=="Compile Error")$("#verdict_text").addClass("cm-popover-decoration");@endif
-            // $("#verdict_info").popover();
 
         }, false);
     </script>
