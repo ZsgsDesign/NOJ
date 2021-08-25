@@ -5207,16 +5207,16 @@
         },
         {
             "name": "noj-language-service/themes",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NJUPTAAA/NOJ_Language_Services_Themes.git",
-                "reference": "a7d66a22e174353236c14ca5ca8c29a2e3660f25"
+                "reference": "8a292e584ed17b0fef134965cbd1ade2d38f36e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NJUPTAAA/NOJ_Language_Services_Themes/zipball/a7d66a22e174353236c14ca5ca8c29a2e3660f25",
-                "reference": "a7d66a22e174353236c14ca5ca8c29a2e3660f25",
+                "url": "https://api.github.com/repos/NJUPTAAA/NOJ_Language_Services_Themes/zipball/8a292e584ed17b0fef134965cbd1ade2d38f36e8",
+                "reference": "8a292e584ed17b0fef134965cbd1ade2d38f36e8",
                 "shasum": ""
             },
             "type": "noj-language-services",
@@ -5233,9 +5233,9 @@
             "description": "Standalone Themes for Language Services of NOJ.",
             "support": {
                 "issues": "https://github.com/NJUPTAAA/NOJ_Language_Services_Themes/issues",
-                "source": "https://github.com/NJUPTAAA/NOJ_Language_Services_Themes/tree/1.0.0"
+                "source": "https://github.com/NJUPTAAA/NOJ_Language_Services_Themes/tree/1.0.1"
             },
-            "time": "2021-08-24T02:59:04+00:00"
+            "time": "2021-08-25T18:44:48+00:00"
         },
         {
             "name": "npm-asset/mathjax",
