@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "507fad58fbb9b67c41cedf20c5f1cdab",
+    "content-hash": "ed758eed56e2b3ae793fa607043f44b0",
     "packages": [
         {
             "name": "asundust/auth-captcha",
@@ -5027,46 +5027,6 @@
                 "source": "https://github.com/NJUPTAAA/laravel-admin-assets/tree/1.8.17"
             },
             "time": "2021-08-24T22:42:16+00:00"
-        },
-        {
-            "name": "njuptaaa/moss",
-            "version": "1.4.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/NJUPTAAA/MOSS.git",
-                "reference": "e0114d71c9dfb45999eeee3ec004f9356dd552a3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/NJUPTAAA/MOSS/zipball/e0114d71c9dfb45999eeee3ec004f9356dd552a3",
-                "reference": "e0114d71c9dfb45999eeee3ec004f9356dd552a3",
-                "shasum": ""
-            },
-            "require": {
-                "kub-at/php-simple-html-dom-parser": "~1.7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MOSS\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "ZsgsDesign",
-                    "email": "zsgsdesign@gmail.com"
-                }
-            ],
-            "description": "Stanford MOSS Interface, for a Measure Of Software Similarity.",
-            "support": {
-                "issues": "https://github.com/NJUPTAAA/MOSS/issues",
-                "source": "https://github.com/NJUPTAAA/MOSS/tree/1.4.2"
-            },
-            "time": "2021-04-03T06:27:21+00:00"
         },
         {
             "name": "njuptaaa/noj-large-file-upload",
