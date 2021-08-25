@@ -122,6 +122,7 @@ return [
         'dojoCatg'          => 'Dojos',
         'dojos'             => 'Dojo Tasks',
         'dojophases'        => 'Dojo Phases',
+        'dojopasses'        => 'Dojo Pass Records',
         'helpers'           => 'Helpers',
         'scaffold'          => 'Scaffold',
         'database'          => 'Database Terminal',
@@ -432,5 +433,26 @@ return [
     'chunkUpload' => [
         'tooltip'           => 'Or drag files here',
         'start'             => 'Start Uploading',
+    ],
+    'dojopasses' => [
+        'dojo'              => 'Dojo Task',
+        'user'              => 'User',
+        'updated_at'        => 'Task Complete At',
+        'index' => [
+            'header'        => 'Dojo Pass Records',
+            'description'   => 'all dojo pass records',
+        ],
+        'show' => [
+            'header'        => 'Dojo Pass Record Detail',
+            'description'   => 'the detail of the dojo pass record',
+        ],
+        'edit' => [
+            'header'        => 'Edit Dojo Pass Record',
+            'description'   => 'edit the detail of dojo pass record',
+        ],
+        'create' => [
+            'header'        => 'Create New Dojo Pass Record',
+            'description'   => 'create a new dojo pass record',
+        ],
     ],
 ];
