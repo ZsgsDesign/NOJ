@@ -93,8 +93,8 @@ class AnnouncementController extends AdminController
 
         $grid->filter(function(Grid\Filter $filter) {
             $filter->like('title', __('admin.announcements.title'));
-            $filter->equal('uid', __('admin.announcements.user'))->select(function ($id) {
-                $user = User::find($id);
+            $filter->equal('uid', __('admin.announcements.user'))->select(function($id) {
+                $user=User::find($id);
                 if ($user) {
                     return [$user->id => $user->readable_name];
                 }
@@ -134,8 +134,8 @@ class AnnouncementController extends AdminController
         $form=new Form(new Announcement());
         $form->text('title', __('admin.announcements.title'))->required();
         $form->simplemde('content', __('admin.announcements.content'))->help(__('admin.announcements.help.markdown'))->required();
-        $form->select('uid', __('admin.announcements.user'))->options(function ($id) {
-            $user = User::find($id);
+        $form->select('uid', __('admin.announcements.user'))->options(function($id) {
+            $user=User::find($id);
             if ($user) {
                 return [$user->id => $user->readable_name];
             }

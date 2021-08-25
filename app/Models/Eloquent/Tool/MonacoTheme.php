@@ -339,7 +339,7 @@ class MonacoTheme
 
     public static function getTheme($id) {
         if (!isset(self::$theme[$id])) {
-            if(isset(self::$theme[config('app.editor_theme')])){
+            if (isset(self::$theme[config('app.editor_theme')])) {
                 return self::$theme[config('app.editor_theme')];
             }
             return self::$theme['material-design-darker'];
