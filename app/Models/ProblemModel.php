@@ -296,7 +296,7 @@ class ProblemModel extends Model
         $preQuery=DB::table($this->table)->where('hide', '=', 0);
         if ($filter['oj']) {
             $OJ=OJ::find($filter['oj']);
-            if(blank($OJ) || !$OJ->status) {
+            if (blank($OJ) || !$OJ->status) {
                 return null;
             }
             $preQuery=$preQuery->where(["OJ"=>$filter['oj']]);

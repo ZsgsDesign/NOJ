@@ -129,14 +129,14 @@ class SolutionController extends Controller
         $form->model()->makeVisible('password');
         $form->tab('Basic', function(Form $form) {
             $form->display("psoid");
-            $form->select('uid', 'Author')->options(function ($id) {
-                $user = User::find($id);
+            $form->select('uid', 'Author')->options(function($id) {
+                $user=User::find($id);
                 if ($user) {
                     return [$user->id => $user->readable_name];
                 }
             })->config('minimumInputLength', 4)->ajax(route('admin.api.users'))->required();
-            $form->select('pid', 'Problem')->options(function ($pid) {
-                $problem = Problem::find($pid);
+            $form->select('pid', 'Problem')->options(function($pid) {
+                $problem=Problem::find($pid);
                 if ($problem) {
                     return [$problem->pid => $problem->readable_name];
                 }
