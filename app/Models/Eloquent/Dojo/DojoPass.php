@@ -26,7 +26,7 @@ class DojoPass extends Model
 
     public static function isPassed($dojo_id)
     {
-        return Auth::check() ?self::where([
+        return Auth::check() ? self::where([
             "dojo_id"=>$dojo_id,
             "user_id"=>Auth::user()->id,
         ])->count()>0 : false;
