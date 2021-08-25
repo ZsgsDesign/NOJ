@@ -86,7 +86,8 @@
     contest-card > info-div .sm-contest-title{
         color: #6B6B6B;
         line-height: 1.2;
-        font-size:1.5rem;
+        font-size: 1.5rem;
+        font-family: 'Poppins';
     }
 
     contest-card > info-div .sm-contest-type{

@@ -354,6 +354,7 @@
             display:flex;
             justify-content: space-between;
             align-items: center;
+            font-family: 'Poppins';
         }
 
         bootom-side button{

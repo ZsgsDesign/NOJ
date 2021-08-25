@@ -170,6 +170,7 @@
         font-weight: 500;
         line-height: 1.25;
         word-wrap: break-word;
+        font-family: 'Poppins';
     }
     info-div .btn{
         padding: .46875rem 1.5rem;
@@ -341,6 +342,7 @@
         cursor: pointer;
         transition: background-color 400ms;
         padding: .5rem;
+        font-family: 'Poppins';
     }
 
     function-block:hover{
@@ -391,7 +393,7 @@
 
     timeline-item[data-type^="notice"] > div:last-of-type h5 {
         font-weight: bold;
-        font-family: Montserrat;
+        font-family: 'Roboto Slab';
         margin-bottom: 1rem;
     }
 

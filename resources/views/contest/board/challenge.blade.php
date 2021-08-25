@@ -130,7 +130,6 @@
     <div class="row">
         <div class="col-sm-12 col-md-8">
             <paper-card>
-                <h5>{{$contest_name}}</h5>
                 @include('contest.board.nav',[
                     'nav'=>'challenge',
                     'basic'=>$basic,

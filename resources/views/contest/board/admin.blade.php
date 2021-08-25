@@ -173,7 +173,6 @@
 </style>
 <div class="container mundb-standard-container">
     <paper-card>
-        <h5>{{$contest_name}}</h5>
         @include('contest.board.nav',[
             'nav'=>'admin',
             'basic'=>$basic,

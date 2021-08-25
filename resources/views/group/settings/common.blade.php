@@ -70,6 +70,7 @@
         display: block;
         padding: 1rem 1.5rem;
         cursor: pointer;
+        font-family: 'Poppins';
     }
 
     menu-item.active{
