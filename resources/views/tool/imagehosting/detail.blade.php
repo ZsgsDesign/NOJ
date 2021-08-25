@@ -9,8 +9,9 @@
     .input-group-text{
         margin-right: 1rem;
         font-weight: 900;
-        font-family: Raleway;
         color: rgba(0,0,0,0.42);
+        font-weight: 500;
+        font-family: 'Poppins';
     }
     .input-group-text i{
         margin-right: 0.5rem;
