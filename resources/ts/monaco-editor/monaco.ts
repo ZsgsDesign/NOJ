@@ -10,8 +10,9 @@ import VsCodeLightTheme from './themes/vs-light-plus-theme';
 import { IRawTheme } from 'vscode-textmate';
 import { languagesConfig } from './languages';
 import { NOJThemeInfo, themes } from './themes';
-import { loadedThemesData } from './themeConfigs';
 import * as plist from './plist';
+
+const loadedThemesData = require('./themeConfig.json');
 
 interface NOJScopeNameInfo extends ScopeNameInfo {
     path: string;
