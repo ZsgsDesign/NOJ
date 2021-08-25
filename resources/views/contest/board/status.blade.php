@@ -169,12 +169,12 @@
                             </th>
                             <th scope="col">
                                 <div class="form-group m-0 p-0">
-                                    <input type="text" class="form-control text-center" id="problemFilter" placeholder="{{__("status.result")}}" onkeypress="applyFilter(event,'ncode')" value="{{$filter['ncode']}}" autocomplete="off">
+                                    <input type="text" class="form-control text-center" id="problemFilter" placeholder="{{__("status.problem")}}" onkeypress="applyFilter(event,'ncode')" value="{{$filter['ncode']}}" autocomplete="off">
                                 </div>
                             </th>
                             <th scope="col">
                                 <div class="form-group m-0 p-0">
-                                    <input type="text" class="form-control text-center" id="resultFilter" placeholder="{{__("status.ncode")}}" onkeypress="applyFilter(event,'result')" value="{{$filter['result']}}" autocomplete="off">
+                                    <input type="text" class="form-control text-center" id="resultFilter" placeholder="{{__("status.result")}}" onkeypress="applyFilter(event,'result')" value="{{$filter['result']}}" autocomplete="off">
                                 </div>
                             </th>
                             <th scope="col">{{__("status.time")}}</th>
