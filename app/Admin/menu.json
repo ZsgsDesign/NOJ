@@ -194,6 +194,18 @@
                 "created_at": "2019-04-11 12:53:03",
                 "updated_at": "2019-04-12 09:30:12",
                 "roles": []
+            },
+            {
+                "id": 37,
+                "parent_id": 28,
+                "order": 33,
+                "title": "admin.menu_titles.dojopasses",
+                "icon": "MDI code-tags-check",
+                "uri": "dojopasses",
+                "permission": null,
+                "created_at": "2019-04-11 12:53:03",
+                "updated_at": "2019-04-12 09:30:12",
+                "roles": []
             }
         ]
     },
