@@ -90,11 +90,11 @@ class MonacoTheme
         //     "name" => "Dawn",
         //     "background" => "#F9F9F9"
         // ],
-        // "dracula" => [
-        //     "id" => "dracula",
-        //     "name" => "Dracula",
-        //     "background" => "#282a36"
-        // ],
+        "dracula" => [
+            "id" => "dracula",
+            "name" => "Dracula",
+            "background" => "#282A36"
+        ],
         // "dominion-day" => [
         //     "id" => "dominion-day",
         //     "name" => "Dominion Day",

@@ -88,6 +88,14 @@ const themes: { [themeID: string]: NOJThemeInfo } = {
         name: 'One Half Light',
         path: 'onehalf-light.json',
     },
+    'winter-is-coming': {
+        name: 'Winter is Coming',
+        path: 'winter-is-coming.json',
+    },
+    'dracula': {
+        name: 'Dracula',
+        path: 'dracula.json',
+    },
 };
 
 export { themes };
