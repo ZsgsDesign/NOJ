@@ -20,6 +20,7 @@ nav.navbar{
 }
 .navbar-brand {
     margin-right: 1rem;
+    font-family: 'Poppins';
     display: flex;
 }
 .navbar-brand > img {
