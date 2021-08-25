@@ -195,11 +195,16 @@ class MonacoTheme
         //     "name" => "Oceanic Next",
         //     "background" => "#1B2B34"
         // ],
-        // "one-half"=>[
-        //     "id" => "one-half",
-        //     "name" => "One Half",
-        //     "background" => "#282C34"
-        // ],
+        "onehalf-dark"=>[
+            "id" => "onehalf-dark",
+            "name" => "One Half Dark",
+            "background" => "#282c34"
+        ],
+        "onehalf-light"=>[
+            "id" => "onehalf-light",
+            "name" => "One Half Light",
+            "background" => "#fafafa"
+        ],
         // "pastels-on-dark" => [
         //     "id" => "pastels-on-dark",
         //     "name" => "Pastels on Dark",

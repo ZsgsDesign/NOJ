@@ -80,6 +80,14 @@ const themes: { [themeID: string]: NOJThemeInfo } = {
         name: 'Tomorrow',
         path: 'tomorrow.json',
     },
+    'onehalf-dark': {
+        name: 'One Half Dark',
+        path: 'onehalf-dark.json',
+    },
+    'onehalf-light': {
+        name: 'One Half Light',
+        path: 'onehalf-light.json',
+    },
 };
 
 export { themes };
