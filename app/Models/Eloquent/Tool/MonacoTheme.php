@@ -65,11 +65,11 @@ class MonacoTheme
         //     "name" => "Brilliance Dull",
         //     "background" => "#050505FA"
         // ],
-        // "chrome-devtools" => [
-        //     "id" => "chrome-devtools",
-        //     "name" => "Chrome DevTools",
-        //     "background" => "#FFFFFF"
-        // ],
+        "chrome-dev-tools" => [
+            "id" => "chrome-dev-tools",
+            "name" => "Chrome DevTools",
+            "background" => "#fff"
+        ],
         // "clouds-midnight" => [
         //     "id" => "clouds-midnight",
         //     "name" => "Clouds Midnight",
