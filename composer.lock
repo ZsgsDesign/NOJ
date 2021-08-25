@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e2082ec6bfd3a9d437b7e6513340233",
+    "content-hash": "507fad58fbb9b67c41cedf20c5f1cdab",
     "packages": [
         {
             "name": "asundust/auth-captcha",
@@ -1515,6 +1515,38 @@
                 "source": "https://github.com/ZsgsDesign/fonts-asset-Montserrat/tree/1.0.0"
             },
             "time": "2020-12-10T16:05:47+00:00"
+        },
+        {
+            "name": "fonts-asset/poppins",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ZsgsDesign/fonts-asset-Poppins.git",
+                "reference": "8505f6b5ca4741ffe4b72cb9094e16fc4c44fd9b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Poppins/zipball/8505f6b5ca4741ffe4b72cb9094e16fc4c44fd9b",
+                "reference": "8505f6b5ca4741ffe4b72cb9094e16fc4c44fd9b",
+                "shasum": ""
+            },
+            "type": "fonts-asset",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zsgsdesign",
+                    "email": "zsgsdesign@gmail.com"
+                }
+            ],
+            "description": "Poppins for composer.",
+            "support": {
+                "issues": "https://github.com/ZsgsDesign/fonts-asset-Poppins/issues",
+                "source": "https://github.com/ZsgsDesign/fonts-asset-Poppins/tree/1.0.0"
+            },
+            "time": "2021-08-25T19:43:54+00:00"
         },
         {
             "name": "fonts-asset/raleway",

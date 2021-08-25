@@ -61,7 +61,8 @@
         "sebastian/version": "^2.0",
         "socialiteproviders/github": "^4.1",
         "x3zvawq/noj_simplemde": "^1.0.1",
-        "zsgsdesign/noj-admin-clike-editor": "^1.0.0"
+        "zsgsdesign/noj-admin-clike-editor": "^1.0.0",
+        "fonts-asset/poppins": "^1.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
