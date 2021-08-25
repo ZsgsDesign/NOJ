@@ -63,6 +63,11 @@
 
     user-card > basic-section {
         padding: 0rem 1rem;
+        font-family: 'Poppins';
+    }
+
+    user-card > basic-section > h3 {
+        margin-top: 0.75rem;
     }
 
     user-card statistic-block{
