@@ -189,41 +189,41 @@
                     @php $userNotContestAccount = (!Auth::guard('web')->check() || is_null(Auth::guard('web')->user()->contest_account)) @endphp
                     @if($userNotContestAccount)
                     <li class="nav-item">
-                        <a class="nav-link @if ($navigation === "Home") active @endif" href="/"> {{__('navigation.home')}}<span class="sr-only">(current)</span></a>
+                        <a class="nav-link @if ($navigation === "Home") active @endif" href="/"> <i class="MDI home"></i> {{__('navigation.home')}}<span class="sr-only">(current)</span></a>
                     </li>
                     @endif
                     @if($userNotContestAccount)
                         <li class="nav-item">
-                            <a class="nav-link @if ($navigation === "Problem") active @endif" href="/problem">{{__('navigation.problem')}}</a>
+                            <a class="nav-link @if ($navigation === "Problem") active @endif" href="/problem"> <i class="MDI book-multiple"></i> {{__('navigation.problem')}}</a>
                         </li>
                     @endif
                     @if($userNotContestAccount)
                         <li class="nav-item">
-                            <a class="nav-link @if ($navigation === "Dojo") active @endif" href="/dojo">{{__('navigation.dojo')}}</a>
+                            <a class="nav-link @if ($navigation === "Dojo") active @endif" href="/dojo"> <i class="MDI coffee"></i> {{__('navigation.dojo')}}</a>
                         </li>
                     @endif
                     @if($userNotContestAccount)
                         <li class="nav-item">
-                            <a class="nav-link @if ($navigation === "Status") active @endif" href="/status">{{__('navigation.status')}}</a>
+                            <a class="nav-link @if ($navigation === "Status") active @endif" href="/status"> <i class="MDI buffer"></i> {{__('navigation.status')}}</a>
                         </li>
                     @endif
                     @if($userNotContestAccount)
                         <li class="nav-item">
-                            <a class="nav-link @if ($navigation === "Rank") active @endif" href="/rank">{{__('navigation.rank')}}</a>
+                            <a class="nav-link @if ($navigation === "Rank") active @endif" href="/rank"> <i class="MDI certificate"></i> {{__('navigation.rank')}}</a>
                         </li>
                     @endif
                     <li class="nav-item">
-                        <a class="nav-link @if ($navigation === "Contest") active @endif" href="/contest">{{__('navigation.contest')}}</a>
+                        <a class="nav-link @if ($navigation === "Contest") active @endif" href="/contest"> <i class="MDI trophy-variant"></i> {{__('navigation.contest')}}</a>
                     </li>
                     @if($userNotContestAccount)
                     <li class="nav-item">
-                        <a class="nav-link @if ($navigation === "Group") active @endif" href="/group">{{__('navigation.group')}}</a>
+                        <a class="nav-link @if ($navigation === "Group") active @endif" href="/group"> <i class="MDI account-multiple"></i> {{__('navigation.group')}}</a>
                     </li>
                     @endif
                     @if($userNotContestAccount)
                         @foreach(getCustomUrl() as $u)
                             <li class="nav-item">
-                                <a class="nav-link" href="{{$u["url"]}}" target="{{$u["newtab"]?'_blank':''}}">{{$u["display_name"]}}</a>
+                                <a class="nav-link" href="{{$u["url"]}}" target="{{$u["newtab"]?'_blank':''}}"> <i class="MDI open-in-new"></i> {{$u["display_name"]}}</a>
                             </li>
                         @endforeach
                     @endif
