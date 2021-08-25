@@ -300,6 +300,11 @@ class MonacoTheme
             "name" => "Visual Studio (White)",
             "background" => "rgb(255,255,254)"
         ],
+        "winter-is-coming"=>[
+            "id" => "winter-is-coming",
+            "name" => "Winter is Coming",
+            "background" => "#011627"
+        ],
         // "xcode-default" => [
         //     "id" => "xcode-default",
         //     "name" => "Xcode Default",
