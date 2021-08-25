@@ -100,6 +100,10 @@ const themes: { [themeID: string]: NOJThemeInfo } = {
         name: 'SynthWave 84',
         path: 'synthwave.json',
     },
+    'chrome-dev-tools': {
+        name: 'Chrome DevTools',
+        path: 'chrome-dev-tools.json',
+    },
 };
 
 export { themes };
