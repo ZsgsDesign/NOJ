@@ -40,7 +40,6 @@ mix.scripts([
 // Compile JS libraries bundle
 mix.scripts([
     'public/static/js/build/app.js',
-    'node_modules/popper.js/dist/umd/popper.min.js',
     'node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js',
     'node_modules/pdfobject/pdfobject.min.js',
     'node_modules/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js',

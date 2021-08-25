@@ -39,6 +39,7 @@
         "lodash": "^4.17",
         "marked": "^0.6.2",
         "mathjax": "^2.7",
+        "medium-zoom": "^1.0.6",
         "monaco-editor": "0.25.2",
         "monaco-editor-webpack-plugin": "4.0.0",
         "noj-jquery-ui-sortable": "^1.0.0",

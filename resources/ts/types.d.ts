@@ -6,4 +6,6 @@ declare interface Window{
     axios: any;
     NOJVariables: any;
     DOMPurify: any;
+    mediumZoom: any;
+    Popper: any;
 }
