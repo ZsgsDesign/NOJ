@@ -107,7 +107,7 @@ class DojoController extends Controller
                 $filter->like('name', __('admin.dojos.name'));
             });
             $filter->column(6, function($filter) {
-                $filter->equal('dojo_phase_id', __('admin.dojos.phase'))->select(DojoPhase::all()->pluck('name', 'cid'));
+                $filter->equal('dojo_phase_id', __('admin.dojos.phase'))->select(DojoPhase::all()->pluck('name', 'id'));
             });
         });
         return $grid;
