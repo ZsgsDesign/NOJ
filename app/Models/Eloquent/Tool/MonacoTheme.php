@@ -245,6 +245,11 @@ class MonacoTheme
         //     "name" => "Sunburst",
         //     "background" => "#000000"
         // ],
+        "synthwave" => [
+            "id" => "synthwave",
+            "name" => "SynthWave 84",
+            "background" => "#262335"
+        ],
         // "textmate--mac-classic-" => [
         //     "id" => "textmate--mac-classic-",
         //     "name" => "Textmate (Mac Classic)",

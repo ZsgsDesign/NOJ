@@ -96,6 +96,10 @@ const themes: { [themeID: string]: NOJThemeInfo } = {
         name: 'Dracula',
         path: 'dracula.json',
     },
+    'synthwave': {
+        name: 'SynthWave 84',
+        path: 'synthwave.json',
+    },
 };
 
 export { themes };
