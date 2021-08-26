@@ -27,7 +27,7 @@
 
         var consoleCSS = `background: url("${NOJVariables.consoleSVG}") left top no-repeat; font-size: 100px;line-height:140px;`;
         console.log('%c   ', consoleCSS);
-        console.info("\nNOJ - Nanjing University of Posts and Telecommunications Online Judge\n\nNOJ Development Team Leader: John Zhang\nOrganization: Association of Advanced Algorithms of NJUPT\nDevelopers: John Zhang, David Diao and other dedicated contributor of the open-source community\nVersion: {{version()}}\nInsider Alias: CodeMaster\n\n");
+        console.info("%c\n{{config('app.displayName')}}"+"%c is based on NOJ - Nanjing University of Posts and Telecommunications Online Judge"+"%c\n\nDevelopment Team Leader: {{config('version.leader')}}\nOrganization: {{config('version.organization')}}\nDevelopers: {{config('version.developers')}}\nVersion: {{version()}}\nInsider Alias: {{config('version.alias')}}\n\n", "font-weight:900", "font-style:normal", "font-style:italic;color:#555");
 
         $('.modal').on('shown.bs.modal', function (e) {
             changeDepth();
