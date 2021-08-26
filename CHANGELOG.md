@@ -2,6 +2,105 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.16.0 Bryconinae - 2021-08-27
+This is a minor version update. As mentioned in `0.5.0` logs, the new version system would merge the old major and minor version numbers into new minor version numbers, thus as the 16th minor version update since NOJ `0.1.0`, this version would be numbered as major version `0`, minor version `16`, build pack `0` and patch number `0`.
+
+**Important:** Please follow NOJ Document's guide to upgrading your NOJ from `v0.5.x` to `v0.16.0`.
+
+**Summary:** Requires at least Chrome 69 or equivalent to support `NOJ 0.16.0`, requires `npm` package management from now on, supports Webpack and Laravel Mix, supports native VSCode coding experiences by supporting 24 VSCode grammars, configs, and 27 themes, supports partial update without test cases in the problem admin portal, supports test case input/output CRLF conversion, supports filters for the problem of admin portal, support image zoom when inside editor, support dynamic content loading to increase performance on admin portal, supports Poppins font, support carousels and dojo pass record admin portal, supports large test cases import up to 200MB. This version update also includes lots of bug fixes, functionality & UI improvements, and security updates.
+
+## Update Logs
+* **Compatibility:** NOJ now requires **at least** Chrome 69, Firefox 62, or Safari 13.1, NOJ recommends using modern browsers for better *ECMA2015* and *WebAssembly* support.
+* **Compatibility:** From now on, every NOJ upgrade requires running `npm install` and `npm run production`, for more information, see NOJ Documentation.
+* **Compatibility:** From now on, NOJ will record all changes in `CHANGELOG.md`.
+* **New:** NOJ now uses `npm` to track most of the npm modules, original `composer` packages `npm-asset/*` are mostly removed but still remaining some.
+* **New:** NOJ now uses TypeScript and SCSS for static resources coding, some old JS and CSS codes still remaining.
+* **New:** NOJ now uses `Webpack` to compile TypeScript and SCSS resources and pack them into JS and CSS bundle per #636 requests.
+* **New:** NOJ now uses `Laravel Mix` to interacting with `Webpack`, all static resources except MathJax and fonts are now packed into a bundle per #636 requests.
+* **New:** NOJ now supports `vscode-oniguruma` and `vscode-textmate`.
+* **New:** NOJ now supports native VSCode coding experiences by supporting VSCode grammars and configs per #637 requests.
+* **New:** NOJ Editor now supports grammars and configurations of the following **24** languages: `Plain Text`, `Python`, `C`, `C++`, `CUDA C++`, `C#`, `Kotlin`, `CSS`, `HTML`, `JavaScript`, `PHP`, `Java`, `Go`, `Haskell`, `Elixir`, `Ruby`, `Rust`, `Swift`, `Erlang`, `Racket`, `Scala`, `TypeScript`, `Visual Basic` and `Pascal`, acutal useable languages depend on each of the settings of the BABEL Extensions.
+* **New:** NOJ now supports Native VSCode Coding Experiences by supporting VSCode Themes per #637 requests.
+* **New:** NOJ Editor now supports the following **27** themes: `Default`, `Default (White)`, `Default (High Contrast)`, `Abyss`, `Chrome DevTools`, `Dracula`, `GitHub`, `GitHub Dark`, `Kimbie Dark`, `Material Design`, `Monokai Pro`, `Monokai Classic`, `One Half Dark`, `One Half Light`, `Quiet Light`, `Red`, `Solarized Dark`, `Solarized Light`, `SynthWave 84`, `Tomorrow Night Blue`, `Tomorrow Night Bright`, `Tomorrow Night Eighties`, `Tomorrow Night`, `Tomorrow`, `Visual Studio`, `Visual Studio (White)` and `Winter is Coming`.
+* **New:** Admin Portal no longer requires test cases uploaded when editing per #628 requests.
+* **New:** NOJ now uses `laravel-admin-asset` composer package type for admin assets.
+* **New:** NOJ now uses `noj-language-services` composer package type for NOJ language services supports per #637 requests.
+* **New:** NOJ now uses `NOJVariables` for unknownfileSVG and consoleSVG support.
+* **New:** NOJ applies `CRLF` to `LF` conversion to input and output files of test cases.
+* **New:** NOJ now supports env `ADMIN_RECAPTCHAV2_TIMEOUT` for **Google ReCaptcha v2** timeout settings.
+* **New:** NOJ now has a locale for **Google ReCaptcha**.
+* **New:** Arrange contest dialog now have a proper warning when submit fields are empty.
+* **New:** Add proper eloquent bindings for OJ and Problem models.
+* **New:** Port error messages to `403` and `404` errors view.
+* **New:** Add filters for the problem of Admin Portal per #630 requests.
+* **New:** Add image zoom when inside editor per #651 requests.
+* **New:** Add Admin Portal API for dynamic content loading.
+* **New:** Admin Portal now doesn't load all problems or users when creating, editing, or filtering per #643 requests.
+* **New:** Admin Portal now adds unit label for time and memory limit per #642 requests.
+* **New:** Update `fonts-asset/MDI` package, see #504.
+* **New:** Add `fonts-asset/poppins` package, see #504.
+* **New:** NOJ now uses font `poppins` on certain places of the website.
+* **New:** NOJ now has icons for general layout.
+* **New:** Styles now have version number added.
+* **New:** Carousel model now proceeds image link in `saving()` stage.
+* **New:** Carousels support for Admin Portal.
+* **New:** Carousels locale support for Admin Portal.
+* **New:** Dojo Pass Records support for Admin Portal per #646 requests.
+* **New:** Dojo Pass Records locale support for Admin Portal.
+* **New:** NOJ now has a `temp` disk.
+* **New:** NOJ Admin Portal problem test cases import now supports large file upload up to `10GB` per #639 requests, as a beta function it is now limited to `200MB`.
+* **New:** Add `njuptaaa/noj-large-file-upload` package.
+* **New:** Add `njuptaaa/laravel-admin-assets` package.
+* **New:** Add `noj-language-service/configurations` package.
+* **New:** Add `noj-language-service/grammars` package.
+* **New:** Add `noj-language-service/themes` package.
+* **New:** Add `npm-asset/vscode-oniguruma` package.
+* **Deprecated:** NOJ no longer uses `vue` in typescript.
+* **Deprecated:** NOJ no longer use `public/css` and `public/js` folders.
+* **Deprecated:** NOJ no longer uses `public/static/css` and `public/static/js` folders for static resources coding, they are now compiling only.
+* **Deprecated:** NOJ no longer use `js`, `json`, `css` and `html` workers.
+* **Deprecated:** NOJ Web Installer no longer supported.
+* **Deprecated:** NOJ Editor no longer supports the `toggleHCTheme` command, now use `hc-black` themes instead.
+* **Deprecated:** NOJ no longer tracks the `public/vendor` folder, all static resources are now loaded via composer package management.
+* **Deprecated:** NOJ no longer tracks the `public/svg` folder since the new errors page doesn't require them anymore.
+* **Deprecated:** NOJ no longer uses `js.common.vscode` blade components, now use `components.vscode` blade components instead.
+* **Deprecated:** NOJ no longer uses `layouts.errors` blade template, now use `errors.general` blade template instead.
+* **Deprecated:** NOJ no longer uses `fileicon-svg` npm package and `npm-asset/fileicon-svg` composer package, now use `font-asset/fileicon` composer package instead.
+* **Deprecated:** Remove `njuptaaa/moss` package.
+* **Deprecated:** NOJ Admin Portal no longer supports BABEL commands on browser interface, use actual console instead.
+* **Fixed:** A bug causing rank table reversed.
+* **Fixed:** A bug causing group cannot pick the same gcode when editing per #644 requests.
+* **Fixed:** A bug causing error messages resolved while continuing to execute codes.
+* **Fixed:** A bug causing group editing resulting in a duplicate `null` leader per #629 requests.
+* **Fixed:** A bug causing zip file with 0 to validate test cases proceed without error returned.
+* **Fixed:** A bug causing zip file input test case file filter not working.
+* **Fixed:** A bug causing exception pages Auth middleware returns `null`.
+* **Fixed:** Typo (*cliche isn't it*).
+* **Fixed:** A bug causing user profile return `500` when encountered outbound network restrictions.
+* **Fixed:** NOJ no longer tracks `mix-manifest.json`.
+* **Fixed:** A missing en locale in problem solution.
+* **Fixed:** A misplaced en locale in the rank filter.
+* **Fixed:** A potential divide by 0 bugs.
+* **Fixed:** A Dojo Admin Portal filter bug.
+* **Improved:** Admin Portal now uses a switch to replace select in problem `hide` gird field and submissions `share` gird field.
+* **Improved:** Contest problems now sort via `number` instead of `ncode`.
+* **Improved:** User model now has `readable_name` attribute.
+* **Improved:** Carousel now sorted by `updated_at`.
+* **Improved:** NOJ now use `Auth::guard('web')` to specify guard on certain conditions.
+* **Improved:** Highlight.js now use `vs` as the default light theme and `atom-one-dark` as the default dark theme.
+* **Improved:** Composer no longer sorts packages alphabetically, this helps when we want to prioritize `composer-installers-extender`.
+* **Improved:** Admin Portal layout improved.
+* **Improved:** NOJ now uses app name for Open Search Configs.
+* **Improved:** NOJ now limits `pcode` and `scode` format.
+* **Improved:** Modify console info style.
+* **Security:** `monaco-editor` is now at `0.25.2`.
+* **Security:** `asundust/auth-captcha` is now at `2.0.14`.
+* **Security:** `guzzlehttp/guzzle` is now at `7.3.0`.
+* **Security:** `highlight.js` is now at `11.2.0`.
+* **Security:** `axios` is now at `0.21.1`.
+* **Security:** `x3zvawq/noj_simplemde` is now at `1.0.1`.
+* **Security:** `zsgsdesign/noj-admin-clike-editor` is now at `1.0.0`.
+
 ## v0.5.1 Aphyocharacinae Build Pack 1 - 2021-08-20
 
 This is a build version update for `0.5.0 Aphyocharacinae`.
@@ -31,7 +130,6 @@ This is a build version update for `0.5.0 Aphyocharacinae`.
 * **Improved:** Modify site notice icon and text.
 * **Improved:** NOJ now uses `url()` to generate vscode paths.
 * **Improved:** Editor themes are now fixed to editor page in blade compile stage, see #631.
-* **Security:** `guzzlehttp/guzzle` is **downgraded** to `6.5.5`.
 
 ## v0.5.0 Aphyocharacinae - 2021-08-14
 
