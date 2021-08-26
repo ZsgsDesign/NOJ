@@ -341,15 +341,20 @@ class ProblemController extends Controller
                 $zip->open($path);
                 //If there is an INFO file, check that the contents of the file match the actual situation
                 $test_cases=$info_content['test_cases'];
-                //dd($test_cases);
                 foreach ($test_cases as $index => $case) {
                     if (!isset($case['input_name']) || (!$form->spj && !isset($case['output_name']))) {
                         return $err("Test case index {$index}: configuration missing input/output files name.");
                     }
-                    if ($zip->getFromName($case['input_name'])===false || (!$form->spj && $zip->getFromName($case['output_name'])===false)) {
+                    $test_case_in=$zip->getFromName($case['input_name']);
+                    $test_case_out=$zip->getFromName($case['output_name']);
+                    if ($test_case_in===false || (!$form->spj && $test_case_out===false)) {
                         return $err("Test case index {$index}: missing input/output files that record in the configuration.");
                     }
+                    $zip->addFromString($case['input_name'], preg_replace('~(*BSR_ANYCRLF)\R~', "\n", $test_case_in));
+                    $zip->addFromString($case['output_name'], preg_replace('~(*BSR_ANYCRLF)\R~', "\n", $test_case_out));
                 }
+                $zip->close();
+                $zip->open($path);
                 if (!empty($form->pid)) {
                     $problem=Problem::find($form->pid);
                     if (!empty($problem)) {
@@ -361,11 +366,13 @@ class ProblemController extends Controller
                     $pcode=$form->pcode;
                 }
 
-                if (Storage::exists(base_path().'/storage/test_case/'.$pcode)) {
-                    Storage::deleteDirectory(base_path().'/storage/test_case/'.$pcode);
+                if (Storage::disk('test_case')->exists($pcode)) {
+                    Storage::disk('test_case')->deleteDirectory($pcode);
                 }
-                Storage::makeDirectory(base_path().'/storage/test_case/'.$pcode);
-                $zip->extractTo(base_path().'/storage/test_case/'.$pcode.'/');
+
+                Storage::disk('test_case')->makeDirectory($pcode);
+
+                $zip->extractTo(Storage::disk('test_case')->path($pcode));
 
                 $form->tot_score=count($info_content['test_cases']);
 
