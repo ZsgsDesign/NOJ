@@ -153,7 +153,7 @@ class JudgeServerController extends AdminController
     {
         $form=new Form(new JudgeServer());
 
-        $form->text('scode', __('admin.judgeservers.scode'))->required();
+        $form->text('scode', __('admin.judgeservers.scode'))->rules('required|alpha_dash|min:3|max:20');
         $form->text('name', __('admin.judgeservers.name'))->required();
         $form->text('host', __('admin.judgeservers.host'))->required();
         $form->text('port', __('admin.judgeservers.port'))->required();
