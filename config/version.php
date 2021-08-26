@@ -74,17 +74,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Developers
-    |--------------------------------------------------------------------------
-    |
-    | This is the developers of NOJ.
-    |
-    */
-
-    'developers' => 'John Zhang, Void Cao and other 13 dedicated contributors of the open-source community',
-
-    /*
-    |--------------------------------------------------------------------------
     | Organization
     |--------------------------------------------------------------------------
     |
@@ -92,6 +81,6 @@ return [
     |
     */
 
-    'organization' => 'Nanjing Fangtang Zhixing Network Technology Co., Ltd.',
+    'organization' => 'Nanjing Fangtang Zhixing Network Technology Co., Ltd. together with Association of Advanced Algorithms of NJUPT',
 
 ];
