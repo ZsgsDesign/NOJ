@@ -38,6 +38,9 @@ paper-card[type="server"]{
     border: 1px solid rgba(0, 0, 0, 0.15);
     margin-bottom: 2rem;
 }
+paper-card[type="server"] > h1{
+    font-family: 'Poppins';
+}
 
 paper-card:hover {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;

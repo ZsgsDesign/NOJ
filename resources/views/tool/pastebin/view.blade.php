@@ -107,9 +107,14 @@
 @endsection
 
 @section('additionJS')
-    @component('js.common.vscode')
-        monaco.editor.colorizeElement(document.getElementById("pb_content"));
-    @endcomponent
-
+    @include("js.common.hljsLight")
+    <style>
+        .hljs {
+            background: #fff;
+        }
+    </style>
+    <script>
+        hljs.highlightElement(document.querySelector(`#pb_content`));
+    </script>
 @endsection
 

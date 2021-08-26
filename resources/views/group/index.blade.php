@@ -70,6 +70,7 @@
     .cm-group-name{
         color:#333;
         margin-bottom: 0;
+        font-family: 'Poppins';
     }
 
     .cm-trending,

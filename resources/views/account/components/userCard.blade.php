@@ -63,6 +63,11 @@
 
     user-card > basic-section {
         padding: 0rem 1rem;
+        font-family: 'Poppins';
+    }
+
+    user-card > basic-section > h3 {
+        margin-top: 0.75rem;
     }
 
     user-card statistic-block{
@@ -152,9 +157,8 @@
         margin: 0;
     }
 </style>
-@include('account.components.userDefaultTheme')
 <user-card>
-    <img class="cm-dashboard-focus" src="{{$info["image"]}}" onerror="this.src=unknown_theme;">
+    <img class="cm-dashboard-focus" src="{{$info["image"]}}" onerror="this.src=NOJVariables.defaultThemePNG;">
     <avatar-section>
         <img id="avatar" src="{{$info["avatar"]}}" alt="avatar">
     </avatar-section>

@@ -100,7 +100,7 @@ class SubmissionController extends Controller
             return date("Y-m-d H:i:s", $submission_date);
         });
         $grid->column("user_name", __('admin.submissions.user_name'))->display(function() {
-            return $this->user->name;
+            return $this->user->readable_name;
         });
         $grid->column("contest_name", __('admin.submissions.contest_name'))->display(function() {
             if (!is_null($this->contest)) {
@@ -113,10 +113,7 @@ class SubmissionController extends Controller
         $grid->column("judger_name", __('admin.submissions.judger_name'))->display(function() {
             return $this->judger_name;
         });
-        $grid->column("share", __('admin.submissions.share'))->editable('select', [
-            0 => __('admin.submissions.disableshare'),
-            1 => __('admin.submissions.enableshare')
-        ]);
+        $grid->column("share", __('admin.submissions.share'))->switch();
         $grid->column("parsed_score", __('admin.submissions.parsed_score'))->display(function() {
             return $this->parsed_score;
         });
@@ -126,8 +123,18 @@ class SubmissionController extends Controller
             });
             $filter->column(6, function($filter) {
                 $filter->equal('cid', __('admin.submissions.cid'))->select(Contest::all()->pluck('name', 'cid'));
-                $filter->equal('uid', __('admin.submissions.uid'))->select(User::all()->pluck('name', 'id'));
-                $filter->equal('pid', __('admin.submissions.pid'))->select(Problem::all()->pluck('readable_name', 'pid'));
+                $filter->equal('uid', __('admin.submissions.uid'))->select(function($id) {
+                    $user=User::find($id);
+                    if ($user) {
+                        return [$user->id => $user->readable_name];
+                    }
+                })->config('minimumInputLength', 4)->ajax(route('admin.api.users'));
+                $filter->equal('pid', __('admin.submissions.pid'))->select(function($pid) {
+                    $problem=Problem::find($pid);
+                    if ($problem) {
+                        return [$problem->pid => $problem->readable_name];
+                    }
+                })->config('minimumInputLength', 4)->ajax(route('admin.api.problems'));
                 $filter->equal('share', __('admin.submissions.share'))->select([
                     0 => __('admin.submissions.disableshare'),
                     1 => __('admin.submissions.enableshare')
@@ -194,9 +201,9 @@ class SubmissionController extends Controller
                 <pre id='x$hash'><code class='$lang'>".htmlspecialchars($value)."</code></pre>
                 <script>
                     try{
-                        hljs.highlightBlock(document.querySelector('#x$hash code'));
+                        hljs.highlightElement(document.querySelector('#x$hash code'));
                     }catch(err){
-                        window.addEventListener('load', function(){hljs.highlightBlock(document.querySelector('#x$hash code'));});
+                        window.addEventListener('load', function(){hljs.highlightElement(document.querySelector('#x$hash code'));});
                     }
                 </script>
             ";
@@ -219,9 +226,19 @@ class SubmissionController extends Controller
             $form->text('color', __('admin.submissions.color'))->rules('required');
             $form->textarea('language', __('admin.submissions.language'))->rules('required');
             $form->display('submission_date', __('admin.submissions.submission_date'));
-            $form->select('uid', __('admin.submissions.uid'))->options(User::all()->pluck('name', 'id'))->required();
+            $form->select('uid', __('admin.submissions.uid'))->options(function($id) {
+                $user=User::find($id);
+                if ($user) {
+                    return [$user->id => $user->readable_name];
+                }
+            })->config('minimumInputLength', 4)->ajax(route('admin.api.users'))->required();
             $form->select('cid', __('admin.submissions.cid'))->options(Contest::all()->pluck('name', 'cid'));
-            $form->select('pid', __('admin.submissions.pid'))->options(Problem::all()->pluck('readable_name', 'pid'))->rules('required');
+            $form->select('pid', __('admin.submissions.pid'))->options(function($pid) {
+                $problem=Problem::find($pid);
+                if ($problem) {
+                    return [$problem->pid => $problem->readable_name];
+                }
+            })->config('minimumInputLength', 4)->ajax(route('admin.api.problems'))->required();
             $form->select('jid', __('admin.submissions.jid'))->options(Judger::all()->pluck('readable_name', 'jid'));
             $form->select('coid', __('admin.submissions.coid'))->options(Compiler::all()->pluck('readable_name', 'coid'))->rules('required');
             $form->number('score', __('admin.submissions.rawscore'))->rules('required');

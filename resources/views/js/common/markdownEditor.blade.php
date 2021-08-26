@@ -4,9 +4,6 @@
     }
 </style>
 <div id="noj-markdown-editor-preview"></div>
-<script type="text/javascript" src="/static/library/simplemde/dist/simplemde.min.js"></script>
-<script type="text/javascript" src="/static/library/marked/marked.min.js"></script>
-<script type="text/javascript" src="/static/library/dompurify/dist/purify.min.js"></script>
 <script>
 
     var customSimpleMDE = {
@@ -41,11 +38,11 @@
                 sanitize: true,
                 sanitizer: DOMPurify.sanitize,
                 highlight: function (code, lang) {
-                    try {
-                        return hljs.highlight(lang,code).value;
-                    } catch (error) {
+                    var language = hljs.getLanguage(code);
+                    if (!language) {
                         return hljs.highlightAuto(code).value;
                     }
+                    return hljs.highlight(lang, code).value;
                 }
             });
             MathJax.Hub.Queue(["Typeset",MathJax.Hub,"noj-markdown-editor-preview"]);

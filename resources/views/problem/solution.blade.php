@@ -467,7 +467,6 @@
                                     <a href="/user/{{Auth::user()->id}}"><img src="{{Auth::user()->avatar}}" class="cm-avatar-square"></a>
                                     <p>{{Auth::user()->name}}</p>
                                 </user-section>
-                                <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
                                 <markdown-editor class="mt-3 mb-3">
                                     <textarea id="solution_editor"></textarea>
                                 </markdown-editor>
@@ -484,7 +483,6 @@
                                     <a href="/user/{{Auth::user()->id}}"><img src="{{Auth::user()->avatar}}" class="cm-avatar-square"></a>
                                     <p>{{Auth::user()->name}}</p>
                                 </user-section>
-                                <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
                                 <markdown-editor class="mt-3 mb-3">
                                     <textarea id="solution_editor">{{$submitted["content"]}}</textarea>
                                 </markdown-editor>

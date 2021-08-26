@@ -85,7 +85,7 @@ class AnnouncementController extends AdminController
 
         $grid->column('anid', 'ANID');
         $grid->column('user', __('admin.announcements.user'))->display(function() {
-            return $this->user->name;
+            return $this->user->readable_name;
         }); ;
         $grid->column('title', __('admin.announcements.title'))->editable();
         $grid->column('created_at', __('admin.created_at'));
@@ -93,7 +93,12 @@ class AnnouncementController extends AdminController
 
         $grid->filter(function(Grid\Filter $filter) {
             $filter->like('title', __('admin.announcements.title'));
-            $filter->equal('uid', __('admin.announcements.user'))->select(User::all()->pluck('name', 'id'));
+            $filter->equal('uid', __('admin.announcements.user'))->select(function($id) {
+                $user=User::find($id);
+                if ($user) {
+                    return [$user->id => $user->readable_name];
+                }
+            })->config('minimumInputLength', 4)->ajax(route('admin.api.users'));
         });
 
         return $grid;
@@ -129,7 +134,12 @@ class AnnouncementController extends AdminController
         $form=new Form(new Announcement());
         $form->text('title', __('admin.announcements.title'))->required();
         $form->simplemde('content', __('admin.announcements.content'))->help(__('admin.announcements.help.markdown'))->required();
-        $form->select('uid', __('admin.announcements.user'))->options(User::all()->pluck('name', 'id'))->required();
+        $form->select('uid', __('admin.announcements.user'))->options(function($id) {
+            $user=User::find($id);
+            if ($user) {
+                return [$user->id => $user->readable_name];
+            }
+        })->config('minimumInputLength', 4)->ajax(route('admin.api.users'))->required();
         return $form;
     }
 }

@@ -47,7 +47,7 @@ return [
         'socialiteInfo' => 'Socialite Account Binding',
         'buttonBind' => 'Click to bind',
         'emailVerify' => 'Email verify',
-        'emailNotBind' => 'you have not verified your email, your account security cannot be guaranteed <br> You can click the button below to send a confirmation email to your mailbox',
+        'emailNotBind' => 'You have not verified your email, your account security cannot be guaranteed. <br> You can click the button below to send a confirmation email to your mailbox',
         'emailSend' => 'send email',
         'emailBinded' => 'Your email address <span class="text-info">:email</span> has been confirmed, and your email will provide extra support in case of security problems of your account.',
         'emailTemp' => 'Your account uses system allocated temporary email address <span class="text-info">:email</span>',

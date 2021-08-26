@@ -1,7 +1,6 @@
 @extends('group.settings.common', ['selectedTab' => "contest"])
 
 @section('settingsTab')
-<link rel="stylesheet" href="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.min.css">
 <style>
      paper-card {
         display: block;
@@ -87,7 +86,8 @@
     contest-card > info-div .sm-contest-title{
         color: #6B6B6B;
         line-height: 1.2;
-        font-size:1.5rem;
+        font-size: 1.5rem;
+        font-family: 'Poppins';
     }
 
     contest-card > info-div .sm-contest-type{
@@ -335,7 +335,6 @@
                             <button class="btn btn-info" onclick="$('#addProblemModal').modal({backdrop:'static'});"><i class="MDI plus"></i> {{__('group.contest.addProblem')}}</button>
                         </div>
                         <p>{{__('group.contest.description')}}</p>
-                        <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
                         <markdown-editor class="mt-3 mb-3">
                             <textarea id="description_editor"></textarea>
                         </markdown-editor>
@@ -403,11 +402,8 @@
 @section('additionJS')
 
     @include("js.common.hljsLight")
-    <script src="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
-    <script src="/static/js/jquery-ui-sortable.min.js"></script>
     @include("js.common.markdownEditor")
     @include("js.common.mathjax")
-    <script src="/static/js/parazoom.min.js"></script>
     <script>
         let ajaxing = false;
 

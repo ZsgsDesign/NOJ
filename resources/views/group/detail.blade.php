@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('template')
-<link rel="stylesheet" href="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.min.css">
 <style>
     body{
         display: flex;
@@ -171,6 +170,7 @@
         font-weight: 500;
         line-height: 1.25;
         word-wrap: break-word;
+        font-family: 'Poppins';
     }
     info-div .btn{
         padding: .46875rem 1.5rem;
@@ -342,6 +342,7 @@
         cursor: pointer;
         transition: background-color 400ms;
         padding: .5rem;
+        font-family: 'Poppins';
     }
 
     function-block:hover{
@@ -392,7 +393,7 @@
 
     timeline-item[data-type^="notice"] > div:last-of-type h5 {
         font-weight: bold;
-        font-family: Montserrat;
+        font-family: 'Roboto Slab';
         margin-bottom: 1rem;
     }
 
@@ -855,7 +856,6 @@
                     </div>
                     <div class="col-md-8">
                         <p>{{__('group.contest.description')}}</p>
-                        <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
                         <markdown-editor class="mt-3 mb-3">
                             <textarea id="description_editor"></textarea>
                         </markdown-editor>
@@ -972,11 +972,8 @@
         'category' => 'group',
         'subject_id' => $basic_info["gid"]
     ])
-    <script src="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
-    <script src="/static/js/jquery-ui-sortable.min.js"></script>
     @include("js.common.markdownEditor")
     @include("js.common.mathjax")
-    <script src="/static/js/parazoom.min.js"></script>
     <script>
         function sortableInit(){
             $("#contestModal tbody").sortable({

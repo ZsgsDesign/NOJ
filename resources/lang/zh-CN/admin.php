@@ -108,6 +108,7 @@ return [
         'adminCatg'         => '管理员',
         'users'             => '用户',
         'abuses'            => '违规行为',
+        'carousels'         => '轮播图',
         'announcements'     => '通知与公告',
         'problemsCatg'      => '题库',
         'problems'          => '题目',
@@ -121,6 +122,7 @@ return [
         'dojoCatg'          => '训练场',
         'dojos'             => '训练任务',
         'dojophases'        => '训练阶层',
+        'dojopasses'        => '训练通过记录',
         'helpers'           => '辅助工具',
         'scaffold'          => '脚手架',
         'database'          => '数据库终端',
@@ -402,6 +404,55 @@ return [
             'success' => [
                 'message'   => '系统设置已成功保存。',
             ],
+        ],
+    ],
+    'carousels' => [
+        'image'             => '轮播图片',
+        'url'               => '超链接',
+        'title'             => '标题',
+        'availability'      => '可用性',
+        'available'         => '启用',
+        'unavailable'       => '禁用',
+        'index' => [
+            'header'        => '轮播图',
+            'description'   => '所有轮播图',
+        ],
+        'show' => [
+            'header'        => '轮播图详情',
+            'description'   => '查看轮播图详情',
+        ],
+        'edit' => [
+            'header'        => '编辑轮播图',
+            'description'   => '编辑轮播图信息',
+        ],
+        'create' => [
+            'header'        => '创建新轮播图',
+            'description'   => '创建一个新的轮播图',
+        ],
+    ],
+    'chunkUpload' => [
+        'tooltip'           => '或者拖拽文件到此处',
+        'start'             => '开始上传',
+    ],
+    'dojopasses' => [
+        'dojo'              => '训练任务',
+        'user'              => '用户',
+        'updated_at'        => '任务完成时间',
+        'index' => [
+            'header'        => '训练通过记录',
+            'description'   => '所有训练通过记录',
+        ],
+        'show' => [
+            'header'        => '训练通过记录详情',
+            'description'   => '查看训练通过记录详情',
+        ],
+        'edit' => [
+            'header'        => '编辑训练通过记录',
+            'description'   => '编辑训练通过记录信息',
+        ],
+        'create' => [
+            'header'        => '创建新训练通过记录',
+            'description'   => '创建一个新的训练通过记录',
         ],
     ],
 ];

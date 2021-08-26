@@ -108,6 +108,7 @@ return [
         'adminCatg'         => 'Admin',
         'users'             => 'Users',
         'abuses'            => 'Abuses',
+        'carousels'         => 'Carousels',
         'announcements'     => 'Announcements',
         'problemsCatg'      => 'Problems',
         'problems'          => 'Problems',
@@ -121,6 +122,7 @@ return [
         'dojoCatg'          => 'Dojos',
         'dojos'             => 'Dojo Tasks',
         'dojophases'        => 'Dojo Phases',
+        'dojopasses'        => 'Dojo Pass Records',
         'helpers'           => 'Helpers',
         'scaffold'          => 'Scaffold',
         'database'          => 'Database Terminal',
@@ -402,6 +404,55 @@ return [
             'success' => [
                 'message'   => 'Settings saved successfully.',
             ],
+        ],
+    ],
+    'carousels' => [
+        'image'             => 'Image',
+        'url'               => 'URL',
+        'title'             => 'Title',
+        'availability'      => 'Availability',
+        'available'         => 'Available',
+        'unavailable'       => 'Unavailable',
+        'index' => [
+            'header'        => 'Carousels',
+            'description'   => 'all carousels',
+        ],
+        'show' => [
+            'header'        => 'Carousel Detail',
+            'description'   => 'the detail of the carousel',
+        ],
+        'edit' => [
+            'header'        => 'Edit Carousel',
+            'description'   => 'edit the detail of carousel',
+        ],
+        'create' => [
+            'header'        => 'Create New Carousel',
+            'description'   => 'create a new carousel',
+        ],
+    ],
+    'chunkUpload' => [
+        'tooltip'           => 'Or drag files here',
+        'start'             => 'Start Uploading',
+    ],
+    'dojopasses' => [
+        'dojo'              => 'Dojo Task',
+        'user'              => 'User',
+        'updated_at'        => 'Task Complete At',
+        'index' => [
+            'header'        => 'Dojo Pass Records',
+            'description'   => 'all dojo pass records',
+        ],
+        'show' => [
+            'header'        => 'Dojo Pass Record Detail',
+            'description'   => 'the detail of the dojo pass record',
+        ],
+        'edit' => [
+            'header'        => 'Edit Dojo Pass Record',
+            'description'   => 'edit the detail of dojo pass record',
+        ],
+        'create' => [
+            'header'        => 'Create New Dojo Pass Record',
+            'description'   => 'create a new dojo pass record',
         ],
     ],
 ];

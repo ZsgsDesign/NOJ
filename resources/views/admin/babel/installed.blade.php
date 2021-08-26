@@ -38,7 +38,7 @@
                     <tr>
                         <td>
                             <p class="extension-title">@if($extension["details"]["official"])<i class="MDI marker-check wemd-light-blue-text"></i>@endif {{$extension["details"]["name"]}}</p>
-                            <p class="extension-action">
+                            <p class="extension-action hide">
                                 @if($extension["status"]==1)
                                     <a href="/admin/babel/install/{{$extension["details"]["code"]}}">Install</a>
                                     @if($extension["updatable"])

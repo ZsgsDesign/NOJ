@@ -94,6 +94,7 @@ return [
             "share"    => "Share",
             "update"   => "Update",
             "delete"   => "Delete",
+            "cancel"   => "Cancel",
         ],
     ],
 ];

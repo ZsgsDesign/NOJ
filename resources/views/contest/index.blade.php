@@ -92,6 +92,7 @@
         color: #6B6B6B;
         line-height: 1.2;
         font-size:1.5rem;
+        font-family: 'Poppins';
     }
 
     contest-card > info-div .sm-contest-type{
@@ -117,6 +118,11 @@
     .cm-group-name{
         color:#333;
         margin-bottom: 0;
+        font-family: 'Poppins';
+    }
+
+    .sm-contest-title{
+        font-family: 'Poppins';
     }
 
     .cm-trending,

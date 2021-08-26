@@ -159,17 +159,7 @@
         </div>
     </loading>
     <!-- Style -->
-    <link rel="stylesheet" href="/static/fonts/roboto/roboto.css">
-    <link rel="stylesheet" href="/static/fonts/montserrat/montserrat.css">
-    <link rel="stylesheet" href="/static/fonts/roboto-slab/roboto-slab.css">
-    <link rel="stylesheet" href="/static/library/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
-    <link rel="stylesheet" href="/static/css/wemd-color-scheme.css">
-    <link rel="stylesheet" href="/static/css/main.css?version={{version()}}">
-    <link rel="stylesheet" href="/static/library/animate.css/animate.min.css">
-    <link rel="stylesheet" href="/static/fonts/mdi-wxss/MDI.css">
-    <link rel="stylesheet" href="/static/fonts/devicon/devicon.min.css?version=1.0.3">
-    <link rel="stylesheet" href="/static/fonts/langicon/langicon.css?version=1.0.2">
-    <link rel="stylesheet" href="/static/fonts/socialicon/socialicon.css?version=1.0.1">
+    @include('layouts.css')
     <!-- Background -->
     <div class="mundb-background-container">
         <img src="">
@@ -196,50 +186,51 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    @php $userNotContestAccount = (!Auth::guard('web')->check() || is_null(Auth::guard('web')->user()->contest_account)) @endphp
+                    @if($userNotContestAccount)
                     <li class="nav-item">
-                        <a class="nav-link @if ($navigation === "Home") active @endif" href="/"> {{__('navigation.home')}}<span class="sr-only">(current)</span></a>
+                        <a class="nav-link @if ($navigation === "Home") active @endif" href="/"> <i class="MDI home"></i> {{__('navigation.home')}}<span class="sr-only">(current)</span></a>
                     </li>
                     @endif
-                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    @if($userNotContestAccount)
                         <li class="nav-item">
-                            <a class="nav-link @if ($navigation === "Problem") active @endif" href="/problem">{{__('navigation.problem')}}</a>
+                            <a class="nav-link @if ($navigation === "Problem") active @endif" href="/problem"> <i class="MDI book-multiple"></i> {{__('navigation.problem')}}</a>
                         </li>
                     @endif
-                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    @if($userNotContestAccount)
                         <li class="nav-item">
-                            <a class="nav-link @if ($navigation === "Dojo") active @endif" href="/dojo">{{__('navigation.dojo')}}</a>
+                            <a class="nav-link @if ($navigation === "Dojo") active @endif" href="/dojo"> <i class="MDI coffee"></i> {{__('navigation.dojo')}}</a>
                         </li>
                     @endif
-                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    @if($userNotContestAccount)
                         <li class="nav-item">
-                            <a class="nav-link @if ($navigation === "Status") active @endif" href="/status">{{__('navigation.status')}}</a>
+                            <a class="nav-link @if ($navigation === "Status") active @endif" href="/status"> <i class="MDI buffer"></i> {{__('navigation.status')}}</a>
                         </li>
                     @endif
-                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    @if($userNotContestAccount)
                         <li class="nav-item">
-                            <a class="nav-link @if ($navigation === "Rank") active @endif" href="/rank">{{__('navigation.rank')}}</a>
+                            <a class="nav-link @if ($navigation === "Rank") active @endif" href="/rank"> <i class="MDI certificate"></i> {{__('navigation.rank')}}</a>
                         </li>
                     @endif
                     <li class="nav-item">
-                        <a class="nav-link @if ($navigation === "Contest") active @endif" href="/contest">{{__('navigation.contest')}}</a>
+                        <a class="nav-link @if ($navigation === "Contest") active @endif" href="/contest"> <i class="MDI trophy-variant"></i> {{__('navigation.contest')}}</a>
                     </li>
-                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    @if($userNotContestAccount)
                     <li class="nav-item">
-                        <a class="nav-link @if ($navigation === "Group") active @endif" href="/group">{{__('navigation.group')}}</a>
+                        <a class="nav-link @if ($navigation === "Group") active @endif" href="/group"> <i class="MDI account-multiple"></i> {{__('navigation.group')}}</a>
                     </li>
                     @endif
-                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    @if($userNotContestAccount)
                         @foreach(getCustomUrl() as $u)
                             <li class="nav-item">
-                                <a class="nav-link" href="{{$u["url"]}}" target="{{$u["newtab"]?'_blank':''}}">{{$u["display_name"]}}</a>
+                                <a class="nav-link" href="{{$u["url"]}}" target="{{$u["newtab"]?'_blank':''}}"> <i class="MDI open-in-new"></i> {{$u["display_name"]}}</a>
                             </li>
                         @endforeach
                     @endif
                 </ul>
 
                 <ul class="navbar-nav mundb-nav-right">
-                    @if(!Auth::check() || is_null(Auth::user()->contest_account))
+                    @if($userNotContestAccount)
                     <form id="search-box" action="/search" method="get" class="form-inline my-2 my-lg-0 mundb-inline">
                         <span class="bmd-form-group"><input id="search-key" class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" value="{{$search_key ?? ''}}" placeholder="{{__('navigation.search')}}" autocomplete="off" aria-label="search"></span>
                         <input type="hidden" name="tab" value="{{
@@ -250,7 +241,7 @@
                         }}">
                     </form>
                     @endif
-                    @if(Auth::check())
+                    @if(Auth::guard('web')->check())
                     <i style="color:hsla(0,0%,100%,.5);margin-left:0.9rem;margin-top:-0.05rem;cursor:pointer" onclick="window.location='/message'" id="message-tip" class="MDI bell" data-toggle="tooltip" data-placement="bottom" title="loading..."></i>
                     @endif
                     <li class="nav-item mundb-no-shrink />">
@@ -258,9 +249,9 @@
                             <a class="nav-link @if ($navigation === "Account") active @endif" href="/login">@if(config("function.register")){{__('navigation.account')}}@else {{__("Login")}} @endif</a>
                         @else
                             <li class="nav-item dropdown mundb-btn-ucenter">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{$greeting}}, <span id="nav-username" data-uid="{{Auth::user()->id}}">{{ Auth::user()["name"] }}</span></a>
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{$greeting}}, <span id="nav-username" data-uid="{{Auth::guard('web')->user()->id}}">{{ Auth::guard('web')->user()["name"] }}</span></a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <div class="dropdown-header"><img src="{{ Auth::user()->avatar }}" class="mundb-avatar" id="atsast_nav_avatar" /><div><h6><span id="nav-dropdown-username">{{ Auth::user()["name"] }}</span><br/><small>{{ Auth::user()->email }}</small></h6></div></div>
+                                    <div class="dropdown-header"><img src="{{ Auth::guard('web')->user()->avatar }}" class="mundb-avatar" id="atsast_nav_avatar" /><div><h6><span id="nav-dropdown-username">{{ Auth::guard('web')->user()["name"] }}</span><br/><small>{{ Auth::guard('web')->user()->email }}</small></h6></div></div>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/account/dashboard"><i class="MDI account-circle"></i> {{__('navigation.dashboard')}}</a>
                                     <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> {{__('navigation.settings')}}</a>
@@ -268,7 +259,7 @@
                                     <a class="dropdown-item" href="/account/submissions"><i class="MDI airballoon"></i> Submissions</a>
                                     <a class="dropdown-item" href="/account/settings"><i class="MDI settings"></i> Advanced Settings</a>
                                     -->
-                                    @if (Auth::user()->hasPermission(1))
+                                    @if (Auth::guard('web')->user()->hasPermission(1))
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="{{route('admin.index')}}"><i class="MDI view-dashboard"></i> {{__('navigation.admin')}}</a>
                                     @endif
@@ -355,9 +346,7 @@
         </div>
         <div class="mundb-footer mundb-copyright">&copy; 2018-{{date('Y')}}, {{config("app.name")}}. <a href="https://github.com/ZsgsDesign/NOJ" target="_blank"><i class="MDI github-circle"></i></a></div>
     </footer>
-    <script src="/static/library/jquery/dist/jquery.min.js"></script>
-    <script src="/static/library/popper.js/dist/umd/popper.min.js"></script>
-    <script src="/static/library/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"></script>
+    @include('layouts.js')
     @include('layouts.primaryJS')
     @yield('additionJS')
 </body>

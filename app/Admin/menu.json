@@ -62,6 +62,18 @@
         "roles": []
     },
     {
+        "id": 36,
+        "parent_id": 0,
+        "order": 8,
+        "title": "admin.menu_titles.carousels",
+        "icon": "MDI camera-iris",
+        "uri": "\/carousels",
+        "permission": null,
+        "created_at": "2019-04-10 16:45:06",
+        "updated_at": "2019-04-10 17:01:18",
+        "roles": []
+    },
+    {
         "id": 33,
         "parent_id": 0,
         "order": 8,
@@ -178,6 +190,18 @@
                 "title": "admin.menu_titles.dojophases",
                 "icon": "MDI coffee-to-go",
                 "uri": "dojophases",
+                "permission": null,
+                "created_at": "2019-04-11 12:53:03",
+                "updated_at": "2019-04-12 09:30:12",
+                "roles": []
+            },
+            {
+                "id": 37,
+                "parent_id": 28,
+                "order": 33,
+                "title": "admin.menu_titles.dojopasses",
+                "icon": "MDI code-tags-check",
+                "uri": "dojopasses",
                 "permission": null,
                 "created_at": "2019-04-11 12:53:03",
                 "updated_at": "2019-04-12 09:30:12",

@@ -11,7 +11,7 @@ return [
     | login page.
     |
     */
-    'name' => 'NOJ Admin Panel',
+    'name' => 'Admin Portal',
 
     /*
     |--------------------------------------------------------------------------
@@ -22,7 +22,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo' => '<img src="/static/img/icon/icon-white.png" style="height:20px;" alt="NOJ"> NOJ Admin',
+    'logo' => '<img src="/static/img/icon/icon-white.png" style="height:20px;"> Admin Portal',
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ return [
     | '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo-mini' => '<img src="/static/img/icon/icon-white.png" style="height:20px;" alt="NOJ">',
+    'logo-mini' => '<img src="/static/img/icon/icon-white.png" style="height:20px;">',
 
     /*
     |--------------------------------------------------------------------------
@@ -85,7 +85,7 @@ return [
     | Html title for all pages.
     |
     */
-    'title' => 'NOJ Admin Panel',
+    'title' => 'Admin Portal',
 
     /*
     |--------------------------------------------------------------------------
@@ -287,7 +287,7 @@ return [
     | "sidebar-mini".
     |
     */
-    'layout' => ['sidebar-mini', 'sidebar-collapse'],
+    'layout' => ['sidebar-mini', 'sidebar-collapse', 'fixed'],
 
     /*
     |--------------------------------------------------------------------------

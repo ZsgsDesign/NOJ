@@ -139,7 +139,12 @@ class GroupController extends Controller
             ])->default(1);
             $form->image('img', 'Custom Group Focus Image')->uniqueName()->move("static/img/group");
             if ($form->isCreating()) {
-                $form->select('leader_uid', 'Group Leader')->options(User::all()->pluck('name', 'id'))->required();
+                $form->select('leader_uid', 'Group Leader')->options(function($id) {
+                    $user=User::find($id);
+                    if ($user) {
+                        return [$user->id => $user->readable_name];
+                    }
+                })->config('minimumInputLength', 4)->ajax(route('admin.api.users'))->required();
             }
             $form->ignore(['leader_uid']);
             $form->saving(function(Form $form) {
@@ -153,18 +158,20 @@ class GroupController extends Controller
                 $gcode=$form->gcode;
                 $g=Group::where('gcode', $gcode)->first();
                 //check gcode has been token.
-                $gid=$form->pid ?? null;
+                $gid=$form->model()->gid ?? null;
                 if (!empty($gcode) && !blank($g) && $g->gid!=$gid) {
-                    $err('Gcode has been token', 'Error occur.');
+                    return $err('Gcode has been token', 'Error occur.');
                 }
             });
             $form->saved(function(Form $form) {
-                $form->model()->members()->saveMany([new GroupMember([
-                    'gid' => $form->model()->gid,
-                    'uid' => request('leader_uid'),
-                    'role' => 3,
-                    'ranking' => 1500,
-                ])]);
+                if ($form->isCreating()) {
+                    $form->model()->members()->saveMany([new GroupMember([
+                        'gid' => $form->model()->gid,
+                        'uid' => request('leader_uid'),
+                        'role' => 3,
+                        'ranking' => 1500,
+                    ])]);
+                }
             });
         });
         return $form;

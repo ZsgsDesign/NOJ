@@ -58,8 +58,8 @@ if (!function_exists('getCustomUrl')) {
 if (!function_exists('emailVerified')) {
     function emailVerified()
     {
-        if (Auth::check()) {
-            return !is_null(Auth::user()->email_verified_at);
+        if (Auth::guard('web')->check()) {
+            return !is_null(Auth::guard('web')->user()->email_verified_at);
         }
 
         return null;
@@ -111,8 +111,8 @@ if (!function_exists('getOpenSearchXML')) {
 
         return '<?xml version="1.0" encoding="UTF-8"?>
         <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
-            <ShortName>NOJ</ShortName>
-            <Description>Gracefully Search NOJ Problems and others.</Description>
+            <ShortName>'.config('app.name').'</ShortName>
+            <Description>Gracefully Searching '.config('app.displayName').' Problems and others.</Description>
             <InputEncoding>UTF-8</InputEncoding>
             <Image width="16" height="16" type="image/x-icon">'.$url.'/favicon.ico</Image>
             <Url type="text/html" method="get" template="'.$url.'/search/?q={searchTerms}&amp;tab=problems&amp;opensearch=1" />

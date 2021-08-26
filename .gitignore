@@ -15,7 +15,9 @@ yarn-error.log
 
 *.log
 /public/external
+/public/vendor
 /app/Http/Controllers/VirtualCrawler/CodeForces/problemset.problems
 /public/static/library
+/public/static/language-services
 /.vscode/ipch
 /.rnd

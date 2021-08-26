@@ -72,6 +72,7 @@
         font-size: 1.25rem;
         color: rgba(0,0,0,0.93);
         font-weight: bold;
+        font-family: 'Poppins';
     }
     contest-card badge-div{
         display: block;

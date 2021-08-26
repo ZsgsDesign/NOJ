@@ -2,8 +2,8 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Eloquent\Problem as EloquentProblemModel;
-use App\Models\Eloquent\OJ as EloquentOJModel;
+use App\Models\Eloquent\Problem;
+use App\Models\Eloquent\OJ;
 use App\Http\Controllers\Controller;
 use App\Admin\Forms\ImportPOEM;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -11,6 +11,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Exception;
 use Illuminate\Support\MessageBag;
 use ZipArchive;
 use Illuminate\Support\Facades\Storage;
@@ -29,7 +30,7 @@ class ProblemController extends Controller
     {
         return $content
             ->header('Problems')
-            ->description('all problems')
+            ->description('all problems, problems managed by babel will not show here')
             ->body($this->grid()->render());
     }
 
@@ -42,6 +43,10 @@ class ProblemController extends Controller
      */
     public function show($id, Content $content)
     {
+        $problem=Problem::findOrFail($id);
+        if (!$problem->markdown || $problem->onlinejudge->ocode!=='noj') {
+            return abort('403', 'Problem managed by BABEL cannot be accessed by Admin Portal.');
+        }
         return $content
             ->header('Problem Detail')
             ->description('the detail of problems')
@@ -57,6 +62,10 @@ class ProblemController extends Controller
      */
     public function edit($id, Content $content)
     {
+        $problem=Problem::findOrFail($id);
+        if (!$problem->markdown || $problem->onlinejudge->ocode!=='noj') {
+            return abort('403', 'Problem managed by BABEL cannot be accessed by Admin Portal.');
+        }
         return $content
             ->header('Edit Problem')
             ->description('edit the detail of problems')
@@ -98,15 +107,20 @@ class ProblemController extends Controller
      */
     protected function grid()
     {
-        $grid=new Grid(new EloquentProblemModel);
+        $grid=new Grid(new Problem);
+        $grid->model()->where([
+            'markdown'=>1,
+            'OJ'=>OJ::where(['ocode'=>'noj'])->first()->oid,
+        ])->orderBy('pcode', 'asc');
         $grid->column('pid', "ID")->sortable();
-        $grid->column('pcode', "PCode")->editable();
+        $grid->column('pcode', "PCode")->editable()->sortable();
         $grid->title("Title")->editable();
         $grid->solved_count();
         $grid->time_limit("Time/ms")->editable();
         $grid->memory_limit("Memory/kb")->editable();
-        $grid->OJ();
-        $grid->update_date();
+        $grid->OJ("OJ")->display(function() {
+            return $this->onlinejudge->name;
+        });
         $grid->tot_score("Score");
         $grid->partial("Partial")->display(function($partial) {
             return $partial ? 'Yes' : 'No';
@@ -114,7 +128,9 @@ class ProblemController extends Controller
         $grid->markdown("Markdown")->display(function($markdown) {
             return $markdown ? 'Yes' : 'No';
         });
-        $grid->order_index("order")->sortable();
+        $grid->column('hide', 'Hide')->switch();
+        $grid->update_date('Updated At');
+        // $grid->order_index("order")->sortable();
         $grid->filter(function(Grid\Filter $filter) {
             $filter->disableIdFilter();
             $filter->like('pcode');
@@ -134,7 +150,7 @@ class ProblemController extends Controller
      */
     protected function detail($id)
     {
-        $show=new Show(EloquentProblemModel::findOrFail($id));
+        $show=new Show(Problem::findOrFail($id));
         return $show;
     }
 
@@ -145,14 +161,13 @@ class ProblemController extends Controller
      */
     protected function form($create=false)
     {
-        $form=new Form(new EloquentProblemModel);
-        $form->model()->makeVisible('password');
+        $form=new Form(new Problem);
         $form->tab('Basic', function(Form $form) {
-            $form->text('pid')->readonly();
-            $form->text('pcode')->rules('required');
-            $form->text('title')->rules('required');
-            $form->text('time_limit')->rules('required');
-            $form->text('memory_limit')->rules('required');
+            $form->text('pid')->icon('MDI key')->readonly();
+            $form->text('pcode')->icon('MDI label-black')->rules('required|alpha_dash|min:3|max:20');
+            $form->text('title')->icon('MDI format-title')->rules('required');
+            $form->text('time_limit')->icon('MDI timer')->default(1000)->append('MS')->rules('required');
+            $form->text('memory_limit')->icon('MDI memory')->default(65536)->append('Kb')->rules('required');
             $form->simplemde('description')->rules('required');
             $form->simplemde('input');
             $form->simplemde('output');
@@ -167,7 +182,7 @@ class ProblemController extends Controller
                 $table->textarea('sample_output', 'sample output');
                 $table->textarea('sample_note', 'sample note');
             }); */
-            $ojs_temp=EloquentOJModel::select('oid', 'name')->get()->all();
+            $ojs_temp=OJ::select('oid', 'name')->get()->all();
             $ojs=[];
             foreach ($ojs_temp as $v) {
                 $ojs[$v->oid]=$v->name;
@@ -179,7 +194,7 @@ class ProblemController extends Controller
                 0 => "No",
                 1 => "Yes"
             ])->rules('required'); */
-            $form->radio('Hide')
+            $form->radio('hide', 'Hide')
                 ->options([
                     0 => 'NO',
                     1 => 'YES'
@@ -190,7 +205,12 @@ class ProblemController extends Controller
                     1 => 'YES',
                 ])->default(0)->rules('required');
             $form->clang('spj_src', 'SPJ Source Code');
-            $form->file('test_case')->rules('required');
+            if ($form->isCreating()) {
+                $form->chunk_file('test_case')->rules('required');
+            } else {
+                $form->chunk_file('test_case');
+            }
+
             $form->ignore(['test_case']);
 
             //Hidden parameters
@@ -220,28 +240,34 @@ class ProblemController extends Controller
                 return back()->with(compact('error'));
             };
             $pcode=$form->pcode;
-            $p=EloquentProblemModel::where('pcode', $pcode)->first();
+            $p=Problem::where('pcode', $pcode)->first();
             //check pcode has been token.
             $pid=$form->pid ?? null;
             if (!empty($p) && $p->pid!=$pid) {
-                $err('Pcode has been token', 'Error occur.');
+                return $err('Pcode has been token', 'Error occur.');
             }
-            $test_case=\request()->file('test_case');
             //Make sure the user enters SPJ_SRc in spj problem.
             if ($form->spj && empty($form->spj_src)) {
-                $err('The SPJ problem must provide spj_src', 'create problem error');
+                return $err('The SPJ problem must provide spj_src', 'create problem error');
             }
-            //check info file. Try to generate if it does not exist.
-            $info_content=[];
-            if (!empty($test_case)) {
-                if ($test_case->extension()!='zip') {
-                    $err('You must upload a zip file iuclude test case info and content.');
+
+            $test_case=null;
+
+            if (!is_null(request()->get('test_case'))) {
+                $test_case=explode('http://fake.path/', request()->get('test_case'), 2)[1];
+                $path=Storage::disk('temp')->path($test_case);
+
+                if (pathinfo($path, PATHINFO_EXTENSION)!=='zip') {
+                    return $err('You must upload a zip file iuclude test case info and content.');
                 }
-                $path=$test_case->path();
+
                 $zip=new ZipArchive;
+
                 if ($zip->open($path)!==true) {
-                    $err('You must upload a zip file without encrypt and can open successfully.');
+                    return $err('You must upload a zip file without encrypt and can open successfully.');
                 };
+
+                //check info file. Try to generate if it does not exist.
                 $info_content=[];
                 if (($zip->getFromName('info'))===false) {
                     if (!$form->spj) {
@@ -255,13 +281,10 @@ class ProblemController extends Controller
                             $files[]=$filename;
                         }
                         $files_in=array_filter($files, function($filename) {
-                            return strpos('.in', $filename)!=-1;
+                            return pathinfo($filename, PATHINFO_EXTENSION)=='in';
                         });
                         sort($files_in);
                         $testcase_index=1;
-                        if (!count($files_in)) {
-                            $err('Cannot detect any .in file, please make sure they are placed under the root directory of the zip file.');
-                        }
                         foreach ($files_in as $filename_in) {
                             $filename=basename($filename_in, '.in');
                             $filename_out=$filename.'.out';
@@ -279,6 +302,9 @@ class ProblemController extends Controller
                             ];
                             $testcase_index+=1;
                         }
+                        if ($testcase_index==1) {
+                            return $err('Cannot detect any validate testcases, please make sure they are placed under the root directory of the zip file.');
+                        }
                     } else {
                         $info_content=[
                             'spj' => true,
@@ -290,7 +316,7 @@ class ProblemController extends Controller
                             $files[]=$filename;
                         }
                         $files_in=array_filter($files, function($filename) {
-                            return strpos($filename, '.in')!==false;
+                            return pathinfo($filename, PATHINFO_EXTENSION)=='in';
                         });
                         sort($files_in);
                         $testcase_index=1;
@@ -302,27 +328,35 @@ class ProblemController extends Controller
                             ];
                             $testcase_index+=1;
                         }
+                        if ($testcase_index==1) {
+                            return $err('Cannot detect any validate testcases, please make sure they are placed under the root directory of the zip file.');
+                        }
                     }
                     $zip->addFromString('info', json_encode($info_content));
                     $zip->close();
-                    //$err('The zip files must include a file named info including info of test cases, and the format can see ZsgsDesign/NOJ wiki.');
+                    //return $err('The zip files must include a file named info including info of test cases, and the format can see ZsgsDesign/NOJ wiki.');
                 } else {
                     $info_content=json_decode($zip->getFromName('info'), true);
                 };
                 $zip->open($path);
                 //If there is an INFO file, check that the contents of the file match the actual situation
                 $test_cases=$info_content['test_cases'];
-                //dd($test_cases);
                 foreach ($test_cases as $index => $case) {
                     if (!isset($case['input_name']) || (!$form->spj && !isset($case['output_name']))) {
-                        $err("Test case index {$index}: configuration missing input/output files name.");
+                        return $err("Test case index {$index}: configuration missing input/output files name.");
                     }
-                    if ($zip->getFromName($case['input_name'])===false || (!$form->spj && $zip->getFromName($case['output_name'])===false)) {
-                        $err("Test case index {$index}: missing input/output files that record in the configuration.");
+                    $test_case_in=$zip->getFromName($case['input_name']);
+                    $test_case_out=$zip->getFromName($case['output_name']);
+                    if ($test_case_in===false || (!$form->spj && $test_case_out===false)) {
+                        return $err("Test case index {$index}: missing input/output files that record in the configuration.");
                     }
+                    $zip->addFromString($case['input_name'], preg_replace('~(*BSR_ANYCRLF)\R~', "\n", $test_case_in));
+                    $zip->addFromString($case['output_name'], preg_replace('~(*BSR_ANYCRLF)\R~', "\n", $test_case_out));
                 }
+                $zip->close();
+                $zip->open($path);
                 if (!empty($form->pid)) {
-                    $problem=EloquentProblemModel::find($form->pid);
+                    $problem=Problem::find($form->pid);
                     if (!empty($problem)) {
                         $pcode=$problem->pcode;
                     } else {
@@ -332,11 +366,15 @@ class ProblemController extends Controller
                     $pcode=$form->pcode;
                 }
 
-                if (Storage::exists(base_path().'/storage/test_case/'.$pcode)) {
-                    Storage::deleteDirectory(base_path().'/storage/test_case/'.$pcode);
+                if (Storage::disk('test_case')->exists($pcode)) {
+                    Storage::disk('test_case')->deleteDirectory($pcode);
                 }
-                Storage::makeDirectory(base_path().'/storage/test_case/'.$pcode);
-                $zip->extractTo(base_path().'/storage/test_case/'.$pcode.'/');
+
+                Storage::disk('test_case')->makeDirectory($pcode);
+
+                $zip->extractTo(Storage::disk('test_case')->path($pcode));
+
+                $form->tot_score=count($info_content['test_cases']);
 
             }
             //Set the spj-related data
@@ -345,7 +383,9 @@ class ProblemController extends Controller
                 $form->spj_version="{$form->pcode}#".time();
             }
             //Set default data
-            $form->tot_score=count($info_content['test_cases']);
+            if ($form->isCreating() && empty($test_case)) {
+                $form->tot_score=0;
+            }
             $form->markdown=true;
             $form->input_type='standard input';
             $form->output_type='standard output';

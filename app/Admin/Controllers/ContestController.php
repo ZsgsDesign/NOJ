@@ -137,7 +137,12 @@ class ContestController extends Controller
         $form=new Form(new Contest);
         $form->tab('Basic', function(Form $form) {
             $form->select('gid', 'Contest Creator Group')->options(Group::all()->pluck('name', 'gid'))->required();
-            $form->select('assign_uid', 'Contest Assign User')->options(User::all()->pluck('name', 'id'))->required();
+            $form->select('assign_uid', 'Contest Assign User')->options(function($id) {
+                $user=User::find($id);
+                if ($user) {
+                    return [$user->id => $user->readable_name];
+                }
+            })->config('minimumInputLength', 4)->ajax(route('admin.api.users'))->required();
             $form->text('name', 'Contest Name')->required();
 
             $form->divider();
@@ -205,7 +210,12 @@ class ContestController extends Controller
                     $ncodeArr[$alpha]=$alpha;
                 }
                 $form->select('ncode', 'Problem Alphabetical Index')->options($ncodeArr)->default("A")->required();
-                $form->select('pid', 'Problem')->options(Problem::all()->pluck('readable_name', 'pid'))->required();
+                $form->select('pid', 'Problem')->options(function($pid) {
+                    $problem=Problem::find($pid);
+                    if ($problem) {
+                        return [$problem->pid => $problem->readable_name];
+                    }
+                })->config('minimumInputLength', 4)->ajax(route('admin.api.problems'))->required();
                 $form->text('alias', 'Problem Alias Title');
                 $form->number('points', 'Points Value')->default(100)->required();
             });

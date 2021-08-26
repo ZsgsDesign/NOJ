@@ -101,33 +101,27 @@
 
 @section('additionJS')
 
-    @component('js.common.vscode')
-        editor = monaco.editor.create(document.getElementById('monaco'), {
-            value: "",
-            language: "plaintext",
-            theme: "vs-light",
-            fontSize: 16,
-            formatOnPaste: true,
-            formatOnType: true,
-            automaticLayout: true,
+    @component('components.vscode')
+        editorInstance.create("plaintext", "vs", 'monaco', "").then((value) => {
+            editor = value[0];
+            editorProvider = value[1];
+            var all_lang=monaco.languages.getLanguages();
+            all_lang.forEach(function (lang_conf) {
+                aval_lang.push(lang_conf.id);
+                $("#pb_lang_option").append("<button class='dropdown-item' data-value='"+lang_conf.id+"'>"+lang_conf.aliases[0]+"</button>");
+                // console.log(lang_conf.id);
+            });
+            $('#pb_lang_option button').click(function(){
+                targ_lang=$(this).attr("data-value");
+                $("#pb_lang").text($(this).text());
+                monaco.editor.setModelLanguage(editor.getModel(), targ_lang);
+            });
+            $('#pb_time_option button').click(function(){
+                targ_expire=$(this).attr("data-value");
+                $("#pb_time").text($(this).text());
+            });
         });
         $("#vscode_container").css("opacity",1);
-        var all_lang=monaco.languages.getLanguages();
-        all_lang.forEach(function (lang_conf) {
-            aval_lang.push(lang_conf.id);
-            $("#pb_lang_option").append("<button class='dropdown-item' data-value='"+lang_conf.id+"'>"+lang_conf.aliases[0]+"</button>");
-            // console.log(lang_conf.id);
-        });
-        $('#pb_lang_option button').click(function(){
-            targ_lang=$(this).attr("data-value");
-            $("#pb_lang").text($(this).text());
-            monaco.editor.setModelLanguage(editor.getModel(), targ_lang);
-        });
-        $('#pb_time_option button').click(function(){
-            targ_expire=$(this).attr("data-value");
-            $("#pb_time").text($(this).text());
-        });
-        // monaco.editor.setModelLanguage(editor.getModel(), "plaintext");
     @endcomponent
 
     <script>

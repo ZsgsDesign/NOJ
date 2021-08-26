@@ -49,7 +49,7 @@ class MainController extends Controller
             'navigation' => "Home",
             'announcements' => Announcement::orderBy('created_at', 'desc')->get(),
             'ojs' => $ojs,
-            'carousel' => Carousel::where(["available"=>1])->get()
+            'carousel' => Carousel::where('available', 1)->orderBy('updated_at', 'desc')->get()
         ]);
     }
 

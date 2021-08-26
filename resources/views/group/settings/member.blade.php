@@ -129,7 +129,6 @@
         </div>
         <div class="form-group">
             <small class="" style="margin-bottom:10px;font-size:17px;">{{__('group.member.content')}}</small>
-            <link rel="stylesheet" href="/static/library/simplemde/dist/simplemde.min.css">
             <markdown-editor class="mt-3 mb-3">
                 <textarea id="notice_editor"></textarea>
             </markdown-editor>
@@ -145,8 +144,6 @@
 
 @section('additionJS')
     @include("js.common.hljsLight")
-    <script src="/static/library/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
-    <script src="/static/js/jquery-ui-sortable.min.js"></script>
     @include("js.common.markdownEditor")
     @include("js.common.mathjax")
     <script>

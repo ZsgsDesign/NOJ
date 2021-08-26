@@ -2,7 +2,6 @@
 
 @section('template')
 
-<link rel="stylesheet" href="/static/fonts/raleway/raleway.css">
 <style>
     paper-card {
         display: block;

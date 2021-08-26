@@ -96,7 +96,7 @@
                         $(`#submission${id} pre`).text(ret.data.solution);
                         $(`#submission${id} .modal-footer button:nth-of-type(3)`).removeClass("d-none");
                         $(`#submission${id} .modal-footer button:nth-of-type(4)`).addClass("d-none");
-                        hljs.highlightBlock(document.querySelector(`#submission${id} pre`));
+                        hljs.highlightElement(document.querySelector(`#submission${id} pre`));
                     }else{
                         $(`#submission${id} pre`).remove();
                     }

@@ -129,17 +129,7 @@
         </div>
     </loading>
     <!-- Style -->
-    <link rel="stylesheet" href="/static/fonts/roboto/roboto.css">
-    <link rel="stylesheet" href="/static/fonts/montserrat/montserrat.css">
-    <link rel="stylesheet" href="/static/fonts/roboto-slab/roboto-slab.css">
-    <link rel="stylesheet" href="/static/library/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
-    <link rel="stylesheet" href="/static/css/wemd-color-scheme.css">
-    <link rel="stylesheet" href="/static/css/main.css?version={{version()}}">
-    <link rel="stylesheet" href="/static/library/animate.css/animate.min.css">
-    <link rel="stylesheet" href="/static/fonts/mdi-wxss/MDI.css">
-    <link rel="stylesheet" href="/static/fonts/devicon/devicon.min.css?version=1.0.3">
-    <link rel="stylesheet" href="/static/fonts/langicon/langicon.css?version=1.0.2">
-    <link rel="stylesheet" href="/static/fonts/socialicon/socialicon.css?version=1.0.1">
+    @include('layouts.css')
     <style>
         paper-card {
             display: block;
@@ -364,6 +354,7 @@
             display:flex;
             justify-content: space-between;
             align-items: center;
+            font-family: 'Poppins';
         }
 
         bootom-side button{
@@ -690,10 +681,7 @@
                             @if($detail["file"] && !blank($detail["file_url"]))
                             <file-card class="mt-4 mb-3">
                                 <div>
-                                    <img src="/static/library/fileicon-svg/svg/{{$detail["file_ext"]}}.svg" onerror="this.src=unknown_svg;">
-                                    <script>
-                                        var unknown_svg='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 56 56" style="enable-background:new 0 0 56 56" xml:space="preserve"><g><path style="fill:%23e9e9e0" d="M36.985,0H7.963C7.155,0,6.5,0.655,6.5,1.926V55c0,0.345,0.655,1,1.463,1h40.074 c0.808,0,1.463-0.655,1.463-1V12.978c0-0.696-0.093-0.92-0.257-1.085L37.607,0.257C37.442,0.093,37.218,0,36.985,0z"/><polygon style="fill:%23d9d7ca" points="37.5,0.151 37.5,12 49.349,12"/><path style="fill:%23c8bdb8" d="M48.037,56H7.963C7.155,56,6.5,55.345,6.5,54.537V39h43v15.537C49.5,55.345,48.845,56,48.037,56z"/><circle style="fill:%23fff" cx="18.5" cy="47" r="3"/><circle style="fill:%23fff" cx="28.5" cy="47" r="3"/><circle style="fill:%23fff" cx="38.5" cy="47" r="3"/></g></svg>';
-                                    </script>
+                                    <img src="/static/fonts/fileicon/svg/{{$detail["file_ext"]}}.svg" onerror="this.src=NOJVariables.unknownfileSVG;">
                                 </div>
                                 <div>
                                     <h5 class="mundb-text-truncate-1">{{basename($detail["file_url"])}}</h5>
@@ -878,7 +866,12 @@
 
     @yield("addition")
 
-    <script src="/static/library/clipboard/dist/clipboard.min.js"></script>
+    @include('js.common.markerPen')
+    @include('layouts.js')
+    @include("js.common.mathjax")
+    @include('layouts.primaryJS')
+    @include('js.submission.detail')
+
     <script>
         var clipboard = new ClipboardJS('.cm-copy-snippet');
 
@@ -897,28 +890,16 @@
             }, 2000);
         });
     </script>
-    @include('js.common.markerPen')
-    <script src="/static/library/jquery/dist/jquery.min.js"></script>
-    <script src="/static/library/popper.js/dist/umd/popper.min.js"></script>
-    <script src="/static/library/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"></script>
-    @include("js.common.mathjax")
-    @include('layouts.primaryJS')
-    @include('js.submission.detail')
 
     @if(!$contest_mode)
     @include('components.congratulation')
     @endif
 
-    @component('js.common.vscode')
-        editor = monaco.editor.create(document.getElementById('monaco'), {
-                value: "{!!$submit_code!!}",
-                language: "@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['lang']}}@else{{'plaintext'}}@endif",
-                theme: "{{$theme_config['id']}}",
-                fontSize: 16,
-                formatOnPaste: true,
-                formatOnType: true,
-                automaticLayout: true
-            });
+    @component('components.vscode')
+        editorInstance.create("@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['lang']}}@else{{'plaintext'}}@endif", "{{$theme_config['id']}}", 'monaco', "{!!$submit_code!!}").then((value) => {
+            editor = value[0];
+            editorProvider = value[1];
+        });
         $("#vscode_container").css("opacity",1);
     @endcomponent
 
@@ -1042,6 +1023,7 @@
             $(this).children('i').addClass('MDI checkbox-marked-circle wemd-purple-text');
             var themeid=$(this).data("themeid");
             monaco.editor.setTheme(themeid);
+            editorInstance.changeTheme(editorProvider, themeid);
             $("#cur_theme_selector").html('<i class="MDI format-paint"></i> {{__('problem.editor.theme.title')}} '+$(this).text());
             $.ajax({
                 url : '{{route("ajax.account.save.editortheme")}}',
@@ -1250,8 +1232,12 @@
             MarkerPen.initAll();
 
             $(".pre-animated").addClass("fadeInLeft");
+
+            mediumZoom(document.querySelectorAll('fresh-container img'), {
+                margin: 48,
+            });
+
             @if($status["verdict"]=="Compile Error")$("#verdict_text").addClass("cm-popover-decoration");@endif
-            // $("#verdict_info").popover();
 
         }, false);
     </script>

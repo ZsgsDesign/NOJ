@@ -69,8 +69,19 @@
     }
 </style>
 
-@include('js.common.lodash')
 <script>
+function _throttle (callback, limit) {
+    var waiting = false;
+    return function () {
+        if (!waiting) {
+            callback.apply(this, arguments);
+            waiting = true;
+            setTimeout(function () {
+                waiting = false;
+            }, limit);
+        }
+    }
+}
 const MARKER_ID = `marker_${Math.floor(Math.random() * 0xFFFFFF).toString(16)}`;
 const MARKER_OFFSET = 20;
 const MARKER_MAX_DISTANCE = 60;
@@ -110,9 +121,9 @@ class Marker {
     this.isOpen = false;
     this.bindedHandlers = false;
     this._onKeyDown = this.onKeyDown.bind(this);
-    this._onScroll = _.throttle(this.onScroll.bind(this), 50);
+    this._onScroll = _throttle(this.onScroll.bind(this), 50);
     this._onMouseDown = this.onMouseDown.bind(this);
-    this._onMouseMove = _.throttle(this.onMouseMove.bind(this), 50);
+    this._onMouseMove = _throttle(this.onMouseMove.bind(this), 50);
     markerInstance = this;
   }
 

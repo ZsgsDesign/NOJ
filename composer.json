@@ -9,14 +9,17 @@
     "license": "MIT",
     "require": {
         "php": "^7.4",
-        "asundust/auth-captcha": "2.0.13",
+        "oomphinc/composer-installers-extender": "^2.0",
+        "asundust/auth-captcha": "^2.0.14",
         "barryvdh/laravel-dompdf": "^0.8.5",
         "encore/laravel-admin": "^1.7",
         "fideloper/proxy": "^4.0",
         "fonts-asset/devicon": "^1.0",
+        "fonts-asset/fileicon": "^1.0",
         "fonts-asset/langicon": "^1.0",
         "fonts-asset/mdi-wxss": "^1.0",
         "fonts-asset/montserrat": "^1.0",
+        "fonts-asset/poppins": "^1.0",
         "fonts-asset/raleway": "^1.0",
         "fonts-asset/roboto": "^1.0",
         "fonts-asset/roboto-slab": "^1.0",
@@ -43,39 +46,22 @@
         "maatwebsite/excel": "^3.1",
         "mews/purifier": "^3.2",
         "nelexa/zip": "^3.1",
-        "njuptaaa/moss": "^1.2",
+        "njuptaaa/noj-large-file-upload": "^1.0",
         "njuptaaa/poem": "^1.0.3",
-        "npm-asset/animate.css": "^3.7",
-        "npm-asset/bootstrap-material-design": "4.1.2",
-        "npm-asset/chart.js": "^2.8",
-        "npm-asset/clipboard": "^2.0",
-        "npm-asset/codemirror": "^5.58",
-        "npm-asset/dompurify": "^1.0",
-        "npm-asset/fileicon-svg": "^1.0",
-        "npm-asset/highlightjs": "^9.12",
-        "npm-asset/jquery": "^3.3",
-        "npm-asset/jquery-datetimepicker": "^2.5",
-        "npm-asset/jquery-ui": "^1.12",
-        "npm-asset/lodash": "^4.17",
-        "npm-asset/marked": "^0.6.2",
+        "njuptaaa/laravel-admin-assets": "^1.8.16",
+        "noj-language-service/configurations": "^1.0.0",
+        "noj-language-service/grammars": "^1.0.0",
+        "noj-language-service/themes": "^1.0.0",
         "npm-asset/mathjax": "^2.7",
-        "npm-asset/monaco-ace-tokenizer": "^0.2.1",
-        "npm-asset/monaco-editor": "0.23.0",
-        "npm-asset/monaco-themes": "^0.3.3",
-        "npm-asset/noj-monaco-themes": "^1.0",
-        "npm-asset/pdfobject": "^2.1",
-        "npm-asset/perfect-scrollbar": "^1.4",
-        "npm-asset/popper.js": "^1.5",
-        "npm-asset/simplemde": "^1.11",
-        "oomphinc/composer-installers-extender": "^2.0",
+        "npm-asset/vscode-oniguruma": "1.3.0",
         "orangehill/iseed": "^2.6",
         "phar-io/version": "^2.0",
         "predis/predis": "^1.1",
         "rmccue/requests": "^1.7",
         "sebastian/version": "^2.0",
         "socialiteproviders/github": "^4.1",
-        "x3zvawq/noj_simplemde": "dev-main",
-        "zsgsdesign/noj-admin-clike-editor": "dev-main"
+        "x3zvawq/noj_simplemde": "^1.0.1",
+        "zsgsdesign/noj-admin-clike-editor": "^1.0.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
@@ -88,7 +74,7 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true,
+        "sort-packages": false,
         "secure-http": false
     },
     "extra": {
@@ -98,7 +84,9 @@
         "installer-types": [
             "bower-asset",
             "npm-asset",
-            "fonts-asset"
+            "fonts-asset",
+            "laravel-admin-asset",
+            "noj-language-services"
         ],
         "installer-paths": {
             "public/static/library/{$name}": [
@@ -107,6 +95,12 @@
             ],
             "public/static/fonts/{$name}": [
                 "type:fonts-asset"
+            ],
+            "public/vendor/laravel-admin/": [
+                "njuptaaa/laravel-admin-assets"
+            ],
+            "public/static/language-services/{$name}": [
+                "type:noj-language-services"
             ]
         }
     },
@@ -141,8 +135,10 @@
             "@php artisan key:generate --ansi"
         ]
     },
-    "repositories": [{
-        "type": "composer",
-        "url": "https://asset-packagist.org"
-    }]
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
 }

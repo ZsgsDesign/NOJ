@@ -137,7 +137,7 @@
         @if(Auth::user()->hasIndependentEmail())
             <div class="text-center">
                 @unless(emailVerified())
-                    <p style="padding: 1rem 0" >{{__('dashboard.setting.emailNotBind')}}</p>
+                    <p style="padding: 1rem 0" >@lang('dashboard.setting.emailNotBind')</p>
                     <div class="text-center">
                         <button id="send-email" @if(!empty($email_cooldown) && $email_cooldown > 0) data-cooldown="{{$email_cooldown}}" @endif class="btn btn-danger @if(!empty($email_cooldown) && $email_cooldown > 0) cooldown @endif">{{__('dashboard.setting.emailSend')}}</button>
                     </div>

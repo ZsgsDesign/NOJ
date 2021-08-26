@@ -21,12 +21,19 @@ Route::group([
     $router->resource('groups', GroupController::class);
     $router->resource('dojos', DojoController::class);
     $router->resource('dojophases', DojoPhaseController::class);
+    $router->resource('dojopasses', DojoPassesController::class);
     $router->resource('judge-server', JudgeServerController::class);
     $router->resource('judger', JudgerController::class);
     $router->resource('abuses', AbuseController::class);
+    $router->resource('carousels', CarouselController::class);
 
     Route::match(['GET', 'POST'], 'codetester', 'CodeTesterController@tester')->name('admin.codetester.tester');
     Route::match(['GET', 'POST'], 'settings', 'SettingsController@index')->name('admin.settings.index');
+
+    Route::group(['prefix' => 'api'], function(Router $router) {
+        $router->get('/problems', 'ApiController@problems')->name('admin.api.problems');
+        $router->get('/users', 'ApiController@users')->name('admin.api.users');
+    });
 
     Route::group(['prefix' => 'babel'], function(Router $router) {
         $router->get('/', 'BabelController@index')->name('admin.babel.index');
