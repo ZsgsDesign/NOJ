@@ -100,6 +100,8 @@ This is a minor version update. As mentioned in `0.5.0` logs, the new version sy
 * **Security:** `axios` is now at `0.21.1`.
 * **Security:** `x3zvawq/noj_simplemde` is now at `1.0.1`.
 * **Security:** `zsgsdesign/noj-admin-clike-editor` is now at `1.0.0`.
+* **Security:** `dompurify` is now at `2.3.1`.
+* **Security:** `marked` is now at `0.7.0`.
 
 ## v0.5.1 Aphyocharacinae Build Pack 1 - 2021-08-20
 
