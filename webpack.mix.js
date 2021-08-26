@@ -16,12 +16,18 @@ const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
 // Pre Compile NOJ JS Supporting Libraries - app.temp.js
 mix.ts('resources/ts/app.ts', 'public/static/js/build/app.temp.js');
 
+// Pre Compile NOJ CSS Supporting Libraries - app.temp.css
+mix.sass('resources/sass/app.scss', 'public/static/css/build/app.temp.css');
+
 // Pre Compile NOJ Admin Portal JS Supporting Libraries - app.admin.temp.js
 mix.ts('resources/ts/admin.ts', 'public/static/js/build/app.admin.temp.js');
 
+// Pre Compile NOJ Admin Portal CSS Supporting Libraries - app.admin.temp.css
+mix.sass('resources/sass/admin.scss', 'public/static/css/build/app.admin.temp.css');
+
 // Compile NOJ Admin Portal CSS Libraries Bundle - app.admin.css
 mix.styles([
-    'resources/css/wemd-color-scheme.css',
+    'public/static/css/build/app.admin.temp.css',
     'node_modules/simplemde/dist/simplemde.min.css',
     'node_modules/codemirror/lib/codemirror.css',
     'node_modules/codemirror/addon/hint/show-hint.css',
@@ -55,9 +61,9 @@ mix.scripts([
 
 // Compile NOJ CSS Libraries Bundle - app.css
 mix.styles([
+    'public/static/css/build/app.temp.css',
     'node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.min.css',
     'node_modules/animate.css/animate.min.css',
-    'resources/css/wemd-color-scheme.css',
     'resources/css/main.css',
     'node_modules/jquery-datetimepicker/build/jquery.datetimepicker.min.css',
     'node_modules/simplemde/dist/simplemde.min.css',
