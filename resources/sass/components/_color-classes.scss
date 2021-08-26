@@ -1,0 +1,46 @@
+// CSS Variables
+:root {
+    @each $color_name, $color in $colors {
+        @each $color_type, $color_value in $color {
+            @if $color_type == "base" {
+                #{"--wemd-" + $color_name}: $color_value;
+            } @else if $color_name != "shades" {
+                #{"--wemd-" + $color_name + "-" + $color_type}: $color_value;
+            }
+        }
+    }
+    @each $color, $color_value in $shades {
+        #{"--wemd-" + $color}: $color_value;
+    }
+}
+
+// Color Classes
+@each $color_name, $color in $colors {
+    @each $color_type, $color_value in $color {
+        @if $color_type == "base" {
+            .wemd-#{$color_name} {
+                background-color: $color_value !important;
+            }
+            .wemd-#{$color_name}-text {
+                color: $color_value !important;
+            }
+        } @else if $color_name != "shades" {
+            .wemd-#{$color_name}.wemd-#{$color_type} {
+                background-color: $color_value !important;
+            }
+            .wemd-#{$color_name}-text.wemd-text-#{$color_type} {
+                color: $color_value !important;
+            }
+        }
+    }
+}
+
+// Shade classes
+@each $color, $color_value in $shades {
+    .wemd-#{$color} {
+        background-color: $color_value !important;
+    }
+    .wemd-#{$color}-text {
+        color: $color_value !important;
+    }
+}
