@@ -1,1 +1,2 @@
 require('./hljs');
+require('./dompurify');
