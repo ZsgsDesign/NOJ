@@ -14,3 +14,17 @@ updates:
   labels:
   - Vulnerability
   versioning-strategy: lockfile-only
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "21:00"
+  open-pull-requests-limit: 10
+  target-branch: dev
+  reviewers:
+  - ZsgsDesign
+  assignees:
+  - ZsgsDesign
+  labels:
+  - Vulnerability
+  versioning-strategy: lockfile-only
