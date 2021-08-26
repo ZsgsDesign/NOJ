@@ -20,11 +20,11 @@ use Encore\Admin\Admin;
  *
  */
 
-Admin::css(mix('/static/css/build/noj_admin.css'));
+Admin::css(mix('/static/css/build/app.admin.css'));
 Admin::css('/static/fonts/mdi-wxss/MDI.css?version=1.0.1');
 Admin::css('/static/fonts/poppins/poppins.css?version=1.0.0');
 Admin::style(".main-sidebar, .main-footer, .main-header .logo .logo-lg, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {font-family:'Poppins';}");
-Admin::js(mix('/static/js/build/noj_admin.js'));
+Admin::js(mix('/static/js/build/app.admin.js'));
 Admin::favicon('/favicon.png');
 Encore\Admin\Form::forget(['map', 'editor']);
 Encore\Admin\Form::extend('chunk_file', \Encore\ChunkFileUpload\ChunkFileField::class);

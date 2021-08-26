@@ -7,4 +7,4 @@
 <link rel="stylesheet" href="/static/fonts/devicon/devicon.min.css?version=1.0.4">
 <link rel="stylesheet" href="/static/fonts/langicon/langicon.css?version=1.0.5">
 <link rel="stylesheet" href="/static/fonts/socialicon/socialicon.css?version=1.0.1">
-<link rel="stylesheet" href="{{ mix('/static/css/build/noj.css') }}">
+<link rel="stylesheet" href="{{ mix('/static/css/build/app.css') }}">

@@ -8,7 +8,7 @@
         transition: .2s ease-out .0s;
     }
 </style>
-<script src="{{mix('/static/js/build/noj-editor.js')}}"></script>
+<script src="{{mix('/static/js/build/app.editor.js')}}"></script>
 <script>
     var editorInstance = new NOJEditor();
     var editor = null;

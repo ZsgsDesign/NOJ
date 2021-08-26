@@ -13,33 +13,35 @@ const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
  |
  */
 
-// Pre-compile supporting libraries first
-mix.ts('resources/ts/noj.ts', 'public/static/js/build/app.js');
+// Pre Compile NOJ JS Supporting Libraries
+mix.ts('resources/ts/app.ts', 'public/static/js/build/app.temp.js');
 
-// Export css for Admin Portal
+// Pre Compile NOJ Admin Portal JS Supporting Libraries
+mix.ts('resources/ts/admin.ts', 'public/static/js/build/app.admin.temp.js');
+
+// Compile NOJ Admin Portal CSS Libraries Bundle
 mix.styles([
     'resources/css/wemd-color-scheme.css',
     'node_modules/simplemde/dist/simplemde.min.css',
     'node_modules/codemirror/lib/codemirror.css',
     'node_modules/codemirror/addon/hint/show-hint.css',
     'node_modules/highlight.js/styles/vs.css',
-], 'public/static/css/build/noj_admin.css');
+], 'public/static/css/build/app.admin.css');
 
-// Export js for Admin Portal
-mix.ts('resources/ts/app_admin.ts', 'public/static/js/build/app_admin.js');
+// Compile NOJ Admin Portal JS Libraries Bundle
 mix.scripts([
-    'public/static/js/build/app_admin.js',
+    'public/static/js/build/app.admin.temp.js',
     'node_modules/simplemde/dist/simplemde.min.js',
     'node_modules/marked/marked.min.js',
     'node_modules/codemirror/lib/codemirror.js',
     'node_modules/codemirror/addon/edit/matchbrackets.js',
     'node_modules/codemirror/addon/hint/show-hint.js',
     'node_modules/codemirror/mode/clike/clike.js',
-], 'public/static/js/build/noj_admin.js');
+], 'public/static/js/build/app.admin.js');
 
-// Compile JS libraries bundle
+// Compile NOJ JS Libraries Bundle
 mix.scripts([
-    'public/static/js/build/app.js',
+    'public/static/js/build/app.temp.js',
     'node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js',
     'node_modules/pdfobject/pdfobject.min.js',
     'node_modules/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js',
@@ -49,9 +51,9 @@ mix.scripts([
     'node_modules/simplemde/dist/simplemde.min.js',
     'node_modules/marked/marked.min.js',
     'node_modules/clipboard/dist/clipboard.min.js',
-], 'public/static/js/build/noj.js');
+], 'public/static/js/build/app.js');
 
-// Compile CSS libraries bundle
+// Compile NOJ CSS Libraries Bundle
 mix.styles([
     'node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.min.css',
     'node_modules/animate.css/animate.min.css',
@@ -59,10 +61,10 @@ mix.styles([
     'resources/css/main.css',
     'node_modules/jquery-datetimepicker/build/jquery.datetimepicker.min.css',
     'node_modules/simplemde/dist/simplemde.min.css',
-], 'public/static/css/build/noj.css');
+], 'public/static/css/build/app.css');
 
 // Compile NOJ Editor
-mix.ts('resources/ts/monaco-editor/monaco.ts', 'public/static/js/build/noj-editor.js');
+mix.ts('resources/ts/monaco-editor/monaco.ts', 'public/static/js/build/app.editor.js');
 
 if (mix.inProduction()) {
     mix.version();
@@ -84,11 +86,11 @@ mix.webpackConfig({
     devtool: false,
     entry: {
         // Package each language's worker and give these filenames in `getWorkerUrl`
-        'static/js/build/worker/editor': 'monaco-editor/esm/vs/editor/editor.worker.js',
-        'static/js/build/worker/json': 'monaco-editor/esm/vs/language/json/json.worker',
-        'static/js/build/worker/css': 'monaco-editor/esm/vs/language/css/css.worker',
-        'static/js/build/worker/html': 'monaco-editor/esm/vs/language/html/html.worker',
-        'static/js/build/worker/ts': 'monaco-editor/esm/vs/language/typescript/ts.worker',
+        // 'static/js/build/worker/editor': 'monaco-editor/esm/vs/editor/editor.worker.js',
+        // 'static/js/build/worker/json': 'monaco-editor/esm/vs/language/json/json.worker',
+        // 'static/js/build/worker/css': 'monaco-editor/esm/vs/language/css/css.worker',
+        // 'static/js/build/worker/html': 'monaco-editor/esm/vs/language/html/html.worker',
+        // 'static/js/build/worker/ts': 'monaco-editor/esm/vs/language/typescript/ts.worker',
     },
     module: {
         rules: [
@@ -112,6 +114,6 @@ mix.webpackConfig({
             languages: [],
             features: ['accessibilityHelp', 'anchorSelect', 'bracketMatching', 'caretOperations', 'clipboard', 'codeAction', 'codelens', 'colorPicker', 'comment', 'contextmenu', 'coreCommands', 'cursorUndo', 'dnd', 'documentSymbols', 'find', 'folding', 'fontZoom', 'format', 'gotoError', 'gotoLine', 'gotoSymbol', 'hover', 'iPadShowKeyboard', 'inPlaceReplace', 'indentation', 'inlayHints', 'inlineCompletions', 'inspectTokens', 'linesOperations', 'linkedEditing', 'links', 'multicursor', 'parameterHints', 'quickCommand', 'quickHelp', 'quickOutline', 'referenceSearch', 'rename', 'smartSelect', 'snippets', 'suggest', 'toggleTabFocusMode', 'transpose', 'unusualLineTerminators', 'viewportSemanticTokens', 'wordHighlighter', 'wordOperations', 'wordPartOperations']
         }),
-        new IgnoreEmitPlugin([/editor\.worker\.js/])
+        // new IgnoreEmitPlugin([/editor\.worker\.js/])
     ],
 });

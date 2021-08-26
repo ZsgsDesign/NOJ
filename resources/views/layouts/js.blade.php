@@ -1,1 +1,1 @@
-<script src="{{ mix('/static/js/build/noj.js') }}"></script>
+<script src="{{ mix('/static/js/build/app.js') }}"></script>
