@@ -13,13 +13,13 @@ const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
  |
  */
 
-// Pre Compile NOJ JS Supporting Libraries
+// Pre Compile NOJ JS Supporting Libraries - app.temp.js
 mix.ts('resources/ts/app.ts', 'public/static/js/build/app.temp.js');
 
-// Pre Compile NOJ Admin Portal JS Supporting Libraries
+// Pre Compile NOJ Admin Portal JS Supporting Libraries - app.admin.temp.js
 mix.ts('resources/ts/admin.ts', 'public/static/js/build/app.admin.temp.js');
 
-// Compile NOJ Admin Portal CSS Libraries Bundle
+// Compile NOJ Admin Portal CSS Libraries Bundle - app.admin.css
 mix.styles([
     'resources/css/wemd-color-scheme.css',
     'node_modules/simplemde/dist/simplemde.min.css',
@@ -28,7 +28,7 @@ mix.styles([
     'node_modules/highlight.js/styles/vs.css',
 ], 'public/static/css/build/app.admin.css');
 
-// Compile NOJ Admin Portal JS Libraries Bundle
+// Compile NOJ Admin Portal JS Libraries Bundle - app.admin.js
 mix.scripts([
     'public/static/js/build/app.admin.temp.js',
     'node_modules/simplemde/dist/simplemde.min.js',
@@ -39,7 +39,7 @@ mix.scripts([
     'node_modules/codemirror/mode/clike/clike.js',
 ], 'public/static/js/build/app.admin.js');
 
-// Compile NOJ JS Libraries Bundle
+// Compile NOJ JS Libraries Bundle - app.js
 mix.scripts([
     'public/static/js/build/app.temp.js',
     'node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js',
@@ -53,7 +53,7 @@ mix.scripts([
     'node_modules/clipboard/dist/clipboard.min.js',
 ], 'public/static/js/build/app.js');
 
-// Compile NOJ CSS Libraries Bundle
+// Compile NOJ CSS Libraries Bundle - app.css
 mix.styles([
     'node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.min.css',
     'node_modules/animate.css/animate.min.css',
@@ -63,7 +63,7 @@ mix.styles([
     'node_modules/simplemde/dist/simplemde.min.css',
 ], 'public/static/css/build/app.css');
 
-// Compile NOJ Editor
+// Compile NOJ Editor - app.editor.js
 mix.ts('resources/ts/monaco-editor/monaco.ts', 'public/static/js/build/app.editor.js');
 
 if (mix.inProduction()) {
