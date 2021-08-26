@@ -9,7 +9,7 @@ This is a minor version update. As mentioned in `0.5.0` logs, the new version sy
 
 **Summary:** Requires at least Chrome 69 or equivalent to support `NOJ 0.16.0`, requires `npm` package management from now on, supports Webpack and Laravel Mix, supports native VSCode coding experiences by supporting 24 VSCode grammars, configs, and 27 themes, supports partial update without test cases in the problem admin portal, supports test case input/output CRLF conversion, supports filters for the problem of admin portal, support image zoom when inside editor, support dynamic content loading to increase performance on admin portal, supports Poppins font, support carousels and dojo pass record admin portal, supports large test cases import up to 200MB. This version update also includes lots of bug fixes, functionality & UI improvements, and security updates.
 
-## Update Logs
+### Update Logs
 * **Compatibility:** NOJ now requires **at least** Chrome 69, Firefox 62, or Safari 13.1, NOJ recommends using modern browsers for better *ECMA2015* and *WebAssembly* support.
 * **Compatibility:** From now on, every NOJ upgrade requires running `npm install` and `npm run production`, for more information, see NOJ Documentation.
 * **Compatibility:** From now on, NOJ will record all changes in `CHANGELOG.md`.
@@ -139,7 +139,7 @@ This is a minor version update, since this version former build version updates 
 
 **Summary:** Add PHP 7.4 & NOJ_JudgeServer v0.2.1 compatibility support, compilers for `Go`, `C#`, `Rust`, `Ruby`, `Haskell`, `Free Pascal`, `Text` and `Free Basic`, OpenJudge NOI BABEL extension support, code plagiarism check beta support, scroll board beta support, compiler info highlight and dialog support, editor themes support, NOJ themes support, image hosting service support, user permissions support, system settings support, AAuth Socialite support, localization support and a brunch of Admin Portal functional update, dozens of new environment configurations and 3 helper functions. This version update also includes lots of bug fixes, functionality & UI improvements, and security updates.
 
-## Update Logs
+### Update Logs
 * **Compatibility:** NOJ now supports `PHP 7.4` per #614 requests.
 * **Compatibility:** NOJ now supports `NOJ_JudgeServer v0.2.1` per #615 requests.
 * **New:** Add `Golang` language support (require NOJ JudgeServer `v0.1.4` or higher).
