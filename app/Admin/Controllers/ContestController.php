@@ -137,8 +137,8 @@ class ContestController extends Controller
         $form=new Form(new Contest);
         $form->tab('Basic', function(Form $form) {
             $form->select('gid', 'Contest Creator Group')->options(Group::all()->pluck('name', 'gid'))->required();
-            $form->select('assign_uid', 'Contest Assign User')->options(function ($id) {
-                $user = User::find($id);
+            $form->select('assign_uid', 'Contest Assign User')->options(function($id) {
+                $user=User::find($id);
                 if ($user) {
                     return [$user->id => $user->readable_name];
                 }
@@ -210,8 +210,8 @@ class ContestController extends Controller
                     $ncodeArr[$alpha]=$alpha;
                 }
                 $form->select('ncode', 'Problem Alphabetical Index')->options($ncodeArr)->default("A")->required();
-                $form->select('pid', 'Problem')->options(function ($pid) {
-                    $problem = Problem::find($pid);
+                $form->select('pid', 'Problem')->options(function($pid) {
+                    $problem=Problem::find($pid);
                     if ($problem) {
                         return [$problem->pid => $problem->readable_name];
                     }

@@ -44,7 +44,7 @@ class ProblemController extends Controller
     public function show($id, Content $content)
     {
         $problem=Problem::findOrFail($id);
-        if(!$problem->markdown || $problem->onlinejudge->ocode !== 'noj'){
+        if (!$problem->markdown || $problem->onlinejudge->ocode!=='noj') {
             return abort('403', 'Problem managed by BABEL cannot be accessed by Admin Portal.');
         }
         return $content
@@ -63,7 +63,7 @@ class ProblemController extends Controller
     public function edit($id, Content $content)
     {
         $problem=Problem::findOrFail($id);
-        if(!$problem->markdown || $problem->onlinejudge->ocode !== 'noj'){
+        if (!$problem->markdown || $problem->onlinejudge->ocode!=='noj') {
             return abort('403', 'Problem managed by BABEL cannot be accessed by Admin Portal.');
         }
         return $content
@@ -111,7 +111,7 @@ class ProblemController extends Controller
         $grid->model()->where([
             'markdown'=>1,
             'OJ'=>OJ::where(['ocode'=>'noj'])->first()->oid,
-        ])->orderBy('pcode','asc');
+        ])->orderBy('pcode', 'asc');
         $grid->column('pid', "ID")->sortable();
         $grid->column('pcode', "PCode")->editable()->sortable();
         $grid->title("Title")->editable();
@@ -205,7 +205,7 @@ class ProblemController extends Controller
                     1 => 'YES',
                 ])->default(0)->rules('required');
             $form->clang('spj_src', 'SPJ Source Code');
-            if($form->isCreating()) {
+            if ($form->isCreating()) {
                 $form->chunk_file('test_case')->rules('required');
             } else {
                 $form->chunk_file('test_case');
@@ -251,13 +251,13 @@ class ProblemController extends Controller
                 return $err('The SPJ problem must provide spj_src', 'create problem error');
             }
 
-            $test_case = null;
+            $test_case=null;
 
-            if(!is_null(request()->get('test_case'))) {
-                $test_case = explode('http://fake.path/',request()->get('test_case'), 2)[1];
+            if (!is_null(request()->get('test_case'))) {
+                $test_case=explode('http://fake.path/', request()->get('test_case'), 2)[1];
                 $path=Storage::disk('temp')->path($test_case);
 
-                if (pathinfo($path, PATHINFO_EXTENSION) !== 'zip') {
+                if (pathinfo($path, PATHINFO_EXTENSION)!=='zip') {
                     return $err('You must upload a zip file iuclude test case info and content.');
                 }
 
@@ -281,7 +281,7 @@ class ProblemController extends Controller
                             $files[]=$filename;
                         }
                         $files_in=array_filter($files, function($filename) {
-                            return pathinfo($filename, PATHINFO_EXTENSION) == 'in';
+                            return pathinfo($filename, PATHINFO_EXTENSION)=='in';
                         });
                         sort($files_in);
                         $testcase_index=1;
@@ -316,7 +316,7 @@ class ProblemController extends Controller
                             $files[]=$filename;
                         }
                         $files_in=array_filter($files, function($filename) {
-                            return pathinfo($filename, PATHINFO_EXTENSION) == 'in';
+                            return pathinfo($filename, PATHINFO_EXTENSION)=='in';
                         });
                         sort($files_in);
                         $testcase_index=1;
@@ -383,7 +383,7 @@ class ProblemController extends Controller
                 $form->spj_version="{$form->pcode}#".time();
             }
             //Set default data
-            if($form->isCreating() && empty($test_case)) {
+            if ($form->isCreating() && empty($test_case)) {
                 $form->tot_score=0;
             }
             $form->markdown=true;

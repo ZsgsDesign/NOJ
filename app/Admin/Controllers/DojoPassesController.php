@@ -98,8 +98,8 @@ class DojoPassesController extends Controller
                 $filter->equal('dojo_id', __('admin.dojopasses.dojo'))->select(Dojo::all()->pluck('name', 'id'));
             });
             $filter->column(6, function($filter) {
-                $filter->equal('user_id', __('admin.dojopasses.user'))->select(function ($id) {
-                    $user = User::find($id);
+                $filter->equal('user_id', __('admin.dojopasses.user'))->select(function($id) {
+                    $user=User::find($id);
                     if ($user) {
                         return [$user->id => $user->readable_name];
                     }
@@ -140,8 +140,8 @@ class DojoPassesController extends Controller
         $form->tab('Basic', function(Form $form) {
             $form->display('id', 'ID');
             $form->select('dojo_id', __('admin.dojopasses.dojo'))->options(Dojo::all()->pluck('name', 'id'))->rules('required');
-            $form->select('user_id', __('admin.dojopasses.user'))->options(function ($id) {
-                $user = User::find($id);
+            $form->select('user_id', __('admin.dojopasses.user'))->options(function($id) {
+                $user=User::find($id);
                 if ($user) {
                     return [$user->id => $user->readable_name];
                 }

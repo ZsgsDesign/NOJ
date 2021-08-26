@@ -125,7 +125,7 @@ class AccountModel extends Model
                 Cache::tags(['bing', 'pic'])->put(date("Y-m-d"), "/static/img/themes/bing/".date("Y-m-d").".jpg");
             }
             $ret["image"]=Cache::tags(['bing', 'pic'])->get(date("Y-m-d"));
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $ret["image"]="/static/img/themes/material.png";
         }
         return $ret;

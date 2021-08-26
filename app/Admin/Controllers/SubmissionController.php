@@ -123,14 +123,14 @@ class SubmissionController extends Controller
             });
             $filter->column(6, function($filter) {
                 $filter->equal('cid', __('admin.submissions.cid'))->select(Contest::all()->pluck('name', 'cid'));
-                $filter->equal('uid', __('admin.submissions.uid'))->select(function ($id) {
-                    $user = User::find($id);
+                $filter->equal('uid', __('admin.submissions.uid'))->select(function($id) {
+                    $user=User::find($id);
                     if ($user) {
                         return [$user->id => $user->readable_name];
                     }
                 })->config('minimumInputLength', 4)->ajax(route('admin.api.users'));
-                $filter->equal('pid', __('admin.submissions.pid'))->select(function ($pid) {
-                    $problem = Problem::find($pid);
+                $filter->equal('pid', __('admin.submissions.pid'))->select(function($pid) {
+                    $problem=Problem::find($pid);
                     if ($problem) {
                         return [$problem->pid => $problem->readable_name];
                     }
@@ -226,15 +226,15 @@ class SubmissionController extends Controller
             $form->text('color', __('admin.submissions.color'))->rules('required');
             $form->textarea('language', __('admin.submissions.language'))->rules('required');
             $form->display('submission_date', __('admin.submissions.submission_date'));
-            $form->select('uid', __('admin.submissions.uid'))->options(function ($id) {
-                $user = User::find($id);
+            $form->select('uid', __('admin.submissions.uid'))->options(function($id) {
+                $user=User::find($id);
                 if ($user) {
                     return [$user->id => $user->readable_name];
                 }
             })->config('minimumInputLength', 4)->ajax(route('admin.api.users'))->required();
             $form->select('cid', __('admin.submissions.cid'))->options(Contest::all()->pluck('name', 'cid'));
-            $form->select('pid', __('admin.submissions.pid'))->options(function ($pid) {
-                $problem = Problem::find($pid);
+            $form->select('pid', __('admin.submissions.pid'))->options(function($pid) {
+                $problem=Problem::find($pid);
                 if ($problem) {
                     return [$problem->pid => $problem->readable_name];
                 }
