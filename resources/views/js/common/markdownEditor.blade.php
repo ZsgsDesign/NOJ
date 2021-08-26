@@ -34,9 +34,7 @@
             codeSyntaxHighlighting: true
         };
         config.previewRender = config.previewRender || function (plainText) {
-            document.getElementById("noj-markdown-editor-preview").innerHTML=marked(plainText, {
-                sanitize: true,
-                sanitizer: DOMPurify.sanitize,
+            document.getElementById("noj-markdown-editor-preview").innerHTML=DOMPurify.sanitize(marked(plainText, {
                 highlight: function (code, lang) {
                     var language = hljs.getLanguage(code);
                     if (!language) {
@@ -44,7 +42,7 @@
                     }
                     return hljs.highlight(lang, code).value;
                 }
-            });
+            }));
             MathJax.Hub.Queue(["Typeset",MathJax.Hub,"noj-markdown-editor-preview"]);
             return document.getElementById("noj-markdown-editor-preview").innerHTML;
         };
