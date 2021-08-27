@@ -20,7 +20,8 @@ For more information, please visit [v0.16.0 Bryconinae Release Log](https://gith
 
 ### Installation
 
-> **If you are having trouble installing NOJ or requires additional help setting up, you can contact us via noj@njupt.edu.cn.**
+:exclamation: | **If you are having trouble installing NOJ or requires additional help setting up, you can contact us via noj@njupt.edu.cn.**
+:-----------: | :----------------------------------------------------------------------------------------------------------------------------
 
 CentOS 8 will be recommended for hosting NOJ, but all major operating systems are theoretically supported.
 
