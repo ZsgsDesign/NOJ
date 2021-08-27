@@ -10,6 +10,7 @@ NOJ's another online judge platform, stands for NJUPT Online Judge. It's written
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/ZsgsDesign/NOJ/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/?branch=master)
 [![Build Status](https://img.shields.io/scrutinizer/build/g/ZsgsDesign/NOJ.svg?style=flat-square)](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/build-status/master)
 ![GitHub repo size](https://img.shields.io/github/repo-size/ZsgsDesign/NOJ.svg?style=flat-square)
+![GitHub release](https://img.shields.io/github/release/zsgsdesign/noj.svg?style=flat-square)
 ![Stars](https://img.shields.io/github/stars/zsgsdesign/noj.svg?style=flat-square)
 ![Forks](https://img.shields.io/github/forks/zsgsdesign/noj.svg?style=flat-square)
 
