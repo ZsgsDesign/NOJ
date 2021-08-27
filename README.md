@@ -14,12 +14,6 @@ NOJ's another online judge platform, stands for NJUPT Online Judge. It's written
 ![Stars](https://img.shields.io/github/stars/zsgsdesign/noj.svg?style=flat-square)
 ![Forks](https://img.shields.io/github/forks/zsgsdesign/noj.svg?style=flat-square)
 
-## NOJ Development Team
-
-| [<img src="https://github.com/ZsgsDesign.png?s=64" width="100px;"/><br /><sub><b>John Zhang</b></sub>](https://github.com/ZsgsDesign)<br />**Leader**   | [<img src="https://github.com/DavidDiao.png?s=64" width="100px;"/><br /><sub><b>David Diao</b></sub>](https://github.com/DavidDiao)<br />**Deaputy**<br />  | [<img src="https://github.com/pikanglong.png?s=64" width="100px;"/><br /><sub><b>Cone Pi</b></sub>](https://github.com/pikanglong)<br />**BackEnd**  | [<img src="https://github.com/X3ZvaWQ.png?s=64" width="100px;"/><br /><sub><b>X3ZvaWQ</b></sub>](https://github.com/X3ZvaWQ)<br />**BackEnd** | [<img src="https://github.com/Alicefantay.png?s=64" width="100px;"/><br /><sub><b>Alice</b></sub>](https://github.com/Alicefantay)<br />**Design** | [<img src="https://github.com/goufaan.png?s=64" width="100px;"/><br /><sub><b>goufaan</b></sub>](https://github.com/goufaan)<br />**FrontEnd**   |  [<img src="https://github.com/ChenKS12138.png?s=64" width="100px;"/><br /><sub><b>ChenKS12138</b></sub>](https://github.com/ChenKS12138)<br />**FrontEnd** |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| [<img src="https://github.com/Rp12138.png?s=64" width="100px;"/><br /><sub><b>Rp12138</b></sub>](https://github.com/Rp12138)<br />**BackEnd**   |
-
 ## Installation
 
 CentOS will be recommended for hosting NOJ, but all major operating systems are theoretically supported.
@@ -79,7 +73,6 @@ For installation options and troubleshooting tips, see [installation](https://nj
                 - [X] CodeForces
                 - [X] UVa
                 - [X] UVa Live
-                - [ ] SPOJ
                 - [X] HDU
                 - [X] Contest Hunter
                 - [X] POJ
@@ -102,7 +95,7 @@ For installation options and troubleshooting tips, see [installation](https://nj
 - [X] Ranking System
     - [X] Casual Ranking List
     - [X] Professional Ranking List
-- [ ] Contest System
+- [X] Contest System
     - [X] Contest List
     - [X] Contest Ranking
     - [X] Contest Filter
@@ -122,9 +115,7 @@ For installation options and troubleshooting tips, see [installation](https://nj
         - [X] In-Contest Problem Switch
         - [X] Problem Temp Block
     - [X] Contest Ranking System
-    - [ ] Contest Clone
-    - [ ] Contest Virtual Participate
-- [ ] Group System
+- [X] Group System
     - [X] Group List
     - [X] Group Details
         - [X] Group Timeline
@@ -135,19 +126,45 @@ For installation options and troubleshooting tips, see [installation](https://nj
             - [X] Sub Group
         - [X] Group Profile
         - [X] Group General Info
-        - [ ] Group Functions
+        - [X] Group Functions
             - [X] Group Announcement
             - [X] Group Contests
                 - [X] Group-wide Contests
                 - [X] Site-wide Contests
-            - [ ] Group Own ProblemSet
-                - [ ] Add Problem
             - [X] Group Settings
 - [X] Admin Portal
-    - [X] User Management
+    - [X] Abuse Management
+    - [X] Admin User Management
+    - [X] Announcement Management
+    - [X] Babel Extension Management
+    - [X] Babel Marketspace Viewer
     - [X] Contest Management
+    - [X] Dashboard Management
+    - [X] Dojo Task Management
+    - [X] Dojo Pass Records Management
+    - [X] Dojo Phase Management
+    - [X] Group Management
+    - [X] Judge Agent Management
+    - [X] Judge Server Management
     - [X] Problem Management
+    - [X] Settings
+    - [X] Solution Management
+    - [X] Submission Management
+    - [X] User Management
+    - [X] Tools
+        - [X] Artisan Terminal
+        - [X] Backup Manager
+        - [X] Code Tester
+        - [X] Database Terminal
+        - [X] Log Viewer
+        - [X] Media Manager
+        - [X] Route Viewer
+        - [X] Task Scheduling
 
+
+## Open Source Contributors
+
+[![Contributors](https://contrib.rocks/image?repo=ZsgsDesign/NOJ)](https://github.com/ZsgsDesign/NOJ/graphs/contributors)
 
 ## Credit
 
