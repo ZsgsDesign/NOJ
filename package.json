@@ -36,7 +36,6 @@
         "jquery": "^3.3",
         "jquery-datetimepicker": "^2.5",
         "jquery-ui": "^1.12",
-        "lodash": "^4.17",
         "marked": "^0.7.0",
         "mathjax": "^2.7",
         "medium-zoom": "^1.0.6",
