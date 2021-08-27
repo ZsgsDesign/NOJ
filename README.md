@@ -14,7 +14,11 @@ NOJ's another online judge platform, stands for NJUPT Online Judge. It's written
 ![Stars](https://img.shields.io/github/stars/zsgsdesign/noj.svg?style=flat-square)
 ![Forks](https://img.shields.io/github/forks/zsgsdesign/noj.svg?style=flat-square)
 
-## Installation
+## v0.16.0 Bryconinae
+
+For more information, please visit [v0.16.0 Bryconinae Release Log](https://github.com/ZsgsDesign/NOJ/releases/tag/0.16.0) page.
+
+### Installation
 
 > **If you are having trouble installing NOJ or requires additional help setting up, you can contact us via noj@njupt.edu.cn.**
 
@@ -26,9 +30,18 @@ We recommend running NOJ on the following platforms:
 - **CentOS Linux release 8.0** and above
 - **Windows 10 Professional** (requires additional setup)
 
+Your web browser should be one of the following:
+
+- **Chrome 69** and above
+- **Edge 69** and above
+- **Firefox 62** and above
+- **Safari 13.1** and above
+
+We do not provide any support for Opera, which doesn't mean Opera cannot access NOJ without error, it just means issues about compatibilities of Opera will not be fixed.
+
 For installation options and troubleshooting tips, see [NOJ Documentation](https://njuptaaa.github.io/docs/).
 
-## Supported Feature
+### Supported Feature
 
 - [X] Basic Home Page
 - [X] General
@@ -164,11 +177,11 @@ For installation options and troubleshooting tips, see [NOJ Documentation](https
         - [X] Task Scheduling
 
 
-## Open Source Contributors
+### Open Source Contributors
 
 [![Contributors](https://contrib.rocks/image?repo=ZsgsDesign/NOJ)](https://github.com/ZsgsDesign/NOJ/graphs/contributors)
 
-## Credit
+### Credit
 
 [Laravel](https://github.com/laravel/laravel)
 
@@ -184,5 +197,5 @@ For installation options and troubleshooting tips, see [NOJ Documentation](https
 
 See `composer.json` or [Dependency List](https://app.fossa.com/reports/86025be3-63af-41dc-9948-7b1738a89649) for more info.
 
-## License
+### License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster?ref=badge_large)
