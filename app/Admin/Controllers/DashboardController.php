@@ -52,6 +52,7 @@ class DashboardController
             ['name' => __('admin.home.envs.locale'), 'value' => config('app.locale')],
             ['name' => __('admin.home.envs.env'), 'value' => config('app.env')],
             ['name' => __('admin.home.envs.url'), 'value' => config('app.url')],
+            ['name' => __('admin.home.envs.babelMirror'), 'value' => config('babel.mirror')],
 
             ['name' => __('admin.home.envs.tlsv13'), 'value' => ["Not Supported", "Supported"][in_array("tlsv1.3", stream_get_transports())]],
         ];

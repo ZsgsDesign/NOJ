@@ -166,6 +166,7 @@ return [
             'locale'        => 'Locale',
             'env'           => 'Env',
             'url'           => 'URL',
+            'babelMirror'   => 'BABEL Mirror',
             'tlsv13'        => 'TLS v1.3',
         ],
     ],

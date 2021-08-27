@@ -166,6 +166,7 @@ return [
             'locale'        => '本地化配置',
             'env'           => '环境配置',
             'url'           => 'URL',
+            'babelMirror'   => 'BABEL镜像',
             'tlsv13'        => 'TLS v1.3',
         ],
     ],
