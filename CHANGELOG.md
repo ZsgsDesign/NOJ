@@ -11,7 +11,7 @@ This is a minor version update. As mentioned in `0.5.0` logs, the new version sy
 
 ### Update Logs
 * **Compatibility:** NOJ now requires **at least** Chrome 69, Firefox 62, or Safari 13.1, NOJ recommends using modern browsers for better *ECMA2015* and *WebAssembly* support.
-* **Compatibility:** From now on, every NOJ upgrade requires running `npm install` and `npm run production`, for more information, see NOJ Documentation.
+* **Compatibility:** From now on, every NOJ upgrade requires running `npm ci` and `npm run production`, for more information, see NOJ Documentation.
 * **Compatibility:** From now on, NOJ will record all changes in `CHANGELOG.md`.
 * **New:** NOJ now uses `npm` to track most of the npm modules, original `composer` packages `npm-asset/*` are mostly removed but still remaining some.
 * **New:** NOJ now uses TypeScript and SCSS for static resources coding, some old JS and CSS codes still remaining.
