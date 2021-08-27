@@ -86,8 +86,8 @@ This is a minor version update. As mentioned in `0.5.0` logs, the new version sy
 * **Improved:** Contest problems now sort via `number` instead of `ncode`.
 * **Improved:** User model now has `readable_name` attribute.
 * **Improved:** Carousel now sorted by `updated_at`.
-* **Improved:** NOJ now use `Auth::guard('web')` to specify guard on certain conditions.
-* **Improved:** Highlight.js now use `vs` as the default light theme and `atom-one-dark` as the default dark theme.
+* **Improved:** NOJ now uses `Auth::guard('web')` to specify guard on certain conditions.
+* **Improved:** Highlight.js now uses `vs` as the default light theme and `atom-one-dark` as the default dark theme.
 * **Improved:** Composer no longer sorts packages alphabetically, this helps when we want to prioritize `composer-installers-extender`.
 * **Improved:** Admin Portal layout improved.
 * **Improved:** NOJ now uses app name for Open Search Configs.
