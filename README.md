@@ -16,6 +16,8 @@ NOJ's another online judge platform, stands for NJUPT Online Judge. It's written
 
 ## Installation
 
+> **If you are having trouble installing NOJ or requires additional help setting up, you can contact us via noj@njupt.edu.cn.**
+
 CentOS 8 will be recommended for hosting NOJ, but all major operating systems are theoretically supported.
 
 We recommend running NOJ on the following platforms:
@@ -25,8 +27,6 @@ We recommend running NOJ on the following platforms:
 - **Windows 10 Professional** (requires additional setup)
 
 For installation options and troubleshooting tips, see [NOJ Documentation](https://njuptaaa.github.io/docs/).
-
-> **If you are having trouble installing NOJ or requires additional help setting up, you can contact us via noj@njupt.edu.cn.**
 
 ## Supported Feature
 
