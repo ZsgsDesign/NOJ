@@ -13,6 +13,7 @@ updates:
   - ZsgsDesign
   labels:
   - dependencies
+  - php
   versioning-strategy: lockfile-only
 - package-ecosystem: npm
   directory: "/"
@@ -27,4 +28,5 @@ updates:
   - ZsgsDesign
   labels:
   - dependencies
+  - javascript
   versioning-strategy: lockfile-only
