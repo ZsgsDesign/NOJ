@@ -404,7 +404,7 @@ return [
         //     },
         // ]
         'auth-captcha' => [
-            'enable' => env('ADMIN_ENABLE_RECAPTCHAV2', true),
+            'enable' => env('ADMIN_ENABLE_RECAPTCHAV2', false),
             'provider' => 'recaptchav2',
             'style' => env('ADMIN_RECAPTCHAV2_STYLE', 'invisible'),
             'appid' => env('ADMIN_RECAPTCHAV2_SITEKEY', null),
