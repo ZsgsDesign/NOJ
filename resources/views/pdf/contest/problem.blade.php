@@ -19,6 +19,10 @@
     .problem-container h3{
         margin-bottom: 0.5rem;
     }
+
+    .problem-container img {
+        max-width: 100%;
+    }
 </style>
 <div class="problem-header">
     <h1>Problem {{$problem['index']}}</h1>
