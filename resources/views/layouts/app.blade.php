@@ -189,7 +189,7 @@
                     @php $userNotContestAccount = (!Auth::guard('web')->check() || is_null(Auth::guard('web')->user()->contest_account)) @endphp
                     @if($userNotContestAccount)
                     <li class="nav-item">
-                        <a class="nav-link @if ($navigation === "Home") active @endif" href="/"> <i class="MDI home"></i> {{__('navigation.home')}}<span class="sr-only">(current)</span></a>
+                        <a class="nav-link @if ($navigation === "Home") active @endif" href="/"> <i class="MDI home"></i> {{__('navigation.home')}}</a>
                     </li>
                     @endif
                     @if($userNotContestAccount)
