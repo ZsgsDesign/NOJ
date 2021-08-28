@@ -182,21 +182,15 @@ For installation options and troubleshooting tips, see [NOJ Documentation](https
 
 [![Contributors](https://opencollective.com/noj/contributors.svg?width=890&button=false)](https://github.com/ZsgsDesign/NOJ/graphs/contributors)
 
-### Credit
+### Credits
 
 [Laravel](https://github.com/laravel/laravel)
-
-[Markdown](https://github.com/GrahamCampbell/Laravel-Markdown)
-
-[Simple-HTML-Dom](https://github.com/Kub-AT/php-simple-html-dom-parser)
 
 [NOJ JudgeServer](https://github.com/NJUPTAAA/NOJ_JudgeServer)
 
 [NOJ Judger](https://github.com/NJUPTAAA/NOJ_Judger)
 
-[HTML Purifier](https://github.com/mewebstudio/Purifier)
+See `composer.json` or `package.json` for more info.
 
-See `composer.json` or [Dependency List](https://app.fossa.com/reports/86025be3-63af-41dc-9948-7b1738a89649) for more info.
-
-### License
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FZsgsDesign%2FCodeMaster?ref=badge_large)
+### License Info
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FZsgsDesign%2FNOJ.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FZsgsDesign%2FNOJ?ref=badge_large)
