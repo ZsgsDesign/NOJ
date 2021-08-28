@@ -244,7 +244,7 @@ return [
         // Laravel\Socialite\SocialiteServiceProvider::class,
         SocialiteProviders\Manager\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class,
+        Barryvdh\Snappy\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Imtigger\LaravelJobStatus\LaravelJobStatusServiceProvider::class,
 
@@ -311,7 +311,8 @@ return [
         'Version' => SebastianBergmann\Version::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Image' => Intervention\Image\Facades\Image::class
     ],
 ];
