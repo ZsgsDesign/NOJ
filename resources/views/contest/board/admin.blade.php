@@ -193,9 +193,9 @@
                 <ul class="list-group bmd-list-group p-0">
                     <a href="/group/{{$gcode}}/settings/contest" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> {{__("contest.inside.admin.nav.manage")}}</a>
                 </ul>
-                {{-- <ul class="list-group bmd-list-group p-0">
-                    <a data-panel="generate_pdf" href="#" class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="showPanel('generate_pdf')"> Generate PDF</a>
-                </ul> --}}
+                <ul class="list-group bmd-list-group p-0">
+                    <a data-panel="generate_pdf" href="#" class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="showPanel('generate_pdf')"> {{__("contest.inside.admin.nav.pdf")}}</a>
+                </ul>
                 @if($verified && $basic['anticheated'])
                 <ul class="list-group bmd-list-group p-0">
                     <a data-panel="anticheated" href="#" class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="showPanel('anticheated')"> {{__("contest.inside.admin.nav.anticheat")}}<beta-badge class="wemd-teal">Beta</beta-badge></a>
