@@ -44,7 +44,7 @@ For installation options and troubleshooting tips, see [NOJ Documentation](https
 
 ### Supported Languages
 
-NOJ now supports 15 popular languages, you can start issues about new languages support. 
+NOJ now supports 15 popular programming languages, you can start issues about new languages support. 
 
 |Language|Compile/Run Command|
 |--------|-------------------|
