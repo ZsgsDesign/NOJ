@@ -107,6 +107,7 @@ return [
                 'account'       => 'Account Generate',
                 'announce'      => 'Issue Announcement',
                 'manage'        => 'Contest Management',
+                'pdf'           => 'Generate PDF',
                 'anticheat'     => 'Anti Cheat',
                 'refreshrank'   => 'Refresh Contest Rank',
                 'download'      => 'Download All Code',
