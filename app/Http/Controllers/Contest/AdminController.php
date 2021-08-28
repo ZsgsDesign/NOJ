@@ -9,7 +9,7 @@ use App\Exports\AccountExport;
 use Imtigger\LaravelJobStatus\JobStatus;
 use Auth;
 use Redirect;
-use App\Models\Eloquent\Contest as EloquentContestModel;
+use App\Models\Eloquent\Contest;
 use Excel;
 use Cache;
 use DB;
@@ -96,7 +96,7 @@ class AdminController extends Controller
         if ($clearance<=2) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
-        $contest_eloquent=EloquentContestModel::find($cid);
+        $contest_eloquent=Contest::find($cid);
         $contestRankRaw=$contest_eloquent->rankRefresh();
         Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
         Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $contestRankRaw);

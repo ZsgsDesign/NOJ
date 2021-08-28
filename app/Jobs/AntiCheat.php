@@ -9,13 +9,14 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Symfony\Component\Process\Exception\ProcessFailedException;
-use App\Models\Eloquent\Contest as EloquentContestModel;
+use App\Models\Eloquent\Contest;
 use App\Models\Eloquent\User;
 use Imtigger\LaravelJobStatus\Trackable;
 use Symfony\Component\Process\Process;
 use KubAT\PhpSimple\HtmlDomParser;
 use PhpZip\ZipFile;
 use Storage;
+use Exception;
 use Str;
 use Log;
 
@@ -55,7 +56,7 @@ class AntiCheat implements ShouldQueue
     public function handle()
     {
         $cid=$this->cid;
-        $contest=EloquentContestModel::find($cid);
+        $contest=Contest::find($cid);
 
         if (!$contest->isJudgingComplete()) {
             throw new Exception('Judging Incompleted');

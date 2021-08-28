@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Ajax;
 
 use App\Models\ContestModel;
-use App\Models\Eloquent\Contest as EloquentContestModel;
+use App\Models\Eloquent\Contest;
 use App\Models\GroupModel;
 use App\Models\ResponseModel;
 use App\Models\AccountModel;
@@ -350,7 +350,7 @@ class ContestAdminController extends Controller
         if (!is_null(Cache::tags(['contest', 'admin', 'anticheat'])->get($cid))) {
             return ResponseModel::err(8001);
         }
-        if (EloquentContestModel::find($cid)->isJudgingComplete()) {
+        if (Contest::find($cid)->isJudgingComplete()) {
             $anticheatProcess=new AntiCheat($cid);
             dispatch($anticheatProcess)->onQueue('normal');
             Cache::tags(['contest', 'admin', 'anticheat'])->put($cid, $anticheatProcess->getJobStatusId());

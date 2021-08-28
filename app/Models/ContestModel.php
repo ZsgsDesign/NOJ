@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Eloquent\Contest as EloquentContestModel;
+use App\Models\Eloquent\Contest;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use App\Models\Submission\SubmissionModel;
 use App\Models\Eloquent\User;
@@ -815,7 +815,7 @@ class ContestModel extends Model
 
         /** New Version With MySQL */
         $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
-        $contest_eloquent=EloquentContestModel::find($cid);
+        $contest_eloquent=Contest::find($cid);
 
         if (time()<$end_time) {
             if ($clearance==3) {
