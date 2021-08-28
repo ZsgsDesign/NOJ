@@ -180,7 +180,7 @@ For installation options and troubleshooting tips, see [NOJ Documentation](https
 
 ### Open Source Contributors
 
-[![Contributors](https://opencollective.com/noj/contributors.svg?button=false)](https://github.com/ZsgsDesign/NOJ/graphs/contributors)
+[![Contributors](https://opencollective.com/noj/contributors.svg?width=890&button=false)](https://github.com/ZsgsDesign/NOJ/graphs/contributors)
 
 ### Credit
 
