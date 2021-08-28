@@ -62,7 +62,8 @@
         "x3zvawq/noj_simplemde": "^1.0.1",
         "zsgsdesign/noj-admin-clike-editor": "^1.0.0",
         "fonts-asset/simsun": "^1.0",
-        "barryvdh/laravel-snappy": "^0.4.8"
+        "barryvdh/laravel-snappy": "^0.4.8",
+        "fonts-asset/dejavu": "dev-main"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

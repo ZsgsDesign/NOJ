@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5986fdcb89eaa5c472a235a9146a2ec9",
+    "content-hash": "8483ecdeb67a7e663c7084e8598cdfe9",
     "packages": [
         {
             "name": "asundust/auth-captcha",
@@ -1282,6 +1282,39 @@
                 "source": "https://github.com/firebase/php-jwt/tree/v5.4.0"
             },
             "time": "2021-06-23T19:00:23+00:00"
+        },
+        {
+            "name": "fonts-asset/dejavu",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ZsgsDesign/fonts-asset-DejaVu.git",
+                "reference": "f4b9da0afc39be57dd4a07a1919d38ae7f1ea57e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-DejaVu/zipball/f4b9da0afc39be57dd4a07a1919d38ae7f1ea57e",
+                "reference": "f4b9da0afc39be57dd4a07a1919d38ae7f1ea57e",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "fonts-asset",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zsgsdesign",
+                    "email": "zsgsdesign@gmail.com"
+                }
+            ],
+            "description": "Dejavu for composer.",
+            "support": {
+                "issues": "https://github.com/ZsgsDesign/fonts-asset-DejaVu/issues",
+                "source": "https://github.com/ZsgsDesign/fonts-asset-DejaVu/tree/1.0.0"
+            },
+            "time": "2021-08-28T19:36:26+00:00"
         },
         {
             "name": "fonts-asset/devicon",
@@ -12443,7 +12476,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "fonts-asset/dejavu": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
