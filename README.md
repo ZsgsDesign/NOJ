@@ -79,7 +79,7 @@ NOJ now supports 15 popular programming languages, you can start issues about ne
 - [X] User System
     - [X] User Login
     - [X] User Register
-    - [X] User Password Retrive
+    - [X] User Password Retrieve
     - [X] User Email Verify
     - [X] DashBoard
         - [X] Statistics
@@ -116,12 +116,12 @@ NOJ now supports 15 popular programming languages, you can start issues about ne
                 - [X] POJ
                 - [X] Vijos
                 - [X] PTA
-            - [X] Retrive Status
+            - [X] Retrieve Status
         - [X] Problem Online Judge
             - [X] Judge Server
             - [X] Judger
             - [X] Submit to OJ
-            - [X] Retrive Status
+            - [X] Retrieve Status
 - [X] Status System
     - [X] Status List
     - [X] Status Filter

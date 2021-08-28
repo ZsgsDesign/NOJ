@@ -57,7 +57,7 @@ return [
         'kick' => '移除',
         'approve' => '同意',
         'decline' => '婉拒',
-        'retrieve' => '恢复',
+        'retrieve' => '撤回',
         'noticeAnnouncement' => '发布公告',
         'noticeTitle' => '公告标题',
         'noticeContent' => '公告内容',
