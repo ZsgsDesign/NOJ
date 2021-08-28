@@ -8,7 +8,8 @@
             displayMath: [ ["$$$$$$","$$$$$$"], ['$$','$$'], ['\\[', '\\]'] ],
             processEscapes: true
         },
-        showMathMenu: false
+        showMathMenu: false,
+        jax: ["input/TeX", "output/HTML-CSS"],
     });
 </script>
 <script type="text/javascript" src="{{asset("/static/library/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML")}}"></script>
