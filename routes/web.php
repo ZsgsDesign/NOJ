@@ -122,6 +122,7 @@ Route::group([
         Route::get('/{cid}/board/admin/scrollBoard', 'AdminController@scrollBoard')->middleware('auth', 'contest_account', 'privileged')->name('admin.scrollboard');
         Route::get('/{cid}/board/admin/downloadContestAccountXlsx', 'AdminController@downloadContestAccountXlsx')->middleware('auth')->name('admin.download.contestaccountxlsx');
         Route::get('/{cid}/board/admin/refreshContestRank', 'AdminController@refreshContestRank')->middleware('auth')->name('admin.refresh.contestrank');
+        Route::get('/{cid}/board/admin/pdf', 'AdminController@pdf')->middleware('auth')->name('admin.pdf');
     });
 });
 
