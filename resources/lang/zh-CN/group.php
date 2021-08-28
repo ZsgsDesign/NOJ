@@ -27,7 +27,7 @@ return [
         'tags' => '群组标签:',
         'acceptInvitation' => '接受邀请',
         'joined' => '已加入',
-        'exit' => '推出',
+        'exit' => '退出',
         'inviteOnly' => '仅邀请',
         'join' => '加入',
         'waiting' => '等待处理中',
