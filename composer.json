@@ -11,7 +11,6 @@
         "php": "^7.4",
         "oomphinc/composer-installers-extender": "^2.0",
         "asundust/auth-captcha": "^2.0.14",
-        "barryvdh/laravel-dompdf": "^0.8.5",
         "encore/laravel-admin": "^1.7",
         "fideloper/proxy": "^4.0",
         "fonts-asset/devicon": "^1.0",
