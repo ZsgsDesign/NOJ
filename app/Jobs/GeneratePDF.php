@@ -73,7 +73,7 @@ class GeneratePDF implements ShouldQueue
             'header-spacing' => 12,
             'footer-spacing' => 12,
             'encoding' => 'utf-8',
-            'javascript-delay' => 5000,
+            'javascript-delay' => 20000,
             'no-stop-slow-scripts' => true,
             'window-status' => "finished",
             'disable-smart-shrinking' => true,
