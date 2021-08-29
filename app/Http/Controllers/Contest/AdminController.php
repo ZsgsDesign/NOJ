@@ -131,27 +131,4 @@ class AdminController extends Controller
             'basic_info' => $basicInfo,
         ]);
     }
-
-    public function pdf($cid) {
-        $contestModel=new ContestModel();
-        $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
-        if ($clearance<=2) {
-            return Redirect::route('contest.detail', ['cid' => $cid]);
-        }
-        $config=[
-            'cover'=>true,
-            'advice'=>true,
-        ];
-        $record=Contest::find($cid);
-        return view('pdf.contest.main', [
-            'conf'=>$config,
-            'contest' => [
-                'cid'=>$cid,
-                'name'=>$record->name,
-                'shortName'=>$record->name,
-                'date'=>date("F j, Y", strtotime($record->begin_time)),
-            ],
-            'problemset'=>$record->getProblemSet(false),
-        ]);
-    }
 }
