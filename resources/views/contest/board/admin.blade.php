@@ -265,7 +265,10 @@
                                     </div>
                                     <div>
                                         <h5 class="mundb-text-truncate-1">{{$contest_name}}.pdf</h5>
-                                        <p><a class="text-info" href="{{route('ajax.contest.downloadPDF',['cid'=>$cid])}}">Download</a></p>
+                                        <p>
+                                            <a class="text-info" href="{{route('ajax.contest.downloadPDF',['cid'=>$cid])}}">Download</a>
+                                            <a class="text-danger" onclick="removePDF()">Remove</a>
+                                        </p>
                                     </div>
                                 </file-card>
                             @else
@@ -432,6 +435,42 @@
                 }
                 console.log('Ajax error while posting to ' + type);
                 generatingPDF=false;
+            }
+        });
+    }
+
+    var removingPDF=false;
+
+    function removePDF(){
+        if(removingPDF) return;
+        removingPDF = true;
+        $.ajax({
+            type: 'POST',
+            url: "{{route('ajax.contest.removePDF')}}",
+            data: {
+                cid: {{$cid}}
+            },dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }, success: function(ret){
+                if (ret.ret==200) {
+                    location.reload();
+                } else {
+                    alert(ret.desc);
+                }
+                removingPDF=false;
+            }, error: function(xhr, type){
+                console.log(xhr);
+                switch(xhr.status) {
+                    case 422:
+                        alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                        break;
+
+                    default:
+                        alert("{{__('errors.default')}}");
+                }
+                console.log('Ajax error while posting to ' + type);
+                removingPDF=false;
             }
         });
     }

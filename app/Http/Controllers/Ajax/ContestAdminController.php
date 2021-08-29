@@ -337,6 +337,22 @@ class ContestAdminController extends Controller
         ]);
     }
 
+    public function removePDF(Request $request)
+    {
+        $request->validate([
+            "cid"=>"required|integer",
+        ]);
+        $cid=$request->input('cid');
+        $contestModel=new ContestModel();
+        if ($contestModel->judgeClearance($cid, Auth::user()->id)!=3) {
+            return ResponseModel::err(2001);
+        }
+        $contest=Contest::find($cid);
+        $contest->pdf=0;
+        $contest->save();
+        return ResponseModel::success(200, null, []);
+    }
+
     public function anticheat(Request $request)
     {
         $request->validate([

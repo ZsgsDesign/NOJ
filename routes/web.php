@@ -122,7 +122,6 @@ Route::group([
         Route::get('/{cid}/board/admin/scrollBoard', 'AdminController@scrollBoard')->middleware('auth', 'contest_account', 'privileged')->name('admin.scrollboard');
         Route::get('/{cid}/board/admin/downloadContestAccountXlsx', 'AdminController@downloadContestAccountXlsx')->middleware('auth')->name('admin.download.contestaccountxlsx');
         Route::get('/{cid}/board/admin/refreshContestRank', 'AdminController@refreshContestRank')->middleware('auth')->name('admin.refresh.contestrank');
-        Route::get('/{cid}/board/admin/pdf', 'AdminController@pdf')->middleware('auth')->name('admin.pdf');
     });
 });
 
@@ -234,6 +233,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.
         Route::post('getScrollBoardData', 'ContestAdminController@getScrollBoardData')->middleware('auth')->name('ajax.contest.getScrollBoardData');
         Route::get('downloadCode', 'ContestAdminController@downloadCode')->middleware('auth');
         Route::post('generatePDF', 'ContestAdminController@generatePDF')->middleware('auth')->name('ajax.contest.generatePDF');
+        Route::post('removePDF', 'ContestAdminController@removePDF')->middleware('auth')->name('ajax.contest.removePDF');
         Route::post('anticheat', 'ContestAdminController@anticheat')->middleware('auth')->name('ajax.contest.anticheat');
         Route::get('downloadPlagiarismReport', 'ContestAdminController@downloadPlagiarismReport')->middleware('auth')->name('ajax.contest.downloadPlagiarismReport');
     });
