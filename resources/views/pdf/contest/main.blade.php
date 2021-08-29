@@ -133,13 +133,13 @@
     }
 
     html {
-        font-size: 20px;
+        font-size: 16px;
         line-height: 1.5;
         font-family: "DejaVu Serif", "simsun", serif;
     }
 
     body {
-        font-size: 16px;
+        font-size: 0.8rem;
     }
 
     h1,

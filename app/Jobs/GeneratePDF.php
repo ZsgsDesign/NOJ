@@ -76,7 +76,7 @@ class GeneratePDF implements ShouldQueue
             'javascript-delay' => 5000,
             'no-stop-slow-scripts' => true,
             'window-status' => "finished",
-            // 'disable-smart-shrinking' => true,
+            'disable-smart-shrinking' => true,
             'dpi' => 400,
             // 'zoom' => 0.75
         ])->loadView('pdf.contest.main', [
