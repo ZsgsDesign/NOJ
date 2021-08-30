@@ -109,6 +109,7 @@ return [
                 'manage'        => '比赛管理',
                 'pdf'           => '生成PDF试题集',
                 'anticheat'     => '反作弊',
+                'rejudge'       => '代码重测',
                 'refreshrank'   => '刷新比赛榜单',
                 'download'      => '下载选手代码',
                 'scrollboard'   => '滚榜',

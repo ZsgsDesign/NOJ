@@ -198,7 +198,12 @@
                 </ul>
                 @if($verified && $basic['anticheated'])
                 <ul class="list-group bmd-list-group p-0">
-                    <a data-panel="anticheated" href="#" class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="showPanel('anticheated')"> {{__("contest.inside.admin.nav.anticheat")}}<beta-badge class="wemd-teal">Beta</beta-badge></a>
+                    <a data-panel="anticheated" href="#" class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="showPanel('anticheated')"> {{__("contest.inside.admin.nav.anticheat")}}<beta-badge class="wemd-blue">RC</beta-badge></a>
+                </ul>
+                @endif
+                @if($verified)
+                <ul class="list-group bmd-list-group p-0">
+                    <a data-panel="rejudge" href="#" class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="showPanel('rejudge')"> {{__("contest.inside.admin.nav.rejudge")}}<beta-badge class="wemd-teal">Beta</beta-badge></a>
                 </ul>
                 @endif
                 @if(time() >= strtotime($basic['begin_time']))
@@ -329,6 +334,12 @@
                             @endif
                             </div>
                         </div>
+                    </div>
+                </section-panel>
+
+                <section-panel id="rejudge" class="d-none">
+                    <h3 class="tab-title">{{__("contest.inside.admin.nav.rejudge")}}</h3>
+                    <div class="tab-body">
                     </div>
                 </section-panel>
 

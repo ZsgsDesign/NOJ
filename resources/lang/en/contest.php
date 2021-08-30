@@ -109,6 +109,7 @@ return [
                 'manage'        => 'Contest Management',
                 'pdf'           => 'Generate PDF',
                 'anticheat'     => 'Anti Cheat',
+                'rejudge'       => 'Rejudge',
                 'refreshrank'   => 'Refresh Contest Rank',
                 'download'      => 'Download All Code',
                 'scrollboard'   => 'Scroll Board',
