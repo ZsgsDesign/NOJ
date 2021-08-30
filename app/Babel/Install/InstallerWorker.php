@@ -42,7 +42,7 @@ class InstallerWorker
     {
         $storePath=base_path("public/static/css/oj/");
         if (!is_dir($storePath)) {
-            mkdir($storePath);
+            mkdir($storePath, 0777, true);
         }
         if (is_null($cssPath)) {
             file_put_contents($storePath."$ocode.css", "\/*Silence is Golden*\/");
@@ -67,10 +67,8 @@ class InstallerWorker
     protected function applyIcon($ocode, $imgPath)
     {
         $storePath=base_path("public/static/img/oj/$ocode/");
-        if (is_dir($storePath)) {
-            delFile($storePath);
-        } else {
-            mkdir($storePath);
+        if (!is_dir($storePath)) {
+            mkdir($storePath, 0777, true);
         }
         file_put_contents($storePath.basename($imgPath), file_get_contents($imgPath));
         return "/static/img/oj/$ocode/".basename($imgPath);

@@ -72,7 +72,7 @@ class BabelRequire extends Command
         file_put_contents(babel_path("Tmp/$filename"), file_get_contents($targetPackage["downloadURL"][0]["url"]));
         // unzip
         if (!is_dir(babel_path("Tmp/$extension/"))) {
-            mkdir(babel_path("Tmp/$extension/"));
+            mkdir(babel_path("Tmp/$extension/"), 0777, true);
         }
         try {
             $zipFile=new ZipFile();

@@ -76,7 +76,7 @@ class Update extends Command
     private function backup($extension)
     {
         if (!is_dir(babel_path("Tmp/backup/"))) {
-            mkdir(babel_path("Tmp/backup/"));
+            mkdir(babel_path("Tmp/backup/"), 0777, true);
         }
         if (is_dir(babel_path("Tmp/backup/$extension/"))) {
             $this->delDir(babel_path("Tmp/backup/$extension/"));
