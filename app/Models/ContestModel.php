@@ -881,7 +881,7 @@ class ContestModel extends Model
         return $ret;
     }
 
-    public function getRejudgeQueue($cid)
+    public function getRejudgeQueue($cid, $filter)
     {
         $problemModel=new ProblemModel();
         $submissionModel=new SubmissionModel();
@@ -889,15 +889,7 @@ class ContestModel extends Model
 
         $tempQueue=DB::table("submission")->where([
             "cid"=>$cid
-        ])->whereIn('verdict', [
-            'Runtime Error',
-            'Wrong Answer',
-            'Time Limit Exceed',
-            'Real Time Limit Exceed',
-            'Memory Limit Exceed',
-            'Presentation Error',
-            'Output Limit Exceeded'
-        ])->get()->all();
+        ])->whereIn('verdict', $filter)->get()->all();
 
         foreach ($tempQueue as &$t) {
             $lang=$compilerModel->detail($t["coid"]);
