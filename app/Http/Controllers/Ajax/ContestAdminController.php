@@ -14,6 +14,7 @@ use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Storage;
 use App\Jobs\GeneratePDF;
 use App\Jobs\AntiCheat;
+use Arr;
 use Log;
 use Auth;
 use Cache;
@@ -80,16 +81,37 @@ class ContestAdminController extends Controller
     public function rejudge(Request $request)
     {
         $request->validate([
-            'cid' => 'required|integer'
+            'cid' => 'required|integer',
+            'filter' => 'required',
         ]);
 
         $all_data=$request->all();
-        if (Auth::user()->id!=1) {
+        $filter=$all_data['filter'];
+        $filter=Arr::where($filter, function ($value, $key) {
+            return in_array($value, [
+                "Judge Error",
+                "System Error",
+                'Submission Error',
+                "Runtime Error",
+                "Wrong Answer",
+                "Presentation Error",
+                "Compile Error",
+                "Time Limit Exceed",
+                "Real Time Limit Exceed",
+                "Memory Limit Exceed",
+                'Output Limit Exceeded',
+                "Idleness Limit Exceed",
+                "Partially Accepted",
+                "Accepted",
+            ]);
+        });
+
+        $contestModel=new ContestModel();
+        if ($contestModel->judgeClearance($all_data['cid'], Auth::user()->id)<3) {
             return ResponseModel::err(2001);
         }
 
-        $contestModel=new ContestModel();
-        $rejudgeQueue=$contestModel->getRejudgeQueue($all_data["cid"]);
+        $rejudgeQueue=$contestModel->getRejudgeQueue($all_data["cid"], $filter);
 
         foreach ($rejudgeQueue as $r) {
             dispatch(new ProcessSubmission($r))->onQueue($r["oj"]);
