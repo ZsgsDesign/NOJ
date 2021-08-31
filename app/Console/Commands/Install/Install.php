@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Manage;
+namespace App\Console\Commands\Install;
 
 use Illuminate\Console\Command;
 use App\Models\Eloquent\Group;
@@ -9,9 +9,7 @@ use Hash;
 use Str;
 use Exception;
 
-use function simple_html_dom\file_get_html;
-
-class BanUser extends Command
+class Install extends Command
 {
     /**
      * The name and signature of the console command.
