@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-use Exception;
+use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -12,7 +12,7 @@ class Handler extends ExceptionHandler
      *
      * @var array
      */
-    protected $dontReport=[
+    protected $dontReport = [
         //
     ];
 
@@ -21,10 +21,23 @@ class Handler extends ExceptionHandler
      *
      * @var array
      */
-    protected $dontFlash=[
+    protected $dontFlash = [
+        'current_password',
         'password',
         'password_confirmation',
     ];
+
+    /**
+     * Register the exception handling callbacks for the application.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->reportable(function (Throwable $e) {
+            //
+        });
+    }
 
     /**
      * Report or log an exception.
@@ -32,7 +45,7 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return void
      */
-    public function report(Exception $exception)
+    public function report(Throwable $exception)
     {
         parent::report($exception);
     }
@@ -44,7 +57,7 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $exception)
     {
         if (!env("APP_DEBUG") && $request->is('api/*')) {
             return response(json_encode([
@@ -61,3 +74,4 @@ class Handler extends ExceptionHandler
         return parent::render($request, $exception);
     }
 }
+
