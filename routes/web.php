@@ -222,7 +222,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.
         Route::post('getAnalysisData', 'ContestController@getAnalysisData')->middleware('auth')->name('ajax.contest.getAnalysisData');
         Route::get('downloadPDF', 'ContestController@downloadPDF')->middleware('auth')->name('ajax.contest.downloadPDF');
 
-        Route::get('rejudge', 'ContestAdminController@rejudge')->middleware('auth');
+        Route::post('rejudge', 'ContestAdminController@rejudge')->middleware('auth')->name('ajax.contest.rejudge');
         Route::post('details', 'ContestAdminController@details')->middleware('auth');
         Route::post('assignMember', 'ContestAdminController@assignMember')->middleware('auth');
         Route::post('update', 'ContestAdminController@update')->middleware('auth');
