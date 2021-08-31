@@ -337,11 +337,7 @@
                     </div>
                 </section-panel>
 
-                <section-panel id="rejudge" class="d-none">
-                    <h3 class="tab-title">{{__("contest.inside.admin.nav.rejudge")}}</h3>
-                    <div class="tab-body">
-                    </div>
-                </section-panel>
+                @include('contest.board.sections.rejudge')
 
             </div>
         </div>
