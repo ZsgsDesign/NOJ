@@ -21,7 +21,9 @@
     $(document).ready(function () { $('body').bootstrapMaterialDesign();$('[data-toggle="tooltip"]').tooltip(); });
     window.addEventListener("load",function() {
 
-        $('loading').css({"opacity":"0","pointer-events":"none"});
+        setTimeout(function() {
+            $('material-preloader').addClass("loaded");
+        }, 500);
 
         // Console Text
 
