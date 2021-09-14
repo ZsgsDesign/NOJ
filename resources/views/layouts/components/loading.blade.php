@@ -1,17 +1,23 @@
 <style>
-    material-preloader > div {
+    material-preloader > div > div {
         position: relative;
         margin: 0 auto;
-        width: 100px;
+        width: 6rem;
     }
 
-    material-preloader > div:before {
+    material-preloader > div > div:before {
         content: "";
         display: block;
         padding-top: 100%;
     }
 
-    material-preloader > div > svg {
+    material-preloader > div > p {
+        margin: 1rem 0 0;
+        /* font-weight: 300; */
+        text-align: center;
+    }
+
+    material-preloader > div > div > svg {
         -webkit-animation: preloader-rotate 2s linear infinite;
                 animation: preloader-rotate 2s linear infinite;
         height: 100%;
@@ -25,7 +31,7 @@
         margin: auto;
     }
 
-    material-preloader > div > svg > circle {
+    material-preloader > div > div > svg > circle {
         stroke-dasharray: 1, 200;
         stroke-dashoffset: 0;
         -webkit-animation: preloader-dash 1.5s ease-in-out infinite, preloader-color 6s ease-in-out infinite;
@@ -127,9 +133,12 @@
 </style>
 <material-preloader>
     <div>
-        <svg viewBox="25 25 50 50">
-            <circle cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
-        </svg>
-        {{-- <p>{{__('splash.loading', ['name' => config("app.name")])}}</p> --}}
+        <div>
+            <svg viewBox="25 25 50 50">
+                <circle cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+            </svg>
+        </div>
+        <p>{{__('splash.loading', ['name' => config("app.name")])}}</p>
     </div>
 </material-preloader>
+
