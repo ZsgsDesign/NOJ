@@ -141,4 +141,7 @@
         <p>{{__('splash.loading', ['name' => config("app.name")])}}</p>
     </div>
 </material-preloader>
-
+<script>
+    var startLoadingTimestamp=Date.now();
+    var endLoadingTimestamp=startLoadingTimestamp;
+</script>

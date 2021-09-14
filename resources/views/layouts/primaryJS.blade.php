@@ -21,9 +21,16 @@
     $(document).ready(function () { $('body').bootstrapMaterialDesign();$('[data-toggle="tooltip"]').tooltip(); });
     window.addEventListener("load",function() {
 
-        setTimeout(function() {
+        endLoadingTimestamp = Date.now();
+        var loadingOffset = endLoadingTimestamp - startLoadingTimestamp;
+
+        if(loadingOffset < 500) {
+            setTimeout(function(){
+                $('material-preloader').addClass("loaded");
+            }, loadingOffset);
+        } else {
             $('material-preloader').addClass("loaded");
-        }, 500);
+        }
 
         // Console Text
 
