@@ -50,11 +50,11 @@
         justify-content: center;
         align-items: center;
         background: #fafafa;
-        transition: .2s ease-out .0s;
         opacity: 1;
     }
 
     material-preloader.loaded{
+        transition: .2s ease-out .0s;
         pointer-events: none;
         opacity: 0;
     }
