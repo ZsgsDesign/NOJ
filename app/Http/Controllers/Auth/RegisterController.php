@@ -48,12 +48,18 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        $validator = [
             'name' => ['required', 'string', 'max:16', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users', 'allowed_email_domain'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'agreement' => ['required'],
-        ]);
+        ];
+        $messages = [];
+        if(config('function.password.strong')) {
+            $validator['password'][] = 'regex:/^(?![A-Za-z0-9]+$)(?![a-z0-9\\W]+$)(?![A-Za-z\\W]+$)(?![A-Z0-9\\W]+$)[a-zA-Z0-9\\W]{8,}$/';
+            $messages['password.regex'] = __('validation.password.strong');
+        }
+        return Validator::make($data, $validator, $messages);
     }
 
     /**

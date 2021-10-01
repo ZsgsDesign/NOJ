@@ -146,4 +146,17 @@ return [
     */
 
     'attributes' => [],
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | NOJ Validation Attributes
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
+
+    'password' => [
+        'strong' => 'The :attribute need to contain at least one number and includes both lower and uppercase letters and special characters.',
+    ],
 ];
