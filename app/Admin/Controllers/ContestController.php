@@ -186,9 +186,9 @@ class ContestController extends Controller
             ])->default(0)->required();
             $form->datetime('registration_due', 'Registration Deadline')->default('1970-01-01 00:00:00');
             $form->select('registant_type', 'Registrant Type')->options([
-                0 => "Everyone Can Register",
+                0 => "Don't Allow Anyone to Register",
                 1 => "Only Same Group Can Register",
-                2 => "Don't Allow Anyone to Register"
+                2 => "Everyone Can Register",
             ])->default(2);
 
             $form->divider();
