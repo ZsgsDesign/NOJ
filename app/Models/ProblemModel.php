@@ -325,7 +325,7 @@ class ProblemModel extends Model
         )->orderBy(
             "pcode",
             "ASC"
-        )->paginate(20);
+        )->paginate(max(config('pagination.problem.per_page'), 1));
         $prob_list=$paginator->all();
 
         if (empty($prob_list)) {
