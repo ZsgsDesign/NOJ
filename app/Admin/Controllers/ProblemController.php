@@ -346,12 +346,16 @@ class ProblemController extends Controller
                         return $err("Test case index {$index}: configuration missing input/output files name.");
                     }
                     $test_case_in=$zip->getFromName($case['input_name']);
-                    $test_case_out=$zip->getFromName($case['output_name']);
+                    if (!$form->spj) {
+                        $test_case_out=$zip->getFromName($case['output_name']);
+                    }
                     if ($test_case_in===false || (!$form->spj && $test_case_out===false)) {
                         return $err("Test case index {$index}: missing input/output files that record in the configuration.");
                     }
                     $zip->addFromString($case['input_name'], preg_replace('~(*BSR_ANYCRLF)\R~', "\n", $test_case_in));
-                    $zip->addFromString($case['output_name'], preg_replace('~(*BSR_ANYCRLF)\R~', "\n", $test_case_out));
+                    if (!$form->spj) {
+                        $zip->addFromString($case['output_name'], preg_replace('~(*BSR_ANYCRLF)\R~', "\n", $test_case_out));
+                    }
                 }
                 $zip->close();
                 $zip->open($path);
