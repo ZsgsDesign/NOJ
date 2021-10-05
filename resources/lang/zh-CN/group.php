@@ -41,6 +41,7 @@ return [
         'createTime' => '群组创建时间',
         'analysis' => '查看分析',
         'notice' => '发布公告',
+        'homework' => '发布作业',
         'contest' => '发布比赛',
         'invite' => '邀请成员',
         'problems' => '题目管理',
@@ -135,8 +136,12 @@ return [
         'memberSettings' => '成员管理',
         'problemsManagement' => '题库管理',
         'contestManagement' => '比赛管理',
+        'homeworkManagement' => '作业管理',
         'practiceAnalysis' => '训练分析',
         'dangerField' => '危险操作'
+    ],
+    'homework'=>[
+        'create' => '创建作业',
     ],
     'contest' =>[
         'arrangeContest' => '发布比赛' ,

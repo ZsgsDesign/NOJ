@@ -41,6 +41,7 @@ return [
         'createTime' => 'CreateTime',
         'analysis' => 'Analysis',
         'notice' => 'Notice',
+        'homework' => 'Homework',
         'contest' => 'Contest',
         'invite' => 'Invite',
         'problems' => 'Problems',
@@ -135,8 +136,16 @@ return [
         'memberSettings' => 'Member Settings',
         'problemsManagement' => 'Problems Management',
         'contestManagement' => 'Contest Management',
+        'homeworkManagement' => 'Homework Management',
         'practiceAnalysis' => 'Practice Analysis',
         'dangerField' => 'Danger Field'
+    ],
+    'homework'=>[
+        'create' => 'Create Homework',
+        'list' => 'All Homework',
+        'title' => 'Homework Title',
+        'description' => 'Homework Description',
+        'ended_at' => 'Homework Deadline',
     ],
     'contest' =>[
         'arrangeContest' => 'Arrange Contest' ,
