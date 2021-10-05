@@ -116,10 +116,10 @@
         <div class="col-sm-12 col-md-8">
             <settings-card>
                 <settings-header>
-                    <h5><i class="MDI book"></i> 测试作业</h5>
+                    <h5><i class="MDI book"></i> {{$homework_info->title}}</h5>
                 </settings-header>
                 <settings-body>
-                    <p class="challenge-ddl"><i class="MDI clock"></i> 本次作业截止于 <strong>{{$homework_info->ended_at}}</strong></p>
+                    <p class="challenge-ddl"><i class="MDI clock"></i> {{__('group.homework.due')}} <strong>{{$homework_info->ended_at}}</strong></p>
                     <challenge-container class="mb-3">
                         @foreach($homework_info->problems->sortBy('order_index') as $problem)
                             @php $problem=$problem->problem; @endphp
