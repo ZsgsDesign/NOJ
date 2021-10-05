@@ -18,7 +18,7 @@ class CreateGroupHomeworkProblemsTable extends Migration
             $table->integer('group_homework_id')->nullable();
             $table->integer('problem_id')->nullable();
             $table->integer('order_index')->nullable();
-            $table->foreign('group_homework_id')->references('id')->on('group_homeworks')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign('group_homework_id')->references('id')->on('group_homework')->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->foreign('problem_id')->references('pid')->on('problem')->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->timestamps();
         });
