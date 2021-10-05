@@ -15,6 +15,11 @@ class GroupHomework extends Model
         return $this->belongsTo('App\Models\Eloquent\Group', null, 'gid');
     }
 
+    public function problems()
+    {
+        return $this->hasMany('App\Models\Eloquent\GroupHomeworkProblem');
+    }
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');

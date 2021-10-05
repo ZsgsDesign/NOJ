@@ -18,6 +18,11 @@ class Group extends Model
         return $this->hasMany('App\Models\Eloquent\GroupBanned', 'group_id', 'gid');
     }
 
+    public function homework()
+    {
+        return $this->hasMany('App\Models\Eloquent\GroupHomework', 'group_id', 'gid');
+    }
+
     public static function boot()
     {
         parent::boot();

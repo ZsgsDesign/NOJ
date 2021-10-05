@@ -28,6 +28,11 @@ class Problem extends Model
         return $this->hasMany('App\Models\Eloquent\ProblemSample', 'pid', 'pid');
     }
 
+    public function homework_problems()
+    {
+        return $this->hasMany('App\Models\Eloquent\GroupHomeworkProblem', 'problem_id', 'pid');
+    }
+
     public function onlinejudge()
     {
         return $this->belongsTo('App\Models\Eloquent\OJ', 'OJ', 'oid');
