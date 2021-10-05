@@ -142,6 +142,11 @@ return [
     ],
     'homework'=>[
         'create' => '创建作业',
+        'list' => '所有作业',
+        'title' => '作业标题',
+        'description' => '作业概述',
+        'ended_at' => '作业截至日期',
+        'due' => '本次作业截止于',
     ],
     'contest' =>[
         'arrangeContest' => '发布比赛' ,

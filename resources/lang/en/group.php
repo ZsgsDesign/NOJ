@@ -146,6 +146,7 @@ return [
         'title' => 'Homework Title',
         'description' => 'Homework Description',
         'ended_at' => 'Homework Deadline',
+        'due' => 'This homework ended at',
     ],
     'contest' =>[
         'arrangeContest' => 'Arrange Contest' ,
