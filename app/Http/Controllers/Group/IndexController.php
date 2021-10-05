@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Group;
 
 use App\Models\GroupModel;
 use App\Models\ContestModel;
+use App\Models\Eloquent\GroupHomework;
+use App\Models\Eloquent\Group;
 use App\Exports\GroupAnalysisExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -99,13 +101,11 @@ class IndexController extends Controller
         if ($clearance<1) {
             return Redirect::route('group.detail', ['gcode' => $gcode]);
         }
-        $group_info=$groupModel->details($gcode);
         return view('group.settings.analysis', [
             'page_title'=>"Group Analysis",
-            'site_title'=>"NOJ",
+            'site_title'=>config("app.name"),
             'navigation'=>"Group",
-            'group_info'=>$group_info,
-            "basic_info"=>$group_info,
+            'group_info'=>$basic_info,
         ]);
     }
 
@@ -147,5 +147,41 @@ class IndexController extends Controller
                 $gcode.'_Group_Tag_Analysis.xlsx'
             );
         }
+    }
+
+    public function allHomework($gcode){
+        $groupModel=new GroupModel();
+        $basic_info=$groupModel->details($gcode);
+        $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
+        if ($clearance<1) {
+            return Redirect::route('group.detail', ['gcode' => $gcode]);
+        }
+        return view('group.all_homework', [
+            'page_title'=>"Group Homework",
+            'site_title'=>config("app.name"),
+            'navigation'=>"Group",
+            'group_info'=>$basic_info,
+            'homework_list'=>Group::find($basic_info["gid"])->homework
+        ]);
+    }
+
+    public function homework($gcode, $homework_id){
+        $groupModel=new GroupModel();
+        $basic_info=$groupModel->details($gcode);
+        $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
+        if ($clearance<1) {
+            return Redirect::route('group.detail', ['gcode' => $gcode]);
+        }
+        $homeworkInfo = GroupHomework::where(['id' => $homework_id, 'group_id' => $basic_info['gid']])->first();
+        if(blank($homeworkInfo)) {
+            return Redirect::route('group.detail', ['gcode' => $gcode]);
+        }
+        return view('group.homework', [
+            'page_title'=>"Homework Details",
+            'site_title'=>config("app.name"),
+            'navigation'=>"Group",
+            'group_info'=>$basic_info,
+            'homework_info'=>$homeworkInfo,
+        ]);
     }
 }
