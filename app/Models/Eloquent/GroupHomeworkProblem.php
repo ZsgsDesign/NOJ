@@ -10,14 +10,16 @@ class GroupHomeworkProblem extends Model
 {
     use HasFactory;
 
-    public function group_homework()
+    protected $with = ['problem'];
+
+    public function homework()
     {
         return $this->belongsTo('App\Models\Eloquent\GroupHomework');
     }
 
     public function problem()
     {
-        return $this->belongTo('App\Models\Eloquent\Problem', null, 'pid');
+        return $this->belongsTo('App\Models\Eloquent\Problem', 'problem_id');
     }
 
     protected function serializeDate(DateTimeInterface $date)
