@@ -8,4 +8,5 @@ declare interface Window{
     DOMPurify: any;
     mediumZoom: any;
     Popper: any;
+    Sortable: any;
 }
