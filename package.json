@@ -49,6 +49,7 @@
         "perfect-scrollbar": "^1.4",
         "popper.js": "^1.5",
         "simplemde": "^1.11",
+        "sortablejs": "^1.14.0",
         "vscode-oniguruma": "1.3.0",
         "vscode-textmate": "5.1.1",
         "wasm-loader": "^1.3.0"
