@@ -199,7 +199,7 @@
 @include('js.submission.detail')
 @endsection
 
-@section("additionJS")
+@push('additionScript')
 <script>
     var changingRank=false;
     var showRemote=true;
@@ -215,4 +215,4 @@
         }
     });
 </script>
-@endsection
+@endpush

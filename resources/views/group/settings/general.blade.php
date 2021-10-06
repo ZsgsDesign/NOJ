@@ -180,7 +180,7 @@
 
 @endsection
 
-@section('additionJS')
+@push('additionScript')
     <script>
         window.addEventListener('load',function(){});
 
@@ -246,7 +246,7 @@
                 type: 'POST',
                 url: '/ajax/group/approveMember',
                 data: {
-                    gid: {{$basic_info["gid"]}},
+                    gid: '{{$basic_info["gid"]}}',
                     uid: uid
                 },
                 dataType: 'json',
@@ -275,7 +275,7 @@
                 type: 'POST',
                 url: '/ajax/group/changeJoinPolicy',
                 data: {
-                    gid: {{$basic_info["gid"]}},
+                    gid: '{{$basic_info["gid"]}}',
                     join_policy: choice
                 },
                 dataType: 'json',
@@ -323,8 +323,8 @@
 
             $(this).addClass('updating');
             var data = new FormData();
-            data.append('img',file);
-            data.append('gid',{{$basic_info["gid"]}});
+            data.append('img', file);
+            data.append('gid','{{$basic_info["gid"]}}');
 
             $.ajax({
                 type: 'POST',
@@ -380,7 +380,7 @@
                     type: 'POST',
                     url: '/ajax/group/changeGroupName',
                     data: {
-                        gid: {{$basic_info["gid"]}},
+                        gid: '{{$basic_info["gid"]}}',
                         group_name: name
                     },
                     dataType: 'json',
@@ -432,7 +432,7 @@
                 type: 'POST',
                 url: '/ajax/joinGroup',
                 data: {
-                    gid: {{$basic_info["gid"]}}
+                    gid: '{{$basic_info["gid"]}}'
                 },
                 dataType: 'json',
                 headers: {
@@ -463,7 +463,7 @@
                 type: 'POST',
                 url: '/ajax/group/changeNickName',
                 data: {
-                    gid: {{$basic_info["gid"]}},
+                    gid: '{{$basic_info["gid"]}}',
                     nick_name: $("#nick_name").val()
                 },
                 dataType: 'json',
@@ -487,4 +487,4 @@
             });
         });
     </script>
-@endsection
+@endpush

@@ -399,7 +399,7 @@
 
 @endsection
 
-@section('additionJS')
+@push('additionScript')
 
     @include("js.common.hljsLight")
     @include("js.common.markdownEditor")
@@ -727,4 +727,4 @@
 
         hljs.initHighlighting();
     </script>
-@endsection
+@endpush

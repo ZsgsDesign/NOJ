@@ -70,7 +70,7 @@
 
 @endsection
 
-@section('additionJS')
+@push('additionScript')
     @isset($easter_egg)
         <script>
             var error_type = $(".error-title > span").text();
@@ -94,4 +94,4 @@
             });
         </script>
     @endisset
-@endsection
+@endpush

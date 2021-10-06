@@ -110,7 +110,7 @@
 @endsection
 
 @if($permission)
-    @section('additionJS')
+    @push('additionScript')
         <script>
             var generate_processing=false;
             var general_tooltop="{{__('imagehosting.create.tooltip.general')}}";
@@ -271,5 +271,5 @@
                 });
             }
         </script>
-    @endsection
+    @endpush
 @endif

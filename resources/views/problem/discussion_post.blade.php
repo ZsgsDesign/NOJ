@@ -554,67 +554,67 @@
 </script>
 @endsection
 
-@section("additionJS")
-@include("js.common.hljsLight")
-@include("js.common.markdownEditor")
-@include("js.common.mathjax")
-<script>
-    var simplemde = createNOJMarkdownEditor({
-        element: $("#solution_editor")[0],
-    });
-
-    hljs.initHighlighting();
-    let replyid = null;
-    function comment(){
-        replyid = null;
-        $('#commentModal').modal();
-    }
-
-    function reply(id){
-        replyid = id;
-        $('#commentModal').modal();
-    }
-
-    let ajaxing = false;
-    function postComment() {
-        if(ajaxing)return;
-        ajaxing=true;
-        $.ajax({
-            type: 'POST',
-            url: '/ajax/addComment',
-            data: {
-                pdid: {{$main['pdid']}},
-                reply_id: replyid,
-                content: simplemde.value()
-            },
-            dataType: 'json',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }, success: function(ret){
-                // console.log(ret);
-                if (ret.ret==200) {
-                    location.reload();
-                } else {
-                    alert(ret.desc);
-                }
-                ajaxing=false;
-            }, error: function(xhr, type){
-                console.log(xhr);
-                switch(xhr.status) {
-                    case 422:
-                        alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
-                        break;
-                    case 429:
-                        alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
-                        break;
-                    default:
-                        alert("{{__('errors.default')}}");
-                }
-                console.log('Ajax error while posting to postDiscussion!');
-                ajaxing=false;
-            }
+@push('additionScript')
+    @include("js.common.hljsLight")
+    @include("js.common.markdownEditor")
+    @include("js.common.mathjax")
+    <script>
+        var simplemde = createNOJMarkdownEditor({
+            element: $("#solution_editor")[0],
         });
-    }
 
-</script>
-@endsection
+        hljs.initHighlighting();
+        let replyid = null;
+        function comment(){
+            replyid = null;
+            $('#commentModal').modal();
+        }
+
+        function reply(id){
+            replyid = id;
+            $('#commentModal').modal();
+        }
+
+        let ajaxing = false;
+        function postComment() {
+            if(ajaxing)return;
+            ajaxing=true;
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/addComment',
+                data: {
+                    pdid: '{{$main['pdid']}}',
+                    reply_id: replyid,
+                    content: simplemde.value()
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    // console.log(ret);
+                    if (ret.ret==200) {
+                        location.reload();
+                    } else {
+                        alert(ret.desc);
+                    }
+                    ajaxing=false;
+                }, error: function(xhr, type){
+                    console.log(xhr);
+                    switch(xhr.status) {
+                        case 422:
+                            alert(xhr.responseJSON.errors[Object.keys(xhr.responseJSON.errors)[0]][0], xhr.responseJSON.message);
+                            break;
+                        case 429:
+                            alert(`Submit too often, try ${xhr.getResponseHeader('Retry-After')} seconds later.`);
+                            break;
+                        default:
+                            alert("{{__('errors.default')}}");
+                    }
+                    console.log('Ajax error while posting to postDiscussion!');
+                    ajaxing=false;
+                }
+            });
+        }
+
+    </script>
+@endpush

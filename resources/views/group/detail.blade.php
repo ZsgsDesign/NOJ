@@ -595,6 +595,10 @@
                                     <i class="MDI trophy-variant"></i>
                                     <p>{{__('group.detail.contest')}}</p>
                                 </function-block>
+                                <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings/homework'">
+                                    <i class="MDI book"></i>
+                                    <p>{{__('group.detail.homework')}}</p>
+                                </function-block>
                                 <function-block onclick="$('#inviteModal').modal({backdrop:'static'});">
                                     <i class="MDI account-plus"></i>
                                     <p>{{__('group.detail.invite')}}</p>
@@ -965,7 +969,7 @@
 </script>
 @endsection
 
-@section('additionJS')
+@push('additionScript')
 
     @include("js.common.hljsLight")
     @include("js.common.abuse",[
@@ -992,7 +996,7 @@
                 type: 'POST',
                 url: '/ajax/group/approveMember',
                 data: {
-                    gid: {{$basic_info["gid"]}},
+                    gid: '{{$basic_info["gid"]}}',
                     uid: uid
                 },
                 dataType: 'json',
@@ -1029,7 +1033,7 @@
                 type: 'POST',
                 url: '/ajax/group/removeMember',
                 data: {
-                    gid: {{$basic_info["gid"]}},
+                    gid: '{{$basic_info["gid"]}}',
                     uid: uid
                 },
                 dataType: 'json',
@@ -1069,7 +1073,7 @@
                 type: 'POST',
                 url: '/ajax/joinGroup',
                 data: {
-                    gid: {{$basic_info["gid"]}}
+                    gid: '{{$basic_info["gid"]}}'
                 },
                 dataType: 'json',
                 headers: {
@@ -1119,7 +1123,7 @@
                         type: 'POST',
                         url: '/ajax/exitGroup',
                         data: {
-                            gid: {{$basic_info["gid"]}}
+                            gid: '{{$basic_info["gid"]}}'
                         },
                         dataType: 'json',
                         headers: {
@@ -1152,7 +1156,7 @@
                 type: 'POST',
                 url: '/ajax/group/changeNickName',
                 data: {
-                    gid: {{$basic_info["gid"]}},
+                    gid: '{{$basic_info["gid"]}}',
                     nick_name: $("#nick_name").val()
                 },
                 dataType: 'json',
@@ -1222,7 +1226,7 @@
                     practice : practiceContest,
                     status_visibility: statusVisibility,
                     public : publicContest,
-                    gid: {{$basic_info["gid"]}}
+                    gid: '{{$basic_info["gid"]}}'
                 },
                 dataType: 'json',
                 headers: {
@@ -1284,7 +1288,7 @@
                 type: 'POST',
                 url: '/ajax/group/inviteMember',
                 data: {
-                    gid:{{$basic_info["gid"]}},
+                    gid:'{{$basic_info["gid"]}}',
                     email:email
                 },
                 dataType: 'json',
@@ -1319,7 +1323,7 @@
                 type: 'POST',
                 url: '/ajax/group/createNotice',
                 data: {
-                    gid:{{$basic_info["gid"]}},
+                    gid:'{{$basic_info["gid"]}}',
                     title:noticeTitle,
                     content:noticeContent
                 },
@@ -1432,4 +1436,4 @@
 
         hljs.initHighlighting();
     </script>
-@endsection
+@endpush

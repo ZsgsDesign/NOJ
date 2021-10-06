@@ -249,7 +249,7 @@
     </footer>
     @include('layouts.js')
     @include('layouts.primaryJS')
-    @yield('additionJS')
+    @stack('additionScript')
 </body>
 
 </html>
