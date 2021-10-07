@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('group.layout')
 
-@section('template')
+@section('group.section.right')
 
 <style>
     settings-card {
@@ -111,36 +111,35 @@
         padding: 1rem;
     }
 </style>
-<div class="mundb-standard-container container">
-    <div class="row">
-        <div class="col-sm-12 col-md-8">
-            <settings-card>
-                <settings-header>
-                    <h5><i class="MDI book"></i> {{$homework_info->title}}</h5>
-                </settings-header>
-                <settings-body>
-                    <p class="challenge-ddl"><i class="MDI clock"></i> {{__('group.homework.due')}} <strong>{{$homework_info->ended_at}}</strong></p>
-                    <challenge-container class="mb-3">
-                        @foreach($homework_info->problems->sortBy('order_index') as $problem)
-                            @php $problem=$problem->problem; @endphp
-                            <a target="_blank" href="{{route('problem.detail', ['pcode' => $problem->pcode])}}" class="challenge-item btn">
-                                <div>
-                                    <i class="MDI {{$problem->problem_status['icon']}} {{$problem->problem_status['color']}}"></i>
-                                </div>
-                                <div style="display: inline-block">
-                                    <p class="mb-0"><span>{{$problem->pcode}}.</span> {{$problem->title}}</p>
-                                </div>
-                            </a>
-                        @endforeach
-                    </challenge-container>
-                </settings-body>
-            </settings-card>
-        </div>
-        <div class="col-sm-12 col-md-4">
-            <challenge-description>
-                {!! clean(convertMarkdownToHtml($homework_info->description)) !!}
-            </challenge-description>
-        </div>
+
+<div class="row">
+    <div class="col-sm-12 col-md-8">
+        <settings-card>
+            <settings-header>
+                <h5><i class="MDI book"></i> {{$homework_info->title}}</h5>
+            </settings-header>
+            <settings-body>
+                <p class="challenge-ddl"><i class="MDI clock"></i> {{__('group.homework.due')}} <strong>{{$homework_info->ended_at}}</strong></p>
+                <challenge-container class="mb-3">
+                    @foreach($homework_info->problems->sortBy('order_index') as $problem)
+                        @php $problem=$problem->problem; @endphp
+                        <a target="_blank" href="{{route('problem.detail', ['pcode' => $problem->pcode])}}" class="challenge-item btn">
+                            <div>
+                                <i class="MDI {{$problem->problem_status['icon']}} {{$problem->problem_status['color']}}"></i>
+                            </div>
+                            <div style="display: inline-block">
+                                <p class="mb-0"><span>{{$problem->pcode}}.</span> {{$problem->title}}</p>
+                            </div>
+                        </a>
+                    @endforeach
+                </challenge-container>
+            </settings-body>
+        </settings-card>
+    </div>
+    <div class="col-sm-12 col-md-4">
+        <challenge-description>
+            {!! clean(convertMarkdownToHtml($homework_info->description)) !!}
+        </challenge-description>
     </div>
 </div>
 

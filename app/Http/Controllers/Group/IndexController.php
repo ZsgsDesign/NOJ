@@ -182,8 +182,9 @@ class IndexController extends Controller
             'page_title'=>"Homework Details",
             'site_title'=>config("app.name"),
             'navigation'=>"Group",
-            'group_info'=>$basic_info,
+            'basic_info'=>$basic_info,
             'homework_info'=>$homeworkInfo,
+            'group_clearance'=>$clearance
         ]);
     }
 }
