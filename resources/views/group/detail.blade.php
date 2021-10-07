@@ -343,6 +343,8 @@
         transition: background-color 400ms;
         padding: .5rem;
         font-family: 'Poppins';
+        user-select: none;
+        border-radius: 8px;
     }
 
     function-block:hover{
@@ -583,32 +585,32 @@
                         <function-container>
                             <div>
                                 <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/analysis'">
-                                    <i class="MDI chart-line"></i>
+                                    <i class="MDI chart-line wemd-blue-text"></i>
                                     <p>{{__('group.detail.analysis')}}</p>
+                                </function-block>
+                                <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/homework'">
+                                    <i class="MDI book wemd-indigo-text"></i>
+                                    <p>{{__('group.detail.homework')}}</p>
                                 </function-block>
                                 @if($group_clearance>=2)
                                 <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings/member'">
-                                    <i class="MDI bullhorn"></i>
+                                    <i class="MDI bullhorn wemd-deep-purple-text"></i>
                                     <p>{{__('group.detail.notice')}}</p>
                                 </function-block>
                                 <function-block onclick="$('#contestModal').modal({backdrop:'static'});">
-                                    <i class="MDI trophy-variant"></i>
+                                    <i class="MDI trophy-variant wemd-purple-text"></i>
                                     <p>{{__('group.detail.contest')}}</p>
                                 </function-block>
-                                <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/homework'">
-                                    <i class="MDI book"></i>
-                                    <p>{{__('group.detail.homework')}}</p>
-                                </function-block>
                                 <function-block onclick="$('#inviteModal').modal({backdrop:'static'});">
-                                    <i class="MDI account-plus"></i>
+                                    <i class="MDI account-plus wemd-pink-text"></i>
                                     <p>{{__('group.detail.invite')}}</p>
                                 </function-block>
                                 <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings/problems'">
-                                    <i class="MDI script"></i>
+                                    <i class="MDI script wemd-red-text"></i>
                                     <p>{{__('group.detail.problems')}}</p>
                                 </function-block>
                                 <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings/general'">
-                                    <i class="MDI settings"></i>
+                                    <i class="MDI settings wemd-orange-text"></i>
                                     <p>{{__('group.detail.settings')}}</p>
                                 </function-block>
                                 @endif
