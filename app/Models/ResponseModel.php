@@ -100,6 +100,7 @@ class ResponseModel extends Model
             '7006' => "A group with the same gcode already exists",
             '7007' => "Group Problem Tag Exist",
             '7008' => "The group leader cannot leave the group",
+            '7009' => "Group Homework Creation Error",
 
             '8000' => "Job-Related Error",
             '8001' => "Job Still Running",
