@@ -125,7 +125,10 @@
                         @php $problem=$problem->problem; @endphp
                         <a target="_blank" href="{{route('problem.detail', ['pcode' => $problem->pcode])}}" class="challenge-item btn">
                             <div>
-                                <i class="MDI {{$problem->problem_status['icon']}} {{$problem->problem_status['color']}}"></i>
+                                @php
+                                    $problemStatus = $problem->getProblemStatus(null, null, Carbon\Carbon::parse($homework_info->ended_at));
+                                @endphp
+                                <i class="MDI {{$problemStatus['icon']}} {{$problemStatus['color']}}"></i>
                             </div>
                             <div style="display: inline-block">
                                 <p class="mb-0"><span>{{$problem->pcode}}.</span> {{$problem->title}}</p>
