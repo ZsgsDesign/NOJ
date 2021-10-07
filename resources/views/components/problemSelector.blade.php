@@ -43,15 +43,25 @@
     input[data-field="pcode"].form-control:disabled{
         background-color: transparent;
     }
+
+    problem-selector table.table tbody {
+        counter-reset: psumber;
+    }
+
+    problem-selector table.table tbody td[data-field="index"]::before{
+        counter-increment: psumber;
+        content: counter(psumber);
+    }
 </style>
 
-<problem-selector>
+<problem-selector class="mt-3">
     <p>{{__('problem.selector.caption')}}</p>
     <div class="table-responsive">
         <table class="table">
             <thead>
                 <tr>
                     <th scope="col"></th>
+                    <th scope="col">{{__('problem.selector.index')}}</th>
                     <th scope="col">{{__('problem.selector.code')}}</th>
                     <th scope="col">{{__('problem.selector.title')}}</th>
                     @if($editAlias) <th scope="col">{{__('problem.selector.alias')}}</th> @endif
@@ -85,6 +95,7 @@
             $('problem-selector tbody').append(`
                 <tr data-selector-id="${problemSelectorID++}">
                     <th scope="row" class="problem-selector-handle"><i class="MDI menu"></i></th>
+                    <td data-field="index"></td>
                     <td>
                         <input type="text" data-field="pcode" class="form-control form-control-sm" value="" autocomplete="off" placeholder="{{__('problem.selector.placeholder.code')}}" required>
                     </td>
