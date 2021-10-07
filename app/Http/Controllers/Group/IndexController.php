@@ -9,6 +9,7 @@ use App\Models\Eloquent\Group;
 use App\Exports\GroupAnalysisExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Excel;
 use Auth;
 use Redirect;
@@ -68,7 +69,8 @@ class IndexController extends Controller
             'group_notice'=>$group_notice,
             'contest_list'=>$contest_list,
             'paginator'=>$paginator,
-            'group_clearance'=>$clearance
+            'group_clearance'=>$clearance,
+            'runningHomework'=>Group::find($basic_info["gid"])->homework()->where('ended_at', '>=', Carbon::now())->orderBy('ended_at', 'desc')->get()
         ]);
     }
 

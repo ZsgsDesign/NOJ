@@ -235,6 +235,25 @@
     markdown-editor .editor-toolbar.disabled-for-preview a:not(.no-disable){
         opacity: 0.5;
     }
+
+    homework-container{
+        display: block;
+        padding: 2rem;
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+        margin-bottom: 2rem;
+    }
+
+    homework-container h5{
+        font-weight: bold;
+        font-family: 'Roboto Slab';
+        margin-bottom: 1rem;
+    }
+
+    homework-container p{
+        color: rgba(0,0,0,0.53);
+    }
 </style>
 
 <div class="row">
@@ -294,6 +313,20 @@
                 <p>{{__('group.detail.nothingTimeline')}}</p>
             </empty-container>
         @endunless
+
+        @if(filled($runningHomework) && count($runningHomework) > 0)
+            <homework-container>
+                <h5><i class="MDI camera-timer"></i> {{__('group.homework.reminder.title')}}</h5>
+                <p>
+                    {{__('group.homework.reminder.content', [
+                        'count' => count($runningHomework),
+                        'recent' => $runningHomework[0]->ended_at,
+                    ])}}
+                </p>
+                <button type="button" onclick="location.href='/group/{{$basic_info['gcode']}}/homework'" class="btn btn-outline-info mb-0">{{__('group.homework.reminder.action')}}</button>
+            </homework-container>
+        @endif
+
         @unless(empty($contest_list))
         <contest-container>
             <table class="table">
