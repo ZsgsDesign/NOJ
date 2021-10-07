@@ -161,8 +161,9 @@ class IndexController extends Controller
             'page_title'=>"Group Homework",
             'site_title'=>config("app.name"),
             'navigation'=>"Group",
-            'group_info'=>$basic_info,
-            'homework_list'=>Group::find($basic_info["gid"])->homework()->orderBy('created_at', 'desc')->orderBy('id', 'desc')->get()
+            'basic_info'=>$basic_info,
+            'homework_list'=>Group::find($basic_info["gid"])->homework()->orderBy('created_at', 'desc')->orderBy('id', 'desc')->get(),
+            'group_clearance'=>$clearance
         ]);
     }
 

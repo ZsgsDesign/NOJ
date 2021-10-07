@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('group.layout')
 
-@section('template')
+@section('group.section.right')
 
 <style>
     settings-card {
@@ -49,33 +49,32 @@
         background-color: rgba(0, 0, 0, 0.2);
     }
 </style>
-<div class="mundb-standard-container container">
-    <settings-card>
-        <settings-header>
-            <h5><i class="MDI book"></i> {{__('group.homework.list')}}</h5>
-        </settings-header>
-        <settings-body>
-            <table class="table">
-                <thead>
+
+<settings-card>
+    <settings-header>
+        <h5><i class="MDI book"></i> {{__('group.homework.list')}}</h5>
+    </settings-header>
+    <settings-body>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">{{__('group.homework.title')}}</th>
+                    <th scope="col">{{__('group.homework.ended_at')}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($homework_list as $homework)
                     <tr>
-                        <th scope="col">{{__('group.homework.title')}}</th>
-                        <th scope="col">{{__('group.homework.ended_at')}}</th>
+                        <td>
+                            <span><a href="{{route('group.homework', ['gcode' => $basic_info['gcode'], 'homework_id' => $homework->id]);}}">{{$homework->title}}</a></span>
+                        </td>
+                        <td>{{$homework->ended_at}}</td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach ($homework_list as $homework)
-                        <tr>
-                            <td>
-                                <span><a href="{{route('group.homework', ['gcode' => $group_info['gcode'], 'homework_id' => $homework->id]);}}">{{$homework->title}}</a></span>
-                            </td>
-                            <td>{{$homework->ended_at}}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </settings-body>
-    </settings-card>
-</div>
+                @endforeach
+            </tbody>
+        </table>
+    </settings-body>
+</settings-card>
 
 
 @endsection
