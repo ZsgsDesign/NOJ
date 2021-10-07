@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('group.layout')
 
-@section('template')
+@section('group.section.right')
 
 <style>
     settings-card {
@@ -130,96 +130,104 @@
         padding-top: 2rem;
     }
 </style>
-<div class="mundb-standard-container container">
-    <settings-card>
-        <settings-header>
-            <h5><i class="MDI chart-line"></i> {{__('group.analysis.title')}}</h5>
-        </settings-header>
-        <settings-body>
-            <nav id="mode-list" class="nav nav-tabs nav-stacked">
-                <a id="tab-contest" class="nav-link active" href="#">{{__('group.analysis.contests')}}</a>
-                <a id="tab-tag" class="nav-link" href="#">{{__('group.analysis.tags')}}</a>
-                <a class="nav-link disabled" href="#">{{__('group.analysis.developing')}}</a>
-            </nav>
-            <div class="analysis-toolbar">
-                <a id="analysis-download" class="btn btn-outline-primary m-0"><i class="MDI download"></i> {{__('group.analysis.downloadAsExcel')}}</a>
-                <span class="bmd-form-group pt-2">
-                    <div class="switch">
-                        <label>
-                            <input id="switch-percent" type="checkbox">
-                            {{__('group.analysis.showByPercent')}}
-                        </label>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <label>
-                            <input id="switch-max" type="checkbox">
-                            {{__('group.analysis.hideMaximum')}}
-                        </label>
-                    </div>
-                </span>
-                <span style="font-size:1.5rem" data-toggle="tooltip" data-placement="bottom" data-html="true" title="@lang('group.analysis.tips')"><i class="MDI comment-question-outline"></i></span>
+
+<settings-card>
+    <settings-header>
+        <h5><i class="MDI chart-line"></i> {{__('group.analysis.title')}}</h5>
+    </settings-header>
+    <settings-body>
+        <nav id="mode-list" class="nav nav-tabs nav-stacked">
+            <a id="tab-contest" class="nav-link active" href="#">{{__('group.analysis.contests')}}</a>
+            <a id="tab-tag" class="nav-link" href="#">{{__('group.analysis.tags')}}</a>
+            <a class="nav-link disabled" href="#">{{__('group.analysis.developing')}}</a>
+        </nav>
+        <div class="analysis-toolbar">
+            <a id="analysis-download" class="btn btn-outline-primary m-0"><i class="MDI download"></i> {{__('group.analysis.downloadAsExcel')}}</a>
+            <span class="bmd-form-group pt-2">
+                <div class="switch">
+                    <label>
+                        <input id="switch-percent" type="checkbox">
+                        {{__('group.analysis.showByPercent')}}
+                    </label>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label>
+                        <input id="switch-max" type="checkbox">
+                        {{__('group.analysis.hideMaximum')}}
+                    </label>
+                </div>
+            </span>
+            <span style="font-size:1.5rem" data-toggle="tooltip" data-placement="bottom" data-html="true" title="@lang('group.analysis.tips')"><i class="MDI comment-question-outline"></i></span>
+        </div>
+        <div id="panels">
+            <div id="contest-panel"  style="display: none">
             </div>
-            <div id="panels">
-                <div id="contest-panel"  style="display: none">
-                </div>
-                <div id="tag-panel" style="display: none">
-                </div>
-            </div>
-        </settings-body>
-    </settings-card>
-    <div id="historyModal" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content sm-modal">
-                <div class="modal-header">
-                    <h5 class="modal-title"><i class="MDI history"></i> {{__('group.analysis.eloChangeHistory')}}</h5>
-                </div>
-                <div class="modal-body">
-                    <div class="row" style="width:60vw">
-                        <div class="col-7 col-sm-12 col-md-7">
-                            <canvas></canvas>
-                        </div>
-                        <div class="col-5 col-sm-12 col-md-5">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-left" scope="col">{{__('group.analysis.contestName')}}</th>
-                                            <th scope="col">{{__('group.analysis.afterContestElo')}}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="history_container">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">{{__('group.analysis.close')}}</button>
-                </div>
+            <div id="tag-panel" style="display: none">
             </div>
         </div>
-    </div>
+    </settings-body>
+</settings-card>
 
-    <div id="tagRadarModal" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content sm-modal">
-                <div class="modal-header">
-                    <h5 class="modal-title"><i class="MDI history"></i> {{__('group.analysis.tagRader')}}</h5>
-                </div>
-                <div class="modal-body">
-                    <div style="width:60vw">
+@endsection
+
+@push('group.section.modal')
+
+<div id="historyModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content sm-modal">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="MDI history"></i> {{__('group.analysis.eloChangeHistory')}}</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="width:60vw">
+                    <div class="col-7 col-sm-12 col-md-7">
                         <canvas></canvas>
                     </div>
+                    <div class="col-5 col-sm-12 col-md-5">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left" scope="col">{{__('group.analysis.contestName')}}</th>
+                                        <th scope="col">{{__('group.analysis.afterContestElo')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="history_container">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">{{__('group.analysis.close')}}</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{{__('group.analysis.close')}}</button>
             </div>
         </div>
     </div>
-
 </div>
+
+<div id="tagRadarModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content sm-modal">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="MDI history"></i> {{__('group.analysis.tagRader')}}</h5>
+            </div>
+            <div class="modal-body">
+                <div style="width:60vw">
+                    <canvas></canvas>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{{__('group.analysis.close')}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endpush
+
+@push('additionScript')
+
 <script>
-    let ajaxing = true;
+    let analysisProcessing = true;
 
     let data_contest = null;
     let member_data = [];
@@ -373,16 +381,16 @@
         $('#contest-panel').fadeIn();
 
         function updataDownloadUrl(){
-            $('#analysis-download').attr('href','{{route('group.analysis.download',['gcode' => $group_info['gcode']])}}' + '?maxium=' + !contest_hideMax + '&percent=' + contest_showPercent + '&mode=' + displaying);
+            $('#analysis-download').attr('href','{{route('group.analysis.download',['gcode' => $basic_info['gcode']])}}' + '?maxium=' + !contest_hideMax + '&percent=' + contest_showPercent + '&mode=' + displaying);
         }
 
         function loadContestsData(){
-            ajaxing = true;
+            analysisProcessing = true;
             $.ajax({
                 type: 'POST',
                 url: '/ajax/group/getPracticeStat',
                 data: {
-                    gid: {{ $group_info['gid'] }},
+                    gid: '{{ $basic_info['gid'] }}',
                     mode: 'contest'
                 },
                 dataType: 'json',
@@ -391,7 +399,7 @@
                 }, success: function(ret){
                     if(ret.ret == '200'){
                         data_contest = ret.data;
-                        ajaxing = false;
+                        analysisProcessing = false;
                         sortContestData({by : 'elo',desc : true})
                         displayTable({
                             mode : 'contest',
@@ -411,18 +419,18 @@
                             alert("{{__('errors.default')}}");
                     }
                     console.log('Ajax error while posting to ' + type);
-                    ajaxing = false;
+                    analysisProcessing = false;
                 }
             });
         }
 
         function loadTagsData(){
-            ajaxing = true;
+            analysisProcessing = true;
             $.ajax({
                 type: 'POST',
                 url: '/ajax/group/getPracticeStat',
                 data: {
-                    gid: {{ $group_info['gid'] }},
+                    gid: '{{ $basic_info['gid'] }}',
                     mode: 'tag'
                 },
                 dataType: 'json',
@@ -431,7 +439,7 @@
                 }, success: function(ret){
                     if(ret.ret == '200'){
                         data_tag = ret.data;
-                        ajaxing = false;
+                        analysisProcessing = false;
                         displayTable({
                             mode : 'tag',
                             selector : '#tag-panel'
@@ -450,7 +458,7 @@
                             alert("{{__('errors.default')}}");
                     }
                     console.log('Ajax error while posting to ' + type);
-                    ajaxing = false;
+                    analysisProcessing = false;
                 }
             });
         }
@@ -821,15 +829,15 @@
 
             $('.member-elo').unbind();
             $('.member-elo').on('click',function(){
-                if(ajaxing) return;
-                ajaxing = true;
+                if(analysisProcessing) return;
+                analysisProcessing = true;
                 var uid = parseInt($(this).parent('tr').attr('id').split('-')[1]);
                 var display_name = $(this).parent('tr').find('.member-name').text();
                 $.ajax({
                     type: 'POST',
                     url: '/ajax/group/eloChangeLog',
                     data: {
-                        gid: {{ $group_info['gid'] }},
+                        gid: '{{ $basic_info['gid'] }}',
                         uid: uid
                     },
                     dataType: 'json',
@@ -881,7 +889,7 @@
 
                             }
                             $('#historyModal').modal();
-                            ajaxing = false;
+                            analysisProcessing = false;
                         }
                     }, error: function(xhr, type){
                         console.log(xhr);
@@ -896,7 +904,7 @@
                                 alert("{{__('errors.default')}}");
                         }
                         console.log('Ajax error while posting to ' + type);
-                        ajaxing = false;
+                        analysisProcessing = false;
                     }
                 });
             });
@@ -966,4 +974,5 @@
 
 </script>
 
-@endsection
+@endpush
+

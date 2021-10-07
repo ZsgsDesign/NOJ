@@ -101,11 +101,12 @@ class IndexController extends Controller
         if ($clearance<1) {
             return Redirect::route('group.detail', ['gcode' => $gcode]);
         }
-        return view('group.settings.analysis', [
+        return view('group.analysis', [
             'page_title'=>"Group Analysis",
             'site_title'=>config("app.name"),
             'navigation'=>"Group",
-            'group_info'=>$basic_info,
+            'basic_info'=>$basic_info,
+            'group_clearance'=>$clearance
         ]);
     }
 
