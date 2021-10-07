@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ajax;
 
 use App\Models\ProblemModel;
+use App\Models\Eloquent\Problem;
 use App\Models\Submission\SubmissionModel;
 use App\Models\ResponseModel;
 use App\Models\CompilerModel;
@@ -82,13 +83,10 @@ class ProblemController extends Controller
      */
     public function problemExists(Request $request)
     {
-        $all_data=$request->all();
-        $problemModel=new ProblemModel();
-        $pcode=$problemModel->existPCode($all_data["pcode"]);
-        if ($pcode) {
-            return ResponseModel::success(200, null, [
-                "pcode"=>$pcode
-            ]);
+        $request->validate(["pcode" => "required|string|max:100"]);
+        $problem = Problem::where('pcode', $request->pcode)->first();
+        if (filled($problem)) {
+            return ResponseModel::success(200, null, $problem->only(["pcode", "title"]));
         } else {
             return ResponseModel::err(3001);
         }
@@ -275,7 +273,7 @@ class ProblemController extends Controller
         $ret=$problemModel->addComment(Auth::user()->id, $pdid, $content, $reply_id);
         return $ret ?ResponseModel::success(200, null, $ret) : ResponseModel::err(3003);
     }
-  
+
     /**
      * Resubmit Submission Error Problems.
      *
