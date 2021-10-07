@@ -110,7 +110,7 @@
 
         function checkProblemExistenceByField(element) {
             $('problem-selector input[data-field="pcode"]').prop('disabled', true);
-            let pcode = $(element).val().trim();
+            let pcode = $(element).val().trim().toUpperCase();
             $(element).val(pcode);
             if(pcode === '') {
                 return procProblemExistence(element, {
