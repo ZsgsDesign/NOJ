@@ -85,7 +85,7 @@ Route::group(['namespace' => 'Group', 'prefix' => 'group','as' => 'group.','midd
     Route::get('/{gcode}/homework', 'IndexController@allHomework')->middleware('auth', 'group.exist', 'group.banned')->name('allHomework');
     Route::get('/{gcode}/homework/{homework_id}', 'IndexController@homework')->middleware('auth', 'group.exist', 'group.banned')->name('homework');
     Route::get('/{gcode}/analysisDownload', 'IndexController@analysisDownload')->middleware('auth', 'group.exist', 'group.banned')->name('analysis.download');
-    Route::group(['prefix' => '{gcode}/settings','as' => 'settings.', 'middleware' => ['privileged', 'group.exist', 'group.banned']], function () {
+    Route::group(['prefix' => '{gcode}/settings', 'as' => 'settings.', 'middleware' => ['privileged', 'group.exist', 'group.banned']], function () {
         Route::get('/', 'AdminController@settings')->middleware('auth')->name('index');
         Route::get('/general', 'AdminController@settingsGeneral')->middleware('auth')->name('general');
         Route::get('/return', 'AdminController@settingsReturn')->middleware('auth')->name('return');
@@ -93,6 +93,7 @@ Route::group(['namespace' => 'Group', 'prefix' => 'group','as' => 'group.','midd
         Route::get('/member', 'AdminController@settingsMember')->middleware('auth')->name('member');
         Route::get('/contest', 'AdminController@settingsContest')->middleware('auth')->name('contest');
         Route::get('/problems', 'AdminController@problems')->middleware('auth')->name('problems');
+        Route::get('/homework', 'AdminController@homework')->middleware('auth')->name('homework');
     });
 });
 
@@ -174,7 +175,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.
     Route::post('judgeStatus', 'ProblemController@judgeStatus')->middleware('auth');
     Route::post('manualJudge', 'ProblemController@manualJudge')->middleware('auth');
     Route::post('submitHistory', 'ProblemController@submitHistory')->middleware('auth');
-    Route::post('problemExists', 'ProblemController@problemExists')->middleware('auth');
+    Route::post('problemExists', 'ProblemController@problemExists')->middleware('auth')->name('ajax.problemExists');
     Route::post('arrangeContest', 'GroupManageController@arrangeContest')->middleware('auth');
     Route::post('joinGroup', 'GroupController@joinGroup')->middleware('auth');
     Route::post('exitGroup', 'GroupController@exitGroup')->middleware('auth');
