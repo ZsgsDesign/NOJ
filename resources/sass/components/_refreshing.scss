@@ -1,0 +1,54 @@
+@-webkit-keyframes refreshing-rotate {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@-moz-keyframes refreshing-rotate {
+    from {
+        -moz-transform: rotate(0deg);
+    }
+    to {
+        -moz-transform: rotate(359deg);
+    }
+}
+
+@-o-keyframes refreshing-rotate {
+    from {
+        -o-transform: rotate(0deg);
+    }
+    to {
+        -o-transform: rotate(359deg);
+    }
+}
+
+@keyframes refreshing-rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}
+
+.refreshing {
+    > i {
+        &::before {
+            content: "\e682" !important;
+        }
+        display: inline-block;
+        transition-property: transform;
+        transition-duration: 1s;
+        -webkit-transition-property: -webkit-transform;
+        -webkit-transition-duration: 1s;
+        -moz-transition-property: -moz-transform;
+        -moz-transition-duration: 1s;
+        -webkit-animation: refreshing-rotate 3s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+        -moz-animation: refreshing-rotate 3s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+        -o-animation: refreshing-rotate 3s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+        animation: refreshing-rotate 3s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+    }
+}
