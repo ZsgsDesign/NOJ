@@ -35,6 +35,14 @@
     .problem-selector-actions{
         text-align: center;
     }
+
+    .problem-selector-actions button{
+        border-radius: 200px;
+    }
+
+    input[data-field="pcode"].form-control:disabled{
+        background-color: transparent;
+    }
 </style>
 
 <problem-selector>
@@ -55,7 +63,7 @@
         </table>
     </div>
     <div class="problem-selector-actions">
-        <button type="button" class="btn btn-outline-primary mb-0" onclick="addNewProblemToSelector()"><i class="MDI library-plus"></i> {{__('problem.selector.action.add')}}</button>
+        <button type="button" class="btn btn-outline-info mb-0" onclick="addNewProblemToSelector()"><i class="MDI library-plus"></i> {{__('problem.selector.action.add')}}</button>
     </div>
 </problem-selector>
 
@@ -101,6 +109,7 @@
         }
 
         function checkProblemExistenceByField(element) {
+            $('problem-selector input[data-field="pcode"]').prop('disabled', true);
             let pcode = $(element).val().trim();
             $(element).val(pcode);
             if(pcode === '') {
@@ -158,6 +167,7 @@
         function procProblemExistence(element, ret) {
             console.log(ret);
             $(element).parents('tr').find('td[data-field="title"]').removeClass();
+            $('problem-selector input[data-field="pcode"]').prop('disabled', false);
             if(ret.ret == 200) {
                 $(element).parents('tr').find('td[data-field="title"]').addClass('wemd-green-text');
                 $(element).parents('tr').find('td[data-field="title"] span').text(ret.data.title);
