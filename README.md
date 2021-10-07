@@ -14,9 +14,9 @@ NOJ's another online judge platform, stands for NJUPT Online Judge. It's written
 ![Stars](https://img.shields.io/github/stars/zsgsdesign/noj.svg?style=flat-square)
 ![Forks](https://img.shields.io/github/forks/zsgsdesign/noj.svg?style=flat-square)
 
-## v0.16.0 Bryconinae
+## v0.17.0 Characinae
 
-For more information, please visit [v0.16.0 Bryconinae Release Log](https://github.com/ZsgsDesign/NOJ/releases/tag/0.16.0) page.
+For more information, please visit [v0.17.0 Characinae Release Log](https://github.com/ZsgsDesign/NOJ/releases/tag/0.17.0) page.
 
 ### Installation
 
