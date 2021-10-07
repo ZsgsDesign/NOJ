@@ -99,6 +99,7 @@ return [
     ],
     "selector" => [
         "caption"       => "Problems List",
+        "index"         => "Index",
         "code"          => "Problem Code",
         "title"         => "Problem Title",
         "alias"         => "Alias",

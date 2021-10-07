@@ -99,6 +99,7 @@ return [
     ],
     "selector" => [
         "caption"       => "题目列表",
+        "index"         => "编号",
         "code"          => "题目代码",
         "title"         => "题目标题",
         "alias"         => "自定义标题",
