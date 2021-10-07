@@ -210,6 +210,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.
         Route::post('inviteMember', 'GroupManageController@inviteMember')->middleware('auth');
         Route::post('createNotice', 'GroupManageController@createNotice')->middleware('auth');
         Route::post('changeSubGroup', 'GroupManageController@changeSubGroup')->middleware('auth');
+        Route::post('createHomework', 'GroupManageController@createHomework')->middleware('auth')->name('ajax.group.createHomework');
 
         Route::post('addProblemTag', 'GroupAdminController@addProblemTag')->middleware('auth');
         Route::post('removeProblemTag', 'GroupAdminController@removeProblemTag')->middleware('auth');
