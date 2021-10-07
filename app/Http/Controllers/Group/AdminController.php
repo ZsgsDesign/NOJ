@@ -67,11 +67,31 @@ class AdminController extends Controller
         $basic_info=$groupModel->details($gcode);
         return view('group.settings.problems', [
             'page_title'=>"Group Problems",
-            'site_title'=>"NOJ",
+            'site_title'=>config("app.name"),
             'navigation'=>"Group",
             'basic_info'=>$basic_info,
             'group_info'=>$group_info,
             'problems'=>$problems,
+        ]);
+    }
+
+    /*
+     * Homework.
+     *
+     * @return Response
+     */
+    public function homework($gcode) {
+        $groupModel=new GroupModel();
+        $group_info=$groupModel->details($gcode);
+        $homework=[];
+        $basic_info=$groupModel->details($gcode);
+        return view('group.settings.homework', [
+            'page_title'=>"Group Homework",
+            'site_title'=>config("app.name"),
+            'navigation'=>"Group",
+            'basic_info'=>$basic_info,
+            'group_info'=>$group_info,
+            'homework'=>$homework,
         ]);
     }
 
