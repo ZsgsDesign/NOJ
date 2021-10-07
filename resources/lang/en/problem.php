@@ -97,4 +97,26 @@ return [
             "cancel"   => "Cancel",
         ],
     ],
+    "selector" => [
+        "caption"       => "Problems List",
+        "code"          => "Problem Code",
+        "title"         => "Problem Title",
+        "alias"         => "Alias",
+        "points"        => "Points",
+        "operations"    => "Operations",
+        "action" => [
+            "add"       => "Add Problem",
+        ],
+        "placeholder" => [
+            "code"      => "Enter Code Here",
+            "alias"     => "Custom Alias Here",
+        ],
+        "tooltip" => [
+            "empty"     => "Enter Code First",
+            "loading"   => "Loading",
+            "duplicate" => "Duplicate Problem",
+            "error"     => "Connection Error",
+            "notfound"  => "Problem Doesn't Exist",
+        ],
+    ],
 ];
