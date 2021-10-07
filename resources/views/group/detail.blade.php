@@ -595,7 +595,7 @@
                                     <i class="MDI trophy-variant"></i>
                                     <p>{{__('group.detail.contest')}}</p>
                                 </function-block>
-                                <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/settings/homework'">
+                                <function-block onclick="location.href='/group/{{$basic_info['gcode']}}/homework'">
                                     <i class="MDI book"></i>
                                     <p>{{__('group.detail.homework')}}</p>
                                 </function-block>

@@ -41,7 +41,7 @@ return [
         'createTime' => '群组创建时间',
         'analysis' => '查看分析',
         'notice' => '发布公告',
-        'homework' => '发布作业',
+        'homework' => '查看作业',
         'contest' => '发布比赛',
         'invite' => '邀请成员',
         'problems' => '题目管理',
