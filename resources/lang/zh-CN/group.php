@@ -147,6 +147,14 @@ return [
         'description' => '作业概述',
         'ended_at' => '作业截至日期',
         'due' => '本次作业截止于',
+        'action' => [
+            'create' => '创建作业',
+        ],
+        'reminder' => [
+            'title' => '将要截止的作业',
+            'content' => '您在本群组有:count项将要截止的作业，其中最近的将于 :recent 截止。如果您已经完成相关作业请忽略本消息。',
+            'action' => 'Find More',
+        ],
     ],
     'contest' =>[
         'arrangeContest' => '发布比赛' ,

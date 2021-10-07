@@ -150,6 +150,11 @@ return [
         'action' => [
             'create' => 'Create Homework',
         ],
+        'reminder' => [
+            'title' => 'Upcoming Homework DDL',
+            'content' => 'You have :count homework in this group, the most recent DDL is at :recent. Please ignore this message if you have completed them already.',
+            'action' => 'Find More',
+        ],
     ],
     'contest' =>[
         'arrangeContest' => 'Arrange Contest' ,
