@@ -45,7 +45,7 @@ return [
         'contest' => '发布比赛',
         'invite' => '邀请成员',
         'problems' => '题目管理',
-        'settings' => '设置',
+        'settings' => '更多设置',
         'nothingTimeline' => '最近没啥事',
         'contestTitle' => '比赛标题',
         'contestBeginTime' => '比赛开始时间',
