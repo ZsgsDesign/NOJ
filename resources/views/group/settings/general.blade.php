@@ -229,14 +229,6 @@
             $('#update-avatar-modal').modal('hide');
         });
 
-        function sortableInit(){
-            $("#contestModal tbody").sortable({
-                items: "> tr",
-                appendTo: "parent",
-                helper: "clone"
-            });
-        }
-
         let ajaxing = false;
 
         function approveMember(uid){
@@ -412,16 +404,6 @@
                     }
                 });
             }
-        });
-
-        $('#problemCode').bind('keypress',function(event){
-            if(event.keyCode == "13") {
-                addProblem();
-            }
-        });
-
-        $("#addProblemBtn").click(function() {
-            addProblem();
         });
 
         $("#joinGroup").click(function() {
