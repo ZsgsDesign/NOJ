@@ -110,6 +110,12 @@
         color: #212529;
         padding: 1rem;
     }
+
+    .description-header{
+        color:rgba(0,0,0,0.54);
+        margin-bottom: 0;
+        font-weight: 500;
+    }
 </style>
 
 <div class="row">
@@ -140,6 +146,7 @@
         </settings-card>
     </div>
     <div class="col-sm-12 col-md-4">
+        <p class="description-header"><i class="MDI clipboard-text"></i> {{__('group.homework.description')}}</p>
         <challenge-description>
             {!! clean(convertMarkdownToHtml($homework_info->description)) !!}
         </challenge-description>
