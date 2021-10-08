@@ -291,7 +291,7 @@
                 <timeline-item data-type="notice">
                     <div>
                         <div>{{$group_notice["name"]}} <span class="wemd-green-text">&rtrif; {{$group_notice["post_date_parsed"]}}</span></div>
-                        <div><img src="{{$group_notice["avatar"]}}" class="cm-avatar"></div>
+                        <div><img data-src="{{$group_notice["avatar"]}}" class="cm-avatar"></div>
                     </div>
                     <div>
                         <h5>{{$group_notice["title"]}}</h5>
@@ -391,7 +391,7 @@
                 @foreach($member_list as $m)
                 <user-card data-uid="{{$m['uid']}}">
                     <user-avatar>
-                        <a href="/user/{{$m["uid"]}}"><img src="{{$m["avatar"]}}"></a>
+                        <a href="/user/{{$m["uid"]}}"><img data-src="{{$m["avatar"]}}"></a>
                     </user-avatar>
                     <user-info>
                         <p><span class="badge badge-role {{$m["role_color"]}}">{{$m["role_parsed"]}}</span> <span class="cm-user-name">{{$m["name"]}}</span> @if($m["nick_name"])<span class="cm-nick-name">({{$m["nick_name"]}})</span>@endif</p>
@@ -611,6 +611,17 @@
     @include("js.common.markdownEditor")
     @include("js.common.mathjax")
     <script>
+        window.addEventListener("load",function() {
+            $('timeline-item > div img.cm-avatar').each(function(){
+                $(this).attr('src', NOJVariables.defaultAvatarPNG);
+                delayProblemLoad(this, $(this).attr('data-src'));
+            });
+            $('#collapse_member user-avatar img').each(function(){
+                $(this).attr('src', NOJVariables.defaultAvatarPNG);
+                delayProblemLoad(this, $(this).attr('data-src'));
+            });
+        }, false);
+
         function approveMember(uid){
             if(ajaxing) return;
             ajaxing=true;
