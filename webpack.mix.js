@@ -51,7 +51,6 @@ mix.scripts([
     'node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js',
     'node_modules/pdfobject/pdfobject.min.js',
     'node_modules/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js',
-    'node_modules/noj-jquery-ui-sortable/dist/jquery-ui-sortable.min.js',
     'node_modules/parazoom/dist/parazoom.min.js',
     'node_modules/chart.js/dist/Chart.bundle.min.js',
     'node_modules/simplemde/dist/simplemde.min.js',
