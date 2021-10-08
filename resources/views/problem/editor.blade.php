@@ -1065,8 +1065,11 @@
                                                     localStorage.setItem('{{$detail["pcode"]}}','```\n' + editor.getValue() + '\n```')
                                                     playCongratulation('editor-container');
                                                     setTimeout(function(){
-                                                        confirm({content:"You have got an Accepted! Why not submit this solution?",
-                                                        title:"Congratulation \ud83c\udf89" },function(deny){
+                                                        confirm({
+                                                            content:"You have got an Accepted! Why not submit this solution?",
+                                                            title:"Congratulation \ud83c\udf89",
+                                                            keyboard: false
+                                                        }, function(deny){
                                                             if (!deny){
                                                                 location.href = '/problem/{{$detail["pcode"]}}/solution';
                                                             }else{

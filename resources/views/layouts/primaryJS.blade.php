@@ -118,11 +118,12 @@
         $(`#notice${id}`).modal('toggle');
     }
 
-    function confirm ({content="",title="Confirm",icon="information-outline",backdrop="static",noText="Cancel",yesText="OK"}={},callback=function(deny){}){
+    function confirm ({content="",title="Confirm",icon="information-outline",backdrop="static",noText="Cancel",yesText="OK",keyboard=true}={},callback=function(deny){}){
         var id = new Date().getTime();
         if(backdrop !== "static") backdrop = backdrop?"true":"false";
+        keyboard = keyboard ? true : false;
         $('body').append(`
-            <div class="modal fade" id="notice${id}" data-backdrop="${backdrop}" tabindex="-1" role="dialog">
+            <div class="modal fade" id="notice${id}" data-backdrop="${backdrop}" data-keyboard="${keyboard}" tabindex="-1" role="dialog">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-alert" role="document">
                     <div class="modal-content sm-modal">
                         <div class="modal-header">
