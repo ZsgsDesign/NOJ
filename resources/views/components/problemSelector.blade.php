@@ -91,7 +91,12 @@
 
         var problemSelectorID = 1;
 
-        function addNewProblemToSelector() {
+        function resetProblemSelector() {
+            $('problem-selector tbody').html('');
+            problemSelectorID = 1;
+        }
+
+        function addNewProblemToSelector({pcode = null, title = null}={}) {
             $('problem-selector tbody').append(`
                 <tr data-selector-id="${problemSelectorID++}">
                     <th scope="row" class="problem-selector-handle"><i class="MDI menu"></i></th>
@@ -109,6 +114,18 @@
                     <td><i class="MDI problem-remove wemd-red-text" onclick="removeProblemSelector(this)"></i></td>
                 </tr>
             `);
+
+            if(pcode !== null) {
+                $('problem-selector tbody tr:last-of-type input[data-field="pcode"]').val(pcode.trim());
+            }
+
+            if(title !== null) {
+                $('problem-selector tbody tr:last-of-type td[data-field="title"]').addClass("wemd-green-text");
+                $('problem-selector tbody tr:last-of-type td[data-field="title"] i').removeClass();
+                $('problem-selector tbody tr:last-of-type td[data-field="title"] i').addClass("MDI comment-check-outline");
+                $('problem-selector tbody tr:last-of-type td[data-field="title"] span').text(title.trim());
+            }
+
             $('problem-selector tbody tr:last-of-type').bootstrapMaterialDesign();
             $('problem-selector tbody tr:last-of-type input[data-field="pcode"]').blur(function(){
                 checkProblemExistenceByField(this);
@@ -176,7 +193,6 @@
         };
 
         function procProblemExistence(element, ret) {
-            console.log(ret);
             $(element).parents('tr').find('td[data-field="title"]').removeClass();
             $('problem-selector input[data-field="pcode"]').prop('disabled', false);
             if(ret.ret == 200) {
