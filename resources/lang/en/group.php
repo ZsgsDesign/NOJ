@@ -146,14 +146,21 @@ return [
         'title' => 'Homework Title',
         'description' => 'Homework Description',
         'ended_at' => 'Homework Deadline',
-        'due' => 'This homework ended at',
+        'due' => 'Homework ended at',
+        'refreshTime' => 'Statistics updated at',
         'action' => [
             'create' => 'Create Homework',
+            'statistics' => 'View Statistics',
         ],
         'reminder' => [
             'title' => 'Upcoming Homework DDL',
             'content' => 'You have :count homework in this group, the most recent DDL is at :recent. Please ignore this message if you have completed them already.',
             'action' => 'Find More',
+        ],
+        'statistics' => [
+            'member' => 'Member',
+            'solved' => 'Solved',
+            'attempted' => 'Attempted',
         ],
     ],
     'contest' =>[

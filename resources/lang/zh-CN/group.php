@@ -145,15 +145,22 @@ return [
         'list' => '所有作业',
         'title' => '作业标题',
         'description' => '作业概述',
-        'ended_at' => '作业截至日期',
+        'ended_at' => '作业截止日期',
         'due' => '本次作业截止于',
+        'refreshTime' => '统计信息更新于',
         'action' => [
             'create' => '创建作业',
+            'statistics' => '查看统计',
         ],
         'reminder' => [
             'title' => '将要截止的作业',
             'content' => '您在本群组有:count项将要截止的作业，其中最近的将于 :recent 截止。如果您已经完成相关作业请忽略本消息。',
-            'action' => 'Find More',
+            'action' => '查看详情',
+        ],
+        'statistics' => [
+            'member' => '成员',
+            'solved' => '解决题目数',
+            'attempted' => '尝试题目数',
         ],
     ],
     'contest' =>[
