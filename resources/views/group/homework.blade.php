@@ -132,7 +132,7 @@
                         <a target="_blank" href="{{route('problem.editor', ['pcode' => $problem->pcode])}}" class="challenge-item btn">
                             <div>
                                 @php
-                                    $problemStatus = $problem->getProblemStatus(null, null, Carbon\Carbon::parse($homework_info->ended_at));
+                                    $problemStatus = $problem->getProblemStatus(null, null, Carbon::parse($homework_info->ended_at));
                                 @endphp
                                 <i class="MDI {{$problemStatus['icon']}} {{$problemStatus['color']}}"></i>
                             </div>

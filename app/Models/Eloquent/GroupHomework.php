@@ -4,7 +4,7 @@ namespace App\Models\Eloquent;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
+use Carbon;
 use DateTimeInterface;
 use Exception;
 use Cache;

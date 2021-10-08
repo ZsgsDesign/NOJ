@@ -4,8 +4,8 @@ namespace App\Models\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Eloquent\Contest;
-use Carbon\Carbon;
 use Auth;
+use Carbon;
 use DB;
 use Exception;
 

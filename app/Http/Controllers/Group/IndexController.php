@@ -9,9 +9,9 @@ use App\Models\Eloquent\Group;
 use App\Exports\GroupAnalysisExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
-use Excel;
 use Auth;
+use Carbon;
+use Excel;
 use Redirect;
 
 class IndexController extends Controller
