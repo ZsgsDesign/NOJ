@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use DateTimeInterface;
 use Exception;
 use Cache;
+use Log;
 
 class GroupHomework extends Model
 {
