@@ -106,6 +106,14 @@
             height:100vh;
         }
     }
+
+    .cm-user-name{
+        color:rgba(0,0,0,0.93);
+    }
+
+    .cm-nick-name{
+        color:rgba(0,0,0,0.42);
+    }
 </style>
 
 <group-container>

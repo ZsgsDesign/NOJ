@@ -82,14 +82,6 @@
         vertical-align: text-bottom;
     }
 
-    .cm-user-name{
-        color:rgba(0,0,0,0.93);
-    }
-
-    .cm-nick-name{
-        color:rgba(0,0,0,0.42);
-    }
-
     empty-container{
         display:block;
         text-align: center;
