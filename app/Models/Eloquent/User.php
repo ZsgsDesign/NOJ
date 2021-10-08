@@ -7,7 +7,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 use App\Models\Eloquent\UserExtra;
-use PDO;
+use App\Models\Eloquent\Dojo\DojoProblem;
+use Carbon;
+use DB;
+use Log;
+use Exception;
 
 class User extends Authenticatable
 {
@@ -32,6 +36,11 @@ class User extends Authenticatable
     protected $hidden=[
         'password', 'remember_token', 'tokens'
     ];
+
+    public function submissions()
+    {
+        return $this->hasMany('App\Models\Eloquent\Submission', 'uid');
+    }
 
     public function banneds() {
         return $this->hasMany('App\Models\Eloquent\UserBanned');
@@ -169,5 +178,78 @@ class User extends Authenticatable
         }
 
         return $socialites;
+    }
+
+    public function problems_latest_submission($problems, $contestID = null, Carbon $till = null, $verdictFilter = [])
+    {
+        if (filled($contestID)) {
+            $endedAt = Carbon::parse(Contest::findOrFail($contestID)->endedAt);
+        }
+
+        $lastRecordSubQuery = $this->submissions()->select('pid', DB::raw('MAX(submission_date) as submission_date'))->whereIntegerInRaw('pid', $problems)->where('cid', $contestID)->groupBy('pid');
+
+        if (filled($contestID)) {
+            $lastRecordSubQuery = $lastRecordSubQuery->where("submission_date", "<", $endedAt->timestamp);
+        }
+
+        if (filled($till)) {
+            $lastRecordSubQuery = $lastRecordSubQuery->where("submission_date", "<", $till->timestamp);
+        }
+
+        if(filled($verdictFilter)) {
+            $lastRecordSubQuery = $lastRecordSubQuery->whereIn('verdict', $verdictFilter);
+        }
+
+        $query = DB::table(DB::raw("({$lastRecordSubQuery->toSql()}) last_sub"))->leftJoinSub(Submission::toBase(), 'submissions', function ($join) {
+            $join->on('last_sub.submission_date', '=', 'submissions.submission_date')->on('last_sub.pid', '=', 'submissions.pid');
+        })->select('sid', 'last_sub.submission_date as submission_date', 'last_sub.pid as pid', 'verdict', 'color')->orderBy('pid', 'ASC');
+
+        return $query->mergeBindings($lastRecordSubQuery->toBase());
+    }
+
+    public function getDojoStatistics()
+    {
+        try {
+            $statistics = [];
+            $problemIDArr = DojoProblem::select('problem_id')->distinct()->get()->pluck('problem_id');
+
+            foreach ($problemIDArr as $problemID) {
+                $defaultVerdict[$problemID] = [
+                    "icon" => "checkbox-blank-circle-outline",
+                    "color" => "wemd-grey-text"
+                ];
+            }
+
+            $problemCompleteIDArr = [];
+
+            foreach ($this->problems_latest_submission($problemIDArr->diff($problemCompleteIDArr), null, null, ['Accepted'])->get() as $acceptedRecord) {
+                $statistics[$acceptedRecord['pid']] = [
+                    "icon" => "checkbox-blank-circle",
+                    "color" => $acceptedRecord['color']
+                ];
+                $problemCompleteIDArr[] = $acceptedRecord['pid'];
+            }
+
+            foreach ($this->problems_latest_submission($problemIDArr->diff($problemCompleteIDArr), null, null, ['Partially Accepted'])->get() as $acceptedRecord) {
+                $statistics[$acceptedRecord['pid']] = [
+                    "icon" => "cisco-webex",
+                    "color" => $acceptedRecord['color']
+                ];
+                $problemCompleteIDArr[] = $acceptedRecord['pid'];
+            }
+
+            foreach ($this->problems_latest_submission($problemIDArr->diff($problemCompleteIDArr), null, null)->get() as $acceptedRecord) {
+                $statistics[$acceptedRecord['pid']] = [
+                    "icon" => "cisco-webex",
+                    "color" => $acceptedRecord['color']
+                ];
+                $problemCompleteIDArr[] = $acceptedRecord['pid'];
+            }
+
+            return $statistics;
+        } catch (Exception $e) {
+            Log::alert($e);
+            return false;
+        }
     }
 }
