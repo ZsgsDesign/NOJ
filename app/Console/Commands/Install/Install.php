@@ -128,7 +128,7 @@ LOGOG;
         }
         while(true) {
             try {
-                $this->createFrontUser();
+                $createdUser = $this->createFrontUser();
                 break;
             } catch(Exception $e) {
                 $this->line("\n  <bg=red;fg=white> Exception </> : <fg=yellow>Error occured while creating admin user.</>\n");
@@ -149,6 +149,7 @@ LOGOG;
             'avatar' => '/static/img/avatar/noj.png',
         ]);
         $createdUser->markEmailAsVerified();
+        return $createdUser;
     }
 
     protected function createFrontAdminGroup() {
