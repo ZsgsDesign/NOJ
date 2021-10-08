@@ -37,7 +37,7 @@
             <input type="text" class="form-control" id="homeworkTitle">
         </div>
         <div class="form-group">
-            <label for="homeworkEndedAt" class="bmd-label-floating">{{__('group.homework.endedAt')}}</label>
+            <label for="homeworkEndedAt" class="bmd-label-floating">{{__('group.homework.ended_at')}}</label>
             <input type="text" class="form-control" id="homeworkEndedAt" autocomplete="off">
         </div>
         <div class="form-group">
