@@ -158,9 +158,9 @@
     }
 </style>
 <user-card>
-    <img class="cm-dashboard-focus" src="{{$info["image"]}}" onerror="this.src=NOJVariables.defaultThemePNG;">
+    <img class="cm-dashboard-focus" data-src="{{$info["image"]}}">
     <avatar-section>
-        <img id="avatar" src="{{$info["avatar"]}}" alt="avatar">
+        <img id="avatar" data-src="{{$info["avatar"]}}" alt="avatar">
     </avatar-section>
     <basic-section>
         <h3>{{$info["name"]}}</h3>
@@ -255,3 +255,18 @@
         @endif
     </social-section>
 </user-card>
+
+@push('additionScript')
+    <script>
+        window.addEventListener("load",function() {
+            $('#avatar').each(function(){
+                $(this).attr('src', NOJVariables.defaultAvatarPNG);
+                delayProblemLoad(this, $(this).attr('data-src'));
+            });
+            $('.cm-dashboard-focus').each(function(){
+                $(this).attr('src', NOJVariables.defaultThemePNG);
+                delayProblemLoad(this, $(this).attr('data-src'));
+            });
+        }, false);
+    </script>
+@endpush
