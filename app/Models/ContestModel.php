@@ -423,7 +423,7 @@ class ContestModel extends Model
         return DB::table('contest_problem')
             ->join('problem', 'contest_problem.pid', '=', 'problem.pid')
             ->where('cid', $cid)
-            ->select('problem.pid as pid', 'pcode', 'number')
+            ->select('problem.pid as pid', 'pcode', 'number', 'title')
             ->orderBy('number')
             ->get()->all();
     }
