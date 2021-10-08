@@ -177,7 +177,7 @@
                             @php $problem=$problem->problem; @endphp
                             <a target="_blank" href="{{route('problem.detail', ['pcode' => $problem->pcode])}}" class="challenge-item btn">
                                 <div>
-                                    @if(blank($status))
+                                    @if($status === false)
                                         <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
                                     @else
                                         <i class="MDI {{$status[$problem->pid]['icon']}} {{$status[$problem->pid]['color']}}"></i>
