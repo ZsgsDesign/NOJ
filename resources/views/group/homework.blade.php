@@ -123,7 +123,7 @@
                 <challenge-container class="mb-3">
                     @foreach($homework_info->problems->sortBy('order_index') as $problem)
                         @php $problem=$problem->problem; @endphp
-                        <a target="_blank" href="{{route('problem.detail', ['pcode' => $problem->pcode])}}" class="challenge-item btn">
+                        <a target="_blank" href="{{route('problem.editor', ['pcode' => $problem->pcode])}}" class="challenge-item btn">
                             <div>
                                 @php
                                     $problemStatus = $problem->getProblemStatus(null, null, Carbon\Carbon::parse($homework_info->ended_at));
