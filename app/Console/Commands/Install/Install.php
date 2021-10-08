@@ -76,6 +76,7 @@ LOGOG;
     {
         $this->initWelcone();
         $this->initSystemCheck();
+        return;
         if ($this->confirm('Do you wish to continue?')) {
             if(!$this->acceptLicense()){
                 return;
