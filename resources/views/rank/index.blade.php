@@ -134,7 +134,7 @@
 
 </style>
 <div class="container mundb-standard-container">
-    <paper-card>
+    <paper-card data-section="rank">
         <div>
             <div class="table-responsive">
                 <table class="table">
@@ -152,7 +152,7 @@
                                 <th scope="row">
                                     <div>
                                         <a href="/user/{{$r["uid"]}}">
-                                            <img class="cm-avatar {{$r["titleColor"]}}" src="{{$r["details"]["avatar"]}}">
+                                            <img class="cm-avatar {{$r["titleColor"]}}" data-src="{{$r["details"]["avatar"]}}">
                                         </a>
                                         <div>
                                             <strong>#{{$r["rank"]}}</strong>
@@ -174,9 +174,11 @@
 <script>
 
     window.addEventListener("load",function() {
-
+        $('paper-card[data-section="rank"] img.cm-avatar').each(function(){
+            $(this).attr('src', NOJVariables.defaultAvatarPNG);
+            delayProblemLoad(this, $(this).attr('data-src'));
+        });
     }, false);
 
 </script>
-@include('js.submission.detail')
 @endsection
