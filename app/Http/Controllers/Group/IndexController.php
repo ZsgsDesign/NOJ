@@ -159,7 +159,7 @@ class IndexController extends Controller
         if ($clearance<1) {
             return Redirect::route('group.detail', ['gcode' => $gcode]);
         }
-        return view('group.all_homework', [
+        return view('group.homeworkList', [
             'page_title'=>"Group Homework",
             'site_title'=>config("app.name"),
             'navigation'=>"Group",
