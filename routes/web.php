@@ -84,6 +84,7 @@ Route::group(['namespace' => 'Group', 'prefix' => 'group','as' => 'group.','midd
     Route::get('/{gcode}/analysis', 'IndexController@analysis')->middleware('auth', 'group.exist', 'group.banned')->name('analysis');
     Route::get('/{gcode}/homework', 'IndexController@allHomework')->middleware('auth', 'group.exist', 'group.banned')->name('allHomework');
     Route::get('/{gcode}/homework/{homework_id}', 'IndexController@homework')->middleware('auth', 'group.exist', 'group.banned')->name('homework');
+    Route::get('/{gcode}/homework/{homework_id}/statistics', 'IndexController@homeworkStatistics')->middleware('auth', 'group.exist', 'group.banned')->name('homeworkStatistics');
     Route::get('/{gcode}/analysisDownload', 'IndexController@analysisDownload')->middleware('auth', 'group.exist', 'group.banned')->name('analysis.download');
     Route::group(['prefix' => '{gcode}/settings', 'as' => 'settings.', 'middleware' => ['privileged', 'group.exist', 'group.banned']], function () {
         Route::get('/', 'AdminController@settings')->middleware('auth')->name('index');
