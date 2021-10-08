@@ -193,7 +193,7 @@
         $(`#notice${id}`).modal('toggle');
     }
 
-    function changeText({selector="",text="",css={},fadeOutTime=100,fadeInTime=200} = {},callback=function(){}){
+    function changeText({selector="",text="",css={},fadeOutTime=100,fadeInTime=200} = {},callback=function(){}) {
         $(selector).animate({opacity : 0},100,function(){
             css['opacity'] = 1;
             $(selector).text(text);
@@ -203,18 +203,25 @@
         })
     }
 
-    function empty(test){
+    function empty(test) {
         return test.match(/^\s*$/);
     }
 
-    function setCookie(c_name,value,expiredays)
-    {
+    function setCookie(c_name,value,expiredays) {
         var exdate=new Date();
         exdate.setDate(exdate.getDate()+expiredays);
         document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString()) + ";domain={{env('SESSION_DOMAIN')}}";
     }
 
-    function delay(ms){
+    function delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function delayProblemLoad(element, src) {
+        let loadingImage = new Image();
+        loadingImage.onload = function(){
+            $(element).attr("src", loadingImage.src);
+        }
+        loadingImage.src = src;
     }
 </script>
