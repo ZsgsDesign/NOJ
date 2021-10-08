@@ -130,6 +130,33 @@ class Problem extends Model
         }
     }
 
+    public function users_latest_submission($users, $contestID = null, Carbon $till = null, $verdictFilter = [])
+    {
+        if (filled($contestID)) {
+            $endedAt = Carbon::parse(Contest::findOrFail($contestID)->endedAt);
+        }
+
+        $lastRecordSubQuery = $this->submissions()->select('uid', DB::raw('MAX(submission_date) as submission_date'))->whereIntegerInRaw('uid', $users)->where('cid', $contestID)->groupBy('uid');
+
+        if (filled($contestID)) {
+            $lastRecordSubQuery = $lastRecordSubQuery->where("submission_date", "<", $endedAt->timestamp);
+        }
+
+        if (filled($till)) {
+            $lastRecordSubQuery = $lastRecordSubQuery->where("submission_date", "<", $till->timestamp);
+        }
+
+        if(filled($verdictFilter)) {
+            $lastRecordSubQuery = $lastRecordSubQuery->whereIn('verdict', $verdictFilter);
+        }
+
+        $query = DB::table(DB::raw("({$lastRecordSubQuery->toSql()}) last_sub"))->leftJoinSub(Submission::toBase(), 'submissions', function ($join) {
+            $join->on('last_sub.submission_date', '=', 'submissions.submission_date')->on('last_sub.uid', '=', 'submissions.uid');
+        })->select('sid', 'last_sub.submission_date as submission_date', 'last_sub.uid as uid', 'verdict', 'color')->orderBy('uid', 'ASC');
+
+        return $query->mergeBindings($lastRecordSubQuery->toBase());
+    }
+
     /*     public function getSamplesAttribute()
     {
         return array_map(function($sample) {
