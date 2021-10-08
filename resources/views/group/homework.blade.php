@@ -142,6 +142,13 @@
                         </a>
                     @endforeach
                 </challenge-container>
+                @if($group_clearance >= 2)
+                    <div class="text-center mt-5">
+                        <a href="{{route('group.homeworkStatistics', ['gcode' => $basic_info['gcode'], 'homework_id' => $homework_info->id])}}">
+                            <button type="button" class="btn btn-outline-info mb-0"><i class="MDI chart-gantt"></i> {{__('group.homework.action.statistics')}}</button>
+                        </a>
+                    </div>
+                @endif
             </settings-body>
         </settings-card>
     </div>
