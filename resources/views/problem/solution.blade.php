@@ -785,7 +785,7 @@
                         simplemde.value(localStorage.getItem('{{$detail["pcode"]}}'));
                     }
                     else{
-                        simplemde.value('```\n//input code here\n```');
+                        simplemde.value('```\n// input code here\n```');
                     }
                 })
             </script>

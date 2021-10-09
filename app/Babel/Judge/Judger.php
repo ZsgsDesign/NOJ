@@ -29,7 +29,9 @@ class Judger extends Curl
 
         $result=$submissionModel->getWaitingSubmission();
 
-        Log::info(json_encode($result));
+        $submissionCount = count($result);
+
+        Log::channel('babel_judge_sync')->info("Currently $submissionCount submission(s) awaiting", [$result]);
 
         foreach ($result as $row) {
             $ocode=$row["ocode"];
@@ -39,9 +41,9 @@ class Judger extends Curl
                 }
                 $this->judger[$ocode]->judge($row);
             } catch (Throwable $e) {
-                Log::alert("Exception Occurs While Processing $ocode's Submission {$row['sid']}\n".$e->getMessage()."\nAt ".$e->getFile().":".$e->getLine());
+                Log::channel('babel_judge_sync')->alert("Exception Occurs While Processing $ocode's Submission {$row['sid']}\n".$e->getMessage()."\nAt ".$e->getFile().":".$e->getLine());
             } catch (Exception $e) {
-                Log::alert("Exception Occurs While Processing $ocode's Submission {$row['sid']}\n".$e->getMessage()."\nAt ".$e->getFile().":".$e->getLine());
+                Log::channel('babel_judge_sync')->alert("Exception Occurs While Processing $ocode's Submission {$row['sid']}\n".$e->getMessage()."\nAt ".$e->getFile().":".$e->getLine());
             }
         }
     }
