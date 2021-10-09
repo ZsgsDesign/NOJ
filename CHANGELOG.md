@@ -2,6 +2,147 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.17.0 Characinae - 2021-10-09
+This is a minor version update. As mentioned in `0.5.0` logs, the new version system would merge the old major and minor version numbers into new minor version numbers, thus as the 17th minor version update since NOJ `0.1.0`, this version would be numbered as major version `0`, minor version `17`, build pack `0` and patch number `0`.
+
+**Important:** Please follow NOJ Document's guide to upgrading your NOJ from `v0.16.x` to `v0.17.0`.
+
+**Summary:** Update Laravel from `6.x` to `8.5`, update Laravel Mix to `6.0`, requires `WKHTMLPDF` installed, uses new logo design, supports multiple log channels, supports group homework, supports strong password, supports `C11`, `C++14` and `C++17`, supports new contest rejudge interface, supports new contest pdf generation interface, supports problem lazy load that increases site rank and group loading time, supports new material preloader, supports new `sortable.js` as a sortable method, supports Carbon as time processer, supports 2 fonts and 5 environment variables. This version update also includes lots of query optimizations, bug fixes, functionality & UI improvements, and security updates.
+
+### Update Logs
+* **Compatibility:** NOJ now supports Laravel `8.5` per #672 requests, the latest version of Laravel. `8.x` uses Symphony 4, which introduced a lot of changes to the base code.
+* **Compatibility:** NOJ now deprecates **DomPDF** and uses **WKHTMLPDF** instead.
+* **Compatibility:** NOJ now uses `lax` for the same site verification.
+* **Compatibility:** NOJ now uses `Throwable` instead of `Exception` for the error handler.
+* **Compatibility:** NOJ now uses Laravel Mix `6.0`.
+* **Compatibility:** NOJ now separate log channels, `group_elo_update` and `babel_judge_sync` are now stored in different files apart from `app.log` (which originally named `laravel.log`) and expired after 7 days. 
+* **New:** Group homework support per #667 requests, this feature can be seen as the privatized lite version of **NOJ Dojo**.
+* **New:** Add `createHomework` AJAX API.
+* **New:** Use the third edition of the NOJ logo materialized design per #676 requests. While replacing all old logos, the third edition also modifies its dark and light flattened variant.
+* **New:** Strong password support via environment variable `FUNC_STRONG_PASSWORD`.
+* **New:** Add `C11` language support per #663 requests (require NOJ JudgeServer `v0.2.1` or higher).
+* **New:** Add `C++14` language support per #663 requests (require NOJ JudgeServer `v0.2.1` or higher).
+* **New:** Add `C++17` language support per #663 requests (require NOJ JudgeServer `v0.2.1` or higher).
+* **New:** Add new problem selector component per #664 requests.
+* **New:** Remastered contest rejudge feature per #673 requests. This function now opt-in for the beta test.
+* **New:** Contest rejudge now supports custom verdict to rejudge.
+* **New:** Remastered contest pdf generation feature by using **WKHTMLPDF** per #670 requests. This function now opt-in for the beta test and can only apply to contests in which all problems are self-hosted and you need to install **WKHTMLPDF** first then setup 2 environment variables, `WKHTML_PDF_BINARY` and `WKHTML_IMG_BINARY`.
+* **New:** Contest pdf generation now supports math formula rendering.
+* **New:** Contest pdf generation now supports removing after generation.
+* **New:** Add site-wide `delayProblemLoad` function for image lazy loading.
+* **New:** NOJ now uses the new material preloader component.
+* **New:** NOJ now uses `sortable.js` for sortable elements.
+* **New:** Add group left-to-right layout.
+* **New:** Add `users_latest_submission` query builder for problem model.
+* **New:** Add `problems_latest_submission` query builder for user model.
+* **New:** NOJ now uses `lluminate\Support\Carbon` and its alias `Carbon` for time processing.
+* **New:** Add `fonts-asset/simsun` package, see #504.
+* **New:** Add `fonts-asset/dejavu` package, see #504.
+* **New:** Add `barryvdh/laravel-snappy` package.
+* **New:** Add `_declaration` as an scss component.
+* **New:** Add `_mathjax` as an scss component.
+* **New:** Add `_refreshing` as an scss component.
+* **New:** Add `defaultAvatarPNG` as `NOJVariables` in typescript.
+* **New:** PDF generation locale support for contest admin panel.
+* **New:** Group homework locale support.
+* **Deprecated:** Remove `EloquentModel` alias for all eloquent models from now on, eloquent models will be referred to directly.
+* **Deprecated:** Remove `barryvdh/laravel-dompdf` package.
+* **Deprecated:** Remove `jquery-ui` and `noj-jquery-ui-sortable` package.
+* **Fixed:** Duplicate `lodash` package.
+* **Fixed:** A bug causing `babel:install` to fail when making directories.
+* **Fixed:** A bug causing email verification hidden when social login is disabled.
+* **Fixed:** A bug causing congratulation and other dialogs dismissable via ESC key while exit logic not triggered, see #722.
+* **Fixed:** A bug causing math formula overflow, see #723.
+* **Fixed:** A bug causing sample note blank, see #662.
+* **Fixed:** A bug causing admin portal contest registant_type field mapped wrongly.
+* **Fixed:** A bug causing SPJ uploading to fail.
+* **Fixed:** Typo (we mean it).
+* **Improved:** NOJ Dojo is now greatly optimized by using the new dojo status method, see #725.
+* **Improved:** Optimized site rank page performance, see #726.
+* **Improved:** Optimized group detail page performance, see #728.
+* **Improved:** Multidomain config now does not take effect in the console environment.
+* **Improved:** Eloquent contest model `getProblemSet` method now optimized.
+* **Improved:** PDF generation advice page now uses pure latex formula.
+* **Improved:** PDF generation cover page now uses the latest ICPC standard.
+* **Improved:** Contest admin panel now separates section-panel to own blade template.
+* **Improved:** Problem pagination is now configurable via environment variable `PAGINATION_PROBLEM_PER_PAGE`.
+* **Improved:** NOJ now uses blade stack to replace outdated `additionJS` yield.
+* **Improved:** NOJ ico file now bundles `16*16`, `48*48` and `256*256` resolution.
+* **Improved:** NOJ now uses a new refreshing button design.
+* **Improved:** NOJ now uses the new problem selector component for contest editing and arranging per #664 requests.
+* **Improved:** Redesign `ajax/problemExists` AJAX API.
+* **Improved:** Group function block now has a color scheme.
+* **Improved:** Group left-to-right layout now applies to all group detail-related pages.
+* **Improved:** NOJ now uses the new left-to-right layout for the analysis page, see #719.
+* **Improved:** Eloquent problem model `getProblemStatus` method.
+* **Improved:** NOJ now uses the dot-separated router for problems.
+* **Improved:** **Google Recaptcha** now defaults to false.
+* **Improved:** Admin Portal now displays babel mirror as part of the environment info.
+* **Security:** `beyondcode/laravel-dump-server` is now at `1.7.0`.
+* **Security:** `dragonmantank/cron-expression` is now at `3.1.0`.
+* **Security:** `encore/laravel-admin` is now at `1.8.14`.
+* **Security:** `filp/whoops` is now at `2.14.4`.
+* **Security:** `graham-campbell/markdown` is now at `13.1.1`.
+* **Security:** `intervention/image` is now at `2.7.0`.
+* **Security:** `laravel/framework` is now at `8.63.0`.
+* **Security:** `laravel/passport` is now at `10.1.3`.
+* **Security:** `laravel/socialite` is now at `5.2.5`.
+* **Security:** `laravel/tinker` is now at `2.6.2`.
+* **Security:** `laravelium/sitemap` is now at `8.0.1`.
+* **Security:** `league/mime-type-detection` is now at `1.8.0`.
+* **Security:** `mockery/mockery` is now at `1.4.4`.
+* **Security:** `monolog/monolog` is now at `2.3.5`.
+* **Security:** `nesbot/carbon` is now at `2.53.1`.
+* **Security:** `nikic/php-parser` is now at `4.13.0`.
+* **Security:** `nunomaduro/collision` is now at `5.10.0`.
+* **Security:** `phar-io/manifest` is now at `2.0.3`.
+* **Security:** `phar-io/version` is now at `3.1.0`.
+* **Security:** `phpdocumentor/type-resolver` is now at `1.5.1`.
+* **Security:** `phpoption/phpoption` is now at `1.8.0`.
+* **Security:** `phpseclib/phpseclib` is now at `3.0.10`.
+* **Security:** `phpspec/prophecy` is now at `1.14.0`.
+* **Security:** `phpunit/php-code-coverage` is now at `9.2.7`.
+* **Security:** `phpunit/php-file-iterator` is now at `3.0.5`.
+* **Security:** `phpunit/php-text-template` is now at `2.0.4`.
+* **Security:** `phpunit/php-timer` is now at `5.0.3`.
+* **Security:** `phpunit/phpunit` is now at `9.5.10`.
+* **Security:** `predis/predis` is now at `1.1.9`.
+* **Security:** `psy/psysh` is now at `0.10.8`.
+* **Security:** `ramsey/uuid` is now at `4.2.3`.
+* **Security:** `sebastian/code-unit-reverse-lookup` is now at `2.0.3`.
+* **Security:** `sebastian/comparator` is now at `4.0.6`.
+* **Security:** `sebastian/diff` is now at `4.0.4`.
+* **Security:** `sebastian/environment` is now at `5.1.3`.
+* **Security:** `sebastian/exporter` is now at `4.0.3`.
+* **Security:** `sebastian/global-state` is now at `5.0.3`.
+* **Security:** `sebastian/object-enumerator` is now at `4.0.4`.
+* **Security:** `sebastian/object-reflector` is now at `2.0.4`.
+* **Security:** `sebastian/recursion-context` is now at `4.0.4`.
+* **Security:** `sebastian/resource-operations` is now at `3.0.3`.
+* **Security:** `sebastian/version` is now at `3.0.2`.
+* **Security:** `symfony/console` is now at `5.3.7`.
+* **Security:** `symfony/dom-crawler` is now at `5.3.7`.
+* **Security:** `symfony/error-handler` is now at `5.3.7`.
+* **Security:** `symfony/event-dispatcher` is now at `5.3.7`.
+* **Security:** `symfony/event-dispatcher-contracts` is now at `2.4.0`.
+* **Security:** `symfony/finder` is now at `5.3.7`.
+* **Security:** `symfony/http-foundation` is now at `5.3.7`.
+* **Security:** `symfony/http-kernel` is now at `5.3.9`.
+* **Security:** `symfony/mime` is now at `5.3.8`.
+* **Security:** `symfony/process` is now at `5.3.7`.
+* **Security:** `symfony/routing` is now at `5.3.7`.
+* **Security:** `symfony/translation` is now at `5.3.9`.
+* **Security:** `symfony/var-dumper` is now at `5.3.8`.
+* **Security:** `vlucas/phpdotenv` is now at `5.3.1`.
+* **Security:** `webpack` is now at `5.52.1`.
+* **Security:** `typescript` is now at `4.4.3`.
+* **Security:** `sass` is now at `1.42.1`.
+* **Security:** `pdfobject` is now at `2.2.7`.
+* **Security:** `codemirror` is now at `5.63.1`.
+* **Security:** `axios` is now at `0.21.4`.
+* **Security:** `dompurify` is now at `2.3.2`.
+* **Security:** `postcss` is now at `8.3.9`.
+
 ## v0.16.0 Bryconinae - 2021-08-27
 This is a minor version update. As mentioned in `0.5.0` logs, the new version system would merge the old major and minor version numbers into new minor version numbers, thus as the 16th minor version update since NOJ `0.1.0`, this version would be numbered as major version `0`, minor version `16`, build pack `0` and patch number `0`.
 
