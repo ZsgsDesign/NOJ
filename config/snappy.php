@@ -37,7 +37,11 @@ return [
         'enabled' => true,
         'binary'  => '"'.env('WKHTML_PDF_BINARY', '/usr/local/bin/wkhtmltopdf').'"',
         'timeout' => false,
-        'options' => [],
+        'options' => [
+            'enable-local-file-access' => true,
+            'orientation'   => 'landscape',
+            'encoding'      => 'UTF-8'
+        ],
         'env'     => [],
     ],
 
@@ -45,7 +49,11 @@ return [
         'enabled' => true,
         'binary'  => '"'.env('WKHTML_IMG_BINARY', '/usr/local/bin/wkhtmltoimage').'"',
         'timeout' => false,
-        'options' => [],
+        'options' => [
+            'enable-local-file-access' => true,
+            'orientation'   => 'landscape',
+            'encoding'      => 'UTF-8'
+        ],
         'env'     => [],
     ],
 
