@@ -2,12 +2,12 @@
 
 ## Supported Versions
 
-Currently only NOJ `0.5.x` are being supported with security updates.
+Currently only NOJ `0.17.x` are being supported with security updates.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 0.5.x   | :white_check_mark: |
-| < 5.0   | :x:                |
+| Version    | Supported          |
+| ---------- | ------------------ |
+| 0.17.x     | :white_check_mark: |
+| < 0.17.0   | :x:                |
 
 ## Reporting a Vulnerability
 
