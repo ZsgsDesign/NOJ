@@ -180,7 +180,11 @@
                                     @if($status === false)
                                         <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
                                     @else
-                                        <i class="MDI {{$status[$problem->pid]['icon']}} {{$status[$problem->pid]['color']}}"></i>
+                                        @isset($status[$problem->pid])
+                                            <i class="MDI {{$status[$problem->pid]['icon']}} {{$status[$problem->pid]['color']}}"></i>
+                                        @else
+                                            <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
+                                        @endisset
                                     @endif
                                 </div>
                                 <div style="display: inline-block">
