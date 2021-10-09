@@ -9,6 +9,7 @@
     }
     .cover img{
         width: 15rem;
+        margin: 0 auto;
         display: block;
     }
     .cover p.warning{
@@ -19,8 +20,10 @@
     }
 </style>
 
+<div style="padding:4rem;"></div>
+
 <div class="cover">
-    <div style="margin-top: 4rem;">
+    <div>
         <h1>{{$contest['name']}}</h1>
         <h2>{{$contest['date']}}</h2>
         <img src="{{asset('/static/img/icpc.png')}}">
@@ -30,10 +33,10 @@
 
     <h2>Problems</h2>
 
-    <table>
+    <table style="text-align: left;">
         @foreach($problemset as $problem)
         <tr>
-            <td>{{$problem['index']}}</td>
+            <td style="padding-right: 0.5rem;">{{$problem['index']}}</td>
             <td style="white-space: nowrap;">{{$problem['title']}}</td>
         </tr>
         @endforeach

@@ -156,12 +156,12 @@ class Contest extends Model
         return strtotime($this->end_time)<time();
     }
 
-    public static function getProblemSet($cid, $renderLatex=false)
+    public function getProblemSet($renderLatex=false)
     {
         $ret=[];
-        $problemset=ContestProblem::where('cid', $cid)->orderBy('number', 'asc')->get();
+        $problemset=$this->problems;
         foreach ($problemset as $problem) {
-            $problemDetail=ProblemModel::find($problem->pid);
+            $problemDetail=Problem::find($problem->pid);
             $problemRet=(new OutdatedProblemModel())->detail($problemDetail->pcode);
             if ($renderLatex) {
                 foreach (['description', 'input', 'output', 'note'] as $section) {

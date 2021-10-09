@@ -99,7 +99,7 @@
 </div>
 @endsection
 
-@section('additionJS')
+@push('additionScript')
 
     @component('components.vscode')
         editorInstance.create("plaintext", "vs", 'monaco', "").then((value) => {
@@ -174,5 +174,5 @@
             });
         }
     </script>
-@endsection
+@endpush
 

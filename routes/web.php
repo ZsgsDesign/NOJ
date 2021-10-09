@@ -63,8 +63,8 @@ Route::group(['prefix' => 'user','as' => 'user.', 'middleware' => ['user.banned'
 Route::group(['prefix' => 'problem', 'middleware' => ['user.banned', 'contest_account']], function () {
     Route::get('/', 'ProblemController@index')->name('problem_index');
     Route::get('/{pcode}', 'ProblemController@detail')->name('problem.detail');
-    Route::get('/{pcode}/editor', 'ProblemController@editor')->middleware('auth')->name('problem_editor');
-    Route::get('/{pcode}/solution', 'ProblemController@solution')->middleware('auth')->name('problem_solution');
+    Route::get('/{pcode}/editor', 'ProblemController@editor')->middleware('auth')->name('problem.editor');
+    Route::get('/{pcode}/solution', 'ProblemController@solution')->middleware('auth')->name('problem.solution');
     Route::get('/{pcode}/discussion', 'ProblemController@discussion')->middleware('auth')->name('problem.discussion');
 });
 
@@ -82,8 +82,11 @@ Route::group(['namespace' => 'Group', 'prefix' => 'group','as' => 'group.','midd
     Route::get('/{gcode}', 'IndexController@detail')->middleware('auth', 'group.exist', 'group.banned')->name('detail');
 
     Route::get('/{gcode}/analysis', 'IndexController@analysis')->middleware('auth', 'group.exist', 'group.banned')->name('analysis');
+    Route::get('/{gcode}/homework', 'IndexController@allHomework')->middleware('auth', 'group.exist', 'group.banned')->name('allHomework');
+    Route::get('/{gcode}/homework/{homework_id}', 'IndexController@homework')->middleware('auth', 'group.exist', 'group.banned')->name('homework');
+    Route::get('/{gcode}/homework/{homework_id}/statistics', 'IndexController@homeworkStatistics')->middleware('auth', 'group.exist', 'group.banned')->name('homeworkStatistics');
     Route::get('/{gcode}/analysisDownload', 'IndexController@analysisDownload')->middleware('auth', 'group.exist', 'group.banned')->name('analysis.download');
-    Route::group(['prefix' => '{gcode}/settings','as' => 'settings.', 'middleware' => ['privileged', 'group.exist', 'group.banned']], function () {
+    Route::group(['prefix' => '{gcode}/settings', 'as' => 'settings.', 'middleware' => ['privileged', 'group.exist', 'group.banned']], function () {
         Route::get('/', 'AdminController@settings')->middleware('auth')->name('index');
         Route::get('/general', 'AdminController@settingsGeneral')->middleware('auth')->name('general');
         Route::get('/return', 'AdminController@settingsReturn')->middleware('auth')->name('return');
@@ -91,6 +94,7 @@ Route::group(['namespace' => 'Group', 'prefix' => 'group','as' => 'group.','midd
         Route::get('/member', 'AdminController@settingsMember')->middleware('auth')->name('member');
         Route::get('/contest', 'AdminController@settingsContest')->middleware('auth')->name('contest');
         Route::get('/problems', 'AdminController@problems')->middleware('auth')->name('problems');
+        Route::get('/homework', 'AdminController@homework')->middleware('auth')->name('homework');
     });
 });
 
@@ -172,7 +176,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.
     Route::post('judgeStatus', 'ProblemController@judgeStatus')->middleware('auth');
     Route::post('manualJudge', 'ProblemController@manualJudge')->middleware('auth');
     Route::post('submitHistory', 'ProblemController@submitHistory')->middleware('auth');
-    Route::post('problemExists', 'ProblemController@problemExists')->middleware('auth');
+    Route::post('problemExists', 'ProblemController@problemExists')->middleware('auth')->name('ajax.problemExists');
     Route::post('arrangeContest', 'GroupManageController@arrangeContest')->middleware('auth');
     Route::post('joinGroup', 'GroupController@joinGroup')->middleware('auth');
     Route::post('exitGroup', 'GroupController@exitGroup')->middleware('auth');
@@ -207,6 +211,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.
         Route::post('inviteMember', 'GroupManageController@inviteMember')->middleware('auth');
         Route::post('createNotice', 'GroupManageController@createNotice')->middleware('auth');
         Route::post('changeSubGroup', 'GroupManageController@changeSubGroup')->middleware('auth');
+        Route::post('createHomework', 'GroupManageController@createHomework')->middleware('auth')->name('ajax.group.createHomework');
 
         Route::post('addProblemTag', 'GroupAdminController@addProblemTag')->middleware('auth');
         Route::post('removeProblemTag', 'GroupAdminController@removeProblemTag')->middleware('auth');
@@ -222,7 +227,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.
         Route::post('getAnalysisData', 'ContestController@getAnalysisData')->middleware('auth')->name('ajax.contest.getAnalysisData');
         Route::get('downloadPDF', 'ContestController@downloadPDF')->middleware('auth')->name('ajax.contest.downloadPDF');
 
-        Route::get('rejudge', 'ContestAdminController@rejudge')->middleware('auth');
+        Route::post('rejudge', 'ContestAdminController@rejudge')->middleware('auth')->name('ajax.contest.rejudge');
         Route::post('details', 'ContestAdminController@details')->middleware('auth');
         Route::post('assignMember', 'ContestAdminController@assignMember')->middleware('auth');
         Route::post('update', 'ContestAdminController@update')->middleware('auth');
@@ -233,6 +238,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.
         Route::post('getScrollBoardData', 'ContestAdminController@getScrollBoardData')->middleware('auth')->name('ajax.contest.getScrollBoardData');
         Route::get('downloadCode', 'ContestAdminController@downloadCode')->middleware('auth');
         Route::post('generatePDF', 'ContestAdminController@generatePDF')->middleware('auth')->name('ajax.contest.generatePDF');
+        Route::post('removePDF', 'ContestAdminController@removePDF')->middleware('auth')->name('ajax.contest.removePDF');
         Route::post('anticheat', 'ContestAdminController@anticheat')->middleware('auth')->name('ajax.contest.anticheat');
         Route::get('downloadPlagiarismReport', 'ContestAdminController@downloadPlagiarismReport')->middleware('auth')->name('ajax.contest.downloadPlagiarismReport');
     });

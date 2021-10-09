@@ -21,3 +21,5 @@ yarn-error.log
 /public/static/language-services
 /.vscode/ipch
 /.rnd
+
+/_ide_helper.php

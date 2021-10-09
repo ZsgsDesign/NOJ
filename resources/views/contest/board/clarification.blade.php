@@ -257,7 +257,7 @@
 
 @endsection
 
-@section('additionJS')
+@push('additionScript')
 <script>
 
     function selectMsg(id){
@@ -414,4 +414,4 @@
     }
 
 </script>
-@endsection
+@endpush

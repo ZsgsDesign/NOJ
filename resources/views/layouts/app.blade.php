@@ -53,111 +53,12 @@
     <!-- Third-Party Declarations -->
     <meta name="google-site-verification" content="{{ env("GOOGLE_SITE_VERIFICATION") }}" />
     <meta name="baidu-site-verification" content="{{ env("BAIDU_SITE_VERIFICATION") }}" />
-    <!-- Loading Style -->
-    <style>
-        loading>div {
-            text-align: center;
-        }
-
-        loading p {
-            font-weight: 300;
-        }
-
-        loading {
-            display: flex;
-            z-index: 999;
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            left: 0;
-            justify-content: center;
-            align-items: center;
-            background: #f5f5f5;
-            transition: .2s ease-out .0s;
-            opacity: 1;
-        }
-
-        .lds-ellipsis {
-            display: inline-block;
-            position: relative;
-            width: 64px;
-            height: 64px;
-        }
-
-        .lds-ellipsis div {
-            position: absolute;
-            top: 27px;
-            width: 11px;
-            height: 11px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, .54);
-            animation-timing-function: cubic-bezier(0, 1, 1, 0);
-        }
-
-        .lds-ellipsis div:nth-child(1) {
-            left: 6px;
-            animation: lds-ellipsis1 0.6s infinite;
-        }
-
-        .lds-ellipsis div:nth-child(2) {
-            left: 6px;
-            animation: lds-ellipsis2 0.6s infinite;
-        }
-
-        .lds-ellipsis div:nth-child(3) {
-            left: 26px;
-            animation: lds-ellipsis2 0.6s infinite;
-        }
-
-        .lds-ellipsis div:nth-child(4) {
-            left: 45px;
-            animation: lds-ellipsis3 0.6s infinite;
-        }
-
-        @keyframes lds-ellipsis1 {
-            0% {
-                transform: scale(0);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        @keyframes lds-ellipsis3 {
-            0% {
-                transform: scale(1);
-            }
-            100% {
-                transform: scale(0);
-            }
-        }
-
-        @keyframes lds-ellipsis2 {
-            0% {
-                transform: translate(0, 0);
-            }
-            100% {
-                transform: translate(19px, 0);
-            }
-        }
-    </style>
     @stack('custom:css')
 </head>
 
 <body style="display: flex;flex-direction: column;min-height: 100vh;">
     <!-- Loading -->
-    <loading>
-        <div>
-            <div class="lds-ellipsis">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-            <p>{{__('splash.loading', ['name' => config("app.name")])}}</p>
-        </div>
-    </loading>
+    @include('layouts.components.loading')
     <!-- Style -->
     @include('layouts.css')
     <!-- Background -->
@@ -348,7 +249,7 @@
     </footer>
     @include('layouts.js')
     @include('layouts.primaryJS')
-    @yield('additionJS')
+    @stack('additionScript')
 </body>
 
 </html>

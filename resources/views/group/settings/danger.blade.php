@@ -22,14 +22,14 @@
 
 @endsection
 
-@section('additionJS')
+@push('additionScript')
     <script>
         $('#elo-refresh').on('click',function(){
             $.ajax({
                 type: 'POST',
                 url: '/ajax/group/refreshElo',
                 data: {
-                    gid: {{$basic_info["gid"]}}
+                    gid: '{{$basic_info["gid"]}}'
                 },
                 dataType: 'json',
                 headers: {
@@ -45,4 +45,4 @@
             });
         });
     </script>
-@endsection
+@endpush

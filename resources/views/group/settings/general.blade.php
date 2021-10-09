@@ -180,7 +180,7 @@
 
 @endsection
 
-@section('additionJS')
+@push('additionScript')
     <script>
         window.addEventListener('load',function(){});
 
@@ -229,14 +229,6 @@
             $('#update-avatar-modal').modal('hide');
         });
 
-        function sortableInit(){
-            $("#contestModal tbody").sortable({
-                items: "> tr",
-                appendTo: "parent",
-                helper: "clone"
-            });
-        }
-
         let ajaxing = false;
 
         function approveMember(uid){
@@ -246,7 +238,7 @@
                 type: 'POST',
                 url: '/ajax/group/approveMember',
                 data: {
-                    gid: {{$basic_info["gid"]}},
+                    gid: '{{$basic_info["gid"]}}',
                     uid: uid
                 },
                 dataType: 'json',
@@ -275,7 +267,7 @@
                 type: 'POST',
                 url: '/ajax/group/changeJoinPolicy',
                 data: {
-                    gid: {{$basic_info["gid"]}},
+                    gid: '{{$basic_info["gid"]}}',
                     join_policy: choice
                 },
                 dataType: 'json',
@@ -323,8 +315,8 @@
 
             $(this).addClass('updating');
             var data = new FormData();
-            data.append('img',file);
-            data.append('gid',{{$basic_info["gid"]}});
+            data.append('img', file);
+            data.append('gid','{{$basic_info["gid"]}}');
 
             $.ajax({
                 type: 'POST',
@@ -380,7 +372,7 @@
                     type: 'POST',
                     url: '/ajax/group/changeGroupName',
                     data: {
-                        gid: {{$basic_info["gid"]}},
+                        gid: '{{$basic_info["gid"]}}',
                         group_name: name
                     },
                     dataType: 'json',
@@ -414,16 +406,6 @@
             }
         });
 
-        $('#problemCode').bind('keypress',function(event){
-            if(event.keyCode == "13") {
-                addProblem();
-            }
-        });
-
-        $("#addProblemBtn").click(function() {
-            addProblem();
-        });
-
         $("#joinGroup").click(function() {
             if(ajaxing) return;
             ajaxing=true;
@@ -432,7 +414,7 @@
                 type: 'POST',
                 url: '/ajax/joinGroup',
                 data: {
-                    gid: {{$basic_info["gid"]}}
+                    gid: '{{$basic_info["gid"]}}'
                 },
                 dataType: 'json',
                 headers: {
@@ -463,7 +445,7 @@
                 type: 'POST',
                 url: '/ajax/group/changeNickName',
                 data: {
-                    gid: {{$basic_info["gid"]}},
+                    gid: '{{$basic_info["gid"]}}',
                     nick_name: $("#nick_name").val()
                 },
                 dataType: 'json',
@@ -487,4 +469,4 @@
             });
         });
     </script>
-@endsection
+@endpush

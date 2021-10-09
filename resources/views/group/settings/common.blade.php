@@ -146,6 +146,7 @@
                 <menu-item type="item" data-name="member"> <i class="MDI tune"></i> {{__('group.common.memberSettings')}} </menu-item>
                 <menu-item type="item" data-name="problems"> <i class="MDI script"></i> {{__('group.common.problemsManagement')}}</menu-item>
                 <menu-item type="item" data-name="contest"> <i class="MDI trophy-variant"></i> {{__('group.common.contestManagement')}} </menu-item>
+                <menu-item type="item" data-name="homework"> <i class="MDI book"></i> {{__('group.common.homeworkManagement')}} </menu-item>
                 <menu-item type="item" data-name="analysis"> <i class="MDI chart-line"></i> {{__('group.common.practiceAnalysis')}} </menu-item>
                 <menu-item type="separate"></menu-item>
                 <menu-item type="item" data-name="danger"> <i class="MDI alert-circle"></i> {{__('group.common.dangerField')}} </menu-item>

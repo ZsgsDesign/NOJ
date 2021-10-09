@@ -106,7 +106,7 @@
 </div>
 @endsection
 
-@section('additionJS')
+@push('additionScript')
     @include("js.common.hljsLight")
     <style>
         .hljs {
@@ -116,5 +116,5 @@
     <script>
         hljs.highlightElement(document.querySelector(`#pb_content`));
     </script>
-@endsection
+@endpush
 

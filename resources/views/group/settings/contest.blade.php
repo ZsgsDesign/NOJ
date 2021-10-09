@@ -318,22 +318,9 @@
                                 <option value="0">{{__('group.contest.viewNothing')}}</option>
                             </select>
                         </div>
-                        <p style="margin-top: 1rem;">{{__('group.contest.problems')}}</p>
-                        <table id="problems-table" class="table">
-                            <thead>
-                                <tr>
-                                <th scope="col">{{__('group.contest.no')}}</th>
-                                <th scope="col">{{__('group.contest.code')}}</th>
-                                <th scope="col">{{__('group.contest.score')}}</th>
-                                <th scope="col">{{__('group.contest.opr')}}</th>
-                                </tr>
-                            </thead>
-                            <tbody id="contestProblemSet">
-                            </tbody>
-                        </table>
-                        <div style="text-align: center;">
-                            <button class="btn btn-info" onclick="$('#addProblemModal').modal({backdrop:'static'});"><i class="MDI plus"></i> {{__('group.contest.addProblem')}}</button>
-                        </div>
+                        @include('components.problemSelector', [
+                            'editAlias' => false
+                        ])
                         <p>{{__('group.contest.description')}}</p>
                         <markdown-editor class="mt-3 mb-3">
                             <textarea id="description_editor"></textarea>
@@ -377,29 +364,9 @@
     </div>
 </div>
 
-<div id="addProblemModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content sm-modal">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="MDI bookmark-plus"></i> {{__('group.contest.addProblem')}}</h5>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="problemCode" class="bmd-label-floating">{{__('group.contest.problemCode')}}</label>
-                    <input type="text" class="form-control" id="problemCode">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('group.contest.close')}}</button>
-                <button type="button" class="btn btn-primary" id="addProblemBtn"><i class="MDI autorenew cm-refreshing d-none"></i> {{__('group.contest.add')}}</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 @endsection
 
-@section('additionJS')
+@push('additionScript')
 
     @include("js.common.hljsLight")
     @include("js.common.markdownEditor")
@@ -409,20 +376,8 @@
 
         initDetails();
 
-        function sortableInit(){
-            $("#problems-table tbody").sortable({
-                items: "> tr",
-                appendTo: "parent",
-                helper: "clone"
-            });
-        }
-
         $('#assignee-area').on('click',function(){
             $('#assignModal').modal();
-        });
-
-        $("#addProblemBtn").click(function() {
-            addProblem();
         });
 
         $('user-card').on('click',function(){
@@ -465,9 +420,25 @@
             var statusVisibility = $("#status-visibility").val();
             var problemSet = "";
             var contestDescription = simplemde.value();
-            $("#contestProblemSet td:first-of-type").each(function(){
-                problemSet+=""+$(this).text()+",";
+
+            let probList = getSelectedProblemList();
+
+            if(probList === false) {
+                return alert("Please verify if all problems are checked.");
+            }
+
+            if(probList.length < 1) {
+                return alert("Please include at least one problem.");
+            } else if(probList.length > 26) {
+                return alert("Please include no more than 26 problems.");
+            }
+
+            // As of 0.17.0 we use compatibility mode for this, so no ajax at the moment, this is buggy and we are going to fix it soon
+
+            probList.forEach(function(element) {
+                problemSet+=`${element.pcode},`;
             });
+
             if (contestName.replace(/(^s*)|(s*$)/g, "").length == 0) {
                 ajaxing=false;
                 return alert("Contest Name Shoudn't be empty");
@@ -573,85 +544,19 @@
             $('#contestEnd').val(contest.end_time);
             $('select#status-visibility').val(contest.status_visibility);
             simplemde.value(contest.description);
-            $('#contestProblemSet').html('');
+            resetProblemSelector();
             for(let i in problems){
                 problem = problems[i];
-                $("#contestProblemSet").append(`
-                    <tr>
-                        <th scope="row"></th>
-                        <td>${problem.pcode}</td>
-                        <td>1</td>
-                        <td><i class="MDI cm-remove wemd-red-text" onclick="removeProblem(this)" title="{{__('group.contest.deleteProblemTip')}}"></i></td>
-                    </tr>
-                `);
+                addNewProblemToSelector({
+                    pcode: problem.pcode,
+                    title: problem.title
+                });
             }
-            sortableInit();
             if(is_admin){
                 $('#contest-update').fadeIn();
             }else{
                 $('#contest-update').fadeOut();
             }
-        }
-
-        function addProblem(){
-            // Add Problem
-            if(ajaxing) return;
-            else ajaxing=true;
-            $("#addProblemBtn > i").removeClass("d-none");
-            $.ajax({
-                type: 'POST',
-                url: '/ajax/problemExists',
-                data: {
-                    pcode: $("#problemCode").val()
-                },
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }, success: function(ret){
-                    // console.log(ret);
-                    if (ret.ret==200) {
-                        var sameFlag=false;
-                        $("#contestProblemSet td:first-of-type").each(function(){
-                            if(ret.data.pcode==$(this).text()){
-                                alert("Problem Already Exist");
-                                $('#addProblemModal').modal('toggle');
-                                ajaxing=false;
-                                $("#problemCode").val("");
-                                sameFlag=true;
-                                return;
-                            }
-                        });
-                        if(sameFlag==false){
-                            $("#contestProblemSet").append(`
-                                <tr>
-                                    <th scope="row"></th>
-                                    <td>${ret.data.pcode}</td>
-                                    <td>1</td>
-                                    <td><i class="MDI cm-remove wemd-red-text" onclick="removeProblem(this)" title="{{__('group.contest.deleteProblemTip')}}"></i></td>
-                                </tr>
-                            `);
-                            sortableInit();
-                        }
-                    } else {
-                        alert("{{__('group.contest.errorProblemNonExist')}}");
-                    }
-                    $('#addProblemModal').modal('toggle');
-                    ajaxing=false;
-                    $("#problemCode").val("");
-                    $("#addProblemBtn > i").addClass("d-none");
-                }, error: function(xhr, type){
-                    console.log('Ajax error while posting to problemExists!');
-                    alert("{{__('errors.default')}}");
-                    $('#addProblemModal').modal('toggle');
-                    ajaxing=false;
-                    $("#problemCode").val("");
-                    $("#addProblemBtn > i").addClass("d-none");
-                }
-            });
-        };
-
-        function removeProblem(obj) {
-            $(obj).parent().parent().remove();
         }
 
         function loadContestData(contest_card){
@@ -727,4 +632,4 @@
 
         hljs.initHighlighting();
     </script>
-@endsection
+@endpush

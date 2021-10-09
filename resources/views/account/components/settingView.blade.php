@@ -126,6 +126,7 @@
 
         </div>
     </socialite-setting>
+    @endif
     {{-- <style-section class="paper-card">
         <p>Style settings</p>
     </style-section> --}}
@@ -146,19 +147,18 @@
                     </div>
                 @else
                     <p style="padding: 1rem 0">
-                        @lang('dashboard.setting.emailBinded',['email' => htmlspecialchars($info['email'])])
+                        @lang('dashboard.setting.emailBinded', ['email' => htmlspecialchars($info['email'])])
                     </p>
                 @endunless
             </div>
         @else
             <div class="text-center">
                 <p style="padding: 1rem 0">
-                    @lang('dashboard.setting.emailTemp',['email' => htmlspecialchars($info['email'])])
+                    @lang('dashboard.setting.emailTemp', ['email' => htmlspecialchars($info['email'])])
                 </p>
             </div>
         @endif
     </email-section>
-    @endif
     <password-section class="paper-card">
         @if(Auth::user()->hasIndependentPassword())
             <p><i class="MDI asterisk"></i>{{__('dashboard.setting.passwordChange')}}</p>

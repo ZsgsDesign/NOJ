@@ -1,6 +1,6 @@
 # NOJ  - Automatic Algorithm Test Platform
 
-![NOJ](/noj2.png)
+![NOJ](/noj_banner.png)
 
 NOJ's another online judge platform, stands for NJUPT Online Judge. It's written in PHP, GO, Python and other function-supporting languages and supports both online judges and virtual judges, we called it **mixed judge**.
 
@@ -14,9 +14,9 @@ NOJ's another online judge platform, stands for NJUPT Online Judge. It's written
 ![Stars](https://img.shields.io/github/stars/zsgsdesign/noj.svg?style=flat-square)
 ![Forks](https://img.shields.io/github/forks/zsgsdesign/noj.svg?style=flat-square)
 
-## v0.16.0 Bryconinae
+## v0.17.0 Characinae
 
-For more information, please visit [v0.16.0 Bryconinae Release Log](https://github.com/ZsgsDesign/NOJ/releases/tag/0.16.0) page.
+For more information, please visit [v0.17.0 Characinae Release Log](https://github.com/ZsgsDesign/NOJ/releases/tag/0.17.0) page.
 
 ### Installation
 
@@ -54,7 +54,10 @@ NOJ now supports 15 popular programming languages, you can start issues about ne
 |Language|Compile/Run Command|
 |--------|-------------------|
 |C|/usr/bin/gcc -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c99 {src_path} -lm -o {exe_path}|
+|C11|/usr/bin/gcc -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c11 {src_path} -lm -o {exe_path}|
 |C++|/usr/bin/g++ -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c++11 {src_path} -lm -o {exe_path}|
+|C++14|/usr/bin/g++ -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c++14 {src_path} -lm -o {exe_path}|
+|C++17|/usr/bin/g++ -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c++17 {src_path} -lm -o {exe_path}|
 |Java|/usr/bin/javac {src_path} -d {exe_dir} -encoding UTF8<br>/usr/bin/java -cp {exe_dir} -XX:MaxRAM={max_memory}k -Djava.security.manager -Dfile.encoding=UTF-8 -Djava.security.policy==/etc/java_policy -Djava.awt.headless=true Main|
 |Python2|/usr/bin/python -m py_compile {src_path}<br>/usr/bin/python {exe_path}|
 |Python3|/usr/bin/python3.7 -m py_compile {src_path}<br>/usr/bin/python3.7 {exe_path}|

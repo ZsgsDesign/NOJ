@@ -21,7 +21,16 @@
     $(document).ready(function () { $('body').bootstrapMaterialDesign();$('[data-toggle="tooltip"]').tooltip(); });
     window.addEventListener("load",function() {
 
-        $('loading').css({"opacity":"0","pointer-events":"none"});
+        endLoadingTimestamp = Date.now();
+        var loadingOffset = endLoadingTimestamp - startLoadingTimestamp;
+
+        if(loadingOffset < 500) {
+            setTimeout(function(){
+                $('material-preloader').addClass("loaded");
+            }, loadingOffset);
+        } else {
+            $('material-preloader').addClass("loaded");
+        }
 
         // Console Text
 
@@ -109,11 +118,12 @@
         $(`#notice${id}`).modal('toggle');
     }
 
-    function confirm ({content="",title="Confirm",icon="information-outline",backdrop="static",noText="Cancel",yesText="OK"}={},callback=function(deny){}){
+    function confirm ({content="",title="Confirm",icon="information-outline",backdrop="static",noText="Cancel",yesText="OK",keyboard=true}={},callback=function(deny){}){
         var id = new Date().getTime();
         if(backdrop !== "static") backdrop = backdrop?"true":"false";
+        keyboard = keyboard ? true : false;
         $('body').append(`
-            <div class="modal fade" id="notice${id}" data-backdrop="${backdrop}" tabindex="-1" role="dialog">
+            <div class="modal fade" id="notice${id}" data-backdrop="${backdrop}" data-keyboard="${keyboard}" tabindex="-1" role="dialog">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-alert" role="document">
                     <div class="modal-content sm-modal">
                         <div class="modal-header">
@@ -183,7 +193,7 @@
         $(`#notice${id}`).modal('toggle');
     }
 
-    function changeText({selector="",text="",css={},fadeOutTime=100,fadeInTime=200} = {},callback=function(){}){
+    function changeText({selector="",text="",css={},fadeOutTime=100,fadeInTime=200} = {},callback=function(){}) {
         $(selector).animate({opacity : 0},100,function(){
             css['opacity'] = 1;
             $(selector).text(text);
@@ -193,18 +203,25 @@
         })
     }
 
-    function empty(test){
+    function empty(test) {
         return test.match(/^\s*$/);
     }
 
-    function setCookie(c_name,value,expiredays)
-    {
+    function setCookie(c_name,value,expiredays) {
         var exdate=new Date();
         exdate.setDate(exdate.getDate()+expiredays);
         document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString()) + ";domain={{env('SESSION_DOMAIN')}}";
     }
 
-    function delay(ms){
+    function delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function delayProblemLoad(element, src) {
+        let loadingImage = new Image();
+        loadingImage.onload = function(){
+            $(element).attr("src", loadingImage.src);
+        }
+        loadingImage.src = src;
     }
 </script>

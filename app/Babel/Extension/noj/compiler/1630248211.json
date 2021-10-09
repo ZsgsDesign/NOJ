@@ -1,0 +1,24 @@
+{
+    "modifications":[{
+        "code":"c11",
+        "compability":"c",
+        "language":"c",
+        "icon":"devicon-c-plain",
+        "display":"C11",
+        "method":"add"
+    },{
+        "code":"cpp14",
+        "compability":"c",
+        "language":"cpp",
+        "icon":"devicon-cplusplus-plain",
+        "display":"C++14",
+        "method":"add"
+    },{
+        "code":"cpp17",
+        "compability":"c",
+        "language":"cpp",
+        "icon":"devicon-cplusplus-plain",
+        "display":"C++17",
+        "method":"add"
+    }]
+}

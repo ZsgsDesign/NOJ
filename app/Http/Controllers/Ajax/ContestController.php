@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Ajax;
 
 use App\Models\ContestModel;
-use App\Models\Eloquent\Contest as EloquentContestModel;
+use App\Models\Eloquent\Contest;
 use App\Models\GroupModel;
 use App\Models\ResponseModel;
 use App\Http\Controllers\Controller;
@@ -118,7 +118,7 @@ class ContestController extends Controller
         ]);
         $cid=$request->input('cid');
 
-        $info=EloquentContestModel::find($cid);
+        $info=Contest::find($cid);
 
         if (!$info->pdf) {
             return abort('403');

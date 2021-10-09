@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Eloquent\Contest as EloquentContestModel;
+use App\Models\Eloquent\Contest;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use App\Models\Submission\SubmissionModel;
 use App\Models\Eloquent\User;
@@ -423,7 +423,7 @@ class ContestModel extends Model
         return DB::table('contest_problem')
             ->join('problem', 'contest_problem.pid', '=', 'problem.pid')
             ->where('cid', $cid)
-            ->select('problem.pid as pid', 'pcode', 'number')
+            ->select('problem.pid as pid', 'pcode', 'number', 'title')
             ->orderBy('number')
             ->get()->all();
     }
@@ -815,7 +815,7 @@ class ContestModel extends Model
 
         /** New Version With MySQL */
         $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
-        $contest_eloquent=EloquentContestModel::find($cid);
+        $contest_eloquent=Contest::find($cid);
 
         if (time()<$end_time) {
             if ($clearance==3) {
@@ -881,7 +881,7 @@ class ContestModel extends Model
         return $ret;
     }
 
-    public function getRejudgeQueue($cid)
+    public function getRejudgeQueue($cid, $filter)
     {
         $problemModel=new ProblemModel();
         $submissionModel=new SubmissionModel();
@@ -889,15 +889,7 @@ class ContestModel extends Model
 
         $tempQueue=DB::table("submission")->where([
             "cid"=>$cid
-        ])->whereIn('verdict', [
-            'Runtime Error',
-            'Wrong Answer',
-            'Time Limit Exceed',
-            'Real Time Limit Exceed',
-            'Memory Limit Exceed',
-            'Presentation Error',
-            'Output Limit Exceeded'
-        ])->get()->all();
+        ])->whereIn('verdict', $filter)->get()->all();
 
         foreach ($tempQueue as &$t) {
             $lang=$compilerModel->detail($t["coid"]);

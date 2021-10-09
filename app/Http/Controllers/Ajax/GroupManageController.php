@@ -6,10 +6,15 @@ use App\Models\ContestModel;
 use App\Models\GroupModel;
 use App\Models\ResponseModel;
 use App\Models\Eloquent\User;
+use App\Models\Eloquent\Group;
+use App\Models\Eloquent\Problem;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Auth;
+use Carbon;
+use Exception;
+use Validator;
 
 class GroupManageController extends Controller
 {
@@ -308,6 +313,110 @@ class GroupManageController extends Controller
             return ResponseModel::err(2001);
         }
         $groupModel->createNotice($all_data["gid"], Auth::user()->id, $all_data["title"], $all_data["content"]);
+        return ResponseModel::success(200);
+    }
+
+    public function createHomework(Request $request)
+    {
+        try {
+            $all = $request->all();
+            $all['currently_at'] = strtotime('now');
+            $validator = Validator::make($all, [
+                'title'         => 'required|string|min:1|max:100',
+                'description'   => 'required|string|min:1|max:65535',
+                'ended_at'      => 'required|date|after:currently_at',
+                'gid'           => 'required|integer|gte:1',
+                'problems'      => 'required|array',
+            ], [], [
+                'title'         => 'Title',
+                'description'   => 'Description',
+                'ended_at'      => 'Ended Time',
+                'currently_at'  => 'Current Time',
+                'gid'           => 'Group ID',
+                'problems'      => 'Problems',
+            ]);
+
+            if ($validator->fails()) {
+                throw new Exception($validator->errors()->first());
+            }
+
+            if (count($request->problems) > 26) {
+                throw new Exception('Please include no more than 26 problems.');
+            }
+
+            if (count($request->problems) < 1) {
+                throw new Exception('Please include at least one problem.');
+            }
+
+            $proceedProblems = $request->problems;
+            $proceedProblemCodes = [];
+
+            foreach ($proceedProblems as &$problem) {
+                if (!is_array($problem)) {
+                    throw new Exception('Each problem object must be an array.');
+                }
+
+                $problem['pcode'] = mb_strtoupper(trim($problem['pcode']));
+
+                if(array_search($problem['pcode'], $proceedProblemCodes) !== false) {
+                    throw new Exception("Duplicate Problem");
+                }
+
+                $validator = Validator::make($problem, [
+                    'pcode'         => 'required|string|min:1|max:100',
+                    // 'alias'         => 'required|string|min:0|max:100|nullable',
+                    // 'points'        => 'required|integer|gte:1',
+                ], [], [
+                    'pcode'         => 'Problem Code',
+                    // 'alias'         => 'Alias',
+                    // 'points'        => 'Points',
+                ]);
+
+                if ($validator->fails()) {
+                    throw new Exception($validator->errors()->first());
+                }
+
+                $proceedProblemCodes[] = $problem['pcode'];
+            }
+
+            unset($problem);
+
+            $problemsDict = Problem::whereIn('pcode', $proceedProblemCodes)->select('pid', 'pcode')->get()->pluck('pid', 'pcode');
+
+            try {
+                foreach($proceedProblems as &$proceedProblem) {
+                    $proceedProblem['pid'] = $problemsDict[$proceedProblem['pcode']];
+                    if(blank($proceedProblem['pid'])) {
+                        throw new Exception();
+                    }
+                }
+                unset($proceedProblem);
+            } catch (Exception $e) {
+                throw new Exception('Problem Not Found');
+            }
+        } catch (Exception $e) {
+            return response()->json([
+                'errors' => [
+                    'description' => [
+                        $e->getMessage()
+                    ]
+                ],
+                'message' => "The given data was invalid."
+            ], 422);
+        }
+
+        $groupModel = new GroupModel();
+        $clearance = $groupModel->judgeClearance($request->gid, Auth::user()->id);
+        if ($clearance < 2) {
+            return ResponseModel::err(2001);
+        }
+
+        try {
+            $homeworkID = Group::find($request->gid)->addHomework($request->title, $request->description, Carbon::parse($request->ended_at), $proceedProblems);
+        } catch (Exception $e) {
+            return ResponseModel::err(7009);
+        }
+
         return ResponseModel::success(200);
     }
 }

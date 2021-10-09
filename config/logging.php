@@ -41,18 +41,27 @@ return [
 
         'single' => [
             'driver' => 'single',
-            'path' => storage_path('logs/laravel.log'),
+            'path' => storage_path('logs/app.log'),
             'level' => 'debug',
         ],
 
         'group_elo' => [
-            'driver' => 'single',
-            'path' => storage_path('logs/group_elo_update.log'),
+            'driver' => 'daily',
+            'path' => storage_path('logs/group-elo-update.log'),
+            'level' => 'debug',
+            'days' => 7,
+        ],
+
+        'babel_judge_sync' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/babel-judge-sync.log'),
+            'level' => 'debug',
+            'days' => 7,
         ],
 
         'daily' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/laravel.log'),
+            'path' => storage_path('logs/app.log'),
             'level' => 'debug',
             'days' => 14,
         ],

@@ -4,11 +4,11 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use App\Babel\Babel;
-use App\Models\Eloquent\JudgeServer as EloquentJudgeServerModel;
+use App\Models\Eloquent\JudgeServer;
 use App\Models\RankModel;
 use App\Models\SiteMapModel;
 use App\Models\ContestModel;
-use App\Models\Eloquent\Contest as EloquentContestModel;
+use App\Models\Eloquent\Contest;
 use App\Models\GroupModel;
 use App\Models\OJModel;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -79,7 +79,7 @@ class Kernel extends ConsoleKernel
             $syncList=$contestModel->runningContest();
             foreach ($syncList as $syncContest) {
                 if (!isset($syncContest['vcid'])) {
-                    $contest=EloquentContestModel::find($syncContest['cid']);
+                    $contest=Contest::find($syncContest['cid']);
                     $contestRankRaw=$contest->rankRefresh();
                     $cid=$syncContest['cid'];
                     Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
@@ -122,7 +122,7 @@ class Kernel extends ConsoleKernel
         })->everyMinute()->description("Sync Contest Problem");
 
         $schedule->call(function() {
-            $oidList=EloquentJudgeServerModel::column('oid');
+            $oidList=JudgeServer::column('oid');
             $babel=new Babel();
             foreach ($oidList as $oid) {
                 $babel->monitor(["name"=>OJMOdel::ocode($oid)]);

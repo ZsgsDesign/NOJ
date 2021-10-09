@@ -97,4 +97,27 @@ return [
             "cancel"   => "取消",
         ],
     ],
+    "selector" => [
+        "caption"       => "题目列表",
+        "index"         => "编号",
+        "code"          => "题目代码",
+        "title"         => "题目标题",
+        "alias"         => "自定义标题",
+        "points"        => "分值",
+        "operations"    => "操作",
+        "action" => [
+            "add"       => "添加题目",
+        ],
+        "placeholder" => [
+            "code"      => "输入题目代码",
+            "alias"     => "自定义题目标题",
+        ],
+        "tooltip" => [
+            "empty"     => "请先输入题目代码",
+            "loading"   => "加载中",
+            "duplicate" => "题目重复",
+            "error"     => "网络链接失败",
+            "notfound"  => "题目不存在",
+        ],
+    ],
 ];
