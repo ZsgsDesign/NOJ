@@ -214,7 +214,7 @@ class User extends Authenticatable
             $problemIDArr = DojoProblem::select('problem_id')->distinct()->get()->pluck('problem_id');
 
             foreach ($problemIDArr as $problemID) {
-                $defaultVerdict[$problemID] = [
+                $statistics[$problemID] = [
                     "icon" => "checkbox-blank-circle-outline",
                     "color" => "wemd-grey-text"
                 ];
