@@ -5,7 +5,6 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Babel\Babel;
 use App\Models\Eloquent\JudgeServer;
-use App\Models\RankModel;
 use App\Models\SiteMapModel;
 use App\Models\ContestModel;
 use App\Models\Eloquent\Contest;

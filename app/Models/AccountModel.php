@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Eloquent\User;
+use App\Models\Eloquent\Tool\SiteRank;
 use grubersjoe\BingPhoto;
 use Cache;
 use Exception;
@@ -110,10 +111,10 @@ class AccountModel extends Model
         // Casual
         $ret["rank"]=Cache::tags(['rank', $ret["id"]])->get("rank", "N/A");
         $ret["rankTitle"]=Cache::tags(['rank', $ret["id"]])->get("title", "Recruit");
-        $ret["rankTitleColor"]=RankModel::getColor($ret["rankTitle"]);
+        $ret["rankTitleColor"]=SiteRank::getColor($ret["rankTitle"]);
         // Professional
-        $ret["professionalTitle"]=RankModel::getProfessionalTitle($ret["professional_rate"]);
-        $ret["professionalTitleColor"]=RankModel::getProfessionalColor($ret["professionalTitle"]);
+        $ret["professionalTitle"]=SiteRank::getProfessionalTitle($ret["professional_rate"]);
+        $ret["professionalTitleColor"]=SiteRank::getProfessionalColor($ret["professionalTitle"]);
         // Administration Group
         $ret["admin"]=User::find($uid)->hasPermission(1);
         try {
