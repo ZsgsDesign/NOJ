@@ -31,7 +31,7 @@
     <!-- Share Title -->
     <meta itemprop="name" content="{{str_replace('"', '\"', "$page_title | $site_title")}}" />
     <!-- Share Image -->
-    <meta itemprop="image" content="https://acm.njupt.edu.cn/favicon.png" />
+    <meta itemprop="image" content="{{config('app.logo')}}" />
     <!-- Share Description -->
     <meta itemprop="description" itemprop="description" content="NOJ is yet another Online Judge providing you functions like problem solving, discussing, solutions, groups, contests and ranking system." />
     <!-- CSRF Token -->
@@ -42,7 +42,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <link rel="alternate icon" type="image/png" href="/favicon.png">
+    <link rel="alternate icon" type="image/png" href="{{config('app.favicon')}}">
     <!-- OpenSearch -->
     <link rel="search" type="application/opensearchdescription+xml" title="{{config("app.name")}}" href="/opensearch.xml">
     <!-- Mobile Display Declarations -->
@@ -77,7 +77,7 @@
             @else
 
                 <a class="navbar-brand" href="/">
-                    <img src="{{config('app.logo')}}" height="30"> {{config("app.displayName")}}
+                    <img src="{{config('app.navicon')}}" height="30"> {{config("app.displayName")}}
                 </a>
 
             @endif

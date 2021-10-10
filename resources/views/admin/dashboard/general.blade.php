@@ -41,7 +41,7 @@ version-badge > inline-div:last-of-type{
     <div class="box-body">
         <div class="table-responsive">
             <div class="text-center mb-5 mt-5">
-                <img src="/favicon.png" style="width:25%;">
+                <img src="{{config('app.logo')}}" style="width:25%;">
                 <h1 class="wemd-grey-text wemd-text-darken-3">{{config('app.name')}}</h1>
                 <p>{{config('app.displayName')}}</p>
                 <version-badge>

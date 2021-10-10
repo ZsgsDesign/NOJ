@@ -54,7 +54,7 @@ paper-card:hover {
 <div class="container mundb-standard-container">
     <system-info data-catg="general">
         <div style="width:100%;">
-            <div id="sys_logo"><img src="/favicon.png"></div>
+            <div id="sys_logo"><img src="{{config('app.logo')}}"></div>
             <h1 id="sys_title" class="wemd-grey-text wemd-text-darken-3">NOJ</h1>
             <p id="sys_subtitle">Nanjing University of Posts and Telecommunications Online Judge</p>
             <version-badge class="mb-5">

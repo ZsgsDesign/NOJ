@@ -18,7 +18,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <link rel="alternate icon" type="image/png" href="/favicon.png">
+    <link rel="alternate icon" type="image/png" href="{{config('app.favicon')}}">
     <!-- Mobile Display Declarations -->
     <meta name="apple-touch-fullscreen" content="yes">
     <meta name="theme-color" content="{{ getTheme()['primaryColor'] }}">
