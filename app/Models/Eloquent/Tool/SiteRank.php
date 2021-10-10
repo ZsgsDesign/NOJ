@@ -85,17 +85,17 @@ class SiteRank extends Model
         if ($rankList == null) {
             $rankList = [];
         }
-        $rankList = array_slice($rankList, 0, $num);
-        $userInfoRaw = User::all();
+        $rankList = collect($rankList)->slice(0, $num);
+        $userIDArr = $rankList->pluck('uid');
+        $userInfoRaw = User::whereIntegerInRaw('id', $userIDArr)->get();
         $userInfo = [];
         foreach ($userInfoRaw as $u) {
             $userInfo[$u->id] = $u;
         }
-        foreach ($rankList as &$r) {
-            $r["details"] = isset($userInfo[$r["uid"]]) ? $userInfo[$r["uid"]] : [];
-        }
-        unset($r);
-        return $rankList;
+        return $rankList->map(function ($item) use ($userInfo) {
+            $item["details"] = isset($userInfo[$item["uid"]]) ? $userInfo[$item["uid"]] : [];
+            return $item;
+        });
     }
 
     public function rankList()
@@ -108,7 +108,7 @@ class SiteRank extends Model
             $rankValue = 1;
             $rankSolved = -1;
             $rankListCached = [];
-            $this->procRankingPer($totUsers);
+            $this->procRankingPer(count($rankList));
             foreach ($rankList as $rankItem) {
                 if ($rankSolved != $rankItem["totValue"]) {
                     $rankValue = $rankIter;
