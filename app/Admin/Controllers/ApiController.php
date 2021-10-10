@@ -10,11 +10,12 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ApiController extends AdminController
 {
-    protected function paginate($items, $perPage = 15, $pageStart = 1)
+    protected function paginate($items, $perPage = 15)
     {
-        $offSet = ($pageStart * $perPage) - $perPage;
+        $currentPage = Paginator::resolveCurrentPage();
+        $offSet = ($currentPage * $perPage) - $perPage;
         $itemsForCurrentPage = array_slice($items, $offSet, $perPage, true);
-        $paginator = new LengthAwarePaginator($itemsForCurrentPage, count($items), $perPage, Paginator::resolveCurrentPage(), ['path' => Paginator::resolveCurrentPath()]);
+        $paginator = new LengthAwarePaginator($itemsForCurrentPage, count($items), $perPage, $currentPage, ['path' => Paginator::resolveCurrentPath()]);
         return $paginator;
     }
 
@@ -22,9 +23,7 @@ class ApiController extends AdminController
     {
         $q = request()->q;
 
-        return $this->paginate(Problem::orderBy('pcode', 'asc')->get()->filter(function ($problem) use ($q) {
-            return stripos($problem->readable_name, $q) !== false;
-        })->values()->transform(function ($problem) {
+        return $this->paginate(Problem::like('pcode', $q)->orLike('title', $q)->orderBy('pcode', 'asc')->get()->values()->transform(function ($problem) {
             return [
                 'id' => $problem->pid,
                 'text' => $problem->readable_name,
@@ -36,9 +35,7 @@ class ApiController extends AdminController
     {
         $q = request()->q;
 
-        return $this->paginate(User::get()->filter(function ($user) use ($q) {
-            return stripos($user->readable_name, $q) !== false;
-        })->values()->transform(function ($user) {
+        return $this->paginate(User::like('name', $q)->orLike('email', $q)->orderBy('id', 'asc')->get()->values()->transform(function ($user) {
             return [
                 'id' => $user->id,
                 'text' => $user->readable_name,

@@ -12,10 +12,12 @@ use Carbon;
 use DB;
 use Log;
 use Exception;
+use App\Models\Traits\LikeScope;
 
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
+    use LikeScope;
 
     protected $table='users';
 

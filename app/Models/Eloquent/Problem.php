@@ -8,9 +8,12 @@ use Auth;
 use Carbon;
 use DB;
 use Exception;
+use App\Models\Traits\LikeScope;
 
 class Problem extends Model
 {
+    use LikeScope;
+
     protected $table = 'problem';
     protected $primaryKey = 'pid';
     const UPDATED_AT = "update_date";
