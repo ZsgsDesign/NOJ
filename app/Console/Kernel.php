@@ -35,11 +35,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 
-        $schedule->call(function() {
-            $rankModel=new RankModel();
-            $rankModel->rankList();
-            // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Updated Rank");
-        })->dailyAt('02:00')->description("Update Rank");
+        $schedule->exec('php artisan scheduling:updaterank')->dailyAt('02:00')->description("Update Rank");
 
         $schedule->call(function() {
             $siteMapModel=new SiteMapModel();
@@ -130,11 +126,11 @@ class Kernel extends ConsoleKernel
         })->everyMinute()->description("Update Judge Server Status");
 
         if (!config("app.debug") && config("app.backup")) {
-            $schedule->command('backup:run')->weekly()->description("BackUp Site");
+            $schedule->exec('php artisan backup:run')->weekly()->description("BackUp Site");
         }
 
         if (!config("app.debug") && config("app.backup")) {
-            $schedule->command('backup:run --only-db')->dailyAt('00:30')->description("BackUp DataBase");
+            $schedule->exec('php artisan backup:run --only-db')->dailyAt('00:30')->description("BackUp DataBase");
         }
     }
 

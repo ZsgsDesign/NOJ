@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use App\Models\Rating\RatingCalculator;
-use Cache, Redis;
+use Cache;
 
 class RankModel extends Model
 {
