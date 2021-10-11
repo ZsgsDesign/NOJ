@@ -12,7 +12,7 @@ class UpdateRank extends Command
      *
      * @var string
      */
-    protected $signature='scheduling:updaterank';
+    protected $signature='scheduling:updateRank';
 
     /**
      * The console command description.
