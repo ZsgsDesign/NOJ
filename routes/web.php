@@ -70,7 +70,7 @@ Route::group(['prefix' => 'problem', 'middleware' => ['user.banned', 'contest_ac
 
 Route::get('/discussion/{dcode}', 'ProblemController@discussionPost')->middleware('auth', 'contest_account', 'user.banned')->name('problem.discussion.post');
 
-Route::get('/status', 'StatusController@index')->middleware('contest_account', 'user.banned')->name('status_index');
+Route::get('/status', 'StatusController@index')->middleware('contest_account', 'user.banned')->name('status.index');
 
 Route::group(['prefix' => 'dojo','as' => 'dojo.','middleware' => ['user.banned', 'contest_account']], function () {
     Route::get('/', 'DojoController@index')->name('index');
