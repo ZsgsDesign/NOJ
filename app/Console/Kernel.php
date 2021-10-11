@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 
-        $schedule->command('scheduling:updateSiteRank')->dailyAt('02:00')->description("Update Rank");
+        $schedule->command('scheduling:updateSiteRank')->dailyAt('01:00')->description("Update Rank");
 
         $schedule->command('scheduling:updateSiteMap')->dailyAt('02:00')->description("Update SiteMap");
 
