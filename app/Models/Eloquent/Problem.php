@@ -9,6 +9,7 @@ use Carbon;
 use DB;
 use Exception;
 use App\Models\Traits\LikeScope;
+use DateTimeInterface;
 
 class Problem extends Model
 {
@@ -17,6 +18,11 @@ class Problem extends Model
     protected $table = 'problem';
     protected $primaryKey = 'pid';
     const UPDATED_AT = "update_date";
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
 
     public function getReadableNameAttribute()
     {

@@ -7,11 +7,17 @@ use App\Models\ProblemModel as OutdatedProblemModel;
 use Illuminate\Support\Facades\DB;
 use App\Models\ContestModel as OutdatedContestModel;
 use Cache;
+use DateTimeInterface;
 
 class Contest extends Model
 {
     protected $table='contest';
     protected $primaryKey='cid';
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
 
     public function getParsedRuleAttribute()
     {
