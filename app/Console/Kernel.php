@@ -3,13 +3,9 @@
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
-use App\Babel\Babel;
-use App\Models\Eloquent\JudgeServer;
 use App\Models\ContestModel;
 use App\Models\Eloquent\Contest;
-use App\Models\OJModel;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Log;
 use Cache;
 
 class Kernel extends ConsoleKernel
@@ -38,27 +34,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('scheduling:updateTrendingGroups')->dailyAt('03:00')->description("Update Trending Groups");
 
-        $schedule->call(function() {
-            $groupModel=new GroupModel();
-            $ret=$groupModel->refreshAllElo();
-            foreach ($ret as $gid => $group) {
-                if (empty($group['result'])) {
-                    Log::channel('group_elo')->info('Refreshed Group Elo (Empty) : ('.$gid.')'.$group['name']);
-                } else {
-                    Log::channel('group_elo')->info('Refreshing Group Elo: ('.$gid.')'.$group['name']);
-                    foreach ($group['result'] as $contest) {
-                        if ($contest['ret']=='success') {
-                            Log::channel('group_elo')->info('    Elo Clac Successfully : ('.$contest['cid'].')'.$contest['name']);
-                        } else {
-                            Log::channel('group_elo')->info('    Elo Clac Faild (Judge Not Over) : ('.$contest['cid'].')'.$contest['name'].'  sids:');
-                            foreach ($contest['submissions'] as $sid) {
-                                Log::channel('group_elo')->info('        '.$sid['sid']);
-                            }
-                        }
-                    }
-                }
-            }
-        })->dailyAt('04:00')->description("Update Group Elo");
+        $schedule->command('scheduling:updateGroupElo')->dailyAt('04:00')->description("Update Group Elo");
 
         $schedule->call(function() {
             $contestModel=new ContestModel();

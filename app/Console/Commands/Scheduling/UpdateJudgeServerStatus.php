@@ -3,9 +3,9 @@
 namespace App\Console\Commands\Scheduling;
 
 use Illuminate\Console\Command;
-use App\Babel\Babel;
 use App\Models\Eloquent\JudgeServer;
 use App\Models\Eloquent\OJ;
+use App\Babel\Babel;
 use Carbon;
 use Exception;
 
@@ -58,6 +58,6 @@ class UpdateJudgeServerStatus extends Command
         }
 
         $time=Carbon::now();
-        $this->line("<fg=green>[$time] Processed:   </>Successfully JudgeServer Status");
+        $this->line("<fg=green>[$time] Processed:   </>Successfully Updated JudgeServer Status");
     }
 }
