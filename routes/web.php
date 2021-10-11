@@ -61,7 +61,7 @@ Route::group(['prefix' => 'user','as' => 'user.', 'middleware' => ['user.banned'
 });
 
 Route::group(['prefix' => 'problem', 'middleware' => ['user.banned', 'contest_account']], function () {
-    Route::get('/', 'ProblemController@index')->name('problem_index');
+    Route::get('/', 'ProblemController@index')->name('problem.index');
     Route::get('/{pcode}', 'ProblemController@detail')->name('problem.detail');
     Route::get('/{pcode}/editor', 'ProblemController@editor')->middleware('auth')->name('problem.editor');
     Route::get('/{pcode}/solution', 'ProblemController@solution')->middleware('auth')->name('problem.solution');
