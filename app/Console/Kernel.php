@@ -107,20 +107,14 @@ class Kernel extends ConsoleKernel
             }
         })->everyMinute()->description("Sync Contest Problem");
 
-        $schedule->call(function() {
-            $oidList=JudgeServer::column('oid');
-            $babel=new Babel();
-            foreach ($oidList as $oid) {
-                $babel->monitor(["name"=>OJMOdel::ocode($oid)]);
-            }
-        })->everyMinute()->description("Update Judge Server Status");
+        $schedule->command('scheduling:updateJudgeServerStatus')->everyMinute()->description("Update Judge Server Status");
 
         if (!config("app.debug") && config("app.backup")) {
-            $schedule->exec('php artisan backup:run')->weekly()->description("BackUp Site");
+            $schedule->command('backup:run')->weekly()->description("BackUp Site");
         }
 
         if (!config("app.debug") && config("app.backup")) {
-            $schedule->exec('php artisan backup:run --only-db')->dailyAt('00:30')->description("BackUp DataBase");
+            $schedule->command('backup:run --only-db')->dailyAt('00:30')->description("BackUp DataBase");
         }
     }
 
