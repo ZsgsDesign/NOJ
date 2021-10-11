@@ -36,33 +36,9 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('scheduling:updateGroupElo')->dailyAt('04:00')->description("Update Group Elo");
 
-        $schedule->call(function() {
-            $contestModel=new ContestModel();
-            $syncList=$contestModel->runningContest();
-            foreach ($syncList as $syncContest) {
-                if (!isset($syncContest['vcid'])) {
-                    $contest=Contest::find($syncContest['cid']);
-                    $contestRankRaw=$contest->rankRefresh();
-                    $cid=$syncContest['cid'];
-                    Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
-                    Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $contestRankRaw);
-                    continue;
-                }
-                $className="App\\Babel\\Extension\\hdu\\Synchronizer"; // TODO Add OJ judgement.
-                $all_data=[
-                    'oj'=>"hdu",
-                    'vcid'=>$syncContest['vcid'],
-                    'gid'=>$syncContest['gid'],
-                    'cid'=>$syncContest['cid'],
-                ];
-                $hduSync=new $className($all_data);
-                $hduSync->crawlRank();
-                $hduSync->crawlClarification();
-            }
-            // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Synced Remote Rank and Clarification");
-        })->everyMinute()->description("Sync Remote Rank and Clarification");
+        $schedule->command('scheduling:syncRankClarification')->everyMinute()->description("Sync Remote Contest Rank and Clarification");
 
-        $schedule->command('scheduling:syncContestProblem')->everyMinute()->description("Sync Contest Problem");
+        $schedule->command('scheduling:syncContestProblem')->everyMinute()->description("Sync Remote Contest Problem");
 
         $schedule->command('scheduling:updateJudgeServerStatus')->everyMinute()->description("Update Judge Server Status");
 
