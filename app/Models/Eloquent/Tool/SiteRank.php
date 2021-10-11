@@ -3,7 +3,6 @@
 namespace App\Models\Eloquent\Tool;
 
 use App\Models\Eloquent\ProblemSolution;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Eloquent\Submission;
 use App\Models\Eloquent\User;
 use Arr;
@@ -11,7 +10,7 @@ use Cache;
 use Carbon;
 use DB;
 
-class SiteRank extends Model
+class SiteRank
 {
     private static $professionalRanking = [
         "Legendary Grandmaster" => "cm-colorful-text",
