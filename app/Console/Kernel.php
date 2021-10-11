@@ -62,26 +62,7 @@ class Kernel extends ConsoleKernel
             // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Synced Remote Rank and Clarification");
         })->everyMinute()->description("Sync Remote Rank and Clarification");
 
-        $schedule->call(function() {
-            $contestModel=new ContestModel();
-            $syncList=$contestModel->runningContest();
-            foreach ($syncList as $syncContest) {
-                if (isset($syncContest['crawled'])) {
-                    if (!$syncContest['crawled']) {
-                        $className="App\\Babel\\Extension\\hdu\\Synchronizer";
-                        $all_data=[
-                            'oj'=>"hdu",
-                            'vcid'=>$syncContest['vcid'],
-                            'gid'=>$syncContest['gid'],
-                            'cid'=>$syncContest['cid'],
-                        ];
-                        $hduSync=new $className($all_data);
-                        $hduSync->scheduleCrawl();
-                        $contestModel->updateCrawlStatus($syncContest['cid']);
-                    }
-                }
-            }
-        })->everyMinute()->description("Sync Contest Problem");
+        $schedule->command('scheduling:syncContestProblem')->everyMinute()->description("Sync Contest Problem");
 
         $schedule->command('scheduling:updateJudgeServerStatus')->everyMinute()->description("Update Judge Server Status");
 
