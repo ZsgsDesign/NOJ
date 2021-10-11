@@ -34,12 +34,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 
-        $schedule->exec('php artisan scheduling:updaterank')->dailyAt('02:00')->description("Update Rank");
+        $schedule->command('scheduling:updateRank')->dailyAt('02:00')->description("Update Rank");
 
-        $schedule->call(function() {
-            $siteMapModel=new SiteMapModel();
-            // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Updated SiteMap");
-        })->dailyAt('02:00')->description("Update SiteMap");
+        $schedule->command('scheduling:updateSiteMap')->dailyAt('02:00')->description("Update SiteMap");
 
         $schedule->call(function() {
             $groupModel=new GroupModel();
