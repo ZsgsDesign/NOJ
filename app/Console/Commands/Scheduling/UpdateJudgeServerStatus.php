@@ -8,6 +8,7 @@ use App\Models\Eloquent\OJ;
 use App\Babel\Babel;
 use Carbon;
 use Exception;
+use Log;
 
 class UpdateJudgeServerStatus extends Command
 {
@@ -48,7 +49,7 @@ class UpdateJudgeServerStatus extends Command
         $platformIDs = JudgeServer::column('oid');
         $babel=new Babel();
         foreach ($platformIDs as $platform) {
-            try{
+            try {
                 $babel->monitor([
                     "name" => OJ::findOrFail($platform)->ocode
                 ]);

@@ -5,6 +5,7 @@ namespace App\Console\Commands\Scheduling;
 use Illuminate\Console\Command;
 use App\Models\GroupModel;
 use Carbon;
+use Log;
 
 class UpdateGroupElo extends Command
 {

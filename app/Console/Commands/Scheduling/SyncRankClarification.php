@@ -4,6 +4,8 @@ namespace App\Console\Commands\Scheduling;
 
 use Illuminate\Console\Command;
 use App\Models\ContestModel;
+use App\Models\Eloquent\Contest;
+use Cache;
 use Carbon;
 
 class SyncRankClarification extends Command
