@@ -38,7 +38,7 @@ class UpdateRank extends Command
      */
     public function handle()
     {
-        (new SiteRank())->rankList();
+        SiteRank::rankList();
         $this->info("Successfully Updated Rank");
     }
 }

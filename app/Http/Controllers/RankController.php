@@ -17,7 +17,7 @@ class RankController extends Controller
      */
     public function index(Request $request)
     {
-        $rankingList=(new SiteRank())->list(100);
+        $rankingList=SiteRank::list(100);
         return view('rank.index', [
                 'page_title'=>"Rank",
                 'site_title'=>config("app.name"),

@@ -2,6 +2,7 @@
 
 namespace App\Models\Eloquent\Tool;
 
+use App\Models\Eloquent\ProblemSolution;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Eloquent\Submission;
 use App\Models\Eloquent\User;
@@ -50,7 +51,7 @@ class SiteRank extends Model
         "Recruit" => "wemd-gray-text",
     ];
 
-    public $casualRankingPer = [
+    private static $casualRankingPer = [
         "Fleet Admiral" => 1,
         "Admiral" => 5,
         "Vice Admiral" => 10,
@@ -79,7 +80,7 @@ class SiteRank extends Model
         return self::$professionalRanking[$rankTitle];
     }
 
-    public function list($num)
+    public static function list($num)
     {
         $rankList = Cache::tags(['rank'])->get('general');
         if ($rankList == null) {
@@ -98,17 +99,19 @@ class SiteRank extends Model
         });
     }
 
-    public function rankList()
+    public static function rankList()
     {
         Cache::tags(['rank'])->flush();
-        $totUsers = Submission::where(["verdict" => "Accepted"])->select('uid')->distinct()->count('uid');
+        $userAcceptedRecords = collect(Submission::select("uid", DB::raw("count(distinct pid) as solved"))->where("verdict", "Accepted")->groupBy("uid")->get()->toArray());
+        $userCommunityRecords = collect(ProblemSolution::select("uid", DB::raw("count(distinct pid)"))->where("audit", 1)->groupBy("uid")->get()->toArray());
+        $totUsers = $userAcceptedRecords->pluck('uid')->merge($userCommunityRecords->pluck('uid'))->unique()->count();
         if ($totUsers > 0) {
             $rankList = DB::select("SELECT *,solvedCount+communityCount as totValue, 1 as activityCoefficient FROM (SELECT uid,sum(solvedCount) as solvedCount,sum(communityCount) as communityCount FROM ((SELECT uid,count(DISTINCT submission.pid) as solvedCount,0 as communityCount from submission where verdict=\"Accepted\" group by uid) UNION (SELECT uid,0 as solvedCount,count(DISTINCT pid) from problem_solution where audit=1 group by uid)) as temp GROUP BY uid) as temp2 ORDER BY solvedCount+communityCount DESC");
             $rankIter = 1;
             $rankValue = 1;
             $rankSolved = -1;
             $rankListCached = [];
-            $this->procRankingPer(count($rankList));
+            self::procRankingPer($totUsers);
             foreach ($rankList as &$rankItem) {
                 $rankItem["totValue"] *= $rankItem["activityCoefficient"];
             }
@@ -121,7 +124,7 @@ class SiteRank extends Model
                     $rankValue = $rankIter;
                     $rankSolved = $rankItem["totValue"];
                 }
-                $rankTitle = $this->getRankTitle($rankValue);
+                $rankTitle = self::getRankTitle($rankValue);
                 Cache::tags(['rank', $rankItem["uid"]])->put("rank", $rankValue, 86400);
                 Cache::tags(['rank', $rankItem["uid"]])->put("title", $rankTitle, 86400);
                 $rankListCached[] = [
@@ -139,7 +142,7 @@ class SiteRank extends Model
         }
     }
 
-    public function getProfessionalRanking()
+    public static function getProfessionalRanking()
     {
         $professionalRankList = [];
         $verifiedUsers = User::all();
@@ -160,15 +163,15 @@ class SiteRank extends Model
         return $professionalRankList;
     }
 
-    private function procRankingPer($totUsers)
+    private static function procRankingPer($totUsers)
     {
         if ($totUsers > 0) {
             $tot = 0;
             $cur = 0;
-            foreach ($this->casualRankingPer as $c) {
+            foreach (self::$casualRankingPer as $c) {
                 $tot += $c;
             }
-            foreach ($this->casualRankingPer as &$c) {
+            foreach (self::$casualRankingPer as &$c) {
                 $c = round($c * $totUsers / $tot);
                 $cur += $c;
                 $c = $cur;
@@ -178,14 +181,14 @@ class SiteRank extends Model
         }
     }
 
-    public function getRankTitle($rankVal)
+    public static function getRankTitle($rankVal)
     {
-        foreach ($this->casualRankingPer as $title => $c) {
+        foreach (self::$casualRankingPer as $title => $c) {
             if ($rankVal <= $c) {
                 return $title;
             }
         }
-        return Arr::last($this->casualRankingPer);
+        return Arr::last(self::$casualRankingPer);
     }
 
     public static function getProfessionalTitle($rankVal)
