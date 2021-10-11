@@ -79,6 +79,8 @@ class Problem extends Model
 
     private function getProblemStatusFromDB($userID, $contestID = null, Carbon $till = null)
     {
+        $endedAt = Carbon::now();
+
         if (filled($contestID)) {
             try {
                 $endedAt = Carbon::parse(Contest::findOrFail($contestID)->endedAt);
