@@ -3,24 +3,24 @@
 namespace App\Console\Commands\Scheduling;
 
 use Illuminate\Console\Command;
-use App\Models\Eloquent\Tool\SiteRank;
+use App\Models\GroupModel;
 use Carbon;
 
-class UpdateRank extends Command
+class UpdateTrendingGroups extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature='scheduling:updateSiteRank';
+    protected $signature='scheduling:updateTrendingGroups';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description='Scheduling for site rank update';
+    protected $description='Scheduling for trending groups update';
 
     /**
      * Create a new command instance.
@@ -40,11 +40,12 @@ class UpdateRank extends Command
     public function handle()
     {
         $time=Carbon::now();
-        $this->line("<fg=yellow>[$time] Processing:  </>Update Site Rank");
+        $this->line("<fg=yellow>[$time] Processing:  </>Update Trending Groups");
 
-        SiteRank::rankList();
+        $groupModel = new GroupModel();
+        $groupModel->cacheTrendingGroups();
 
         $time=Carbon::now();
-        $this->line("<fg=green>[$time] Processed:   </>Successfully Updated Site Rank");
+        $this->line("<fg=green>[$time] Processed:   </>Successfully Updated Trending Groups");
     }
 }

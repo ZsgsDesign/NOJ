@@ -5,10 +5,8 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Babel\Babel;
 use App\Models\Eloquent\JudgeServer;
-use App\Models\SiteMapModel;
 use App\Models\ContestModel;
 use App\Models\Eloquent\Contest;
-use App\Models\GroupModel;
 use App\Models\OJModel;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Log;
@@ -34,15 +32,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 
-        $schedule->command('scheduling:updateRank')->dailyAt('02:00')->description("Update Rank");
+        $schedule->command('scheduling:updateSiteRank')->dailyAt('02:00')->description("Update Rank");
 
         $schedule->command('scheduling:updateSiteMap')->dailyAt('02:00')->description("Update SiteMap");
 
-        $schedule->call(function() {
-            $groupModel=new GroupModel();
-            $groupModel->cacheTrendingGroups();
-            // file_put_contents(storage_path('app/task-schedule.output'),"Successfully Cached Trending Groups");
-        })->dailyAt('03:00')->description("Update Trending Groups");
+        $schedule->command('scheduling:updateTrendingGroups')->dailyAt('03:00')->description("Update Trending Groups");
 
         $schedule->call(function() {
             $groupModel=new GroupModel();
