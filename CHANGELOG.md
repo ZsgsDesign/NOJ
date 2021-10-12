@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 ## NOJ 0.17.1 Characinae Build Pack 1 - 2021-10-12
 This is a build version update for `0.17.0 Characinae`.
 
+**Important:** Rerun scheduling for update site rank or run `php artisan scheduling:updateSiteRank` after this upgrade.
+
 ### Update Logs
 * **Compatibility:** The update site rank scheduling is now set at 1 am everyday.
 * **New:** Add custom favicon, logo, and navicon support per #737 requests.
