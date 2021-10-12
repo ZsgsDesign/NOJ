@@ -1,6 +1,6 @@
 <?php
 
-use Encore\Admin\Admin;
+use Encore\Admin\Facades\Admin;
 
 /**
  * Laravel-admin - admin builder based on Laravel.

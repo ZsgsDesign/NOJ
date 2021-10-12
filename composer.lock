@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f4f6605951d86465040cd4d460eac68",
+    "content-hash": "428abd2aa67ff9ae4769c83dcc0f47d7",
     "packages": [
         {
             "name": "asundust/auth-captcha",
@@ -2866,17 +2866,23 @@
         },
         {
             "name": "laravel-admin-ext/scheduling",
-            "version": "v1.1",
+            "version": "v1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-admin-extensions/scheduling.git",
-                "reference": "72bd03a2917a7d479b019ccc64e991c7d5bec7bb"
+                "reference": "84483c6fc99a554ba0dd1f32d5db86a027952f4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-admin-extensions/scheduling/zipball/72bd03a2917a7d479b019ccc64e991c7d5bec7bb",
-                "reference": "72bd03a2917a7d479b019ccc64e991c7d5bec7bb",
-                "shasum": ""
+                "url": "https://api.github.com/repos/laravel-admin-extensions/scheduling/zipball/84483c6fc99a554ba0dd1f32d5db86a027952f4d",
+                "reference": "84483c6fc99a554ba0dd1f32d5db86a027952f4d",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "encore/laravel-admin": "~1.5",
@@ -2918,9 +2924,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel-admin-extensions/scheduling/issues",
-                "source": "https://github.com/laravel-admin-extensions/scheduling/tree/v1.1"
+                "source": "https://github.com/laravel-admin-extensions/scheduling/tree/v1.2"
             },
-            "time": "2019-12-11T02:46:10+00:00"
+            "time": "2021-10-11T09:17:09+00:00"
         },
         {
             "name": "laravel/framework",
