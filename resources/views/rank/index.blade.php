@@ -164,7 +164,7 @@
                                 <td class="{{$r["titleColor"]}}">{{$r["title"]}}</td>
                                 <td>{{$r["solved"]}}</td>
                                 <td>{{$r["community"]}}</td>
-                                <td>{{$r["activityCoefficient"]}}</td>
+                                <td>{{round($r["activityCoefficient"], 2)}}</td>
                             </tr>
                         @endforeach
                     </tbody>
