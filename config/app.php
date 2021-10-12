@@ -62,7 +62,9 @@ return [
     |
     */
 
-    'logo' => env('APP_LOGO', "/static/img/icon/icon-white.png"),
+    'logo' => env('APP_LOGO', "/favicon.png"),
+    'navicon' => env('APP_NAVICON', "/static/img/icon/icon-white.png"),
+    'favicon' => env('APP_FAVICON', "/favicon.png"),
     'desc' => env('APP_DESC', ''),
 
     /*

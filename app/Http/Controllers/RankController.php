@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\RankModel;
+use App\Models\Eloquent\Tool\SiteRank;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
@@ -17,8 +17,7 @@ class RankController extends Controller
      */
     public function index(Request $request)
     {
-        $rankModel=new RankModel();
-        $rankingList=$rankModel->list(100);
+        $rankingList=SiteRank::list(100);
         return view('rank.index', [
                 'page_title'=>"Rank",
                 'site_title'=>config("app.name"),

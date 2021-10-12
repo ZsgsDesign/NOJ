@@ -1,6 +1,6 @@
 <?php
 
-use Encore\Admin\Admin;
+use Encore\Admin\Facades\Admin;
 
 /**
  * Laravel-admin - admin builder based on Laravel.
@@ -25,7 +25,7 @@ Admin::css('/static/fonts/mdi-wxss/MDI.css?version=1.0.1');
 Admin::css('/static/fonts/poppins/poppins.css?version=1.0.0');
 Admin::style(".main-sidebar, .main-footer, .main-header .logo .logo-lg, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {font-family:'Poppins';}");
 Admin::js(mix('/static/js/build/app.admin.js'));
-Admin::favicon('/favicon.png');
+Admin::favicon(config('app.favicon'));
 Encore\Admin\Form::forget(['map', 'editor']);
 Encore\Admin\Form::extend('chunk_file', \Encore\ChunkFileUpload\ChunkFileField::class);
 app('view')->prependNamespace('admin', resource_path('views/admin'));

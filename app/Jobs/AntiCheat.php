@@ -132,12 +132,7 @@ class AntiCheat implements ShouldQueue
             $exe=base_path('binary'.DIRECTORY_SEPARATOR.'linux'.DIRECTORY_SEPARATOR.'sim_'.$lang);
         }
 
-        $exec=escapeshellarg($exe).' -p ';
-
-        // wildcardly add all files
-        $exec.='*.'.$lang;
-
-        $process=new Process($exec);
+        $process=new Process([$exe, '-p', "*.$lang"]);
         $process->setWorkingDirectory(Storage::path('contest'.DIRECTORY_SEPARATOR.'anticheat'.DIRECTORY_SEPARATOR.$cid.DIRECTORY_SEPARATOR.'raw'.DIRECTORY_SEPARATOR.$prob.DIRECTORY_SEPARATOR.$lang));
         $process->run();
         if (!$process->isSuccessful()) {

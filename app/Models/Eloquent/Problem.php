@@ -8,12 +8,21 @@ use Auth;
 use Carbon;
 use DB;
 use Exception;
+use App\Models\Traits\LikeScope;
+use DateTimeInterface;
 
 class Problem extends Model
 {
+    use LikeScope;
+
     protected $table = 'problem';
     protected $primaryKey = 'pid';
     const UPDATED_AT = "update_date";
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
 
     public function getReadableNameAttribute()
     {
@@ -76,6 +85,8 @@ class Problem extends Model
 
     private function getProblemStatusFromDB($userID, $contestID = null, Carbon $till = null)
     {
+        $endedAt = Carbon::now();
+
         if (filled($contestID)) {
             try {
                 $endedAt = Carbon::parse(Contest::findOrFail($contestID)->endedAt);

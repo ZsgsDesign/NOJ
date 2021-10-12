@@ -61,7 +61,7 @@ class MainController extends Controller
         $id=isset($all_data["id"]) ? $all_data["id"] : null;
         if ($method=="showdetail" && !is_null($id)) {
             $problemModel=new ProblemModel();
-            return ($problemModel->existPCode("NOJ$id")) ?Redirect::route('problem.detail', ['pcode' => "NOJ$id"]) : Redirect::route('problem_index');
+            return ($problemModel->existPCode("NOJ$id")) ?Redirect::route('problem.detail', ['pcode' => "NOJ$id"]) : Redirect::route('problem.index');
         }
         return Redirect::route('home');
     }

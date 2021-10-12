@@ -144,6 +144,7 @@
                             <th scope="col">{{__("rank.title")}}</th>
                             <th scope="col">{{__("rank.solved")}}</th>
                             <th scope="col">{{__("rank.community")}}</th>
+                            <th scope="col">{{__("rank.activity")}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -163,6 +164,7 @@
                                 <td class="{{$r["titleColor"]}}">{{$r["title"]}}</td>
                                 <td>{{$r["solved"]}}</td>
                                 <td>{{$r["community"]}}</td>
+                                <td>{{$r["activityCoefficient"]}}</td>
                             </tr>
                         @endforeach
                     </tbody>

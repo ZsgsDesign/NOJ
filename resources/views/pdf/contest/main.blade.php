@@ -13,84 +13,84 @@
         font-family: "DejaVu Sans";
         font-style: normal;
         font-weight: normal;
-        src: url("{{asset('/static/fonts/dejaVu/DejaVuSans.ttf')}}") format("truetype");
+        src: url("{{asset('/static/fonts/dejavu/DejaVuSans.ttf')}}") format("truetype");
     }
 
     @font-face {
         font-family: "DejaVu Sans";
         font-style: normal;
         font-weight: bold;
-        src: url("{{asset('/static/fonts/dejaVu/DejaVuSans-Bold.ttf')}}") format("truetype");
+        src: url("{{asset('/static/fonts/dejavu/DejaVuSans-Bold.ttf')}}") format("truetype");
     }
 
     @font-face {
         font-family: "DejaVu Sans";
         font-style: italic, oblique;
         font-weight: normal;
-        src: url("{{asset('/static/fonts/dejaVu/DejaVuSans-Oblique.ttf')}}") format("truetype");
+        src: url("{{asset('/static/fonts/dejavu/DejaVuSans-Oblique.ttf')}}") format("truetype");
     }
 
     @font-face {
         font-family: "DejaVu Sans";
         font-style: italic, oblique;
         font-weight: bold;
-        src: url("{{asset('/static/fonts/dejaVu/DejaVuSans-BoldOblique.ttf')}}") format("truetype");
+        src: url("{{asset('/static/fonts/dejavu/DejaVuSans-BoldOblique.ttf')}}") format("truetype");
     }
 
     @font-face {
         font-family: "DejaVu Serif";
         font-style: normal;
         font-weight: normal;
-        src: url("{{asset('/static/fonts/dejaVu/DejaVuSerif.ttf')}}") format("truetype");
+        src: url("{{asset('/static/fonts/dejavu/DejaVuSerif.ttf')}}") format("truetype");
     }
 
     @font-face {
         font-family: "DejaVu Serif";
         font-style: normal;
         font-weight: bold;
-        src: url("{{asset('/static/fonts/dejaVu/DejaVuSerif-Bold.ttf')}}") format("truetype");
+        src: url("{{asset('/static/fonts/dejavu/DejaVuSerif-Bold.ttf')}}") format("truetype");
     }
 
     @font-face {
         font-family: "DejaVu Serif";
         font-style: italic, oblique;
         font-weight: normal;
-        src: url("{{asset('/static/fonts/dejaVu/DejaVuSerif-Italic.ttf')}}") format("truetype");
+        src: url("{{asset('/static/fonts/dejavu/DejaVuSerif-Italic.ttf')}}") format("truetype");
     }
 
     @font-face {
         font-family: "DejaVu Serif";
         font-style: italic, oblique;
         font-weight: bold;
-        src: url("{{asset('/static/fonts/dejaVu/DejaVuSerif-BoldItalic.ttf')}}") format("truetype");
+        src: url("{{asset('/static/fonts/dejavu/DejaVuSerif-BoldItalic.ttf')}}") format("truetype");
     }
 
     @font-face {
         font-family: "DejaVu Mono";
         font-style: normal;
         font-weight: normal;
-        src: url("{{asset('/static/fonts/dejaVu/DejaVuSansMono.ttf')}}") format("truetype");
+        src: url("{{asset('/static/fonts/dejavu/DejaVuSansMono.ttf')}}") format("truetype");
     }
 
     @font-face {
         font-family: "DejaVu Mono";
         font-style: normal;
         font-weight: bold;
-        src: url("{{asset('/static/fonts/dejaVu/DejaVuSansMono-Bold.ttf')}}") format("truetype");
+        src: url("{{asset('/static/fonts/dejavu/DejaVuSansMono-Bold.ttf')}}") format("truetype");
     }
 
     @font-face {
         font-family: "DejaVu Mono";
         font-style: italic, oblique;
         font-weight: normal;
-        src: url("{{asset('/static/fonts/dejaVu/DejaVuSansMono-Oblique.ttf')}}") format("truetype");
+        src: url("{{asset('/static/fonts/dejavu/DejaVuSansMono-Oblique.ttf')}}") format("truetype");
     }
 
     @font-face {
         font-family: "DejaVu Mono";
         font-style: italic, oblique;
         font-weight: bold;
-        src: url("{{asset('/static/fonts/dejaVu/DejaVuSansMono-BoldOblique.ttf')}}") format("truetype");
+        src: url("{{asset('/static/fonts/dejavu/DejaVuSansMono-BoldOblique.ttf')}}") format("truetype");
     }
 
     @font-face {

@@ -5,4 +5,5 @@ return [
     'title'      => 'Title',
     'solved'     => 'Solved',
     'community'  => 'Community',
+    'activity'   => 'Activity Coefficient',
 ];
