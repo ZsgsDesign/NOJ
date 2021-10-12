@@ -12,7 +12,7 @@ class SiteMap
 {
     public static function generate()
     {
-        $sitemap = App::make("sitemap");
+        $sitemap=App::make("sitemap");
 
         $sitemap->add(route('home'), Carbon::now(), '1.0', 'daily');
         $sitemap->add(route('problem.index'), Carbon::now(), '1.0', 'daily');

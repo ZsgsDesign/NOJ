@@ -46,7 +46,7 @@ class UpdateJudgeServerStatus extends Command
         $time=Carbon::now();
         $this->line("<fg=yellow>[$time] Processing:  </>Update JudgeServer Status");
 
-        $platformIDs = JudgeServer::column('oid');
+        $platformIDs=JudgeServer::column('oid');
         $babel=new Babel();
         foreach ($platformIDs as $platform) {
             try {
