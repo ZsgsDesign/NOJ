@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
+## NOJ 0.17.1 Characinae Build Pack 1 - 2021-10-12
+This is a build version update for `0.17.0 Characinae`.
+
+### Update Logs
+* **Compatibility:** The update site rank scheduling is now set at 1 am everyday.
+* **New:** Add custom favicon, logo, and navicon support per #737 requests.
+* **New:** Add `LikeScope` trait support.
+* **New:** Add dynamic rank feature, see #649.
+* **New:** Add a series of artisan commands with prefix `scheduling`, see #743.
+* **Deprecated:** NOJ no longer uses old `RankModel` and `SiteMapModel`.
+* **Fixed:** A bug causing Admin Portal ajax pagination returns only the first 15 records, see #738.
+* **Fixed:** A bug causing Admin Portal ajax pagination memory overflows on a large amount of data and queries slowly, see #739.
+* **Fixed:** A bug causing PDF generator cannot locate dejaVu font.
+* **Fixed:** A Symphony 5 compatibility bug causing anti-cheat malfunction, see #740.
+* **Fixed:** A Symphony 5 compatibility bug causing PDF generation malfunction, see #741.
+* **Fixed:** A `laravel-admin-ext/scheduling` bug causing Admin Portal schedule running returns 419 on Windows platform, see laravel-admin-extensions/scheduling#20.
+* **Fixed:** Typo (only 1 this time).
+* **Improved:** Optimized site rank calculation performance, see #649.
+* **Improved:** Optimized sitemap performance to process a tremendous amount of data, see #742
+* **Improved:** Use artisan commands for the scheduling system, see #743.
+* **Improved:** Use dot-separated router for problem and status index.
+* **Security:** `doctrine/dbal` is now at `2.13.4`.
+* **Security:** `facade/ignition` is now at `2.15.0`.
+* **Security:** `laravel-admin-ext/log-viewer` is now at `1.0.4`.
+* **Security:** `laravel-admin-ext/scheduling` is now at `1.2`.
+* **Security:** `ramsey/collection` is now at `1.2.2`.
+
 ## v0.17.0 Characinae - 2021-10-09
 This is a minor version update. As mentioned in `0.5.0` logs, the new version system would merge the old major and minor version numbers into new minor version numbers, thus as the 17th minor version update since NOJ `0.1.0`, this version would be numbered as major version `0`, minor version `17`, build pack `0` and patch number `0`.
 
