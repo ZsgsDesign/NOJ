@@ -4503,16 +4503,16 @@
         },
         {
             "name": "mews/purifier",
-            "version": "3.3.5",
+            "version": "3.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mewebstudio/Purifier.git",
-                "reference": "53f2be3b94cf8940d23970f0aeb907ce8c9760f7"
+                "reference": "1d033fc32b98036226002c38747d4a45424d5f28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mewebstudio/Purifier/zipball/53f2be3b94cf8940d23970f0aeb907ce8c9760f7",
-                "reference": "53f2be3b94cf8940d23970f0aeb907ce8c9760f7",
+                "url": "https://api.github.com/repos/mewebstudio/Purifier/zipball/1d033fc32b98036226002c38747d4a45424d5f28",
+                "reference": "1d033fc32b98036226002c38747d4a45424d5f28",
                 "shasum": ""
             },
             "require": {
@@ -4578,9 +4578,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mewebstudio/Purifier/issues",
-                "source": "https://github.com/mewebstudio/Purifier/tree/3.3.5"
+                "source": "https://github.com/mewebstudio/Purifier/tree/3.3.6"
             },
-            "time": "2021-05-17T00:17:01+00:00"
+            "time": "2021-10-14T15:27:18+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
