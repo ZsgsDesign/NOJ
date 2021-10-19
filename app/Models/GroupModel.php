@@ -66,7 +66,7 @@ class GroupModel extends Model
 
     public function userGroups($uid)
     {
-        $user_groups=DB::table("group_member")->join("group", "group_member.gid", "=", "group.gid")->where(["uid"=>$uid])->select("group.gid as gid", "gcode", "img", "name", "verified")->limit(12)->get()->all();
+        $user_groups=DB::table("group_member")->join("group", "group_member.gid", "=", "group.gid")->where(["uid"=>$uid])->select("group.gid as gid", "gcode", "img", "name", "verified")->get()->all();
         foreach ($user_groups as &$m) {
             $m["members"]=$this->countGroupMembers($m["gid"]);
         }
