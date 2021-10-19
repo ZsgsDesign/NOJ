@@ -36,6 +36,7 @@ class Curl
         curl_setopt($datapost, CURLOPT_POST, true);
 
         curl_setopt($datapost, CURLOPT_RETURNTRANSFER, $ret);
+        curl_setopt($datapost, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($datapost, CURLOPT_FOLLOWLOCATION, true);
 
         curl_setopt($datapost, CURLOPT_POSTFIELDS, $data);
@@ -68,6 +69,7 @@ class Curl
         // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, $follow);
         curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36");
         curl_setopt($ch, CURLOPT_COOKIEFILE, babel_path("Cookies/{$oj}_{$vcid}{$handle}.cookie"));
@@ -113,6 +115,7 @@ class Curl
         curl_setopt($datapost, CURLOPT_POST, true);
 
         curl_setopt($datapost, CURLOPT_RETURNTRANSFER, $ret);
+        curl_setopt($datapost, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($datapost, CURLOPT_FOLLOWLOCATION, $follow);
 
         curl_setopt($datapost, CURLOPT_POSTFIELDS, $data);
