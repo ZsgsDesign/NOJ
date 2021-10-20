@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.14"
     },
     "dependencies": {
+        "@nesk/puphpeteer": "^2.0.0",
         "animate.css": "^4.1.1",
         "bootstrap-material-design": "4.1.2",
         "chart.js": "^2.8",
