@@ -131,4 +131,21 @@ class AdminController extends Controller
             'basic_info' => $basicInfo,
         ]);
     }
+
+    public function pdfView($cid) {
+        $record = Contest::find($cid);
+        return view('pdf.contest.main', [
+            'conf' => [
+                'cover'=>true,
+                'advice'=>true
+            ],
+            'contest' => [
+                'cid' => $cid,
+                'name' => $record->name,
+                'shortName' => $record->name,
+                'date' => date("F j, Y", strtotime($record->begin_time)),
+            ],
+            'problemset' => $record->getProblemSet(false),
+        ]);
+    }
 }
