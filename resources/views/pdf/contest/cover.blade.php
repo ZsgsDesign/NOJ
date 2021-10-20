@@ -9,7 +9,6 @@
     }
     .cover img{
         width: 15rem;
-        margin: 0 auto;
         display: block;
     }
     .cover p.warning{
