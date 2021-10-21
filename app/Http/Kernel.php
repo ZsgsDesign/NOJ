@@ -67,6 +67,7 @@ class Kernel extends HttpKernel
         'group.banned' => \App\Http\Middleware\Group\Banned::class,
 
         'contest.desktop' => \App\Http\Middleware\Contest\IsDesktop::class,
+        'contest.board.admin.pdfview.clearance' => \App\Http\Middleware\Contest\Board\Admin\PDFView\Clearance::class,
 
         'user.banned' => \App\Http\Middleware\User\Banned::class,
 
