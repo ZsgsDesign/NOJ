@@ -11,6 +11,9 @@ use App\Models\Eloquent\Contest;
 use Imtigger\LaravelJobStatus\Trackable;
 use Nesk\Puphpeteer\Puppeteer;
 use Nesk\Rialto\Data\JsFunction;
+use Cache;
+use Exception;
+use Str;
 use PDF;
 
 class GeneratePDF implements ShouldQueue
@@ -47,6 +50,9 @@ class GeneratePDF implements ShouldQueue
     {
         $cid = $this->cid;
         $config = $this->config;
+        $accessToken = Str::random(32);
+
+        Cache::tags(['contest', 'pdfViewAccess', $cid])->put($accessToken, $config);
 
         if (!is_dir(storage_path("app/contest/pdf/"))) {
             mkdir(storage_path("app/contest/pdf/"), 0777, true);
@@ -61,54 +67,35 @@ class GeneratePDF implements ShouldQueue
 
         $page = $browser->newPage();
 
-        $page->goto(route('contest.board.admin.pdf.view', [
-            'cid' => $cid
+        $response = $page->goto(route('contest.board.admin.pdf.view', [
+            'cid' => $cid,
+            'accessToken' => $accessToken,
         ]), [
             'waitUntil' => 'networkidle0'
         ]);
 
-        // $sourceHTML = view('pdf.contest.main', [
-        //     'conf' => $config,
-        //     'contest' => [
-        //         'cid' => $cid,
-        //         'name' => $record->name,
-        //         'shortName' => $record->name,
-        //         'date' => date("F j, Y", strtotime($record->begin_time)),
-        //     ],
-        //     'problemset' => $record->getProblemSet(false),
-        // ])->render();
+        if($response->status() != '200') {
+            throw new Exception('Cannot Access PDF Generated View Stream');
+        }
 
-        // file_put_contents(__DIR__."/source.html", $sourceHTML);
+        $page->waitForSelector('body.rendered', [
+            'timeout' => 120000
+        ]);
 
-        // return;
+        if($config['renderer'] == 'blink') {
+            $page->pdf([
+                'format' => 'A4',
+                'path' => storage_path("app/contest/pdf/$cid.pdf"),
+                'printBackground' => true
+            ]);
 
-        // $page->setContent(, [
-        //     'waitUntil' => 'networkidle0'
-        // ]);
-
-        $page->waitFor(5000);
-
-        // $page->waitForSelector('.MathJaxLoadingComplete', [
-        //     'timeout' => 50000,
-        // ]);
-
-        // $page->screenshot(['path' => 'example.png']);
-
-        // $page->pdf([
-        //     'format' => 'A4',
-        //     'path' => storage_path("app/contest/pdf/$cid.pdf"),
-        // ]);
-
-        // $parsedHTML = $page->evaluate(JsFunction::createWithBody("
-        //     return document.querySelector('*').outerHTML;
-        // "));
+            $browser->close();
+            return;
+        }
 
         $parsedHTML = $page->content();
 
-        // dump($parsedHTML);
-
         $browser->close();
-        // return;
 
         // $pdf=PDF::setOptions([
         //     'dpi' => 150,
@@ -123,14 +110,14 @@ class GeneratePDF implements ShouldQueue
         //         'shortName' => $record->name,
         //         'date' => date("F j, Y", strtotime($record->begin_time)),
         //     ],
-        //     'problemset' => $record->getProblemSet(false),
+        //     'problemset' => $record->getProblemSet(),
         // ]);
 
         // file_put_contents(__DIR__."/lalala.html", $parsedHTML);
         // return;
 
         $pdf=PDF::setOptions([
-            'dpi' => 150,
+            'dpi' => 96,
             'isPhpEnabled' => true,
             'isHtml5ParserEnabled' => true,
             'isRemoteEnabled' => true
