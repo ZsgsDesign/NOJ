@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.14"
     },
     "dependencies": {
+        "@nesk/puphpeteer": "^2.0.0",
         "animate.css": "^4.1.1",
         "bootstrap-material-design": "4.1.2",
         "chart.js": "^2.8",
@@ -42,6 +43,7 @@
         "monaco-editor": "0.25.2",
         "monaco-editor-webpack-plugin": "4.0.0",
         "noj-monaco-themes": "^1.0",
+        "pagedjs": "^0.2.0",
         "parazoom": "^1.0.0",
         "pdfobject": "^2.1",
         "perfect-scrollbar": "^1.4",

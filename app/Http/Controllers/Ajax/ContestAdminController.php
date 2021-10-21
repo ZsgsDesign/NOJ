@@ -338,11 +338,28 @@ class ContestAdminController extends Controller
             "cid"=>"required|integer",
             "config.cover"=>"required",
             "config.advice"=>"required",
+            "config.renderer"=>"required|string",
+            "config.formula"=>"required|string",
         ]);
         $cid=$request->input('cid');
+        $renderer = $request->input('config.renderer');
+        $formula = $request->input('config.formula');
+        if($renderer == 'blink') {
+            if($formula != 'tex') {
+                return ResponseModel::err(4011, 'Illegal Formula Rendering Option.');
+            }
+        } else if ($renderer == 'cpdf') {
+            if($formula != 'svg' && $formula != 'png') {
+                return ResponseModel::err(4011, 'Illegal Formula Rendering Option.');
+            }
+        } else {
+            return ResponseModel::err(4011, 'Unknown Render Engine.');
+        }
         $config=[
             'cover'=>$request->input('config.cover')=='true',
-            'advice'=>$request->input('config.advice')=='true'
+            'advice'=>$request->input('config.advice')=='true',
+            'renderer'=>$renderer,
+            'formula'=>$formula,
         ];
         $contestModel=new ContestModel();
         if ($contestModel->judgeClearance($cid, Auth::user()->id)!=3) {

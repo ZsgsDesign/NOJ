@@ -5,7 +5,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use App\Models\Eloquent\Message;
-use App\Models\Latex\LatexModel;
 use App\Models\Eloquent\Tool\Theme;
 use App\Models\Eloquent\Tool\AppSettings;
 
@@ -187,25 +186,6 @@ if (!function_exists('formatProblemSolvedTime')) {
             $time=gmstrftime('%H:%M:%S', $seconds);
         }
         return $time;
-    }
-}
-
-if (!function_exists('latex2Image')) {
-    function latex2Image($content)
-    {
-        $callback=function($matches) use (&$patch, &$display) {
-            [$url, $width, $height]=LatexModel::info("$patch$matches[1]$patch");
-            return "<img src=\"$url\" style=\"display: $display;\" class=\"rendered-tex\" width=\"$width\" height=\"$height\">";
-        };
-        $patch='$';
-        $display='inline-block';
-        $content=preg_replace_callback('/\\$\\$\\$(.*?)\\$\\$\\$/', $callback, $content);
-        $content=preg_replace_callback('/\\\\\\((.*?)\\\\\\)/', $callback, $content);
-        $patch='$$';
-        $display='block';
-        $content=preg_replace_callback('/\\$\\$(.*?)\\$\\$/', $callback, $content);
-        $content=preg_replace_callback('/\\\\\\[(.*?)\\\\\\]/', $callback, $content);
-        return $content;
     }
 }
 

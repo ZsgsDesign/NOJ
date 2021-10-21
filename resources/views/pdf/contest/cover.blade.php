@@ -9,8 +9,7 @@
     }
     .cover img{
         width: 15rem;
-        margin: 0 auto;
-        display: block;
+        display: inline;
     }
     .cover p.warning{
         font-size: 2rem;
@@ -20,9 +19,8 @@
     }
 </style>
 
-<div style="padding:4rem;"></div>
-
 <div class="cover">
+    <div style="height:4rem;"></div>
     <div>
         <h1>{{$contest['name']}}</h1>
         <h2>{{$contest['date']}}</h2>
@@ -44,3 +42,5 @@
 </div>
 
 <div class="page-breaker"></div>
+
+<div id="resetPageNum"></div>

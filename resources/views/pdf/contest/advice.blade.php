@@ -34,7 +34,7 @@
                 <li>If the correct answer is $$$500$$$, any answer between $$$499.95$$$ and $$$500.05$$$ will be accepted.</li>
             </ul>
             <p>Any reasonable format for floating point numbers is acceptable. For instance, $$$17.000000$$$, $$$0.17e2$$$, and $$$17$$$ are all acceptable ways of formatting the number $$$17$$$. For the definition of reasonable, please use your common sense.</p>
-    </li>
+        </li>
     </ul>
 </div>
 <div class="page-breaker"></div>

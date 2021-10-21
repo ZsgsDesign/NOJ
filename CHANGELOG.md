@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## NOJ 0.17.2 Characinae Build Pack 2 - 2021-10-21
+This is a build version update for `0.17.0 Characinae`.
+
+**Important:** Rerun `npm ci` and `composer install` then `npm run production`.
+
+### Update Logs
+* **Compatibility:** This update no longer uses wkhtmltopdf.
+* **New:** NOJ now greatly improves PDF generation speed and quality by using 2 new approaches: CPDF or Blink with Skia.
+* **New:** NOJ now uses `nesk/puphpeteer`.
+* **New:** NOJ now uses `barryvdh/laravel-dompdf`.
+* **Deprecated:** NOJ no longer uses old `LatexModel` and `LatexController`.
+* **Deprecated:** Helper function `latex2image` is no longer supported.
+* **Fixed:** A bug causing PDF-generated Chinese character replaced by blank square.
+* **Fixed:** A bug causing PDF generation exit without error.
+* **Fixed:** Typo (only 1 this time).
+* **Improved:** PDF generation now does not wait 20 seconds then proceed, it quits when complete.
+* **Security:** `fonts-asset/dejavu` is now at `1.0.4`.
+* **Security:** `fonts-asset/simsun` is now at `1.0.2`.
+* **Security:** `graham-campbell/result-type` is now at `1.0.3`.
+* **Security:** `laravel/framework` is now at `8.65.0`.
+* **Security:** `laravel/passport` is now at `10.1.4`.
+* **Security:** `league/oauth2-server` is now at `8.3.3`.
+* **Security:** `mews/purifier` is now at `3.3.6`.
+* **Security:** `phpdocumentor/reflection-docblock` is now at `5.3.0`.
+* **Security:** `swiftmailer/swiftmailer` is now at `6.3.0`.
+
 ## NOJ 0.17.1 Characinae Build Pack 1 - 2021-10-12
 This is a build version update for `0.17.0 Characinae`.
 

@@ -162,18 +162,13 @@ class Contest extends Model
         return strtotime($this->end_time)<time();
     }
 
-    public function getProblemSet($renderLatex=false)
+    public function getProblemSet()
     {
         $ret=[];
         $problemset=$this->problems;
         foreach ($problemset as $problem) {
             $problemDetail=Problem::find($problem->pid);
             $problemRet=(new OutdatedProblemModel())->detail($problemDetail->pcode);
-            if ($renderLatex) {
-                foreach (['description', 'input', 'output', 'note'] as $section) {
-                    $problemRet['parsed'][$section]=latex2Image($problemRet['parsed'][$section]);
-                }
-            }
             $problemRet['index']=$problem->ncode;
             $problemRet['testcases']=$problemRet['samples'];
             unset($problemRet['samples']);

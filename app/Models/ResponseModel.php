@@ -77,11 +77,12 @@ class ResponseModel extends Model
             '4003' => "No Need for Registration",
             '4004' => "Registration Ended",
             '4005' => "Registration Denied",
-            '4006' => "AlreadyRegistered",
+            '4006' => "Already Registered",
             '4007' => "A contest cannot be both a public and a practice contest",
             '4008' => "The contest is not over.",
             '4009' => 'Only freeze contest can join scrollboard',
             '4010' => 'Contest Still Under Judging.',
+            '4011' => 'Illegal PDF Option.',
 
             '5000' => "Status-Related Error",
             '5001' => "Status Not Found",

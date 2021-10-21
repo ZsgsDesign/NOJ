@@ -58,6 +58,11 @@ mix.scripts([
     'node_modules/clipboard/dist/clipboard.min.js',
 ], 'public/static/js/build/app.js');
 
+// Compile NOJ PDF Compiler Libraries Bundle - paged.polyfill.js
+mix.scripts([
+    'node_modules/pagedjs/dist/paged.polyfill.js',
+], 'public/static/js/build/paged.polyfill.js');
+
 // Compile NOJ CSS Libraries Bundle - app.css
 mix.styles([
     'public/static/css/build/app.temp.css',
