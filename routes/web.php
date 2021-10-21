@@ -20,27 +20,6 @@ Route::get('/acmhome/problemdetail.do','MainController@oldRedirect')->name('old.
 Route::get('/opensearch.xml', function () {
     return response(getOpenSearchXML(), 200)->header("Content-type","text/xml");
 });
-Route::get('/lalala', function () {
-    $cid = 126;
-    $record = App\Models\Eloquent\Contest::find(126);
-    return view('pdf.contest.main', [
-        'conf' => [
-            'cover'=>true,
-            'advice'=>true
-        ],
-        'contest' => [
-            'cid' => $cid,
-            'name' => $record->name,
-            'shortName' => $record->name,
-            'date' => date("F j, Y", strtotime($record->begin_time)),
-        ],
-        'problemset' => $record->getProblemSet(false),
-    ]);
-});
-Route::group(['as' => 'latex.'], function () {
-    Route::get('/latex.svg','LatexController@svg')->name('svg');
-    Route::get('/latex.png','LatexController@png')->name('png');
-});
 
 Route::get('/', 'MainController@home')->middleware('contest_account')->name('home');
 
