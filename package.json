@@ -43,6 +43,7 @@
         "monaco-editor": "0.25.2",
         "monaco-editor-webpack-plugin": "4.0.0",
         "noj-monaco-themes": "^1.0",
+        "pagedjs": "^0.2.0",
         "parazoom": "^1.0.0",
         "pdfobject": "^2.1",
         "perfect-scrollbar": "^1.4",
