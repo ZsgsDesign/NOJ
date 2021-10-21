@@ -1448,16 +1448,16 @@
         },
         {
             "name": "fonts-asset/dejavu",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ZsgsDesign/fonts-asset-DejaVu.git",
-                "reference": "f4b9da0afc39be57dd4a07a1919d38ae7f1ea57e"
+                "reference": "d05096cdc9aaeed91444b64e0411af6b035eae7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-DejaVu/zipball/f4b9da0afc39be57dd4a07a1919d38ae7f1ea57e",
-                "reference": "f4b9da0afc39be57dd4a07a1919d38ae7f1ea57e",
+                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-DejaVu/zipball/d05096cdc9aaeed91444b64e0411af6b035eae7c",
+                "reference": "d05096cdc9aaeed91444b64e0411af6b035eae7c",
                 "shasum": ""
             },
             "type": "fonts-asset",
@@ -1474,9 +1474,9 @@
             "description": "Dejavu for composer.",
             "support": {
                 "issues": "https://github.com/ZsgsDesign/fonts-asset-DejaVu/issues",
-                "source": "https://github.com/ZsgsDesign/fonts-asset-DejaVu/tree/1.0.0"
+                "source": "https://github.com/ZsgsDesign/fonts-asset-DejaVu/tree/1.0.1"
             },
-            "time": "2021-08-28T19:36:26+00:00"
+            "time": "2021-10-21T03:41:07+00:00"
         },
         {
             "name": "fonts-asset/devicon",
@@ -1768,16 +1768,16 @@
         },
         {
             "name": "fonts-asset/simsun",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ZsgsDesign/fonts-asset-Simsun.git",
-                "reference": "5935223c713b269d597f1ff422500f65e0375344"
+                "reference": "c61c4216df2394bf7c3e124755f3fd641338ed1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Simsun/zipball/5935223c713b269d597f1ff422500f65e0375344",
-                "reference": "5935223c713b269d597f1ff422500f65e0375344",
+                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Simsun/zipball/c61c4216df2394bf7c3e124755f3fd641338ed1e",
+                "reference": "c61c4216df2394bf7c3e124755f3fd641338ed1e",
                 "shasum": ""
             },
             "type": "fonts-asset",
@@ -1794,9 +1794,9 @@
             "description": "Simsun for composer.",
             "support": {
                 "issues": "https://github.com/ZsgsDesign/fonts-asset-Simsun/issues",
-                "source": "https://github.com/ZsgsDesign/fonts-asset-Simsun/tree/1.0.0"
+                "source": "https://github.com/ZsgsDesign/fonts-asset-Simsun/tree/1.0.1"
             },
-            "time": "2021-08-28T17:46:19+00:00"
+            "time": "2021-10-21T03:39:05+00:00"
         },
         {
             "name": "fonts-asset/socialicon",
