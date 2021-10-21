@@ -1,3 +1,22 @@
+<style>
+    .radio.noj-radio{
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .radio.noj-radio label{
+        padding: 0;
+        display: flex;
+        align-items: center;
+        margin: 0;
+        padding-right: 1rem;
+    }
+
+    .radio.noj-radio label .bmd-radio{
+        position: relative;
+        margin: 0;
+    }
+</style>
 <section-panel id="generate_pdf" class="d-none">
     <h3 class="tab-title">Generate PDF</h3>
     <div class="tab-body">
@@ -34,8 +53,19 @@
         <div class="switch">
             <label><input type="checkbox" id="PDFOptionsAdvicePage" checked> Advice Section</label>
         </div>
+        <p class="mt-3 mb-0">Render Engine</p>
+        <div class="radio noj-radio">
+            <label><input type="radio" name="RenderEngine" id="RenderEngineBlink" value="blink" checked> <span>Blink + Skia</span></label>
+            <label><input type="radio" name="RenderEngine" id="RenderEngineCPDF" value="cpdf"> <span>CPDF</span></label>
+        </div>
+        <p class="mt-3 mb-0">Formula Rendering</p>
+        <div class="radio noj-radio">
+            <label><input type="radio" name="FormulaRendering" id="FormulaRenderingTEX" value="tex" checked> <span>Tex</span></label>
+            <label><input type="radio" name="FormulaRendering" id="FormulaRenderingSVG" value="svg" disabled> <span>SVG</span></label>
+            <label><input type="radio" name="FormulaRendering" id="FormulaRenderingPNG" value="png" disabled> <span>PNG</span></label>
+        </div>
         <div class="mt-3" id="generatePDF_actions">
-            @if(in_array($generatePDFStatus,['queued','executing']))
+            @if(in_array($generatePDFStatus, ['queued', 'executing']))
                 <button type="button" class="btn btn-outline-info"><i class="MDI timer-sand"></i> Processing</button>
             @endif
             @if($generatePDFStatus=='failed')
@@ -57,14 +87,35 @@
     function generatePDF(){
         if(generatingPDF) return;
         generatingPDF = true;
+        var renderer = $('input[name="RenderEngine"]:checked').val();
+        var formula = $('input[name="FormulaRendering"]:checked').val();
+        if(renderer == 'blink') {
+            if(formula != 'tex') {
+                alert('Illegal Formula Rendering Option.');
+                generatingPDF = false;
+                return;
+            }
+        } else if (renderer == 'cpdf') {
+            if(formula != 'svg' && formula != 'png') {
+                alert('Illegal Formula Rendering Option.');
+                generatingPDF = false;
+                return;
+            }
+        } else {
+            alert('Unknown Render Engine.');
+            generatingPDF = false;
+            return;
+        }
         $.ajax({
             type: 'POST',
             url: "{{route('ajax.contest.generatePDF')}}",
             data: {
                 cid: {{$cid}},
                 config: {
-                    cover:$('#PDFOptionsCoverPage').prop('checked'),
-                    advice:$('#PDFOptionsAdvicePage').prop('checked')
+                    cover: $('#PDFOptionsCoverPage').prop('checked'),
+                    advice: $('#PDFOptionsAdvicePage').prop('checked'),
+                    renderer: renderer,
+                    formula: formula
                 }
             },dataType: 'json',
             headers: {
@@ -130,3 +181,24 @@
         });
     }
 </script>
+
+@push('additionScript')
+    <script>
+        $('#RenderEngineBlink').on('change', function() {
+            $('#FormulaRenderingTEX').prop('disabled', false);
+            $('#FormulaRenderingSVG').prop('disabled', true);
+            $('#FormulaRenderingPNG').prop('disabled', true);
+            if($('#FormulaRenderingTEX').prop('checked') != true) {
+                $('#FormulaRenderingTEX').prop('checked', true);
+            }
+        })
+        $('#RenderEngineCPDF').on('change', function() {
+            $('#FormulaRenderingTEX').prop('disabled', true);
+            $('#FormulaRenderingSVG').prop('disabled', false);
+            $('#FormulaRenderingPNG').prop('disabled', false);
+            if($('#FormulaRenderingTEX').prop('checked') != false) {
+                $('#FormulaRenderingSVG').prop('checked', true);
+            }
+        })
+    </script>
+@endpush
