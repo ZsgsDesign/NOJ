@@ -134,11 +134,9 @@ class AdminController extends Controller
 
     public function pdfView($cid) {
         $record = Contest::find($cid);
+        $accessConfig = request()->accessConfig;
         return view('pdf.contest.main', [
-            'conf' => [
-                'cover'=>true,
-                'advice'=>true
-            ],
+            'conf' => $accessConfig,
             'contest' => [
                 'cid' => $cid,
                 'name' => $record->name,
