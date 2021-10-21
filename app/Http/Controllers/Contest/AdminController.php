@@ -143,7 +143,7 @@ class AdminController extends Controller
                 'shortName' => $record->name,
                 'date' => date("F j, Y", strtotime($record->begin_time)),
             ],
-            'problemset' => $record->getProblemSet(false),
+            'problemset' => $record->getProblemSet(),
         ]);
     }
 }
