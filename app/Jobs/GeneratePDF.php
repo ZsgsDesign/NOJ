@@ -90,31 +90,15 @@ class GeneratePDF implements ShouldQueue
             ]);
 
             $browser->close();
+
+            $record->pdf = 1;
+            $record->save();
             return;
         }
 
         $parsedHTML = $page->content();
 
         $browser->close();
-
-        // $pdf=PDF::setOptions([
-        //     'dpi' => 150,
-        //     'isPhpEnabled' => true,
-        //     'isHtml5ParserEnabled' => true,
-        //     'isRemoteEnabled' => true
-        // ])->setWarnings(true)->loadView('pdf.contest.main', [
-        //     'conf' => $config,
-        //     'contest' => [
-        //         'cid' => $cid,
-        //         'name' => $record->name,
-        //         'shortName' => $record->name,
-        //         'date' => date("F j, Y", strtotime($record->begin_time)),
-        //     ],
-        //     'problemset' => $record->getProblemSet(),
-        // ]);
-
-        // file_put_contents(__DIR__."/lalala.html", $parsedHTML);
-        // return;
 
         $pdf=PDF::setOptions([
             'dpi' => 96,
