@@ -24,7 +24,7 @@ return [
         ],
         '500' => [
             'type'          => 'Internal Server Error',
-            'description'   => 'Somthing went wrong.',
+            'description'   => 'Something went wrong.',
             'tips'          => "We're looking to see what happened"
         ],
         '503' => [
