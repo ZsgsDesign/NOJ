@@ -8,6 +8,7 @@ use App\Models\ContestModel;
 use App\Babel\Submit\Curl;
 use Auth;
 use Requests;
+use ErrorException;
 use Exception;
 use Throwable;
 use Log;

@@ -5,6 +5,7 @@ namespace App\Babel\Crawl;
 use App\Models\ProblemModel;
 use KubAT\PhpSimple\HtmlDomParser;
 use Auth;
+use Exception;
 
 class CrawlerBase
 {
