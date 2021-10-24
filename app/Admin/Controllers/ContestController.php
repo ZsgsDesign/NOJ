@@ -152,14 +152,7 @@ class ContestController extends Controller
                 1 => "Public"
             ])->when(0, function(Form $form) {
                 $form->switch('practice', 'Practice Contest')->default(false);
-
-                $form->hidden('verified', 'Verified Contest')->default(0);
-                $form->hidden('rated', 'Rated Contest')->default(0);
-                $form->hidden('anticheated', 'AntiCheated Contest')->default(0);
-                $form->hidden('featured', 'Featured Contest')->default(0);
             })->when(1, function(Form $form) {
-                $form->hidden('practice', 'Practice Contest')->default(0);
-
                 $form->switch('verified', 'Verified Contest')->default(true);
                 $form->switch('rated', 'Rated Contest')->default(false);
                 $form->switch('anticheated', 'AntiCheated Contest')->default(true);
@@ -167,7 +160,7 @@ class ContestController extends Controller
             })->default(0)->required();
             $form->switch('desktop', 'Enable NOJ Desktop (Experimental)')->default(false);
             $form->hidden('is_rated', "is_rated")->default(0);
-            $form->hidden('pdf', 'Provide PDF')->default(0);
+            $form->switch('pdf', 'Provide PDF')->default(false);
 
             $form->divider();
 
@@ -220,6 +213,18 @@ class ContestController extends Controller
                 $form->number('points', 'Points Value')->default(100)->required();
             });
         });
+
+        $form->saving(function (Form $form) {
+            if($form->public) {
+                $form->practice = 0;
+            } else {
+                $form->verified = 0;
+                $form->rated = 0;
+                $form->anticheated = 0;
+                $form->featured = 0;
+            }
+        });
+
         return $form;
     }
 }
