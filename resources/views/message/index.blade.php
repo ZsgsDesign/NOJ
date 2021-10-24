@@ -58,6 +58,10 @@
         font-weight: bolder;
     }
 
+    message-card[data-level="default"] {
+        border-left: 4px solid var(--wemd-dark);
+    }
+
     message-card[data-level="info"] {
         border-left: 4px solid var(--wemd-teal);
     }
@@ -74,13 +78,12 @@
         border-left: 4px solid var(--wemd-deep-purple);
     }
 
-    message-card.official {
+    message-card[data-level="announcement"] {
         border-left: 4px solid var(--wemd-blue)!important;
     }
 
     message-card.read {
-        opacity: 0.6;
-        border-left: 4px solid var(--wemd-grey)!important;
+        opacity: 0.4;
     }
 
     .cm-avatar{
@@ -125,9 +128,9 @@
     <div id="list">
         @if($messages->count() != 0)
             @foreach($messages as $message)
-                <message-card data-id="{{$message['id']}}" class="@unless($message->unread) read @endunless @if($message->official) official @endif" data-level="{{$message->level_string}}">
+                <message-card data-id="{{$message['id']}}" class="@unless($message->unread) read @endunless" data-level="{{$message->level_string}}">
                     <div>
-                        <div><span class="sender_name">@if($message->official) {{__('message.official', ['name' => config('app.name')])}}  @else {{$message->sender_user->name }} @endif </span> <small class="wemd-grey-text"> {{formatHumanReadableTime($message->updated_at)}}</small></div>
+                        <div><span class="sender_name">@if($message->official) <span class="wemd-blue-text">{{__('message.official', ['name' => config('app.name')])}} <i class="MDI marker-check wemd-blue-text"></i></span> @else {{$message->sender_user->name }} @endif </span> <small class="wemd-grey-text"> {{formatHumanReadableTime($message->updated_at)}}</small></div>
                         <div><img src="{{$message->sender_user->avatar}}" class="cm-avatar"></div>
                     </div>
                     <div>
@@ -148,7 +151,7 @@
     window.addEventListener("load",function() {
         $('message-card').on('click',function(){
             var id = $(this).attr('data-id')
-            $(this).removeClass('unread').removeClass('official').addClass('read');
+            $(this).addClass('read');
             window.location = `/message/${id}`;
         });
 
@@ -161,8 +164,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }, success: function(result){
                     if(result.ret == '200'){
-                        $('.unread').removeClass('unread').addClass('read');
-                        $('.official').removeClass('official').addClass('read');
+                        $('message-card').addClass('read');
                         if(window['message_tip'] != undefined){
                             $("#message-tip").animate({
                                 opacity: 1
