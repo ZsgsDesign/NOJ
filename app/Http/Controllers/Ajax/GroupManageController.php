@@ -271,8 +271,9 @@ class GroupManageController extends Controller
         sendMessage([
             'receiver' => $receiverInfo["id"],
             'sender' => Auth::user()->id,
-            'title' => __('group.message.inviteJoin.title', ['sender_name' => $sender_name, 'group_name' => $basic['name']]),
-            'content' => __('group.message.inviteJoin.content', ['reciver_name' => $receiverInfo['name'], 'group_name' => $basic['name'], 'group_url' => $url]),
+            'level' => 4,
+            'title' => __('message.group.invited.title', ['sender_name' => $sender_name, 'group_name' => $basic['name']]),
+            'content' => __('message.group.invited.desc', ['reciver_name' => $receiverInfo['name'], 'group_name' => $basic['name'], 'group_url' => $url]),
         ]);
         return ResponseModel::success(200);
     }
