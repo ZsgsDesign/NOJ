@@ -8,7 +8,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Message extends Model
 {
     use SoftDeletes;
-    protected $table='message';
+    protected $table = 'message';
+    public $levelMapping = [
+        0 => 'default',
+        1 => 'info',
+        2 => 'warning',
+        3 => 'danger',
+        4 => 'question',
+        5 => 'announcement',
+    ];
 
     /**
      * @access public
@@ -19,60 +27,60 @@ class Message extends Model
     {
         if (!empty($config['type'])) {
             if ($config['type'] == 1) { // to a leader that member apply to join the group
-                $messages=Message::where([
+                $messages = Message::where([
                     'receiver' => $config['receiver'],
                     'type'     => $config['type'],
                     'unread'   => 1
                 ])->get();
                 if (!empty($messages)) {
                     foreach ($messages as $message) {
-                        $data=json_decode($message->data, true);
-                        if ($data['group']['gcode']==$config['data']['group']['gcode']) {
+                        $data = json_decode($message->data, true);
+                        if ($data['group']['gcode'] == $config['data']['group']['gcode']) {
                             array_push($data['user'], $config['data']['user'][0]);
-                            $message->data=json_encode($data);
+                            $message->data = json_encode($data);
                             $message->save();
                             return true;
                         }
                     }
                 }
             } elseif ($config['type'] == 2) { // to a leader that member agree to join the group
-                $messages=Message::where([
+                $messages = Message::where([
                     'receiver' => $config['receiver'],
                     'type'     => $config['type'],
                     'unread'   => 1
                 ])->get();
                 if (!empty($messages)) {
                     foreach ($messages as $message) {
-                        $data=json_decode($message->data, true);
-                        if ($data['group']==$config['data']['group']) {
+                        $data = json_decode($message->data, true);
+                        if ($data['group'] == $config['data']['group']) {
                             array_push($data['user'], $config['data']['user'][0]);
-                            $message->data=json_encode($data);
+                            $message->data = json_encode($data);
                             $message->save();
                             return true;
                         }
                     }
                 }
             } elseif ($config['type'] == 3) { // to a person that solution was passed
-                $message=Message::where([
+                $message = Message::where([
                     'receiver' => $config['receiver'],
                     'type'     => $config['type'],
                     'unread'   => 1
                 ])->first();
                 if (!empty($message)) {
-                    $data=json_decode($message->data, true);
+                    $data = json_decode($message->data, true);
                     array_push($data, $config['data']);
                     $message->data = json_encode($data);
                     $message->save();
                     return true;
                 }
             } elseif ($config['type'] == 4) { // to a person that solution was blocked
-                $message=Message::where([
+                $message = Message::where([
                     'receiver' => $config['receiver'],
                     'type'     => $config['type'],
                     'unread'   => 1
                 ])->first();
                 if (!empty($message)) {
-                    $data=json_decode($message->data, true);
+                    $data = json_decode($message->data, true);
                     array_push($data, $config['data']);
                     $message->data = json_encode($data);
                     $message->save();
@@ -80,15 +88,16 @@ class Message extends Model
                 }
             }
         }
-        $message=new Message;
-        $message->sender=$config['sender'];
-        $message->receiver=$config['receiver'];
-        $message->title=$config['title'];
+        $message = new Message;
+        $message->sender = $config['sender'];
+        $message->receiver = $config['receiver'];
+        $message->title = $config['title'];
+        $message->level = $config['level'];
         if (isset($config['data']) && isset($config['type'])) {
-            $message->type=$config['type'] ?? null;
-            $message->data=json_encode($config['data']);
+            $message->type = $config['type'] ?? null;
+            $message->data = json_encode($config['data']);
         } else {
-            $message->content=$config['content'];
+            $message->content = $config['content'];
         }
         /*
         if(isset($config['reply'])){
@@ -98,7 +107,7 @@ class Message extends Model
             $message->reply = $config['allow_reply'];
         }
         */
-        $message->official=1;
+        $message->official = 1;
         $message->save();
         return true;
     }
@@ -116,8 +125,8 @@ class Message extends Model
             'receiver' => $uid,
             'unread' => 1,
         ])
-        ->orderByDesc('created_at')
-        ->get()->all();
+            ->orderByDesc('created_at')
+            ->get()->all();
     }
 
 
@@ -147,9 +156,9 @@ class Message extends Model
      */
     public static function read($mid)
     {
-        $message=static::with('sender_user')->find($mid);
+        $message = static::with('sender_user')->find($mid);
         if (!empty($message)) {
-            $message->unread=0;
+            $message->unread = 0;
             $message->save();
         }
         return $message;
@@ -192,17 +201,17 @@ class Message extends Model
      */
     public static function remove($messages)
     {
-        $del_count=0;
+        $del_count = 0;
         if (is_array($messages)) {
             foreach ($messages as $mid) {
-                $message=static::find($mid);
+                $message = static::find($mid);
                 if (!empty($message)) {
                     $message->delete();
                     $del_count++;
                 }
             }
         } else {
-            $message=static::find($messages);
+            $message = static::find($messages);
             if (!empty($message)) {
                 $message->delete();
                 $del_count++;
@@ -213,7 +222,11 @@ class Message extends Model
 
     public function getLevelStringAttribute()
     {
-        return "info";
+        if (isset($this->levelMapping[$this->level])) {
+            return $this->levelMapping[$this->level];
+        } else {
+            return $this->levelMapping[0];
+        }
     }
 
     public function getContentAttribute($value)
@@ -225,14 +238,14 @@ class Message extends Model
                 foreach ($data['user'] as $user) {
                     $content .= "[{$user['name']}]({$user['url']}), ";
                 }
-                $content = substr($content, 0, strlen($content)-2);
+                $content = substr($content, 0, strlen($content) - 2);
                 $content .= " want to join your group [{$data['group']['name']}]({$data['group']['url']})";
                 return $content;
             } elseif ($this->type == 2) {
                 foreach ($data['user'] as $user) {
                     $content .= "[{$user['name']}]({$user['url']}), ";
                 }
-                $content = substr($content, 0, strlen($content)-2);
+                $content = substr($content, 0, strlen($content) - 2);
                 $content .= " have agreed to join your group [{$data['group']['name']}]({$data['group']['url']})";
                 return $content;
             }
