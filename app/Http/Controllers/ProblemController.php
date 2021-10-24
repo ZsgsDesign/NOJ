@@ -65,15 +65,18 @@ class ProblemController extends Controller
     {
         $problem=new ProblemModel();
         $prob_detail=$problem->detail($pcode);
-        if ($problem->isBlocked($prob_detail["pid"]) || $problem->isHidden($prob_detail["pid"])) {
+        if(blank($prob_detail) || $problem->isHidden($prob_detail["pid"])) {
+            return redirect("/problem");
+        }
+        if ($problem->isBlocked($prob_detail["pid"])) {
             return abort('403');
         }
-        return is_null($prob_detail) ?  redirect("/problem") : view('problem.detail', [
-                                            'page_title'=>$prob_detail["title"],
-                                            'site_title'=>config("app.name"),
-                                            'navigation' => "Problem",
-                                            'detail' => $prob_detail
-                                        ]);
+        return view('problem.detail', [
+            'page_title'=>$prob_detail["title"],
+            'site_title'=>config("app.name"),
+            'navigation' => "Problem",
+            'detail' => $prob_detail
+        ]);
     }
 
     /**
