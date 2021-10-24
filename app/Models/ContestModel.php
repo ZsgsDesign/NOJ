@@ -392,6 +392,7 @@ class ContestModel extends Model
             sendMessage([
                 'receiver' => $uid,
                 'sender' => config('app.official_sender'),
+                'level' => 1,
                 'title' => "You have successfully registered {$contest['name']}",
                 'content' => "Hi, Dear **$name**,\n\n  You have successfully registered [**{$contest['name']}**]($url), don't forget to participate!\n\n  **Contest:** {$contest['name']}\n\n  **Begin Time:** {$contest['begin_time']}\n\nSincerely, NOJ"
             ]);
