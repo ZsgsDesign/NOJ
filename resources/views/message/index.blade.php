@@ -125,7 +125,7 @@
     <div id="list">
         @if($messages->count() != 0)
             @foreach($messages as $message)
-                <message-card data-id="{{$message['id']}}" class="@unless($message->unread) read @endunless @if($message->official) official @endif" data-level="{{$message->level}}">
+                <message-card data-id="{{$message['id']}}" class="@unless($message->unread) read @endunless @if($message->official) official @endif" data-level="{{$message->level_string}}">
                     <div>
                         <div><span class="sender_name">@if($message->official) {{__('message.official', ['name' => config('app.name')])}}  @else {{$message->sender_user->name }} @endif </span> <small class="wemd-grey-text"> {{formatHumanReadableTime($message->updated_at)}}</small></div>
                         <div><img src="{{$message->sender_user->avatar}}" class="cm-avatar"></div>

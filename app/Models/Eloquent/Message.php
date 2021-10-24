@@ -211,7 +211,7 @@ class Message extends Model
         return $del_count;
     }
 
-    public function getLevelAttribute()
+    public function getLevelStringAttribute()
     {
         return "info";
     }
