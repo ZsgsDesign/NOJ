@@ -5,5 +5,5 @@ return [
     'markAllAsRead' => '全部标为已读',
     'eraseRead'     => '删除已读',
     'empty'         => '空落落的，什么也没有。',
-    'official'      => 'NOJ官方',
+    'official'      => ':name官方',
 ];

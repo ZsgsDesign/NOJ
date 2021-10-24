@@ -115,7 +115,7 @@
             @foreach($messages as $message)
                 <message-card data-id="{{$message['id']}}" class="@if($message->unread) @if($message->official) official @else unread @endif @else read @endif">
                     <div>
-                        <div><span class="sender_name">@if($message->sender_user->id == 1) NOJ Official  @else {{$message->sender_user->name }} @endif </span> <small class="wemd-grey-text"> {{formatHumanReadableTime($message->updated_at)}}</small></div>
+                        <div><span class="sender_name">@if($message->official) {{__('message.official', ['name' => config('app.name')])}}  @else {{$message->sender_user->name }} @endif </span> <small class="wemd-grey-text"> {{formatHumanReadableTime($message->updated_at)}}</small></div>
                         <div><img src="{{$message->sender_user->avatar}}" class="cm-avatar"></div>
                     </div>
                     <div>
