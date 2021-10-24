@@ -18,7 +18,7 @@ class Message extends Model
     public static function send($config)
     {
         if (!empty($config['type'])) {
-            if ($config['type']==1) { //to a leader that member apply to join the group
+            if ($config['type'] == 1) { // to a leader that member apply to join the group
                 $messages=Message::where([
                     'receiver' => $config['receiver'],
                     'type'     => $config['type'],
@@ -35,7 +35,7 @@ class Message extends Model
                         }
                     }
                 }
-            } elseif ($config['type']==2) { //to a leader that member agree to join the group
+            } elseif ($config['type'] == 2) { // to a leader that member agree to join the group
                 $messages=Message::where([
                     'receiver' => $config['receiver'],
                     'type'     => $config['type'],
@@ -52,7 +52,7 @@ class Message extends Model
                         }
                     }
                 }
-            } elseif ($config['type']==3) { //to a person that solution was passed
+            } elseif ($config['type'] == 3) { // to a person that solution was passed
                 $message=Message::where([
                     'receiver' => $config['receiver'],
                     'type'     => $config['type'],
@@ -61,11 +61,11 @@ class Message extends Model
                 if (!empty($message)) {
                     $data=json_decode($message->data, true);
                     array_push($data, $config['data']);
-                    $message->data=json_encode($data);
+                    $message->data = json_encode($data);
                     $message->save();
                     return true;
                 }
-            } elseif ($config['type']==4) { //to a person that solution was blocked
+            } elseif ($config['type'] == 4) { // to a person that solution was blocked
                 $message=Message::where([
                     'receiver' => $config['receiver'],
                     'type'     => $config['type'],
@@ -74,7 +74,7 @@ class Message extends Model
                 if (!empty($message)) {
                     $data=json_decode($message->data, true);
                     array_push($data, $config['data']);
-                    $message->data=json_encode($data);
+                    $message->data = json_encode($data);
                     $message->save();
                     return true;
                 }
@@ -211,26 +211,31 @@ class Message extends Model
         return $del_count;
     }
 
+    public function getLevelAttribute()
+    {
+        return "info";
+    }
+
     public function getContentAttribute($value)
     {
         if (!empty($this->type)) {
-            $data=json_decode($this->data, true);
-            $content='';
-            if ($this->type==1) {
+            $data = json_decode($this->data, true);
+            $content = '';
+            if ($this->type == 1) {
                 foreach ($data['user'] as $user) {
-                    $content.="[{$user['name']}]({$user['url']}), ";
+                    $content .= "[{$user['name']}]({$user['url']}), ";
                 }
-                $content=substr($content, 0, strlen($content)-2);
-                $content.=" want to join your group [{$data['group']['name']}]({$data['group']['url']})";
+                $content = substr($content, 0, strlen($content)-2);
+                $content .= " want to join your group [{$data['group']['name']}]({$data['group']['url']})";
                 return $content;
-            } elseif ($this->type==2) {
+            } elseif ($this->type == 2) {
                 foreach ($data['user'] as $user) {
-                    $content.="[{$user['name']}]({$user['url']}), ";
+                    $content .= "[{$user['name']}]({$user['url']}), ";
                 }
-                $content=substr($content, 0, strlen($content)-2);
-                $content.=" have agreed to join your group [{$data['group']['name']}]({$data['group']['url']})";
+                $content = substr($content, 0, strlen($content)-2);
+                $content .= " have agreed to join your group [{$data['group']['name']}]({$data['group']['url']})";
                 return $content;
-            } //todo
+            }
         } else {
             return $value;
         }

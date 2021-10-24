@@ -58,17 +58,29 @@
         font-weight: bolder;
     }
 
-    message-card.official {
-        border-left: 4px solid #03a9f4;
+    message-card[data-level="info"] {
+        border-left: 4px solid var(--wemd-teal);
     }
 
-    message-card.unread {
-        border-left: 4px solid #8bc34a;
+    message-card[data-level="warning"] {
+        border-left: 4px solid var(--wemd-orange);
+    }
+
+    message-card[data-level="danger"] {
+        border-left: 4px solid var(--wemd-red);
+    }
+
+    message-card[data-level="question"] {
+        border-left: 4px solid var(--wemd-deep-purple);
+    }
+
+    message-card.official {
+        border-left: 4px solid var(--wemd-blue)!important;
     }
 
     message-card.read {
         opacity: 0.6;
-        border-left: 4px solid #9e9e9e;
+        border-left: 4px solid var(--wemd-grey)!important;
     }
 
     .cm-avatar{
@@ -113,7 +125,7 @@
     <div id="list">
         @if($messages->count() != 0)
             @foreach($messages as $message)
-                <message-card data-id="{{$message['id']}}" class="@if($message->unread) @if($message->official) official @else unread @endif @else read @endif">
+                <message-card data-id="{{$message['id']}}" class="@unless($message->unread) read @endunless @if($message->official) official @endif" data-level="{{$message->level}}">
                     <div>
                         <div><span class="sender_name">@if($message->official) {{__('message.official', ['name' => config('app.name')])}}  @else {{$message->sender_user->name }} @endif </span> <small class="wemd-grey-text"> {{formatHumanReadableTime($message->updated_at)}}</small></div>
                         <div><img src="{{$message->sender_user->avatar}}" class="cm-avatar"></div>
