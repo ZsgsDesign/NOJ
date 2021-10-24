@@ -92,37 +92,45 @@
         font-size: 1rem;
         color:rgba(0,0,0,0.54);
     }
+
+    .message-header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
 </style>
 <div class="container mundb-standard-container">
-    <paper-card>
-        <p>{{__('message.messagelist')}}</p>
-        <div class="text-right" id="opr">
+    <div class="message-header">
+        <div>
+            <span class="font-weight-bold"><i class="MDI email"></i> {{__('message.messagelist')}}</span>
+        </div>
+        <div>
             <button class="btn btn-primary" role="button" id="all-read"> <i class="MDI email-open-outline"></i> {{__('message.markAllAsRead')}}</button>
             <button class="btn btn-danger" role="button" id="all-delete"> <i class="MDI delete"></i> {{__('message.eraseRead')}}</button>
         </div>
-        <div id="list">
-            @if($messages->count() != 0)
-                @foreach($messages as $message)
-                    <message-card data-id="{{$message['id']}}" class="@if($message->unread) @if($message->official) official @else unread @endif @else read @endif">
-                        <div>
-                            <div><span class="sender_name">@if($message->sender_user->id == 1) NOJ Official  @else {{$message->sender_user->name }} @endif </span> <small class="wemd-grey-text"> {{formatHumanReadableTime($message->updated_at)}}</small></div>
-                            <div><img src="{{$message->sender_user->avatar}}" class="cm-avatar"></div>
-                        </div>
-                        <div>
-                            <h5>{{$message->title}}</h5>
-                        </div>
-                    </message-card>
-                @endforeach
-            @else
-                <empty-container>
-                    <i class="MDI email-open"></i>
-                    <p>{{__('message.empty')}}</p>
-                </empty-container>
-            @endif
-            {{$messages->links()}}
-        </div>
-
-    </paper-card>
+    </div>
+    <div id="list">
+        @if($messages->count() != 0)
+            @foreach($messages as $message)
+                <message-card data-id="{{$message['id']}}" class="@if($message->unread) @if($message->official) official @else unread @endif @else read @endif">
+                    <div>
+                        <div><span class="sender_name">@if($message->sender_user->id == 1) NOJ Official  @else {{$message->sender_user->name }} @endif </span> <small class="wemd-grey-text"> {{formatHumanReadableTime($message->updated_at)}}</small></div>
+                        <div><img src="{{$message->sender_user->avatar}}" class="cm-avatar"></div>
+                    </div>
+                    <div>
+                        <h5>{{$message->title}}</h5>
+                    </div>
+                </message-card>
+            @endforeach
+        @else
+            <empty-container>
+                <i class="MDI email-open"></i>
+                <p>{{__('message.empty')}}</p>
+            </empty-container>
+        @endif
+        {{$messages->links()}}
+    </div>
 </div>
 <script>
     window.addEventListener("load",function() {
