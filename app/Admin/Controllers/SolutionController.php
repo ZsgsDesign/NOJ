@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Eloquent\Solution;
+use App\Models\Eloquent\ProblemSolution;
 use App\Models\Eloquent\Problem;
 use App\Models\Eloquent\User;
 use App\Http\Controllers\Controller;
@@ -81,7 +81,7 @@ class SolutionController extends Controller
      */
     protected function grid()
     {
-        $grid=new Grid(new Solution);
+        $grid=new Grid(new ProblemSolution);
         $grid->psoid("ID")->sortable();
         $grid->uid("Uid")->editable();
         $grid->pid("Pid")->editable();
@@ -114,7 +114,7 @@ class SolutionController extends Controller
      */
     protected function detail($id)
     {
-        $show=new Show(Solution::findOrFail($id));
+        $show=new Show(ProblemSolution::findOrFail($id));
         return $show;
     }
 
@@ -125,7 +125,7 @@ class SolutionController extends Controller
      */
     protected function form()
     {
-        $form=new Form(new Solution);
+        $form=new Form(new ProblemSolution);
         $form->model()->makeVisible('password');
         $form->tab('Basic', function(Form $form) {
             $form->display("psoid");
