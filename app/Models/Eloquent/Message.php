@@ -38,6 +38,7 @@ class Message extends Model
                         if ($data['group']['gcode'] == $config['data']['group']['gcode']) {
                             array_push($data['user'], $config['data']['user'][0]);
                             $message->data = json_encode($data);
+                            $message->level = $config['level'];
                             $message->save();
                             return true;
                         }
@@ -55,6 +56,7 @@ class Message extends Model
                         if ($data['group'] == $config['data']['group']) {
                             array_push($data['user'], $config['data']['user'][0]);
                             $message->data = json_encode($data);
+                            $message->level = $config['level'];
                             $message->save();
                             return true;
                         }
@@ -68,8 +70,13 @@ class Message extends Model
                 ])->first();
                 if (!empty($message)) {
                     $data = json_decode($message->data, true);
-                    array_push($data, $config['data']);
+                    foreach ($data['problem'] as $problem) {
+                        if($problem['pcode'] != $config['data']['problem'][0]['pcode']) {
+                            array_push($data['problem'], $config['data']['problem'][0]);
+                        }
+                    }
                     $message->data = json_encode($data);
+                    $message->level = $config['level'];
                     $message->save();
                     return true;
                 }
@@ -81,8 +88,13 @@ class Message extends Model
                 ])->first();
                 if (!empty($message)) {
                     $data = json_decode($message->data, true);
-                    array_push($data, $config['data']);
+                    foreach ($data['problem'] as $problem) {
+                        if($problem['pcode'] != $config['data']['problem'][0]['pcode']) {
+                            array_push($data['problem'], $config['data']['problem'][0]);
+                        }
+                    }
                     $message->data = json_encode($data);
+                    $message->level = $config['level'];
                     $message->save();
                     return true;
                 }
@@ -124,9 +136,7 @@ class Message extends Model
         return static::where([
             'receiver' => $uid,
             'unread' => 1,
-        ])
-            ->orderByDesc('created_at')
-            ->get()->all();
+        ])->orderByDesc('created_at')->get()->all();
     }
 
 
@@ -234,19 +244,43 @@ class Message extends Model
         if (!empty($this->type)) {
             $data = json_decode($this->data, true);
             $content = '';
-            if ($this->type == 1) {
+            if ($this->type == 1 || $this->type == 2) {
+                $userList = [];
                 foreach ($data['user'] as $user) {
-                    $content .= "[{$user['name']}]({$user['url']}), ";
+                    $uid = $user['uid'];
+                    $name = $user['name'];
+                    $url = route('user.view', ['uid' => $uid]);
+                    $userList[] = "[$name]($url)";
                 }
-                $content = substr($content, 0, strlen($content) - 2);
-                $content .= " want to join your group [{$data['group']['name']}]({$data['group']['url']})";
+                $userString = implode(__('message.delimiter'), $userList);
+                $groupName = $data['group']['name'];
+                $groupURL = route('group.detail', ['gcode' => $data['group']['gcode']]);
+                if($this->type == 1) {
+                    $content .= __('message.group.applied.desc', [
+                        'userList' => $userString,
+                        'groupInfo' => "[$groupName]($groupURL)",
+                    ]);
+                } else {
+                    $content .= __('message.group.agreed.desc', [
+                        'userList' => $userString,
+                        'groupInfo' => "[$groupName]($groupURL)",
+                    ]);
+                }
                 return $content;
-            } elseif ($this->type == 2) {
-                foreach ($data['user'] as $user) {
-                    $content .= "[{$user['name']}]({$user['url']}), ";
+            } elseif ($this->type == 3 || $this->type == 4) {
+                $problemList = [];
+                foreach ($data['problem'] as $problem) {
+                    $pcode = $problem['pcode'];
+                    $title = $problem['title'];
+                    $url = route('problem.detail', ['pcode' => $pcode]);
+                    $problemList[] = "[$pcode $title]($url)";
                 }
-                $content = substr($content, 0, strlen($content) - 2);
-                $content .= " have agreed to join your group [{$data['group']['name']}]({$data['group']['url']})";
+                $problemString = implode(__('message.delimiter'), $problemList);
+                if($this->type == 3) {
+                    $content .= __('message.solution.accepted.desc', ['problemList' => $problemString]);
+                } else {
+                    $content .= __('message.solution.declined.desc', ['problemList' => $problemString]);
+                }
                 return $content;
             }
         } else {
