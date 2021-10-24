@@ -111,12 +111,14 @@ class AbuseController extends AdminController
                         sendMessage([
                             'sender'    => config('app.official_sender'),
                             'receiver'  => $abuse->user_id,
+                            'level'     => 1,
                             'title'     => "Your abuse report about group {$group->name} was passed",
                             'content'   => "Hi, Dear **{$abuse->user->name}**,\n\nWe have checked your Abuse report about group **[{$group->name}]({$group->link})**.\n\n We think you're right.\n\n So as the consequence leading to a temporary/permanent sanction against the group.\n\n Thank you for your contribution to our community environment.\n\n Sincerely, NOJ"
                         ]);
                         sendMessage([
                             'sender'    => config('app.official_sender'),
                             'receiver'  => $group->leader->id,
+                            'level'     => 3,
                             'title'     => "Your group {$group->name} has been banned.",
                             'content'   => "Hi, Dear **{$group->leader->name}**,\n\n For the following reasons: \n\n {$abuse->supplement}\n\n your group **[{$group->name}]({$group->link})** is currently banned and will continue until {$ban_time}.\n\n Before this, only you can enter the group. \n\n Please rectify before this, or you may be subjected to more serious treatment.\n\n Thank you for your contribution to our community environment.\n\n Sincerely, NOJ"
                         ]);
@@ -132,6 +134,7 @@ class AbuseController extends AdminController
                         sendMessage([
                             'sender'    => config('app.official_sender'),
                             'receiver'  => $abuse->user_id,
+                            'level'     => 2,
                             'title'     => "Your abuse report about group {$group->name} was rejected",
                             'content'   => "Hi, Dear **{$abuse->user->name}**,\n\n We have checked your Abuse report about group **[{$group->name}]({$group->link})**.\n\n However, we regret to say that the information you submitted is not sufficient for us to take action.\n\n Of course, we will continue to follow up the investigation.\n\n Thank you for your contribution to our community environment.\n\n Sincerely, NOJ"
                         ]);
