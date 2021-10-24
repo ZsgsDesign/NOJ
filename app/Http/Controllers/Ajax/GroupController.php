@@ -49,7 +49,7 @@ class GroupController extends Controller
             if ($clearance==-1) {
                 $groupModel->changeClearance(Auth::user()->id, $all_data["gid"], 1);
                 sendMessage([
-                    'sender'   => 1,
+                    'sender'   => config('app.official_sender'),
                     'receiver' => $leader->id,
                     'title'    => __('group.message.agreeJoin.title', ['name' => $group->name]),
                     'type'     => 2,
@@ -80,7 +80,7 @@ class GroupController extends Controller
                 $groupModel->addClearance(Auth::user()->id, $all_data["gid"], 0);
                 //send message to leader
                 sendMessage([
-                    'sender'   => 1,
+                    'sender'   => config('app.official_sender'),
                     'receiver' => $leader->id,
                     'title'    => __('group.message.agreeJoin.title', ['name' => $group->name]),
                     'type'     => 1,
@@ -104,7 +104,7 @@ class GroupController extends Controller
             if ($clearance==-1) {
                 $groupModel->changeClearance(Auth::user()->id, $all_data["gid"], 1);
                 sendMessage([
-                    'sender'   => 1,
+                    'sender'   => config('app.official_sender'),
                     'receiver' => $leader->id,
                     'title'    => __('group.message.agreeJoin.title', ['name' => $group->name]),
                     'type'     => 2,
@@ -132,7 +132,7 @@ class GroupController extends Controller
                 $groupModel->addClearance(Auth::user()->id, $all_data["gid"], 0);
                 //send message to leader
                 sendMessage([
-                    'sender'   => 1,
+                    'sender'   => config('app.official_sender'),
                     'receiver' => $leader->id,
                     'title'    => __('group.message.appliedJoin.title', ['name' => $group->name]),
                     'type'     => 1,

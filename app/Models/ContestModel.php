@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Rating\RatingCalculator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Contracts\Cache\LockTimeoutException;
 use Auth;
 use Cache;
 use Log;
@@ -390,7 +391,7 @@ class ContestModel extends Model
             $url=route('contest.detail', ['cid' => $cid]);
             sendMessage([
                 'receiver' => $uid,
-                'sender' => 1, // potential bugs
+                'sender' => config('app.official_sender'),
                 'title' => "You have successfully registered {$contest['name']}",
                 'content' => "Hi, Dear **$name**,\n\n  You have successfully registered [**{$contest['name']}**]($url), don't forget to participate!\n\n  **Contest:** {$contest['name']}\n\n  **Begin Time:** {$contest['begin_time']}\n\nSincerely, NOJ"
             ]);
