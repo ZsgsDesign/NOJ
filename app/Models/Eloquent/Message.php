@@ -70,7 +70,7 @@ class Message extends Model
     {
         return static::where([
             'receiver' => $uid,
-            'unread' => 1,
+            'unread' => true,
         ])->orderByDesc('created_at')->get()->all();
     }
 
@@ -103,7 +103,7 @@ class Message extends Model
     {
         $message = static::with('sender_user')->find($mid);
         if (!empty($message)) {
-            $message->unread = 0;
+            $message->unread = false;
             $message->save();
         }
         return $message;
@@ -119,7 +119,7 @@ class Message extends Model
     public static function allRead($uid)
     {
         return static::where('receiver', $uid)
-            ->update(['unread' => 0]);
+            ->update(['unread' => false]);
     }
 
     /**
@@ -133,7 +133,7 @@ class Message extends Model
     {
         return static::where([
             'receiver' => $uid,
-            'unread' => 0
+            'unread' => false
         ])->delete();
     }
 
