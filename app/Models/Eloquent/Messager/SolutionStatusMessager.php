@@ -30,6 +30,31 @@ class SolutionStatusMessager extends UniversalMessager
         return self::sendUniversalMessage($config);
     }
 
+    private static function proceedUserAndGroupInfo($data)
+    {
+        $problemList = [];
+
+        foreach ($data['problem'] as $problem) {
+            $pcode = $problem['pcode'];
+            $title = $problem['title'];
+            $url = route('problem.detail', ['pcode' => $pcode]);
+            $problemList[] = "[$pcode $title]($url)";
+        }
+
+        $problemString = implode(__('message.delimiter'), $problemList);
+
+        return [$problemString];
+    }
+
+    public static function formatSolutionPassedMessageToUser($data)
+    {
+        [$problemString] = self::proceedUserAndGroupInfo($data);
+
+        return __('message.solution.accepted.desc', [
+            'problemList' => $problemString
+        ]);
+    }
+
     public static function sendSolutionRejectedMessageToUser($config)
     {
         $message = Message::where([
@@ -52,5 +77,14 @@ class SolutionStatusMessager extends UniversalMessager
         }
 
         return self::sendUniversalMessage($config);
+    }
+
+    public static function formatSolutionRejectedMessageToUser($data)
+    {
+        [$problemString] = self::proceedUserAndGroupInfo($data);
+
+        return __('message.solution.declined.desc', [
+            'problemList' => $problemString
+        ]);
     }
 }

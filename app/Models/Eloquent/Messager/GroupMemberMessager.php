@@ -30,6 +30,34 @@ class GroupMemberMessager extends UniversalMessager
         return self::sendUniversalMessage($config);
     }
 
+    private static function proceedUserAndGroupInfo($data)
+    {
+        $userList = [];
+
+        foreach ($data['user'] as $user) {
+            $uid = $user['uid'];
+            $name = $user['name'];
+            $url = route('user.view', ['uid' => $uid]);
+            $userList[] = "[$name]($url)";
+        }
+
+        $userString = implode(__('message.delimiter'), $userList);
+        $groupName = $data['group']['name'];
+        $groupURL = route('group.detail', ['gcode' => $data['group']['gcode']]);
+
+        return [$userString, $groupName, $groupURL];
+    }
+
+    public static function formatApplyJoinMessageToLeader($data)
+    {
+        [$userString, $groupName, $groupURL] = self::proceedUserAndGroupInfo($data);
+
+        return __('message.group.applied.desc', [
+            'userList' => $userString,
+            'groupInfo' => "[$groupName]($groupURL)",
+        ]);
+    }
+
     public static function sendAgreedJoinMessageToLeader($config)
     {
         $messages = Message::where([
@@ -52,5 +80,15 @@ class GroupMemberMessager extends UniversalMessager
         }
 
         return self::sendUniversalMessage($config);
+    }
+
+    public static function formatAgreedJoinMessageToLeader($data)
+    {
+        [$userString, $groupName, $groupURL] = self::proceedUserAndGroupInfo($data);
+
+        return __('message.group.agreed.desc', [
+            'userList' => $userString,
+            'groupInfo' => "[$groupName]($groupURL)",
+        ]);
     }
 }

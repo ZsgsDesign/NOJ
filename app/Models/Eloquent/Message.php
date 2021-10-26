@@ -178,46 +178,34 @@ class Message extends Model
     {
         if (filled($this->type)) {
             $data = json_decode($this->data, true);
-            $content = '';
-            if ($this->type == 1 || $this->type == 2) {
-                $userList = [];
-                foreach ($data['user'] as $user) {
-                    $uid = $user['uid'];
-                    $name = $user['name'];
-                    $url = route('user.view', ['uid' => $uid]);
-                    $userList[] = "[$name]($url)";
-                }
-                $userString = implode(__('message.delimiter'), $userList);
-                $groupName = $data['group']['name'];
-                $groupURL = route('group.detail', ['gcode' => $data['group']['gcode']]);
-                if ($this->type == 1) {
-                    $content .= __('message.group.applied.desc', [
-                        'userList' => $userString,
-                        'groupInfo' => "[$groupName]($groupURL)",
-                    ]);
-                } else {
-                    $content .= __('message.group.agreed.desc', [
-                        'userList' => $userString,
-                        'groupInfo' => "[$groupName]($groupURL)",
-                    ]);
-                }
-                return $content;
-            } elseif ($this->type == 3 || $this->type == 4) {
-                $problemList = [];
-                foreach ($data['problem'] as $problem) {
-                    $pcode = $problem['pcode'];
-                    $title = $problem['title'];
-                    $url = route('problem.detail', ['pcode' => $pcode]);
-                    $problemList[] = "[$pcode $title]($url)";
-                }
-                $problemString = implode(__('message.delimiter'), $problemList);
-                if ($this->type == 3) {
-                    $content .= __('message.solution.accepted.desc', ['problemList' => $problemString]);
-                } else {
-                    $content .= __('message.solution.declined.desc', ['problemList' => $problemString]);
-                }
-                return $content;
+
+            switch (intval($this->type)) {
+                case 1:
+                    // to a leader that member apply to join the group
+                    return GroupMemberMessager::formatApplyJoinMessageToLeader($data);
+                    break;
+
+                case 2:
+                    // to a leader that member agree to join the group
+                    return GroupMemberMessager::formatAgreedJoinMessageToLeader($data);
+                    break;
+
+                case 3:
+                    // to a person that solution was passed
+                    return SolutionStatusMessager::formatSolutionPassedMessageToUser($data);
+                    break;
+
+                case 4:
+                    // to a person that solution was blocked
+                    return SolutionStatusMessager::formatSolutionRejectedMessageToUser($data);
+                    break;
+
+                default:
+                    // unregistered type falls back to universal message formatter
+                    return $value;
+                    break;
             }
+
         } else {
             return $value;
         }
