@@ -4,6 +4,9 @@ namespace App\Models\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Eloquent\Messager\UniversalMessager;
+use App\Models\Eloquent\Messager\GroupMemberMessager;
+use App\Models\Eloquent\Messager\SolutionStatusMessager;
 
 class Message extends Model
 {
@@ -25,103 +28,35 @@ class Message extends Model
      */
     public static function send($config)
     {
-        if (!empty($config['type'])) {
-            if ($config['type'] == 1) { // to a leader that member apply to join the group
-                $messages = Message::where([
-                    'receiver' => $config['receiver'],
-                    'type'     => $config['type'],
-                    'unread'   => 1
-                ])->get();
-                if (!empty($messages)) {
-                    foreach ($messages as $message) {
-                        $data = json_decode($message->data, true);
-                        if ($data['group']['gcode'] == $config['data']['group']['gcode']) {
-                            array_push($data['user'], $config['data']['user'][0]);
-                            $message->data = json_encode($data);
-                            $message->level = $config['level'];
-                            $message->save();
-                            return true;
-                        }
-                    }
-                }
-            } elseif ($config['type'] == 2) { // to a leader that member agree to join the group
-                $messages = Message::where([
-                    'receiver' => $config['receiver'],
-                    'type'     => $config['type'],
-                    'unread'   => 1
-                ])->get();
-                if (!empty($messages)) {
-                    foreach ($messages as $message) {
-                        $data = json_decode($message->data, true);
-                        if ($data['group'] == $config['data']['group']) {
-                            array_push($data['user'], $config['data']['user'][0]);
-                            $message->data = json_encode($data);
-                            $message->level = $config['level'];
-                            $message->save();
-                            return true;
-                        }
-                    }
-                }
-            } elseif ($config['type'] == 3) { // to a person that solution was passed
-                $message = Message::where([
-                    'receiver' => $config['receiver'],
-                    'type'     => $config['type'],
-                    'unread'   => 1
-                ])->first();
-                if (!empty($message)) {
-                    $data = json_decode($message->data, true);
-                    foreach ($data['problem'] as $problem) {
-                        if($problem['pcode'] != $config['data']['problem'][0]['pcode']) {
-                            array_push($data['problem'], $config['data']['problem'][0]);
-                        }
-                    }
-                    $message->data = json_encode($data);
-                    $message->level = $config['level'];
-                    $message->save();
-                    return true;
-                }
-            } elseif ($config['type'] == 4) { // to a person that solution was blocked
-                $message = Message::where([
-                    'receiver' => $config['receiver'],
-                    'type'     => $config['type'],
-                    'unread'   => 1
-                ])->first();
-                if (!empty($message)) {
-                    $data = json_decode($message->data, true);
-                    foreach ($data['problem'] as $problem) {
-                        if($problem['pcode'] != $config['data']['problem'][0]['pcode']) {
-                            array_push($data['problem'], $config['data']['problem'][0]);
-                        }
-                    }
-                    $message->data = json_encode($data);
-                    $message->level = $config['level'];
-                    $message->save();
-                    return true;
-                }
+        if (filled($config['type'])) {
+            switch (intval($config['type'])) {
+                case 1:
+                    // to a leader that member apply to join the group
+                    return GroupMemberMessager::sendApplyJoinMessageToLeader($config);
+                    break;
+
+                case 2:
+                    // to a leader that member agree to join the group
+                    return GroupMemberMessager::sendAgreedJoinMessageToLeader($config);
+                    break;
+
+                case 3:
+                    // to a person that solution was passed
+                    return SolutionStatusMessager::sendSolutionPassedMessageToUser($config);
+                    break;
+
+                case 4:
+                    // to a person that solution was blocked
+                    return SolutionStatusMessager::sendSolutionRejectedMessageToUser($config);
+                    break;
+
+                default:
+                    // unregistered type falls back to universal message sender
+                    return UniversalMessager::sendUniversalMessage($config);
+                    break;
             }
         }
-        $message = new Message;
-        $message->sender = $config['sender'];
-        $message->receiver = $config['receiver'];
-        $message->title = $config['title'];
-        $message->level = $config['level'];
-        if (isset($config['data']) && isset($config['type'])) {
-            $message->type = $config['type'] ?? null;
-            $message->data = json_encode($config['data']);
-        } else {
-            $message->content = $config['content'];
-        }
-        /*
-        if(isset($config['reply'])){
-            $message->reply = $config['reply'];
-        }
-        if(isset($config['allow_reply'])){
-            $message->reply = $config['allow_reply'];
-        }
-        */
-        $message->official = 1;
-        $message->save();
-        return true;
+        return UniversalMessager::sendUniversalMessage($config);
     }
 
     /**
@@ -255,7 +190,7 @@ class Message extends Model
                 $userString = implode(__('message.delimiter'), $userList);
                 $groupName = $data['group']['name'];
                 $groupURL = route('group.detail', ['gcode' => $data['group']['gcode']]);
-                if($this->type == 1) {
+                if ($this->type == 1) {
                     $content .= __('message.group.applied.desc', [
                         'userList' => $userString,
                         'groupInfo' => "[$groupName]($groupURL)",
@@ -276,7 +211,7 @@ class Message extends Model
                     $problemList[] = "[$pcode $title]($url)";
                 }
                 $problemString = implode(__('message.delimiter'), $problemList);
-                if($this->type == 3) {
+                if ($this->type == 3) {
                     $content .= __('message.solution.accepted.desc', ['problemList' => $problemString]);
                 } else {
                     $content .= __('message.solution.declined.desc', ['problemList' => $problemString]);
