@@ -23,4 +23,9 @@ class UniversalMessager
         $message->save();
         return true;
     }
+
+    public static function formatUniversalMessage($value)
+    {
+        return $value;
+    }
 }

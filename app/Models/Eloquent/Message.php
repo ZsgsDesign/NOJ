@@ -202,12 +202,12 @@ class Message extends Model
 
                 default:
                     // unregistered type falls back to universal message formatter
-                    return $value;
+                    return UniversalMessager::formatUniversalMessage($value);
                     break;
             }
 
         } else {
-            return $value;
+            return UniversalMessager::formatUniversalMessage($value);
         }
     }
 
