@@ -84,7 +84,6 @@ class Message extends Model
      */
     public static function list($uid)
     {
-
         return static::with('sender_user')
             ->where('receiver', $uid)
             ->orderBy('unread', 'desc')
@@ -118,8 +117,9 @@ class Message extends Model
      */
     public static function allRead($uid)
     {
-        return static::where('receiver', $uid)
-            ->update(['unread' => false]);
+        return static::where('receiver', $uid)->update([
+            'unread' => false
+        ]);
     }
 
     /**
