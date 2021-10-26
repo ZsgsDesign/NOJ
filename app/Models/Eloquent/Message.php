@@ -101,7 +101,7 @@ class Message extends Model
     public static function read($mid)
     {
         $message = static::with('sender_user')->find($mid);
-        if (!empty($message)) {
+        if (filled($message)) {
             $message->unread = false;
             $message->save();
         }
@@ -150,14 +150,14 @@ class Message extends Model
         if (is_array($messages)) {
             foreach ($messages as $mid) {
                 $message = static::find($mid);
-                if (!empty($message)) {
+                if (filled($message)) {
                     $message->delete();
                     $del_count++;
                 }
             }
         } else {
             $message = static::find($messages);
-            if (!empty($message)) {
+            if (filled($message)) {
                 $message->delete();
                 $del_count++;
             }
@@ -176,7 +176,7 @@ class Message extends Model
 
     public function getContentAttribute($value)
     {
-        if (!empty($this->type)) {
+        if (filled($this->type)) {
             $data = json_decode($this->data, true);
             $content = '';
             if ($this->type == 1 || $this->type == 2) {
