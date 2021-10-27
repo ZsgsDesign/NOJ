@@ -63,7 +63,7 @@ class SolutionStatusMessager extends UniversalMessager
             'unread'   => true
         ])->first();
 
-        if (!empty($message)) {
+        if (filled($message)) {
             $data = json_decode($message->data, true);
             foreach ($data['problem'] as $problem) {
                 if($problem['pcode'] != $config['data']['problem'][0]['pcode']) {
