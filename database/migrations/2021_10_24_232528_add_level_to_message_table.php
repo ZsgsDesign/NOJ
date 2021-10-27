@@ -14,7 +14,7 @@ class AddLevelToMessageTable extends Migration
     public function up()
     {
         Schema::table('message', function (Blueprint $table) {
-            $table->integer('level')->default(0);
+            $table->integer('level')->default(0)->after('type');
         });
     }
 
