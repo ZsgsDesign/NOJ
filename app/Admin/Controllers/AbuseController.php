@@ -111,7 +111,7 @@ class AbuseController extends AdminController
                         sendMessage([
                             'sender'    => config('app.official_sender'),
                             'receiver'  => $abuse->user_id,
-                            'level'     => 1,
+                            'level'     => 5,
                             'title'     => "Your abuse report about group {$group->name} was passed",
                             'content'   => "Hi, Dear **{$abuse->user->name}**,\n\nWe have checked your Abuse report about group **[{$group->name}]({$group->link})**.\n\n We think you're right.\n\n So as the consequence leading to a temporary/permanent sanction against the group.\n\n Thank you for your contribution to our community environment.\n\n Sincerely, NOJ"
                         ]);

@@ -62,7 +62,7 @@
         border-left: 4px solid var(--wemd-dark);
     }
 
-    message-card[data-level="info"] {
+    message-card[data-level="success"] {
         border-left: 4px solid var(--wemd-teal);
     }
 
@@ -78,8 +78,8 @@
         border-left: 4px solid var(--wemd-deep-purple);
     }
 
-    message-card[data-level="announcement"] {
-        border-left: 4px solid var(--wemd-blue)!important;
+    message-card[data-level="info"] {
+        border-left: 4px solid var(--wemd-blue);
     }
 
     message-card.read {

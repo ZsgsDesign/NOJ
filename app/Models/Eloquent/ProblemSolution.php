@@ -27,7 +27,7 @@ class ProblemSolution extends Model
                         'receiver' => $model->uid,
                         'title'    => __('message.solution.accepted.title'),
                         'type'     => 3,
-                        'level'    => 1,
+                        'level'    => 5,
                         'data'     => [
                             'problem' => [[
                                 'pcode' => $problem->pcode,

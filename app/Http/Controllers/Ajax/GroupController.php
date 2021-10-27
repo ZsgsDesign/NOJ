@@ -53,7 +53,7 @@ class GroupController extends Controller
                     'receiver' => $leader->id,
                     'title'    => __('message.group.agreed.title', ['name' => $group->name]),
                     'type'     => 2,
-                    'level'    => 1,
+                    'level'    => 5,
                     'data'     => [
                         'group' => [
                             'gcode' => $group->gcode,
@@ -104,7 +104,7 @@ class GroupController extends Controller
                     'receiver' => $leader->id,
                     'title'    => __('message.group.agreed.title', ['name' => $group->name]),
                     'type'     => 2,
-                    'level'    => 1,
+                    'level'    => 5,
                     'data'     => [
                         'group' => [
                             'gcode' => $group->gcode,

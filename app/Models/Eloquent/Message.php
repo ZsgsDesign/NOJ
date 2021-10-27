@@ -18,7 +18,7 @@ class Message extends Model
         2 => 'warning',
         3 => 'danger',
         4 => 'question',
-        5 => 'announcement',
+        5 => 'success',
     ];
 
     /**
