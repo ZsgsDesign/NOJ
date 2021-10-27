@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Eloquent\Messager\UniversalMessager;
 use App\Models\Eloquent\Messager\GroupMemberMessager;
 use App\Models\Eloquent\Messager\SolutionStatusMessager;
+use App\Models\Eloquent\Messager\HomeworkMessager;
 
 class Message extends Model
 {
@@ -46,8 +47,13 @@ class Message extends Model
                     break;
 
                 case 4:
-                    // to a person that solution was blocked
+                    // to a person that solution was rejected
                     return SolutionStatusMessager::sendSolutionRejectedMessageToUser($config);
+                    break;
+
+                case 5:
+                    // to a person that received new homework
+                    return HomeworkMessager::sendNewHomeworkMessageToUser($config);
                     break;
 
                 default:
@@ -196,8 +202,13 @@ class Message extends Model
                     break;
 
                 case 4:
-                    // to a person that solution was blocked
+                    // to a person that solution was rejected
                     return SolutionStatusMessager::formatSolutionRejectedMessageToUser($data);
+                    break;
+
+                case 5:
+                    // to a person that received new homework
+                    return HomeworkMessager::formatNewHomeworkMessageToUser($data);
                     break;
 
                 default:

@@ -413,10 +413,12 @@ class GroupManageController extends Controller
         }
 
         try {
-            $homeworkID = Group::find($request->gid)->addHomework($request->title, $request->description, Carbon::parse($request->ended_at), $proceedProblems);
+            $homeworkInstance = Group::find($request->gid)->addHomework($request->title, $request->description, Carbon::parse($request->ended_at), $proceedProblems);
         } catch (Exception $e) {
             return ResponseModel::err(7009);
         }
+
+        $homeworkInstance->sendMessage();
 
         return ResponseModel::success(200);
     }
