@@ -8,6 +8,7 @@ use App\Models\ResponseModel;
 use App\Models\Eloquent\User;
 use App\Models\Eloquent\Group;
 use App\Models\Eloquent\Problem;
+use App\Models\Eloquent\Messager\UniversalMessager;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -273,7 +274,7 @@ class GroupManageController extends Controller
             'sender' => Auth::user()->id,
             'level' => 4,
             'title' => __('message.group.invited.title', ['sender_name' => $sender_name, 'group_name' => $basic['name']]),
-            'content' => __('message.group.invited.desc', ['reciver_name' => $receiverInfo['name'], 'group_name' => $basic['name'], 'group_url' => $url]),
+            'content' => UniversalMessager::formatUniversalMessage('message.group.invited.desc', ['reciver_name' => $receiverInfo['name'], 'group_name' => $basic['name'], 'group_url' => $url]),
         ]);
         return ResponseModel::success(200);
     }

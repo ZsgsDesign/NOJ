@@ -52,7 +52,7 @@ class GroupMemberMessager extends UniversalMessager
     {
         [$userString, $groupName, $groupURL] = self::proceedUserAndGroupInfo($data);
 
-        return __('message.group.applied.desc', [
+        return self::formatUniversalMessage('message.group.applied.desc', [
             'userList' => $userString,
             'groupInfo' => "[$groupName]($groupURL)",
         ]);
@@ -86,7 +86,7 @@ class GroupMemberMessager extends UniversalMessager
     {
         [$userString, $groupName, $groupURL] = self::proceedUserAndGroupInfo($data);
 
-        return __('message.group.agreed.desc', [
+        return self::formatUniversalMessage('message.group.agreed.desc', [
             'userList' => $userString,
             'groupInfo' => "[$groupName]($groupURL)",
         ]);
