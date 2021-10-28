@@ -2,6 +2,7 @@
 
 namespace App\Models\Eloquent;
 
+use App\Models\Eloquent\Messager\GlobalRankMessager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Eloquent\Messager\UniversalMessager;
@@ -54,6 +55,11 @@ class Message extends Model
                 case 5:
                     // to a person that received new homework
                     return HomeworkMessager::sendNewHomeworkMessageToUser($config);
+                    break;
+
+                case 6:
+                    // to a person that global rank in or out top 100
+                    return GlobalRankMessager::sendRankInOutOneHundredMessageToUser($config);
                     break;
 
                 default:
@@ -211,14 +217,18 @@ class Message extends Model
                     return HomeworkMessager::formatNewHomeworkMessageToUser($data);
                     break;
 
+                case 6:
+                    // to a person that global rank in or out top 100
+                    return GlobalRankMessager::formatRankInOutOneHundredMessageToUser($data);
+                    break;
                 default:
                     // unregistered type falls back to universal message formatter
-                    return UniversalMessager::formatUniversalMessage($value);
+                    return $value;
                     break;
             }
 
         } else {
-            return UniversalMessager::formatUniversalMessage($value);
+            return $value;
         }
     }
 
