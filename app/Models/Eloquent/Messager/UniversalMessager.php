@@ -3,6 +3,7 @@
 namespace App\Models\Eloquent\Messager;
 
 use App\Models\Eloquent\Message;
+use Auth;
 
 class UniversalMessager
 {
@@ -24,8 +25,10 @@ class UniversalMessager
         return true;
     }
 
-    public static function formatUniversalMessage($value)
+    public static function formatUniversalMessage($key = null, $replace = [], $locale = null)
     {
-        return $value;
+        $replace['userName'] = Auth::guard('web')->user()->name;
+        $replace['siteName'] = config('app.name');
+        return __($key, $replace, $locale);
     }
 }
