@@ -83,7 +83,7 @@ class SiteRank
     public static function list($num)
     {
         $rankList = Cache::tags(['rank'])->get('general');
-        if ($rankList == null) {
+        if (blank($rankList)) {
             $rankList = [];
         }
         $rankList = collect($rankList)->slice(0, $num);
@@ -152,8 +152,42 @@ class SiteRank
         return collect($rankList);
     }
 
+    public static function isTopOneHundred($rank)
+    {
+        return (1 <= $rank && $rank <= 100);
+    }
+
+    public static function getRankString($rank)
+    {
+        return filled($rank) ? "#$rank" : "unrated";
+    }
+
+    private static function sendMessage($userID, $currentRank, $originalRank)
+    {
+        if(self::isTopOneHundred($currentRank)) {
+            $title = __('message.rank.up.title');
+            $level = 1;
+        } else {
+            $title = __('message.rank.down.title');
+            $level = 2;
+        }
+
+        return sendMessage([
+            'sender'   => config('app.official_sender'),
+            'receiver' => $userID,
+            'title'    => $title,
+            'type'     => 6,
+            'level'    => $level,
+            'data'     => [
+                'currentRank'  => $currentRank,
+                'originalRank' => $originalRank,
+            ]
+        ]);
+    }
+
     public static function rankList()
     {
+        $originalRankList = self::list(100);
         Cache::tags(['rank'])->flush();
         $rankList = self::getRecords();
         $totUsers = count($rankList);
@@ -185,6 +219,39 @@ class SiteRank
                 $rankIter++;
             }
             Cache::tags(['rank'])->put("general", $rankListCached, 86400);
+            $currentRankList = self::list(100);
+            self::sendRankUpDownMessage($originalRankList, $currentRankList);
+        }
+    }
+
+    private static function sendRankUpDownMessage($originalRankList, $currentRankList)
+    {
+        if(blank($originalRankList) || blank($currentRankList)) {
+            return;
+        }
+
+        $originalRankUID = [];
+        foreach($originalRankList as $originalRankItem) {
+            $originalRankUID[] = $originalRankItem['uid'];
+        }
+
+        $currentRankUID = [];
+        foreach($currentRankList as $currentRankItem) {
+            $currentRankUID[] = $currentRankItem['uid'];
+        }
+
+        foreach($originalRankList as $originalRankItem) {
+            if(in_array($originalRankItem['uid'], $currentRankUID)) {
+                continue;
+            }
+            self::sendMessage($originalRankItem['uid'], Cache::tags(['rank', $originalRankItem['uid']])->get("rank", null), $originalRankItem['rank']);
+        }
+
+        foreach($currentRankList as $currentRankItem) {
+            if(in_array($currentRankItem['uid'], $originalRankUID)) {
+                continue;
+            }
+            self::sendMessage($currentRankItem['uid'], $currentRankItem['rank'], null);
         }
     }
 
