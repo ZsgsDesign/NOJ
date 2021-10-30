@@ -268,13 +268,19 @@ class GroupManageController extends Controller
         $basic=$groupModel->basic($all_data['gid']);
         $url=route('group.detail', ['gcode' => $basic['gcode']]);
         $receiverInfo=User::where('email', $all_data['email'])->first();
-        $sender_name=Auth::user()->name;
+        $senderName=Auth::user()->name;
         sendMessage([
             'receiver' => $receiverInfo["id"],
-            'sender' => Auth::user()->id,
+            'sender' => config('app.official_sender'),
+            'type' => 7,
             'level' => 4,
-            'title' => __('message.group.invited.title', ['sender_name' => $sender_name, 'group_name' => $basic['name']]),
-            'content' => UniversalMessager::formatUniversalMessage('message.group.invited.desc', ['reciver_name' => $receiverInfo['name'], 'group_name' => $basic['name'], 'group_url' => $url]),
+            'title' => __('message.group.invited.title', ['senderName' => $senderName, 'groupName' => $basic['name']]),
+            'data' => [
+                'group' => [
+                    'gcode' => $basic['gcode'],
+                    'name'  => $basic['name'],
+                ],
+            ]
         ]);
         return ResponseModel::success(200);
     }

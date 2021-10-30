@@ -41,11 +41,15 @@ class GlobalRankMessager extends UniversalMessager
             return self::formatUniversalMessage('message.rank.up.desc', [
                 'originalRank' => SiteRank::getRankString($data['originalRank']),
                 'currentRank' => SiteRank::getRankString($data['currentRank']),
+                'receiver' => $data['receiver'],
+                'sender' => $data['sender'],
             ]);
         }
         return self::formatUniversalMessage('message.rank.down.desc', [
             'originalRank' => SiteRank::getRankString($data['originalRank']),
             'currentRank' => SiteRank::getRankString($data['currentRank']),
+            'receiver' => $data['receiver'],
+            'sender' => $data['sender'],
         ]);
     }
 }

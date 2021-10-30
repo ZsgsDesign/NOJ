@@ -27,7 +27,8 @@ class UniversalMessager
 
     public static function formatUniversalMessage($key = null, $replace = [], $locale = null)
     {
-        $replace['userName'] = Auth::guard('web')->user()->name;
+        $replace['senderName'] = $replace['sender']->name;
+        $replace['receiverName'] = $replace['receiver']->name;
         $replace['siteName'] = config('app.name');
         return __($key, $replace, $locale);
     }

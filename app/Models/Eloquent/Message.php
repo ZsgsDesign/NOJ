@@ -13,7 +13,11 @@ use App\Models\Eloquent\Messager\HomeworkMessager;
 class Message extends Model
 {
     use SoftDeletes;
+
     protected $table = 'message';
+
+    protected $with = ['sender_user', 'receiver_user'];
+
     public $levelMapping = [
         0 => 'default',
         1 => 'info',
@@ -62,6 +66,11 @@ class Message extends Model
                     return GlobalRankMessager::sendRankInOutOneHundredMessageToUser($config);
                     break;
 
+                case 7:
+                    // to a person that got invited to a group
+                    return GroupMemberMessager::sendInvitedMessageToUser($config);
+                    break;
+
                 default:
                     // unregistered type falls back to universal message sender
                     return UniversalMessager::sendUniversalMessage($config);
@@ -86,38 +95,18 @@ class Message extends Model
         ])->orderByDesc('created_at')->get()->all();
     }
 
-
-    /**
-     * to get a user's all messages' pagnition
-     *
-     * @access public
-     * @param integer id
-     * @return array result.
-     */
-    public static function list($uid)
+    public static function listAll($userID)
     {
-        return static::with('sender_user')
-            ->where('receiver', $uid)
-            ->orderBy('unread', 'desc')
-            ->orderBy('updated_at', 'desc')
-            ->paginate(15);
+        return Message::where('receiver', $userID)->orderBy('unread', 'desc')->orderBy('updated_at', 'desc')->paginate(15);
     }
 
-    /**
-     * to get a message's detail.
-     *
-     * @access public
-     * @param integer id
-     * @return array result.
-     */
-    public static function read($mid)
+    public function read()
     {
-        $message = static::with('sender_user')->find($mid);
-        if (filled($message)) {
-            $message->unread = false;
-            $message->save();
+        if ($this->unread) {
+            $this->unread = false;
+            $this->save();
         }
-        return $message;
+        return $this;
     }
 
     /**
@@ -190,6 +179,8 @@ class Message extends Model
     {
         if (filled($this->type)) {
             $data = json_decode($this->data, true);
+            $data['receiver'] = $this->receiver_user;
+            $data['sender'] = $this->sender_user;
 
             switch (intval($this->type)) {
                 case 1:
@@ -221,6 +212,12 @@ class Message extends Model
                     // to a person that global rank in or out top 100
                     return GlobalRankMessager::formatRankInOutOneHundredMessageToUser($data);
                     break;
+
+                case 7:
+                    // to a person that got invited to a group
+                    return GroupMemberMessager::formatInvitedMessageToUser($data);
+                    break;
+
                 default:
                     // unregistered type falls back to universal message formatter
                     return $value;

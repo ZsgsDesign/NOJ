@@ -55,6 +55,8 @@ class GroupMemberMessager extends UniversalMessager
         return self::formatUniversalMessage('message.group.applied.desc', [
             'userList' => $userString,
             'groupInfo' => "[$groupName]($groupURL)",
+            'receiver' => $data['receiver'],
+            'sender' => $data['sender'],
         ]);
     }
 
@@ -89,6 +91,27 @@ class GroupMemberMessager extends UniversalMessager
         return self::formatUniversalMessage('message.group.agreed.desc', [
             'userList' => $userString,
             'groupInfo' => "[$groupName]($groupURL)",
+            'receiver' => $data['receiver'],
+            'sender' => $data['sender'],
+        ]);
+    }
+
+    public static function sendInvitedMessageToUser($config)
+    {
+        return self::sendUniversalMessage($config);
+    }
+
+    public static function formatInvitedMessageToUser($data)
+    {
+        $senderName = $data['sender']['name'];
+        $groupName = $data['group']['name'];
+        $groupURL = route('group.detail', ['gcode' => $data['group']['gcode']]);
+
+        return self::formatUniversalMessage('message.group.invited.desc', [
+            'senderName' => $senderName,
+            'groupInfo' => "[$groupName]($groupURL)",
+            'receiver' => $data['receiver'],
+            'sender' => $data['sender'],
         ]);
     }
 }

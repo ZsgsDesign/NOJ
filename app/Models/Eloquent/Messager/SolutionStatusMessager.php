@@ -51,7 +51,9 @@ class SolutionStatusMessager extends UniversalMessager
         [$problemString] = self::proceedUserAndGroupInfo($data);
 
         return self::formatUniversalMessage('message.solution.accepted.desc', [
-            'problemList' => $problemString
+            'problemList' => $problemString,
+            'receiver' => $data['receiver'],
+            'sender' => $data['sender'],
         ]);
     }
 
@@ -84,7 +86,9 @@ class SolutionStatusMessager extends UniversalMessager
         [$problemString] = self::proceedUserAndGroupInfo($data);
 
         return self::formatUniversalMessage('message.solution.declined.desc', [
-            'problemList' => $problemString
+            'problemList' => $problemString,
+            'receiver' => $data['receiver'],
+            'sender' => $data['sender'],
         ]);
     }
 }
