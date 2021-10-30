@@ -2,13 +2,30 @@
 
 namespace App\Models\Eloquent;
 
+use App\Models\Eloquent\Messager\GlobalRankMessager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Eloquent\Messager\UniversalMessager;
+use App\Models\Eloquent\Messager\GroupMemberMessager;
+use App\Models\Eloquent\Messager\SolutionStatusMessager;
+use App\Models\Eloquent\Messager\HomeworkMessager;
 
 class Message extends Model
 {
     use SoftDeletes;
-    protected $table='message';
+
+    protected $table = 'message';
+
+    protected $with = ['sender_user', 'receiver_user'];
+
+    public $levelMapping = [
+        0 => 'default',
+        1 => 'info',
+        2 => 'warning',
+        3 => 'danger',
+        4 => 'question',
+        5 => 'success',
+    ];
 
     /**
      * @access public
@@ -17,90 +34,50 @@ class Message extends Model
      */
     public static function send($config)
     {
-        if (!empty($config['type'])) {
-            if ($config['type']==1) { //to a leader that member apply to join the group
-                $messages=Message::where([
-                    'receiver' => $config['receiver'],
-                    'type'     => $config['type'],
-                    'unread'   => 1
-                ])->get();
-                if (!empty($messages)) {
-                    foreach ($messages as $message) {
-                        $data=json_decode($message->data, true);
-                        if ($data['group']['gcode']==$config['data']['group']['gcode']) {
-                            array_push($data['user'], $config['data']['user'][0]);
-                            $message->data=json_encode($data);
-                            $message->save();
-                            return true;
-                        }
-                    }
-                }
-            } elseif ($config['type']==2) { //to a leader that member agree to join the group
-                $messages=Message::where([
-                    'receiver' => $config['receiver'],
-                    'type'     => $config['type'],
-                    'unread'   => 1
-                ])->get();
-                if (!empty($messages)) {
-                    foreach ($messages as $message) {
-                        $data=json_decode($message->data, true);
-                        if ($data['group']==$config['data']['group']) {
-                            array_push($data['user'], $config['data']['user'][0]);
-                            $message->data=json_encode($data);
-                            $message->save();
-                            return true;
-                        }
-                    }
-                }
-            } elseif ($config['type']==3) { //to a person that solution was passed
-                $message=Message::where([
-                    'receiver' => $config['receiver'],
-                    'type'     => $config['type'],
-                    'unread'   => 1
-                ])->first();
-                if (!empty($message)) {
-                    $data=json_decode($message->data, true);
-                    array_push($data, $config['data']);
-                    $message->data=json_encode($data);
-                    $message->save();
-                    return true;
-                }
-            } elseif ($config['type']==4) { //to a person that solution was blocked
-                $message=Message::where([
-                    'receiver' => $config['receiver'],
-                    'type'     => $config['type'],
-                    'unread'   => 1
-                ])->first();
-                if (!empty($message)) {
-                    $data=json_decode($message->data, true);
-                    array_push($data, $config['data']);
-                    $message->data=json_encode($data);
-                    $message->save();
-                    return true;
-                }
+        if (filled($config['type'])) {
+            switch (intval($config['type'])) {
+                case 1:
+                    // to a leader that member apply to join the group
+                    return GroupMemberMessager::sendApplyJoinMessageToLeader($config);
+                    break;
+
+                case 2:
+                    // to a leader that member agree to join the group
+                    return GroupMemberMessager::sendAgreedJoinMessageToLeader($config);
+                    break;
+
+                case 3:
+                    // to a person that solution was passed
+                    return SolutionStatusMessager::sendSolutionPassedMessageToUser($config);
+                    break;
+
+                case 4:
+                    // to a person that solution was rejected
+                    return SolutionStatusMessager::sendSolutionRejectedMessageToUser($config);
+                    break;
+
+                case 5:
+                    // to a person that received new homework
+                    return HomeworkMessager::sendNewHomeworkMessageToUser($config);
+                    break;
+
+                case 6:
+                    // to a person that global rank in or out top 100
+                    return GlobalRankMessager::sendRankInOutOneHundredMessageToUser($config);
+                    break;
+
+                case 7:
+                    // to a person that got invited to a group
+                    return GroupMemberMessager::sendInvitedMessageToUser($config);
+                    break;
+
+                default:
+                    // unregistered type falls back to universal message sender
+                    return UniversalMessager::sendUniversalMessage($config);
+                    break;
             }
         }
-        $message=new Message;
-        $message->sender=$config['sender'];
-        $message->receiver=$config['receiver'];
-        $message->title=$config['title'];
-        if (isset($config['data']) && isset($config['type'])) {
-            $message->type=$config['type'] ?? null;
-            $message->data=json_encode($config['data']);
-        } else {
-            $message->content=$config['content'];
-        }
-        /*
-        if(isset($config['reply'])){
-            $message->reply = $config['reply'];
-        }
-        if(isset($config['allow_reply'])){
-            $message->reply = $config['allow_reply'];
-        }
-        */
-        $message->official=1;
-        $message->save();
-        return true;
+        return UniversalMessager::sendUniversalMessage($config);
     }
 
     /**
@@ -114,45 +91,22 @@ class Message extends Model
     {
         return static::where([
             'receiver' => $uid,
-            'unread' => 1,
-        ])
-        ->orderByDesc('created_at')
-        ->get()->all();
+            'unread' => true,
+        ])->orderByDesc('created_at')->get()->all();
     }
 
-
-    /**
-     * to get a user's all messages' pagnition
-     *
-     * @access public
-     * @param integer id
-     * @return array result.
-     */
-    public static function list($uid)
+    public static function listAll($userID)
     {
-
-        return static::with('sender_user')
-            ->where('receiver', $uid)
-            ->orderBy('unread', 'desc')
-            ->orderBy('updated_at', 'desc')
-            ->paginate(15);
+        return Message::where('receiver', $userID)->orderBy('unread', 'desc')->orderBy('updated_at', 'desc')->paginate(15);
     }
 
-    /**
-     * to get a message's detail.
-     *
-     * @access public
-     * @param integer id
-     * @return array result.
-     */
-    public static function read($mid)
+    public function read()
     {
-        $message=static::with('sender_user')->find($mid);
-        if (!empty($message)) {
-            $message->unread=0;
-            $message->save();
+        if ($this->unread) {
+            $this->unread = false;
+            $this->save();
         }
-        return $message;
+        return $this;
     }
 
     /**
@@ -164,8 +118,9 @@ class Message extends Model
      */
     public static function allRead($uid)
     {
-        return static::where('receiver', $uid)
-            ->update(['unread' => 0]);
+        return static::where('receiver', $uid)->update([
+            'unread' => false
+        ]);
     }
 
     /**
@@ -179,7 +134,7 @@ class Message extends Model
     {
         return static::where([
             'receiver' => $uid,
-            'unread' => 0
+            'unread' => false
         ])->delete();
     }
 
@@ -192,18 +147,18 @@ class Message extends Model
      */
     public static function remove($messages)
     {
-        $del_count=0;
+        $del_count = 0;
         if (is_array($messages)) {
             foreach ($messages as $mid) {
-                $message=static::find($mid);
-                if (!empty($message)) {
+                $message = static::find($mid);
+                if (filled($message)) {
                     $message->delete();
                     $del_count++;
                 }
             }
         } else {
-            $message=static::find($messages);
-            if (!empty($message)) {
+            $message = static::find($messages);
+            if (filled($message)) {
                 $message->delete();
                 $del_count++;
             }
@@ -211,26 +166,64 @@ class Message extends Model
         return $del_count;
     }
 
+    public function getLevelStringAttribute()
+    {
+        if (isset($this->levelMapping[$this->level])) {
+            return $this->levelMapping[$this->level];
+        } else {
+            return $this->levelMapping[0];
+        }
+    }
+
     public function getContentAttribute($value)
     {
-        if (!empty($this->type)) {
-            $data=json_decode($this->data, true);
-            $content='';
-            if ($this->type==1) {
-                foreach ($data['user'] as $user) {
-                    $content.="[{$user['name']}]({$user['url']}), ";
-                }
-                $content=substr($content, 0, strlen($content)-2);
-                $content.=" want to join your group [{$data['group']['name']}]({$data['group']['url']})";
-                return $content;
-            } elseif ($this->type==2) {
-                foreach ($data['user'] as $user) {
-                    $content.="[{$user['name']}]({$user['url']}), ";
-                }
-                $content=substr($content, 0, strlen($content)-2);
-                $content.=" have agreed to join your group [{$data['group']['name']}]({$data['group']['url']})";
-                return $content;
-            } //todo
+        if (filled($this->type)) {
+            $data = json_decode($this->data, true);
+            $data['receiver'] = $this->receiver_user;
+            $data['sender'] = $this->sender_user;
+
+            switch (intval($this->type)) {
+                case 1:
+                    // to a leader that member apply to join the group
+                    return GroupMemberMessager::formatApplyJoinMessageToLeader($data);
+                    break;
+
+                case 2:
+                    // to a leader that member agree to join the group
+                    return GroupMemberMessager::formatAgreedJoinMessageToLeader($data);
+                    break;
+
+                case 3:
+                    // to a person that solution was passed
+                    return SolutionStatusMessager::formatSolutionPassedMessageToUser($data);
+                    break;
+
+                case 4:
+                    // to a person that solution was rejected
+                    return SolutionStatusMessager::formatSolutionRejectedMessageToUser($data);
+                    break;
+
+                case 5:
+                    // to a person that received new homework
+                    return HomeworkMessager::formatNewHomeworkMessageToUser($data);
+                    break;
+
+                case 6:
+                    // to a person that global rank in or out top 100
+                    return GlobalRankMessager::formatRankInOutOneHundredMessageToUser($data);
+                    break;
+
+                case 7:
+                    // to a person that got invited to a group
+                    return GroupMemberMessager::formatInvitedMessageToUser($data);
+                    break;
+
+                default:
+                    // unregistered type falls back to universal message formatter
+                    return $value;
+                    break;
+            }
+
         } else {
             return $value;
         }

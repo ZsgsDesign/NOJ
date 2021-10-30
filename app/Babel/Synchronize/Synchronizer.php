@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Babel\Synchronize;
+use ErrorException;
+use Exception;
 
 class Synchronizer
 {

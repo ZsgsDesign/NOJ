@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file.
 
+## NOJ 0.17.3 Characinae Build Pack 3 - 2021-10-30
+This is a build version update for `0.17.0 Characinae`.
+
+**Important:** All previous messages stored in the `message` table are not compatible with this update, please remove them manually.
+
+### Update Logs
+* **Compatibility:** This update no longer supports old message format, please remove all old messages manually.
+* **New:** NOJ now supports BABEL Extension **CodeForces Gym**.
+* **New:** Add locale for official messages.
+* **New:** Add environment variable `APP_OFFICIAL_SENDER`, maintainers can now set this variable to a certain user id and make that user the sender of all official messages.
+* **New:** Messages now have levels like `info`, `success`, `warning`, `error`, and `question`.
+* **New:** NOJ now notifies users when a submitted solution got accepted.
+* **New:** NOJ now notifies users of new homework.
+* **New:** NOJ now notifies users when the global rank in or out top 100.
+* **Deprecated:** NOJ no longer uses old **WKHTMLTOPDF** configs.
+* **Deprecated:** NOJ no longer uses using Solution model, using ProblemSolution model instead.
+* **Fixed:** A PHP7.4 compatibility bug causing problem detail page returns 500 when problem not found.
+* **Fixed:** A bug causing Admin Portal contest practice field unchangeable.
+* **Fixed:** A bug causing blink does not generate pdf URLs.
+* **Fixed:** A missing exception type bug causing exception catch invalid for NOJ BABEL.
+* **Fixed:** A NOJ BABEL Extension **CodeForces** bug causing crawled problem missing some irregular fields.
+* **Fixed:** A NOJ BABEL Extension **CodeForces** bug causing crawled problem with `div` tags display wrongly.
+* **Fixed:** Typo (special thanks to @gtn1024).
+* **Improved:** Remastered message box view.
+* **Security:** `doctrine/inflector` is now at `2.0.4`.
+* **Security:** `facade/ignition` is now at `2.16.0`.
+* **Security:** `laravel/framework` is now at `8.68.1`.
+* **Security:** `nanoid` is now at `3.1.30`.
+* **Security:** `perfect-scrollbar` is now at `1.5.3`.
+* **Security:** `postcss` is now at `8.3.11`.
+* **Security:** `sass` is now at `1.43.4`.
+
 ## NOJ 0.17.2 Characinae Build Pack 2 - 2021-10-21
 This is a build version update for `0.17.0 Characinae`.
 

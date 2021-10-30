@@ -9,6 +9,8 @@ use DateTimeInterface;
 use Exception;
 use Cache;
 use Log;
+use DB;
+use Throwable;
 
 class GroupHomework extends Model
 {
@@ -119,6 +121,33 @@ class GroupHomework extends Model
         } catch (Exception $e) {
             Log::alert($e);
             return false;
+        }
+    }
+
+    public function sendMessage()
+    {
+        DB::beginTransaction();
+        try {
+            foreach($this->group->members()->where('role', '>', '0')->get() as $member) {
+                sendMessage([
+                    'sender'   => config('app.official_sender'),
+                    'receiver' => $member->uid,
+                    'title'    => __('message.homework.new.title'),
+                    'type'     => 5,
+                    'level'    => 1,
+                    'data'     => [
+                        'homework' => [[
+                            'id' => $this->id,
+                            'gcode' => $this->group->gcode,
+                            'title' => $this->title
+                        ]]
+                    ]
+                ]);
+            }
+            DB::commit();
+        } catch (Throwable $e) {
+            Log::error($e);
+            DB::rollback();
         }
     }
 }

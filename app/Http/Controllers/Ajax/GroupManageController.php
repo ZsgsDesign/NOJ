@@ -8,6 +8,7 @@ use App\Models\ResponseModel;
 use App\Models\Eloquent\User;
 use App\Models\Eloquent\Group;
 use App\Models\Eloquent\Problem;
+use App\Models\Eloquent\Messager\UniversalMessager;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -267,12 +268,19 @@ class GroupManageController extends Controller
         $basic=$groupModel->basic($all_data['gid']);
         $url=route('group.detail', ['gcode' => $basic['gcode']]);
         $receiverInfo=User::where('email', $all_data['email'])->first();
-        $sender_name=Auth::user()->name;
+        $senderName=Auth::user()->name;
         sendMessage([
             'receiver' => $receiverInfo["id"],
-            'sender' => Auth::user()->id,
-            'title' => __('group.message.inviteJoin.title', ['sender_name' => $sender_name, 'group_name' => $basic['name']]),
-            'content' => __('group.message.inviteJoin.content', ['reciver_name' => $receiverInfo['name'], 'group_name' => $basic['name'], 'group_url' => $url]),
+            'sender' => config('app.official_sender'),
+            'type' => 7,
+            'level' => 4,
+            'title' => __('message.group.invited.title', ['senderName' => $senderName, 'groupName' => $basic['name']]),
+            'data' => [
+                'group' => [
+                    'gcode' => $basic['gcode'],
+                    'name'  => $basic['name'],
+                ],
+            ]
         ]);
         return ResponseModel::success(200);
     }
@@ -412,10 +420,12 @@ class GroupManageController extends Controller
         }
 
         try {
-            $homeworkID = Group::find($request->gid)->addHomework($request->title, $request->description, Carbon::parse($request->ended_at), $proceedProblems);
+            $homeworkInstance = Group::find($request->gid)->addHomework($request->title, $request->description, Carbon::parse($request->ended_at), $proceedProblems);
         } catch (Exception $e) {
             return ResponseModel::err(7009);
         }
+
+        $homeworkInstance->sendMessage();
 
         return ResponseModel::success(200);
     }

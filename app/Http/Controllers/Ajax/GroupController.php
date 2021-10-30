@@ -49,22 +49,20 @@ class GroupController extends Controller
             if ($clearance==-1) {
                 $groupModel->changeClearance(Auth::user()->id, $all_data["gid"], 1);
                 sendMessage([
-                    'sender'   => 1,
+                    'sender'   => config('app.official_sender'),
                     'receiver' => $leader->id,
-                    'title'    => __('group.message.agreeJoin.title', ['name' => $group->name]),
+                    'title'    => __('message.group.agreed.title', ['name' => $group->name]),
                     'type'     => 2,
+                    'level'    => 5,
                     'data'     => [
                         'group' => [
                             'gcode' => $group->gcode,
                             'name'  => $group->name,
-                            'url'   => route('group.detail', ['gcode' => $group->gcode])
                         ],
-                        'user'  => [
-                            [
-                                'name'  => Auth::user()->name,
-                                'url'   => route('user.view', ['uid' => Auth::user()->id])
-                            ]
-                        ]
+                        'user'  => [[
+                            'uid'   => Auth::user()->id,
+                            'name'  => Auth::user()->name,
+                        ]]
                     ]
                 ]);
                 return ResponseModel::success(200, null, [
@@ -80,46 +78,42 @@ class GroupController extends Controller
                 $groupModel->addClearance(Auth::user()->id, $all_data["gid"], 0);
                 //send message to leader
                 sendMessage([
-                    'sender'   => 1,
+                    'sender'   => config('app.official_sender'),
                     'receiver' => $leader->id,
-                    'title'    => __('group.message.agreeJoin.title', ['name' => $group->name]),
+                    'title'    => __('message.group.applied.title', ['name' => $group->name]),
                     'type'     => 1,
+                    'level'    => 4,
                     'data'     => [
                         'group' => [
                             'gcode' => $group->gcode,
                             'name'  => $group->name,
-                            'url'   => route('group.detail', ['gcode' => $group->gcode])
                         ],
-                        'user'  => [
-                            [
-                                'name'  => Auth::user()->name,
-                                'url'   => route('user.view', ['uid' => Auth::user()->id])
-                            ]
-                        ]
+                        'user'  => [[
+                            'uid'   => Auth::user()->id,
+                            'name'  => Auth::user()->name,
+                        ]]
                     ]
                 ]);
             }
             return ResponseModel::success(200);
-        } elseif ($join_policy==3 || $join_policy==0) {  //The default value of join_policy when you create a group will be 0 in old version.
+        } elseif ($join_policy==3 || $join_policy==0) {  // The default value of join_policy when you create a group will be 0 in old version.
             if ($clearance==-1) {
                 $groupModel->changeClearance(Auth::user()->id, $all_data["gid"], 1);
                 sendMessage([
-                    'sender'   => 1,
+                    'sender'   => config('app.official_sender'),
                     'receiver' => $leader->id,
-                    'title'    => __('group.message.agreeJoin.title', ['name' => $group->name]),
+                    'title'    => __('message.group.agreed.title', ['name' => $group->name]),
                     'type'     => 2,
+                    'level'    => 5,
                     'data'     => [
                         'group' => [
                             'gcode' => $group->gcode,
                             'name'  => $group->name,
-                            'url'   => route('group.detail', ['gcode' => $group->gcode])
                         ],
-                        'user'  => [
-                            [
-                                'name'  => Auth::user()->name,
-                                'url'   => route('user.view', ['uid' => Auth::user()->id])
-                            ]
-                        ]
+                        'user'  => [[
+                            'uid'   => Auth::user()->id,
+                            'name'  => Auth::user()->name,
+                        ]]
                     ]
                 ]);
                 return ResponseModel::success(200, null, [
@@ -132,22 +126,20 @@ class GroupController extends Controller
                 $groupModel->addClearance(Auth::user()->id, $all_data["gid"], 0);
                 //send message to leader
                 sendMessage([
-                    'sender'   => 1,
+                    'sender'   => config('app.official_sender'),
                     'receiver' => $leader->id,
-                    'title'    => __('group.message.appliedJoin.title', ['name' => $group->name]),
+                    'title'    => __('message.group.applied.title', ['name' => $group->name]),
                     'type'     => 1,
+                    'level'    => 4,
                     'data'     => [
                         'group' => [
                             'gcode' => $group->gcode,
                             'name'  => $group->name,
-                            'url'   => route('group.detail', ['gcode' => $group->gcode])
                         ],
-                        'user'  => [
-                            [
-                                'name'  => Auth::user()->name,
-                                'url'   => route('user.view', ['uid' => Auth::user()->id])
-                            ]
-                        ]
+                        'user'  => [[
+                            'uid'   => Auth::user()->id,
+                            'name'  => Auth::user()->name,
+                        ]]
                     ]
                 ]);
             }

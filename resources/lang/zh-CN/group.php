@@ -72,20 +72,6 @@ return [
         'profileClose' => '关闭',
         'profileApply' => '应用'
     ],
-    'message'    => [
-        'agreeJoin' => [
-            'title'   => '他们已同意加入您的群组 :name',
-            'content' => ''
-        ],
-        'appliedJoin'=> [
-            'title'   => '有人申请加入您的群组 :name',
-            'content' => ''
-        ],
-        'inviteJoin' => [
-            'title'   => ':sender_name 邀请您加入 :group_name',
-            'content' => '嗨,  **:reciver_name**,\n\n  **:sender_name** 刚刚邀请您加入 **[:group_name](:group_url)** 群组. 现在就看一看，认识一些有趣的人吧!\n\n NOJ'
-        ]
-    ],
     'general' => [
         'groupName' => '组名',
         'changeNameTip' => '为您的小组指定新的名字',

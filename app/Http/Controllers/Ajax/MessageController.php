@@ -15,11 +15,11 @@ class MessageController extends Controller
         $request->validate([
             'uid' => 'required|integer'
         ]);
-        $uid=$request->input('uid');
-        if (!Auth::check() || Auth::user()->id!=$uid) {
+        $uid = $request->input('uid');
+        if (!Auth::check() || Auth::user()->id != $uid) {
             return ResponseModel::err(2001);
         }
-        $ret=Message::unread($uid);
+        $ret = Message::unread($uid);
         return ResponseModel::success(200, null, $ret);
     }
 

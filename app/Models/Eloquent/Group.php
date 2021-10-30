@@ -93,6 +93,6 @@ class Group extends Model
             throw new Exception($e->getMessage());
         }
 
-        return $newHomework->id;
+        return $newHomework;
     }
 }
