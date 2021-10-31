@@ -32,6 +32,7 @@ mix.styles([
     'node_modules/codemirror/lib/codemirror.css',
     'node_modules/codemirror/addon/hint/show-hint.css',
     'node_modules/highlight.js/styles/vs.css',
+    'node_modules/github-markdown-css/github-markdown-light.css',
 ], 'public/static/css/build/app.admin.css');
 
 // Compile NOJ Admin Portal JS Libraries Bundle - app.admin.js
@@ -71,6 +72,7 @@ mix.styles([
     'resources/css/main.css',
     'node_modules/jquery-datetimepicker/build/jquery.datetimepicker.min.css',
     'node_modules/simplemde/dist/simplemde.min.css',
+    'node_modules/github-markdown-css/github-markdown-light.css',
 ], 'public/static/css/build/app.css');
 
 // Compile NOJ Editor - app.editor.js
