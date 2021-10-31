@@ -54,8 +54,10 @@ class HomeworkMessager extends UniversalMessager
     {
         [$homeworkString] = self::proceedHomeworkAndGroupInfo($data);
 
-        return __('message.homework.new.desc', [
-            'homeworkList' => $homeworkString
+        return self::formatUniversalMessage('message.homework.new.desc', [
+            'homeworkList' => $homeworkString,
+            'receiver' => $data['receiver'],
+            'sender' => $data['sender'],
         ]);
     }
 }
