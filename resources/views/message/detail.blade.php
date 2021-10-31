@@ -19,39 +19,33 @@
         box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
     }
 
-    paper-card > div.sender{
+    paper-card > div.sender {
         display: flex;
         justify-content: flex-start;
         align-items: center;
         color: rgba(0, 0, 0, 0.62);
     }
 
-    .sender_name{
+    .sender_name {
         font-weight: bolder;
         margin: 0;
     }
 
-    div.content img{
-        max-width: calc(100% - 4rem);
-    }
-
-    h5.msg-title  {
+    h5.msg-title {
         font-weight: bold;
         font-family: 'Roboto Slab';
         margin-bottom: 1rem;
         color: #000;
     }
 
-    div.content p{
-        word-wrap:break-word;
-        word-break:break-all;
-        text-indent: 2rem;
-    }
-
-    .cm-avatar{
+    .cm-avatar {
         width:2.5rem;
         height:2.5rem;
         border-radius: 2000px;
+    }
+
+    .message-container {
+        padding: 1rem;
     }
 </style>
 <div class="container mundb-standard-container">
@@ -65,8 +59,10 @@
             </div>
         </div>
         <hr>
-        <div class="content">
-            <p>{!! clean(convertMarkdownToHtml($message->content)) !!}</p>
+        <div class="message-container">
+            <div class="markdown-body">
+                <p>{!! clean(convertMarkdownToHtml($message->content)) !!}</p>
+            </div>
         </div>
         {{-- @if($message['allow_reply'])
             <hr>
