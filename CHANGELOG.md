@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## NOJ 0.17.4 Characinae Build Pack 4 - 2021-11-03
+This is a build version update for `0.17.0 Characinae`.
+
+**Important:** Rerun `npm ci` and `composer install` then `npm run production`.
+
+### Update Logs
+* **New:** NOJ now supports `contest.exsits` middleware.
+* **New:** NOJ now uses Github markdown style to render messages.
+* **Fixed:** A PHP7.4 compatibility bug causing contest details to return 500 when users don't have clearance.
+* **Improved:** Remastered contest routers.
+* **Security:** `encore/laravel-admin` is now at `1.8.16`.
+* **Security:** `laravel/framework` is now at `8.69.0`.
+* **Security:** `laravel/passport` is now at `10.2.0`.
+* **Security:** `laravel/ui` is now at `3.3.1`.
+* **Security:** `phpseclib/phpseclib` is now at `3.0.11`.
+* **Security:** `symfony/console` is now at `5.3.10`.
+* **Security:** `symfony/http-foundation` is now at `5.3.10`.
+* **Security:** `symfony/http-kernel` is now at `5.3.10`.
+* **Security:** `symfony/string` is now at `5.3.10`.
+* **Security:** `symfony/translation` is now at `5.3.10`.
+* **Security:** `symfony/var-dumper` is now at `5.3.10`.
+
 ## NOJ 0.17.3 Characinae Build Pack 3 - 2021-10-30
 This is a build version update for `0.17.0 Characinae`.
 
