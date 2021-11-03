@@ -1201,20 +1201,20 @@
         },
         {
             "name": "encore/laravel-admin",
-            "version": "v1.8.14",
+            "version": "v1.8.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/z-song/laravel-admin.git",
-                "reference": "cb28d1f0f072f9cadb1589ea1a7dcf39e0fae413"
+                "reference": "0f7bafbd2acd4cdb2118c2a6105a6b2aa9dacb13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/cb28d1f0f072f9cadb1589ea1a7dcf39e0fae413",
-                "reference": "cb28d1f0f072f9cadb1589ea1a7dcf39e0fae413",
+                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/0f7bafbd2acd4cdb2118c2a6105a6b2aa9dacb13",
+                "reference": "0f7bafbd2acd4cdb2118c2a6105a6b2aa9dacb13",
                 "shasum": ""
             },
             "require": {
-                "doctrine/dbal": "2.*",
+                "doctrine/dbal": "2.*|3.*",
                 "laravel/framework": ">=5.5",
                 "php": ">=7.0.0",
                 "symfony/dom-crawler": "~3.1|~4.0|~5.0"
@@ -1269,9 +1269,9 @@
             ],
             "support": {
                 "issues": "https://github.com/z-song/laravel-admin/issues",
-                "source": "https://github.com/z-song/laravel-admin/tree/v1.8.14"
+                "source": "https://github.com/z-song/laravel-admin/tree/v1.8.16"
             },
-            "time": "2021-09-01T01:15:15+00:00"
+            "time": "2021-11-02T07:52:31+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
