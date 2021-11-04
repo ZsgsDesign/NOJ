@@ -1,7 +1,9 @@
-require('./bootstrap');
-require('./hljs');
-require('./dompurify');
-require('./mediumzoom');
-require('./popper');
-require('./sortable');
-require('./variables');
+import { createApp } from "vue";
+
+import Welcome from "./components/Welcome.vue";
+
+const app = createApp({
+    components: {
+        Welcome,
+    },
+}).mount("#app");

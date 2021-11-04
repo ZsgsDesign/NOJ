@@ -9,4 +9,5 @@ declare interface Window{
     mediumZoom: any;
     Popper: any;
     Sortable: any;
+    Vue: any;
 }
