@@ -70,7 +70,11 @@ class IndexController extends Controller
         if (Auth::check()) {
             $contest_detail=$contestModel->detail($cid, Auth::user()->id);
             $registration=$contestModel->registration($cid, Auth::user()->id);
-            $inGroup=$groupModel->isMember($contest_detail["data"]["contest_detail"]["gid"], Auth::user()->id);
+            if(filled($contest_detail["data"])) {
+                $inGroup=$groupModel->isMember($contest_detail["data"]["contest_detail"]["gid"], Auth::user()->id);
+            } else {
+                $inGroup = false;
+            }
         } else {
             $contest_detail=$contestModel->detail($cid);
             $registration=[];

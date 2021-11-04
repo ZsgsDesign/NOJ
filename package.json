@@ -32,6 +32,7 @@
         "clipboard": "^2.0",
         "codemirror": "^5.58",
         "dompurify": "^2.0",
+        "github-markdown-css": "^5.0.0",
         "highlight.js": "^11.2.0",
         "ignore-emit-webpack-plugin": "^2.0.6",
         "ignore-loader": "^0.1.2",
