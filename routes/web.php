@@ -102,9 +102,9 @@ Route::group([ 'namespace' => 'Contest', 'prefix' => 'contest', 'as' => 'contest
 
         Route::get('/', 'IndexController@detail')->name('detail');
 
-        Route::group(['as' => 'board.', 'prefix' => 'board', 'middleware' => ['auth']], function () {
+        Route::group(['as' => 'board.', 'prefix' => 'board'], function () {
 
-            Route::group(['middleware' => ['contest.desktop']], function () {
+            Route::group(['middleware' => ['auth', 'contest.desktop']], function () {
                 Route::get('/', 'BoardController@board')->name('index');
                 Route::get('/challenge', 'BoardController@challenge')->name('challenge');
                 Route::get('/challenge/{ncode}', 'BoardController@editor')->name('editor');
@@ -116,10 +116,12 @@ Route::group([ 'namespace' => 'Contest', 'prefix' => 'contest', 'as' => 'contest
             });
 
             Route::group(['prefix' => 'admin'], function () {
-                Route::get('/', 'AdminController@admin')->middleware(['privileged'])->name('admin');
-                Route::get('/scrollBoard', 'AdminController@scrollBoard')->middleware(['contest_account', 'privileged'])->name('admin.scrollboard');
-                Route::get('/downloadContestAccountXlsx', 'AdminController@downloadContestAccountXlsx')->name('admin.download.contestaccountxlsx');
-                Route::get('/refreshContestRank', 'AdminController@refreshContestRank')->name('admin.refresh.contestrank');
+                Route::group(['middleware' => ['auth']], function () {
+                    Route::get('/', 'AdminController@admin')->middleware(['privileged'])->name('admin');
+                    Route::get('/scrollBoard', 'AdminController@scrollBoard')->middleware(['contest_account', 'privileged'])->name('admin.scrollboard');
+                    Route::get('/downloadContestAccountXlsx', 'AdminController@downloadContestAccountXlsx')->name('admin.download.contestaccountxlsx');
+                    Route::get('/refreshContestRank', 'AdminController@refreshContestRank')->name('admin.refresh.contestrank');
+                });
                 Route::get('/pdfView', 'AdminController@pdfView')->middleware(['contest.board.admin.pdfview.clearance'])->name('admin.pdf.view');
             });
 
