@@ -10,7 +10,6 @@
         "production": "mix --production"
     },
     "devDependencies": {
-        "@vue/compiler-sfc": "^3.2.21",
         "axios": "^0.21",
         "bootstrap": "^4.6.0",
         "cross-env": "^7.0",
@@ -22,9 +21,7 @@
         "sass-loader": "^11.0.1",
         "ts-loader": "^8.3.0",
         "typescript": "^4.4.4",
-        "url-loader": "^4.1.1",
-        "vue": "^3.2.21",
-        "vue-loader": "^16.8.3"
+        "url-loader": "^4.1.1"
     },
     "dependencies": {
         "@nesk/puphpeteer": "^2.0.0",
@@ -35,7 +32,7 @@
         "clipboard": "^2.0",
         "codemirror": "^5.58",
         "dompurify": "^2.0",
-        "evino": "0.0.1",
+        "evino": "0.0.4",
         "github-markdown-css": "^5.0.0",
         "highlight.js": "^11.2.0",
         "ignore-emit-webpack-plugin": "^2.0.6",
@@ -58,9 +55,6 @@
         "sortablejs": "^1.14.0",
         "vscode-oniguruma": "1.3.0",
         "vscode-textmate": "5.1.1",
-        "vue-i18n": "^9.2.0-beta.16",
-        "vue-router": "^4.0.12",
-        "vuex": "^4.0.2",
         "wasm-loader": "^1.3.0"
     }
 }

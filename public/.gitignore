@@ -1,3 +1,7 @@
-sitemap.xml
-sitemap.xml.gz
-mix-manifest.json
+*
+!.gitignore
+!.htaccess
+!favicon.ico
+!favicon.png
+!index.php
+!robots.txt

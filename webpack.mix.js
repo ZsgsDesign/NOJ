@@ -27,7 +27,7 @@ mix.sass('resources/sass/admin.scss', 'public/css/app.admin.temp.css');
 
 // Compile NOJ Admin Portal CSS Libraries Bundle - app.admin.css
 mix.styles([
-    'public/static/css/build/app.admin.temp.css',
+    'public/css/app.admin.temp.css',
     'node_modules/simplemde/dist/simplemde.min.css',
     'node_modules/codemirror/lib/codemirror.css',
     'node_modules/codemirror/addon/hint/show-hint.css',
@@ -37,7 +37,7 @@ mix.styles([
 
 // Compile NOJ Admin Portal JS Libraries Bundle - app.admin.js
 mix.scripts([
-    'public/static/js/build/app.admin.temp.js',
+    'public/js/app.admin.temp.js',
     'node_modules/simplemde/dist/simplemde.min.js',
     'node_modules/marked/marked.min.js',
     'node_modules/codemirror/lib/codemirror.js',
