@@ -11,9 +11,13 @@
 |
 */
 
-use App\Models\Eloquent\Group;
+Route::get('/opensearch.xml', function () {
+    return response(getOpenSearchXML(), 200)->header("Content-type","text/xml");
+});
 
 /*
+use App\Models\Eloquent\Group;
+
 Route::redirect('/home', '/', 301);
 Route::redirect('/acmhome/welcome.do', '/', 301);
 Route::get('/acmhome/problemdetail.do','MainController@oldRedirect')->name('old.redirect');
