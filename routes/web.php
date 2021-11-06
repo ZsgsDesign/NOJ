@@ -13,7 +13,7 @@
 
 use App\Models\Eloquent\Group;
 
-
+/*
 Route::redirect('/home', '/', 301);
 Route::redirect('/acmhome/welcome.do', '/', 301);
 Route::get('/acmhome/problemdetail.do','MainController@oldRedirect')->name('old.redirect');
@@ -272,3 +272,4 @@ if(config("function.register")){
 } else {
     Auth::routes(['verify' => true, 'register' => false]);
 }
+*/
