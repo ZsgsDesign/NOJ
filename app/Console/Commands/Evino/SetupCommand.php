@@ -20,7 +20,7 @@ class SetupCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Setup <fg=green>EVINO</> - <fg=yellow;options=bold,underscore><Extended View Interface of NOJ></>.';
+    protected $description = 'Setup <fg=green>EVINO</> - <fg=yellow;options=bold,underscore><Extended View Interface for NOJ></>.';
 
     /**
      * Create a new command instance.
@@ -52,9 +52,18 @@ class SetupCommand extends Command
         File::copyDirectory($evinoPath . DIRECTORY_SEPARATOR . 'js', public_path('js'));
 
         $indexHTML = file_get_contents($evinoPath . DIRECTORY_SEPARATOR . 'index.html');
-        $indexBladeView = HtmlDomParser::str_get_html($indexHTML, true, true, DEFAULT_TARGET_CHARSET, false);
-        $indexBladeView->find('head > title', 0)->innertext = "{{config('app.name')}}";
-        file_put_contents(resource_path('views' . DIRECTORY_SEPARATOR . 'index.blade.php'), $indexBladeView);
+        $indexDOM = HtmlDomParser::str_get_html($indexHTML, true, true, DEFAULT_TARGET_CHARSET, false);
+        $SPABladeView = '';
+
+        foreach($indexDOM->find('head > script') as $scriptResources) {
+            $SPABladeView .= $scriptResources->outertext;
+        }
+        foreach($indexDOM->find('head > link[rel="stylesheet"]') as $styleResources) {
+            $SPABladeView .= $styleResources->outertext;
+        }
+
+        file_put_contents(resource_path('views' . DIRECTORY_SEPARATOR . 'spa' . DIRECTORY_SEPARATOR . 'resources.blade.php'), $SPABladeView);
+        file_put_contents(resource_path('views' . DIRECTORY_SEPARATOR . 'spa' . DIRECTORY_SEPARATOR . 'body.blade.php'), "<body><div id=q-app></div></body>");
 
         return Command::SUCCESS;
     }
