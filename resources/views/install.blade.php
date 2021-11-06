@@ -48,6 +48,15 @@
         line-height: 1.25;
     }
 
+    a {
+        color: #0366d6;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
     command-view{
         display: inline-block;
         background-color: #f8f8f8;
@@ -99,5 +108,6 @@
         <p>Congratulations, this site has been successfully deployed with NOJ MainService. NOJ MainService provides a robust API Framework for Online Judges.</p>
         <p>If you want to install <span style="color: #3f51b5; font-weight: bold;">EVINO</span> - our official <span style="color: #3f51b5; font-weight: bold;">Extended View Interface for NOJ</span>, please run the following command:</p>
         <command-view><pre><code><span style="color: #008080;">php</span> artisan evino:setup</code></pre></command-view>
+        <p style="font-style: italic; color: rgba(0, 0, 0, 0.63);">For more information, please check our <a href="https://njuptaaa.github.io/docs">Official Document</a> and <a href="https://github.com/ZsgsDesign/NOJ">Github Open-Source Repository</a>.</p>
     </div>
 </body>
