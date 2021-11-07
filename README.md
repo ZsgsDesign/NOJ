@@ -2,7 +2,7 @@
 
 ![NOJ](/noj_banner.png)
 
-NOJ's another online judge platform, stands for NJUPT Online Judge. It's written in PHP, GO, Python and other function-supporting languages and supports both online judges and virtual judges, we called it **mixed judge**.
+NOJ's another online judge platform, stands for NJUPT Online Judge. It's written in PHP, Python, Node.js and other function-supporting languages and supports both online judges and virtual judges, we called it **mixed judge**.
 
 [![Build Status](https://img.shields.io/scrutinizer/build/g/ZsgsDesign/NOJ.svg?style=flat-square)](https://scrutinizer-ci.com/g/ZsgsDesign/NOJ/build-status/master)
 ![License](https://img.shields.io/github/license/ZsgsDesign/NOJ.svg?style=flat-square)
@@ -17,9 +17,15 @@ NOJ's another online judge platform, stands for NJUPT Online Judge. It's written
 
 <img style="width: 10rem;" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo.">
 
-## v0.17.0 Characinae
+## v1.0.0 Alwalkeria
 
-For more information, please visit [v0.17.0 Characinae Release Log](https://github.com/ZsgsDesign/NOJ/releases/tag/0.17.0) page.
+Breaking changes have been introduced to this release and please make proper backup for your site if you want to upgrade from your local `0.17.x` NOJ distributions.
+
+In NOJ `v1.0.0` Alwalkeria, we introduced a full user interface overhawl that strictly follows Google Material Design guildlines and separate our backend and frontend completely.
+
+*Some features supported by `v0.17.x` and before may not be supported in this new version.*
+
+For more information, please visit [v1.0.0 Alwalkeria Release Log](https://github.com/ZsgsDesign/NOJ/releases/tag/1.0.0) page.
 
 ### Installation
 
