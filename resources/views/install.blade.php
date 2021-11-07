@@ -20,13 +20,13 @@
         color: #24292e;
         background-color: #fff;
         box-sizing: border-box;
-        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
         padding: 2rem;
     }
 
     div {
         text-align: center;
-        max-width: 1012px;
+        max-width: min(1012px, 100vw - 4rem);
     }
 
     p {
@@ -57,7 +57,7 @@
         text-decoration: underline;
     }
 
-    command-view{
+    command-view {
         display: inline-block;
         background-color: #f8f8f8;
         margin-bottom: 16px;
@@ -65,7 +65,7 @@
         padding: 0 4rem;
     }
 
-    command-view pre{
+    command-view pre {
         padding: 16px;
         overflow: auto;
         font-size: 85%;
@@ -76,10 +76,10 @@
         word-break: normal;
         word-wrap: normal;
         margin-top: 0;
-        font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
     }
 
-    command-view pre code{
+    command-view pre code {
         display: inline;
         max-width: auto;
         padding: 0;
@@ -93,7 +93,7 @@
         word-break: normal;
         white-space: pre;
         background: transparent;
-        font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
         border-radius: 3px;
     }
 </style>
@@ -107,7 +107,9 @@
         <p style="color: #f44336; font-weight: bold;">&cross; Currently no view interface installed.</p>
         <p>Congratulations, {{config('app.displayName')}} has been successfully deployed with NOJ MainService. NOJ MainService provides a robust API Framework for Online Judges.</p>
         <p>If you want to install <span style="color: #3f51b5; font-weight: bold;">EVINO</span> - our official <span style="color: #3f51b5; font-weight: bold;">Extended View Interface for NOJ</span>, please run the following command:</p>
-        <command-view><pre><code><span style="color: #008080;">php</span> <span style="font-weight: bold;">artisan</span> evino:<span style="color: #888;">setup</span></code></pre></command-view>
+        <command-view>
+            <pre><code><span style="color: #008080;">php</span> <span style="font-weight: bold;">artisan</span> evino:<span style="color: #888;">setup</span></code></pre>
+        </command-view>
         <p style="font-style: italic; color: rgba(0, 0, 0, 0.63);">For more information, please check our <a href="https://njuptaaa.github.io/docs">Official Document</a> and <a href="https://github.com/ZsgsDesign/NOJ">Github Open-Source Repository</a>.</p>
     </div>
 </body>
