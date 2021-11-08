@@ -12,4 +12,5 @@
 */
 
 Route::get('{any}', SpaController::class)->where('any','.*');
+
 // Route::get('{any}', SpaController::class)->where('any','(.*)');
