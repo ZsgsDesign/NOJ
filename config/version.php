@@ -49,7 +49,7 @@ return [
     |
     */
 
-    'build' => 'Three Year Anniversary Build Pack',
+    'build' => 'Three Year Anniversary',
 
     /*
     |--------------------------------------------------------------------------
