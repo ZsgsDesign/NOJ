@@ -111,5 +111,6 @@
             <pre><code><span style="color: #008080;">php</span> <span style="font-weight: bold;">artisan</span> evino:<span style="color: #888;">setup</span></code></pre>
         </command-view>
         <p style="font-style: italic; color: rgba(0, 0, 0, 0.63);">For more information, please check our <a href="https://njuptaaa.github.io/docs">Official Document</a> and <a href="https://github.com/ZsgsDesign/NOJ">Github Open-Source Repository</a>.</p>
+        <p style="">&copy; 2018-{{date('Y')}}, {{config("app.name")}}.</p>
     </div>
 </body>
