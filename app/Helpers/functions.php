@@ -241,6 +241,7 @@ if (!function_exists(('getDefaultSPAConfig'))) {
                 'theme' => config('app.theme')
             ],
             'version' => [
+                'year' => date('Y'),
                 'number' => implode('.', config('version.number')),
                 'channel' => config('version.channel'),
                 'name' => config('version.name'),

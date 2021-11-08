@@ -23,7 +23,7 @@ return [
     | Version Channel
     |--------------------------------------------------------------------------
     |
-    | This is the version cahnnel of NOJ. ['dev', 'stable']
+    | This is the version channel of NOJ. ['dev', 'stable']
     |
     */
 
@@ -49,7 +49,7 @@ return [
     |
     */
 
-    'build' => '',
+    'build' => 'Three Year Anniversary Build Pack',
 
     /*
     |--------------------------------------------------------------------------
