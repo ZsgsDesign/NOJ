@@ -9,12 +9,17 @@ use App\Models\Eloquent\Tool\Theme;
 use App\Models\Eloquent\Tool\AppSettings;
 
 if (!function_exists('version')) {
-    function version()
+    function version($legacy = false)
     {
+        if(!$legacy) {
+            return implode('.', config('version.number')) . '-' . config('version.channel');
+        }
+
         $version=new Version(
             '0.0.0',
             base_path()
         );
+
         return $version->getVersion();
     }
 }
