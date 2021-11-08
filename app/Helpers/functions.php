@@ -228,3 +228,28 @@ if (!function_exists('setting')) {
         return AppSettings::get($identifier, $default);
     }
 }
+
+if (!function_exists(('getDefaultSPAConfig'))) {
+    function getDefaultSPAConfig()
+    {
+        return [
+            'app' => [
+                'name' => config('app.name'),
+                'displayName' => config('app.displayName'),
+                'apiRoute' => request()->root() . '/api',
+                'locale' => config('app.locale'),
+                'theme' => config('app.theme')
+            ],
+            'version' => [
+                'number' => implode('.', config('version.number')),
+                'channel' => config('version.channel'),
+                'name' => config('version.name'),
+                'build' => config('version.build'),
+                'alias' => config('version.alias'),
+                'leader' => config('version.leader'),
+                'developers' => config('version.developers'),
+                'organization' => config('version.organization'),
+            ],
+        ];
+    }
+}
