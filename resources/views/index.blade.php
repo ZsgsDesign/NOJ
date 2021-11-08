@@ -47,10 +47,21 @@
     <meta name="google-site-verification" content="{{ env("GOOGLE_SITE_VERIFICATION") }}" />
     <meta name="baidu-site-verification" content="{{ env("BAIDU_SITE_VERIFICATION") }}" />
 
+    <!-- Preloader -->
+    @include('components.preloader')
+
     <!-- SPA Resources -->
     @includeIf('spa.resources')
 </head>
 
 @includeFirst(['spa.body', 'install'])
+
+<script>
+    window.addEventListener("load",function() {
+        document.querySelector('material-preloader').className="loaded";
+    });
+
+    window.defaultNOJConfig = {!! json_encode(getDefaultSPAConfig()) !!};
+</script>
 
 </html>
