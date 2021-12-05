@@ -105,7 +105,7 @@ class ContestController extends Controller
             return $public ? "Yes" : "No";
         });
         $grid->column("registration", "Registration")->display(function($registration) {
-            return $registration ? "Required" : "Free";
+            return $registration ? "Required" : "Disabled";
         });
         $grid->registration_due("Registration Due");
         $grid->filter(function(Grid\Filter $filter) {
