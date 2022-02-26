@@ -2663,24 +2663,24 @@
         },
         {
             "name": "laracasts/utilities",
-            "version": "3.2",
+            "version": "3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laracasts/PHP-Vars-To-Js-Transformer.git",
-                "reference": "26b1712166a366e3f8a1fd1452d0c3b76cad612a"
+                "reference": "cfcda21b2425652e869af253d385d78e2129e3a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laracasts/PHP-Vars-To-Js-Transformer/zipball/26b1712166a366e3f8a1fd1452d0c3b76cad612a",
-                "reference": "26b1712166a366e3f8a1fd1452d0c3b76cad612a",
+                "url": "https://api.github.com/repos/laracasts/PHP-Vars-To-Js-Transformer/zipball/cfcda21b2425652e869af253d385d78e2129e3a2",
+                "reference": "cfcda21b2425652e869af253d385d78e2129e3a2",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "^5.0|^6.0|^7.0|^8.0",
-                "php": ">=5.5.0|>=7.2.5"
+                "illuminate/support": "^5.0|^6.0|^7.0|^8.0|^9.0",
+                "php": ">=5.5.0|>=7.2.5|>=8.0.0"
             },
             "require-dev": {
-                "phpspec/phpspec": "~2.0"
+                "phpspec/phpspec": ">=2.0"
             },
             "type": "library",
             "extra": {
@@ -2718,9 +2718,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laracasts/PHP-Vars-To-Js-Transformer/issues",
-                "source": "https://github.com/laracasts/PHP-Vars-To-Js-Transformer/tree/3.2"
+                "source": "https://github.com/laracasts/PHP-Vars-To-Js-Transformer/tree/3.2.1"
             },
-            "time": "2020-09-07T13:29:37+00:00"
+            "time": "2022-02-09T14:09:45+00:00"
         },
         {
             "name": "laravel-admin-ext/backup",
