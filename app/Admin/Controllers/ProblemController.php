@@ -374,9 +374,11 @@ class ProblemController extends Controller
                     Storage::disk('test_case')->deleteDirectory($pcode);
                 }
 
-                Storage::disk('test_case')->makeDirectory($pcode);
+                Storage::disk('test_case')->makeDirectory($pcode, 0755);
 
                 $zip->extractTo(Storage::disk('test_case')->path($pcode));
+
+                resetPermissions(Storage::disk('test_case')->path($pcode));
 
                 $form->tot_score=count($info_content['test_cases']);
 

@@ -223,3 +223,20 @@ if (!function_exists('setting')) {
         return AppSettings::get($identifier, $default);
     }
 }
+
+if (!function_exists('resetPermissions')) {
+    function resetPermissions($path) {
+        $dir = new DirectoryIterator($path);
+        foreach ($dir as $item) {
+            if($item->isDot()) {
+                continue;
+            }
+            if ($item->isDir()) {
+                chmod($item->getPathname(), 0755);
+                resetPermissions($item->getPathname());
+            } else {
+                chmod($item->getPathname(), 0644);
+            }
+        }
+    }
+}
