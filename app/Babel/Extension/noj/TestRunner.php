@@ -62,20 +62,11 @@ class TestRunner
             "token" => $bestServer["token"],
             "spj_version" => null,
             "spj_config" => null,
-            "spj_compile_config" => null,
             "spj_src" => null
         ];
         if ($probBasic["spj"] && $probBasic["spj_version"]) {
             $submit_data["spj_version"]=$probBasic["spj_version"];
             $submit_data["spj_config"]=$probBasic["spj_lang"];
-            $submit_data["spj_compile_config"]=[
-                "src_name" => "spj-{spj_version}.c",
-                "exe_name" => "spj-{spj_version}",
-                "max_cpu_time" => 3000,
-                "max_real_time" => 5000,
-                "max_memory" => 1073741824,
-                "compile_command" => "/usr/bin/gcc -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c99 {src_path} -lm -o {exe_path}"
-            ]; // fixed at C99, future linked with spj_lang
             $submit_data["spj_src"]=$probBasic["spj_src"];
         }
         $judgeClient=new JudgeClient($submit_data["token"], $submitURL);
@@ -85,7 +76,6 @@ class TestRunner
             'max_memory'=>$submit_data['max_memory'],
             'spj_version'=>$submit_data['spj_version'],
             'spj_config'=>$submit_data['spj_config'],
-            'spj_compile_config'=>$submit_data['spj_compile_config'],
             'spj_src'=>$submit_data['spj_src']
         ]);
         if (!is_null($temp["err"])) {
