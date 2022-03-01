@@ -27,8 +27,8 @@ class Languages
                 'compile' => [
                     'src_name' => 'spj-{spj_version}.c',
                     'exe_name' => 'spj-{spj_version}',
-                    'max_cpu_time' => 3000,
-                    'max_real_time' => 10000,
+                    'max_cpu_time' => 3000 * 3,
+                    'max_real_time' => 10000 * 3,
                     'max_memory' => 1024 * 1024 * 1024,
                     'compile_command' => '/usr/bin/gcc -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c99 {src_path} -lm -o {exe_path}'
                 ],
@@ -77,8 +77,8 @@ class Languages
                 'compile' => [
                     'src_name' => 'spj-{spj_version}.cpp',
                     'exe_name' => 'spj-{spj_version}',
-                    'max_cpu_time' => 3000,
-                    'max_real_time' => 10000,
+                    'max_cpu_time' => 3000 * 3,
+                    'max_real_time' => 10000 * 3,
                     'max_memory' => 1024 * 1024 * 1024,
                     'compile_command' => '/usr/bin/g++ -DONLINE_JUDGE -O2 -I /opt/testlib/ -w -fmax-errors=3 -std=c++11 {src_path} -lm -o {exe_path}'
                 ],
