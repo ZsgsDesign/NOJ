@@ -181,6 +181,23 @@ class Languages
                     'memory_limit_check_only' => 1
                 ]
             ],
+            'php7_lang_config_spj' => [
+                'compile' => [
+                    'src_name' => 'spj-{spj_version}.php',
+                    'exe_name' => 'spj-{spj_version}',
+                    'max_cpu_time' => 3000 * 3,
+                    'max_real_time' => 10000 * 3,
+                    'max_memory' => 1024 * 1024 * 1024,
+                    'compile_command' => '/bin/cp {src_path} {exe_path}'
+                ],
+                'run' => [
+                    'exe_name' => 'spj-{spj_version}',
+                    'command' => '/usr/bin/php -d error_reporting=0 -f {exe_path} {in_file_path} {user_out_file_path}',
+                    'seccomp_rule' => null,
+                    'env' => $default_env,
+                    'memory_limit_check_only' => 1
+                ]
+            ],
             'jsc_lang_config' => [
                 'compile' => null,
                 'run' => [
