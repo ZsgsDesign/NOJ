@@ -39,6 +39,11 @@ class Problem extends Model
         return $this->hasMany('App\Models\Eloquent\ProblemSample', 'pid', 'pid');
     }
 
+    public function dialects()
+    {
+        return $this->hasMany(ProblemDialect::class, 'problem_id', 'pid');
+    }
+
     public function solutions()
     {
         return $this->hasMany('App\Models\Eloquent\ProblemSolution', 'pid', 'pid');
