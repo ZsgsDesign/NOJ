@@ -7,6 +7,7 @@ use App\Babel\Judge\Judger;
 use App\Babel\Synchronize\Synchronizer;
 use App\Babel\Monit\Monitor;
 use App\Babel\TestRun\TestRunner;
+use App\Babel\Biblioteca\Biblioteca;
 
 class Babel
 {
@@ -38,5 +39,10 @@ class Babel
     public function testrun($conf)
     {
         return new TestRunner($conf);
+    }
+
+    public function biblioteca($conf, $commandLineObject=null)
+    {
+        return new Biblioteca($conf, $commandLineObject);
     }
 }

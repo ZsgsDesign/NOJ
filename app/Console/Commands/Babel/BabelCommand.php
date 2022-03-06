@@ -41,7 +41,7 @@ LOGO;
      */
     public function handle()
     {
-        $this->line(static::$logo);
+        $this->line(static::$logo, 'fg=cyan');
         $this->line(sprintf('NOJ <comment>version</comment> <info>%s</info>', version()));
 
         $this->comment('');
@@ -69,7 +69,7 @@ LOGO;
 
         /** @var Command $command */
         foreach ($commands as $command) {
-            $this->line(sprintf(" %-{$width}s %s", $command->getName(), $command->getDescription()));
+            $this->line(sprintf(" <fg=green>%-{$width}s</> %s", $command->getName(), $command->getDescription()));
         }
     }
 
