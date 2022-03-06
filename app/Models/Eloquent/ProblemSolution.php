@@ -11,7 +11,7 @@ class ProblemSolution extends Model
     protected $primaryKey='psoid';
 
     public function problem() {
-        return $this->belongTo('App\Models\Eloquent\Problem', 'pid', 'pid');
+        return $this->belongsTo('App\Models\Eloquent\Problem', 'pid', 'pid');
     }
 
     public static function boot()
