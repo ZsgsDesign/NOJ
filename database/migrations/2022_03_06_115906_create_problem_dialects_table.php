@@ -20,6 +20,7 @@ class CreateProblemDialectsTable extends Migration
             $table->string('dialect_name')->nullable();
             $table->string('dialect_language')->nullable();
             $table->boolean('is_biblioteca')->default(false);
+            $table->boolean('is_hidden')->default(false);
             $table->string('title')->nullable();
             $table->text('description', 65535)->nullable();
             $table->text('input', 65535)->nullable();
