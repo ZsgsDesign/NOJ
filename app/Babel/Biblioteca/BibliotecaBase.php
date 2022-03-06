@@ -5,7 +5,7 @@ namespace App\Babel\Biblioteca;
 class BibliotecaBase
 {
     protected $command = null;
-    protected $bibliotecaUrl = "https://njuptaaa.github.io/biblioteca/";
+    protected $bibliotecaUrl = "https://ghproxy.com/https://raw.githubusercontent.com/NJUPTAAA/biblioteca/gh-pages/"; # https://njuptaaa.github.io/biblioteca/
 
     public function importCommandLine($commandTemp)
     {
