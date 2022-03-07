@@ -5,7 +5,12 @@ namespace App\Babel\Biblioteca;
 class BibliotecaBase
 {
     protected $command = null;
-    protected $bibliotecaUrl = "https://ghproxy.com/https://raw.githubusercontent.com/NJUPTAAA/biblioteca/gh-pages/"; # https://njuptaaa.github.io/biblioteca/
+    protected $bibliotecaUrl = null;
+
+    public function __construct()
+    {
+        $this->bibliotecaUrl = config('biblioteca.mirror');
+    }
 
     public function importCommandLine($commandTemp)
     {

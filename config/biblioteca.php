@@ -4,12 +4,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Babel Mirror
+    | Biblioteca Mirror
     |--------------------------------------------------------------------------
     |
-    | This value is the Babel mirror url of your application.
+    | This value is the Biblioteca mirror url of your application.
     |
     */
 
-    'mirror' => env("BABEL_MIRROR", "https://acm.njupt.edu.cn/babel"),
+    'mirror' => env("BIBLIOTECA_MIRROR", "https://njuptaaa.github.io/biblioteca"),
 ];
