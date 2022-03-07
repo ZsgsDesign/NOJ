@@ -408,10 +408,12 @@
             -o-animation: cm-rotate 3s linear infinite;
             animation: cm-rotate 3s linear infinite;
         }
-        #problemSwitcher{
+        #problemSwitcher,
+        #dialectSwitcher{
             display: inline-block;
         }
-        #problemSwitcher > button{
+        #problemSwitcher > button,
+        #dialectSwitcher > button{
             font-size: 2.25rem;
             font-weight: 600;
             padding-bottom: .3em;
@@ -425,6 +427,16 @@
             white-space: nowrap;
         }
 
+        #dialectSwitcher a.dropdown-item > div > p{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            line-height: 1;
+        }
+
+        #dialectSwitcher a.dropdown-item > div{
+            overflow: hidden;
+        }
 
         .cm-pre-wrapper{
             position:relative;
@@ -577,9 +589,30 @@
                                     @endforeach
                                 </div>
                             </div>
-                            @endif {{$detail["title"]}}</h1>
+                            @elseif(filled($problem->public_dialects))
+                            <div class="dropdown" id="dialectSwitcher">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dialectMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="MDI translate"></i></button>
+                                <div class="dropdown-menu cm-scrollable-menu" aria-labelledby="dialectMenuButton" x-placement="bottom-start" style="position: absolute; will-change: top, left; top: 40px; left: 0px;">
+                                    <a class="dropdown-item" href="#" data-dialect-id="0">
+                                        <div>
+                                            <p class="mb-2"><i class="MDI checkbox-marked-circle wemd-teal-text"></i> Default</p>
+                                            <p class="mb-0 wemd-grey-text" style="font-size: 0.65rem;">default</p>
+                                        </div>
+                                    </a>
+                                    @foreach($problem->public_dialects as $dialect)
+                                        <a class="dropdown-item" href="#" data-dialect-id="{{$dialect->id}}">
+                                            <div>
+                                                <p class="mb-2"><i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i> {{$dialect->dialect_name}}</p>
+                                                <p class="mb-0 wemd-grey-text" style="font-size: 0.5rem;">{{$dialect->dialect_language}} · {{$dialect->copyright}}</p>
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                            @endif {{$detail["title"]}}
+                        </h1>
 
-                            @if($detail["file"] && !blank($detail["file_url"]))
+                        @if($detail["file"] && filled($detail["file_url"]))
                             <file-card class="mt-4 mb-3">
                                 <div>
                                     <img src="/static/fonts/fileicon/svg/{{$detail["file_ext"]}}.svg" onerror="this.src=NOJVariables.unknownfileSVG;">
@@ -601,7 +634,9 @@
 
                         <h2>{{__("problem.section.description")}}</h2>
 
-                        {!!$detail["parsed"]["description"]!!}
+                        <div data-problem-section="description">
+                            {!!$detail["parsed"]["description"]!!}
+                        </div>
 
                         @endunless
 
@@ -609,7 +644,9 @@
 
                         <h2>{{__("problem.section.input")}}</h2>
 
-                        {!!$detail["parsed"]["input"]!!}
+                        <div data-problem-section="input">
+                            {!!$detail["parsed"]["input"]!!}
+                        </div>
 
                         @endunless
 
@@ -617,7 +654,9 @@
 
                         <h2>{{__("problem.section.output")}}</h2>
 
-                        {!!$detail["parsed"]["output"]!!}
+                        <div data-problem-section="output">
+                            {!!$detail["parsed"]["output"]!!}
+                        </div>
 
                         @endunless
 
@@ -641,7 +680,9 @@
 
                         <h2>{{__("problem.section.note")}}</h2>
 
-                        {!!$detail["parsed"]["note"]!!}
+                        <div data-problem-section="note">
+                            {!!$detail["parsed"]["note"]!!}
+                        </div>
 
                         @endunless
 
@@ -915,6 +956,10 @@
             $("#cur_lang_selector").html($( this ).html());
             chosen_lang=$( this ).data("lcode");
             chosen_coid=$( this ).data("coid");
+        });
+
+        $("[data-dialect-id]").click(function() {
+            console.log($( this ).data("dialect-id"));
         });
 
         $( ".theme-selector" ).click(function() {

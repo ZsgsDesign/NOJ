@@ -64,6 +64,11 @@ class Problem extends Model
         return $this->getProblemStatus();
     }
 
+    public function getPublicDialectsAttribute()
+    {
+        return $this->dialects()->where('is_hidden', false)->get();
+    }
+
     public function getProblemStatus($userID = null, $contestID = null, Carbon $till = null)
     {
         if (blank($userID)) {

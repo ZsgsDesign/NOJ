@@ -9,6 +9,7 @@ use App\Models\Submission\SubmissionModel;
 use App\Http\Controllers\Controller;
 use App\Models\Eloquent\Tool\MonacoTheme;
 use Illuminate\Http\Request;
+use App\Models\Eloquent\Problem;
 use Auth;
 use Redirect;
 
@@ -146,6 +147,7 @@ class BoardController extends Controller
             'oj_detail' => $oj_detail,
             'editor_left_width' => $editor_left_width,
             'theme_config' => $themeConfig,
+            'problem' => Problem::find($prob_detail["pid"]),
             'editor_themes' => MonacoTheme::getAll(),
         ]);
     }

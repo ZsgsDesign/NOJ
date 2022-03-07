@@ -9,7 +9,7 @@ use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Eloquent\Tool\MonacoTheme;
-use JavaScript;
+use App\Models\Eloquent\Problem;
 use Auth;
 
 class ProblemController extends Controller
@@ -153,6 +153,7 @@ class ProblemController extends Controller
             'oj_detail' => $oj_detail,
             'editor_left_width' => $editor_left_width,
             'theme_config' => $themeConfig,
+            'problem' => Problem::find($prob_detail["pid"]),
             'editor_themes' => MonacoTheme::getAll(),
         ]);
     }
