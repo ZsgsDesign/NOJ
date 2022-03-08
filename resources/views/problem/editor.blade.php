@@ -958,8 +958,40 @@
             chosen_coid=$( this ).data("coid");
         });
 
+        var dialectFetching = false;
+
         $("[data-dialect-id]").click(function() {
-            console.log($( this ).data("dialect-id"));
+            let dialectId = $(this).data("dialect-id");
+            if(dialectFetching) return;
+            dialectFetching = true;
+            $.ajax({
+                type: 'POST',
+                url: "{{route('ajax.problem.getDialect')}}",
+                data: {
+                    problem_id: "{{$detail['pid']}}",
+                    dialect_id: dialectId
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }, success: function(ret){
+                    // console.log(ret);
+                    if(ret.ret == 200){
+                        ['description', 'input', 'output', 'note'].forEach(fieldKey => {
+                            if(ret.data[fieldKey]) {
+                                $(`div[data-problem-section="${fieldKey}"]`).html(ret.data[fieldKey]);
+                            }
+                        });
+                        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "fresh-container"]);
+                        $('[data-dialect-id] i').prop('class', 'MDI checkbox-blank-circle-outline wemd-grey-text');
+                        $(`[data-dialect-id="${dialectId}"] i`).prop('class', 'MDI checkbox-marked-circle wemd-teal-text');
+                    }
+                    dialectFetching = false;
+                }, error: function(xhr, type){
+                    console.log('Ajax error while posting to getDialect!');
+                    dialectFetching = false;
+                }
+            });
         });
 
         $( ".theme-selector" ).click(function() {
