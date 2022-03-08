@@ -192,16 +192,16 @@ class ProblemController extends Controller
             $form->simplemde('output');
             $form->simplemde('note');
         })->tab('Problem Samples', function (Form $form) {
-            $form->hasMany('problemSamples', 'samples', function (Form\NestedForm $form) {
+            $form->hasMany('samples', 'samples', function (Form\NestedForm $form) {
                 $form->textarea('sample_input', 'sample input')->rows(3);
                 $form->textarea('sample_output', 'sample output')->rows(3);
                 $form->textarea('sample_note', 'sample note')->rows(3);
             });
-            /* $form->table('samples', function ($table) {
-                $table->textarea('sample_input', 'sample input');
-                $table->textarea('sample_output', 'sample output');
-                $table->textarea('sample_note', 'sample note');
-            }); */
+            // $form->table('samples', function ($table) {
+            //     $table->textarea('sample_input', 'sample input')->rows(3);
+            //     $table->textarea('sample_output', 'sample output')->rows(3);
+            //     $table->textarea('sample_note', 'sample note')->rows(3);
+            // });
         })->tab('Special Judge', function (Form $form) {
             $form->radio('spj', 'Use SPJ')
                 ->options([

@@ -31,12 +31,12 @@ class Problem extends Model
 
     public function submissions()
     {
-        return $this->hasMany('App\Models\Eloquent\Submission', 'pid', 'pid');
+        return $this->hasMany(Submission::class, 'pid', 'pid');
     }
 
-    public function problemSamples()
+    public function samples()
     {
-        return $this->hasMany('App\Models\Eloquent\ProblemSample', 'pid', 'pid');
+        return $this->hasMany(ProblemSample::class, 'pid', 'pid');
     }
 
     public function dialects()
@@ -46,17 +46,17 @@ class Problem extends Model
 
     public function solutions()
     {
-        return $this->hasMany('App\Models\Eloquent\ProblemSolution', 'pid', 'pid');
+        return $this->hasMany(ProblemSolution::class, 'pid', 'pid');
     }
 
     public function homework_problems()
     {
-        return $this->hasMany('App\Models\Eloquent\GroupHomeworkProblem', 'problem_id', 'pid');
+        return $this->hasMany(GroupHomeworkProblem::class, 'problem_id', 'pid');
     }
 
     public function onlinejudge()
     {
-        return $this->belongsTo('App\Models\Eloquent\OJ', 'OJ', 'oid');
+        return $this->belongsTo(OJ::class, 'OJ', 'oid');
     }
 
     public function getProblemStatusAttribute()
@@ -216,20 +216,4 @@ class Problem extends Model
 
         return $query->mergeBindings($lastRecordSubQuery->toBase());
     }
-
-    /*     public function getSamplesAttribute()
-    {
-        return array_map(function($sample) {
-            return [
-                'sample_input' => $sample->sample_input,
-                'sample_output' => $sample->sample_output,
-                'sample_note' => $sample->sample_note,
-            ];
-        }, $this->problemSamples()->select('sample_input', 'sample_output', 'sample_note')->get()->all());
-    }
-
-    public function setSamplesAttribute($value)
-    {
-        return;
-    } */
 }

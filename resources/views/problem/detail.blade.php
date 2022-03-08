@@ -309,19 +309,19 @@
                             </div>
                         </div>
 
-                        @foreach($detail["samples"] as $ps)
+                        @foreach($problem->samples as $sample)
 
-                            @if (!is_null($ps['sample_input']) && $ps['sample_input'] !== '')
-                            <h2>{{__("problem.section.sample.input")}}</h2>
-                            <pre>{!!$ps['sample_input']!!}</pre>
+                            @if (!is_null($sample->input) && $sample->input !== '')
+                                <h2>{{__("problem.section.sample.input")}}</h2>
+                                <pre>{!!$sample->input!!}</pre>
                             @endif
 
-                            @if (!is_null($ps['sample_output']) && $ps['sample_output'] !== '')
-                            <h2>{{__("problem.section.sample.output")}}</h2>
-                            <pre>{!!$ps['sample_output']!!}</pre>
+                            @if (!is_null($sample->output) && $sample->output !== '')
+                                <h2>{{__("problem.section.sample.output")}}</h2>
+                                <pre>{!!$sample->output!!}</pre>
                             @endif
 
-                            @unless (blank($ps['sample_note'])) {!!$ps['sample_note']!!} @endunless
+                            @unless (blank($sample->note)) {!!$sample->note!!} @endunless
 
                         @endforeach
 

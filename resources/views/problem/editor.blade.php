@@ -651,21 +651,21 @@
                                 </div>
                             </div>
 
-                            @foreach($detail["samples"] as $ps)
+                            @foreach($problem->samples as $sample)
 
-                                @if (!is_null($ps['sample_input']) && $ps['sample_input'] !== '')
+                            @if (!is_null($sample->input) && $sample->input !== '')
                                 <h2>{{__("problem.section.sample.input")}}</h2>
-                                <div class="cm-pre-wrapper"><pre id="input{{$loop->index}}">{!!$ps['sample_input']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#input{{$loop->index}}">{{__("problem.section.sample.copy")}}</button></div>
-                                @endif
+                                <pre>{!!$sample->input!!}</pre>
+                            @endif
 
-                                @if (!is_null($ps['sample_output']) && $ps['sample_output'] !== '')
+                            @if (!is_null($sample->output) && $sample->output !== '')
                                 <h2>{{__("problem.section.sample.output")}}</h2>
-                                <div class="cm-pre-wrapper"><pre id="output{{$loop->index}}">{!!$ps['sample_output']!!}</pre><button class="cm-copy-snippet" data-clipboard-target="#output{{$loop->index}}">{{__("problem.section.sample.copy")}}</button></div>
-                                @endif
+                                <pre>{!!$sample->output!!}</pre>
+                            @endif
 
-                                @unless (blank($ps['sample_note'])) {!!$ps['sample_note']!!} @endunless
+                            @unless (blank($sample->note)) {!!$sample->note!!} @endunless
 
-                            @endforeach
+                        @endforeach
 
                             <div data-problem-section="note" class="{{blank($dialect["note"])?'d-none':''}}">
                                 <h2>{{__("problem.section.note")}}</h2>
