@@ -595,14 +595,14 @@
                                 <div class="dropdown-menu cm-scrollable-menu" aria-labelledby="dialectMenuButton" x-placement="bottom-start" style="position: absolute; will-change: top, left; top: 40px; left: 0px;">
                                     <a class="dropdown-item" href="#" data-dialect-id="0">
                                         <div>
-                                            <p class="mb-2"><i class="MDI checkbox-marked-circle wemd-teal-text"></i> Default</p>
+                                            <p class="mb-2"><i class="MDI checkbox-marked-circle wemd-teal-text"></i> {{__('biblioteca.default')}}</p>
                                             <p class="mb-0 wemd-grey-text" style="font-size: 0.65rem;">default</p>
                                         </div>
                                     </a>
                                     @foreach($problem->public_dialects as $dialect)
                                         <a class="dropdown-item" href="#" data-dialect-id="{{$dialect->id}}">
                                             <div>
-                                                <p class="mb-2"><i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i> {{$dialect->dialect_name}}</p>
+                                                <p class="mb-2"><i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i> {{$dialect->display_name}}</p>
                                                 <p class="mb-0 wemd-grey-text" style="font-size: 0.5rem;">{{$dialect->dialect_language}} · {{$dialect->copyright}}</p>
                                             </div>
                                         </a>

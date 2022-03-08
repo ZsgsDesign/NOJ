@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'default' => 'Default',
     'zh' => 'Chinese',
     'zh-cn' => 'Chinese (Simplified)',
     'zh-tw' => 'Chinese (Traditional)',

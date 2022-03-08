@@ -19,4 +19,9 @@ class ProblemDialect extends Model
     {
         return $this->belongsTo(Problem::class, 'problem_id', 'pid');
     }
+
+    public function getDisplayNameAttribute()
+    {
+        return $this->is_biblioteca ? __('biblioteca.' . $this->dialect_language) : $this->dialect_name;
+    }
 }
