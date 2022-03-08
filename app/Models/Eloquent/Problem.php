@@ -69,6 +69,40 @@ class Problem extends Model
         return $this->dialects()->where('is_hidden', false)->get();
     }
 
+    public function getDialect($dialectId = 0): array
+    {
+        if ($dialectId == 0) {
+            $dialect = [
+                'title' => $this->title,
+                'description' => $this->description,
+                'input' => $this->input,
+                'output' => $this->output,
+                'note' => $this->note,
+            ];
+            $parseMarkdown = !$this->force_raw && $this->markdown;
+        } else {
+            $dialectInstance = $this->dialects()->where(['is_hidden' => false, 'id' => $dialectId])->first();
+            $parseMarkdown = true;
+            if (filled($dialectInstance)) {
+                $dialect = [
+                    'title' => filled($dialectInstance->title) ? $dialectInstance->title : $this->title,
+                    'description' => $dialectInstance->description,
+                    'input' => $dialectInstance->input,
+                    'output' => $dialectInstance->output,
+                    'note' => $dialectInstance->note,
+                ];
+            } else {
+                return [];
+            }
+        }
+        if($parseMarkdown) {
+            foreach (['description', 'input', 'output', 'note'] as $field) {
+                $dialect[$field] = clean(convertMarkdownToHtml($dialect[$field]));
+            }
+        }
+        return $dialect;
+    }
+
     public function getProblemStatus($userID = null, $contestID = null, Carbon $till = null)
     {
         if (blank($userID)) {
@@ -172,7 +206,7 @@ class Problem extends Model
             $lastRecordSubQuery = $lastRecordSubQuery->where("submission_date", "<", $till->timestamp);
         }
 
-        if(filled($verdictFilter)) {
+        if (filled($verdictFilter)) {
             $lastRecordSubQuery = $lastRecordSubQuery->whereIn('verdict', $verdictFilter);
         }
 

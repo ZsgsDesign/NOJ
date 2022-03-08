@@ -328,4 +328,15 @@ class ProblemController extends Controller
 
         return ResponseModel::success(200);
     }
+
+    public function getDialect(Request $request)
+    {
+        $request->validate([
+            'dialect_id' => 'required|integer',
+            'problem_id' => 'required|integer|exists:problem,pid'
+        ]);
+        $dialect = Problem::find($request->problem_id)->getDialect($request->dialect_id, true);
+        return filled($dialect) ? ResponseModel::success(200, null, $dialect) : ResponseModel::err(3006);
+    }
+
 }

@@ -192,6 +192,10 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.
 
     Route::post('search', 'SearchController')->middleware('auth')->name('ajax.search');
 
+    Route::group(['prefix' => 'problem'], function () {
+        Route::post('getDialect', 'ProblemController@getDialect')->middleware('auth')->name('ajax.problem.getDialect');
+    });
+
     Route::group(['prefix' => 'message'], function () {
         Route::post('unread', 'MessageController@unread')->middleware('auth');
         Route::post('allRead', 'MessageController@allRead')->middleware('auth');

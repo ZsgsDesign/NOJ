@@ -70,6 +70,7 @@ class ResponseModel extends Model
             '3003' => "Duplicate Problem Solution Submitted",
             '3004' => "Certain Problem Solution not Operatable",
             '3005' => "Copper", // Reserved for Copper in memory of OASIS and those who contributed a lot
+            '3006' => "Dialects Not Found",
 
             '4000' => "Contest-Related Error",
             '4001' => "Contest Not Found",
