@@ -13,4 +13,14 @@ class ProblemTag extends Model
     public function problem() {
         return $this->belongsTo(Problem::class, 'pid', 'pid');
     }
+
+    public function getNameAttribute()
+    {
+        return $this->tag;
+    }
+
+    public function setNameAttribute($value)
+    {
+        $this->attributes['tag'] = $value;
+    }
 }

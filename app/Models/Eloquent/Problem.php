@@ -49,6 +49,11 @@ class Problem extends Model
         return $this->hasMany(ProblemSolution::class, 'pid', 'pid');
     }
 
+    public function tags()
+    {
+        return $this->hasMany(ProblemTag::class, 'pid', 'pid');
+    }
+
     public function homework_problems()
     {
         return $this->hasMany(GroupHomeworkProblem::class, 'problem_id', 'pid');

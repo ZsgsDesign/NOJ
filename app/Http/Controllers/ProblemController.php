@@ -97,11 +97,13 @@ class ProblemController extends Controller
         }
         $solution = $problem->solutionList($prob_detail["pid"], Auth::check() ? Auth::user()->id : null);
         $submitted = Auth::check() ? $problem->solution($prob_detail["pid"], Auth::user()->id) : [];
+        $problem = Problem::find($prob_detail["pid"]);
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.solution', [
             'page_title' => "Solution",
             'site_title' => config("app.name"),
             'navigation' => $prob_detail["title"],
             'detail' => $prob_detail,
+            'problem' => $problem,
             'solution' => $solution,
             'submitted' => $submitted
         ]);
@@ -180,11 +182,13 @@ class ProblemController extends Controller
         $list = $problem->discussionList($prob_detail["pid"]);
         $discussion = $list['list'];
         $paginator = $list['paginator'];
+        $problem = Problem::find($prob_detail["pid"]);
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.discussion', [
             'page_title' => "Discussion",
             'site_title' => config("app.name"),
             'navigation' => $prob_detail["title"],
             'detail' => $prob_detail,
+            'problem' => $problem,
             'discussion' => $discussion,
             'paginator' => $paginator
         ]);
@@ -209,11 +213,13 @@ class ProblemController extends Controller
         $paginator = $detail['paginator'];
         $comment = $detail['comment'];
         $comment_count = $detail['comment_count'];
+        $problem = Problem::find($prob_detail["pid"]);
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.discussion_post', [
             'page_title' => "Discussion",
             'site_title' => config("app.name"),
             'navigation' => $prob_detail["title"],
             'detail' => $prob_detail,
+            'problem' => $problem,
             'main' => $main,
             'paginator' => $paginator,
             'comment' => $comment,
