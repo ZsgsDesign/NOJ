@@ -63,19 +63,23 @@ class ProblemController extends Controller
      */
     public function detail($pcode)
     {
-        $problem = new ProblemModel();
-        $prob_detail = $problem->detail($pcode);
-        if (blank($prob_detail) || $problem->isHidden($prob_detail["pid"])) {
+        $problemModel = new ProblemModel();
+        $prob_detail = $problemModel->detail($pcode);
+        if (blank($prob_detail) || $problemModel->isHidden($prob_detail["pid"])) {
             return redirect("/problem");
         }
-        if ($problem->isBlocked($prob_detail["pid"])) {
+        if ($problemModel->isBlocked($prob_detail["pid"])) {
             return abort('403');
         }
+        $problem = Problem::find($prob_detail["pid"]);
+        $dialect = $problem->getDialect(0);
         return view('problem.detail', [
             'page_title' => $prob_detail["title"],
             'site_title' => config("app.name"),
             'navigation' => "Problem",
-            'detail' => $prob_detail
+            'detail' => $prob_detail,
+            'problem' => $problem,
+            'dialect' => $dialect,
         ]);
     }
 
@@ -110,13 +114,12 @@ class ProblemController extends Controller
      */
     public function editor($pcode)
     {
-        $problem = new ProblemModel();
+        $problemModel = new ProblemModel();
         $compiler = new CompilerModel();
         $submission = new SubmissionModel();
-        $account = new AccountModel();
 
-        $prob_detail = $problem->detail($pcode);
-        if ($problem->isBlocked($prob_detail["pid"]) || $problem->isHidden($prob_detail["pid"])) {
+        $prob_detail = $problemModel->detail($pcode);
+        if ($problemModel->isBlocked($prob_detail["pid"]) || $problemModel->isHidden($prob_detail["pid"])) {
             return abort('403');
         }
         $compiler_list = $compiler->list($prob_detail["OJ"], $prob_detail["pid"]);
@@ -126,7 +129,7 @@ class ProblemController extends Controller
         $pref = $compiler_pref["pref"];
         $submit_code = $compiler_pref["code"];
 
-        $oj_detail = $problem->ojdetail($prob_detail["OJ"]);
+        $oj_detail = $problemModel->ojdetail($prob_detail["OJ"]);
 
         if (empty($prob_status)) {
             $prob_status = [
@@ -139,6 +142,8 @@ class ProblemController extends Controller
         $editor_left_width = isset($accountExt['editor_left_width']) ? $accountExt['editor_left_width'] : '40';
         $editor_theme = isset($accountExt['editor_theme']) ? $accountExt['editor_theme'] : config('app.editor_theme');
         $themeConfig = MonacoTheme::getTheme($editor_theme);
+        $problem = Problem::find($prob_detail["pid"]);
+        $dialect = $problem->getDialect(0);
 
         return is_null($prob_detail) ?  redirect("/problem") : view('problem.editor', [
             'page_title' => $prob_detail["title"],
@@ -153,7 +158,8 @@ class ProblemController extends Controller
             'oj_detail' => $oj_detail,
             'editor_left_width' => $editor_left_width,
             'theme_config' => $themeConfig,
-            'problem' => Problem::find($prob_detail["pid"]),
+            'problem' => $problem,
+            'dialect' => $dialect,
             'editor_themes' => MonacoTheme::getAll(),
         ]);
     }

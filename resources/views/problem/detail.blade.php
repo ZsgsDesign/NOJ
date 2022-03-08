@@ -288,53 +288,49 @@
 
                     <div data-marker-enabled>
 
-                    @unless(blank($detail["parsed"]["description"]))
+                        <div data-problem-section="description" class="{{blank($dialect["description"])?'d-none':''}}">
+                            <h2>{{__("problem.section.description")}}</h2>
+                            <div>
+                                {!!$dialect["description"]!!}
+                            </div>
+                        </div>
 
-                    <h2>{{__("problem.section.description")}}</h2>
+                        <div data-problem-section="input" class="{{blank($dialect["input"])?'d-none':''}}">
+                            <h2>{{__("problem.section.input")}}</h2>
+                            <div>
+                                {!!$dialect["input"]!!}
+                            </div>
+                        </div>
 
-                    {!!$detail["parsed"]["description"]!!}
+                        <div data-problem-section="output" class="{{blank($dialect["output"])?'d-none':''}}">
+                            <h2>{{__("problem.section.output")}}</h2>
+                            <div>
+                                {!!$dialect["output"]!!}
+                            </div>
+                        </div>
 
-                    @endunless
+                        @foreach($detail["samples"] as $ps)
 
-                    @unless(blank($detail["parsed"]["input"]))
+                            @if (!is_null($ps['sample_input']) && $ps['sample_input'] !== '')
+                            <h2>{{__("problem.section.sample.input")}}</h2>
+                            <pre>{!!$ps['sample_input']!!}</pre>
+                            @endif
 
-                    <h2>{{__("problem.section.input")}}</h2>
+                            @if (!is_null($ps['sample_output']) && $ps['sample_output'] !== '')
+                            <h2>{{__("problem.section.sample.output")}}</h2>
+                            <pre>{!!$ps['sample_output']!!}</pre>
+                            @endif
 
-                    {!!$detail["parsed"]["input"]!!}
+                            @unless (blank($ps['sample_note'])) {!!$ps['sample_note']!!} @endunless
 
-                    @endunless
+                        @endforeach
 
-                    @unless(blank($detail["parsed"]["output"]))
-
-                    <h2>{{__("problem.section.output")}}</h2>
-
-                    {!!$detail["parsed"]["output"]!!}
-
-                    @endunless
-
-                    @foreach($detail["samples"] as $ps)
-
-                        @if (!is_null($ps['sample_input']) && $ps['sample_input'] !== '')
-                        <h2>{{__("problem.section.sample.input")}}</h2>
-                        <pre>{!!$ps['sample_input']!!}</pre>
-                        @endif
-
-                        @if (!is_null($ps['sample_output']) && $ps['sample_output'] !== '')
-                        <h2>{{__("problem.section.sample.output")}}</h2>
-                        <pre>{!!$ps['sample_output']!!}</pre>
-                        @endif
-
-                        @unless (blank($ps['sample_note'])) {!!$ps['sample_note']!!} @endunless
-
-                    @endforeach
-
-                    @unless(blank($detail["parsed"]["note"]))
-
-                    <h2>{{__("problem.section.note")}}</h2>
-
-                    {!!$detail["parsed"]["note"]!!}
-
-                    @endunless
+                        <div data-problem-section="note" class="{{blank($dialect["note"])?'d-none':''}}">
+                            <h2>{{__("problem.section.note")}}</h2>
+                            <div>
+                                {!!$dialect["note"]!!}
+                            </div>
+                        </div>
 
                     </div>
 

@@ -596,14 +596,14 @@
                                     <a class="dropdown-item" href="#" data-dialect-id="0">
                                         <div>
                                             <p class="mb-2"><i class="MDI checkbox-marked-circle wemd-teal-text"></i> {{__('biblioteca.default')}}</p>
-                                            <p class="mb-0 wemd-grey-text" style="font-size: 0.65rem;">default</p>
+                                            <p class="mb-0 wemd-grey-text" style="font-size: 0.5rem;">default</p>
                                         </div>
                                     </a>
-                                    @foreach($problem->public_dialects as $dialect)
-                                        <a class="dropdown-item" href="#" data-dialect-id="{{$dialect->id}}">
+                                    @foreach($problem->public_dialects as $dialectInfo)
+                                        <a class="dropdown-item" href="#" data-dialect-id="{{$dialectInfo->id}}">
                                             <div>
-                                                <p class="mb-2"><i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i> {{$dialect->display_name}}</p>
-                                                <p class="mb-0 wemd-grey-text" style="font-size: 0.5rem;">{{$dialect->dialect_language}} · {{$dialect->copyright}}</p>
+                                                <p class="mb-2"><i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i> {{$dialectInfo->display_name}}</p>
+                                                <p class="mb-0 wemd-grey-text" style="font-size: 0.5rem;">{{$dialectInfo->dialect_language}} · {{$dialectInfo->copyright}}</p>
                                             </div>
                                         </a>
                                     @endforeach
@@ -630,24 +630,24 @@
 
                         <div data-marker-enabled>
 
-                            <div data-problem-section="description" class="{{blank($detail["parsed"]["description"])?'d-none':''}}">
+                            <div data-problem-section="description" class="{{blank($dialect["description"])?'d-none':''}}">
                                 <h2>{{__("problem.section.description")}}</h2>
                                 <div>
-                                    {!!$detail["parsed"]["description"]!!}
+                                    {!!$dialect["description"]!!}
                                 </div>
                             </div>
 
-                            <div data-problem-section="input" class="{{blank($detail["parsed"]["input"])?'d-none':''}}">
+                            <div data-problem-section="input" class="{{blank($dialect["input"])?'d-none':''}}">
                                 <h2>{{__("problem.section.input")}}</h2>
                                 <div>
-                                    {!!$detail["parsed"]["input"]!!}
+                                    {!!$dialect["input"]!!}
                                 </div>
                             </div>
 
-                            <div data-problem-section="output" class="{{blank($detail["parsed"]["output"])?'d-none':''}}">
+                            <div data-problem-section="output" class="{{blank($dialect["output"])?'d-none':''}}">
                                 <h2>{{__("problem.section.output")}}</h2>
                                 <div>
-                                    {!!$detail["parsed"]["output"]!!}
+                                    {!!$dialect["output"]!!}
                                 </div>
                             </div>
 
@@ -667,10 +667,10 @@
 
                             @endforeach
 
-                            <div data-problem-section="note" class="{{blank($detail["parsed"]["note"])?'d-none':''}}">
+                            <div data-problem-section="note" class="{{blank($dialect["note"])?'d-none':''}}">
                                 <h2>{{__("problem.section.note")}}</h2>
                                 <div>
-                                    {!!$detail["parsed"]["note"]!!}
+                                    {!!$dialect["note"]!!}
                                 </div>
                             </div>
 

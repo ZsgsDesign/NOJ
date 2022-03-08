@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Eloquent\Tool\MonacoTheme;
 use Illuminate\Http\Request;
 use App\Models\Eloquent\Problem;
+use App\Models\Eloquent\Contest;
 use Auth;
 use Redirect;
 
@@ -97,11 +98,12 @@ class BoardController extends Controller
         $contest_name = $contestModel->contestName($cid);
         $contest_rule = $contestModel->rule($cid);
         $contest_ended = $contestModel->isContestEnded($cid);
-        $pid = $contestModel->getPid($cid, $ncode);
-        if (empty($pid)) {
+        $contestProblem = Contest::find($cid)->problems()->where('ncode', $ncode)->first();
+        if (blank($contestProblem)) {
             return Redirect::route('contest.board.index', ['cid' => $cid]);
         }
-        $pcode = $problemModel->pcode($pid);
+        $problem = $contestProblem->problem;
+        $pcode = $problemModel->pcode($contestProblem->pid);
 
         $prob_detail = $problemModel->detail($pcode, $cid);
         if ($problemModel->isBlocked($prob_detail["pid"], $cid)) {
@@ -126,6 +128,7 @@ class BoardController extends Controller
         $editor_left_width = isset($accountExt['editor_left_width']) ? $accountExt['editor_left_width'] : '40';
         $editor_theme = isset($accountExt['editor_theme']) ? $accountExt['editor_theme'] : config('app.editor_theme');
         $themeConfig = MonacoTheme::getTheme($editor_theme);
+        $dialect = $problem->getDialect(blank($contestProblem->problem_dialect_id) ? 0 : $contestProblem->problem_dialect_id);
 
         return view('contest.board.editor', [
             'page_title' => "Problem Detail",
@@ -147,7 +150,8 @@ class BoardController extends Controller
             'oj_detail' => $oj_detail,
             'editor_left_width' => $editor_left_width,
             'theme_config' => $themeConfig,
-            'problem' => Problem::find($prob_detail["pid"]),
+            'problem' => $problem,
+            'dialect' => $dialect,
             'editor_themes' => MonacoTheme::getAll(),
         ]);
     }
