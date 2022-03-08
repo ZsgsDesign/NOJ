@@ -609,7 +609,7 @@
                                     @endforeach
                                 </div>
                             </div>
-                            @endif {{$detail["title"]}}
+                            @endif <span data-problem-section="title">{{$detail["title"]}}</span>
                         </h1>
 
                         @if($detail["file"] && filled($detail["file_url"]))
@@ -982,6 +982,7 @@
                                 $(`div[data-problem-section="${fieldKey}"]`).html(ret.data[fieldKey]);
                             }
                         });
+                        $(`span[data-problem-section="title"]`).text(ret.data.title);
                         MathJax.Hub.Queue(["Typeset", MathJax.Hub, "fresh-container"]);
                         $('[data-dialect-id] i').prop('class', 'MDI checkbox-blank-circle-outline wemd-grey-text');
                         $(`[data-dialect-id="${dialectId}"] i`).prop('class', 'MDI checkbox-marked-circle wemd-teal-text');
