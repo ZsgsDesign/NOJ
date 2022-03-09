@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Submission\SubmissionModel;
 use App\Models\Eloquent\OJ;
-use Cache;
 
 class ProblemModel extends Model
 {
@@ -284,12 +283,6 @@ class ProblemModel extends Model
             'paginator' => $paginator,
             'problems' => $prob_list,
         ];
-    }
-
-    public function existPCode($pcode)
-    {
-        $temp=DB::table($this->table)->where(["pcode"=>$pcode])->select("pcode")->first();
-        return empty($temp) ? null : $temp["pcode"];
     }
 
     public function pid($pcode)
