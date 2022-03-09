@@ -460,7 +460,7 @@
             </paper-card>
             <paper-card class="animated fadeInLeft p-3">
                 @if(Auth::check())
-                    @if(empty($submitted))
+                    @if(blank($submitted))
                         <solution-section>
                             <content-section>
                                 <user-section>
@@ -484,7 +484,7 @@
                                     <p>{{Auth::user()->name}}</p>
                                 </user-section>
                                 <markdown-editor class="mt-3 mb-3">
-                                    <textarea id="solution_editor">{{$submitted["content"]}}</textarea>
+                                    <textarea id="solution_editor">{{$submitted->content}}</textarea>
                                 </markdown-editor>
                                 <div class="mb-3" style="display:flex;justify-content:space-between;align-items:cneter;padding-right:1rem;">
                                     <div>
@@ -492,9 +492,9 @@
                                         <button type="button" class="btn btn-danger mb-0" onclick="deleteSolutionDiscussion()"><i class="MDI delete"></i> {{__("problem.solution.action.delete")}}</button>
                                     </div>
                                     <div style="flex-grow:0;flex-shrink:0;display:flex;align-items:center;">
-                                        @if($submitted["audit"]==1)
+                                        @if($submitted->audit == 1)
                                             <p class="mb-0">{{__("problem.solution.audit.title")}} <span class="wemd-green-text"><i class="MDI checkbox-blank-circle"></i> {{__("problem.solution.audit.passed")}}</span></p>
-                                        @elseif($submitted["audit"]==0)
+                                        @elseif($submitted->audit == 0)
                                             <p class="mb-0">{{__("problem.solution.audit.title")}} <span class="wemd-blue-text"><i class="MDI checkbox-blank-circle"></i> {{__("problem.solution.audit.pending")}}</span></p>
                                         @else
                                             <p class="mb-0">{{__("problem.solution.audit.title")}} <span class="wemd-red-text"><i class="MDI checkbox-blank-circle"></i> {{__("problem.solution.audit.denied")}}</span></p>
@@ -672,7 +672,7 @@
                 });
             }
         </script>
-        @if(!empty($submitted))
+        @if(filled($submitted))
             <script>
                 var updatingSolutionDiscussion=false;
 
@@ -683,7 +683,7 @@
                         type: 'POST',
                         url: '/ajax/updateSolutionDiscussion',
                         data: {
-                            psoid: '{{$submitted["psoid"]}}',
+                            psoid: '{{$submitted->psoid}}',
                             content: simplemde.value(),
                         },
                         dataType: 'json',
@@ -725,7 +725,7 @@
                         type: 'POST',
                         url: '/ajax/deleteSolutionDiscussion',
                         data: {
-                            psoid: '{{$submitted["psoid"]}}'
+                            psoid: '{{$submitted->psoid}}'
                         },
                         dataType: 'json',
                         headers: {

@@ -72,12 +72,6 @@ class ProblemModel extends Model
         return $details;
     }
 
-    public function solution($pid, $uid)
-    {
-        $details=DB::table("problem_solution")->join("users", "id", "=", "uid")->where(['pid'=>$pid, 'uid'=>$uid])->first();
-        return $details;
-    }
-
     public function addSolution($pid, $uid, $content)
     {
         $details=DB::table("problem_solution")->where(['pid'=>$pid, 'uid'=>$uid])->first();

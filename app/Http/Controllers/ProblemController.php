@@ -85,7 +85,7 @@ class ProblemController extends Controller
         $problem = $request->problem_instance;
         $problemModel = new ProblemModel();
         $solution = $problemModel->solutionList($problem->pid, Auth::check() ? Auth::user()->id : null);
-        $submitted = Auth::check() ? $problemModel->solution($problem->pid, Auth::user()->id) : [];
+        $submitted = Auth::check() ? $problem->solutions->where('uid', Auth::user()->id)->first() : null;
         return view('problem.solution', [
             'page_title' => "Solution",
             'site_title' => config("app.name"),
