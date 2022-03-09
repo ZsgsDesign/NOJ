@@ -19,11 +19,6 @@ class ProblemModel extends Model
         return DB::table($this->table)->where("pid", $pid)->first();
     }
 
-    public function tags()
-    {
-        return DB::table("problem_tag")->groupBy('tag')->select("tag", DB::raw('count(*) as tag_count'))->orderBy('tag_count', 'desc')->limit(12)->get()->all();
-    }
-
     public function solutionList($pid, $uid=null)
     {
         if (is_null($uid)) {
