@@ -17,12 +17,12 @@ class ContestProblem extends Model
 
     public function contest()
     {
-        return $this->belongsTo('App\Models\Eloquent\Contest', 'cid', 'cid');
+        return $this->belongsTo(Contest::class, 'cid', 'cid');
     }
 
     public function problem()
     {
-        return $this->belongsTo('App\Models\Eloquent\Problem', 'pid', 'pid');
+        return $this->belongsTo(Problem::class, 'pid', 'pid');
     }
 
     public function submissions()
