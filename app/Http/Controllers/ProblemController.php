@@ -8,8 +8,8 @@ use App\Models\CompilerModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Eloquent\Tool\MonacoTheme;
-use App\Models\Eloquent\Problem;
-use App\Models\Eloquent\OJ;
+use App\Models\Services\ProblemTagService;
+use App\Models\Services\OJService;
 use Auth;
 
 class ProblemController extends Controller
@@ -22,12 +22,12 @@ class ProblemController extends Controller
     public function index(Request $request)
     {
         $all_data = $request->all();
-        $problem = new ProblemModel();
+        $problemModel = new ProblemModel();
         $filter["oj"] = isset($all_data["oj"]) ? $all_data["oj"] : null;
         $filter["tag"] = isset($all_data["tag"]) ? $all_data["tag"] : null;
-        $list_return = $problem->list($filter, Auth::check() ? Auth::user()->id : null);
-        $tags = $problem->tags();
-        $onlineJudges = OJ::where("status", true)->orderBy('oid', 'asc')->get();
+        $list_return = $problemModel->list($filter, Auth::check() ? Auth::user()->id : null);
+        $tags = ProblemTagService::list();
+        $onlineJudges = OJService::list();
         if (is_null($list_return)) {
             if (isset($all_data["page"]) && $all_data["page"] > 1) {
                 return redirect("/problem");

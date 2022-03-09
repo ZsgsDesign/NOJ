@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Services\OJService;
 use App\Models\Eloquent\Announcement;
-use App\Models\Eloquent\OJ;
 use App\Models\Eloquent\Carousel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -20,7 +20,7 @@ class MainController extends Controller
      */
     public function home(Request $request)
     {
-        $onlineJudges = OJ::where("status", true)->orderBy('oid', 'asc')->get();
+        $onlineJudges = OJService::list();
         return view('home', [
             'page_title' => "Home",
             'site_title' => config("app.name"),
