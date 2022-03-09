@@ -21,6 +21,8 @@ class Problem extends Model
 
     protected $casts = [
         'update_date' => 'date',
+        'force_raw' => 'boolean',
+        'markdown' => 'boolean',
     ];
 
     protected function serializeDate(DateTimeInterface $date)
@@ -88,18 +90,14 @@ class Problem extends Model
         return $this->dialects()->where('is_hidden', false)->get();
     }
 
-    public function getDialect($dialectId = 0): array
+    public function getParseMarkdownAttribute()
     {
-        if ($dialectId == 0) {
-            $dialect = [
-                'title' => $this->title,
-                'description' => $this->description,
-                'input' => $this->input,
-                'output' => $this->output,
-                'note' => $this->note,
-            ];
-            $parseMarkdown = !$this->force_raw && $this->markdown;
-        } else {
+        return !$this->force_raw && $this->markdown;
+    }
+
+    public function getDialect(int $dialectId = 0): array
+    {
+        if ($dialectId != 0) {
             $dialectInstance = $this->dialects()->where(['is_hidden' => false, 'id' => $dialectId])->first();
             $parseMarkdown = true;
             if (filled($dialectInstance)) {
@@ -110,15 +108,24 @@ class Problem extends Model
                     'output' => $dialectInstance->output,
                     'note' => $dialectInstance->note,
                 ];
-            } else {
-                return [];
             }
         }
-        if($parseMarkdown) {
+        if (!isset($dialect)) {
+            $dialect = [
+                'title' => $this->title,
+                'description' => $this->description,
+                'input' => $this->input,
+                'output' => $this->output,
+                'note' => $this->note,
+            ];
+            $parseMarkdown = $this->parse_markdown;
+        }
+        if ($parseMarkdown) {
             foreach (['description', 'input', 'output', 'note'] as $field) {
                 $dialect[$field] = clean(convertMarkdownToHtml($dialect[$field]));
             }
         }
+        $dialect['is_blank'] = blank($dialect['description']) && blank($dialect['input']) && blank($dialect['output']) && blank($dialect['note']);
         return $dialect;
     }
 

@@ -282,8 +282,8 @@
                         </file-card>
                     @endif
 
-                    @if($problem->file && $problem->is_pdf && $detail["viewerShow"])
-                        @include("components.pdfViewer", ["pdfSrc" => asset($problem->file_url)])
+                    @if($problem->file && $problem->is_pdf)
+                        <x-problem.pdf-viewer :src="asset($problem->file_url)" :display-on-sight="$dialect['is_blank']"></x-problem.pdf-viewer>
                     @endif
 
                     <div data-marker-enabled>

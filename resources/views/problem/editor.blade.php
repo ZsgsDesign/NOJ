@@ -624,8 +624,8 @@
                             </file-card>
                         @endif
 
-                        @if($problem->file && $problem->is_pdf && $detail["viewerShow"])
-                            @include("components.pdfViewer",["pdfSrc"=>asset($problem->file_url)])
+                        @if($problem->file && $problem->is_pdf)
+                            <x-problem.pdf-viewer :src="asset($problem->file_url)" :display-on-sight="$dialect['is_blank']"></x-problem.pdf-viewer>
                         @endif
 
                         <div data-marker-enabled>
@@ -973,6 +973,11 @@
                                 $(`div[data-problem-section="${fieldKey}"] > div`).html(ret.data[fieldKey]);
                             }
                         });
+                        if (ret.data[is_blank]) {
+                            $("#pdfView").removeClass('d-none');
+                        } else {
+                            $("#pdfView").addClass('d-none');
+                        }
                         $(`span[data-problem-section="title"]`).text(ret.data.title);
                         MathJax.Hub.Queue(["Typeset", MathJax.Hub, "fresh-container"]);
                         $('[data-dialect-id] i').prop('class', 'MDI checkbox-blank-circle-outline wemd-grey-text');
