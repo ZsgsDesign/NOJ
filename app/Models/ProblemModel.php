@@ -6,7 +6,6 @@ use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Submission\SubmissionModel;
-use Illuminate\Support\Str;
 use App\Models\Eloquent\OJ;
 use Cache;
 
@@ -15,44 +14,6 @@ class ProblemModel extends Model
     protected $table='problem';
     protected $primaryKey='pid';
     const UPDATED_AT="update_date";
-
-    public function detail($pcode, $cid=null)
-    {
-        $prob_detail=DB::table($this->table)->where("pcode", $pcode)->first();
-        // if (!is_null($prob_detail)) {
-        //     if ($cid) {
-        //         $frozen_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
-        //         $prob_stat=DB::table("submission")->select(
-        //             DB::raw("count(sid) as submission_count"),
-        //             DB::raw("sum(verdict='accepted') as passed_count"),
-        //             DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
-        //         )->where([
-        //             "pid"=>$prob_detail["pid"],
-        //             "cid"=>$cid,
-        //         ])->where("submission_date", "<", $frozen_time)->first();
-        //         $prob_detail['vcid']=DB::table("contest")->where(["cid"=>$cid])->select("vcid")->first()['vcid'];
-        //         $prob_detail["points"]=DB::table("contest_problem")->where(["cid"=>$cid, "pid"=>$prob_detail["pid"]])->select("points")->first()["points"];
-        //     } else {
-        //         $prob_stat=DB::table("submission")->select(
-        //             DB::raw("count(sid) as submission_count"),
-        //             DB::raw("sum(verdict='accepted') as passed_count"),
-        //             DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
-        //         )->where(["pid"=>$prob_detail["pid"]])->first();
-        //         $prob_detail['vcid']=null;
-        //         $prob_detail["points"]=0;
-        //     }
-        //     if ($prob_stat["submission_count"]==0) {
-        //         $prob_detail["submission_count"]=0;
-        //         $prob_detail["passed_count"]=0;
-        //         $prob_detail["ac_rate"]=0;
-        //     } else {
-        //         $prob_detail["submission_count"]=$prob_stat["submission_count"];
-        //         $prob_detail["passed_count"]=$prob_stat["passed_count"];
-        //         $prob_detail["ac_rate"]=round($prob_stat["ac_rate"], 2);
-        //     }
-        // }
-        return $prob_detail;
-    }
 
     public function basic($pid)
     {
@@ -672,10 +633,5 @@ class ProblemModel extends Model
             'updated_at'=>date("Y-m-d H:i:s"),
         ]);
         return $pdcid;
-    }
-
-    public function isHidden($pid)
-    {
-        return DB::table('problem')->where('pid', '=', $pid)->get()->first()['hide'];
     }
 }
