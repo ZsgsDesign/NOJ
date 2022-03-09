@@ -311,7 +311,7 @@ class ProblemController extends Controller
         $problemDetails = $problemModel->basic($submissionData["pid"]);
         $lang = $compilerModel->detail($submissionData["coid"]);
 
-        if (!$problemModel->ojdetail($problemDetails['OJ'])['status']) {
+        if (!Problem::find($submissionData["pid"])->online_judge->status) {
             return ResponseModel::err(6001);
         }
 
