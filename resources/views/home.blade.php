@@ -139,10 +139,10 @@
             @endunless
             <p class="cm-anno mt-5"><i class="MDI power-plug"></i> {{__('homepage.babel')}}</p>
             <div class="row">
-                @foreach ($ojs as $oj)
-                <div class="col-12 col-sm-6 col-md-4 col-xl-3">
-                    <a href="{{$oj['home_page']}}"><img src="{{$oj['logo']}}" class="cm-oj img-fluid"></a>
-                </div>
+                @foreach ($onlineJudges as $onlineJudge)
+                    <div class="col-12 col-sm-6 col-md-4 col-xl-3">
+                        <a href="{{$onlineJudge->home_page}}"><img src="{{$onlineJudge->logo}}" class="cm-oj img-fluid"></a>
+                    </div>
                 @endforeach
             </div>
         </div>

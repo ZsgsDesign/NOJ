@@ -134,8 +134,8 @@
             <paper-card class="animated bounceInRight">
                 <p>{{__('problem.filter')}}</p>
                 <div class="mb-3">
-                    @foreach($ojs as $o)
-                    <span class="badge badge-oj @if($filter['oj']==$o['oid']) selected @endif" onclick="applyFilter(this)" data-oid="{{$o['oid']}}">{{$o['name']}}</span>
+                    @foreach($onlineJudges as $onlineJudge)
+                    <span class="badge badge-oj @if($filter['oj']==$onlineJudge->oid) selected @endif" onclick="applyFilter(this)" data-oid="{{$onlineJudge->oid}}">{{$onlineJudge->name}}</span>
                     @endforeach
                 </div>
                 <div>

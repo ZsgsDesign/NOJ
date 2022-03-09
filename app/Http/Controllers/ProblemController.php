@@ -27,7 +27,7 @@ class ProblemController extends Controller
         $filter["tag"] = isset($all_data["tag"]) ? $all_data["tag"] : null;
         $list_return = $problem->list($filter, Auth::check() ? Auth::user()->id : null);
         $tags = $problem->tags();
-        $ojs = $problem->ojs();
+        $onlineJudges = OJ::where("status", true)->orderBy('oid', 'asc')->get();
         if (is_null($list_return)) {
             if (isset($all_data["page"]) && $all_data["page"] > 1) {
                 return redirect("/problem");
@@ -39,7 +39,7 @@ class ProblemController extends Controller
                     'prob_list' => null,
                     'prob_paginate' => null,
                     'tags' => $tags,
-                    'ojs' => $ojs,
+                    'onlineJudges' => $onlineJudges,
                     'filter' => $filter
                 ]);
             }
@@ -51,7 +51,7 @@ class ProblemController extends Controller
                 'prob_list' => $list_return['problems'],
                 'paginator' => $list_return['paginator'],
                 'tags' => $tags,
-                'ojs' => $ojs,
+                'onlineJudges' => $onlineJudges,
                 'filter' => $filter
             ]);
         }

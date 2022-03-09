@@ -25,11 +25,6 @@ class ProblemModel extends Model
         return DB::table("problem_tag")->groupBy('tag')->select("tag", DB::raw('count(*) as tag_count'))->orderBy('tag_count', 'desc')->limit(12)->get()->all();
     }
 
-    public function ojs()
-    {
-        return DB::table("oj")->where("status", 1)->orderBy('oid', 'asc')->get()->all();
-    }
-
     public function ojdetail($oid)
     {
         return DB::table("oj")->where('oid', $oid)->first();
