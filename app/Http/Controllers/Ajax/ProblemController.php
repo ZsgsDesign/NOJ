@@ -30,41 +30,43 @@ class ProblemController extends Controller
         $submissionModel = new SubmissionModel();
         $compilerModel = new CompilerModel();
 
-        $all_data = $request->all();
-
-        $validator = Validator::make($all_data, [
+        $validator = Validator::make($request->all(), [
             'solution' => 'required|string|max:65535',
+            'pid' => 'required|integer|exists:problem,pid',
         ]);
 
         if ($validator->fails()) {
             return ResponseModel::err(3002);
         }
-        if (!$problemModel->ojdetail($problemModel->detail($problemModel->pcode($all_data['pid']))['OJ'])['status']) {
+
+        if (!Problem::find($request->pid)->online_judge->status) {
             return ResponseModel::err(6001);
         }
-        if ($problemModel->isBlocked($all_data["pid"], isset($all_data["contest"]) ? $all_data["contest"] : null)) {
+
+        if ($problemModel->isBlocked($request->pid, isset($request->contest) ? $request->contest : null)) {
             return header("HTTP/1.1 403 Forbidden");
         }
 
-        $lang = $compilerModel->detail($all_data["coid"]);
+        $lang = $compilerModel->detail($request->coid);
 
         $sid = $submissionModel->insert([
             'time' => '0',
             'verdict' => 'Pending',
-            'solution' => $all_data["solution"],
+            'solution' => $request->solution,
             'language' => $lang['display_name'],
             'submission_date' => time(),
             'memory' => '0',
             'uid' => Auth::user()->id,
-            'pid' => $all_data["pid"],
+            'pid' => $request->pid,
             'remote_id' => '',
-            'coid' => $all_data["coid"],
-            'cid' => isset($all_data["contest"]) ? $all_data["contest"] : null,
-            'vcid' => isset($all_data["vcid"]) ? $all_data["vcid"] : null,
+            'coid' => $request->coid,
+            'cid' => $request->contest ?? null,
+            'vcid' => $request->vcid ?? null,
             'jid' => null,
             'score' => 0
         ]);
 
+        $all_data = $request->all();
         $all_data["sid"] = $sid;
         $all_data["oj"] = $problemModel->ocode($all_data["pid"]);
         $all_data["lang"] = $lang['lcode'];

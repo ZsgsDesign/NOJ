@@ -262,7 +262,7 @@
     <div class="row">
         <div class="col-sm-12 col-lg-9">
             <paper-card class="animated fadeInLeft p-5">
-                <link rel="stylesheet" href="/static/css/oj/{{$problem->onlineJudge->ocode}}.css">
+                <link rel="stylesheet" href="/static/css/oj/{{$problem->online_judge->ocode}}.css">
                 <fresh-container>
                     <h1>{{$detail["title"]}}</h1>
                     <info-div>

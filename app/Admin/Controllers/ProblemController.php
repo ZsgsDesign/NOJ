@@ -44,7 +44,7 @@ class ProblemController extends Controller
     public function show($id, Content $content)
     {
         $problem = Problem::findOrFail($id);
-        if (!$problem->markdown || $problem->onlinejudge->ocode !== 'noj') {
+        if (!$problem->markdown || $problem->online_judge->ocode !== 'noj') {
             return abort('403', 'Problem managed by BABEL cannot be accessed by Admin Portal.');
         }
         return $content
@@ -63,7 +63,7 @@ class ProblemController extends Controller
     public function edit($id, Content $content)
     {
         $problem = Problem::findOrFail($id);
-        if (!$problem->markdown || $problem->onlinejudge->ocode !== 'noj') {
+        if (!$problem->markdown || $problem->online_judge->ocode !== 'noj') {
             return abort('403', 'Problem managed by BABEL cannot be accessed by Admin Portal.');
         }
         return $content
@@ -119,7 +119,7 @@ class ProblemController extends Controller
         $grid->time_limit("Time/ms")->editable();
         $grid->memory_limit("Memory/kb")->editable();
         $grid->OJ("OJ")->display(function () {
-            return $this->onlinejudge->name;
+            return $this->online_judge->name;
         });
         $grid->tot_score("Score");
         $grid->partial("Partial")->display(function ($partial) {

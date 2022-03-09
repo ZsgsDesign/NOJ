@@ -65,7 +65,7 @@ class Problem extends Model
         return $this->hasMany(GroupHomeworkProblem::class, 'problem_id', 'pid');
     }
 
-    public function onlinejudge()
+    public function online_judge()
     {
         return $this->belongsTo(OJ::class, 'OJ', 'oid');
     }

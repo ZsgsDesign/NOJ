@@ -10,6 +10,10 @@ class OJ extends Model
     protected $table='oj';
     protected $primaryKey='oid';
 
+    protected $casts = [
+        'status' => 'boolean',
+    ];
+
     public function judge_servers()
     {
         return $this->hasMany('App\Models\Eloquent\JudgeServer', 'oid', 'oid');
