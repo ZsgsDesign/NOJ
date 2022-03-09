@@ -2,13 +2,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>{{$contest["name"]}}</title>
-    <meta name="author" content="{{config('app.name')}}">
-    <meta name="keywords" content="problemset,{{$contest["shortName"]}}">
-    <link rel="stylesheet" href="{{url('/static/fonts/simsun/simsun.css?version=1.0.2')}}">
-    <link rel="stylesheet" href="{{url('/static/fonts/dejavu/DejaVuSans.css?version=1.0.4')}}">
-    <link rel="stylesheet" href="{{url('/static/fonts/dejavu/DejaVuSansMono.css?version=1.0.4')}}">
-    <link rel="stylesheet" href="{{url('/static/fonts/dejavu/DejaVuSerif.css?version=1.0.4')}}">
+    <title>{{ $contest['name'] }}</title>
+    <meta name="author" content="{{ config('app.name') }}">
+    <meta name="keywords" content="problemset,{{ $contest['shortName'] }}">
+    <link rel="stylesheet" href="{{ url('/static/fonts/simsun/simsun.css?version=1.0.2') }}">
+    <link rel="stylesheet" href="{{ url('/static/fonts/dejavu/DejaVuSans.css?version=1.0.4') }}">
+    <link rel="stylesheet" href="{{ url('/static/fonts/dejavu/DejaVuSansMono.css?version=1.0.4') }}">
+    <link rel="stylesheet" href="{{ url('/static/fonts/dejavu/DejaVuSerif.css?version=1.0.4') }}">
 </head>
 
 @include("pdf.contest.css")
@@ -55,30 +55,38 @@
         font-style: normal;
         font-weight: 300;
     }
+
 </style>
 
-@if($conf['renderer'] == 'blink')
+@if ($conf['renderer'] == 'blink')
     @include('pdf.contest.renderer.blink')
 @else
     @include('pdf.contest.renderer.cpdf')
 @endif
 
 {{-- Cover Page --}}
-@if($conf['cover']) @include('pdf.contest.cover',['contest'=>$contest,'problemset'=>$problemset]) @endif
+@if ($conf['cover'])
+    @include('pdf.contest.cover', ['contest' => $contest, 'problemset' => $problemset])
+@endif
 
 {{-- Advice Page --}}
-@if($conf['advice']) @include('pdf.contest.advice') @endif
+@if ($conf['advice'])
+    @include('pdf.contest.advice')
+@endif
 
 {{-- ProblemSet --}}
-@foreach ($problemset as $problem)
+@foreach ($problemset as $contestProblem)
+    @include('pdf.contest.problem', [
+        'contestProblem' => $contestProblem,
+        'dialect' => $contestProblem->problem->getDialect($contestProblem->problem_dialect_id)
+    ])
 
-@include('pdf.contest.problem', ['problem'=>$problem])
-
-@unless($loop->last)<div class="page-breaker"></div>@endunless
-
+    @unless($loop->last)
+        <div class="page-breaker"></div>
+    @endunless
 @endforeach
 
-@if($conf['formula'] == 'svg')
+@if ($conf['formula'] == 'svg')
     @include("pdf.contest.mathjax.svg")
 @elseif($conf['formula'] == 'png')
     @include("pdf.contest.mathjax.png")
@@ -86,15 +94,15 @@
     @include("pdf.contest.mathjax.tex")
 @endif
 
-@if($conf['renderer'] == 'blink')
+@if ($conf['renderer'] == 'blink')
     <script>
-        MathJax.Hub.Queue(function () {
+        MathJax.Hub.Queue(function() {
             window.PagedPolyfill.preview();
         });
     </script>
 @else
     <script>
-        MathJax.Hub.Queue(function () {
+        MathJax.Hub.Queue(function() {
             document.querySelector('body').classList.add('rendered');
         });
     </script>

@@ -32,10 +32,10 @@
     <h2>Problems</h2>
 
     <table style="text-align: left;">
-        @foreach($problemset as $problem)
+        @foreach($problemset as $contestProblem)
         <tr>
-            <td style="padding-right: 0.5rem;">{{$problem['index']}}</td>
-            <td style="white-space: nowrap;">{{$problem['title']}}</td>
+            <td style="padding-right: 0.5rem;">{{$contestProblem->ncode}}</td>
+            <td style="white-space: nowrap;">{{$contestProblem->problem->title}}</td>
         </tr>
         @endforeach
     </table>
