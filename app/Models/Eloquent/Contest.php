@@ -162,21 +162,6 @@ class Contest extends Model
         return strtotime($this->end_time)<time();
     }
 
-    public function getProblemSet()
-    {
-        $ret=[];
-        $problemset=$this->problems;
-        foreach ($problemset as $problem) {
-            $problemDetail=Problem::find($problem->pid);
-            $problemRet=(new OutdatedProblemModel())->detail($problemDetail->pcode);
-            $problemRet['index']=$problem->ncode;
-            $problemRet['testcases']=$problemRet['samples'];
-            unset($problemRet['samples']);
-            $ret[]=$problemRet;
-        }
-        return $ret;
-    }
-
     public function isJudgingComplete()
     {
         return $this->submissions->whereIn('verdict', ['Waiting', 'Pending'])->count()==0;
