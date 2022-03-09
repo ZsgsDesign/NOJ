@@ -51,7 +51,7 @@ class Submission extends Model
     public function getNcodeAttribute()
     {
         $contest=$this->contest;
-        return $contest->problems->where('pid', $this->pid)->first()->ncode;
+        return $contest->challenges->where('pid', $this->pid)->first()->ncode;
     }
 
     public function getNickNameAttribute()
@@ -97,7 +97,7 @@ class Submission extends Model
         if (is_null($this->contest)) {
             $tot_score=100;
         } else {
-            $tot_score=$this->contest->problems->where('pid', $this->pid)->first()->points;
+            $tot_score=$this->contest->challenges->where('pid', $this->pid)->first()->points;
         }
         return round($this->score / max($this->problem->tot_score, 1) * $tot_score, 1);
     }

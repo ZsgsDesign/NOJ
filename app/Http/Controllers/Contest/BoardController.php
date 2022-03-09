@@ -98,12 +98,12 @@ class BoardController extends Controller
         $contest_name = $contestModel->contestName($cid);
         $contest_rule = $contestModel->rule($cid);
         $contest_ended = $contestModel->isContestEnded($cid);
-        $contestProblem = Contest::find($cid)->problems()->where('ncode', $ncode)->first();
-        if (blank($contestProblem)) {
+        $challenge = Contest::find($cid)->challenges()->where('ncode', $ncode)->first();
+        if (blank($challenge)) {
             return Redirect::route('contest.board.index', ['cid' => $cid]);
         }
-        $problem = $contestProblem->problem;
-        $pcode = $problemModel->pcode($contestProblem->pid);
+        $problem = $challenge->problem;
+        $pcode = $problemModel->pcode($challenge->pid);
 
         $prob_detail = $problemModel->detail($pcode, $cid);
         if ($problemModel->isBlocked($prob_detail["pid"], $cid)) {
@@ -127,7 +127,7 @@ class BoardController extends Controller
         $editor_left_width = isset($accountExt['editor_left_width']) ? $accountExt['editor_left_width'] : '40';
         $editor_theme = isset($accountExt['editor_theme']) ? $accountExt['editor_theme'] : config('app.editor_theme');
         $themeConfig = MonacoTheme::getTheme($editor_theme);
-        $dialect = $problem->getDialect(blank($contestProblem->problem_dialect_id) ? 0 : $contestProblem->problem_dialect_id);
+        $dialect = $problem->getDialect(blank($challenge->problem_dialect_id) ? 0 : $challenge->problem_dialect_id);
 
         return view('contest.board.editor', [
             'page_title' => "Problem Detail",

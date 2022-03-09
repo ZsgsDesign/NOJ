@@ -143,7 +143,7 @@ class AdminController extends Controller
                 'shortName' => $contest->name,
                 'date' => date("F j, Y", strtotime($contest->begin_time)),
             ],
-            'problemset' => $contest->problems,
+            'problemset' => $contest->challenges,
         ]);
     }
 }

@@ -21,7 +21,7 @@ class ContestController extends Controller
                 "img" => url($contest->img),
                 "begin_time" => $contest->begin_time,
                 "end_time" => $contest->end_time,
-                "problems" => count($contest->problems),
+                "problems" => count($contest->challenges),
                 "organizer" => $contest->group->name,
                 "description" => $contest->description,
                 "badges" => [
@@ -61,7 +61,7 @@ class ContestController extends Controller
             $builder=$builder->where('uid', $user==null ? -1 : $user->id);
         }
         if ($problem!==null) {
-            $problem=$contest->problems()->where('ncode', $problem)->first();
+            $problem=$contest->challenges()->where('ncode', $problem)->first();
             $builder=$builder->where('pid', $problem->pid ?? null);
         }
         if ($result!==null) {
@@ -109,7 +109,7 @@ class ContestController extends Controller
                 if ($submission->verdict=='Accepted') {
                     $score_parse=100;
                 } else if ($submission->verdict=='Partially Accepted') {
-                    $score_parse=round($submission->score / $submission->problem->tot_score * $contest->problems()->where('pid', $submission->problem->pid)->first()->points, 1);
+                    $score_parse=round($submission->score / $submission->problem->tot_score * $contest->challenges()->where('pid', $submission->problem->pid)->first()->points, 1);
                 }
             }
             $data[]=[
@@ -167,7 +167,7 @@ class ContestController extends Controller
                 'problems' => [],
                 'problemsSubHeader' => []
             ];
-            $problems=$contest->problems()->orderBy('ncode', 'asc')->get();
+            $problems=$contest->challenges()->orderBy('ncode', 'asc')->get();
             foreach ($problems as $problem) {
                 $header['problems'][]=$problem->ncode;
                 $header['problemsSubHeader'][]=$problem->submissions()->where('submission_date', '<=', $contest->frozen_time)->where('verdict', 'Accepted')->count()
@@ -182,7 +182,7 @@ class ContestController extends Controller
                 'subHeader' => false,
                 'problems' => []
             ];
-            $problems=$contest->problems()->orderBy('ncode', 'asc')->get();
+            $problems=$contest->challenges()->orderBy('ncode', 'asc')->get();
             foreach ($problems as $problem) {
                 $header['problems'][]=$problem->ncode;
             }
@@ -313,7 +313,7 @@ class ContestController extends Controller
 
     public function problems(Request $request) {
         $contest=$request->contest;
-        $contestProblems=$contest->problems()->with('problem')->orderBy('ncode', 'asc')->get();
+        $contestProblems=$contest->challenges()->with('problem')->orderBy('ncode', 'asc')->get();
         $problems=[];
         foreach ($contestProblems as $contestProblem) {
             //get status

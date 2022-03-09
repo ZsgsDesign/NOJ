@@ -67,7 +67,7 @@ class AntiCheat implements ShouldQueue
             'Partially Accepted'
         ]);
 
-        $probIndex=$contest->problems->pluck('ncode', 'pid')->all();
+        $probIndex=$contest->challenges->pluck('ncode', 'pid')->all();
         Storage::deleteDirectory("contest/anticheat/$cid/");
         sleep(1);
         $this->setProgressNow(20);

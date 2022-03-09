@@ -72,7 +72,7 @@ class Contest extends Model
     {
         $ret=[];
         $participants=$this->participants();
-        $contest_problems=$this->problems;
+        $contest_problems=$this->challenges;
         $contest_problems->load('problem');
         if ($this->rule==1) {
             // ACM/ICPC Mode
@@ -136,9 +136,14 @@ class Contest extends Model
         return $this->hasMany('App\Models\Eloquent\ContestClarification', 'cid', 'cid');
     }
 
+    public function challenges()
+    {
+        return $this->hasMany(ContestProblem::class, 'cid', 'cid')->orderBy('number', 'asc');
+    }
+
     public function problems()
     {
-        return $this->hasMany('App\Models\Eloquent\ContestProblem', 'cid', 'cid')->orderBy('number', 'asc');
+        return $this->belongsToMany(Problem::class, 'contest_problem', 'cid', 'pid', 'cid' ,'pid');
     }
 
     public function submissions()

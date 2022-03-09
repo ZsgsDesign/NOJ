@@ -16,7 +16,7 @@ class HasProblem
     public function handle($request, Closure $next)
     {
         $contest=$request->contest;
-        $contest_problem=$contest->problems()->where('pid', $request->pid)->first();
+        $contest_problem=$contest->challenges()->where('pid', $request->pid)->first();
         if (empty($contest_problem)) {
             return response()->json([
                 'success' => false,

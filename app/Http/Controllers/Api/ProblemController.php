@@ -11,7 +11,7 @@ class ProblemController extends Controller
         $submission=$request->submission;
         $problem=$submission->problem;
         $contest=$submission->contest;
-        $contest_problem=!empty($contest) ? $submission->contest->problems()->where('pid', $problem->pid)->first() : null;
+        $contest_problem=!empty($contest) ? $submission->contest->challenges()->where('pid', $problem->pid)->first() : null;
         return response()->json([
             'success' => true,
             'message' => 'Succeed',
