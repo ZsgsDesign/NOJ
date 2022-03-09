@@ -575,7 +575,7 @@
                     <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.memorylimit")}}"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
                 </div>
                 <div class="animated pre-animated cm-performance-optimistic cm-delay">
-                    <link rel="stylesheet" href="/static/css/oj/{{$detail["oj_detail"]["ocode"]}}.css">
+                    <link rel="stylesheet" href="/static/css/oj/{{$problem->onlineJudge->ocode}}.css">
                     <fresh-container>
                         <h1>
                             @if($contest_mode)
@@ -612,20 +612,20 @@
                             @endif <span data-problem-section="title">{{$detail["title"]}}</span>
                         </h1>
 
-                        @if($detail["file"] && filled($detail["file_url"]))
+                        @if($detail["file"] && filled($problem->file_url))
                             <file-card class="mt-4 mb-3">
                                 <div>
-                                    <img src="/static/fonts/fileicon/svg/{{$detail["file_ext"]}}.svg" onerror="this.src=NOJVariables.unknownfileSVG;">
+                                    <img src="/static/fonts/fileicon/svg/{{$problem->file_extension}}.svg" onerror="this.src=NOJVariables.unknownfileSVG;">
                                 </div>
                                 <div>
-                                    <h5 class="mundb-text-truncate-1">{{basename($detail["file_url"])}}</h5>
-                                    <p><a class="text-info" href="{{asset($detail["file_url"])}}">{{__("problem.download")}}</a></p>
+                                    <h5 class="mundb-text-truncate-1">{{basename($problem->file_url)}}</h5>
+                                    <p><a class="text-info" href="{{asset($problem->file_url)}}">{{__("problem.download")}}</a></p>
                                 </div>
                             </file-card>
                         @endif
 
-                        @if($detail["file"] && $detail["pdf"] && $detail["viewerShow"])
-                            @include("components.pdfViewer",["pdfSrc"=>asset($detail["file_url"])])
+                        @if($problem->file && $problem->is_pdf && $detail["viewerShow"])
+                            @include("components.pdfViewer",["pdfSrc"=>asset($problem->file_url)])
                         @endif
 
                         <div data-marker-enabled>
@@ -722,7 +722,7 @@
                 @if($contest_mode && $contest_ended)
                     <a href="/problem/{{$detail["pcode"]}}"><button type="button" class="btn btn-info" id="origialBtn"> <i class="MDI launch"></i> {{__("problem.editor.submit.original")}}</button></a>
                 @else
-                    @if(!count($compiler_list) || !$oj_detail['status'])
+                    @if(!count($compiler_list) || !$problem->onlineJudge->status)
                         <button type="button" class="btn btn-secondary" disabled> <i class="MDI send"></i> <span>{{__("problem.editor.submit.unable")}}</span></button>
                     @else
                         <button type="button" class="btn btn-primary" id="submitBtn"> <i class="MDI send"></i> <span>{{__("problem.editor.submit.normal")}}</span></button>
@@ -1082,7 +1082,7 @@
                     cid:"{{$detail["contest_id"]}}",
                     vcid:"{{$detail["vcid"]}}",
                     iid:"{{$detail["index_id"]}}",
-                    oj:"{{$detail["oj_detail"]["ocode"]}}",
+                    oj:"{{$problem->onlineJudge->ocode}}",
                     coid: chosen_coid,
                     solution: editor.getValue(),
                     @if($contest_mode) contest: {{$cid}} @endif

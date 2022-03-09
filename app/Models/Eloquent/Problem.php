@@ -19,6 +19,10 @@ class Problem extends Model
     protected $primaryKey = 'pid';
     const UPDATED_AT = "update_date";
 
+    protected $casts = [
+        'update_date' => 'date',
+    ];
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
@@ -67,6 +71,16 @@ class Problem extends Model
     public function getProblemStatusAttribute()
     {
         return $this->getProblemStatus();
+    }
+
+    public function getFileExtensionAttribute()
+    {
+        return ($this->file && filled($this->file_url)) ? pathinfo($this->file_url, PATHINFO_EXTENSION) : false;
+    }
+
+    public function getIsPdfAttribute()
+    {
+        return $this->file_extension == 'pdf';
     }
 
     public function getPublicDialectsAttribute()

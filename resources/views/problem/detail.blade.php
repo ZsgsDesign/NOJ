@@ -262,7 +262,7 @@
     <div class="row">
         <div class="col-sm-12 col-lg-9">
             <paper-card class="animated fadeInLeft p-5">
-                <link rel="stylesheet" href="/static/css/oj/{{$detail["oj_detail"]["ocode"]}}.css">
+                <link rel="stylesheet" href="/static/css/oj/{{$problem->onlineJudge->ocode}}.css">
                 <fresh-container>
                     <h1>{{$detail["title"]}}</h1>
                     <info-div>
@@ -270,20 +270,20 @@
                         <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.memorylimit")}}"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
                     </info-div>
 
-                    @if($detail["file"] && !blank($detail["file_url"]))
+                    @if($detail["file"] && !blank($problem->file_url))
                         <file-card class="mt-4 mb-3">
                             <div>
-                                <img src="/static/fonts/fileicon/svg/{{$detail["file_ext"]}}.svg" onerror="this.src=NOJVariables.unknownfileSVG;">
+                                <img src="/static/fonts/fileicon/svg/{{$problem->file_extension]}}.svg" onerror="this.src=NOJVariables.unknownfileSVG;">
                             </div>
                             <div>
-                                <h5 class="mundb-text-truncate-1">{{basename($detail["file_url"])}}</h5>
-                                <p><a class="text-info" href="{{asset($detail["file_url"])}}">{{__("problem.download")}}</a></p>
+                                <h5 class="mundb-text-truncate-1">{{basename($problem->file_url)}}</h5>
+                                <p><a class="text-info" href="{{asset($problem->file_url)}}">{{__("problem.download")}}</a></p>
                             </div>
                         </file-card>
                     @endif
 
-                    @if($detail["file"] && $detail["pdf"] && $detail["viewerShow"])
-                        @include("components.pdfViewer",["pdfSrc"=>asset($detail["file_url"])])
+                    @if($problem->file && $problem->is_pdf && $detail["viewerShow"])
+                        @include("components.pdfViewer", ["pdfSrc" => asset($problem->file_url)])
                     @endif
 
                     <div data-marker-enabled>

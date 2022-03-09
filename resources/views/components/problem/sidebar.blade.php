@@ -3,8 +3,8 @@
 <paper-card class="animated fadeInRight">
     <p>{{__("problem.info.title")}}</p>
     <div>
-        <a href="{{$detail["oj_detail"]["home_page"]}}" target="_blank"><img src="{{$detail["oj_detail"]["logo"]}}" alt="{{$detail["oj_detail"]["name"]}}" class="img-fluid mb-3"></a>
-        <p>{{__("problem.info.provider")}} <span class="wemd-black-text">{{$detail["oj_detail"]["name"]}}</span></p>
+        <a href="{{$problem->onlineJudge->home_page}}" target="_blank"><img src="{{$problem->onlineJudge->logo}}" alt="{{$problem->onlineJudge->name}}" class="img-fluid mb-3"></a>
+        <p>{{__("problem.info.provider")}} <span class="wemd-black-text">{{$problem->onlineJudge->name}}</span></p>
         @unless($detail['OJ']==1) <p><span>{{__("problem.info.origin")}}</span> <a href="{{$detail["origin"]}}" target="_blank"><i class="MDI link-variant"></i> {{$detail['source']}}</a></p> @endif
         <separate-line class="ultra-thin mb-3 mt-3"></separate-line>
         <p><span>{{__("problem.info.code")}} </span> <span class="wemd-black-text"> {{$detail["pcode"]}}</span></p>

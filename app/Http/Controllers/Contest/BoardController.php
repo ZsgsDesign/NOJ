@@ -115,7 +115,6 @@ class BoardController extends Controller
         $compiler_pref = $compilerModel->pref($compiler_list, $prob_detail["pid"], Auth::user()->id, $cid);
         $pref = $compiler_pref["pref"];
         $submit_code = $compiler_pref["code"];
-        $oj_detail = $problemModel->ojdetail($prob_detail["OJ"]);
 
         if (empty($prob_status)) {
             $prob_status = [
@@ -147,7 +146,6 @@ class BoardController extends Controller
             'contest_rule' => $contest_rule,
             'problem_set' => $problemSet,
             'clearance' => $clearance,
-            'oj_detail' => $oj_detail,
             'editor_left_width' => $editor_left_width,
             'theme_config' => $themeConfig,
             'problem' => $problem,
