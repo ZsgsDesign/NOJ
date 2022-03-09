@@ -31,14 +31,12 @@ class MainController extends Controller
         ]);
     }
 
-    public function oldRedirect(Request $request)
+    public function legacyRedirect(Request $request)
     {
-        $all_data = $request->all();
-        $method = isset($all_data["method"]) ? $all_data["method"] : null;
-        $id = isset($all_data["id"]) ? $all_data["id"] : null;
-        if ($method == "showdetail" && !is_null($id)) {
-            $problemModel = new ProblemModel();
-            return ($problemModel->existPCode("NOJ$id")) ? Redirect::route('problem.detail', ['pcode' => "NOJ$id"]) : Redirect::route('problem.index');
+        $method = $request->method ?? null;
+        $id = $request->id ?? null;
+        if ($method == "showdetail" && filled($id)) {
+            return (Problem::where('pcode', "NOJ$id")->count() > 0) ? Redirect::route('problem.detail', ['pcode' => "NOJ$id"]) : Redirect::route('problem.index');
         }
         return Redirect::route('home');
     }
