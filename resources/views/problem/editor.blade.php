@@ -564,15 +564,15 @@
                     <button class="btn btn-outline-secondary" id="backBtn"><i class="MDI arrow-left"></i>  {{__("problem.back")}}</button>
                     @if($contest_mode)
                         @if($contest_rule==1)
-                            <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.acratio")}}"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['passed_count']}} / {{$detail['submission_count']}}</info-badge>
+                            <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.acratio")}}"><i class="MDI checkbox-multiple-marked-circle"></i> {{$statistics['passed_count']}} / {{$statistics['submission_count']}}</info-badge>
                         @else
-                            <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.totalpoints")}}"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail["points"]}} Points</info-badge>
+                            <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.totalpoints")}}"><i class="MDI checkbox-multiple-marked-circle"></i> {{$challenge->points}} Points</info-badge>
                         @endif
                     @else
-                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.acrate")}}"><i class="MDI checkbox-multiple-marked-circle"></i> {{$detail['ac_rate']}}%</info-badge>
+                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.acrate")}}"><i class="MDI checkbox-multiple-marked-circle"></i> {{$statistics['ac_rate']}}%</info-badge>
                     @endif
-                    <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.timelimit")}}"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
-                    <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.memorylimit")}}"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
+                    <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.timelimit")}}"><i class="MDI timer"></i> {{$problem->time_limit}}ms</info-badge>
+                    <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.memorylimit")}}"><i class="MDI memory"></i> {{$problem->memory_limit}}K</info-badge>
                 </div>
                 <div class="animated pre-animated cm-performance-optimistic cm-delay">
                     <link rel="stylesheet" href="/static/css/oj/{{$problem->online_judge->ocode}}.css">
@@ -609,10 +609,10 @@
                                     @endforeach
                                 </div>
                             </div>
-                            @endif <span data-problem-section="title">{{$detail["title"]}}</span>
+                            @endif <span data-problem-section="title">{{$problem->title}}</span>
                         </h1>
 
-                        @if($detail["file"] && filled($problem->file_url))
+                        @if($problem->file && filled($problem->file_url))
                             <file-card class="mt-4 mb-3">
                                 <div>
                                     <img src="/static/fonts/fileicon/svg/{{$problem->file_extension}}.svg" onerror="this.src=NOJVariables.unknownfileSVG;">
@@ -692,7 +692,7 @@
             </right-side>
         </top-side>
         <bottom-side>
-            <a tabindex="0" @if($status["verdict"]=="Compile Error") title="Compile Info" data-content="{{$status["compile_info"]}}"@endif style="color: #7a8e97" id="verdict_info" class="{{$status["color"]}}"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">{{$status["verdict"]}} @if($status["verdict"]=="Partially Accepted")({{round($status["score"]/$detail["tot_score"]*$detail["points"])}})@endif</span></a>
+            <a tabindex="0" @if($status["verdict"]=="Compile Error") title="Compile Info" data-content="{{$status["compile_info"]}}"@endif style="color: #7a8e97" id="verdict_info" class="{{$status["color"]}}"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">{{$status["verdict"]}} @if($status["verdict"] == "Partially Accepted")({{round($status["score"] / $problem->tot_score * ($challenge->points ?? 0))}})@endif</span></a>
             <div>
                 <div class="btn-group dropup">
                     <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_theme_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -720,7 +720,7 @@
                     @endif
                 </div>
                 @if($contest_mode && $contest_ended)
-                    <a href="/problem/{{$detail["pcode"]}}"><button type="button" class="btn btn-info" id="origialBtn"> <i class="MDI launch"></i> {{__("problem.editor.submit.original")}}</button></a>
+                    <a href="/problem/{{$problem->pcode}}"><button type="button" class="btn btn-info" id="origialBtn"> <i class="MDI launch"></i> {{__("problem.editor.submit.original")}}</button></a>
                 @else
                     @if(!count($compiler_list) || !$problem->online_judge->status)
                         <button type="button" class="btn btn-secondary" disabled> <i class="MDI send"></i> <span>{{__("problem.editor.submit.unable")}}</span></button>
@@ -838,8 +838,8 @@
         var submission_processing=false;
         var chosen_lang="@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['lcode']}}@endif";
         var chosen_coid="@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['coid']}}@endif";
-        var tot_points=parseInt("{{$detail["points"]}}");
-        var tot_scores=parseInt("{{$detail["tot_score"]}}");
+        var tot_points=parseInt("{{$challenge->points ?? 0}}");
+        var tot_scores=parseInt("{{$problem->tot_score}}");
         var problemEnable=true,editorEnable=true;
 
         var saveWidthTimeout = null;
@@ -956,7 +956,7 @@
                 type: 'POST',
                 url: "{{route('ajax.problem.getDialect')}}",
                 data: {
-                    problem_id: "{{$detail['pid']}}",
+                    problem_id: "{{$problem->pid}}",
                     dialect_id: dialectId
                 },
                 dataType: 'json',
@@ -1019,7 +1019,7 @@
                 type: 'POST',
                 url: '/ajax/submitHistory',
                 data: {
-                    pid: {{$detail["pid"]}},
+                    pid: "{{$problem->pid}}",
                     @if($contest_mode) cid: {{$cid}} @endif
                 },
                 dataType: 'json',
@@ -1082,11 +1082,11 @@
                 url: '/ajax/submitSolution',
                 data: {
                     lang: chosen_lang,
-                    pid:{{$detail["pid"]}},
-                    pcode:"{{$detail["pcode"]}}",
-                    cid:"{{$detail["contest_id"]}}",
-                    vcid:"{{$detail["vcid"]}}",
-                    iid:"{{$detail["index_id"]}}",
+                    pid:"{{$problem->pid}}",
+                    pcode:"{{$problem->pcode}}",
+                    cid:"{{$problem->contest_id}}",
+                    vcid:"{{$contest->vcid ?? null}}",
+                    iid:"{{$problem->index_id}}",
                     oj:"{{$problem->online_judge->ocode}}",
                     coid: chosen_coid,
                     solution: editor.getValue(),
@@ -1133,10 +1133,10 @@
                                         $("#verdict_info").addClass(ret.data.color);
                                         if(ret.data.verdict!="Pending" && ret.data.verdict!="Waiting" && ret.data.verdict!="Judging") {
                                             clearInterval(tempInterval);
-                                            notify(ret.data.verdict, 'Your submission to problem {{$detail["title"]}} has been proceed.',(ret.data.verdict=="Partially Accepted"||ret.data.verdict=="Accepted")?"/static/img/notify/checked.png":"/static/img/notify/cancel.png",'{{$detail["pid"]}}');
+                                            notify(ret.data.verdict, 'Your submission to problem {{$problem->title}} has been proceed.',(ret.data.verdict=="Partially Accepted"||ret.data.verdict=="Accepted")?"/static/img/notify/checked.png":"/static/img/notify/cancel.png",'{{$problem->pid}}');
                                             @if(!$contest_mode)
                                                 if (ret.data.verdict=="Accepted"){
-                                                    localStorage.setItem('{{$detail["pcode"]}}','```\n' + editor.getValue() + '\n```')
+                                                    localStorage.setItem('{{$problem->pcode}}','```\n' + editor.getValue() + '\n```')
                                                     playCongratulation('editor-container');
                                                     setTimeout(function(){
                                                         confirm({
@@ -1145,7 +1145,7 @@
                                                             keyboard: false
                                                         }, function(deny){
                                                             if (!deny){
-                                                                location.href = '/problem/{{$detail["pcode"]}}/solution';
+                                                                location.href = '/problem/{{$problem->pcode}}/solution';
                                                             }else{
                                                                 cleanAnimation('editor-container');
                                                             }
@@ -1201,7 +1201,7 @@
             @if($contest_mode)
                 location.href="/contest/{{$cid}}/board/challenge/";
             @else
-                location.href="/problem/{{$detail["pcode"]}}";
+                location.href="/problem/{{$problem->pcode}}";
             @endif
         },false);
 

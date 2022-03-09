@@ -41,6 +41,12 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             'bindings',
         ],
+
+        'problem.valid' => [
+            'problem.exists',
+            'problem.not_hidden',
+            'problem.not_blockaded',
+        ],
     ];
 
     /**
@@ -66,9 +72,15 @@ class Kernel extends HttpKernel
         'group.exist' => \App\Http\Middleware\Group\Exists::class,
         'group.banned' => \App\Http\Middleware\Group\Banned::class,
 
+        'problem.exists' => \App\Http\Middleware\Problem\Exists::class,
+        'problem.not_hidden' => \App\Http\Middleware\Problem\NotHidden::class,
+        'problem.not_blockaded' => \App\Http\Middleware\Problem\NotBlockaded::class,
+
         'contest.exists' => \App\Http\Middleware\Contest\Exists::class,
         'contest.desktop' => \App\Http\Middleware\Contest\IsDesktop::class,
         'contest.board.admin.pdfview.clearance' => \App\Http\Middleware\Contest\Board\Admin\PDFView\Clearance::class,
+        'contest.challenge.exists' => \App\Http\Middleware\Contest\Challenge\Exists::class,
+        'contest.challenge.problem.exists' => \App\Http\Middleware\Contest\Challenge\Problem\Exists::class,
 
         'user.banned' => \App\Http\Middleware\User\Banned::class,
 

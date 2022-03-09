@@ -337,10 +337,10 @@
         <div class="col-sm-12 col-lg-9">
             <paper-card class="animated fadeInLeft p-5">
                 <fresh-container>
-                    <h1>{{$detail["title"]}}</h1>
+                    <h1>{{$problem->title}}</h1>
                     <info-div>
-                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.timelimit")}}"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
-                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.memorylimit")}}"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
+                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.timelimit")}}"><i class="MDI timer"></i> {{$problem->time_limit}}ms</info-badge>
+                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.memorylimit")}}"><i class="MDI memory"></i> {{$problem->memory_limit}}K</info-badge>
                     </info-div>
                 </fresh-container>
             </paper-card>
@@ -360,7 +360,7 @@
                                 <p>{{trans_choice("problem.discussion.comments", $d['comment_count'])}}</p>
                             </div>
                             <div class="post-title">
-                            <h3><a href="/discussion/{{$d['pdid']}}">{{$d["title"]}}</a></h3>
+                            <h3><a href="{{route('problem.discussion.post', ['pcode'=> $problem->pcode, 'dcode' => $d['pdid']])}}">{{$d["title"]}}</a></h3>
                                 <div class="user-section">
                                     <a href="/user/{{$d['uid']}}" class="wemd-grey-text wemd-text-darken-3"><img src="{{$d['avatar']}}" class="cm-avatar-square">{{$d["name"]}}</a> <span class="pl-1 wemd-grey-text"><i class="MDI clock"></i> {{$d['updated_at']}}</span>
                                 </div>
@@ -377,7 +377,7 @@
                 <button type="button" class="btn btn-secondary" style="margin-top: 5px;" id="descBtn"><i class="MDI comment-text-outline"></i> {{__("problem.action.description")}} </button>
                 <button type="button" class="btn btn-secondary" id="solutionBtn"><i class="MDI comment-check-outline"></i> {{__("problem.action.solution")}} </button>
             </paper-card>
-            <x-problem.sidebar :problem="$problem" :detail="$detail"></x-problem.sidebar>
+            <x-problem.sidebar :problem="$problem"></x-problem.sidebar>
         </div>
     </div>
 </div>
@@ -407,15 +407,15 @@
 </div>
 <script>
     document.getElementById("submitBtn").addEventListener("click",function(){
-        location.href="/problem/{{$detail["pcode"]}}/editor";
+        location.href="/problem/{{$problem->pcode}}/editor";
     },false)
 
     document.getElementById("descBtn").addEventListener("click",function(){
-        location.href="/problem/{{$detail["pcode"]}}/";
+        location.href="/problem/{{$problem->pcode}}/";
     },false)
 
     document.getElementById("solutionBtn").addEventListener("click",function(){
-        location.href="/problem/{{$detail["pcode"]}}/solution";
+        location.href="/problem/{{$problem->pcode}}/solution";
     },false)
 </script>
 @endsection
@@ -430,7 +430,7 @@
         var simplemde = createNOJMarkdownEditor({
             autosave: {
                 enabled: true,
-                uniqueId: "problem_disscussion_post_{{$detail['pcode']}}",
+                uniqueId: "problem_disscussion_post_{{$problem->pcode}}",
                 delay: 1000,
             },
             element: $("#markdown_editor")[0],
@@ -444,7 +444,7 @@
                 type: 'POST',
                 url: '/ajax/postDiscussion',
                 data: {
-                    pid: '{{$detail['pid']}}',
+                    pid: '{{$problem->pid}}',
                     title: $('#post_title').val(),
                     content: simplemde.value()
                 },
@@ -454,7 +454,7 @@
                 }, success: function(ret){
                     // console.log(ret);
                     if (ret.ret==200) {
-                        location.href = "/discussion/" + ret.data;
+                        location.href = ret.data.url;
                     } else {
                         alert(ret.desc);
                     }

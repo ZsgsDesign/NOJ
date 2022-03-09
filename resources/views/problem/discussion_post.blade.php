@@ -496,7 +496,7 @@
                 <button type="button" class="btn btn-secondary" style="margin-top: 5px;" id="descBtn"><i class="MDI comment-text-outline"></i> {{__("problem.action.description")}} </button>
                 <button type="button" class="btn btn-secondary" id="solutionBtn"><i class="MDI comment-check-outline"></i> {{__("problem.action.solution")}} </button>
             </paper-card>
-            <x-problem.sidebar :problem="$problem" :detail="$detail"></x-problem.sidebar>
+            <x-problem.sidebar :problem="$problem"></x-problem.sidebar>
         </div>
     </div>
 </div>
@@ -522,13 +522,13 @@
     </div>
 <script>
     document.getElementById("backBtn").addEventListener("click",function(){
-        location.href="/problem/{{$detail["pcode"]}}/discussion";
+        location.href="/problem/{{$problem->pcode}}/discussion";
     },false)
     document.getElementById("descBtn").addEventListener("click",function(){
-        location.href="/problem/{{$detail["pcode"]}}/";
+        location.href="/problem/{{$problem->pcode}}/";
     },false)
     document.getElementById("solutionBtn").addEventListener("click",function(){
-        location.href="/problem/{{$detail["pcode"]}}/solution";
+        location.href="/problem/{{$problem->pcode}}/solution";
     },false)
 </script>
 @endsection

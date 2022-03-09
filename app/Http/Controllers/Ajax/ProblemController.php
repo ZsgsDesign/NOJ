@@ -253,7 +253,9 @@ class ProblemController extends Controller
             return ResponseModel::err(3001);
         }
         $ret = $problemModel->addDiscussion(Auth::user()->id, $pid, $title, $content);
-        return $ret ? ResponseModel::success(200, null, $ret) : ResponseModel::err(3003);
+        return $ret ? ResponseModel::success(200, null, [
+            'url' => route('problem.discussion.post', ['pcode'=> $basic['pcode'], 'dcode' => $ret])
+        ]) : ResponseModel::err(3003);
     }
 
     public function addComment(Request $request)

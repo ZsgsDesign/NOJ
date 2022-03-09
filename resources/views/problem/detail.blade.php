@@ -264,16 +264,16 @@
             <paper-card class="animated fadeInLeft p-5">
                 <link rel="stylesheet" href="/static/css/oj/{{$problem->online_judge->ocode}}.css">
                 <fresh-container>
-                    <h1>{{$detail["title"]}}</h1>
+                    <h1>{{$problem->title}}</h1>
                     <info-div>
-                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.timelimit")}}"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
-                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.memorylimit")}}"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
+                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.timelimit")}}"><i class="MDI timer"></i> {{$problem->time_limit}}ms</info-badge>
+                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.memorylimit")}}"><i class="MDI memory"></i> {{$problem->memory_limit}}K</info-badge>
                     </info-div>
 
-                    @if($detail["file"] && !blank($problem->file_url))
+                    @if($problem->file && !blank($problem->file_url))
                         <file-card class="mt-4 mb-3">
                             <div>
-                                <img src="/static/fonts/fileicon/svg/{{$problem->file_extension]}}.svg" onerror="this.src=NOJVariables.unknownfileSVG;">
+                                <img src="/static/fonts/fileicon/svg/{{$problem->file_extension}}.svg" onerror="this.src=NOJVariables.unknownfileSVG;">
                             </div>
                             <div>
                                 <h5 class="mundb-text-truncate-1">{{basename($problem->file_url)}}</h5>
@@ -344,7 +344,7 @@
                 <button type="button" class="btn btn-secondary" id="discussionBtn" style="margin-top: 5px;"><i class="MDI comment-multiple-outline"></i> {{__("problem.action.discussion")}} </button>
                 <button type="button" class="btn btn-secondary" id="solutionBtn"><i class="MDI comment-check-outline"></i> {{__("problem.action.solution")}} </button>
             </paper-card>
-            <x-problem.sidebar :problem="$problem" :detail="$detail"></x-problem.sidebar>
+            <x-problem.sidebar :problem="$problem"></x-problem.sidebar>
         </div>
     </div>
 </div>
@@ -357,15 +357,15 @@
     }, false);
 
     document.getElementById("submitBtn").addEventListener("click",function(){
-        location.href="/problem/{{$detail["pcode"]}}/editor";
+        location.href="/problem/{{$problem->pcode}}/editor";
     },false)
 
     document.getElementById("solutionBtn").addEventListener("click",function(){
-        location.href="/problem/{{$detail["pcode"]}}/solution";
+        location.href="/problem/{{$problem->pcode}}/solution";
     },false)
 
     document.getElementById("discussionBtn").addEventListener("click",function(){
-        location.href="/problem/{{$detail["pcode"]}}/discussion";
+        location.href="/problem/{{$problem->pcode}}/discussion";
     },false)
 </script>
 @include("js.common.mathjax")

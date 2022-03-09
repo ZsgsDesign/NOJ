@@ -9,7 +9,6 @@ class ContestProblem extends Model
 {
     protected $table='contest_problem';
     protected $primaryKey='cpid';
-    public $timestamps=null;
 
     protected $fillable=[
         'number', 'ncode', 'pid', 'alias', 'points'

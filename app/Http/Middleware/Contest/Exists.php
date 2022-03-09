@@ -10,15 +10,13 @@ class Exists
     public function handle($request, Closure $next)
     {
         $contest = Contest::find($request->cid);
-
-        if(blank($contest)) {
+        if (filled($contest)) {
+            $request->merge([
+                'contest_instance' => $contest
+            ]);
+            return $next($request);
+        } else {
             return redirect()->route('contest.index');
         }
-
-        $request->merge([
-            'contestInstance' => $contest
-        ]);
-
-        return $next($request);
     }
 }

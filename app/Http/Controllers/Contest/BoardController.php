@@ -76,12 +76,14 @@ class BoardController extends Controller
      *
      * @return Response
      */
-    public function editor($cid, $ncode)
+    public function editor(Request $request)
     {
+        $cid = $request->cid;
+        $ncode = $request->ncode;
         $contestModel = new ContestModel();
-        $problemModel = new ProblemModel();
         $compilerModel = new CompilerModel();
         $submissionModel = new SubmissionModel();
+
         $clearance = $contestModel->judgeClearance($cid, Auth::user()->id);
         $basicInfo = $contestModel->basic($cid);
         if (!$clearance || time() < strtotime($basicInfo['begin_time'])) {
@@ -98,21 +100,15 @@ class BoardController extends Controller
         $contest_name = $contestModel->contestName($cid);
         $contest_rule = $contestModel->rule($cid);
         $contest_ended = $contestModel->isContestEnded($cid);
-        $challenge = Contest::find($cid)->challenges()->where('ncode', $ncode)->first();
-        if (blank($challenge)) {
-            return Redirect::route('contest.board.index', ['cid' => $cid]);
-        }
-        $problem = $challenge->problem;
-        $pcode = $problemModel->pcode($challenge->pid);
 
-        $prob_detail = $problemModel->detail($pcode, $cid);
-        if ($problemModel->isBlocked($prob_detail["pid"], $cid)) {
-            return abort('403');
-        }
-        $compiler_list = $compilerModel->list($prob_detail["OJ"], $prob_detail["pid"]);
-        $prob_status = $submissionModel->getProblemStatus($prob_detail["pid"], Auth::user()->id, $cid);
+        $contest = $request->contest_instance;
+        $challenge = $request->challenge_instance;
+        $problem = $request->problem_instance;
+
+        $compiler_list = $compilerModel->list($problem->OJ, $problem->pid);
+        $prob_status = $submissionModel->getProblemStatus($problem->pid, Auth::user()->id, $cid);
         $problemSet = $contestModel->contestProblems($cid, Auth::user()->id);
-        $compiler_pref = $compilerModel->pref($compiler_list, $prob_detail["pid"], Auth::user()->id, $cid);
+        $compiler_pref = $compilerModel->pref($compiler_list, $problem->pid, Auth::user()->id, $cid);
         $pref = $compiler_pref["pref"];
         $submit_code = $compiler_pref["code"];
 
@@ -135,13 +131,14 @@ class BoardController extends Controller
             'site_title' => $contest_name,
             'contest_name' => $contest_name,
             'cid' => $cid,
-            'detail' => $prob_detail,
             'compiler_list' => $compiler_list,
             'status' => $prob_status,
             'pref' => $pref < 0 ? 0 : $pref,
             'submit_code' => $submit_code,
             'contest_mode' => true,
             'contest_ended' => $contest_ended,
+            'challenge' => $challenge,
+            'contest' => $contest,
             'ncode' => $ncode,
             'contest_rule' => $contest_rule,
             'problem_set' => $problemSet,
@@ -149,6 +146,7 @@ class BoardController extends Controller
             'editor_left_width' => $editor_left_width,
             'theme_config' => $themeConfig,
             'problem' => $problem,
+            'statistics' => $problem->statistics,
             'dialect' => $dialect,
             'editor_themes' => MonacoTheme::getAll(),
         ]);

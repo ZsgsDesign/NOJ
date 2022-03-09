@@ -451,10 +451,10 @@
         <div class="col-sm-12 col-lg-9">
             <paper-card class="animated fadeInLeft p-5">
                 <fresh-container>
-                    <h1>{{$detail["title"]}}</h1>
+                    <h1>{{$problem->title}}</h1>
                     <info-div>
-                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.timelimit")}}"><i class="MDI timer"></i> {{$detail['time_limit']}}ms</info-badge>
-                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.memorylimit")}}"><i class="MDI memory"></i> {{$detail['memory_limit']}}K</info-badge>
+                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.timelimit")}}"><i class="MDI timer"></i> {{$problem->time_limit}}ms</info-badge>
+                        <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.memorylimit")}}"><i class="MDI memory"></i> {{$problem->memory_limit}}K</info-badge>
                     </info-div>
                 </fresh-container>
             </paper-card>
@@ -545,21 +545,21 @@
                 <button type="button" class="btn btn-secondary" style="margin-top: 5px;" id="descBtn"><i class="MDI comment-text-outline"></i> {{__("problem.action.description")}} </button>
                 <button type="button" class="btn btn-secondary" id="discussionBtn"><i class="MDI comment-multiple-outline"></i> {{__("problem.action.discussion")}} </button>
             </paper-card>
-            <x-problem.sidebar :problem="$problem" :detail="$detail"></x-problem.sidebar>
+            <x-problem.sidebar :problem="$problem"></x-problem.sidebar>
         </div>
     </div>
 </div>
 <script>
     document.getElementById("submitBtn").addEventListener("click",function(){
-        location.href="/problem/{{$detail["pcode"]}}/editor";
+        location.href="/problem/{{$problem->pcode}}/editor";
     },false)
 
     document.getElementById("descBtn").addEventListener("click",function(){
-        location.href="/problem/{{$detail["pcode"]}}/";
+        location.href="/problem/{{$problem->pcode}}/";
     },false)
 
     document.getElementById("discussionBtn").addEventListener("click",function(){
-        location.href="/problem/{{$detail["pcode"]}}/discussion";
+        location.href="/problem/{{$problem->pcode}}/discussion";
     },false)
 </script>
 @endsection
@@ -573,7 +573,7 @@
         var simplemde = createNOJMarkdownEditor({
             autosave: {
                 enabled: true,
-                uniqueId: "problemSolutionDiscussion_{{Auth::user()->id}}_{{$detail["pid"]}}",
+                uniqueId: "problemSolutionDiscussion_{{Auth::user()->id}}_{{$problem->pid}}",
                 delay: 1000,
             },
             element: $("#solution_editor")[0],
@@ -594,7 +594,7 @@
                     type: 'POST',
                     url: '/ajax/submitSolutionDiscussion',
                     data: {
-                        pid: '{{$detail["pid"]}}',
+                        pid: '{{$problem->pid}}',
                         content: simplemde.value(),
                     },
                     dataType: 'json',
@@ -604,7 +604,7 @@
                         // console.log(ret);
                         if (ret.ret==200) {
                             alert("Your Solution Has Been Recieved.");
-                            localStorage.removeItem('{{$detail["pcode"]}}')
+                            localStorage.removeItem('{{$problem->pcode}}')
                             location.reload();
                         } else {
                             alert(ret.desc);
@@ -760,8 +760,8 @@
         @else
             <script>
                 window.addEventListener('load', function(){
-                    if(localStorage.getItem('{{$detail["pcode"]}}')){
-                        simplemde.value(localStorage.getItem('{{$detail["pcode"]}}'));
+                    if(localStorage.getItem('{{$problem->pcode}}')){
+                        simplemde.value(localStorage.getItem('{{$problem->pcode}}'));
                     }
                     else{
                         simplemde.value('```\n// input code here\n```');

@@ -2,34 +2,18 @@
 
 namespace App\Models\Search;
 
-use App\Models\ProblemModel;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use App\Models\Eloquent\Problem;
 
-class ProblemSearchModel extends Model
+class ProblemSearchModel
 {
-    protected $table='problem';
-    protected $primaryKey='pid';
-
     public function search($key)
     {
-        $result=[];
-        if (strlen($key)>=2) {
-            $ret=self::where('pcode', $key)
-                ->orWhereRaw('MATCH(`title`) AGAINST (? IN BOOLEAN MODE)', [$key])
-                ->select('pid', 'pcode', 'title')
-                ->limit(120)
-                ->get()->all();
-            if (!empty($ret)) {
-                $result+=$ret;
-            }
+        if (strlen($key) < 2) {
+            return [];
         }
-        $problemModel=new ProblemModel();
-        foreach ($result as $p_index => $p) {
-            if ($problemModel->isBlocked($p['pid']) || $problemModel->isHidden($p["pid"])) {
-                unset($result[$p_index]);
-            }
-        }
-        return $result;
+
+        return Problem::where('pcode', $key)->orWhereRaw('MATCH(`title`) AGAINST (? IN BOOLEAN MODE)', [$key])->limit(120)->get()->filter(function ($problem) {
+            return !$problem->checkContestBlockade() && !$problem->is_hidden;
+        })->map->only(['pid', 'pcode', 'title'])->all();
     }
 }

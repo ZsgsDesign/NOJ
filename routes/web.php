@@ -58,13 +58,18 @@ Route::group(['prefix' => 'user','as' => 'user.', 'middleware' => ['user.banned'
 
 Route::group(['prefix' => 'problem', 'middleware' => ['user.banned', 'contest_account']], function () {
     Route::get('/', 'ProblemController@index')->name('problem.index');
-    Route::get('/{pcode}', 'ProblemController@detail')->name('problem.detail');
-    Route::get('/{pcode}/editor', 'ProblemController@editor')->middleware('auth')->name('problem.editor');
-    Route::get('/{pcode}/solution', 'ProblemController@solution')->middleware('auth')->name('problem.solution');
-    Route::get('/{pcode}/discussion', 'ProblemController@discussion')->middleware('auth')->name('problem.discussion');
+    Route::group(['prefix' => '{pcode}', 'middleware' => ['problem.valid']], function () {
+        Route::get('/', 'ProblemController@detail')->name('problem.detail');
+        Route::group(['middleware' => ['auth']], function () {
+            Route::get('/editor', 'ProblemController@editor')->name('problem.editor');
+            Route::get('/solution', 'ProblemController@solution')->name('problem.solution');
+            Route::group(['prefix' => 'discussion'], function () {
+                Route::get('/', 'ProblemController@discussion')->name('problem.discussion');
+                Route::get('/{dcode}', 'ProblemController@discussionPost')->name('problem.discussion.post');
+            });
+        });
+    });
 });
-
-Route::get('/discussion/{dcode}', 'ProblemController@discussionPost')->middleware('auth', 'contest_account', 'user.banned')->name('problem.discussion.post');
 
 Route::get('/status', 'StatusController@index')->middleware('contest_account', 'user.banned')->name('status.index');
 
@@ -99,22 +104,18 @@ Route::group([ 'namespace' => 'Contest', 'prefix' => 'contest', 'as' => 'contest
     Route::get('/', 'IndexController@index')->name('index');
 
     Route::group(['prefix' => '{cid}', 'middleware' => ['contest.exists']], function () {
-
         Route::get('/', 'IndexController@detail')->name('detail');
-
         Route::group(['as' => 'board.', 'prefix' => 'board'], function () {
-
             Route::group(['middleware' => ['auth', 'contest.desktop']], function () {
                 Route::get('/', 'BoardController@board')->name('index');
                 Route::get('/challenge', 'BoardController@challenge')->name('challenge');
-                Route::get('/challenge/{ncode}', 'BoardController@editor')->name('editor');
+                Route::get('/challenge/{ncode}', 'BoardController@editor')->middleware(['contest.challenge.exists', 'contest.challenge.problem.exists', 'problem.not_blockaded:cid'])->name('editor');
                 Route::get('/rank', 'BoardController@rank')->name('rank');
                 Route::get('/status', 'BoardController@status')->name('status');
                 Route::get('/clarification', 'BoardController@clarification')->name('clarification');
                 Route::get('/print', 'BoardController@print')->name('print');
                 Route::get('/analysis', 'BoardController@analysis')->name('analysis');
             });
-
             Route::group(['prefix' => 'admin'], function () {
                 Route::group(['middleware' => ['auth']], function () {
                     Route::get('/', 'AdminController@admin')->middleware(['privileged'])->name('admin');

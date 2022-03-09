@@ -10,6 +10,7 @@ use DB;
 use Exception;
 use App\Models\Traits\LikeScope;
 use DateTimeInterface;
+use Cache;
 
 class Problem extends Model
 {
@@ -23,6 +24,7 @@ class Problem extends Model
         'update_date' => 'date',
         'force_raw' => 'boolean',
         'markdown' => 'boolean',
+        'hide' => 'boolean',
     ];
 
     protected function serializeDate(DateTimeInterface $date)
@@ -70,6 +72,16 @@ class Problem extends Model
         return $this->belongsTo(OJ::class, 'OJ', 'oid');
     }
 
+    public function contests()
+    {
+        return $this->belongsToMany(Contest::class, 'contest_problem', 'pid', 'cid', 'pid', 'cid');
+    }
+
+    public function challenges()
+    {
+        return $this->hasMany(ContestProblem::class, 'pid', 'pid');
+    }
+
     public function getProblemStatusAttribute()
     {
         return $this->getProblemStatus();
@@ -93,6 +105,44 @@ class Problem extends Model
     public function getParseMarkdownAttribute()
     {
         return !$this->force_raw && $this->markdown;
+    }
+
+    public function getIsHiddenAttribute()
+    {
+        return $this->hide;
+    }
+
+    public function getConflictContestsAttribute()
+    {
+        $conflicts = Cache::tags(['problem', 'conflict_contests'])->get($this->pid);
+        if (is_null($conflicts)) {
+            $conflicts = $this->contests()->where("end_time", ">", Carbon::now())->where('verified', true)->get()->pluck(['cid'])->all();
+            Cache::tags(['problem', 'conflict_contests'])->put($this->pid, $conflicts, 60);
+        }
+        return $conflicts;
+    }
+
+    public function checkContestBlockade(int $currentContestId = 0): bool
+    {
+        return filled($this->conflict_contests) && !collect($this->conflict_contests)->contains($currentContestId);
+    }
+
+    public function getStatisticsAttribute()
+    {
+        $statistics = Cache::tags(['problem', 'statistics'])->get($this->pid);
+        if (is_null($statistics)) {
+            $statistics = $this->submissions()->select(
+                DB::raw("count(sid) as submission_count"),
+                DB::raw("sum(verdict='accepted') as passed_count"),
+                DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
+            )->first()->only(['submission_count', 'passed_count', 'ac_rate']);
+
+            $statistics['submission_count'] = intval($statistics['submission_count']);
+            $statistics['passed_count'] = intval($statistics['passed_count']);
+            $statistics['ac_rate'] = floatval($statistics['ac_rate']);
+            Cache::tags(['problem', 'statistics'])->put($this->pid, $statistics, 60);
+        }
+        return $statistics;
     }
 
     public function getDialect(int $dialectId = 0): array

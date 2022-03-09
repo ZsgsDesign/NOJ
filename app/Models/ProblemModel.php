@@ -19,80 +19,38 @@ class ProblemModel extends Model
     public function detail($pcode, $cid=null)
     {
         $prob_detail=DB::table($this->table)->where("pcode", $pcode)->first();
-        // [Depreciated] Joint Query was depreciated here for code maintenance reasons
-        if (!is_null($prob_detail)) {
-            if ($prob_detail["force_raw"]) {
-                $prob_detail["parsed"]=[
-                    "description"=>$prob_detail["description"],
-                    "input"=>$prob_detail["input"],
-                    "output"=>$prob_detail["output"],
-                    "note"=>$prob_detail["note"],
-                    "file"=>$prob_detail["file"]
-                ];
-            } elseif ($prob_detail["markdown"]) {
-                $prob_detail["parsed"]=[
-                    "description"=>clean(convertMarkdownToHtml($prob_detail["description"])),
-                    "input"=>clean(convertMarkdownToHtml($prob_detail["input"])),
-                    "output"=>clean(convertMarkdownToHtml($prob_detail["output"])),
-                    "note"=>clean(convertMarkdownToHtml($prob_detail["note"])),
-                    "file"=>clean(convertMarkdownToHtml($prob_detail["file"]))
-                ];
-            } else {
-                $prob_detail["parsed"]=[
-                    "description"=>$prob_detail["description"],
-                    "input"=>$prob_detail["input"],
-                    "output"=>$prob_detail["output"],
-                    "note"=>$prob_detail["note"],
-                    "file"=>$prob_detail["file"]
-                ];
-            }
-            $prob_detail["pdf"]=false;
-            $prob_detail["viewerShow"]=false;
-            $prob_detail["file_ext"]=null;
-            if ($prob_detail['file'] && !blank($prob_detail['file_url'])) {
-                $prob_detail["file_ext"]=explode('.', basename($prob_detail['file_url']));
-                $prob_detail["file_ext"]=end($prob_detail["file_ext"]);
-                $prob_detail["pdf"]=Str::is("*.pdf", basename($prob_detail['file_url']));
-                $prob_detail["viewerShow"]=blank($prob_detail["parsed"]["description"]) &&
-                                            blank($prob_detail["parsed"]["input"]) &&
-                                            blank($prob_detail["parsed"]["output"]) &&
-                                            blank($prob_detail["parsed"]["note"]);
-            }
-            $prob_detail["update_date"]=date_format(date_create($prob_detail["update_date"]), 'm/d/Y H:i:s');
-            $prob_detail["oj_detail"]=DB::table("oj")->where("oid", $prob_detail["OJ"])->first();
-            $prob_detail["samples"]=DB::table("problem_sample")->where("pid", $prob_detail["pid"])->get()->all();
-            $prob_detail["tags"]=DB::table("problem_tag")->where("pid", $prob_detail["pid"])->get()->all();
-            if ($cid) {
-                $frozen_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
-                $prob_stat=DB::table("submission")->select(
-                    DB::raw("count(sid) as submission_count"),
-                    DB::raw("sum(verdict='accepted') as passed_count"),
-                    DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
-                )->where([
-                    "pid"=>$prob_detail["pid"],
-                    "cid"=>$cid,
-                ])->where("submission_date", "<", $frozen_time)->first();
-                $prob_detail['vcid']=DB::table("contest")->where(["cid"=>$cid])->select("vcid")->first()['vcid'];
-                $prob_detail["points"]=DB::table("contest_problem")->where(["cid"=>$cid, "pid"=>$prob_detail["pid"]])->select("points")->first()["points"];
-            } else {
-                $prob_stat=DB::table("submission")->select(
-                    DB::raw("count(sid) as submission_count"),
-                    DB::raw("sum(verdict='accepted') as passed_count"),
-                    DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
-                )->where(["pid"=>$prob_detail["pid"]])->first();
-                $prob_detail['vcid']=null;
-                $prob_detail["points"]=0;
-            }
-            if ($prob_stat["submission_count"]==0) {
-                $prob_detail["submission_count"]=0;
-                $prob_detail["passed_count"]=0;
-                $prob_detail["ac_rate"]=0;
-            } else {
-                $prob_detail["submission_count"]=$prob_stat["submission_count"];
-                $prob_detail["passed_count"]=$prob_stat["passed_count"];
-                $prob_detail["ac_rate"]=round($prob_stat["ac_rate"], 2);
-            }
-        }
+        // if (!is_null($prob_detail)) {
+        //     if ($cid) {
+        //         $frozen_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
+        //         $prob_stat=DB::table("submission")->select(
+        //             DB::raw("count(sid) as submission_count"),
+        //             DB::raw("sum(verdict='accepted') as passed_count"),
+        //             DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
+        //         )->where([
+        //             "pid"=>$prob_detail["pid"],
+        //             "cid"=>$cid,
+        //         ])->where("submission_date", "<", $frozen_time)->first();
+        //         $prob_detail['vcid']=DB::table("contest")->where(["cid"=>$cid])->select("vcid")->first()['vcid'];
+        //         $prob_detail["points"]=DB::table("contest_problem")->where(["cid"=>$cid, "pid"=>$prob_detail["pid"]])->select("points")->first()["points"];
+        //     } else {
+        //         $prob_stat=DB::table("submission")->select(
+        //             DB::raw("count(sid) as submission_count"),
+        //             DB::raw("sum(verdict='accepted') as passed_count"),
+        //             DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
+        //         )->where(["pid"=>$prob_detail["pid"]])->first();
+        //         $prob_detail['vcid']=null;
+        //         $prob_detail["points"]=0;
+        //     }
+        //     if ($prob_stat["submission_count"]==0) {
+        //         $prob_detail["submission_count"]=0;
+        //         $prob_detail["passed_count"]=0;
+        //         $prob_detail["ac_rate"]=0;
+        //     } else {
+        //         $prob_detail["submission_count"]=$prob_stat["submission_count"];
+        //         $prob_detail["passed_count"]=$prob_stat["passed_count"];
+        //         $prob_detail["ac_rate"]=round($prob_stat["ac_rate"], 2);
+        //     }
+        // }
         return $prob_detail;
     }
 
