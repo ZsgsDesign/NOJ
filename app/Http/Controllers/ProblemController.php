@@ -8,6 +8,7 @@ use App\Models\CompilerModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Eloquent\Tool\MonacoTheme;
+use App\Models\Services\ProblemService;
 use App\Models\Services\ProblemTagService;
 use App\Models\Services\OJService;
 use Auth;
@@ -21,23 +22,20 @@ class ProblemController extends Controller
      */
     public function index(Request $request)
     {
-        $all_data = $request->all();
-        $problemModel = new ProblemModel();
-        $filter["oj"] = isset($all_data["oj"]) ? $all_data["oj"] : null;
-        $filter["tag"] = isset($all_data["tag"]) ? $all_data["tag"] : null;
-        $list_return = $problemModel->list($filter, Auth::check() ? Auth::user()->id : null);
+        $filter["oj"] = $request->oj ?? null;
+        $filter["tag"] = $request->tag ?? null;
+        $paginator = ProblemService::list($filter);
         $tags = ProblemTagService::list();
         $onlineJudges = OJService::list();
-        if (is_null($list_return)) {
-            if (isset($all_data["page"]) && $all_data["page"] > 1) {
-                return redirect("/problem");
+        if (blank($paginator)) {
+            if (filled($request->page) && $request->page > 1) {
+                return redirect()->route('problem.index');
             } else {
                 return view('problem.index', [
                     'page_title' => "Problem",
                     'site_title' => config("app.name"),
                     'navigation' => "Problem",
-                    'prob_list' => null,
-                    'prob_paginate' => null,
+                    'paginator' => null,
                     'tags' => $tags,
                     'onlineJudges' => $onlineJudges,
                     'filter' => $filter
@@ -48,8 +46,7 @@ class ProblemController extends Controller
                 'page_title' => "Problem",
                 'site_title' => config("app.name"),
                 'navigation' => "Problem",
-                'prob_list' => $list_return['problems'],
-                'paginator' => $list_return['paginator'],
+                'paginator' => $paginator,
                 'tags' => $tags,
                 'onlineJudges' => $onlineJudges,
                 'filter' => $filter

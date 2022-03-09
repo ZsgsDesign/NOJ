@@ -93,11 +93,11 @@
 <div class="container mundb-standard-container">
     <div class="row">
         <div class="col-sm-12 col-lg-9">
-            @if(is_null($prob_list))
-            <empty-container>
-                <i class="MDI package-variant"></i>
-                <p>{{__('problem.empty')}}</p>
-            </empty-container>
+            @if(blank($paginator) || blank($paginator->all()))
+                <empty-container>
+                    <i class="MDI package-variant"></i>
+                    <p>{{__('problem.empty')}}</p>
+                </empty-container>
             @else
             <paper-card class="animated bounceInLeft">
                 <div class="table-responsive">
@@ -112,13 +112,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($prob_list as $p)
+                        @foreach ($paginator->all() as $problem)
+                        @php
+                            $statistics = $problem->statistics;
+                            $status = $problem->problem_status;
+                        @endphp
                         <tr>
-                            <th scope="row">{{$p["pcode"]}}</th>
-                            <td><i class="MDI {{$p["prob_status"]["icon"]}} {{$p["prob_status"]["color"]}}"></i> <a href="/problem/{{$p["pcode"]}}">{{$p["title"]}}</a></td>
-                            <td>{{$p["submission_count"]}}</td>
-                            <td>{{$p["passed_count"]}}</td>
-                            <td>{{$p["ac_rate"]}}%</td>
+                            <th scope="row">{{$problem->pcode}}</th>
+                            <td><i class="MDI {{$status["icon"]}} {{$status["color"]}}"></i> <a href="{{route('problem.detail', ['pcode' => $problem->pcode])}}">{{$problem->title}}</a></td>
+                            <td>{{$statistics['submission_count']}}</td>
+                            <td>{{$statistics['passed_count']}}</td>
+                            <td>{{round($statistics['ac_rate'], 2)}}%</td>
                         </tr>
                         @endforeach
                     </tbody>
