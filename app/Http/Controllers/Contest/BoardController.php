@@ -146,7 +146,7 @@ class BoardController extends Controller
             'editor_left_width' => $editor_left_width,
             'theme_config' => $themeConfig,
             'problem' => $problem,
-            'statistics' => $problem->statistics,
+            'statistics' => $challenge->statistics,
             'dialect' => $dialect,
             'editor_themes' => MonacoTheme::getAll(),
         ]);

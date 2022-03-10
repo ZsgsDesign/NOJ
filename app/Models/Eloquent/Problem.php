@@ -4,6 +4,7 @@ namespace App\Models\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Eloquent\Contest;
+use App\Models\Services\ProblemService;
 use Auth;
 use Carbon;
 use DB;
@@ -129,20 +130,7 @@ class Problem extends Model
 
     public function getStatisticsAttribute()
     {
-        $statistics = Cache::tags(['problem', 'statistics'])->get($this->pid);
-        if (is_null($statistics)) {
-            $statistics = $this->submissions()->select(
-                DB::raw("count(sid) as submission_count"),
-                DB::raw("sum(verdict='accepted') as passed_count"),
-                DB::raw("sum(verdict='accepted')/count(sid)*100 as ac_rate")
-            )->first()->only(['submission_count', 'passed_count', 'ac_rate']);
-
-            $statistics['submission_count'] = intval($statistics['submission_count']);
-            $statistics['passed_count'] = intval($statistics['passed_count']);
-            $statistics['ac_rate'] = floatval($statistics['ac_rate']);
-            Cache::tags(['problem', 'statistics'])->put($this->pid, $statistics, 60);
-        }
-        return $statistics;
+        return ProblemService::getStatistics($this);
     }
 
     public function getDialect(int $dialectId = 0): array

@@ -4,6 +4,7 @@ namespace App\Models\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Eloquent\Compiler;
+use App\Models\Services\ProblemService;
 
 class ContestProblem extends Model
 {
@@ -27,6 +28,11 @@ class ContestProblem extends Model
     public function submissions()
     {
         return $this->problem->submissions()->where('cid', $this->contest->cid);
+    }
+
+    public function getStatisticsAttribute()
+    {
+        return ProblemService::getStatistics($this->problem, $this->cid);
     }
 
     public function getCompilersAttribute()
