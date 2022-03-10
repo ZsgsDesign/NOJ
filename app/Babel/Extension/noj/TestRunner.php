@@ -4,7 +4,7 @@ namespace App\Babel\Extension\noj;
 
 use App\Models\OJModel;
 use App\Models\JudgerModel;
-use App\Models\ProblemModel;
+use App\Models\Eloquent\Problem;
 use App\Models\Eloquent\Compiler;
 
 class TestRunner
@@ -40,7 +40,6 @@ class TestRunner
     public function run()
     {
         $judgerModel = new JudgerModel();
-        $problemModel = new ProblemModel();
         $compiler = Compiler::find($this->coid);
         if(filled($compiler)) {
             $language = $compiler->lcode;
@@ -56,23 +55,23 @@ class TestRunner
             ];
             return;
         }
-        $probBasic = $problemModel->basic($this->pid);
+        $problem = Problem::find($this->pid);
         $submitURL = "http://" . $bestServer["host"] . ":" . $bestServer["port"];
         $submit_data = [
             "solution" => $this->solution,
             "language" => $language,
-            "max_cpu_time" => $probBasic["time_limit"] * ($language == "java" ? 3 : 1),
-            "max_memory" => $probBasic["memory_limit"] * 1024,
-            "test_case_id" => $probBasic["pcode"],
+            "max_cpu_time" => $problem->time_limit * ($language == "java" ? 3 : 1),
+            "max_memory" => $problem->memory_limit * 1024,
+            "test_case_id" => $problem->pcode,
             "token" => $bestServer["token"],
             "spj_version" => null,
             "spj_config" => null,
             "spj_src" => null
         ];
-        if ($probBasic["spj"] && $probBasic["spj_version"]) {
-            $submit_data["spj_version"] = $probBasic["spj_version"];
-            $submit_data["spj_config"] = $probBasic["spj_lang"];
-            $submit_data["spj_src"] = $probBasic["spj_src"];
+        if ($problem->spj && $problem->spj_version) {
+            $submit_data["spj_version"] = $problem->spj_version;
+            $submit_data["spj_config"] = $problem->spj_lang;
+            $submit_data["spj_src"] = $problem->spj_src;
         }
         $judgeClient = new JudgeClient($submit_data["token"], $submitURL);
         $temp = $judgeClient->judge($submit_data["solution"], $submit_data["language"], $submit_data["test_case_id"], [

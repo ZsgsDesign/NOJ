@@ -2,8 +2,6 @@
 
 namespace App\Babel\Crawl;
 
-use App\Models\ProblemModel;
-use Auth;
 use ErrorException;
 use Exception;
 

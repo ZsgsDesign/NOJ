@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Ajax;
 
 use App\Http\Controllers\Controller;
 use App\Models\ResponseModel;
-use App\Models\ProblemModel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Validator;
 
 class SearchController extends Controller
 {

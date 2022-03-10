@@ -4,10 +4,9 @@ namespace App\Babel\Extension\noj;
 use App\Babel\Submit\Curl;
 use App\Models\OJModel;
 use App\Models\JudgerModel;
-use App\Models\ProblemModel;
+use App\Models\Eloquent\Problem;
 use App\Models\ContestModel;
 use Illuminate\Support\Facades\Validator;
-use Requests;
 
 class Submitter extends Curl
 {
@@ -57,7 +56,6 @@ class Submitter extends Curl
             return;
         }
         $judgerModel=new JudgerModel();
-        $problemModel=new ProblemModel();
         $contestModel=new ContestModel();
         $bestServer=$judgerModel->server($this->oid);
         if (is_null($bestServer)) {
@@ -65,23 +63,23 @@ class Submitter extends Curl
             $this->sub['compile_info']="No Available Judger.";
             return;
         }
-        $probBasic=$problemModel->basic($this->post_data["pid"]);
+        $problem=Problem::find($this->post_data["pid"]);
         $submitURL="http://".$bestServer["host"].":".$bestServer["port"];
         $submit_data=[
             "solution" => $this->post_data["solution"],
             "language" => $this->post_data["lang"],
-            "max_cpu_time" => $probBasic["time_limit"] * ($this->post_data["lang"]=="java" ? 3 : 1),
-            "max_memory" => $probBasic["memory_limit"] * 1024,
-            "test_case_id" => $probBasic["pcode"],
+            "max_cpu_time" => $problem->time_limit * ($this->post_data["lang"]=="java" ? 3 : 1),
+            "max_memory" => $problem->memory_limit * 1024,
+            "test_case_id" => $problem->pcode,
             "token" => $bestServer["token"],
             "spj_version" => null,
             "spj_config" => null,
             "spj_src" => null
         ];
-        if ($probBasic["spj"] && $probBasic["spj_version"]) {
-            $submit_data["spj_version"]=$probBasic["spj_version"];
-            $submit_data["spj_config"]=$probBasic["spj_lang"];
-            $submit_data["spj_src"]=$probBasic["spj_src"];
+        if ($problem->spj && $problem->spj_version) {
+            $submit_data["spj_version"]=$problem->spj_version;
+            $submit_data["spj_config"]=$problem->spj_lang;
+            $submit_data["spj_src"]=$problem->spj_src;
         }
         $temp=$this->submitJudger($submitURL, $submit_data);
         if (isset($this->post_data["contest"])) {

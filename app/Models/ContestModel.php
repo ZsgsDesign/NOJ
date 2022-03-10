@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Eloquent\Contest;
 use App\Models\Eloquent\Compiler;
+use App\Models\Eloquent\Problem;
 use App\Models\Submission\SubmissionModel;
 use App\Models\Eloquent\User;
 use Illuminate\Database\Eloquent\Model;
@@ -885,20 +886,19 @@ class ContestModel extends Model
 
     public function getRejudgeQueue($cid, $filter)
     {
-        $problemModel=new ProblemModel();
-
         $tempQueue=DB::table("submission")->where([
             "cid"=>$cid
         ])->whereIn('verdict', $filter)->get()->all();
 
         foreach ($tempQueue as &$t) {
             $lang=Compiler::find($t["coid"]);
-            $probBasic=$problemModel->basic($t["pid"]);
-            $t["oj"]=$problemModel->ocode($t["pid"]);
+            $problem = Problem::find($t['pid']);
+
+            $t["oj"]=$problem->online_judge->ocode;
             $t["lang"]=$lang->lcode;
-            $t["cid"]=$probBasic["contest_id"];
-            $t["iid"]=$probBasic["index_id"];
-            $t["pcode"]=$probBasic["pcode"];
+            $t["cid"]=$problem->contest_id;
+            $t["iid"]=$problem->index_id;
+            $t["pcode"]=$problem->pcode;
             $t["contest"]=$cid;
         }
 

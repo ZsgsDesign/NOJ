@@ -3,14 +3,10 @@
 namespace App\Http\Controllers\Contest;
 
 use App\Models\ContestModel;
-use App\Models\ProblemModel;
-use App\Models\CompilerModel;
 use App\Models\Submission\SubmissionModel;
 use App\Http\Controllers\Controller;
 use App\Models\Eloquent\Tool\MonacoTheme;
 use Illuminate\Http\Request;
-use App\Models\Eloquent\Problem;
-use App\Models\Eloquent\Contest;
 use Auth;
 use Redirect;
 

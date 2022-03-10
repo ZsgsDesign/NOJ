@@ -3,7 +3,6 @@
 namespace App\Models\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\ProblemModel as OutdatedProblemModel;
 use Illuminate\Support\Facades\DB;
 use App\Models\ContestModel as OutdatedContestModel;
 use Cache;

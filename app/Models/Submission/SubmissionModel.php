@@ -5,7 +5,6 @@ namespace App\Models\Submission;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\ContestModel;
-use App\Models\CompilerModel;
 
 class SubmissionModel extends Model
 {
