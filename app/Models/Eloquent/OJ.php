@@ -38,7 +38,7 @@ class OJ extends Model
     {
         $compilers = Cache::tags(['onlinejudge', 'compilers'])->get($this->oid);
         if (is_null($compilers)) {
-            $compilers = $this->compilers()->where([ "available" => true, "deleted" => false])->get();
+            $compilers = $this->compilers()->where([ "available" => true, "deleted" => false])->orderBy('display_name')->get();
             Cache::tags(['onlinejudge', 'compilers'])->put($this->oid, $compilers, 60);
         }
         return $compilers;
