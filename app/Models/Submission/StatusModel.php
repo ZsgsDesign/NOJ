@@ -4,7 +4,7 @@ namespace App\Models\Submission;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use App\Models\CompilerModel;
+use App\Models\Eloquent\Compiler;
 
 class StatusModel extends Model
 {
@@ -35,8 +35,7 @@ class StatusModel extends Model
             $status["solution"]=null;
             $status['compile_info']="You don't have the permission to view this compile info.";
         }
-        $compilerModel=new CompilerModel();
-        $status["lang"]=$compilerModel->detail($status["coid"])["lang"];
+        $status["lang"]=Compiler::find($status["coid"])->lang;
         $status["owner"]=$uid==$status["uid"];
         return $status;
     }

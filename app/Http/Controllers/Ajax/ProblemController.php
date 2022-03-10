@@ -6,12 +6,12 @@ use App\Models\ProblemModel;
 use App\Models\Eloquent\Problem;
 use App\Models\Submission\SubmissionModel;
 use App\Models\ResponseModel;
-use App\Models\CompilerModel;
 use App\Babel\Babel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Jobs\ProcessSubmission;
+use App\Models\Eloquent\Submission;
 use Illuminate\Support\Facades\Validator;
 use Auth;
 
@@ -26,34 +26,32 @@ class ProblemController extends Controller
      */
     public function submitSolution(Request $request)
     {
-        $problemModel = new ProblemModel();
+        $problem = $request->problem_instance;
         $submissionModel = new SubmissionModel();
-        $compilerModel = new CompilerModel();
 
         $validator = Validator::make($request->all(), [
             'solution' => 'required|string|max:65535',
-            'pid' => 'required|integer|exists:problem,pid',
         ]);
 
         if ($validator->fails()) {
             return ResponseModel::err(3002);
         }
 
-        if (!Problem::find($request->pid)->online_judge->status) {
+        $onlineJudge = $problem->online_judge;
+        if (!$onlineJudge->status) {
             return ResponseModel::err(6001);
         }
 
-        if ($problemModel->isBlocked($request->pid, isset($request->contest) ? $request->contest : null)) {
-            return header("HTTP/1.1 403 Forbidden");
+        $compiler = $onlineJudge->compilers()->where('coid', $request->coid)->where(['available' => true, 'deleted' => false])->first();
+        if(blank($compiler)) {
+            return ResponseModel::err(3007);
         }
-
-        $lang = $compilerModel->detail($request->coid);
 
         $sid = $submissionModel->insert([
             'time' => '0',
             'verdict' => 'Pending',
             'solution' => $request->solution,
-            'language' => $lang['display_name'],
+            'language' => $compiler->display_name,
             'submission_date' => time(),
             'memory' => '0',
             'uid' => Auth::user()->id,
@@ -68,9 +66,9 @@ class ProblemController extends Controller
 
         $all_data = $request->all();
         $all_data["sid"] = $sid;
-        $all_data["oj"] = $problemModel->ocode($all_data["pid"]);
-        $all_data["lang"] = $lang['lcode'];
-        dispatch(new ProcessSubmission($all_data))->onQueue($all_data["oj"]);
+        $all_data["oj"] = $onlineJudge->ocode;
+        $all_data["lang"] = $compiler->lcode;
+        dispatch(new ProcessSubmission($all_data))->onQueue($onlineJudge->ocode);
 
         return ResponseModel::success(200, null, [
             "sid" => $sid
@@ -287,46 +285,43 @@ class ProblemController extends Controller
      */
     public function resubmitSolution(Request $request)
     {
-        $all_data = $request->all();
-        $submissionModel = new SubmissionModel();
-        $problemModel = new ProblemModel();
-        $compilerModel = new CompilerModel();
+        $submissionModel = new submissionModel();
 
-        $submissionData = $submissionModel->basic($all_data["sid"]);
+        $submission = Submission::find($request->sid);
 
-        if ($submissionData["uid"] != Auth::user()->id) {
+        if ($submission->uid != Auth::user()->id) {
             return ResponseModel::err(2001);
         }
 
-        if ($submissionData["verdict"] != "Submission Error") {
+        if ($submission->verdict != "Submission Error") {
             return ResponseModel::err(6003);
         }
 
-        $submissionModel->updateSubmission($all_data["sid"], [
+        $submissionModel->updateSubmission($request->sid, [
             "verdict" => "Pending",
             "time" => 0,
             "memory" => 0
         ]);
 
-        $problemDetails = $problemModel->basic($submissionData["pid"]);
-        $lang = $compilerModel->detail($submissionData["coid"]);
+        $problem = $submission->problem;
+        $compiler = $submission->compiler;
 
-        if (!Problem::find($submissionData["pid"])->online_judge->status) {
+        if (!Problem::find($submission->pid)->online_judge->status) {
             return ResponseModel::err(6001);
         }
 
         $proceedData = [];
-        $proceedData["lang"] = $lang["lcode"];
-        $proceedData["pid"] = $problemDetails["pid"];
-        $proceedData["pcode"] = $problemDetails["pcode"];
-        $proceedData["cid"] = $problemDetails["contest_id"];
-        $proceedData["contest"] = $submissionData["cid"];
-        $proceedData["vcid"] = $submissionData["vcid"];
-        $proceedData["iid"] = $problemDetails["index_id"];
-        $proceedData["oj"] = $problemModel->ocode($problemDetails["pid"]);
-        $proceedData["coid"] = $lang["coid"];
-        $proceedData["solution"] = $submissionData["solution"];
-        $proceedData["sid"] = $submissionData["sid"];
+        $proceedData["lang"] = $compiler->lcode;
+        $proceedData["pid"] = $problem->pid;
+        $proceedData["pcode"] = $problem->pcode;
+        $proceedData["cid"] = $problem->contest_id;
+        $proceedData["contest"] = $submission->cid;
+        $proceedData["vcid"] = $submission->vcid;
+        $proceedData["iid"] = $problem->index_id;
+        $proceedData["oj"] = $problem->online_judge->ocode;
+        $proceedData["coid"] = $compiler->coid;
+        $proceedData["solution"] = $submission->solution;
+        $proceedData["sid"] = $submission->sid;
 
         dispatch(new ProcessSubmission($proceedData))->onQueue($proceedData["oj"]);
 

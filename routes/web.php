@@ -58,7 +58,7 @@ Route::group(['prefix' => 'user','as' => 'user.', 'middleware' => ['user.banned'
 
 Route::group(['prefix' => 'problem', 'middleware' => ['user.banned', 'contest_account']], function () {
     Route::get('/', 'ProblemController@index')->name('problem.index');
-    Route::group(['prefix' => '{pcode}', 'middleware' => ['problem.valid']], function () {
+    Route::group(['prefix' => '{pcode}', 'middleware' => ['problem.valid:pcode']], function () {
         Route::get('/', 'ProblemController@detail')->name('problem.detail');
         Route::group(['middleware' => ['auth']], function () {
             Route::get('/editor', 'ProblemController@editor')->name('problem.editor');
@@ -174,8 +174,8 @@ Route::group(['namespace' => 'Tool', 'middleware' => ['contest_account', 'user.b
 });
 
 Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.banned']], function () {
-    Route::post('submitSolution', 'ProblemController@submitSolution')->middleware('auth', 'throttle:1,0.17');
-    Route::post('resubmitSolution', 'ProblemController@resubmitSolution')->middleware('auth', 'throttle:1,0.17');
+    Route::post('submitSolution', 'ProblemController@submitSolution')->middleware('auth', 'throttle:1,0.17', 'problem.valid:pid');
+    Route::post('resubmitSolution', 'ProblemController@resubmitSolution')->middleware('auth', 'throttle:1,0.17', 'problem.valid:pid');
     Route::post('judgeStatus', 'ProblemController@judgeStatus')->middleware('auth');
     Route::post('manualJudge', 'ProblemController@manualJudge')->middleware('auth');
     Route::post('submitHistory', 'ProblemController@submitHistory')->middleware('auth');

@@ -42,8 +42,14 @@ class Kernel extends HttpKernel
             'bindings',
         ],
 
-        'problem.valid' => [
-            'problem.exists',
+        'problem.valid:pcode' => [
+            'problem.exists:pcode',
+            'problem.not_hidden',
+            'problem.not_blockaded',
+        ],
+
+        'problem.valid:pid' => [
+            'problem.exists:pid',
             'problem.not_hidden',
             'problem.not_blockaded',
         ],

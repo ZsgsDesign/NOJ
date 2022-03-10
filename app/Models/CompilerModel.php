@@ -27,11 +27,6 @@ class CompilerModel extends Model
         return $compiler_list;
     }
 
-    public function detail($coid)
-    {
-        return DB::table($this->tableName)->where(["coid"=>$coid])->first();
-    }
-
     public static function add($row)
     {
         if (self::checkExist([

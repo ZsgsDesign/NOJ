@@ -14,9 +14,9 @@ class Exists
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $field = 'pcode')
     {
-        $problem = Problem::where('pcode', $request->pcode)->first();
+        $problem = Problem::where($field, $request->$field)->first();
         if (filled($problem)) {
             $request->merge([
                 'problem_instance' => $problem

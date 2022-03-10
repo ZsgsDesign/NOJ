@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Eloquent\Contest;
-use GrahamCampbell\Markdown\Facades\Markdown;
+use App\Models\Eloquent\Compiler;
 use App\Models\Submission\SubmissionModel;
 use App\Models\Eloquent\User;
 use Illuminate\Database\Eloquent\Model;
@@ -886,18 +886,16 @@ class ContestModel extends Model
     public function getRejudgeQueue($cid, $filter)
     {
         $problemModel=new ProblemModel();
-        $submissionModel=new SubmissionModel();
-        $compilerModel=new CompilerModel();
 
         $tempQueue=DB::table("submission")->where([
             "cid"=>$cid
         ])->whereIn('verdict', $filter)->get()->all();
 
         foreach ($tempQueue as &$t) {
-            $lang=$compilerModel->detail($t["coid"]);
+            $lang=Compiler::find($t["coid"]);
             $probBasic=$problemModel->basic($t["pid"]);
             $t["oj"]=$problemModel->ocode($t["pid"]);
-            $t["lang"]=$lang['lcode'];
+            $t["lang"]=$lang->lcode;
             $t["cid"]=$probBasic["contest_id"];
             $t["iid"]=$probBasic["index_id"];
             $t["pcode"]=$probBasic["pcode"];
