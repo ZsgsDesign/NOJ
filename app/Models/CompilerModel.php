@@ -26,22 +26,4 @@ class CompilerModel extends Model
         $compiler_list=$t->orderBy('display_name')->get()->all();
         return $compiler_list;
     }
-
-    public static function remove($filter)
-    {
-        return DB::table('compiler')->where($filter)->update([
-            "deleted"=>1
-        ]);
-    }
-
-    public static function modify($filter, $row)
-    {
-        $filter["deleted"]=0;
-        return DB::table('compiler')->where($filter)->update($row);
-    }
-
-    public static function checkExist($filter)
-    {
-        return boolval(DB::table('compiler')->where($filter)->count());
-    }
 }
