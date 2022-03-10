@@ -35,18 +35,14 @@ class ContestProblem extends Model
         return ProblemService::getStatistics($this->problem, $this->cid);
     }
 
-    public function getCompilersAttribute()
+    public function getLastSubmission($userId)
     {
-        $special=$this->problem->special_compiler;
-        $compilers=Compiler::where([
-            'oid' => $this->problem->OJ,
-            'available' => 1,
-            'deleted' => 0
-        ]);
-        if (!empty($special)) {
-            $compilers=$compilers->whereIn('coid', explode(',', $special));
-        }
-        return $compilers;
+        return ProblemService::getLastSubmission($this->problem, $userId, $this->cid);
+    }
+
+    public function getPreferableCompiler($userId)
+    {
+        return ProblemService::getPreferableCompiler($this->problem, $userId, $this->cid);
     }
 
     //This should be a repository...or service function ?

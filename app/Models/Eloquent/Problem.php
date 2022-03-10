@@ -128,9 +128,34 @@ class Problem extends Model
         return filled($this->conflict_contests) && !collect($this->conflict_contests)->contains($currentContestId);
     }
 
+    public function getAvailableCompilersAttribute()
+    {
+        return blank($this->special_compiler) ? $this->online_judge->available_compilers : $this->online_judge->available_compilers->whereIn('coid', explode(',', $this->special_compiler));
+    }
+
     public function getStatisticsAttribute()
     {
-        return ProblemService::getStatistics($this);
+        return $this->getStatistics();
+    }
+
+    public function getLastSubmission($userId)
+    {
+        return ProblemService::getLastSubmission($this, $userId);
+    }
+
+    public function getPreferableCompiler($userId)
+    {
+        return ProblemService::getPreferableCompiler($this, $userId);
+    }
+
+    public function getStatistics(int $currentContestId = 0)
+    {
+        return ProblemService::getStatistics($this, $currentContestId);
+    }
+
+    public function getProblemStatus($userID = null, $contestID = null, Carbon $till = null)
+    {
+        return ProblemService::getProblemStatus($this, $userID, $contestID, $till);
     }
 
     public function getDialect(int $dialectId = 0): array
@@ -165,93 +190,6 @@ class Problem extends Model
         }
         $dialect['is_blank'] = blank($dialect['description']) && blank($dialect['input']) && blank($dialect['output']) && blank($dialect['note']);
         return $dialect;
-    }
-
-    public function getProblemStatus($userID = null, $contestID = null, Carbon $till = null)
-    {
-        if (blank($userID)) {
-            if (Auth::guard('web')->check()) {
-                $userID = Auth::guard('web')->user()->id;
-            }
-        }
-
-        if (filled($userID)) {
-            $probStatus = $this->getProblemStatusFromDB($userID, $contestID, $till);
-            if (blank($probStatus)) {
-                return [
-                    "icon" => "checkbox-blank-circle-outline",
-                    "color" => "wemd-grey-text"
-                ];
-            } else {
-                return [
-                    "icon" => $probStatus->verdict == "Accepted" ? "checkbox-blank-circle" : "cisco-webex",
-                    "color" => $probStatus->color
-                ];
-            }
-        } else {
-            return [
-                "icon" => "checkbox-blank-circle-outline",
-                "color" => "wemd-grey-text"
-            ];
-        }
-    }
-
-    private function getProblemStatusFromDB($userID, $contestID = null, Carbon $till = null)
-    {
-        $endedAt = Carbon::now();
-
-        if (filled($contestID)) {
-            try {
-                $endedAt = Carbon::parse(Contest::findOrFail($contestID)->endedAt);
-            } catch (Exception $e) {
-                return null;
-            }
-        }
-
-        // Get the very first AC record
-
-        $acRecords = $this->submissions()->where([
-            'uid' => $userID,
-            'cid' => $contestID,
-            'verdict' => 'Accepted'
-        ]);
-        if (filled($contestID)) {
-            $acRecords = $acRecords->where("submission_date", "<", $endedAt->timestamp);
-        }
-        if (filled($till)) {
-            $acRecords = $acRecords->where("submission_date", "<", $till->timestamp);
-        }
-        $acRecords = $acRecords->orderBy('submission_date', 'desc')->first();
-        if (blank($acRecords)) {
-            $pacRecords = $this->submissions()->where([
-                'uid' => $userID,
-                'cid' => $contestID,
-                'verdict' => 'Partially Accepted'
-            ]);
-            if (filled($contestID)) {
-                $pacRecords = $pacRecords->where("submission_date", "<", $endedAt->timestamp);
-            }
-            if (filled($till)) {
-                $pacRecords = $pacRecords->where("submission_date", "<", $till->timestamp);
-            }
-            $pacRecords = $pacRecords->orderBy('submission_date', 'desc')->first();
-            if (blank($pacRecords)) {
-                $otherRecords = $this->submissions()->where([
-                    'uid' => $userID,
-                    'cid' => $contestID
-                ]);
-                if (filled($contestID)) {
-                    $otherRecords = $otherRecords->where("submission_date", "<", $endedAt->timestamp);
-                }
-                if (filled($till)) {
-                    $otherRecords = $otherRecords->where("submission_date", "<", $till->timestamp);
-                }
-                return $otherRecords->orderBy('submission_date', 'desc')->first();
-            }
-            return $pacRecords;
-        } else {
-            return $acRecords;
-        }
     }
 
     public function users_latest_submission($users, $contestID = null, Carbon $till = null, $verdictFilter = [])

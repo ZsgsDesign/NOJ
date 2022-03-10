@@ -3,7 +3,7 @@
 namespace App\Models\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use Cache;
 
 class OJ extends Model
 {
@@ -32,5 +32,15 @@ class OJ extends Model
     public function problems()
     {
         return $this->hasMany('App\Models\Eloquent\Problem', 'oid', 'OJ');
+    }
+
+    public function getAvailableCompilersAttribute()
+    {
+        $compilers = Cache::tags(['onlinejudge', 'compilers'])->get($this->oid);
+        if (is_null($compilers)) {
+            $compilers = $this->compilers()->where([ "available" => true, "deleted" => false])->get();
+            Cache::tags(['onlinejudge', 'compilers'])->put($this->oid, $compilers, 60);
+        }
+        return $compilers;
     }
 }

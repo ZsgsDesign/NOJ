@@ -321,7 +321,7 @@ class ContestController extends Controller
             $last_submission=$contestProblem->submissions()->where('uid', auth()->user()->id)->orderBy('submission_date', 'desc')->first();
             //get compilers
             $compilers_info=[];
-            $compilers=$contestProblem->compilers->get();
+            $compilers=$contestProblem->problem->compilers;
             foreach ($compilers as $compiler) {
                 $compilers_info[]=[
                     'coid' => $compiler->coid,

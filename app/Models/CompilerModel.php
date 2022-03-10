@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-// use League\Flysystem\Exception;
 use Exception;
 
 class CompilerModel extends Model
 {
     protected $tableName='compiler';
 
+    /**
+     * @deprecated 0.18.0 No longer used by internal code and not recommended, only used by some of the outdated Babel extensions.
+     */
     public function list($oid=1, $pid=null)
     {
         $special=null;
@@ -23,74 +25,6 @@ class CompilerModel extends Model
         }
         $compiler_list=$t->orderBy('display_name')->get()->all();
         return $compiler_list;
-    }
-
-    public function pref($compiler_list, $pid, $uid, $cid=null)
-    {
-        $countCompilerList=count($compiler_list);
-        $pref=-1;
-        $precise=true;
-        // get user pref of this problem for compilers
-        $temp_last_submission=DB::table("submission")->where(["pid"=>$pid, "uid"=>$uid, "cid"=>$cid])->orderBy('submission_date', 'desc')->first();
-        if (empty($temp_last_submission)) {
-            // get user pref of this OJ for compilers
-            $problemModel=new ProblemModel();
-            $oid=$problemModel->oid($pid);
-            $temp_last_submission=DB::table("submission")->join("problem", "submission.pid", "=", "problem.pid")->where(["OJ"=>$oid, "uid"=>$uid])->orderBy('submission_date', 'desc')->first();
-            if (empty($temp_last_submission)) {
-                // get user pref for compilers
-                $temp_last_submission=DB::table("submission")->where(["uid"=>$uid])->orderBy('submission_date', 'desc')->first();
-                if (empty($temp_last_submission)) {
-                    return [
-                        "pref"=>$pref,
-                        "code"=>""
-                    ];
-                }
-            }
-            $precise=false;
-        }
-        $last_submission=$temp_last_submission;
-        if ($precise) {
-            $ret["code"]=$last_submission["solution"];
-            $ret['code']=str_replace('\\', '\\\\', $ret['code']);
-            $ret['code']=str_replace("\r\n", "\\n", $ret['code']);
-            $ret['code']=str_replace("\n", "\\n", $ret['code']);
-            $ret['code']=str_replace("\"", "\\\"", $ret['code']);
-            $ret['code']=str_replace("<", "\<", $ret['code']);
-            $ret['code']=str_replace(">", "\>", $ret['code']);
-        } else {
-            $ret["code"]="";
-        }
-        $ret["coid"]=$last_submission["coid"];
-        $ret["detail"]=$this->detail($last_submission["coid"]);
-        // match precise compiler
-        for ($i=0; $i<$countCompilerList; $i++) {
-            if ($compiler_list[$i]["coid"]==$ret["coid"]) {
-                $pref=$i;
-                break;
-            }
-        }
-        if ($pref==-1) {
-            // precise compiler is dead, use  other compiler with same lang
-            for ($i=0; $i<$countCompilerList; $i++) {
-                if ($compiler_list[$i]["lang"]==$ret["detail"]["lang"]) {
-                    $pref=$i;
-                    break;
-                }
-            }
-        }
-        if ($pref==-1) {
-            // same lang compilers are all dead, use other compiler within the same group
-            for ($i=0; $i<$countCompilerList; $i++) {
-                if ($compiler_list[$i]["comp"]==$ret["detail"]["comp"]) {
-                    $pref=$i;
-                    break;
-                }
-            }
-        }
-        // the entire comp group dead
-        $ret["pref"]=$pref;
-        return $ret;
     }
 
     public function detail($coid)

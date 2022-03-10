@@ -5,8 +5,6 @@ namespace App\Models;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use App\Models\Submission\SubmissionModel;
-use App\Models\Eloquent\OJ;
 
 class ProblemModel extends Model
 {

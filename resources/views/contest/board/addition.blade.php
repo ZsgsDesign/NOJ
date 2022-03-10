@@ -8,7 +8,7 @@
                     type: 'POST',
                     url: '/ajax/contest/fetchClarification',
                     data: {
-                        cid: {{$cid}}
+                        cid: {{$contest->cid}}
                     },
                     dataType: 'json',
                     headers: {

@@ -3,12 +3,16 @@
 namespace App\Models\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Compiler extends Model
 {
     protected $table='compiler';
     protected $primaryKey='coid';
+
+    protected $casts = [
+        'available' => 'boolean',
+        'deleted' => 'boolean',
+    ];
 
     public function getReadableNameAttribute()
     {

@@ -81,7 +81,6 @@ class BoardController extends Controller
         $cid = $request->cid;
         $ncode = $request->ncode;
         $contestModel = new ContestModel();
-        $compilerModel = new CompilerModel();
         $submissionModel = new SubmissionModel();
 
         $clearance = $contestModel->judgeClearance($cid, Auth::user()->id);
@@ -105,12 +104,8 @@ class BoardController extends Controller
         $challenge = $request->challenge_instance;
         $problem = $request->problem_instance;
 
-        $compiler_list = $compilerModel->list($problem->OJ, $problem->pid);
         $prob_status = $submissionModel->getProblemStatus($problem->pid, Auth::user()->id, $cid);
         $problemSet = $contestModel->contestProblems($cid, Auth::user()->id);
-        $compiler_pref = $compilerModel->pref($compiler_list, $problem->pid, Auth::user()->id, $cid);
-        $pref = $compiler_pref["pref"];
-        $submit_code = $compiler_pref["code"];
 
         if (empty($prob_status)) {
             $prob_status = [
@@ -126,20 +121,15 @@ class BoardController extends Controller
         $dialect = $problem->getDialect(blank($challenge->problem_dialect_id) ? 0 : $challenge->problem_dialect_id);
 
         return view('contest.board.editor', [
-            'page_title' => "Problem Detail",
+            'page_title' => "Problem $challenge->ncode Detail",
             'navigation' => "Contest",
-            'site_title' => $contest_name,
-            'contest_name' => $contest_name,
-            'cid' => $cid,
-            'compiler_list' => $compiler_list,
+            'site_title' => $contest->name,
             'status' => $prob_status,
-            'pref' => $pref < 0 ? 0 : $pref,
-            'submit_code' => $submit_code,
+            'preferable_compiler' => $challenge->getPreferableCompiler(Auth::user()->id),
             'contest_mode' => true,
             'contest_ended' => $contest_ended,
             'challenge' => $challenge,
             'contest' => $contest,
-            'ncode' => $ncode,
             'contest_rule' => $contest_rule,
             'problem_set' => $problemSet,
             'clearance' => $clearance,

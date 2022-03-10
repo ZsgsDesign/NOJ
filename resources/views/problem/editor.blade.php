@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" noj-theme="{{config('app.theme')}}">
 
+@php
+    $availableCompilers = $preferable_compiler['compilers'];
+    $submittedCode = filled($preferable_compiler['submission']) ? $preferable_compiler['submission']->solution : '';
+    $preferredId = $preferable_compiler['preferredId'] < 0 ? 0 : $preferable_compiler['preferredId'];
+@endphp
+
 <head>
     <meta charset="UTF-8">
     <title>{{$page_title}} | {{$site_title}}</title>
@@ -580,10 +586,10 @@
                         <h1>
                             @if($contest_mode)
                             <div class="dropdown" id="problemSwitcher">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{$ncode}}</button>
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{$challenge->ncode}}</button>
                                 <div class="dropdown-menu cm-scrollable-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: top, left; top: 40px; left: 0px;">
                                     @foreach($problem_set as $p)
-                                        <a class="dropdown-item" href="@if($p["ncode"]==$ncode) # @else /contest/{{$cid}}/board/challenge/{{$p["ncode"]}} @endif">
+                                        <a class="dropdown-item" href="@if($p["ncode"]==$challenge->ncode) # @else /contest/{{$contest->cid}}/board/challenge/{{$p["ncode"]}} @endif">
                                             <span><i class="MDI {{$p["prob_status"]["icon"]}} {{$p["prob_status"]["color"]}}"></i> {{$p["ncode"]}}. {{$p["title"]}}</span>
                                         </a>
                                     @endforeach
@@ -708,13 +714,13 @@
                 <button type="button" class="btn btn-secondary cm-active" id="editorBtn"> <i class="MDI pencil"></i></button>
                 <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> {{__("problem.editor.history.button")}}</button>
                 <div class="btn-group dropup">
-                    @if(count($compiler_list))
+                    @if(filled($availableCompilers))
                         <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_lang_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="{{$compiler_list[$pref]['icon']}} colored"></i> {{$compiler_list[$pref]['display_name']}}
+                            <i class="{{$availableCompilers[$preferredId]->icon}} colored"></i> {{$availableCompilers[$preferredId]->display_name}}
                         </button>
                         <div class="dropdown-menu cm-scrollable-menu">
-                            @foreach ($compiler_list as $c)
-                                <button class="dropdown-item lang-selector" data-coid="{{$c['coid']}}" data-comp="{{$c['comp']}}" data-lang="{{$c['lang']}}" data-lcode="{{$c['lcode']}}"><i class="{{$c['icon']}} colored"></i> {{$c['display_name']}}</button>
+                            @foreach ($availableCompilers as $compiler)
+                                <button class="dropdown-item lang-selector" data-coid="{{$compiler->coid}}" data-comp="{{$compiler->comp}}" data-lang="{{$compiler->lang}}" data-lcode="{{$compiler->lcode}}"><i class="{{$compiler->icon}} colored"></i> {{$compiler->display_name}}</button>
                             @endforeach
                         </div>
                     @endif
@@ -722,7 +728,7 @@
                 @if($contest_mode && $contest_ended)
                     <a href="/problem/{{$problem->pcode}}"><button type="button" class="btn btn-info" id="origialBtn"> <i class="MDI launch"></i> {{__("problem.editor.submit.original")}}</button></a>
                 @else
-                    @if(!count($compiler_list) || !$problem->online_judge->status)
+                    @if(blank($availableCompilers) || !$problem->online_judge->status)
                         <button type="button" class="btn btn-secondary" disabled> <i class="MDI send"></i> <span>{{__("problem.editor.submit.unable")}}</span></button>
                     @else
                         <button type="button" class="btn btn-primary" id="submitBtn"> <i class="MDI send"></i> <span>{{__("problem.editor.submit.normal")}}</span></button>
@@ -826,7 +832,7 @@
     @endif
 
     @component('components.vscode')
-        editorInstance.create("@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['lang']}}@else{{'plaintext'}}@endif", "{{$theme_config['id']}}", 'monaco', "{!!$submit_code!!}").then((value) => {
+        editorInstance.create("@if(isset($availableCompilers[$preferredId])){{$availableCompilers[$preferredId]->lang}}@else{{'plaintext'}}@endif", "{{$theme_config['id']}}", 'monaco', {!!json_encode($submittedCode)!!}).then((value) => {
             editor = value[0];
             editorProvider = value[1];
         });
@@ -836,8 +842,8 @@
     <script>
         var historyOpen=false;
         var submission_processing=false;
-        var chosen_lang="@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['lcode']}}@endif";
-        var chosen_coid="@if(isset($compiler_list[$pref])){{$compiler_list[$pref]['coid']}}@endif";
+        var chosen_lang="@if(isset($availableCompilers[$preferredId])){{$availableCompilers[$preferredId]->lcode}}@endif";
+        var chosen_coid="@if(isset($availableCompilers[$preferredId])){{$availableCompilers[$preferredId]->coid}}@endif";
         var tot_points=parseInt("{{$challenge->points ?? 0}}");
         var tot_scores=parseInt("{{$problem->tot_score}}");
         var problemEnable=true,editorEnable=true;
@@ -1020,7 +1026,7 @@
                 url: '/ajax/submitHistory',
                 data: {
                     pid: "{{$problem->pid}}",
-                    @if($contest_mode) cid: {{$cid}} @endif
+                    @if($contest_mode) cid: {{$contest->cid}} @endif
                 },
                 dataType: 'json',
                 headers: {
@@ -1090,7 +1096,7 @@
                     oj:"{{$problem->online_judge->ocode}}",
                     coid: chosen_coid,
                     solution: editor.getValue(),
-                    @if($contest_mode) contest: {{$cid}} @endif
+                    @if($contest_mode) contest: {{$contest->cid}} @endif
                 },
                 dataType: 'json',
                 headers: {
@@ -1199,7 +1205,7 @@
 
         document.getElementById("backBtn").addEventListener("click",function(){
             @if($contest_mode)
-                location.href="/contest/{{$cid}}/board/challenge/";
+                location.href="/contest/{{$contest->cid}}/board/challenge/";
             @else
                 location.href="/problem/{{$problem->pcode}}";
             @endif

@@ -101,15 +101,9 @@ class ProblemController extends Controller
     public function editor(Request $request)
     {
         $problem = $request->problem_instance;
-        $compiler = new CompilerModel();
         $submission = new SubmissionModel();
 
-        $compiler_list = $compiler->list($problem->OJ, $problem->pid);
         $prob_status = $submission->getProblemStatus($problem->pid, Auth::user()->id);
-
-        $compiler_pref = $compiler->pref($compiler_list, $problem->pid, Auth::user()->id);
-        $pref = $compiler_pref["pref"];
-        $submit_code = $compiler_pref["code"];
 
         if (empty($prob_status)) {
             $prob_status = [
@@ -128,10 +122,8 @@ class ProblemController extends Controller
             'page_title' => $problem->title,
             'site_title' => config("app.name"),
             'navigation' => "Problem",
-            'compiler_list' => $compiler_list,
             'status' => $prob_status,
-            'pref' => $pref < 0 ? 0 : $pref,
-            'submit_code' => $submit_code,
+            'preferable_compiler' => $problem->getPreferableCompiler(Auth::user()->id),
             'contest_mode' => false,
             'editor_left_width' => $editor_left_width,
             'theme_config' => $themeConfig,
