@@ -3,7 +3,7 @@
 namespace App\Babel\Install;
 
 use App\Models\OJModel;
-use App\Models\CompilerModel;
+use App\Models\Eloquent\Compiler;
 use Exception;
 use Throwable;
 
@@ -104,16 +104,19 @@ class InstallerWorker
         $modifications=$json["modifications"];
         foreach ($modifications as $m) {
             if ($m["method"]=="add") {
-                CompilerModel::add([
-                    "oid"=>$this->oid,
-                    "comp"=>$m["compability"],
-                    "lang"=>$m["language"],
-                    "lcode"=>$m["code"],
-                    "icon"=>$m["icon"],
-                    "display_name"=>$m["display"],
-                    "available"=>1,
-                    "deleted"=>0
-                ]);
+                if(Compiler::where(['oid' => $this->oid, 'lcode' => $this->lcode, 'delected' => false])->count()) {
+                    throw new Exception("Duplicate Language Code");
+                }
+                $compiler = new Compiler();
+                $compiler->oid = $this->oid;
+                $compiler->comp = $m["compability"];
+                $compiler->lang = $m["language"];
+                $compiler->lcode = $m["code"];
+                $compiler->icon = $m["icon"];
+                $compiler->display_name = $m["display"];
+                $compiler->available = true;
+                $compiler->deleted = false;
+                $compiler->save();
             } elseif ($m["method"]=="modify") {
                 $modifyItem=[];
                 if (isset($m["compability"])) {

@@ -27,18 +27,6 @@ class CompilerModel extends Model
         return $compiler_list;
     }
 
-    public static function add($row)
-    {
-        if (self::checkExist([
-            "oid"=>$row["oid"],
-            "lcode"=>$row["lcode"],
-            "deleted"=>0
-        ])) {
-            throw new Exception("Duplicate Language Code");
-        }
-        return DB::table('compiler')->insert($row);
-    }
-
     public static function remove($filter)
     {
         return DB::table('compiler')->where($filter)->update([
