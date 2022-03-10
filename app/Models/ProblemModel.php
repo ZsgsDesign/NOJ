@@ -162,28 +162,6 @@ class ProblemModel extends Model
         return true;
     }
 
-    public function isBlocked($pid, $cid=null)
-    {
-        $conflictContests=DB::table("contest")
-                            ->join("contest_problem", "contest.cid", "=", "contest_problem.cid")
-                            ->where("end_time", ">", date("Y-m-d H:i:s"))
-                            ->where(["verified"=>1, "pid"=>$pid])
-                            ->select(["contest_problem.cid as cid"])
-                            ->get()
-                            ->all();
-        if (empty($conflictContests)) {
-            return false;
-        }
-        foreach ($conflictContests as $c) {
-            if ($cid==$c["cid"]) {
-                return false;
-            }
-        }
-        // header("HTTP/1.1 403 Forbidden");
-        // exit();
-        return true;
-    }
-
     public function pid($pcode)
     {
         $temp=DB::table($this->table)->where(["pcode"=>$pcode])->select("pid")->first();
