@@ -24,7 +24,7 @@ class GroupManageController extends Controller
      *
      * @param Request $request web request
      *
-     * @return JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function arrangeContest(Request $request)
     {
