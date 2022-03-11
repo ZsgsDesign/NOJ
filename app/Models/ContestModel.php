@@ -594,7 +594,6 @@ class ContestModel extends Model
             "solved_time"=>"",
             "solved_time_parsed"=>"",
             "wrong_doings"=>0,
-            "color"=>"",
         ];
 
         $frozen_time=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
