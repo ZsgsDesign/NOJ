@@ -4,18 +4,18 @@ namespace App\Utils;
 
 class MonacoThemeUtil
 {
-    protected static $theme=[
-        "material-design-darker"=>[
+    protected static $theme = [
+        "material-design-darker" => [
             "id" => "material-design-darker",
             "name" => "Default",
             "background" => "#212121"
         ],
-        "material-design-lighter"=>[
+        "material-design-lighter" => [
             "id" => "material-design-lighter",
             "name" => "Default (White)",
             "background" => "#FAFAFA"
         ],
-        "hc-black"=>[
+        "hc-black" => [
             "id" => "hc-black",
             "name" => "Default (High Contrast)",
             "background" => "#000000"
@@ -135,7 +135,7 @@ class MonacoThemeUtil
         //     "name" => "Katzenmilch",
         //     "background" => "#E8E9E8"
         // ],
-        "kimbie-dark"=>[
+        "kimbie-dark" => [
             "id" => "kimbie-dark",
             "name" => "Kimbie Dark",
             "background" => "#221a0f"
@@ -195,12 +195,12 @@ class MonacoThemeUtil
         //     "name" => "Oceanic Next",
         //     "background" => "#1B2B34"
         // ],
-        "onehalf-dark"=>[
+        "onehalf-dark" => [
             "id" => "onehalf-dark",
             "name" => "One Half Dark",
             "background" => "#282c34"
         ],
-        "onehalf-light"=>[
+        "onehalf-light" => [
             "id" => "onehalf-light",
             "name" => "One Half Light",
             "background" => "#fafafa"
@@ -295,17 +295,17 @@ class MonacoThemeUtil
         //     "name" => "Vibrant Ink",
         //     "background" => "#000000"
         // ],
-        "vs-dark"=>[
+        "vs-dark" => [
             "id" => "vs-dark",
             "name" => "Visual Studio",
             "background" => "rgb(30,30,30)"
         ],
-        "vs"=>[
+        "vs" => [
             "id" => "vs",
             "name" => "Visual Studio (White)",
             "background" => "rgb(255,255,254)"
         ],
-        "winter-is-coming"=>[
+        "winter-is-coming" => [
             "id" => "winter-is-coming",
             "name" => "Winter is Coming",
             "background" => "#011627"
@@ -337,7 +337,8 @@ class MonacoThemeUtil
         // ],
     ];
 
-    public static function getTheme($id) {
+    public static function getTheme($id)
+    {
         if (!isset(self::$theme[$id])) {
             if (isset(self::$theme[config('app.editor_theme')])) {
                 return self::$theme[config('app.editor_theme')];
@@ -347,7 +348,8 @@ class MonacoThemeUtil
         return self::$theme[$id];
     }
 
-    public static function getAll() {
+    public static function getAll()
+    {
         return self::$theme;
     }
 }

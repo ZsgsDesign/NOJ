@@ -103,7 +103,7 @@ class SiteRankUtil
     {
         $userAcceptedRecords = Submission::select("uid", DB::raw("count(distinct pid) as solved"))->where("verdict", "Accepted");
         $userCommunityRecords = ProblemSolution::select("uid", DB::raw("count(distinct pid) as community"))->where("audit", 1);
-        if(filled($from)){
+        if (filled($from)) {
             $userAcceptedRecords = $userAcceptedRecords->where("submission_date", ">", $from->timestamp);
             $userCommunityRecords = $userCommunityRecords->where("created_at", ">", $from);
         }
@@ -111,19 +111,19 @@ class SiteRankUtil
         $userCommunityRecords = collect($userCommunityRecords->groupBy("uid")->get()->toArray());
         $totUserRecords = $userAcceptedRecords->pluck('uid')->merge($userCommunityRecords->pluck('uid'))->unique();
         $rankList = [];
-        foreach($totUserRecords as $uid) {
+        foreach ($totUserRecords as $uid) {
             $rankList[$uid]['uid'] = $uid;
             $rankList[$uid]['solved'] = 0;
             $rankList[$uid]['community'] = 0;
             $rankList[$uid]['tot'] = 0;
         }
-        foreach($userAcceptedRecords as $userAcceptedRecord) {
+        foreach ($userAcceptedRecords as $userAcceptedRecord) {
             $rankList[$userAcceptedRecord['uid']]['solved'] = $userAcceptedRecord['solved'];
         }
-        foreach($userCommunityRecords as $userCommunityRecord) {
+        foreach ($userCommunityRecords as $userCommunityRecord) {
             $rankList[$userCommunityRecord['uid']]['community'] = $userCommunityRecord['community'];
         }
-        foreach($rankList as &$rankItem) {
+        foreach ($rankList as &$rankItem) {
             $rankItem['tot'] = $rankItem['solved'] + $rankItem['community'];
         }
         unset($rankItem);
@@ -134,11 +134,11 @@ class SiteRankUtil
     {
         $activityCoefficient = self::getRecords(Carbon::parse('-1 months'));
         $activityCoefficientDivider = collect($activityCoefficient)->max('tot');
-        if(blank($activityCoefficientDivider)) {
+        if (blank($activityCoefficientDivider)) {
             $activityCoefficientDivider = 1;
         }
         foreach ($rankList as $uid => $rankItem) {
-            if(isset($activityCoefficient[$uid])){
+            if (isset($activityCoefficient[$uid])) {
                 $activityTot = $activityCoefficient[$uid]['tot'];
             } else {
                 $activityTot = 0;
@@ -146,7 +146,7 @@ class SiteRankUtil
             $rankList[$uid]["activityCoefficient"] = ($activityTot / $activityCoefficientDivider) + 0.5;
             $rankList[$uid]["points"] = $rankList[$uid]["tot"] * $rankList[$uid]["activityCoefficient"];
         }
-        usort($rankList, function($a, $b) {
+        usort($rankList, function ($a, $b) {
             return $b['points'] <=> $a['points'];
         });
         return collect($rankList);
@@ -164,7 +164,7 @@ class SiteRankUtil
 
     private static function sendMessage($userID, $currentRank, $originalRank)
     {
-        if(self::isTopOneHundred($currentRank)) {
+        if (self::isTopOneHundred($currentRank)) {
             $title = __('message.rank.up.title');
             $level = 1;
         } else {
@@ -226,29 +226,29 @@ class SiteRankUtil
 
     private static function sendRankUpDownMessage($originalRankList, $currentRankList)
     {
-        if(blank($originalRankList) || blank($currentRankList)) {
+        if (blank($originalRankList) || blank($currentRankList)) {
             return;
         }
 
         $originalRankUID = [];
-        foreach($originalRankList as $originalRankItem) {
+        foreach ($originalRankList as $originalRankItem) {
             $originalRankUID[] = $originalRankItem['uid'];
         }
 
         $currentRankUID = [];
-        foreach($currentRankList as $currentRankItem) {
+        foreach ($currentRankList as $currentRankItem) {
             $currentRankUID[] = $currentRankItem['uid'];
         }
 
-        foreach($originalRankList as $originalRankItem) {
-            if(in_array($originalRankItem['uid'], $currentRankUID)) {
+        foreach ($originalRankList as $originalRankItem) {
+            if (in_array($originalRankItem['uid'], $currentRankUID)) {
                 continue;
             }
             self::sendMessage($originalRankItem['uid'], Cache::tags(['rank', $originalRankItem['uid']])->get("rank", null), $originalRankItem['rank']);
         }
 
-        foreach($currentRankList as $currentRankItem) {
-            if(in_array($currentRankItem['uid'], $originalRankUID)) {
+        foreach ($currentRankList as $currentRankItem) {
+            if (in_array($currentRankItem['uid'], $originalRankUID)) {
                 continue;
             }
             self::sendMessage($currentRankItem['uid'], $currentRankItem['rank'], null);

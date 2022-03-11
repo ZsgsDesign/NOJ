@@ -12,7 +12,7 @@ class SiteMapUtil
 {
     public static function generate()
     {
-        $sitemap=App::make("sitemap");
+        $sitemap = App::make("sitemap");
 
         $sitemap->add(route('home'), Carbon::now(), '1.0', 'daily');
         $sitemap->add(route('problem.index'), Carbon::now(), '1.0', 'daily');
@@ -20,7 +20,7 @@ class SiteMapUtil
         $sitemap->add(route("contest.index"), Carbon::now(), '1.0', 'daily');
         $sitemap->add(route("group.index"), Carbon::now(), '1.0', 'daily');
 
-        Problem::chunk(200, function($problems) use ($sitemap) {
+        Problem::chunk(200, function ($problems) use ($sitemap) {
             foreach ($problems as $problem) {
                 $sitemap->add(route('problem.detail', [
                     'pcode' => $problem->pcode
@@ -28,7 +28,7 @@ class SiteMapUtil
             }
         });
 
-        Contest::where(["public" => 1, "audit_status" => 1])->chunk(200, function($contests) use ($sitemap) {
+        Contest::where(["public" => 1, "audit_status" => 1])->chunk(200, function ($contests) use ($sitemap) {
             foreach ($contests as $contest) {
                 $sitemap->add(route('contest.detail', [
                     'cid' => $contest->cid
@@ -36,7 +36,7 @@ class SiteMapUtil
             }
         });
 
-        Group::where(["public" => 1])->chunk(200, function($groups) use ($sitemap) {
+        Group::where(["public" => 1])->chunk(200, function ($groups) use ($sitemap) {
             foreach ($groups as $group) {
                 $sitemap->add(route('group.detail', [
                     'gcode' => $group->gcode
