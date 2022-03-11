@@ -3,7 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Babel\ExtensionModel;
+use App\Utils\Babel\ExtensionUtil;
 use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
@@ -121,7 +121,7 @@ class BabelController extends Controller
 
     private static function installedView()
     {
-        $installedExtensionList=ExtensionModel::localList();
+        $installedExtensionList=ExtensionUtil::localList();
 
         return view('admin::babel.installed', [
             'installedExtensionList'=>$installedExtensionList
@@ -130,7 +130,7 @@ class BabelController extends Controller
 
     private static function marketspaceView()
     {
-        $extensionList=ExtensionModel::list();
+        $extensionList=ExtensionUtil::list();
 
         if (empty($extensionList)) {
             return view('admin::babel.empty');
@@ -143,7 +143,7 @@ class BabelController extends Controller
 
     private static function marketspaceDetailView($code)
     {
-        $details=ExtensionModel::remoteDetail($code);
+        $details=ExtensionUtil::remoteDetail($code);
 
         if (empty($details)) {
             return view('admin::babel.empty');
@@ -156,7 +156,7 @@ class BabelController extends Controller
 
     private static function executingView($extension)
     {
-        $details=ExtensionModel::remoteDetail($extension);
+        $details=ExtensionUtil::remoteDetail($extension);
 
         if (empty($details)) {
             return view('admin::babel.empty');

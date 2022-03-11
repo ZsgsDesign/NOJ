@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Models\Babel;
+namespace App\Utils\Babel;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Eloquent\OJ;
 use PharIo\Version\Version;
 use Throwable;
 
-class ExtensionModel extends Model
+class ExtensionUtil
 {
 
     public static $status=[
