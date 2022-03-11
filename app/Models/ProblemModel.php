@@ -130,23 +130,6 @@ class ProblemModel extends Model
     /**
      * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
      */
-    public function ocode($pid)
-    {
-        $temp=DB::table($this->table)->where(["pid"=>$pid])->select("OJ as oid")->first();
-        return empty($temp) ? null : DB::table("oj")->where(["oid"=>$temp["oid"]])->select("ocode")->first()["ocode"];
-    }
-
-    /**
-     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
-     */
-    public function oid($pid)
-    {
-        return DB::table($this->table)->where(["pid"=>$pid])->select("OJ as oid")->first()["oid"];
-    }
-
-    /**
-     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
-     */
     public function clearTags($pid)
     {
         DB::table("problem_tag")->where(["pid"=>$pid])->delete();
