@@ -99,7 +99,6 @@ return [
         'filter_placeholder' => 'Filter',
     ],
     'grid_items_selected'    => '{n} items selected',
-    'menu_titles'            => [],
     'prev'                   => 'Prev',
     'next'                   => 'Next',
     'quick_create'           => 'Quick create',
