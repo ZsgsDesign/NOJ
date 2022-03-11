@@ -173,23 +173,19 @@ Route::group(['namespace' => 'Tool', 'middleware' => ['contest_account', 'user.b
     Route::get('/pb/{code}', 'PastebinController@view')->name('tool.pastebin.view.shortlink');
 });
 
-Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.banned']], function () {
-    Route::group(['prefix' => 'submission'], function () {
-        Route::post('detail', 'SubmissionController@detail');
-        Route::post('share', 'SubmissionController@share');
+Route::group(['prefix' => 'ajax', 'as' => 'ajax.', 'namespace' => 'Ajax', 'middleware' => ['user.banned']], function () {
+    Route::group(['prefix' => 'submission', 'as' => 'submission.'], function () {
+        Route::post('detail', 'SubmissionController@detail')->name('detail');
+        Route::post('share', 'SubmissionController@share')->name('share');
     });
 
     Route::group(['middleware' => 'auth'], function () {
-        Route::post('search', 'SearchController')->name('ajax.search');
+        Route::post('search', 'SearchController')->name('search');
 
-        Route::post('submitSolution', 'ProblemController@submitSolution')->middleware('throttle:1,0.17', 'problem.valid:pid');
-        Route::post('resubmitSolution', 'ProblemController@resubmitSolution')->middleware('throttle:1,0.17', 'problem.valid:pid');
         Route::post('judgeStatus', 'ProblemController@judgeStatus');
         Route::post('manualJudge', 'ProblemController@manualJudge');
         Route::post('submitHistory', 'ProblemController@submitHistory');
-        Route::post('problemExists', 'ProblemController@problemExists')->name('ajax.problemExists');
         Route::get('downloadCode', 'ProblemController@downloadCode');
-        Route::post('submitSolutionDiscussion', 'ProblemController@submitSolutionDiscussion');
         Route::post('updateSolutionDiscussion', 'ProblemController@updateSolutionDiscussion');
         Route::post('deleteSolutionDiscussion', 'ProblemController@deleteSolutionDiscussion');
         Route::post('voteSolutionDiscussion', 'ProblemController@voteSolutionDiscussion');
@@ -200,8 +196,18 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.
         Route::post('joinGroup', 'GroupController@joinGroup');
         Route::post('exitGroup', 'GroupController@exitGroup');
 
-        Route::group(['prefix' => 'problem'], function () {
-            Route::post('getDialect', 'ProblemController@getDialect')->name('ajax.problem.getDialect');
+        Route::group(['prefix' => 'problem', 'as' => 'problem.'], function () {
+            Route::get('dialects', 'ProblemController@dialects')->middleware('problem.exists:pid')->name('dialects'); /** @todo middleware responds ResponseUtil::err(3001) instead of abort() */
+            Route::get('exists', 'ProblemController@exists')->middleware('problem.exists:pcode')->name('exists'); /** @todo middleware responds ResponseUtil::err(3001) instead of abort() */
+            Route::group(['prefix' => 'submit', 'as' => 'submit.'], function () {
+                Route::group(['prefix' => 'solution', 'as' => 'solution.', 'middleware' => ['throttle:1,0.17', 'problem.exists:pid']], function () {
+                    Route::post('judge', 'ProblemController@submitSolution')->name('judge');
+                    Route::post('rejudge', 'ProblemController@resubmitSolution')->name('rejudge');
+                });
+                Route::group(['prefix' => 'discussion', 'as' => 'discussion.', 'middleware' => ['problem.exists:pid']], function () {
+                    Route::post('solution', 'ProblemController@submitSolutionDiscussion')->name('solution');
+                });
+            });
         });
 
         Route::group(['prefix' => 'message'], function () {
@@ -210,7 +216,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.
             Route::post('allDelete', 'MessageController@deleteAll');
         });
 
-        Route::group(['prefix' => 'group'], function () {
+        Route::group(['prefix' => 'group', 'as' => 'group.'], function () {
             Route::post('changeNickName', 'GroupController@changeNickName');
             Route::post('createGroup', 'GroupController@createGroup');
             Route::post('getPracticeStat', 'GroupController@getPracticeStat');
@@ -225,7 +231,7 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.
             Route::post('inviteMember', 'GroupManageController@inviteMember');
             Route::post('createNotice', 'GroupManageController@createNotice');
             Route::post('changeSubGroup', 'GroupManageController@changeSubGroup');
-            Route::post('createHomework', 'GroupManageController@createHomework')->name('ajax.group.createHomework');
+            Route::post('createHomework', 'GroupManageController@createHomework')->name('createHomework');
 
             Route::post('addProblemTag', 'GroupAdminController@addProblemTag');
             Route::post('removeProblemTag', 'GroupAdminController@removeProblemTag');
@@ -233,15 +239,15 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.
             Route::post('refreshElo', 'GroupAdminController@refreshElo');
         });
 
-        Route::group(['prefix' => 'contest'], function () {
+        Route::group(['prefix' => 'contest', 'as' => 'contest.'], function () {
             Route::get('updateProfessionalRate', 'ContestController@updateProfessionalRate');
             Route::post('fetchClarification', 'ContestController@fetchClarification');
             Route::post('requestClarification', 'ContestController@requestClarification')->middleware('throttle:1,0.34');
-            Route::post('registContest', 'ContestController@registContest')->name('ajax.contest.registContest');
-            Route::post('getAnalysisData', 'ContestController@getAnalysisData')->name('ajax.contest.getAnalysisData');
-            Route::get('downloadPDF', 'ContestController@downloadPDF')->name('ajax.contest.downloadPDF');
+            Route::post('registContest', 'ContestController@registContest')->name('registContest');
+            Route::post('getAnalysisData', 'ContestController@getAnalysisData')->name('getAnalysisData');
+            Route::get('downloadPDF', 'ContestController@downloadPDF')->name('downloadPDF');
 
-            Route::post('rejudge', 'ContestAdminController@rejudge')->name('ajax.contest.rejudge');
+            Route::post('rejudge', 'ContestAdminController@rejudge')->name('rejudge');
             Route::post('details', 'ContestAdminController@details');
             Route::post('assignMember', 'ContestAdminController@assignMember');
             Route::post('update', 'ContestAdminController@update');
@@ -249,30 +255,30 @@ Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.
             Route::post('replyClarification', 'ContestAdminController@replyClarification');
             Route::post('setClarificationPublic', 'ContestAdminController@setClarificationPublic');
             Route::post('generateContestAccount', 'ContestAdminController@generateContestAccount');
-            Route::post('getScrollBoardData', 'ContestAdminController@getScrollBoardData')->name('ajax.contest.getScrollBoardData');
+            Route::post('getScrollBoardData', 'ContestAdminController@getScrollBoardData')->name('getScrollBoardData');
             Route::get('downloadCode', 'ContestAdminController@downloadCode');
-            Route::post('generatePDF', 'ContestAdminController@generatePDF')->name('ajax.contest.generatePDF');
-            Route::post('removePDF', 'ContestAdminController@removePDF')->name('ajax.contest.removePDF');
-            Route::post('anticheat', 'ContestAdminController@anticheat')->name('ajax.contest.anticheat');
-            Route::get('downloadPlagiarismReport', 'ContestAdminController@downloadPlagiarismReport')->name('ajax.contest.downloadPlagiarismReport');
+            Route::post('generatePDF', 'ContestAdminController@generatePDF')->name('generatePDF');
+            Route::post('removePDF', 'ContestAdminController@removePDF')->name('removePDF');
+            Route::post('anticheat', 'ContestAdminController@anticheat')->name('anticheat');
+            Route::get('downloadPlagiarismReport', 'ContestAdminController@downloadPlagiarismReport')->name('downloadPlagiarismReport');
         });
 
-        Route::group(['prefix' => 'account'], function () {
-            Route::post('updateAvatar', 'AccountController@updateAvatar')->name('ajax.account.update.avatar');
-            Route::post('changeBasicInfo', 'AccountController@changeBasicInfo')->name('ajax.account.change.basicinfo');
-            Route::post('changeExtraInfo', 'AccountController@changeExtraInfo')->name('ajax.account.change.extrainfo');
-            Route::post('changePassword', 'AccountController@changePassword')->name('ajax.account.change.password');
-            Route::post('checkEmailCooldown', 'AccountController@checkEmailCooldown')->name('ajax.account.check.emailcooldown');
-            Route::post('saveEditorWidth', 'AccountController@saveEditorWidth')->name('ajax.account.save.editorwidth');
-            Route::post('saveEditorTheme', 'AccountController@saveEditorTheme')->name('ajax.account.save.editortheme');
+        Route::group(['prefix' => 'account', 'as' => 'account.'], function () {
+            Route::post('updateAvatar', 'AccountController@updateAvatar')->name('update.avatar');
+            Route::post('changeBasicInfo', 'AccountController@changeBasicInfo')->name('change.basicinfo');
+            Route::post('changeExtraInfo', 'AccountController@changeExtraInfo')->name('change.extrainfo');
+            Route::post('changePassword', 'AccountController@changePassword')->name('change.password');
+            Route::post('checkEmailCooldown', 'AccountController@checkEmailCooldown')->name('check.emailcooldown');
+            Route::post('saveEditorWidth', 'AccountController@saveEditorWidth')->name('save.editorwidth');
+            Route::post('saveEditorTheme', 'AccountController@saveEditorTheme')->name('save.editortheme');
         });
 
-        Route::group(['prefix' => 'abuse'], function () {
-            Route::post('report', 'AbuseController@report')->name('ajax.abuse.report');
+        Route::group(['prefix' => 'abuse', 'as' => 'abuse.'], function () {
+            Route::post('report', 'AbuseController@report')->name('report');
         });
 
-        Route::group(['prefix' => 'dojo'], function () {
-            Route::post('dojo', 'DojoController@complete')->name('ajax.dojo.complete');
+        Route::group(['prefix' => 'dojo', 'as' => 'dojo.'], function () {
+            Route::post('dojo', 'DojoController@complete')->name('complete');
         });
     });
 });

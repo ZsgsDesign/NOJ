@@ -5,6 +5,7 @@ namespace App\Models\Services;
 use App\Models\Eloquent\Problem;
 use App\Models\Eloquent\Contest;
 use App\Models\Eloquent\OJ;
+use App\Models\Eloquent\ProblemSolution;
 use App\Models\Eloquent\Submission;
 use Cache;
 use DB;
@@ -165,7 +166,7 @@ class ProblemService
     public static function calcPreferredCompilerBasedOnSubmission($availableCompilers, Submission $lastUserSubmission)
     {
         // try matching the precise compiler
-        foreach($availableCompilers as $index => $compiler) {
+        foreach ($availableCompilers as $index => $compiler) {
             if ($compiler->coid == $lastUserSubmission->coid) {
                 return $index;
             }
@@ -202,5 +203,16 @@ class ProblemService
             });
         }
         return $preQuery->orderBy("OJ", "ASC")->orderBy("order_index", "ASC")->orderBy(DB::raw("length(contest_id)"), "ASC")->orderBy("contest_id", "ASC")->orderBy(DB::raw("length(index_id)"), "ASC")->orderBy("index_id", "ASC")->orderBy("pcode", "ASC")->paginate(max(config('pagination.problem.per_page'), 1));
+    }
+
+    public static function createSolution(Problem $problem, int $user_id, string $content): bool
+    {
+        if ($problem->solutions()->where(['uid' => $user_id])->count()>0) {
+            return false;
+        } else {
+            $solution = new ProblemSolution(['uid' => $user_id, 'content' => $content]);
+            $solution->inteliAudit();
+            return $problem->solutions()->save($solution) !== false;
+        }
     }
 }

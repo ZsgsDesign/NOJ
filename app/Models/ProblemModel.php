@@ -26,27 +26,6 @@ class ProblemModel extends Model
     /**
      * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
      */
-    public function addSolution($pid, $uid, $content)
-    {
-        $details=DB::table("problem_solution")->where(['pid'=>$pid, 'uid'=>$uid])->first();
-        if (empty($details)) {
-            DB::table("problem_solution")->insert([
-                "uid"=>$uid,
-                "pid"=>$pid,
-                "content"=>$content,
-                "votes"=>0,
-                "audit"=>$this->inteliAudit($uid, $content),
-                "created_at"=>date("Y-m-d H:i:s"),
-                "updated_at"=>date("Y-m-d H:i:s"),
-            ]);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
-     */
     private function inteliAudit($uid, $content)
     {
         if (strpos($content, '```')!==false) {

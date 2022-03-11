@@ -959,8 +959,8 @@
             if(dialectFetching) return;
             dialectFetching = true;
             $.ajax({
-                type: 'POST',
-                url: "{{route('ajax.problem.getDialect')}}",
+                type: 'GET',
+                url: "{{route('ajax.problem.dialects')}}",
                 data: {
                     problem_id: "{{$problem->pid}}",
                     dialect_id: dialectId
@@ -1085,7 +1085,7 @@
             $("#verdict_info").addClass("wemd-blue-text");
             $.ajax({
                 type: 'POST',
-                url: '/ajax/submitSolution',
+                url: "{{route('ajax.problem.submit.solution.judge')}}",
                 data: {
                     lang: chosen_lang,
                     pid:"{{$problem->pid}}",

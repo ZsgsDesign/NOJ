@@ -222,7 +222,7 @@
             var that=this;
             $.ajax({
                 type: 'POST',
-                url: '/ajax/resubmitSolution',
+                url: "{{route('ajax.problem.submit.solution.rejudge')}}",
                 data: {
                     sid: sid
                 },

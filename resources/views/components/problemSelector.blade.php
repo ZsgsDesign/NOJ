@@ -172,8 +172,8 @@
             $(element).parents('tr').find('td[data-field="title"]').addClass('refreshing');
             $(element).parents('tr').find('td[data-field="title"] span').text("{{__('problem.selector.tooltip.loading')}}");
             $.ajax({
-                type: 'POST',
-                url: "{{route('ajax.problemExists')}}",
+                type: 'GET',
+                url: "{{route('ajax.problem.exists')}}",
                 data: {
                     pcode: pcode
                 },

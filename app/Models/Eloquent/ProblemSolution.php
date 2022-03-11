@@ -10,6 +10,9 @@ class ProblemSolution extends Model
     protected $table = 'problem_solution';
     protected $primaryKey = 'psoid';
 
+    protected $fillable = [
+        'uid', 'pid', 'content'
+    ];
     protected $casts = [
         'audit' => 'integer',
     ];
@@ -27,8 +30,8 @@ class ProblemSolution extends Model
     public function inteliAudit(): int
     {
         if (strpos($this->content, '```') !== false) {
-            $latestSolution = $this->author()->solutions()->whereNot('audit', 0)->orderByDesc('updated_at')->first();
-            if (filled($latestSolution) && $latestSolution->audit) {
+            $latestSolution = $this->author->solutions()->whereNotIn('audit', [0])->orderByDesc('updated_at')->first();
+            if (filled($latestSolution) && $latestSolution->audit == 1) {
                 return $this->audit = 1;
             }
         }

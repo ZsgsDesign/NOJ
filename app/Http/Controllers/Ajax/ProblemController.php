@@ -11,7 +11,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Jobs\ProcessSubmission;
+use App\Models\Eloquent\ProblemSolution;
 use App\Models\Eloquent\Submission;
+use App\Models\Services\ProblemService;
+use App\Utils\EloquentRequestUtil;
 use Illuminate\Support\Facades\Validator;
 use Auth;
 
@@ -43,7 +46,7 @@ class ProblemController extends Controller
         }
 
         $compiler = $onlineJudge->compilers()->where('coid', $request->coid)->where(['available' => true, 'deleted' => false])->first();
-        if(blank($compiler)) {
+        if (blank($compiler)) {
             return ResponseUtil::err(3007);
         }
 
@@ -81,16 +84,11 @@ class ProblemController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function problemExists(Request $request)
+    public function exists(Request $request)
     {
-        $request->validate(["pcode" => "required|string|max:100"]);
-        $problem = Problem::where('pcode', $request->pcode)->first();
-        if (filled($problem)) {
-            return ResponseUtil::success(200, null, $problem->only(["pcode", "title"]));
-        } else {
-            return ResponseUtil::err(3001);
-        }
+        return ResponseUtil::success(200, null, EloquentRequestUtil::problem($request)->only(["pcode", "title"]));
     }
+
     /**
      * The Ajax Problem Solution Discussion Submission.
      *
@@ -100,16 +98,7 @@ class ProblemController extends Controller
      */
     public function submitSolutionDiscussion(Request $request)
     {
-        $all_data = $request->all();
-        $problemModel = new ProblemModel();
-        $pid = $all_data["pid"];
-        $content = $all_data["content"];
-        $basic = $problemModel->basic($pid);
-        if (empty($basic)) {
-            return ResponseUtil::err(3001);
-        }
-        $ret = $problemModel->addSolution($pid, Auth::user()->id, $content);
-        return $ret ? ResponseUtil::success(200) : ResponseUtil::err(3003);
+        return ProblemService::createSolution(EloquentRequestUtil::problem($request), Auth::user()->id, $request->content) ? ResponseUtil::success(200) : ResponseUtil::err(3003);
     }
     /**
      * The Ajax Problem Solution Discussion Update.
@@ -252,7 +241,7 @@ class ProblemController extends Controller
         }
         $ret = $problemModel->addDiscussion(Auth::user()->id, $pid, $title, $content);
         return $ret ? ResponseUtil::success(200, null, [
-            'url' => route('problem.discussion.post', ['pcode'=> $basic['pcode'], 'dcode' => $ret])
+            'url' => route('problem.discussion.post', ['pcode' => $basic['pcode'], 'dcode' => $ret])
         ]) : ResponseUtil::err(3003);
     }
 
@@ -328,14 +317,12 @@ class ProblemController extends Controller
         return ResponseUtil::success(200);
     }
 
-    public function getDialect(Request $request)
+    public function dialects(Request $request)
     {
         $request->validate([
             'dialect_id' => 'required|integer',
-            'problem_id' => 'required|integer|exists:problem,pid'
         ]);
-        $dialect = Problem::find($request->problem_id)->getDialect($request->dialect_id);
+        $dialect = EloquentRequestUtil::problem($request)->getDialect($request->dialect_id);
         return filled($dialect) ? ResponseUtil::success(200, null, $dialect) : ResponseUtil::err(3006);
     }
-
 }
