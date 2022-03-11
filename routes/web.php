@@ -182,81 +182,81 @@ Route::group(['prefix' => 'ajax', 'as' => 'ajax.', 'namespace' => 'Ajax', 'middl
     Route::group(['middleware' => 'auth'], function () {
         Route::post('search', 'SearchController')->name('search');
 
-        Route::post('judgeStatus', 'ProblemController@judgeStatus');
-        Route::post('manualJudge', 'ProblemController@manualJudge');
-        Route::post('submitHistory', 'ProblemController@submitHistory');
-        Route::get('downloadCode', 'ProblemController@downloadCode');
-        Route::post('updateSolutionDiscussion', 'ProblemController@updateSolutionDiscussion');
-        Route::post('deleteSolutionDiscussion', 'ProblemController@deleteSolutionDiscussion');
-        Route::post('voteSolutionDiscussion', 'ProblemController@voteSolutionDiscussion');
-        Route::post('postDiscussion', 'ProblemController@postDiscussion');
-        Route::post('addComment', 'ProblemController@addComment');
+        Route::post('judgeStatus', 'ProblemController@judgeStatus')->name('judgeStatus');
+        Route::post('manualJudge', 'ProblemController@manualJudge')->name('manualJudge');
+        Route::post('submitHistory', 'ProblemController@submitHistory')->name('submitHistory');
+        Route::get('downloadCode', 'ProblemController@downloadCode')->name('downloadCode');
+        Route::post('updateSolutionDiscussion', 'ProblemController@updateSolutionDiscussion')->name('updateSolutionDiscussion');
+        Route::post('deleteSolutionDiscussion', 'ProblemController@deleteSolutionDiscussion')->name('deleteSolutionDiscussion');
+        Route::post('voteSolutionDiscussion', 'ProblemController@voteSolutionDiscussion')->name('voteSolutionDiscussion');
+        Route::post('postDiscussion', 'ProblemController@postDiscussion')->name('postDiscussion');
+        Route::post('addComment', 'ProblemController@addComment')->name('addComment');
 
-        Route::post('arrangeContest', 'GroupManageController@arrangeContest');
-        Route::post('joinGroup', 'GroupController@joinGroup');
-        Route::post('exitGroup', 'GroupController@exitGroup');
+        Route::post('arrangeContest', 'GroupManageController@arrangeContest')->name('arrangeContest');
+        Route::post('joinGroup', 'GroupController@joinGroup')->name('joinGroup');
+        Route::post('exitGroup', 'GroupController@exitGroup')->name('exitGroup');
 
         Route::group(['prefix' => 'problem', 'as' => 'problem.'], function () {
-            Route::get('dialects', 'ProblemController@dialects')->middleware('problem.exists:pid')->name('dialects'); /** @todo middleware responds ResponseUtil::err(3001) instead of abort() */
-            Route::get('exists', 'ProblemController@exists')->middleware('problem.exists:pcode')->name('exists'); /** @todo middleware responds ResponseUtil::err(3001) instead of abort() */
+            Route::get('dialects', 'ProblemController@dialects')->middleware('problem.valid:pid')->name('dialects');
+            Route::get('exists', 'ProblemController@exists')->middleware('problem.valid:pcode')->name('exists');
             Route::group(['prefix' => 'submit', 'as' => 'submit.'], function () {
-                Route::group(['prefix' => 'solution', 'as' => 'solution.', 'middleware' => ['throttle:1,0.17', 'problem.exists:pid']], function () {
-                    Route::post('judge', 'ProblemController@submitSolution')->name('judge');
+                Route::group(['prefix' => 'solution', 'as' => 'solution.', 'middleware' => ['throttle:1,0.17']], function () {
+                    Route::post('judge', 'ProblemController@submitSolution')->middleware('problem.valid:pid,contest')->name('judge');
                     Route::post('rejudge', 'ProblemController@resubmitSolution')->name('rejudge');
                 });
-                Route::group(['prefix' => 'discussion', 'as' => 'discussion.', 'middleware' => ['problem.exists:pid']], function () {
+                Route::group(['prefix' => 'discussion', 'as' => 'discussion.', 'middleware' => ['problem.valid:pid']], function () {
                     Route::post('solution', 'ProblemController@submitSolutionDiscussion')->name('solution');
                 });
             });
         });
 
-        Route::group(['prefix' => 'message'], function () {
-            Route::post('unread', 'MessageController@unread');
-            Route::post('allRead', 'MessageController@allRead');
-            Route::post('allDelete', 'MessageController@deleteAll');
+        Route::group(['prefix' => 'message', 'as' => 'message.'], function () {
+            Route::post('unread', 'MessageController@unread')->name('unread');
+            Route::post('allRead', 'MessageController@allRead')->name('allRead');
+            Route::post('allDelete', 'MessageController@deleteAll')->name('allDelete');
         });
 
         Route::group(['prefix' => 'group', 'as' => 'group.'], function () {
-            Route::post('changeNickName', 'GroupController@changeNickName');
-            Route::post('createGroup', 'GroupController@createGroup');
-            Route::post('getPracticeStat', 'GroupController@getPracticeStat');
-            Route::post('eloChangeLog', 'GroupController@eloChangeLog');
+            Route::post('changeNickName', 'GroupController@changeNickName')->name('changeNickName');
+            Route::post('createGroup', 'GroupController@createGroup')->name('createGroup');
+            Route::post('getPracticeStat', 'GroupController@getPracticeStat')->name('getPracticeStat');
+            Route::post('eloChangeLog', 'GroupController@eloChangeLog')->name('eloChangeLog');
 
-            Route::post('changeMemberClearance', 'GroupManageController@changeMemberClearance');
-            Route::post('changeGroupImage', 'GroupManageController@changeGroupImage');
-            Route::post('changeJoinPolicy', 'GroupManageController@changeJoinPolicy');
-            Route::post('changeGroupName', 'GroupManageController@changeGroupName');
-            Route::post('approveMember', 'GroupManageController@approveMember');
-            Route::post('removeMember', 'GroupManageController@removeMember');
-            Route::post('inviteMember', 'GroupManageController@inviteMember');
-            Route::post('createNotice', 'GroupManageController@createNotice');
-            Route::post('changeSubGroup', 'GroupManageController@changeSubGroup');
+            Route::post('changeMemberClearance', 'GroupManageController@changeMemberClearance')->name('changeMemberClearance');
+            Route::post('changeGroupImage', 'GroupManageController@changeGroupImage')->name('changeGroupImage');
+            Route::post('changeJoinPolicy', 'GroupManageController@changeJoinPolicy')->name('changeJoinPolicy');
+            Route::post('changeGroupName', 'GroupManageController@changeGroupName')->name('changeGroupName');
+            Route::post('approveMember', 'GroupManageController@approveMember')->name('approveMember');
+            Route::post('removeMember', 'GroupManageController@removeMember')->name('removeMember');
+            Route::post('inviteMember', 'GroupManageController@inviteMember')->name('inviteMember');
+            Route::post('createNotice', 'GroupManageController@createNotice')->name('createNotice');
+            Route::post('changeSubGroup', 'GroupManageController@changeSubGroup')->name('changeSubGroup');
             Route::post('createHomework', 'GroupManageController@createHomework')->name('createHomework');
 
-            Route::post('addProblemTag', 'GroupAdminController@addProblemTag');
-            Route::post('removeProblemTag', 'GroupAdminController@removeProblemTag');
-            Route::get('generateContestAccount', 'GroupAdminController@generateContestAccount');
-            Route::post('refreshElo', 'GroupAdminController@refreshElo');
+            Route::post('addProblemTag', 'GroupAdminController@addProblemTag')->name('addProblemTag');
+            Route::post('removeProblemTag', 'GroupAdminController@removeProblemTag')->name('removeProblemTag');
+            Route::get('generateContestAccount', 'GroupAdminController@generateContestAccount')->name('generateContestAccount');
+            Route::post('refreshElo', 'GroupAdminController@refreshElo')->name('refreshElo');
         });
 
         Route::group(['prefix' => 'contest', 'as' => 'contest.'], function () {
-            Route::get('updateProfessionalRate', 'ContestController@updateProfessionalRate');
-            Route::post('fetchClarification', 'ContestController@fetchClarification');
-            Route::post('requestClarification', 'ContestController@requestClarification')->middleware('throttle:1,0.34');
+            Route::get('updateProfessionalRate', 'ContestController@updateProfessionalRate')->name('updateProfessionalRate');
+            Route::post('fetchClarification', 'ContestController@fetchClarification')->name('fetchClarification');
+            Route::post('requestClarification', 'ContestController@requestClarification')->middleware('throttle:1,0.34')->name('requestClarification');
             Route::post('registContest', 'ContestController@registContest')->name('registContest');
             Route::post('getAnalysisData', 'ContestController@getAnalysisData')->name('getAnalysisData');
             Route::get('downloadPDF', 'ContestController@downloadPDF')->name('downloadPDF');
 
             Route::post('rejudge', 'ContestAdminController@rejudge')->name('rejudge');
-            Route::post('details', 'ContestAdminController@details');
-            Route::post('assignMember', 'ContestAdminController@assignMember');
-            Route::post('update', 'ContestAdminController@update');
-            Route::post('issueAnnouncement', 'ContestAdminController@issueAnnouncement');
-            Route::post('replyClarification', 'ContestAdminController@replyClarification');
-            Route::post('setClarificationPublic', 'ContestAdminController@setClarificationPublic');
-            Route::post('generateContestAccount', 'ContestAdminController@generateContestAccount');
+            Route::post('details', 'ContestAdminController@details')->name('details');
+            Route::post('assignMember', 'ContestAdminController@assignMember')->name('assignMember');
+            Route::post('update', 'ContestAdminController@update')->name('update');
+            Route::post('issueAnnouncement', 'ContestAdminController@issueAnnouncement')->name('issueAnnouncement');
+            Route::post('replyClarification', 'ContestAdminController@replyClarification')->name('replyClarification');
+            Route::post('setClarificationPublic', 'ContestAdminController@setClarificationPublic')->name('setClarificationPublic');
+            Route::post('generateContestAccount', 'ContestAdminController@generateContestAccount')->name('generateContestAccount');
             Route::post('getScrollBoardData', 'ContestAdminController@getScrollBoardData')->name('getScrollBoardData');
-            Route::get('downloadCode', 'ContestAdminController@downloadCode');
+            Route::get('downloadCode', 'ContestAdminController@downloadCode')->name('downloadCode');
             Route::post('generatePDF', 'ContestAdminController@generatePDF')->name('generatePDF');
             Route::post('removePDF', 'ContestAdminController@removePDF')->name('removePDF');
             Route::post('anticheat', 'ContestAdminController@anticheat')->name('anticheat');
