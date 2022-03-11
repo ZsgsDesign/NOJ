@@ -3,6 +3,7 @@
 namespace App\Http\Middleware\Problem;
 
 use App\Models\Eloquent\Problem;
+use App\Utils\ResponseUtil;
 use Closure;
 
 class Exists
@@ -23,6 +24,9 @@ class Exists
             ]);
             return $next($request);
         } else {
+            if ($request->routeIs('ajax.*')) {
+                return ResponseUtil::err(3001);
+            }
             return redirect()->route('problem.index');
         }
     }

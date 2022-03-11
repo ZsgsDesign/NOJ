@@ -53,6 +53,12 @@ class Kernel extends HttpKernel
             'problem.not_hidden',
             'problem.not_blockaded',
         ],
+
+        'problem.valid:pid,contest' => [
+            'problem.exists:pid',
+            'problem.not_hidden',
+            'problem.not_blockaded:contest',
+        ],
     ];
 
     /**

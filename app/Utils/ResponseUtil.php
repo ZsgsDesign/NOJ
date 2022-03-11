@@ -71,6 +71,7 @@ class ResponseUtil
             '3005' => "Copper", // Reserved for Copper in memory of OASIS and those who contributed a lot
             '3006' => "Dialects Not Found",
             '3007' => "Compiler Not Found",
+            '3008' => "Problem Forbidden",
 
             '4000' => "Contest-Related Error",
             '4001' => "Contest Not Found",

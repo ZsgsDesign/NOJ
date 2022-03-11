@@ -3,6 +3,7 @@
 namespace App\Http\Middleware\Problem;
 
 use Closure;
+use App\Utils\ResponseUtil;
 
 class NotHidden
 {
@@ -17,6 +18,9 @@ class NotHidden
     {
         $problem = $request->problem_instance;
         if ($problem->is_hidden) {
+            if ($request->routeIs('ajax.*')) {
+                return ResponseUtil::err(3001);
+            }
             return redirect()->route('problem.index');
         } else {
             return $next($request);
