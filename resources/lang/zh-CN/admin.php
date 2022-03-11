@@ -197,7 +197,6 @@ return [
         'availability'      => '可用性',
         'available'         => '可用',
         'unavailable'       => '不可用',
-        'password'          => '密码',
         'oj'                => 'OJ平台',
         'user_id'           => '评测代理凭证ID',
         'index' => [

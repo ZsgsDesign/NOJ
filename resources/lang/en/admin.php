@@ -197,7 +197,6 @@ return [
         'availability'      => 'Availability',
         'available'         => 'Available',
         'unavailable'       => 'Unavailable',
-        'password'          => 'Password',
         'oj'                => 'OJ Platform',
         'user_id'           => 'Agent Profile ID',
         'index' => [
