@@ -121,15 +121,6 @@ class ProblemModel extends Model
     /**
      * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
      */
-    public function pcode($pid)
-    {
-        $temp=DB::table($this->table)->where(["pid"=>$pid])->select("pcode")->first();
-        return empty($temp) ? 0 : $temp["pcode"];
-    }
-
-    /**
-     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
-     */
     public function clearTags($pid)
     {
         DB::table("problem_tag")->where(["pid"=>$pid])->delete();
@@ -422,16 +413,6 @@ class ProblemModel extends Model
         } else {
             return $reply_id;
         }
-    }
-
-    /**
-     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
-     */
-    public function pcodeByPdid($dcode)
-    {
-        $pid=DB::table('problem_discussion')->where('pdid', '=', $dcode)->get()->first()['pid'];
-        $pcode=$this->pcode($pid);
-        return $pcode;
     }
 
     /**
