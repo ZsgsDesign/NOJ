@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Services\OJService;
+use App\Models\Eloquent\Problem;
 use App\Models\Eloquent\Announcement;
 use App\Models\Eloquent\Carousel;
 use App\Http\Controllers\Controller;
