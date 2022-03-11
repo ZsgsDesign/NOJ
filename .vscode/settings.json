@@ -7,5 +7,6 @@
         "_ide_helper.php" : true,
         "vendor/" : true,
         "storage/framework/views/" : true,
+        "app/Babel/Extension/[^noj]*/" : true,
     }
 }

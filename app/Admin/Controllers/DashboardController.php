@@ -2,14 +2,14 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Update\UpdateUtil;
+use App\Utils\UpdateUtil;
 use Illuminate\Support\Arr;
 use PharIo\Version\Version;
 
 class DashboardController
 {
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\View\View
      */
     public static function general()
     {
@@ -33,7 +33,7 @@ class DashboardController
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\View\View
      */
     public static function environment()
     {

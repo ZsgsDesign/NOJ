@@ -157,6 +157,7 @@ class ProblemController extends Controller
     /**
      * Make a form builder for create view and edit.
      *
+     * @suppress PHP0413
      * @return Form
      */
     protected function form($create = false)

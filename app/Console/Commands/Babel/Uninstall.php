@@ -4,6 +4,7 @@ namespace App\Console\Commands\Babel;
 
 use Illuminate\Console\Command;
 use Exception;
+use ErrorException;
 
 class Uninstall extends Command
 {

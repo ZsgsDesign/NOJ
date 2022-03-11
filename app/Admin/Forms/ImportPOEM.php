@@ -71,7 +71,7 @@ class ImportPOEM extends Form
         ];
 
         $prefix='NOJ';
-        $p=ProblemModel::where('pcode', 'like', $prefix.'%')->orderBy('pcode', 'desc')->select('pcode')->first();
+        $p=Problem::where('pcode', 'like', $prefix.'%')->orderBy('pcode', 'desc')->select('pcode')->first();
         if (empty($p)) {
             $count=1000;
         } else {
@@ -101,7 +101,7 @@ class ImportPOEM extends Form
                 'force_raw'    => $problem['extra']['forceRaw'],
                 'partial'      => $problem['extra']['partial']
             ];
-            $pid=ProblemModel::insertGetId($pro);
+            $pid=Problem::insertGetId($pro);
 
             //migrate sample
             $sample_count=0;
