@@ -162,7 +162,7 @@
                 <i class="MDI {{$f["icon"]}}"></i>
             </feed-circle>
             <feed-info>
-                <h5>@lang('dashboard.feed.content', ['name' => htmlspecialchars($info["name"]), 'pcode' => $f["pcode"]])</h5>
+                <h5>{!!__('dashboard.feed.content', ['name' => htmlspecialchars($info["name"]), 'pcode' => $f["pcode"]])!!}</h5>
             </feed-info>
         </feed-header>
         <feed-body onclick="location.href='/problem/{{$f["pcode"]}}/solution'">
@@ -178,7 +178,7 @@
             <img src="{{$info["avatar"]}}">
         </feed-circle>
         <feed-info>
-            <h5>@lang('dashboard.feed.first', ['name' => htmlspecialchars($info["name"]), 'appName' => config("app.name")])</h5>
+            <h5>{!!__('dashboard.feed.first', ['name' => htmlspecialchars($info["name"]), 'appName' => config("app.name")])!!}</h5>
         </feed-info>
     </feed-header>
     <feed-footer>{{$info["created_at"]}}</feed-footer>

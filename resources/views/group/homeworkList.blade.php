@@ -66,7 +66,7 @@
                 @foreach ($homework_list as $homework)
                     <tr>
                         <td>
-                            <span><a href="{{route('group.homework', ['gcode' => $basic_info['gcode'], 'homework_id' => $homework->id]);}}">{{$homework->title}}</a></span>
+                            <span><a href="{{route('group.homework', ['gcode' => $basic_info['gcode'], 'homework_id' => $homework->id])}}">{{$homework->title}}</a></span>
                         </td>
                         <td>{{$homework->ended_at}}</td>
                     </tr>

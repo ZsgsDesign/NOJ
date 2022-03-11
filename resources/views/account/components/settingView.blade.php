@@ -147,14 +147,14 @@
                     </div>
                 @else
                     <p style="padding: 1rem 0">
-                        @lang('dashboard.setting.emailBinded', ['email' => htmlspecialchars($info['email'])])
+                        {!! __('dashboard.setting.emailBinded', ['email' => htmlspecialchars($info['email'])]) !!}
                     </p>
                 @endunless
             </div>
         @else
             <div class="text-center">
                 <p style="padding: 1rem 0">
-                    @lang('dashboard.setting.emailTemp', ['email' => htmlspecialchars($info['email'])])
+                    {!! __('dashboard.setting.emailTemp', ['email' => htmlspecialchars($info['email'])]) !!}
                 </p>
             </div>
         @endif
