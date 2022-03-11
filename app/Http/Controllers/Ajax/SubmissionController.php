@@ -54,14 +54,13 @@ class SubmissionController extends Controller
         if ($all_data["method"]==1) {
             // NOJ Share
             $status=$submissionModel->share($all_data["sid"], Auth::check() ? Auth::user()->id : null);
-            return empty($status) ?ResponseUtil::err(1001) : ResponseUtil::success(200, null, $status);
+            return empty($status) ? ResponseUtil::err(1001) : ResponseUtil::success(200, null, $status);
         } elseif ($all_data["method"]==2) {
             // Pastebin
             $status=$submissionModel->sharePB($all_data["sid"], Auth::check() ? Auth::user()->id : null);
-            return empty($status) ?ResponseUtil::err(1001) : ResponseUtil::success(200, null, $status);
+            return empty($status) ? ResponseUtil::err(1001) : ResponseUtil::success(200, null, $status);
         } else {
             return ResponseUtil::err(6002);
         }
-        return ResponseUtil::success(200, null, $status);
     }
 }
