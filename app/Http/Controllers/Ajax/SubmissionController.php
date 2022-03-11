@@ -17,7 +17,7 @@ class SubmissionController extends Controller
      *
      * @param Request $request web request
      *
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function detail(Request $request)
     {
@@ -38,7 +38,7 @@ class SubmissionController extends Controller
      *
      * @param Request $request web request
      *
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function share(Request $request)
     {

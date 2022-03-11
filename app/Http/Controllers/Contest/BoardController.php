@@ -15,7 +15,7 @@ class BoardController extends Controller
     /**
      * Redirect the Contest Board Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function board($cid)
     {
@@ -25,7 +25,7 @@ class BoardController extends Controller
     /**
      * Show the Contest Challenge Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function challenge($cid)
     {
@@ -70,7 +70,7 @@ class BoardController extends Controller
     /**
      * Show the Contest Editor Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function editor(Request $request)
     {
@@ -141,7 +141,7 @@ class BoardController extends Controller
     /**
      * Show the Contest Rank Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function rank($cid)
     {
@@ -199,7 +199,7 @@ class BoardController extends Controller
     /**
      * Show the Contest Status Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function status(Request $request)
     {
@@ -246,7 +246,7 @@ class BoardController extends Controller
     /**
      * Show the Contest Clarification Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function clarification($cid)
     {
@@ -284,7 +284,7 @@ class BoardController extends Controller
     /**
      * Show the Contest Print Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function print($cid)
     {

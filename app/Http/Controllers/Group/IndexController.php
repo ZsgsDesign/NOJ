@@ -19,7 +19,7 @@ class IndexController extends Controller
     /**
      * Show the Group Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function index()
     {
@@ -38,7 +38,7 @@ class IndexController extends Controller
     /**
      * Show the Group Detail Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function detail($gcode)
     {
@@ -76,7 +76,7 @@ class IndexController extends Controller
     /**
      * Show the Group Create Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -93,7 +93,7 @@ class IndexController extends Controller
     /*
      * Show the Contest Analysis Tab.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function analysis($gcode)
     {

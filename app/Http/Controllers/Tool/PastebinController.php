@@ -11,7 +11,7 @@ class PastebinController extends Controller
     /**
      * Show the Pastebin Detail Page.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function view($code)
     {
@@ -34,7 +34,7 @@ class PastebinController extends Controller
     /**
      * Show the Pastebin Create Page.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function create()
     {

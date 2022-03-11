@@ -14,7 +14,7 @@ class SearchController extends Controller
      *
      * @param Request $request web request
      *
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function __invoke(Request $request)
     {

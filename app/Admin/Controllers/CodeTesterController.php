@@ -18,7 +18,7 @@ class CodeTesterController extends Controller
     /**
      * Show the Testing Page.
      *
-     * @return Response
+     * @return \Encore\Admin\Layout\Content
      */
     public function tester(Content $content)
     {
@@ -33,7 +33,7 @@ class CodeTesterController extends Controller
     /**
      * Make a form builder.
      *
-     * @return Form
+     * @return \Encore\Admin\Widgets\Box
      */
     protected function form()
     {
@@ -66,7 +66,7 @@ class CodeTesterController extends Controller
     /**
      * Running Test.
      *
-     * @return Response
+     * @return \Encore\Admin\Widgets\Box
      */
     protected function run()
     {

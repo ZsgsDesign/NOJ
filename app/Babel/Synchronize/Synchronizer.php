@@ -6,11 +6,6 @@ use Exception;
 
 class Synchronizer
 {
-    /**
-     * Initial
-     *
-     * @return Response
-     */
     public function __construct($all_data)
     {
         $submitter=self::create($all_data["oj"], $all_data);

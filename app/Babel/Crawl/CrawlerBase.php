@@ -36,13 +36,6 @@ class CrawlerBase
     ];
 
     public $data=null;
-    public $command=null;
-
-    /**
-     * Initial
-     *
-     * @return Response
-     */
     public function __construct()
     {
     }

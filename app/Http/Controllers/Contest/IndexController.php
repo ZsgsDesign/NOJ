@@ -15,7 +15,7 @@ class IndexController extends Controller
     /**
      * Show the Contest Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function index(Request $request)
     {
@@ -59,7 +59,7 @@ class IndexController extends Controller
     /**
      * Show the Contest Detail Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function detail($cid)
     {

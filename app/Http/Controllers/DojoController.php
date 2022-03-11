@@ -13,7 +13,7 @@ class DojoController extends Controller
      *
      * @param Request $request your web request
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index(Request $request)
     {

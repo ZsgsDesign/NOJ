@@ -15,7 +15,7 @@ class PastebinController extends Controller
     /**
      * Generate a new pastebin.
      *
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function generate(Request $request)
     {

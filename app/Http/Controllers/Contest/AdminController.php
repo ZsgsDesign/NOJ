@@ -20,7 +20,7 @@ class AdminController extends Controller
     /**
      * Show the Contest Admin Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function admin($cid)
     {

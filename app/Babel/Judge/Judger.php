@@ -19,11 +19,6 @@ class Judger extends Curl
     private $judger=[];
     public $ret=[];
 
-    /**
-     * Initial
-     *
-     * @return Response
-     */
     public function __construct()
     {
         $submissionModel=new SubmissionModel();

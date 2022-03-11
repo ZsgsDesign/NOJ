@@ -16,7 +16,7 @@ class MainController extends Controller
      *
      * @param Request $request your web request
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function home(Request $request)
     {

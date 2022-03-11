@@ -17,7 +17,7 @@ class ProblemController extends Controller
     /**
      * Show the Problem Index Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function index(Request $request)
     {
@@ -56,7 +56,7 @@ class ProblemController extends Controller
     /**
      * Show the Problem Detail Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function detail(Request $request)
     {
@@ -74,7 +74,7 @@ class ProblemController extends Controller
     /**
      * Show the Problem Solution Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function solution(Request $request)
     {
@@ -95,7 +95,7 @@ class ProblemController extends Controller
     /**
      * Show the Problem Editor Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function editor(Request $request)
     {
@@ -136,7 +136,7 @@ class ProblemController extends Controller
     /**
      * Show the Problem Discussion Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function discussion(Request $request)
     {
@@ -158,7 +158,7 @@ class ProblemController extends Controller
     /**
      * Show the Problem Discussion Post Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function discussionPost(Request $request)
     {

@@ -12,7 +12,7 @@ class SystemController extends Controller
     /**
      * Show the System Info Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function info()
     {

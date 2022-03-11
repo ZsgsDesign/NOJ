@@ -18,7 +18,7 @@ class SettingsController extends Controller
     /**
      * Show the Testing Page.
      *
-     * @return Response
+     * @return \Encore\Admin\Layout\Content
      */
     public function index(Content $content)
     {
@@ -34,7 +34,7 @@ class SettingsController extends Controller
     /**
      * Make a form builder.
      *
-     * @return Form
+     * @return \Encore\Admin\Widgets\Box
      */
     protected function form()
     {

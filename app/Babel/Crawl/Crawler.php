@@ -9,11 +9,6 @@ class Crawler
 {
     public $data=null;
 
-    /**
-     * Initial
-     *
-     * @return Response
-     */
     public function __construct($conf, $commandLineObject=null)
     {
         $crawler=self::create($conf, $commandLineObject);

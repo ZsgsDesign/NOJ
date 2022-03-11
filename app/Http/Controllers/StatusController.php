@@ -12,7 +12,7 @@ class StatusController extends Controller
     /**
      * Show the Status Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function index(Request $request)
     {

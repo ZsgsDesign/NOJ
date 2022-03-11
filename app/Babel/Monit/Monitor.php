@@ -9,11 +9,6 @@ use Throwable;
 class Monitor
 {
 
-    /**
-     * Initial
-     *
-     * @return Response
-     */
     public function __construct($conf)
     {
         $monitor=self::create($conf);

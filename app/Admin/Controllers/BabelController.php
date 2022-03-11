@@ -15,7 +15,7 @@ class BabelController extends Controller
     /**
      * Show the MarketSpace Page.
      *
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function index(Content $content)
     {
@@ -25,7 +25,7 @@ class BabelController extends Controller
     /**
      * Show the Installed Page.
      *
-     * @return Response
+     * @return \Encore\Admin\Layout\Content
      */
     public function installed(Content $content)
     {
@@ -42,7 +42,7 @@ class BabelController extends Controller
     /**
      * Show the MarketSpace Page.
      *
-     * @return Response
+     * @return \Encore\Admin\Layout\Content
      */
     public function marketspace(Content $content)
     {
@@ -59,7 +59,7 @@ class BabelController extends Controller
     /**
      * Show the MarketSpace Detail Page.
      *
-     * @return Response
+     * @return \Encore\Admin\Layout\Content
      */
     public function detail($code, Content $content)
     {
@@ -76,7 +76,7 @@ class BabelController extends Controller
     /**
      * Show the Extension Update Page.
      *
-     * @return Response
+     * @return \Encore\Admin\Layout\Content
      */
     public function update($extension, Content $content)
     {
@@ -86,7 +86,7 @@ class BabelController extends Controller
     /**
      * Show the Extension Install Page.
      *
-     * @return Response
+     * @return \Encore\Admin\Layout\Content
      */
     public function install($extension, Content $content)
     {

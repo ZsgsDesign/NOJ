@@ -17,7 +17,7 @@ class AdminController extends Controller
     /**
      * Redirect to the Group Settings General Section.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function settings($gcode)
     {
@@ -27,7 +27,7 @@ class AdminController extends Controller
     /**
      * Redirect to the Group Detail Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function settingsReturn($gcode)
     {
@@ -37,7 +37,7 @@ class AdminController extends Controller
     /**
      * Show the Group Settings General Section.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function settingsGeneral($gcode)
     {
@@ -58,7 +58,7 @@ class AdminController extends Controller
     /*
      * Show the Group's Problems in Practice Contest or other Contest.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function problems($gcode) {
         $groupModel=new GroupModel();
@@ -78,7 +78,7 @@ class AdminController extends Controller
     /*
      * Homework.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function homework($gcode) {
         $groupModel=new GroupModel();
@@ -98,7 +98,7 @@ class AdminController extends Controller
     /**
      * Show the Group Settings General Section.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function settingsDanger($gcode)
     {
@@ -115,7 +115,7 @@ class AdminController extends Controller
     /**
      * Show the Group Settings General Section.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function settingsMember($gcode)
     {

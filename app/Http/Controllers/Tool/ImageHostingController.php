@@ -12,7 +12,7 @@ class ImageHostingController extends Controller
     /**
      * Show the Image Hosting Create Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -27,7 +27,7 @@ class ImageHostingController extends Controller
     /**
      * Show the Image Hosting Detail Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function detail($id)
     {
@@ -49,7 +49,7 @@ class ImageHostingController extends Controller
     /**
      * Show the Image Hosting List Page.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function list()
     {

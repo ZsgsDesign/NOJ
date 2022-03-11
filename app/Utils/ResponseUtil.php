@@ -2,9 +2,11 @@
 
 namespace App\Utils;
 
+use Illuminate\Http\JsonResponse;
+
 class ResponseUtil
 {
-    public static function success($statusCode = 200, $desc = null, $data = null)
+    public static function success($statusCode = 200, $desc = null, $data = null): JsonResponse
     {
         if (($statusCode >= 1000)) {
             $statusCode = 200;
@@ -17,7 +19,7 @@ class ResponseUtil
         return response()->json($output);
     }
 
-    public static function err($statusCode, $desc = null, $data = null)
+    public static function err($statusCode, $desc = null, $data = null): JsonResponse
     {
         if (($statusCode < 1000)) {
             $statusCode = 1000;
@@ -30,7 +32,7 @@ class ResponseUtil
         return response()->json($output);
     }
 
-    private static function desc($errCode)
+    private static function desc($errCode): string
     {
         $errDesc = [
 

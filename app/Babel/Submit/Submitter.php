@@ -13,11 +13,6 @@ class Submitter
 {
     public $post_data=[];
 
-    /**
-     * Initial
-     *
-     * @return Response
-     */
     public function __construct($all_data)
     {
         $this->post_data=$all_data;

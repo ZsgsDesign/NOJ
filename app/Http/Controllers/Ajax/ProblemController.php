@@ -22,7 +22,7 @@ class ProblemController extends Controller
      *
      * @param Request $request web request
      *
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function submitSolution(Request $request)
     {
@@ -79,7 +79,7 @@ class ProblemController extends Controller
      *
      * @param Request $request web request
      *
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function problemExists(Request $request)
     {
@@ -96,7 +96,7 @@ class ProblemController extends Controller
      *
      * @param Request $request web request
      *
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function submitSolutionDiscussion(Request $request)
     {
@@ -116,7 +116,7 @@ class ProblemController extends Controller
      *
      * @param Request $request web request
      *
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function updateSolutionDiscussion(Request $request)
     {
@@ -132,7 +132,7 @@ class ProblemController extends Controller
      *
      * @param Request $request web request
      *
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function deleteSolutionDiscussion(Request $request)
     {
@@ -147,7 +147,7 @@ class ProblemController extends Controller
      *
      * @param Request $request web request
      *
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function voteSolutionDiscussion(Request $request)
     {
@@ -163,7 +163,7 @@ class ProblemController extends Controller
      *
      * @param Request $request web request
      *
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function downloadCode(Request $request)
     {
@@ -183,7 +183,7 @@ class ProblemController extends Controller
      *
      * @param Request $request web request
      *
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function judgeStatus(Request $request)
     {
@@ -200,7 +200,7 @@ class ProblemController extends Controller
      *
      * @param Request $request web request
      *
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function manualJudge(Request $request)
     {
@@ -219,7 +219,7 @@ class ProblemController extends Controller
      *
      * @param Request $request web request
      *
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function submitHistory(Request $request)
     {
@@ -281,7 +281,7 @@ class ProblemController extends Controller
      *
      * @param Request $request web request
      *
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function resubmitSolution(Request $request)
     {
