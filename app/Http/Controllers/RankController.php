@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Util\SiteRankUtil;
+use App\Utils\SiteRankUtil;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
