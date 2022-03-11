@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Update\UpdateModel;
+use App\Models\Update\UpdateUtil;
 use Illuminate\Support\Arr;
 use PharIo\Version\Version;
 
@@ -13,7 +13,7 @@ class DashboardController
      */
     public static function general()
     {
-        $version=UpdateModel::checkUpdate();
+        $version=UpdateUtil::checkUpdate();
 
         $status=[
             ['name' => __("admin.home.version"), 'value' => version()],
