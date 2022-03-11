@@ -3,43 +3,54 @@
     padding:1rem 2.5rem;
     width:100%;
 }
+
 .mundb-footer a{
     color:#fff;
 }
+
 .mundb-footer a:hover{
     text-decoration: none;
 }
+
 .mundb-copyright{
     color: rgba(255,255,255,.6);
     background-color: rgba(0,0,0,.2);
     text-align: center;
     font-size: .9rem;
 }
+
 nav.navbar{
     box-shadow: 0 0 4px 0 rgba(0,0,0,.14), 0 3px 4px 0 rgba(0,0,0,.12), 0 1px 5px 0 rgba(0,0,0,.2);
 }
+
 .navbar-brand {
     margin-right: 1rem;
     font-family: 'Poppins';
     display: flex;
 }
+
 .navbar-brand > img {
     margin-right: 1rem;
 }
+
 .mundb-inline{
     display:inline;
 }
+
 .mundb-inline-flex{
     display:inline-flex;
 }
+
 ::-moz-selection {
     background: #b3d4fc;
-    text-shadow: none
+    text-shadow: none;
+    color: #021b38;
 }
 
 ::selection {
     background: #b3d4fc;
-    text-shadow: none
+    text-shadow: none;
+    color: #021b38;
 }
 
 .mundb-text-truncate-1{
@@ -160,9 +171,11 @@ a.attsast-course{
     font-size:6rem;
     line-height:1;
 }
+
 .attsast-course h5{
     margin-top: 1rem;
 }
+
 .attsast-course > div:hover{
     box-shadow: 0 8px 17px 2px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2);
     opacity:1;
