@@ -113,17 +113,17 @@
                     </thead>
                     <tbody>
                         @foreach ($paginator->all() as $problem)
-                        @php
-                            $statistics = $problem->statistics;
-                            $status = $problem->problem_status;
-                        @endphp
-                        <tr>
-                            <th scope="row">{{$problem->pcode}}</th>
-                            <td><i class="MDI {{$status["icon"]}} {{$status["color"]}}"></i> <a href="{{route('problem.detail', ['pcode' => $problem->pcode])}}">{{$problem->title}}</a></td>
-                            <td>{{$statistics['submission_count']}}</td>
-                            <td>{{$statistics['passed_count']}}</td>
-                            <td>{{round($statistics['ac_rate'], 2)}}%</td>
-                        </tr>
+                            @php
+                                $statistics = $problem->statistics;
+                                $status = $problem->problem_status;
+                            @endphp
+                            <tr>
+                                <th scope="row">{{$problem->pcode}}</th>
+                                <td><i class="MDI {{$status["icon"]}} {{$status["color"]}}"></i> <a href="{{route('problem.detail', ['pcode' => $problem->pcode])}}">{{$problem->title}}</a></td>
+                                <td>{{$statistics['submission_count']}}</td>
+                                <td>{{$statistics['passed_count']}}</td>
+                                <td>{{round($statistics['ac_rate'], 2)}}%</td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
