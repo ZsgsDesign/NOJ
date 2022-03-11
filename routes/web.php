@@ -174,103 +174,106 @@ Route::group(['namespace' => 'Tool', 'middleware' => ['contest_account', 'user.b
 });
 
 Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax', 'middleware' => ['user.banned']], function () {
-    Route::post('submitSolution', 'ProblemController@submitSolution')->middleware('auth', 'throttle:1,0.17', 'problem.valid:pid');
-    Route::post('resubmitSolution', 'ProblemController@resubmitSolution')->middleware('auth', 'throttle:1,0.17', 'problem.valid:pid');
-    Route::post('judgeStatus', 'ProblemController@judgeStatus')->middleware('auth');
-    Route::post('manualJudge', 'ProblemController@manualJudge')->middleware('auth');
-    Route::post('submitHistory', 'ProblemController@submitHistory')->middleware('auth');
-    Route::post('problemExists', 'ProblemController@problemExists')->middleware('auth')->name('ajax.problemExists');
-    Route::post('arrangeContest', 'GroupManageController@arrangeContest')->middleware('auth');
-    Route::post('joinGroup', 'GroupController@joinGroup')->middleware('auth');
-    Route::post('exitGroup', 'GroupController@exitGroup')->middleware('auth');
-    Route::get('downloadCode', 'ProblemController@downloadCode')->middleware('auth');
-    Route::post('submitSolutionDiscussion', 'ProblemController@submitSolutionDiscussion')->middleware('auth');
-    Route::post('updateSolutionDiscussion', 'ProblemController@updateSolutionDiscussion')->middleware('auth');
-    Route::post('deleteSolutionDiscussion', 'ProblemController@deleteSolutionDiscussion')->middleware('auth');
-    Route::post('voteSolutionDiscussion', 'ProblemController@voteSolutionDiscussion')->middleware('auth');
-    Route::post('postDiscussion', 'ProblemController@postDiscussion')->middleware('auth');
-    Route::post('addComment', 'ProblemController@addComment')->middleware('auth');
-
-    Route::post('search', 'SearchController')->middleware('auth')->name('ajax.search');
-
-    Route::group(['prefix' => 'problem'], function () {
-        Route::post('getDialect', 'ProblemController@getDialect')->middleware('auth')->name('ajax.problem.getDialect');
-    });
-
-    Route::group(['prefix' => 'message'], function () {
-        Route::post('unread', 'MessageController@unread')->middleware('auth');
-        Route::post('allRead', 'MessageController@allRead')->middleware('auth');
-        Route::post('allDelete', 'MessageController@deleteAll')->middleware('auth');
-    });
-
-    Route::group(['prefix' => 'group'], function () {
-        Route::post('changeNickName', 'GroupController@changeNickName')->middleware('auth');
-        Route::post('createGroup', 'GroupController@createGroup')->middleware('auth');
-        Route::post('getPracticeStat', 'GroupController@getPracticeStat')->middleware('auth');
-        Route::post('eloChangeLog', 'GroupController@eloChangeLog')->middleware('auth');
-
-        Route::post('changeMemberClearance', 'GroupManageController@changeMemberClearance')->middleware('auth');
-        Route::post('changeGroupImage', 'GroupManageController@changeGroupImage')->middleware('auth');
-        Route::post('changeJoinPolicy', 'GroupManageController@changeJoinPolicy')->middleware('auth');
-        Route::post('changeGroupName', 'GroupManageController@changeGroupName')->middleware('auth');
-        Route::post('approveMember', 'GroupManageController@approveMember')->middleware('auth');
-        Route::post('removeMember', 'GroupManageController@removeMember')->middleware('auth');
-        Route::post('inviteMember', 'GroupManageController@inviteMember')->middleware('auth');
-        Route::post('createNotice', 'GroupManageController@createNotice')->middleware('auth');
-        Route::post('changeSubGroup', 'GroupManageController@changeSubGroup')->middleware('auth');
-        Route::post('createHomework', 'GroupManageController@createHomework')->middleware('auth')->name('ajax.group.createHomework');
-
-        Route::post('addProblemTag', 'GroupAdminController@addProblemTag')->middleware('auth');
-        Route::post('removeProblemTag', 'GroupAdminController@removeProblemTag')->middleware('auth');
-        Route::get('generateContestAccount', 'GroupAdminController@generateContestAccount')->middleware('auth');
-        Route::post('refreshElo', 'GroupAdminController@refreshElo')->middleware('auth');
-    });
-
-    Route::group(['prefix' => 'contest'], function () {
-        Route::get('updateProfessionalRate', 'ContestController@updateProfessionalRate')->middleware('auth');
-        Route::post('fetchClarification', 'ContestController@fetchClarification')->middleware('auth');
-        Route::post('requestClarification', 'ContestController@requestClarification')->middleware('auth', 'throttle:1,0.34');
-        Route::post('registContest', 'ContestController@registContest')->middleware('auth')->name('ajax.contest.registContest');
-        Route::post('getAnalysisData', 'ContestController@getAnalysisData')->middleware('auth')->name('ajax.contest.getAnalysisData');
-        Route::get('downloadPDF', 'ContestController@downloadPDF')->middleware('auth')->name('ajax.contest.downloadPDF');
-
-        Route::post('rejudge', 'ContestAdminController@rejudge')->middleware('auth')->name('ajax.contest.rejudge');
-        Route::post('details', 'ContestAdminController@details')->middleware('auth');
-        Route::post('assignMember', 'ContestAdminController@assignMember')->middleware('auth');
-        Route::post('update', 'ContestAdminController@update')->middleware('auth');
-        Route::post('issueAnnouncement', 'ContestAdminController@issueAnnouncement')->middleware('auth');
-        Route::post('replyClarification', 'ContestAdminController@replyClarification')->middleware('auth');
-        Route::post('setClarificationPublic', 'ContestAdminController@setClarificationPublic')->middleware('auth');
-        Route::post('generateContestAccount', 'ContestAdminController@generateContestAccount')->middleware('auth');
-        Route::post('getScrollBoardData', 'ContestAdminController@getScrollBoardData')->middleware('auth')->name('ajax.contest.getScrollBoardData');
-        Route::get('downloadCode', 'ContestAdminController@downloadCode')->middleware('auth');
-        Route::post('generatePDF', 'ContestAdminController@generatePDF')->middleware('auth')->name('ajax.contest.generatePDF');
-        Route::post('removePDF', 'ContestAdminController@removePDF')->middleware('auth')->name('ajax.contest.removePDF');
-        Route::post('anticheat', 'ContestAdminController@anticheat')->middleware('auth')->name('ajax.contest.anticheat');
-        Route::get('downloadPlagiarismReport', 'ContestAdminController@downloadPlagiarismReport')->middleware('auth')->name('ajax.contest.downloadPlagiarismReport');
-    });
-
     Route::group(['prefix' => 'submission'], function () {
         Route::post('detail', 'SubmissionController@detail');
         Route::post('share', 'SubmissionController@share');
     });
 
-    Route::group(['prefix' => 'account'], function () {
-        Route::post('updateAvatar', 'AccountController@updateAvatar')->middleware('auth')->name('ajax.account.update.avatar');
-        Route::post('changeBasicInfo', 'AccountController@changeBasicInfo')->middleware('auth')->name('ajax.account.change.basicinfo');
-        Route::post('changeExtraInfo', 'AccountController@changeExtraInfo')->middleware('auth')->name('ajax.account.change.extrainfo');
-        Route::post('changePassword', 'AccountController@changePassword')->middleware('auth')->name('ajax.account.change.password');
-        Route::post('checkEmailCooldown', 'AccountController@checkEmailCooldown')->middleware('auth')->name('ajax.account.check.emailcooldown');
-        Route::post('saveEditorWidth', 'AccountController@saveEditorWidth')->middleware('auth')->name('ajax.account.save.editorwidth');
-        Route::post('saveEditorTheme', 'AccountController@saveEditorTheme')->middleware('auth')->name('ajax.account.save.editortheme');
-    });
+    Route::group(['middleware' => 'auth'], function () {
+        Route::post('search', 'SearchController')->name('ajax.search');
 
-    Route::group(['prefix' => 'abuse'], function () {
-        Route::post('report', 'AbuseController@report')->middleware('auth')->name('ajax.abuse.report');
-    });
+        Route::post('submitSolution', 'ProblemController@submitSolution')->middleware('throttle:1,0.17', 'problem.valid:pid');
+        Route::post('resubmitSolution', 'ProblemController@resubmitSolution')->middleware('throttle:1,0.17', 'problem.valid:pid');
+        Route::post('judgeStatus', 'ProblemController@judgeStatus');
+        Route::post('manualJudge', 'ProblemController@manualJudge');
+        Route::post('submitHistory', 'ProblemController@submitHistory');
+        Route::post('problemExists', 'ProblemController@problemExists')->name('ajax.problemExists');
+        Route::get('downloadCode', 'ProblemController@downloadCode');
+        Route::post('submitSolutionDiscussion', 'ProblemController@submitSolutionDiscussion');
+        Route::post('updateSolutionDiscussion', 'ProblemController@updateSolutionDiscussion');
+        Route::post('deleteSolutionDiscussion', 'ProblemController@deleteSolutionDiscussion');
+        Route::post('voteSolutionDiscussion', 'ProblemController@voteSolutionDiscussion');
+        Route::post('postDiscussion', 'ProblemController@postDiscussion');
+        Route::post('addComment', 'ProblemController@addComment');
 
-    Route::group(['prefix' => 'dojo'], function () {
-        Route::post('dojo', 'DojoController@complete')->middleware('auth')->name('ajax.dojo.complete');
+        Route::post('arrangeContest', 'GroupManageController@arrangeContest');
+        Route::post('joinGroup', 'GroupController@joinGroup');
+        Route::post('exitGroup', 'GroupController@exitGroup');
+
+        Route::group(['prefix' => 'problem'], function () {
+            Route::post('getDialect', 'ProblemController@getDialect')->name('ajax.problem.getDialect');
+        });
+
+        Route::group(['prefix' => 'message'], function () {
+            Route::post('unread', 'MessageController@unread');
+            Route::post('allRead', 'MessageController@allRead');
+            Route::post('allDelete', 'MessageController@deleteAll');
+        });
+
+        Route::group(['prefix' => 'group'], function () {
+            Route::post('changeNickName', 'GroupController@changeNickName');
+            Route::post('createGroup', 'GroupController@createGroup');
+            Route::post('getPracticeStat', 'GroupController@getPracticeStat');
+            Route::post('eloChangeLog', 'GroupController@eloChangeLog');
+
+            Route::post('changeMemberClearance', 'GroupManageController@changeMemberClearance');
+            Route::post('changeGroupImage', 'GroupManageController@changeGroupImage');
+            Route::post('changeJoinPolicy', 'GroupManageController@changeJoinPolicy');
+            Route::post('changeGroupName', 'GroupManageController@changeGroupName');
+            Route::post('approveMember', 'GroupManageController@approveMember');
+            Route::post('removeMember', 'GroupManageController@removeMember');
+            Route::post('inviteMember', 'GroupManageController@inviteMember');
+            Route::post('createNotice', 'GroupManageController@createNotice');
+            Route::post('changeSubGroup', 'GroupManageController@changeSubGroup');
+            Route::post('createHomework', 'GroupManageController@createHomework')->name('ajax.group.createHomework');
+
+            Route::post('addProblemTag', 'GroupAdminController@addProblemTag');
+            Route::post('removeProblemTag', 'GroupAdminController@removeProblemTag');
+            Route::get('generateContestAccount', 'GroupAdminController@generateContestAccount');
+            Route::post('refreshElo', 'GroupAdminController@refreshElo');
+        });
+
+        Route::group(['prefix' => 'contest'], function () {
+            Route::get('updateProfessionalRate', 'ContestController@updateProfessionalRate');
+            Route::post('fetchClarification', 'ContestController@fetchClarification');
+            Route::post('requestClarification', 'ContestController@requestClarification')->middleware('throttle:1,0.34');
+            Route::post('registContest', 'ContestController@registContest')->name('ajax.contest.registContest');
+            Route::post('getAnalysisData', 'ContestController@getAnalysisData')->name('ajax.contest.getAnalysisData');
+            Route::get('downloadPDF', 'ContestController@downloadPDF')->name('ajax.contest.downloadPDF');
+
+            Route::post('rejudge', 'ContestAdminController@rejudge')->name('ajax.contest.rejudge');
+            Route::post('details', 'ContestAdminController@details');
+            Route::post('assignMember', 'ContestAdminController@assignMember');
+            Route::post('update', 'ContestAdminController@update');
+            Route::post('issueAnnouncement', 'ContestAdminController@issueAnnouncement');
+            Route::post('replyClarification', 'ContestAdminController@replyClarification');
+            Route::post('setClarificationPublic', 'ContestAdminController@setClarificationPublic');
+            Route::post('generateContestAccount', 'ContestAdminController@generateContestAccount');
+            Route::post('getScrollBoardData', 'ContestAdminController@getScrollBoardData')->name('ajax.contest.getScrollBoardData');
+            Route::get('downloadCode', 'ContestAdminController@downloadCode');
+            Route::post('generatePDF', 'ContestAdminController@generatePDF')->name('ajax.contest.generatePDF');
+            Route::post('removePDF', 'ContestAdminController@removePDF')->name('ajax.contest.removePDF');
+            Route::post('anticheat', 'ContestAdminController@anticheat')->name('ajax.contest.anticheat');
+            Route::get('downloadPlagiarismReport', 'ContestAdminController@downloadPlagiarismReport')->name('ajax.contest.downloadPlagiarismReport');
+        });
+
+        Route::group(['prefix' => 'account'], function () {
+            Route::post('updateAvatar', 'AccountController@updateAvatar')->name('ajax.account.update.avatar');
+            Route::post('changeBasicInfo', 'AccountController@changeBasicInfo')->name('ajax.account.change.basicinfo');
+            Route::post('changeExtraInfo', 'AccountController@changeExtraInfo')->name('ajax.account.change.extrainfo');
+            Route::post('changePassword', 'AccountController@changePassword')->name('ajax.account.change.password');
+            Route::post('checkEmailCooldown', 'AccountController@checkEmailCooldown')->name('ajax.account.check.emailcooldown');
+            Route::post('saveEditorWidth', 'AccountController@saveEditorWidth')->name('ajax.account.save.editorwidth');
+            Route::post('saveEditorTheme', 'AccountController@saveEditorTheme')->name('ajax.account.save.editortheme');
+        });
+
+        Route::group(['prefix' => 'abuse'], function () {
+            Route::post('report', 'AbuseController@report')->name('ajax.abuse.report');
+        });
+
+        Route::group(['prefix' => 'dojo'], function () {
+            Route::post('dojo', 'DojoController@complete')->name('ajax.dojo.complete');
+        });
     });
 });
 
