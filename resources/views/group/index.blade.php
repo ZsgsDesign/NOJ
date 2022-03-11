@@ -148,7 +148,7 @@
                     </div>
                     <div>
                         <p class="cm-group-name">{{__("group.create.title")}}</p>
-                        <small class="cm-group-info">{{__("group.create.description")}}</small>
+                        <small class="cm-group-info">{{__("group.create.cta")}}</small>
                         <div class="cm-group-action">
 
                         </div>
