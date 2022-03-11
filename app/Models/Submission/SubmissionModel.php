@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\ContestModel;
 
+/**
+ * @deprecated 0.18.0 No longer accepts new methods, will be removed in the future.
+ */
 class SubmissionModel extends Model
 {
     protected $tableName='submission';
@@ -19,6 +22,9 @@ class SubmissionModel extends Model
     const UPDATED_AT=null;
     const CREATED_AT=null;
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public $colorScheme=[
         "Waiting"                => "wemd-blue-text",
         "Judge Error"            => "wemd-black-text",
@@ -39,8 +45,15 @@ class SubmissionModel extends Model
         'Output Limit Exceeded'  => 'wemd-deep-purple-text',
         "Idleness Limit Exceed"  => 'wemd-deep-purple-text'
     ];
+
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public $langConfig=[];
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function __construct()
     {
         $this->extractModels["ShareNodel"]=new ShareModel($this);
@@ -287,6 +300,9 @@ class SubmissionModel extends Model
         }
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function insert($sub)
     {
         if (strlen($sub['verdict'])==0) {
@@ -313,37 +329,58 @@ class SubmissionModel extends Model
         return $sid;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function basic($sid)
     {
         return DB::table($this->tableName)->where(['sid'=>$sid])->first();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function getJudgeStatus($sid, $uid)
     {
         return $this->extractModels["StatusModel"]->getJudgeStatus($sid, $uid);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function downloadCode($sid, $uid)
     {
         return $this->extractModels["StatusModel"]->downloadCode($sid, $uid);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function getProblemStatus($pid, $uid, $cid=null)
     {
         return $this->extractModels["StatusModel"]->getProblemStatus($pid, $uid, $cid);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function getProblemSubmission($pid, $uid, $cid=null)
     {
         $statusList=DB::table($this->tableName)->where(['pid'=>$pid, 'uid'=>$uid, 'cid'=>$cid])->orderBy('submission_date', 'desc')->limit(10)->get()->all();
         return $statusList;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function countSolution($s)
     {
         return DB::table($this->tableName)->where(['solution'=>$s])->count();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function getEarliestSubmission($oid)
     {
         return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
@@ -353,6 +390,9 @@ class SubmissionModel extends Model
                                             ->first();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function countEarliestWaitingSubmission($oid)
     {
         $early_sid=$this->getEarliestSubmission($oid);
@@ -366,7 +406,9 @@ class SubmissionModel extends Model
                                             ->count();
     }
 
-
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function getWaitingSubmission()
     {
         $ret=DB::table($this->tableName)    ->join('problem', 'problem.pid', '=', 'submission.pid')
@@ -380,6 +422,9 @@ class SubmissionModel extends Model
         return $ret;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function countWaitingSubmission($oid)
     {
         return DB::table($this->tableName)  ->join('problem', 'problem.pid', '=', 'submission.pid')
@@ -387,6 +432,9 @@ class SubmissionModel extends Model
                                             ->count();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function updateSubmission($sid, $sub)
     {
         if (isset($sub['verdict'])) {
@@ -405,6 +453,9 @@ class SubmissionModel extends Model
         return $result;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function getRecord($filter)
     {
         $paginator=DB::table("submission")->where([
@@ -465,11 +516,17 @@ class SubmissionModel extends Model
         ];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function share($sid, $uid)
     {
         return $this->extractModels["ShareNodel"]->share($sid, $uid);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function sharePB($sid, $uid)
     {
         return $this->extractModels["ShareNodel"]->sharePB($sid, $uid);

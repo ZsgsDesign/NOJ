@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Eloquent\Compiler;
 
+/**
+ * @deprecated 0.18.0 No longer accepts new methods, will be removed in the future.
+ */
 class StatusModel extends Model
 {
     protected $tableName="submission";
@@ -13,11 +16,17 @@ class StatusModel extends Model
         "SubmissionModel"=>null
     ];
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function __construct($submissionModel)
     {
         $this->extractModels["SubmissionModel"]=$submissionModel;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function getJudgeStatus($sid, $uid)
     {
         $status=$this->extractModels["SubmissionModel"]->basic($sid);
@@ -40,6 +49,9 @@ class StatusModel extends Model
         return $status;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function downloadCode($sid, $uid)
     {
         $status=DB::table($this->tableName)->where(['sid'=>$sid])->first();
@@ -54,6 +66,9 @@ class StatusModel extends Model
         ];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function getProblemStatus($pid, $uid, $cid=null)
     {
         if ($cid) {

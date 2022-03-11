@@ -6,17 +6,26 @@ use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @deprecated 0.18.0 No longer accepts new methods, will be removed in the future.
+ */
 class ProblemModel extends Model
 {
     protected $table='problem';
     protected $primaryKey='pid';
     const UPDATED_AT="update_date";
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function basic($pid)
     {
         return DB::table($this->table)->where("pid", $pid)->first();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function solutionList($pid, $uid=null)
     {
         if (is_null($uid)) {
@@ -70,6 +79,9 @@ class ProblemModel extends Model
         return $details;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function addSolution($pid, $uid, $content)
     {
         $details=DB::table("problem_solution")->where(['pid'=>$pid, 'uid'=>$uid])->first();
@@ -88,6 +100,9 @@ class ProblemModel extends Model
         return false;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     private function inteliAudit($uid, $content)
     {
         if (strpos($content, '```')!==false) {
@@ -99,6 +114,9 @@ class ProblemModel extends Model
         return 0;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function voteSolution($psoid, $uid, $type)
     {
         $val=$type ? 1 : -1;
@@ -140,6 +158,9 @@ class ProblemModel extends Model
         return ["ret"=>true, "votes"=>$details["votes"]+$val, "select"=>$type];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function removeSolution($psoid, $uid)
     {
         if (empty(DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->first())) {
@@ -149,6 +170,9 @@ class ProblemModel extends Model
         return true;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function updateSolution($psoid, $uid, $content)
     {
         if (empty(DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->first())) {
@@ -162,52 +186,79 @@ class ProblemModel extends Model
         return true;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function pid($pcode)
     {
         $temp=DB::table($this->table)->where(["pcode"=>$pcode])->select("pid")->first();
         return empty($temp) ? 0 : $temp["pid"];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function pcode($pid)
     {
         $temp=DB::table($this->table)->where(["pid"=>$pid])->select("pcode")->first();
         return empty($temp) ? 0 : $temp["pcode"];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function ocode($pid)
     {
         $temp=DB::table($this->table)->where(["pid"=>$pid])->select("OJ as oid")->first();
         return empty($temp) ? null : DB::table("oj")->where(["oid"=>$temp["oid"]])->select("ocode")->first()["ocode"];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function oid($pid)
     {
         return DB::table($this->table)->where(["pid"=>$pid])->select("OJ as oid")->first()["oid"];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function clearTags($pid)
     {
         DB::table("problem_tag")->where(["pid"=>$pid])->delete();
         return true;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function addTags($pid, $tag)
     {
         DB::table("problem_tag")->insert(["pid"=>$pid, "tag"=>$tag]);
         return true;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function getSolvedCount($oid)
     {
         return DB::table($this->table)->select("pid", "solved_count")->where(["OJ"=>$oid])->get()->all();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function updateDifficulty($pid, $diff_level)
     {
         DB::table("problem_tag")->where(["pid"=>$pid])->update(["difficulty"=>$diff_level]);
         return true;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function insertProblem($data)
     {
         $info=array_merge([
@@ -258,6 +309,9 @@ class ProblemModel extends Model
         return $pid;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function updateProblem($data)
     {
         DB::table($this->table)->where(["pcode"=>$data['pcode']])->update(array_merge([
@@ -309,6 +363,9 @@ class ProblemModel extends Model
         return $pid;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function discussionList($pid)
     {
         $paginator=DB::table('problem_discussion')->join(
@@ -341,6 +398,9 @@ class ProblemModel extends Model
         ];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function discussionDetail($pdid)
     {
         $main=DB::table('problem_discussion')->join(
@@ -444,6 +504,9 @@ class ProblemModel extends Model
         ];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function replyParent($pdcid)
     {
         $reply_id=DB::table('problem_discussion_comment')->where('pdcid', '=', $pdcid)->get()->first()['reply_id'];
@@ -455,6 +518,9 @@ class ProblemModel extends Model
         }
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function pcodeByPdid($dcode)
     {
         $pid=DB::table('problem_discussion')->where('pdid', '=', $dcode)->get()->first()['pid'];
@@ -462,6 +528,9 @@ class ProblemModel extends Model
         return $pcode;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function addDiscussion($uid, $pid, $title, $content)
     {
         $pdid=DB::table("problem_discussion")->insertGetId([
@@ -477,12 +546,18 @@ class ProblemModel extends Model
         return $pdid;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function pidByPdid($pdid)
     {
         $pid=DB::table('problem_discussion')->where('pdid', '=', $pdid)->get()->first()['pid'];
         return $pid;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
+     */
     public function addComment($uid, $pdid, $content, $reply_id)
     {
         $pid=$this->pidByPdid($pdid);

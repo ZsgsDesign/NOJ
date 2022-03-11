@@ -12,8 +12,15 @@ use Cache;
 use Exception;
 use Storage;
 
+/**
+ * @deprecated 0.18.0 No longer accepts new methods, will be removed in the future.
+ */
 class AccountModel extends Model
 {
+
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\User::class` instead.
+     */
     public function generatePassword($length=8)
     {
         $chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789';
@@ -25,6 +32,9 @@ class AccountModel extends Model
         return $password;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\ProblemSolution::class` instead.
+     */
     public function feed($uid=null)
     {
         $ret=[];
@@ -38,6 +48,9 @@ class AccountModel extends Model
         return $ret;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function generateContestAccount($cid, $ccode, $num)
     {
         $ret=[];
@@ -66,11 +79,17 @@ class AccountModel extends Model
         return $ret;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function getContestAccount($cid)
     {
         return DB::table('users')->where(["contest_account"=>$cid])->get()->all();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\User::class` instead.
+     */
     public function add($data)
     {
         return DB::table("users")->insertGetId([
@@ -87,6 +106,9 @@ class AccountModel extends Model
         ]);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\User::class` instead.
+     */
     public function detail($uid)
     {
         if (filter_var($uid, FILTER_VALIDATE_INT)===false) {

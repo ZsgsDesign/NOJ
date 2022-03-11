@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Eloquent\Tool\Pastebin;
 
+/**
+ * @deprecated 0.18.0 No longer accepts new methods, will be removed in the future.
+ */
 class ShareModel extends Model
 {
     protected $tableName="submission";
@@ -13,11 +16,17 @@ class ShareModel extends Model
         "SubmissionModel"=>null
     ];
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function __construct($submissionModel)
     {
         $this->extractModels["SubmissionModel"]=$submissionModel;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function share($sid, $uid)
     {
         $basic=DB::table($this->tableName)->where(['sid'=>$sid, 'uid'=>$uid])->first();
@@ -32,6 +41,9 @@ class ShareModel extends Model
         ];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public function sharePB($sid, $uid)
     {
         $basic=DB::table($this->tableName)->where(['sid'=>$sid, 'uid'=>$uid])->first();

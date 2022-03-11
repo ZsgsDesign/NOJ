@@ -7,9 +7,16 @@ use Illuminate\Support\Facades\DB;
 use Requests;
 use Exception;
 
+/**
+ * @deprecated 0.18.0 No longer accepts new methods, will be removed in the future.
+ */
 class JudgerModel extends Model
 {
     protected $tableName='judger';
+
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public static $status=[
         "-2"=>[
             "text"=>"Unavailable",
@@ -33,26 +40,41 @@ class JudgerModel extends Model
         ],
     ];
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Judger::class` instead.
+     */
     public function list($oid=2)
     {
         $judger_list=DB::table($this->tableName)->where(["oid"=>$oid, "available"=>1])->get()->all();
         return $judger_list;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Judger::class` instead.
+     */
     public function detail($jid)
     {
         $judger_list=DB::table($this->tableName)->where(["jid"=>$jid])->get()->first();
         return $judger_list;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\ContestJudger::class` instead.
+     */
     public function contestJudger($vcid) {
         return DB::table("contest_judger")->where(["vcid"=>$vcid, "available"=>1])->get()->all();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\ContestJudger::class` instead.
+     */
     public function contestJudgerDetail($jid) {
         return DB::table("contest_judger")->where("jid", $jid)->get()->first();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\JudgeServer::class` instead.
+     */
     public function server($oid=1)
     {
         $serverList=DB::table("judge_server")->where([
@@ -64,6 +86,9 @@ class JudgerModel extends Model
         return $serverList;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\JudgeServer::class` instead.
+     */
     public function fetchServer($oid=0)
     {
         $serverList=DB::table("judge_server");

@@ -9,6 +9,9 @@ use Cache;
 use Auth;
 use App\Models\ContestModel;
 
+/**
+ * @deprecated 0.18.0 No longer accepts new methods, will be removed in the future.
+ */
 class GroupModel extends Model
 {
     protected $tableName='group';
@@ -25,6 +28,10 @@ class GroupModel extends Model
             2:a user can join this group only by application
             3:a user can join this group by both invitation and application
     */
+
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public $role=[
         "-3"=>"None",
         "-1"=>"Invited",
@@ -33,6 +40,10 @@ class GroupModel extends Model
         "2"=>"Manager",
         "3"=>"Leader"
     ];
+
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public $role_color=[
         "-3"=>"wemd-black",
         "-1"=>"wemd-deep-purple",
@@ -42,16 +53,25 @@ class GroupModel extends Model
         "3"=>"wemd-amber"
     ];
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function trendingGroups()
     {
         return Cache::tags(['group'])->get('trending');
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function gid($gcode)
     {
         return DB::table($this->tableName)->where(["gcode"=>$gcode])->first()["gid"];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function cacheTrendingGroups()
     {
         $trending_groups=DB::table($this->tableName)->where(["public"=>1])->orderBy('created_at', 'desc')->select("gid", "gcode", "img", "name", "verified")->get()->all();
@@ -64,6 +84,9 @@ class GroupModel extends Model
         Cache::tags(['group'])->put('trending', array_slice($trending_groups, 0, 12), 3600 * 24);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function userGroups($uid)
     {
         $user_groups=DB::table("group_member")->join("group", "group_member.gid", "=", "group.gid")->where(["uid"=>$uid])->select("group.gid as gid", "gcode", "img", "name", "verified")->get()->all();
@@ -73,16 +96,25 @@ class GroupModel extends Model
         return $user_groups;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function countGroupMembers($gid)
     {
         return DB::table("group_member")->where(["gid"=>$gid])->count();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function getGroupTags($gid)
     {
         return DB::table("group_tag")->where(["gid"=>$gid])->select("tag")->get()->all();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function countGroupContest($gid)
     {
         return [
@@ -92,6 +124,9 @@ class GroupModel extends Model
         ];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function changeNickName($gid, $uid, $nickName)
     {
         return DB::table("group_member")->where(["gid"=>$gid, "uid"=>$uid])->update([
@@ -99,6 +134,9 @@ class GroupModel extends Model
         ]);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function changeGroupName($gid, $GroupName)
     {
         return DB::table("group")->where('gid', $gid)->update([
@@ -106,18 +144,27 @@ class GroupModel extends Model
         ]);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function changeJoinPolicy($gid, $JoinPolicy) {
         return DB::table("group")->where('gid', $gid)->update([
             "join_policy"=>$JoinPolicy
         ]);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function basic($gid)
     {
         $basic_info=DB::table($this->tableName)->where(["gid"=>$gid])->first();
         return $basic_info;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function details($gcode)
     {
         $basic_info=DB::table($this->tableName)->where(["gcode"=>$gcode])->first();
@@ -131,12 +178,18 @@ class GroupModel extends Model
         return $basic_info;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function joinPolicy($gid)
     {
         $ret=DB::table($this->tableName)->where(["gid"=>$gid])->first();
         return empty($ret) ? null : $ret["join_policy"];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function userProfile($uid, $gid)
     {
         $info=DB::table("group_member")
@@ -152,6 +205,9 @@ class GroupModel extends Model
         return $info;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function userList($gid)
     {
         $user_list=DB::table("group_member")->join(
@@ -178,6 +234,9 @@ class GroupModel extends Model
         return $user_list;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function groupNotice($gid)
     {
         $notice_item=DB::table("group_notice")->where(["gid"=>$gid])->first();
@@ -192,12 +251,18 @@ class GroupModel extends Model
         return $notice_item;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function judgeClearance($gid, $uid)
     {
         $ret=DB::table("group_member")->where(["gid"=>$gid, "uid"=>$uid])->first();
         return empty($ret) ? -3 : $ret["role"];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function changeClearance($uid, $gid, $clearance)
     {
         return DB::table("group_member")->where([
@@ -208,6 +273,9 @@ class GroupModel extends Model
         ]);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function removeClearance($uid, $gid)
     {
         return DB::table("group_member")->where([
@@ -216,6 +284,9 @@ class GroupModel extends Model
         ])->delete();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function addClearance($uid, $gid, $clearance)
     {
         return DB::table("group_member")->insert([
@@ -226,6 +297,9 @@ class GroupModel extends Model
         ]);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function isMember($gid, $uid)
     {
         return DB::table("group_member")->where([
@@ -234,6 +308,9 @@ class GroupModel extends Model
         ])->where("role", ">", 0)->count();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function problemTags($gid, $pid=-1)
     {
         if ($pid==-1) {
@@ -260,6 +337,9 @@ class GroupModel extends Model
         return $tags_arr;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function problems($gid)
     {
         $contestModel=new ContestModel();
@@ -283,6 +363,9 @@ class GroupModel extends Model
         return $problems;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function problemAddTag($gid, $pid, $tag)
     {
         return DB::table("group_problem_tag")->insert([
@@ -292,6 +375,9 @@ class GroupModel extends Model
         ]);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function problemRemoveTag($gid, $pid, $tag)
     {
         return DB::table("group_problem_tag")->where([
@@ -301,6 +387,9 @@ class GroupModel extends Model
         ])->delete();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function judgeEmailClearance($gid, $email)
     {
         $user=DB::table("users")->where(["email"=>$email])->first();
@@ -314,6 +403,9 @@ class GroupModel extends Model
         return empty($ret) ? -3 : $ret["role"];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function inviteMember($gid, $email)
     {
         $uid=DB::table("users")->where(["email"=>$email])->first();
@@ -325,6 +417,9 @@ class GroupModel extends Model
         ]);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function changeGroup($uid, $gid, $sub)
     {
         return DB::table("group_member")->where([
@@ -335,6 +430,9 @@ class GroupModel extends Model
         ]);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function isUser($email)
     {
         return DB::table("users")->where([
@@ -342,6 +440,9 @@ class GroupModel extends Model
         ])->count();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function isGroup($gcode)
     {
         return DB::table("group")->where([
@@ -349,6 +450,9 @@ class GroupModel extends Model
         ])->count();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function createGroup($uid, $gcode, $img, $name, $public, $description, $join_policy)
     {
         $gid=DB::table("group")->insertGetId([
@@ -371,6 +475,9 @@ class GroupModel extends Model
         ]);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function detailNotice($gcode)
     {
         $group=DB::table("group")->where([
@@ -381,6 +488,9 @@ class GroupModel extends Model
         ])->first();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function createNotice($gid, $uid, $title, $content)
     {
         return DB::table("group_notice")->updateOrInsert(
@@ -395,6 +505,9 @@ class GroupModel extends Model
             ]);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function groupMemberPracticeContestStat($gid)
     {
         $contestModel=new ContestModel();
@@ -482,6 +595,9 @@ class GroupModel extends Model
         return $ret;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function groupMemberPracticeTagStat($gid)
     {
         $tags=$this->problemTags($gid);
@@ -543,6 +659,9 @@ class GroupModel extends Model
         return $ret;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function refreshAllElo()
     {
         $result=[];
@@ -556,6 +675,9 @@ class GroupModel extends Model
         return $result;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function refreshElo($gid)
     {
         DB::table('group_rated_change_log')
@@ -605,6 +727,9 @@ class GroupModel extends Model
         return $result;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Group::class` instead.
+     */
     public function getEloChangeLog($gid, $uid)
     {
         $ret=DB::table('group_rated_change_log')

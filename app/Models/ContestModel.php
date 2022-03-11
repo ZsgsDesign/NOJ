@@ -16,6 +16,9 @@ use Auth;
 use Cache;
 use Log;
 
+/**
+ * @deprecated 0.18.0 No longer accepts new methods, will be removed in the future.
+ */
 class ContestModel extends Model
 {
     protected $tableName='contest';
@@ -25,8 +28,14 @@ class ContestModel extends Model
     const UPDATED_AT=null;
     const CREATED_AT=null;
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future.
+     */
     public $rule=["Unknown", "ICPC", "IOI", "Custom ICPC", "Custom IOI"];
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function calcLength($a, $b)
     {
         $s=strtotime($b)-strtotime($a);
@@ -48,6 +57,9 @@ class ContestModel extends Model
         return $text;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function canViewContest($cid, $uid)
     {
         $contest_detail=DB::table($this->tableName)->where([
@@ -70,6 +82,9 @@ class ContestModel extends Model
         }
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function basic($cid)
     {
         return DB::table($this->tableName)->where([
@@ -77,6 +92,9 @@ class ContestModel extends Model
         ])->first();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function detail($cid, $uid=0)
     {
         $contest_clearance=$this->judgeOutSideClearance($cid, $uid);
@@ -108,6 +126,9 @@ class ContestModel extends Model
         }
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function gid($cid)
     {
         return DB::table($this->tableName)->where([
@@ -115,23 +136,35 @@ class ContestModel extends Model
         ])->first()["gid"];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function gcode($cid)
     {
         $gid=$this->gid($cid);
         return DB::table('group')->where('gid', '=', $gid)->first()["gcode"];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function runningContest()
     {
         return DB::select("select * from contest where begin_time < SYSDATE() and end_time > SYSDATE()");
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function updateCrawlStatus($cid) {
         return DB::table("contest")->where("cid", $cid)->update([
             "crawled"=>1,
         ]);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function grantAccess($uid, $cid, $audit=0)
     {
         return DB::table('contest_participant')->insert([
@@ -141,6 +174,9 @@ class ContestModel extends Model
         ]);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function listForSetting($gid)
     {
         $uid=Auth::user()->id;
@@ -172,6 +208,9 @@ class ContestModel extends Model
         return $group_contests;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function listByGroup($gid)
     {
         // $contest_list=DB::table($this->tableName)->where([
@@ -198,6 +237,9 @@ class ContestModel extends Model
         ];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function rule($cid)
     {
         return DB::table($this->tableName)->where([
@@ -205,6 +247,9 @@ class ContestModel extends Model
         ])->first()["rule"];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function list($filter, $uid)
     {
         if ($uid) {
@@ -353,6 +398,9 @@ class ContestModel extends Model
         ];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function featured()
     {
         $featured=DB::table($this->tableName)->where([
@@ -374,6 +422,9 @@ class ContestModel extends Model
         }
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function registContest($cid, $uid)
     {
         $registered=DB::table("contest_participant")->where([
@@ -402,6 +453,9 @@ class ContestModel extends Model
         return false;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function remainingTime($cid)
     {
         $end_time=DB::table($this->tableName)->where([
@@ -412,6 +466,9 @@ class ContestModel extends Model
         return $end_time-$cur_time;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function intToChr($index, $start=65)
     {
         $str='';
@@ -421,6 +478,9 @@ class ContestModel extends Model
         return $str.chr($index % 26+$start);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function problems($cid)
     {
         return DB::table('contest_problem')
@@ -431,6 +491,9 @@ class ContestModel extends Model
             ->get()->all();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function contestProblems($cid, $uid)
     {
         $submissionModel=new SubmissionModel();
@@ -504,6 +567,9 @@ class ContestModel extends Model
         return $problemSet;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function getPid($cid, $ncode)
     {
         return DB::table("contest_problem")->where([
@@ -512,6 +578,9 @@ class ContestModel extends Model
         ])->select("contest_problem.pid")->first()["pid"];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function getPcode($cid, $ncode)
     {
         return DB::table("problem")->where([
@@ -519,6 +588,9 @@ class ContestModel extends Model
         ])->select("contest_problem.pid")->first()["pcode"];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function getCustomInfo($cid)
     {
         $basic_info=DB::table($this->tableName)->where([
@@ -527,7 +599,9 @@ class ContestModel extends Model
         return $basic_info["verified"] ? ((is_null($basic_info["custom_icon"]) && is_null($basic_info["custom_title"])) ?null:$basic_info) : null;
     }
 
-
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function formatTime($seconds)
     {
         if ($seconds>3600) {
@@ -540,6 +614,9 @@ class ContestModel extends Model
         return $time;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function contestProblemInfoIOI($cid, $pid, $uid)
     {
         $ret=[
@@ -576,6 +653,9 @@ class ContestModel extends Model
         return $ret;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function isFrozen($cid)
     {
         $frozen=DB::table("contest")->where(["cid"=>$cid])->select("froze_length", DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first();
@@ -586,6 +666,9 @@ class ContestModel extends Model
         }
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function contestProblemInfoACM($cid, $pid, $uid)
     {
         $ret=[
@@ -655,6 +738,9 @@ class ContestModel extends Model
         return $ret;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function contestRankCache($cid)
     {
         // if(Cache::tags(['contest','rank'])->get($cid)!=null) return Cache::tags(['contest','rank'])->get($cid);
@@ -796,6 +882,9 @@ class ContestModel extends Model
         return $ret;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function contestRank($cid, $uid=0)
     {
         // [ToDo] If the current user's in the organizer group show nick name
@@ -883,6 +972,9 @@ class ContestModel extends Model
         return $ret;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function getRejudgeQueue($cid, $filter)
     {
         $tempQueue=DB::table("submission")->where([
@@ -904,6 +996,9 @@ class ContestModel extends Model
         return $tempQueue;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function getClarificationList($cid)
     {
         $uid=Auth::user()->id;
@@ -925,6 +1020,9 @@ class ContestModel extends Model
         }
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function fetchClarification($cid)
     {
         return DB::table("contest_clarification")->where([
@@ -940,6 +1038,9 @@ class ContestModel extends Model
         )->first();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function getlatestClarification($cid)
     {
         return DB::table("contest_clarification")->where([
@@ -949,6 +1050,9 @@ class ContestModel extends Model
         ])->orderBy('created_at', 'desc')->first();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function getClarificationDetail($ccid)
     {
         return DB::table("contest_clarification")->where([
@@ -957,6 +1061,9 @@ class ContestModel extends Model
         ])->first();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function requestClarification($cid, $title, $content, $uid)
     {
         return DB::table("contest_clarification")->insertGetId([
@@ -970,6 +1077,9 @@ class ContestModel extends Model
         ]);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function issueAnnouncement($cid, $title, $content, $uid, $remote_code=null)
     {
         return DB::table("contest_clarification")->insertGetId([
@@ -984,20 +1094,32 @@ class ContestModel extends Model
         ]);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function remoteAnnouncement($remote_code) {
         return DB::table("contest_clarification")->where("remote_code", $remote_code)->get()->first();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function isContestEnded($cid)
     {
         return DB::table("contest")->where("cid", $cid)->where("end_time", "<", date("Y-m-d H:i:s"))->count();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function isContestRunning($cid)
     {
         return DB::table("contest")->where("cid", $cid)->where("begin_time", "<", date("Y-m-d H:i:s"))->where("end_time", ">", date("Y-m-d H:i:s"))->count();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function formatAbsTime($sec)
     {
         $periods=["second", "minute", "hour", "day", "week", "month", "year", "decade"];
@@ -1019,12 +1141,18 @@ class ContestModel extends Model
         return "$difference $periods[$j]";
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function frozenTime($cid)
     {
         $basicInfo=$this->basic($cid);
         return $this->formatAbsTime($basicInfo["froze_length"]);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function getContestRecord($filter, $cid)
     {
         $basicInfo=$this->basic($cid);
@@ -1269,6 +1397,9 @@ class ContestModel extends Model
         ];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function registration($cid, $uid=0)
     {
         if ($uid==0) {
@@ -1283,6 +1414,9 @@ class ContestModel extends Model
         ])->first();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function judgeClearance($cid, $uid=0)
     {
         /***************************
@@ -1365,6 +1499,9 @@ class ContestModel extends Model
         }
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function judgeOutsideClearance($cid, $uid=0)
     {
         if (filter_var($cid, FILTER_VALIDATE_INT)===false) {
@@ -1387,16 +1524,25 @@ class ContestModel extends Model
         }
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function contestName($cid)
     {
         return DB::table("contest")->where("cid", $cid)->select("name")->first()["name"];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function contestRule($cid)
     {
         return DB::table("contest")->where("cid", $cid)->select("rule")->first()["rule"];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function updateProfessionalRate($cid)
     {
         $basic=$this->basic($cid);
@@ -1413,6 +1559,9 @@ class ContestModel extends Model
         }
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function contestUpdate($cid, $data, $problems)
     {
         if ($problems!==false) {
@@ -1461,6 +1610,9 @@ class ContestModel extends Model
         }
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function contestUpdateProblem($cid, $problems)
     {
         DB::table('contest_problem')
@@ -1478,6 +1630,9 @@ class ContestModel extends Model
         }
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function arrangeContest($gid, $config, $problems)
     {
         $cid=-1;
@@ -1522,6 +1677,9 @@ class ContestModel extends Model
         return $cid;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function updateContestRankTable($cid, $sub)
     {
         $lock=Cache::lock("contestrank$cid", 10);
@@ -1613,6 +1771,9 @@ class ContestModel extends Model
         }
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function sortContestRankTable($contest_info, $cid, $ret)
     {
         if ($contest_info["rule"]==1) {
@@ -1651,6 +1812,9 @@ class ContestModel extends Model
         return $ret;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function updateContestRankDetail($contest_info, $problem, $cid, $uid, $ret)
     {
         $id=count($ret);
@@ -1760,12 +1924,18 @@ class ContestModel extends Model
         return $ret;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function assignMember($cid, $uid) {
         return DB::table("contest")->where(["cid"=>$cid])->update([
             "assign_uid"=>$uid
         ]);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function canUpdateContestTime($cid, $time=[])
     {
         $begin_time_new=$time['begin'] ?? null;
@@ -1807,6 +1977,9 @@ class ContestModel extends Model
         return true;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function replyClarification($ccid, $content)
     {
         return DB::table("contest_clarification")->where('ccid', '=', $ccid)->update([
@@ -1814,6 +1987,9 @@ class ContestModel extends Model
         ]);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function setClarificationPublic($ccid, $public)
     {
         if ($public)
@@ -1829,11 +2005,17 @@ class ContestModel extends Model
         }
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function getContestAccount($cid)
     {
         return Cache::tags(['contest', 'account'])->get($cid);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function praticeAnalysis($cid)
     {
         $gid=DB::table('contest')
@@ -1879,6 +2061,9 @@ class ContestModel extends Model
         return $memberData;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function storeContestRankInMySQL($cid, $data)
     {
         $contestRankJson=json_encode($data);
@@ -1887,6 +2072,9 @@ class ContestModel extends Model
         ]);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function getContestRankFromMySQL($cid)
     {
         $contestRankJson=DB::table('contest')->where('cid', '=', $cid)->pluck('rank')->first();
@@ -1894,11 +2082,17 @@ class ContestModel extends Model
         return $data;
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function isVerified($cid)
     {
         return DB::table('contest')->where('cid', '=', $cid)->pluck('verified')->first();
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function getScrollBoardData($cid)
     {
         $members=DB::table("contest_participant")->where([
@@ -1927,6 +2121,9 @@ class ContestModel extends Model
         ];
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function storageCode($path, $cid)
     {
 
@@ -1970,11 +2167,17 @@ class ContestModel extends Model
         }
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function deleteZip($path)
     {
         Storage::disk("private")->deleteDirectory($path);
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function GenerateZip($path, $cid, $code_path, $outputFilename)
     {
         Storage::disk("private")->deleteDirectory($code_path);
@@ -2004,6 +2207,9 @@ class ContestModel extends Model
         }
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function zipName($cid)
     {
         //example:12345-name-2019-08-15 20:41:00.zip
@@ -2014,6 +2220,9 @@ class ContestModel extends Model
         return $outputFilename=(string) ($contest["cid"])."-".$contest["name"].".zip";
     }
 
+    /**
+     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
+     */
     public function judgeOver($cid)
     {
         $submissions=DB::table('submission')
