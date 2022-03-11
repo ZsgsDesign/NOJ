@@ -102,7 +102,7 @@ class AccountController extends Controller
         $allow_change=['gender', 'contact', 'school', 'country', 'location'];
         foreach ($input as $key => $value) {
             if (!in_array($key, $allow_change)) {
-                return ResponseUtil::error(1007);
+                return ResponseUtil::err(1007);
             }
         }
         foreach ($input as $key => $value) {
@@ -120,7 +120,7 @@ class AccountController extends Controller
         $allow_change=['editor_left_width'];
         foreach ($input as $key => $value) {
             if (!in_array($key, $allow_change)) {
-                return ResponseUtil::error(1007);
+                return ResponseUtil::err(1007);
             }
         }
         foreach ($input as $key => $value) {
@@ -138,7 +138,7 @@ class AccountController extends Controller
         $allow_change=['editor_theme'];
         foreach ($input as $key => $value) {
             if (!in_array($key, $allow_change)) {
-                return ResponseUtil::error(1007);
+                return ResponseUtil::err(1007);
             }
         }
         foreach ($input as $key => $value) {
