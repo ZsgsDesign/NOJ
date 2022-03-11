@@ -4,7 +4,8 @@ namespace App\Console\Commands\Babel;
 
 use Illuminate\Console\Command;
 use App\Babel\Babel;
-use Exception;
+use Carbon;
+use Validator;
 
 class Judge extends Command
 {
@@ -13,14 +14,14 @@ class Judge extends Command
      *
      * @var string
      */
-    protected $signature='babel:judge';
+    protected $signature = 'babel:judge {--interval=5} {--no-infinite-loop}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description='Synchronize remote verdict for all Babel Extensions of NOJ';
+    protected $description = 'Synchronize remote verdict for all Babel Extensions of NOJ';
 
     /**
      * Create a new command instance.
@@ -32,21 +33,43 @@ class Judge extends Command
         parent::__construct();
     }
 
+    public function timedLine($action, $message, $color)
+    {
+        $time = Carbon::now();
+        $this->line("<fg=$color>[$time] $action</>$message");
+    }
+
+    public function validate(): bool
+    {
+        $validator = Validator::make([
+            'interval' => $this->option('interval')
+        ], [
+            'interval' => 'required|integer|gte:0',
+        ]);
+        if ($validator->fails()) {
+            $this->error($validator->errors()->first());
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Execute the console command.
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(): bool
     {
-        $babel=new Babel();
-        while (true) {
-            $time=date("Y-m-d H:i:s");
-            $this->line("<fg=yellow>[$time] Processing:  </>NOJ Babel Judge Sync");
+        if(!$this->validate()) return Command::FAILURE;
+        $infinite = !$this->option('no-infinite-loop');
+        $interval = intval($this->option('interval'));
+        $babel = new Babel();
+        do {
+            $this->timedLine("Processing:  ", "NOJ Babel Judge Sync", "yellow");
             $babel->judge();
-            $time=date("Y-m-d H:i:s");
-            $this->line("<fg=green>[$time] Processed:   </>NOJ Babel Judge Sync");
-            sleep(5);
-        }
+            $this->timedLine("Processed:   ", "NOJ Babel Judge Sync", "green");
+            sleep($interval);
+        } while ($infinite);
+        return Command::SUCCESS;
     }
 }
