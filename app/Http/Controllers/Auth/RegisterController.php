@@ -57,7 +57,7 @@ class RegisterController extends Controller
         $messages = [];
         if(config('function.password.strong')) {
             $validator['password'][] = 'regex:/^(?![A-Za-z0-9]+$)(?![a-z0-9\\W]+$)(?![A-Za-z\\W]+$)(?![A-Z0-9\\W]+$)[a-zA-Z0-9\\W]{8,}$/';
-            $messages['password.regex'] = __('validation.password.strong');
+            $messages['password.regex'] = __('validation.noj.password.strong');
         }
         return Validator::make($data, $validator, $messages);
     }

@@ -186,7 +186,9 @@ return [
     |
     */
 
-    'password' => [
-        'strong' => ':attribute 需要包含至少一个数字，并且包含大写、小写字母和特殊字符。',
+    'noj' => [
+        'password' => [
+            'strong' => ':attribute 需要包含至少一个数字，并且包含大写、小写字母和特殊字符。',
+        ]
     ],
 ];
