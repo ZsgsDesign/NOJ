@@ -231,11 +231,11 @@ class Message extends Model
 
     public function sender_user()
     {
-        return $this->belongsTo('App\Models\Eloquent\User', 'sender', 'id');
+        return $this->belongsTo(User::class, 'sender');
     }
 
     public function receiver_user()
     {
-        return $this->belongsTo('App\Models\Eloquent\User', 'receiver', 'id');
+        return $this->belongsTo(User::class, 'receiver');
     }
 }

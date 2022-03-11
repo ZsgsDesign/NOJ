@@ -28,7 +28,7 @@ class Problem extends Model
         'hide' => 'boolean',
     ];
 
-    private $_presenter = [];
+    private array $_presenter = [];
 
     protected function serializeDate(DateTimeInterface $date)
     {

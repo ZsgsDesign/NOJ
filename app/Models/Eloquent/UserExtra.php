@@ -64,7 +64,7 @@ class UserExtra extends Model
     ];
 
     public function user() {
-        return $this->belongsTo('App\Models\Eloquent\User', 'id', 'uid');
+        return $this->belongsTo(User::class, 'uid');
     }
 
     /**

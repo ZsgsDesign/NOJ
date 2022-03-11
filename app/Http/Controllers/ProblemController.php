@@ -10,6 +10,7 @@ use App\Models\Services\ProblemService;
 use App\Models\Services\ProblemTagService;
 use App\Models\Submission\SubmissionModel;
 use App\Utils\MonacoThemeUtil;
+use App\Utils\EloquentRequestUtil;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -61,7 +62,7 @@ class ProblemController extends Controller
      */
     public function detail(Request $request)
     {
-        /** @var Problem */ $problem = $request->problem_instance;
+        $problem = EloquentRequestUtil::problem($request);
 
         $dialect = $problem->getDialect(0);
         return view('problem.detail', [
@@ -80,17 +81,15 @@ class ProblemController extends Controller
      */
     public function solution(Request $request)
     {
-        /** @var Problem */ $problem = $request->problem_instance;
-        $problemModel = new ProblemModel();
-        $solution = $problemModel->solutionList($problem->pid, Auth::check() ? Auth::user()->id : null);
-        $submitted = Auth::check() ? $problem->solutions->where('uid', Auth::user()->id)->first() : null;
+        $problem = EloquentRequestUtil::problem($request);
+
         return view('problem.solution', [
             'page_title' => "Solution",
             'site_title' => config("app.name"),
             'navigation' => $problem->title,
             'problem' => $problem,
-            'solution' => $solution,
-            'submitted' => $submitted
+            'solutions' => $problem->solutions()->whereAudit(true)->get(),
+            'submitted' => $problem->solutions->where('uid', Auth::user()->id)->first()
         ]);
     }
 
@@ -101,7 +100,7 @@ class ProblemController extends Controller
      */
     public function editor(Request $request)
     {
-        /** @var Problem */ $problem = $request->problem_instance;
+        $problem = EloquentRequestUtil::problem($request);
         $submission = new SubmissionModel();
 
         $prob_status = $submission->getProblemStatus($problem->pid, Auth::user()->id);
@@ -142,7 +141,7 @@ class ProblemController extends Controller
      */
     public function discussion(Request $request)
     {
-        /** @var Problem */ $problem = $request->problem_instance;
+        $problem = EloquentRequestUtil::problem($request);
         $problemModel = new ProblemModel();
         $list = $problemModel->discussionList($problem->pid);
         $discussion = $list['list'];
@@ -164,7 +163,7 @@ class ProblemController extends Controller
      */
     public function discussionPost(Request $request)
     {
-        /** @var Problem */ $problem = $request->problem_instance;
+        $problem = EloquentRequestUtil::problem($request);
 
         $problemModel = new ProblemModel();
         $detail = $problemModel->discussionDetail($request->dcode);

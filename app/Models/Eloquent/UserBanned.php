@@ -12,10 +12,10 @@ class UserBanned extends Model
     protected $fillable=['user_id', 'abuse_id', 'reason', 'removed_at'];
 
     public function abuse() {
-        return $this->belongsTo('App\Models\Eloquent\Abuse');
+        return $this->belongsTo(Abuse::class);
     }
 
     public function user() {
-        return $this->belongsTo('App\Models\Eloquent\User');
+        return $this->belongsTo(User::class);
     }
 }

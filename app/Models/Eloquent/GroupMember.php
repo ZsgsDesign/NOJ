@@ -15,7 +15,7 @@ class GroupMember extends Model
     protected $fillable=['gid', 'uid', 'role', 'nick_name', 'sub_group', 'ranking'];
 
     public function user() {
-        return $this->belongsTo('App\Models\Eloquent\User', 'uid', 'id');
+        return $this->belongsTo(User::class, 'uid');
     }
 
     public function group() {

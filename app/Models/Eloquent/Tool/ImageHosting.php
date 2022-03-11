@@ -3,7 +3,7 @@
 namespace App\Models\Eloquent\Tool;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use App\Models\Eloquent\User;
 
 class ImageHosting extends Model
 {
@@ -16,7 +16,7 @@ class ImageHosting extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\Eloquent\User');
+        return $this->belongsTo(User::class);
     }
 
     public function getAbsolutePathAttribute()

@@ -19,14 +19,14 @@ class User extends Authenticatable
     use HasApiTokens, Notifiable;
     use LikeScope;
 
-    protected $table='users';
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable=[
+    protected $fillable = [
         'name', 'email', 'password', 'avatar', 'contest_account'
     ];
 
@@ -35,54 +35,90 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden=[
+    protected $hidden = [
         'password', 'remember_token', 'tokens'
     ];
 
+    private array $_presenter = [];
+
     public function submissions()
     {
-        return $this->hasMany('App\Models\Eloquent\Submission', 'uid');
+        return $this->hasMany(Submission::class, 'uid');
     }
 
-    public function banneds() {
-        return $this->hasMany('App\Models\Eloquent\UserBanned');
+    public function banneds()
+    {
+        return $this->hasMany(UserBanned::class);
     }
 
-    public function announcements() {
-        return $this->hasMany('App\Models\Eloquent\Announcement');
+    public function announcements()
+    {
+        return $this->hasMany(Announcement::class, 'uid');
     }
 
-    public function permissions() {
-        return $this->hasMany('App\Models\Eloquent\UserPermission');
+    public function permissions()
+    {
+        return $this->hasMany(UserPermission::class);
     }
 
-    public function imagehostings() {
-        return $this->hasMany('App\Models\Eloquent\Tool\ImageHosting');
+    public function imagehostings()
+    {
+        return $this->hasMany(ImageHosting::class);
     }
 
-    public function extras() {
-        return $this->hasMany('App\Models\Eloquent\UserExtra', 'uid');
+    public function extras()
+    {
+        return $this->hasMany(UserExtra::class, 'uid');
     }
 
-    public function hasPermission($permissionID) {
-        return ($this->permissions()->where(['permission_id'=>$permissionID])->count())>0;
+    public function solutions()
+    {
+        return $this->hasMany(ProblemSolution::class, 'uid');
     }
 
-    public function hasIndependentPassword() {
+    public function solution_votes()
+    {
+        return $this->hasMany(ProblemSolutionVote::class, 'uid');
+    }
+
+    public function isDownVoteSolution(int $problem_solution_id)
+    {
+        return ($this->voted_solution[$problem_solution_id] ?? null) === false;
+    }
+
+    public function isUpVoteSolution(int $problem_solution_id)
+    {
+        return ($this->voted_solution[$problem_solution_id] ?? null) === true;
+    }
+
+    public function getVotedSolutionAttribute()
+    {
+        return $this->_presenter['voted_solution'] ?? $this->_presenter['voted_solution'] = $this->solution_votes->pluck('type', 'psoid')->all();
+    }
+
+    public function hasPermission($permissionID)
+    {
+        return ($this->permissions()->where(['permission_id' => $permissionID])->count()) > 0;
+    }
+
+    public function hasIndependentPassword()
+    {
         return filled($this->password);
     }
 
-    public function hasIndependentEmail() {
+    public function hasIndependentEmail()
+    {
         return !in_array(explode('@', $this->email)[1], ['temporary.email']) && !$this->contest_account;
     }
 
-    public function isIndependent() {
+    public function isIndependent()
+    {
         return $this->hasIndependentPassword() && $this->hasIndependentEmail();
     }
 
     public function getReadableNameAttribute()
     {
-        return $this->name.' ('.$this->email.')';
+        return $this->name . ' (' . $this->email . ')';
     }
 
     /**
@@ -92,15 +128,16 @@ class User extends Authenticatable
      * @param int|null $secretLevel the secret level this query currently running on
      * @return string|array $result
      */
-    public function getExtra($need, $secretLevel=0) {
-        $ret=$this->extras()->orderBy('key')->get()->toArray();
-        $result=[];
+    public function getExtra($need, $secretLevel = 0)
+    {
+        $ret = $this->extras()->orderBy('key')->get()->toArray();
+        $result = [];
         if (!empty($ret)) {
             if (is_string($need)) {
                 foreach ($ret as $value) {
-                    if (empty($value['secret_level']) || $value['secret_level']<=$secretLevel) {
-                        $keyName=UserExtra::$extraMapping[$value['key']] ?? 'unknown';
-                        if ($keyName==$need) {
+                    if (empty($value['secret_level']) || $value['secret_level'] <= $secretLevel) {
+                        $keyName = UserExtra::$extraMapping[$value['key']] ?? 'unknown';
+                        if ($keyName == $need) {
                             return $value['value'];
                         }
                     }
@@ -108,10 +145,10 @@ class User extends Authenticatable
                 return null;
             } else {
                 foreach ($ret as $value) {
-                    if (empty($value['secret_level']) || $value['secret_level']<=$secretLevel) {
-                        $keyName=UserExtra::$extraMapping[$value['key']] ?? 'unknown';
+                    if (empty($value['secret_level']) || $value['secret_level'] <= $secretLevel) {
+                        $keyName = UserExtra::$extraMapping[$value['key']] ?? 'unknown';
                         if (in_array($keyName, $need)) {
-                            $result[$keyName]=$value['value'];
+                            $result[$keyName] = $value['value'];
                         }
                     }
                 }
@@ -128,54 +165,55 @@ class User extends Authenticatable
      * @param int|null $secretLevel the secret level this query currently running on
      * @return mixed $result
      */
-    public function setExtra($keyName, $value=null, $secretLevel=-1) {
-        $key=array_search($keyName, UserExtra::$extraMapping);
-        if ($key===false) {
+    public function setExtra($keyName, $value = null, $secretLevel = -1)
+    {
+        $key = array_search($keyName, UserExtra::$extraMapping);
+        if ($key === false) {
             return false;
         }
-        $ret=$this->extras()->where('key', $key)->limit(1)->get()->toArray();
+        $ret = $this->extras()->where('key', $key)->limit(1)->get()->toArray();
         if (!empty($ret)) {
-            $ret=$ret[0];
+            $ret = $ret[0];
             unset($ret['id']);
             if (!is_null($value)) {
-                $ret['value']=$value;
+                $ret['value'] = $value;
             } else {
                 $this->extras()->where('key', $key)->delete();
                 return true;
             }
-            if ($secretLevel!=-1) {
-                $ret['secret_level']=$secretLevel;
+            if ($secretLevel != -1) {
+                $ret['secret_level'] = $secretLevel;
             }
             return $this->extras()->where('key', $key)->update($ret);
         } else {
-            if ($value===null) {
+            if ($value === null) {
                 return true;
             }
             return $this->extras()->create([
                 'key' => $key,
                 'value' => $value,
-                'secret_level' => $secretLevel==-1 ? 0 : $secretLevel,
+                'secret_level' => $secretLevel == -1 ? 0 : $secretLevel,
             ])->id;
         }
     }
 
-    public function getSocialiteInfo($secretLevel=-1)
+    public function getSocialiteInfo($secretLevel = -1)
     {
-        $socialites=[];
+        $socialites = [];
         foreach (UserExtra::$socialite_support as $key => $value) {
-            $id_keyname=$key.'_id';
-            $id=$this->getExtra($id_keyname);
+            $id_keyname = $key . '_id';
+            $id = $this->getExtra($id_keyname);
             if (!empty($id)) {
-                $info=[
+                $info = [
                     'id' => $id,
                 ];
                 foreach ($value as $info_name) {
-                    $info_temp=$this->getExtra($key.'_'.$info_name);
-                    if ($info_temp!==null) {
-                        $info[$info_name]=$info_temp;
+                    $info_temp = $this->getExtra($key . '_' . $info_name);
+                    if ($info_temp !== null) {
+                        $info[$info_name] = $info_temp;
                     }
                 }
-                $socialites[$key]=$info;
+                $socialites[$key] = $info;
             }
         }
 
@@ -198,7 +236,7 @@ class User extends Authenticatable
             $lastRecordSubQuery = $lastRecordSubQuery->where("submission_date", "<", $till->timestamp);
         }
 
-        if(filled($verdictFilter)) {
+        if (filled($verdictFilter)) {
             $lastRecordSubQuery = $lastRecordSubQuery->whereIn('verdict', $verdictFilter);
         }
 

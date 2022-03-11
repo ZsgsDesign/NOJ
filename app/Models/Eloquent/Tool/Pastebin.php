@@ -3,7 +3,7 @@
 namespace App\Models\Eloquent\Tool;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use App\Models\Eloquent\User;
 
 class Pastebin extends Model
 {
@@ -16,7 +16,7 @@ class Pastebin extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\Eloquent\User', 'user_id');
+        return $this->belongsTo(User::class);
     }
 
     public static function generatePbCode($length=6)

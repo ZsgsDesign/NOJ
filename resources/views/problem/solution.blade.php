@@ -459,53 +459,52 @@
                 </fresh-container>
             </paper-card>
             <paper-card class="animated fadeInLeft p-3">
-                @if(Auth::check())
-                    @if(blank($submitted))
-                        <solution-section>
-                            <content-section>
-                                <user-section>
-                                    <a href="/user/{{Auth::user()->id}}"><img src="{{Auth::user()->avatar}}" class="cm-avatar-square"></a>
-                                    <p>{{Auth::user()->name}}</p>
-                                </user-section>
-                                <markdown-editor class="mt-3 mb-3">
-                                    <textarea id="solution_editor"></textarea>
-                                </markdown-editor>
-                                <div class="mb-3">
-                                    <button type="button" class="btn btn-outline-primary" onclick="submitSolutionDiscussion()"><i class="MDI share"></i> {{__("problem.solution.action.share")}}</button>
-                                    <button type="button" class="btn btn-secondary">{{__("problem.solution.action.cancel")}}</button>
+                @if(blank($submitted))
+                    <solution-section>
+                        <content-section>
+                            <user-section>
+                                <a href="/user/{{Auth::user()->id}}"><img src="{{Auth::user()->avatar}}" class="cm-avatar-square"></a>
+                                <p>{{Auth::user()->name}}</p>
+                            </user-section>
+                            <markdown-editor class="mt-3 mb-3">
+                                <textarea id="solution_editor"></textarea>
+                            </markdown-editor>
+                            <div class="mb-3">
+                                <button type="button" class="btn btn-outline-primary" onclick="submitSolutionDiscussion()"><i class="MDI share"></i> {{__("problem.solution.action.share")}}</button>
+                                <button type="button" class="btn btn-secondary">{{__("problem.solution.action.cancel")}}</button>
+                            </div>
+                        </content-section>
+                    </solution-section>
+                @else
+                    <solution-section>
+                        <content-section>
+                            <user-section>
+                                <a href="/user/{{Auth::user()->id}}"><img src="{{Auth::user()->avatar}}" class="cm-avatar-square"></a>
+                                <p>{{Auth::user()->name}}</p>
+                            </user-section>
+                            <markdown-editor class="mt-3 mb-3">
+                                <textarea id="solution_editor">{{$submitted->content}}</textarea>
+                            </markdown-editor>
+                            <div class="mb-3" style="display:flex;justify-content:space-between;align-items:cneter;padding-right:1rem;">
+                                <div>
+                                    <button type="button" class="btn btn-outline-primary mb-0" onclick="updateSolutionDiscussion()"><i class="MDI pencil"></i> {{__("problem.solution.action.update")}}</button>
+                                    <button type="button" class="btn btn-danger mb-0" onclick="deleteSolutionDiscussion()"><i class="MDI delete"></i> {{__("problem.solution.action.delete")}}</button>
                                 </div>
-                            </content-section>
-                        </solution-section>
-                    @else
-                        <solution-section>
-                            <content-section>
-                                <user-section>
-                                    <a href="/user/{{Auth::user()->id}}"><img src="{{Auth::user()->avatar}}" class="cm-avatar-square"></a>
-                                    <p>{{Auth::user()->name}}</p>
-                                </user-section>
-                                <markdown-editor class="mt-3 mb-3">
-                                    <textarea id="solution_editor">{{$submitted->content}}</textarea>
-                                </markdown-editor>
-                                <div class="mb-3" style="display:flex;justify-content:space-between;align-items:cneter;padding-right:1rem;">
-                                    <div>
-                                        <button type="button" class="btn btn-outline-primary mb-0" onclick="updateSolutionDiscussion()"><i class="MDI pencil"></i> {{__("problem.solution.action.update")}}</button>
-                                        <button type="button" class="btn btn-danger mb-0" onclick="deleteSolutionDiscussion()"><i class="MDI delete"></i> {{__("problem.solution.action.delete")}}</button>
-                                    </div>
-                                    <div style="flex-grow:0;flex-shrink:0;display:flex;align-items:center;">
-                                        @if($submitted->audit == 1)
-                                            <p class="mb-0">{{__("problem.solution.audit.title")}} <span class="wemd-green-text"><i class="MDI checkbox-blank-circle"></i> {{__("problem.solution.audit.passed")}}</span></p>
-                                        @elseif($submitted->audit == 0)
-                                            <p class="mb-0">{{__("problem.solution.audit.title")}} <span class="wemd-blue-text"><i class="MDI checkbox-blank-circle"></i> {{__("problem.solution.audit.pending")}}</span></p>
-                                        @else
-                                            <p class="mb-0">{{__("problem.solution.audit.title")}} <span class="wemd-red-text"><i class="MDI checkbox-blank-circle"></i> {{__("problem.solution.audit.denied")}}</span></p>
-                                        @endif
-                                    </div>
+                                <div style="flex-grow:0;flex-shrink:0;display:flex;align-items:center;">
+                                    @if($submitted->audit == 1)
+                                        <p class="mb-0">{{__("problem.solution.audit.title")}} <span class="wemd-green-text"><i class="MDI checkbox-blank-circle"></i> {{__("problem.solution.audit.passed")}}</span></p>
+                                    @elseif($submitted->audit == 0)
+                                        <p class="mb-0">{{__("problem.solution.audit.title")}} <span class="wemd-blue-text"><i class="MDI checkbox-blank-circle"></i> {{__("problem.solution.audit.pending")}}</span></p>
+                                    @else
+                                        <p class="mb-0">{{__("problem.solution.audit.title")}} <span class="wemd-red-text"><i class="MDI checkbox-blank-circle"></i> {{__("problem.solution.audit.denied")}}</span></p>
+                                    @endif
                                 </div>
-                            </content-section>
-                        </solution-section>
-                    @endif
+                            </div>
+                        </content-section>
+                    </solution-section>
                 @endif
-                @if(empty($solution))
+
+                @if(blank($solutions))
                 <solution-section style="align-items: center; justify-content: center;">
                     <empty-container>
                         <i class="MDI package-variant"></i>
@@ -513,24 +512,22 @@
                     </empty-container>
                 </solution-section>
                 @else
-                    @foreach ($solution as $s)
+                    @foreach ($solutions as $solution)
                         <solution-section>
-                            <polling-section id="poll_{{$s['psoid']}}">
-                                <h3 id="vote_{{$s['psoid']}}">{{$s['votes']}}</h3>
-                                @if(Auth::check())
-                                    <div class="btn-group" role="group" aria-label="Voting for solutions">
-                                        <div class="@if(!is_null($s['type']) && $s['type']==1) upvote-selected @endif" onclick="voteSolutionDiscussion({{$s['psoid']}},1)"><i class="MDI thumb-up-outline"></i></div>
-                                        <div class="@if(!is_null($s['type']) && $s['type']==0) downvote-selected @endif" onclick="voteSolutionDiscussion({{$s['psoid']}},0)"><i class="MDI thumb-down-outline"></i></div>
-                                    </div>
-                                @endif
+                            <polling-section id="poll_{{$solution->psoid}}">
+                                <h3 id="vote_{{$solution->psoid}}">{{$solution->votes}}</h3>
+                                <div class="btn-group" role="group" aria-label="Voting for solutions">
+                                    <div class="@if(Auth::user()->isUpVoteSolution($solution->psoid)) upvote-selected @endif" onclick="voteSolutionDiscussion({{$solution->psoid}},1)"><i class="MDI thumb-up-outline"></i></div>
+                                    <div class="@if(Auth::user()->isDownVoteSolution($solution->psoid)) downvote-selected @endif" onclick="voteSolutionDiscussion({{$solution->psoid}},0)"><i class="MDI thumb-down-outline"></i></div>
+                                </div>
                             </polling-section>
                             <content-section>
                                 <user-section>
-                                    <a href="/user/{{$s["uid"]}}"><img src="{{$s["avatar"]}}" class="cm-avatar-square"></a>
-                                    <p>{{$s["name"]}}</p>
+                                    <a href="/user/{{$solution->author->id}}"><img src="{{$solution->author->avatar}}" class="cm-avatar-square"></a>
+                                    <p>{{$solution->author->name}}</p>
                                 </user-section>
                                 <solution-content class="mt-3 mb-3">
-                                    {!!$s["content_parsed"]!!}
+                                    {!!clean(convertMarkdownToHtml($solution->content))!!}
                                 </solution-content>
                             </content-section>
                         </solution-section>

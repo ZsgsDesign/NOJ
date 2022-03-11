@@ -15,7 +15,7 @@ class ContestProblem extends Model
         'number', 'ncode', 'pid', 'alias', 'points'
     ];
 
-    private $_presenter = [];
+    private array $_presenter = [];
 
     public function contest()
     {

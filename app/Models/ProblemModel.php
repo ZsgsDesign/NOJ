@@ -26,62 +26,6 @@ class ProblemModel extends Model
     /**
      * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
      */
-    public function solutionList($pid, $uid=null)
-    {
-        if (is_null($uid)) {
-            $details=DB::table("problem_solution")->join(
-                "users",
-                "id",
-                "=",
-                "problem_solution.uid"
-            )->where([
-                'problem_solution.pid'=>$pid,
-                'problem_solution.audit'=>1
-            ])->orderBy(
-                "problem_solution.votes",
-                "desc"
-            )->get()->all();
-        } else {
-            $votes=DB::table("problem_solution_vote")->where([
-                "uid"=>$uid
-            ])->get()->all();
-            foreach ($votes as $v) {
-                $userVotes[$v["psoid"]]=$v["type"];
-            }
-            $details=DB::table("problem_solution")->join(
-                "users",
-                "id",
-                "=",
-                "problem_solution.uid"
-            )->where([
-                'problem_solution.pid'=>$pid,
-                'problem_solution.audit'=>1
-            ])->select([
-                "problem_solution.psoid as psoid",
-                "problem_solution.uid as uid",
-                "problem_solution.pid as pid",
-                "problem_solution.content as content",
-                "problem_solution.audit as audit",
-                "problem_solution.votes as votes",
-                "problem_solution.created_at as created_at",
-                "problem_solution.updated_at as updated_at",
-                "avatar",
-                "name"
-            ])->orderBy("problem_solution.votes", "desc")->get()->all();
-            foreach ($details as &$d) {
-                $d["type"]=isset($userVotes[$d["psoid"]]) ? $userVotes[$d["psoid"]] : null;
-            }
-            unset($d);
-        }
-        foreach ($details as &$d) {
-            $d["content_parsed"]=clean(convertMarkdownToHtml($d["content"]));
-        }
-        return $details;
-    }
-
-    /**
-     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
-     */
     public function addSolution($pid, $uid, $content)
     {
         $details=DB::table("problem_solution")->where(['pid'=>$pid, 'uid'=>$uid])->first();

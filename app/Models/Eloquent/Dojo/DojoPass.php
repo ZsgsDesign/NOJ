@@ -4,6 +4,7 @@ namespace App\Models\Eloquent\Dojo;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Eloquent\User;
 use Auth;
 
 class DojoPass extends Model
@@ -21,7 +22,7 @@ class DojoPass extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\Eloquent\User', 'user_id');
+        return $this->belongsTo(User::class);
     }
 
     public static function isPassed($dojo_id)
