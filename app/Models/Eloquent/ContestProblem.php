@@ -15,6 +15,8 @@ class ContestProblem extends Model
         'number', 'ncode', 'pid', 'alias', 'points'
     ];
 
+    private $_presenter = [];
+
     public function contest()
     {
         return $this->belongsTo(Contest::class, 'cid', 'cid');
@@ -32,7 +34,7 @@ class ContestProblem extends Model
 
     public function getStatisticsAttribute()
     {
-        return ProblemService::getStatistics($this->problem, $this->cid);
+        return $this->_presenter['statistics'] ?? $this->_presenter['statistics'] = ProblemService::getStatistics($this->problem, $this->cid);
     }
 
     public function getLastSubmission($userId)

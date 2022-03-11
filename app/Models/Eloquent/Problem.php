@@ -28,6 +28,8 @@ class Problem extends Model
         'hide' => 'boolean',
     ];
 
+    private $_presenter = [];
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
@@ -85,7 +87,7 @@ class Problem extends Model
 
     public function getProblemStatusAttribute()
     {
-        return $this->getProblemStatus();
+        return $this->_presenter['problem_status'] ?? $this->_presenter['problem_status'] = $this->getProblemStatus();
     }
 
     public function getFileExtensionAttribute()
@@ -135,7 +137,7 @@ class Problem extends Model
 
     public function getStatisticsAttribute()
     {
-        return $this->getStatistics();
+        return $this->_presenter['statistics'] ?? $this->_presenter['statistics'] = $this->getStatistics();
     }
 
     public function getLastSubmission($userId)

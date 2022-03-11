@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProblemModel;
-use App\Models\Submission\SubmissionModel;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Utils\MonacoThemeUtil;
+use App\Models\ProblemModel;
+use App\Models\Eloquent\Problem;
+use App\Models\Services\OJService;
 use App\Models\Services\ProblemService;
 use App\Models\Services\ProblemTagService;
-use App\Models\Services\OJService;
+use App\Models\Submission\SubmissionModel;
+use App\Utils\MonacoThemeUtil;
 use Auth;
+use Illuminate\Http\Request;
 
 class ProblemController extends Controller
 {
@@ -60,7 +61,8 @@ class ProblemController extends Controller
      */
     public function detail(Request $request)
     {
-        $problem = $request->problem_instance;
+        /** @var Problem */ $problem = $request->problem_instance;
+
         $dialect = $problem->getDialect(0);
         return view('problem.detail', [
             'page_title' => $problem->title,
@@ -78,7 +80,7 @@ class ProblemController extends Controller
      */
     public function solution(Request $request)
     {
-        $problem = $request->problem_instance;
+        /** @var Problem */ $problem = $request->problem_instance;
         $problemModel = new ProblemModel();
         $solution = $problemModel->solutionList($problem->pid, Auth::check() ? Auth::user()->id : null);
         $submitted = Auth::check() ? $problem->solutions->where('uid', Auth::user()->id)->first() : null;
@@ -99,7 +101,7 @@ class ProblemController extends Controller
      */
     public function editor(Request $request)
     {
-        $problem = $request->problem_instance;
+        /** @var Problem */ $problem = $request->problem_instance;
         $submission = new SubmissionModel();
 
         $prob_status = $submission->getProblemStatus($problem->pid, Auth::user()->id);
@@ -140,7 +142,7 @@ class ProblemController extends Controller
      */
     public function discussion(Request $request)
     {
-        $problem = $request->problem_instance;
+        /** @var Problem */ $problem = $request->problem_instance;
         $problemModel = new ProblemModel();
         $list = $problemModel->discussionList($problem->pid);
         $discussion = $list['list'];
@@ -162,7 +164,7 @@ class ProblemController extends Controller
      */
     public function discussionPost(Request $request)
     {
-        $problem = $request->problem_instance;
+        /** @var Problem */ $problem = $request->problem_instance;
 
         $problemModel = new ProblemModel();
         $detail = $problemModel->discussionDetail($request->dcode);
