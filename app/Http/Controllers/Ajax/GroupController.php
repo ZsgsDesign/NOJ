@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Ajax;
 
 use App\Models\GroupModel as OutdatedGroupModel;
 use App\Models\Eloquent\Group;
-use App\Models\ResponseModel;
+use App\Utils\ResponseUtil;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
@@ -23,10 +23,10 @@ class GroupController extends Controller
         $groupModel=new OutdatedGroupModel();
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         if ($clearance<1) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         }
         $groupModel->changeNickName($all_data["gid"], Auth::user()->id, $all_data["nick_name"]);
-        return ResponseModel::success(200);
+        return ResponseUtil::success(200);
     }
 
     public function joinGroup(Request $request)
@@ -40,7 +40,7 @@ class GroupController extends Controller
         $groupModel=new OutdatedGroupModel();
         $join_policy=$groupModel->joinPolicy($all_data["gid"]);
         if (is_null($join_policy)) {
-            return ResponseModel::err(7001);
+            return ResponseUtil::err(7001);
         }
         $group=Group::find($all_data['gid']);
         $leader=$group->leader;
@@ -65,14 +65,14 @@ class GroupController extends Controller
                         ]]
                     ]
                 ]);
-                return ResponseModel::success(200, null, [
+                return ResponseUtil::success(200, null, [
                     'uid'            => Auth::user()->id,
                     'role_color_old' => $groupModel->role_color[-1],
                     'role_color'     => $groupModel->role_color[1],
                     'role'           => $groupModel->role[1],
                 ]);
             }
-            return ResponseModel::success(200);
+            return ResponseUtil::success(200);
         } elseif ($join_policy==2) {
             if ($clearance==-3) {
                 $groupModel->addClearance(Auth::user()->id, $all_data["gid"], 0);
@@ -95,7 +95,7 @@ class GroupController extends Controller
                     ]
                 ]);
             }
-            return ResponseModel::success(200);
+            return ResponseUtil::success(200);
         } elseif ($join_policy==3 || $join_policy==0) {  // The default value of join_policy when you create a group will be 0 in old version.
             if ($clearance==-1) {
                 $groupModel->changeClearance(Auth::user()->id, $all_data["gid"], 1);
@@ -116,7 +116,7 @@ class GroupController extends Controller
                         ]]
                     ]
                 ]);
-                return ResponseModel::success(200, null, [
+                return ResponseUtil::success(200, null, [
                     'uid'            => Auth::user()->id,
                     'role_color_old' => $groupModel->role_color[-1],
                     'role_color'     => $groupModel->role_color[1],
@@ -143,7 +143,7 @@ class GroupController extends Controller
                     ]
                 ]);
             }
-            return ResponseModel::success(200);
+            return ResponseUtil::success(200);
         }
     }
 
@@ -157,10 +157,10 @@ class GroupController extends Controller
         $groupModel=new OutdatedGroupModel();
         $clearance=$groupModel->judgeClearance($gid, $uid);
         if ($clearance==3) {
-            return ResponseModel::err(7008);
+            return ResponseUtil::err(7008);
         }
         $groupModel->removeClearance($uid, $gid);
-        return ResponseModel::success(200);
+        return ResponseUtil::success(200);
     }
 
     public function createGroup(Request $request)
@@ -177,18 +177,18 @@ class GroupController extends Controller
 
         $groupModel=new OutdatedGroupModel();
         if ($all_data["gcode"]=="create") {
-            return ResponseModel::err(7005);
+            return ResponseUtil::err(7005);
         }
         $is_group=$groupModel->isGroup($all_data["gcode"]);
         if ($is_group) {
-            return ResponseModel::err(7006);
+            return ResponseUtil::err(7006);
         }
 
         $allow_extension=['jpg', 'png', 'jpeg', 'gif', 'bmp'];
         if (!empty($request->file('img')) && $request->file('img')->isValid()) {
             $extension=$request->file('img')->extension();
             if (!in_array($extension, $allow_extension)) {
-                return ResponseModel::err(1005);
+                return ResponseUtil::err(1005);
             }
             $path=$request->file('img')->store('/static/img/group', 'NOJPublic');
         } else {
@@ -197,7 +197,7 @@ class GroupController extends Controller
         $img='/'.$path;
 
         $groupModel->createGroup(Auth::user()->id, $all_data["gcode"], $img, $all_data["name"], $all_data["public"], $all_data["description"], $all_data["join_policy"]);
-        return ResponseModel::success(200);
+        return ResponseUtil::success(200);
     }
 
     public function getPracticeStat(Request $request)
@@ -220,13 +220,13 @@ class GroupController extends Controller
                     $ret=$groupModel->groupMemberPracticeTagStat($all_data["gid"]);
                 break;
                 default:
-                    return ResponseModel::err(1007);
+                    return ResponseUtil::err(1007);
                 break;
             }
 
-            return ResponseModel::success(200, null, $ret);
+            return ResponseUtil::success(200, null, $ret);
         }
-        return ResponseModel::err(7002);
+        return ResponseUtil::err(7002);
     }
 
     public function eloChangeLog(Request $request)
@@ -241,9 +241,9 @@ class GroupController extends Controller
         $groupModel=new OutdatedGroupModel();
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         if ($clearance<=0) {
-            return ResponseModel::err(7002);
+            return ResponseUtil::err(7002);
         }
         $ret=$groupModel->getEloChangeLog($all_data['gid'], $all_data['uid']);
-        return ResponseModel::success(200, null, $ret);
+        return ResponseUtil::success(200, null, $ret);
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Ajax;
 
 use App\Http\Controllers\Controller;
-use App\Models\ResponseModel;
+use App\Utils\ResponseUtil;
 use App\Models\Eloquent\Abuse;
 use App\Models\Eloquent\Group;
 use Illuminate\Http\Request;
@@ -47,7 +47,7 @@ class AbuseController extends Controller
         try {
             $link=$category2link[$category]($subject_id);
         } catch (Throwable $e) {
-            return ResponseModel::err(9001);
+            return ResponseUtil::err(9001);
         }
         $uid=Auth::user()->id;
         [$causeID, $causeDesc]=self::findCause('General');
@@ -60,7 +60,7 @@ class AbuseController extends Controller
             'user_id' => $uid,
         ]);
         $abuseRecord->save();
-        return ResponseModel::success(200, null, [
+        return ResponseUtil::success(200, null, [
             'id' => $abuseRecord->id
         ]);
     }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Ajax;
 
 use App\Http\Controllers\Controller;
-use App\Models\ResponseModel;
+use App\Utils\ResponseUtil;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -19,7 +19,7 @@ class SearchController extends Controller
     public function __invoke(Request $request)
     {
         if (!$request->has('search_key')) {
-            return ResponseModel::err(1003);
+            return ResponseUtil::err(1003);
         }
         $key=$request->input('search_key');
         $all_result=[];
@@ -49,6 +49,6 @@ class SearchController extends Controller
                 continue;
             }
         }
-        return ResponseModel::success(200, 'Successful', $all_result);
+        return ResponseUtil::success(200, 'Successful', $all_result);
     }
 }

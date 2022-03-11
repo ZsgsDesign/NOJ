@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
-use App\Models\ResponseModel;
+use App\Utils\ResponseUtil;
 use Auth;
 
 class PastebinController extends Controller
@@ -42,9 +42,9 @@ class PastebinController extends Controller
         $ret=Pastebin::generate($all_data);
 
         if (is_null($ret)) {
-            return ResponseModel::err(1001);
+            return ResponseUtil::err(1001);
         } else {
-            return ResponseModel::success(200, null, [
+            return ResponseUtil::success(200, null, [
                 "code" => $ret
             ]);
         }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Ajax;
 
 use App\Http\Controllers\Controller;
-use App\Models\ResponseModel;
+use App\Utils\ResponseUtil;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
@@ -20,7 +20,7 @@ class AccountController extends Controller
         if ($isValid) {
             $extension=$request->file('avatar')->extension();
         } else {
-            return ResponseModel::err(1005);
+            return ResponseUtil::err(1005);
         }
 
         $allow_extension=['jpg', 'png', 'jpeg', 'gif', 'bmp'];
@@ -36,9 +36,9 @@ class AccountController extends Controller
             $user->avatar='/'.$path;
             $user->save();
 
-            return ResponseModel::success(200, null, '/'.$path);
+            return ResponseUtil::success(200, null, '/'.$path);
         } else {
-            return ResponseModel::err(1005);
+            return ResponseUtil::err(1005);
         }
     }
 
@@ -61,39 +61,39 @@ class AccountController extends Controller
         }
         $user->describes=$describes;
         $user->save();
-        return ResponseModel::success();
+        return ResponseUtil::success();
     }
 
     public function changePassword(Request $request) {
         if (!$request->has('old_password') || !$request->has('new_password') || !$request->has('confirm_password')) {
-            return ResponseModel::err(1003);
+            return ResponseUtil::err(1003);
         }
         $old_password=$request->input('old_password');
         $new_password=$request->input('new_password');
         $confirm_password=$request->input('confirm_password');
         if ($new_password!=$confirm_password) {
-            return ResponseModel::err(2004);
+            return ResponseUtil::err(2004);
         }
         if (strlen($new_password)<8 || strlen($old_password)<8) {
-            return ResponseModel::err(1006);
+            return ResponseUtil::err(1006);
         }
         $user=Auth::user();
         if ($user->hasIndependentPassword() && !Hash::check($old_password, $user->password)) {
-            return ResponseModel::err(2005);
+            return ResponseUtil::err(2005);
         }
         $user->password=Hash::make($new_password);
         $user->save();
-        return ResponseModel::success();
+        return ResponseUtil::success();
     }
 
     public function checkEmailCooldown(Request $request) {
         $last_send=$request->session()->get('last_email_send');
         if (empty($last_send) || time()-$last_send>=300) {
             $request->session()->put('last_email_send', time());
-            return ResponseModel::success(200, null, 0);
+            return ResponseUtil::success(200, null, 0);
         } else {
             $cooldown=300-(time()-$last_send);
-            return ResponseModel::success(200, null, $cooldown);
+            return ResponseUtil::success(200, null, $cooldown);
         }
     }
 
@@ -102,7 +102,7 @@ class AccountController extends Controller
         $allow_change=['gender', 'contact', 'school', 'country', 'location'];
         foreach ($input as $key => $value) {
             if (!in_array($key, $allow_change)) {
-                return ResponseModel::error(1007);
+                return ResponseUtil::error(1007);
             }
         }
         foreach ($input as $key => $value) {
@@ -112,7 +112,7 @@ class AccountController extends Controller
                 Auth::user()->setExtra($key, null);
             }
         }
-        return ResponseModel::success();
+        return ResponseUtil::success();
     }
 
     public function saveEditorWidth(Request $request) {
@@ -120,7 +120,7 @@ class AccountController extends Controller
         $allow_change=['editor_left_width'];
         foreach ($input as $key => $value) {
             if (!in_array($key, $allow_change)) {
-                return ResponseModel::error(1007);
+                return ResponseUtil::error(1007);
             }
         }
         foreach ($input as $key => $value) {
@@ -130,7 +130,7 @@ class AccountController extends Controller
                 Auth::user()->setExtra($key, null);
             }
         }
-        return ResponseModel::success();
+        return ResponseUtil::success();
     }
 
     public function saveEditorTheme(Request $request) {
@@ -138,7 +138,7 @@ class AccountController extends Controller
         $allow_change=['editor_theme'];
         foreach ($input as $key => $value) {
             if (!in_array($key, $allow_change)) {
-                return ResponseModel::error(1007);
+                return ResponseUtil::error(1007);
             }
         }
         foreach ($input as $key => $value) {
@@ -148,6 +148,6 @@ class AccountController extends Controller
                 Auth::user()->setExtra($key, null);
             }
         }
-        return ResponseModel::success();
+        return ResponseUtil::success();
     }
 }

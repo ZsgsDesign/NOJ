@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Ajax;
 
 use App\Models\Submission\SubmissionModel;
-use App\Models\ResponseModel;
+use App\Utils\ResponseUtil;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -26,11 +26,11 @@ class SubmissionController extends Controller
             'sid' => 'required|integer',
         ]);
         if ($validator->fails()) {
-            return ResponseModel::err(3002);
+            return ResponseUtil::err(3002);
         }
         $submission=new SubmissionModel();
         $status=$submission->getJudgeStatus($all_data["sid"], Auth::check() ? Auth::user()->id : null);
-        return ResponseModel::success(200, null, $status);
+        return ResponseUtil::success(200, null, $status);
     }
 
     /**
@@ -48,20 +48,20 @@ class SubmissionController extends Controller
             'method' => 'required|integer',
         ]);
         if ($validator->fails()) {
-            return ResponseModel::err(3002);
+            return ResponseUtil::err(3002);
         }
         $submissionModel=new SubmissionModel();
         if ($all_data["method"]==1) {
             // NOJ Share
             $status=$submissionModel->share($all_data["sid"], Auth::check() ? Auth::user()->id : null);
-            return empty($status) ?ResponseModel::err(1001) : ResponseModel::success(200, null, $status);
+            return empty($status) ?ResponseUtil::err(1001) : ResponseUtil::success(200, null, $status);
         } elseif ($all_data["method"]==2) {
             // Pastebin
             $status=$submissionModel->sharePB($all_data["sid"], Auth::check() ? Auth::user()->id : null);
-            return empty($status) ?ResponseModel::err(1001) : ResponseModel::success(200, null, $status);
+            return empty($status) ?ResponseUtil::err(1001) : ResponseUtil::success(200, null, $status);
         } else {
-            return ResponseModel::err(6002);
+            return ResponseUtil::err(6002);
         }
-        return ResponseModel::success(200, null, $status);
+        return ResponseUtil::success(200, null, $status);
     }
 }

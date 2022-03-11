@@ -1,33 +1,29 @@
 <?php
 
-namespace App\Models;
+namespace App\Utils;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Response;
-
-class ResponseModel extends Model
+class ResponseUtil
 {
-    public static function success($statusCode=200, $desc=null, $data=null)
+    public static function success($statusCode = 200, $desc = null, $data = null)
     {
-        if (($statusCode>=1000)) {
-            $statusCode=200;
+        if (($statusCode >= 1000)) {
+            $statusCode = 200;
         }
-        $output=[
-             'ret' => $statusCode,
+        $output = [
+            'ret' => $statusCode,
             'desc' => is_null($desc) ? self::desc($statusCode) : $desc,
             'data' => $data
         ];
         return response()->json($output);
     }
 
-    public static function err($statusCode, $desc=null, $data=null)
+    public static function err($statusCode, $desc = null, $data = null)
     {
-        if (($statusCode<1000)) {
-            $statusCode=1000;
+        if (($statusCode < 1000)) {
+            $statusCode = 1000;
         }
-        $output=[
-             'ret' => $statusCode,
+        $output = [
+            'ret' => $statusCode,
             'desc' => is_null($desc) ? self::desc($statusCode) : $desc,
             'data' => $data
         ];
@@ -36,17 +32,18 @@ class ResponseModel extends Model
 
     private static function desc($errCode)
     {
-        $errDesc=[
+        $errDesc = [
 
             '200'  => "Successful",
             '201'  => "Partially Successful",
             '403'  => "Forbidden",
             '451'  => "Unavailable For Legal Reasons",
 
-            '1000' => "Unspecified Response", /** Under normal condictions those errors shouldn't been displayed to end users
-                                                 *  unless they attempt to do so, some submissions should be intercepted
-                                                 *  by the frontend before the request sended
-                                                 */
+            '1000' => "Unspecified Response",
+            /** Under normal condictions those errors shouldn't been displayed to end users
+             *  unless they attempt to do so, some submissions should be intercepted
+             *  by the frontend before the request sended
+             */
             '1001' => "Internal Sever Error",
             '1002' => "Service Currently Unavailable",
             '1003' => "Missing Params",

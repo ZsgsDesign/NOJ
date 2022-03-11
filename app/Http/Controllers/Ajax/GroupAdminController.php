@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Ajax;
 
 use App\Models\ContestModel;
 use App\Models\GroupModel;
-use App\Models\ResponseModel;
+use App\Utils\ResponseUtil;
 use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -29,11 +29,11 @@ class GroupAdminController extends Controller
         $gid=$contestModel->gid($all_data["cid"]);
         $clearance=$groupModel->judgeClearance($gid, Auth::user()->id);
         if ($clearance<3) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         }
         $accountModel=new AccountModel();
         $ret=$accountModel->generateContestAccount($all_data["cid"], $all_data["ccode"], $all_data["num"]);
-        return ResponseModel::success(200, null, $ret);
+        return ResponseUtil::success(200, null, $ret);
     }
 
     public function addProblemTag(Request $request)
@@ -49,15 +49,15 @@ class GroupAdminController extends Controller
         $groupModel=new GroupModel();
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         if ($clearance<2) {
-            return ResponseModel::err(7002);
+            return ResponseUtil::err(7002);
         }
         $tags=$groupModel->problemTags($all_data['gid'], $all_data['pid']);
         if (in_array($all_data['tag'], $tags)) {
-            return ResponseModel::err(7007);
+            return ResponseUtil::err(7007);
         }
 
         $groupModel->problemAddTag($all_data["gid"], $all_data["pid"], $all_data["tag"]);
-        return ResponseModel::success(200);
+        return ResponseUtil::success(200);
     }
 
     public function removeProblemTag(Request $request)
@@ -74,9 +74,9 @@ class GroupAdminController extends Controller
         $clearance=$groupModel->judgeClearance($all_data["gid"], Auth::user()->id);
         if ($clearance>1) {
             $groupModel->problemRemoveTag($all_data["gid"], $all_data["pid"], $all_data["tag"]);
-            return ResponseModel::success(200);
+            return ResponseUtil::success(200);
         }
-        return ResponseModel::err(7002);
+        return ResponseUtil::err(7002);
     }
 
     public function refreshElo(Request $request)
@@ -87,9 +87,9 @@ class GroupAdminController extends Controller
         $gid=$request->input('gid');
         $groupModel=new GroupModel();
         if ($groupModel->judgeClearance($gid, Auth::user()->id)<2) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         }
         $groupModel->refreshElo($gid);
-        return ResponseModel::success(200);
+        return ResponseUtil::success(200);
     }
 }

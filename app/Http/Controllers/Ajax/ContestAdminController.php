@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Ajax;
 use App\Models\ContestModel;
 use App\Models\Eloquent\Contest;
 use App\Models\GroupModel;
-use App\Models\ResponseModel;
+use App\Utils\ResponseUtil;
 use App\Models\AccountModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -36,15 +36,15 @@ class ContestAdminController extends Controller
 
         $contest_info=$contestModel->basic($cid);
         if ($contestModel->judgeClearance($cid, Auth::user()->id)!=3) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         }
 
         if ($groupModel->judgeClearance($contest_info['gid'], $uid)<2) {
-            return ResponseModel::err(7004);
+            return ResponseUtil::err(7004);
         }
 
         $contestModel->assignMember($cid, $uid);
-        return ResponseModel::success(200);
+        return ResponseUtil::success(200);
     }
 
     public function details(Request $request)
@@ -63,7 +63,7 @@ class ContestAdminController extends Controller
         $assign_uid=$contest_detail['assign_uid'];
         $clearance=$contestModel->judgeClearance($cid, Auth::user()->id);
         if ($clearance!=3) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         }
         if ($assign_uid!=0) {
             $assignee=$groupModel->userProfile($assign_uid, $contest_detail['gid']);
@@ -75,7 +75,7 @@ class ContestAdminController extends Controller
             'assignee' => $assignee,
             'is_admin' => $clearance==3,
         ];
-        return ResponseModel::success(200, null, $ret);
+        return ResponseUtil::success(200, null, $ret);
     }
 
     public function rejudge(Request $request)
@@ -108,7 +108,7 @@ class ContestAdminController extends Controller
 
         $contestModel=new ContestModel();
         if ($contestModel->judgeClearance($all_data['cid'], Auth::user()->id)<3) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         }
 
         $rejudgeQueue=$contestModel->getRejudgeQueue($all_data["cid"], $filter);
@@ -117,7 +117,7 @@ class ContestAdminController extends Controller
             dispatch(new ProcessSubmission($r))->onQueue($r["oj"]);
         }
 
-        return ResponseModel::success(200);
+        return ResponseUtil::success(200);
     }
 
     public function update(Request $request)
@@ -136,13 +136,13 @@ class ContestAdminController extends Controller
 
         $contestModel=new ContestModel();
         if ($contestModel->judgeClearance($all_data['cid'], Auth::user()->id)!=3) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         }
 
         if ($contestModel->remainingTime($cid)>0) {
             $problems=explode(",", $all_data["problems"]);
             if (count($problems)>26) {
-                return ResponseModel::err(4002);
+                return ResponseUtil::err(4002);
             }
             $i=0;
             $problemSet=[];
@@ -164,7 +164,7 @@ class ContestAdminController extends Controller
                 }
             }
             $contestModel->contestUpdate($cid, $all_data, $problemSet);
-            return ResponseModel::success(200);
+            return ResponseUtil::success(200);
         } else {
             $allow_update=['name', 'description'];
 
@@ -174,7 +174,7 @@ class ContestAdminController extends Controller
                 }
             }
             $contestModel->contestUpdate($cid, $all_data, false);
-            return ResponseModel::success(200, '
+            return ResponseUtil::success(200, '
                 Successful! However, only the name and description of the match can be changed for the match that has been finished.
             ');
         }
@@ -193,9 +193,9 @@ class ContestAdminController extends Controller
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($all_data["cid"], Auth::user()->id);
         if ($clearance<3) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         } else {
-            return ResponseModel::success(200, null, [
+            return ResponseUtil::success(200, null, [
                 "ccid" => $contestModel->issueAnnouncement($all_data["cid"], $all_data["title"], $all_data["content"], Auth::user()->id)
             ]);
         }
@@ -213,9 +213,9 @@ class ContestAdminController extends Controller
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($all_data["cid"], Auth::user()->id);
         if ($clearance<3) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         } else {
-            return ResponseModel::success(200, null, [
+            return ResponseUtil::success(200, null, [
                 "line" => $contestModel->replyClarification($all_data["ccid"], $all_data["content"])
             ]);
         }
@@ -233,9 +233,9 @@ class ContestAdminController extends Controller
         $contestModel=new ContestModel();
         $clearance=$contestModel->judgeClearance($all_data["cid"], Auth::user()->id);
         if ($clearance<3) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         } else {
-            return ResponseModel::success(200, null, [
+            return ResponseUtil::success(200, null, [
                 "line" => $contestModel->setClarificationPublic($all_data["ccid"], $all_data["public"])
             ]);
         }
@@ -255,19 +255,19 @@ class ContestAdminController extends Controller
         $contestModel=new ContestModel();
         $verified=$contestModel->isVerified($all_data["cid"]);
         if (!$verified) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         }
         $gid=$contestModel->gid($all_data["cid"]);
         $clearance=$groupModel->judgeClearance($gid, Auth::user()->id);
         if ($clearance<3) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         }
         $accountModel=new AccountModel();
         $ret=$accountModel->generateContestAccount($all_data["cid"], $all_data["ccode"], $all_data["num"]);
         $cache_data=Cache::tags(['contest', 'account'])->get($all_data["cid"]);
         $cache_data[]=$ret;
         Cache::tags(['contest', 'account'])->put($all_data["cid"], $cache_data);
-        return ResponseModel::success(200, null, $ret);
+        return ResponseUtil::success(200, null, $ret);
     }
 
     public function getScrollBoardData(Request $request)
@@ -278,16 +278,16 @@ class ContestAdminController extends Controller
         $cid=$request->input('cid');
         $contestModel=new ContestModel();
         if ($contestModel->judgeClearance($cid, Auth::user()->id)!=3) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         }
         if ($contestModel->remainingTime($cid)>=0) {
-            return ResponseModel::err(4008);
+            return ResponseUtil::err(4008);
         }
         if ($contestModel->basic($cid)['froze_length']==0) {
-            return ResponseModel::err(4009);
+            return ResponseUtil::err(4009);
         }
         $data=$contestModel->getScrollBoardData($cid);
-        return ResponseModel::success(200, null, $data);
+        return ResponseUtil::success(200, null, $data);
     }
 
     public function downloadCode(Request $request)
@@ -299,7 +299,7 @@ class ContestAdminController extends Controller
         $groupModel=new GroupModel();
         $contestModel=new ContestModel();
         if ($contestModel->judgeClearance($cid, Auth::user()->id)!=3) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         }
 
         $zip_name=$contestModel->zipName($cid);
@@ -325,7 +325,7 @@ class ContestAdminController extends Controller
         $contestModel=new ContestModel();
 
         if ($contestModel->judgeClearance($cid, Auth::user()->id)!=3) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         }
         $name=$contestModel->basic($cid)["name"];
 
@@ -346,14 +346,14 @@ class ContestAdminController extends Controller
         $formula = $request->input('config.formula');
         if($renderer == 'blink') {
             if($formula != 'tex') {
-                return ResponseModel::err(4011, 'Illegal Formula Rendering Option.');
+                return ResponseUtil::err(4011, 'Illegal Formula Rendering Option.');
             }
         } else if ($renderer == 'cpdf') {
             if($formula != 'svg' && $formula != 'png') {
-                return ResponseModel::err(4011, 'Illegal Formula Rendering Option.');
+                return ResponseUtil::err(4011, 'Illegal Formula Rendering Option.');
             }
         } else {
-            return ResponseModel::err(4011, 'Unknown Render Engine.');
+            return ResponseUtil::err(4011, 'Unknown Render Engine.');
         }
         $config=[
             'cover'=>$request->input('config.cover')=='true',
@@ -363,15 +363,15 @@ class ContestAdminController extends Controller
         ];
         $contestModel=new ContestModel();
         if ($contestModel->judgeClearance($cid, Auth::user()->id)!=3) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         }
         if (!is_null(Cache::tags(['contest', 'admin', 'PDFGenerate'])->get($cid))) {
-            return ResponseModel::err(8001);
+            return ResponseUtil::err(8001);
         }
         $generateProcess=new GeneratePDF($cid, $config);
         dispatch($generateProcess)->onQueue('normal');
         Cache::tags(['contest', 'admin', 'PDFGenerate'])->put($cid, $generateProcess->getJobStatusId());
-        return ResponseModel::success(200, null, [
+        return ResponseUtil::success(200, null, [
             'JobStatusId'=>$generateProcess->getJobStatusId()
         ]);
     }
@@ -384,12 +384,12 @@ class ContestAdminController extends Controller
         $cid=$request->input('cid');
         $contestModel=new ContestModel();
         if ($contestModel->judgeClearance($cid, Auth::user()->id)!=3) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         }
         $contest=Contest::find($cid);
         $contest->pdf=0;
         $contest->save();
-        return ResponseModel::success(200, null, []);
+        return ResponseUtil::success(200, null, []);
     }
 
     public function anticheat(Request $request)
@@ -400,19 +400,19 @@ class ContestAdminController extends Controller
         $cid=$request->input('cid');
         $contestModel=new ContestModel();
         if ($contestModel->judgeClearance($cid, Auth::user()->id)!=3) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         }
         if (!is_null(Cache::tags(['contest', 'admin', 'anticheat'])->get($cid))) {
-            return ResponseModel::err(8001);
+            return ResponseUtil::err(8001);
         }
         if (Contest::find($cid)->isJudgingComplete()) {
             $anticheatProcess=new AntiCheat($cid);
             dispatch($anticheatProcess)->onQueue('normal');
             Cache::tags(['contest', 'admin', 'anticheat'])->put($cid, $anticheatProcess->getJobStatusId());
-            return ResponseModel::success(200, null, [
+            return ResponseUtil::success(200, null, [
                 'JobStatusId'=>$anticheatProcess->getJobStatusId()
             ]);
         }
-        return ResponseModel::err(4010);
+        return ResponseUtil::err(4010);
     }
 }

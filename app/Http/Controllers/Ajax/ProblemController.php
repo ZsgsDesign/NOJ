@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Ajax;
 use App\Models\ProblemModel;
 use App\Models\Eloquent\Problem;
 use App\Models\Submission\SubmissionModel;
-use App\Models\ResponseModel;
+use App\Utils\ResponseUtil;
 use App\Babel\Babel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -34,17 +34,17 @@ class ProblemController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return ResponseModel::err(3002);
+            return ResponseUtil::err(3002);
         }
 
         $onlineJudge = $problem->online_judge;
         if (!$onlineJudge->status) {
-            return ResponseModel::err(6001);
+            return ResponseUtil::err(6001);
         }
 
         $compiler = $onlineJudge->compilers()->where('coid', $request->coid)->where(['available' => true, 'deleted' => false])->first();
         if(blank($compiler)) {
-            return ResponseModel::err(3007);
+            return ResponseUtil::err(3007);
         }
 
         $sid = $submissionModel->insert([
@@ -70,7 +70,7 @@ class ProblemController extends Controller
         $all_data["lang"] = $compiler->lcode;
         dispatch(new ProcessSubmission($all_data))->onQueue($onlineJudge->ocode);
 
-        return ResponseModel::success(200, null, [
+        return ResponseUtil::success(200, null, [
             "sid" => $sid
         ]);
     }
@@ -86,9 +86,9 @@ class ProblemController extends Controller
         $request->validate(["pcode" => "required|string|max:100"]);
         $problem = Problem::where('pcode', $request->pcode)->first();
         if (filled($problem)) {
-            return ResponseModel::success(200, null, $problem->only(["pcode", "title"]));
+            return ResponseUtil::success(200, null, $problem->only(["pcode", "title"]));
         } else {
-            return ResponseModel::err(3001);
+            return ResponseUtil::err(3001);
         }
     }
     /**
@@ -106,10 +106,10 @@ class ProblemController extends Controller
         $content = $all_data["content"];
         $basic = $problemModel->basic($pid);
         if (empty($basic)) {
-            return ResponseModel::err(3001);
+            return ResponseUtil::err(3001);
         }
         $ret = $problemModel->addSolution($pid, Auth::user()->id, $content);
-        return $ret ? ResponseModel::success(200) : ResponseModel::err(3003);
+        return $ret ? ResponseUtil::success(200) : ResponseUtil::err(3003);
     }
     /**
      * The Ajax Problem Solution Discussion Update.
@@ -125,7 +125,7 @@ class ProblemController extends Controller
         $psoid = $all_data["psoid"];
         $content = $all_data["content"];
         $ret = $problemModel->updateSolution($psoid, Auth::user()->id, $content);
-        return $ret ? ResponseModel::success(200) : ResponseModel::err(3004);
+        return $ret ? ResponseUtil::success(200) : ResponseUtil::err(3004);
     }
     /**
      * The Ajax Problem Solution Discussion Delete.
@@ -140,7 +140,7 @@ class ProblemController extends Controller
         $problemModel = new ProblemModel();
         $psoid = $all_data["psoid"];
         $ret = $problemModel->removeSolution($psoid, Auth::user()->id);
-        return $ret ? ResponseModel::success(200) : ResponseModel::err(3004);
+        return $ret ? ResponseUtil::success(200) : ResponseUtil::err(3004);
     }
     /**
      * The Ajax Problem Solution Discussion Vote.
@@ -156,7 +156,7 @@ class ProblemController extends Controller
         $psoid = $all_data["psoid"];
         $type = $all_data["type"];
         $ret = $problemModel->voteSolution($psoid, Auth::user()->id, $type);
-        return $ret["ret"] ? ResponseModel::success(200, null, ["votes" => $ret["votes"], "select" => $ret["select"]]) : ResponseModel::err(3004);
+        return $ret["ret"] ? ResponseUtil::success(200, null, ["votes" => $ret["votes"], "select" => $ret["select"]]) : ResponseUtil::err(3004);
     }
     /**
      * The Ajax Problem Solution Submit.
@@ -172,7 +172,7 @@ class ProblemController extends Controller
         $sid = $all_data["sid"];
         $downloadFile = $submissionModel->downloadCode($sid, Auth::user()->id);
         if (empty($downloadFile)) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         }
         return response()->streamDownload(function () use ($downloadFile) {
             echo $downloadFile["content"];
@@ -190,7 +190,7 @@ class ProblemController extends Controller
         $all_data = $request->all();
         $submission = new SubmissionModel();
         $status = $submission->getJudgeStatus($all_data["sid"], Auth::user()->id);
-        return ResponseModel::success(200, null, $status);
+        return ResponseUtil::success(200, null, $status);
     }
 
     /**
@@ -205,13 +205,13 @@ class ProblemController extends Controller
     public function manualJudge(Request $request)
     {
         if (Auth::user()->id != 1) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         }
 
         $babel = new Babel();
         $vj_judge = $babel->judge();
 
-        return ResponseModel::success(200, null, $vj_judge->ret);
+        return ResponseUtil::success(200, null, $vj_judge->ret);
     }
 
     /**
@@ -231,7 +231,7 @@ class ProblemController extends Controller
             $history = $submission->getProblemSubmission($all_data["pid"], Auth::user()->id);
         }
 
-        return ResponseModel::success(200, null, ["history" => $history]);
+        return ResponseUtil::success(200, null, ["history" => $history]);
     }
 
     public function postDiscussion(Request $request)
@@ -248,12 +248,12 @@ class ProblemController extends Controller
         $content = $all_data["content"];
         $basic = $problemModel->basic($pid);
         if (empty($basic)) {
-            return ResponseModel::err(3001);
+            return ResponseUtil::err(3001);
         }
         $ret = $problemModel->addDiscussion(Auth::user()->id, $pid, $title, $content);
-        return $ret ? ResponseModel::success(200, null, [
+        return $ret ? ResponseUtil::success(200, null, [
             'url' => route('problem.discussion.post', ['pcode'=> $basic['pcode'], 'dcode' => $ret])
-        ]) : ResponseModel::err(3003);
+        ]) : ResponseUtil::err(3003);
     }
 
     public function addComment(Request $request)
@@ -270,10 +270,10 @@ class ProblemController extends Controller
         $pid = $problemModel->pidByPdid($pdid);
         $basic = $problemModel->basic($pid);
         if (empty($basic)) {
-            return ResponseModel::err(3001);
+            return ResponseUtil::err(3001);
         }
         $ret = $problemModel->addComment(Auth::user()->id, $pdid, $content, $reply_id);
-        return $ret ? ResponseModel::success(200, null, $ret) : ResponseModel::err(3003);
+        return $ret ? ResponseUtil::success(200, null, $ret) : ResponseUtil::err(3003);
     }
 
     /**
@@ -290,11 +290,11 @@ class ProblemController extends Controller
         $submission = Submission::find($request->sid);
 
         if ($submission->uid != Auth::user()->id) {
-            return ResponseModel::err(2001);
+            return ResponseUtil::err(2001);
         }
 
         if ($submission->verdict != "Submission Error") {
-            return ResponseModel::err(6003);
+            return ResponseUtil::err(6003);
         }
 
         $submissionModel->updateSubmission($request->sid, [
@@ -307,7 +307,7 @@ class ProblemController extends Controller
         $compiler = $submission->compiler;
 
         if (!Problem::find($submission->pid)->online_judge->status) {
-            return ResponseModel::err(6001);
+            return ResponseUtil::err(6001);
         }
 
         $proceedData = [];
@@ -325,7 +325,7 @@ class ProblemController extends Controller
 
         dispatch(new ProcessSubmission($proceedData))->onQueue($proceedData["oj"]);
 
-        return ResponseModel::success(200);
+        return ResponseUtil::success(200);
     }
 
     public function getDialect(Request $request)
@@ -335,7 +335,7 @@ class ProblemController extends Controller
             'problem_id' => 'required|integer|exists:problem,pid'
         ]);
         $dialect = Problem::find($request->problem_id)->getDialect($request->dialect_id);
-        return filled($dialect) ? ResponseModel::success(200, null, $dialect) : ResponseModel::err(3006);
+        return filled($dialect) ? ResponseUtil::success(200, null, $dialect) : ResponseUtil::err(3006);
     }
 
 }
