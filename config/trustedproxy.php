@@ -1,13 +1,5 @@
 <?php
 
-function procTrustProxiestoConfig() {
-    $config = env('TRUSTED_PROXIES', null);
-    if(!is_null($config) && strpos($config, ',') !== false) {
-        $config = explode(',', $config);
-    }
-    return $config;
-}
-
 return [
 
     /*
@@ -25,7 +17,13 @@ return [
      */
     // 'proxies' => null, // [<ip addresses>,], '*', '<ip addresses>,'
 
-    'proxies' => procTrustProxiestoConfig(),
+    'proxies' => (function () {
+        $config = env('TRUSTED_PROXIES', null);
+        if (!is_null($config) && strpos($config, ',') !== false) {
+            $config = explode(',', $config);
+        }
+        return $config;
+    })(),
 
     /*
      * To trust one or more specific proxies that connect
@@ -55,6 +53,10 @@ return [
      *
      * @link https://symfony.com/doc/current/deployment/proxies.html
      */
-    'headers' => Illuminate\Http\Request::HEADER_X_FORWARDED_ALL,
+    'headers' => Illuminate\Http\Request::HEADER_X_FORWARDED_FOR |
+        Illuminate\Http\Request::HEADER_X_FORWARDED_HOST |
+        Illuminate\Http\Request::HEADER_X_FORWARDED_PORT |
+        Illuminate\Http\Request::HEADER_X_FORWARDED_PROTO |
+        Illuminate\Http\Request::HEADER_X_FORWARDED_AWS_ELB,
 
 ];
