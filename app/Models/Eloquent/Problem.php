@@ -87,7 +87,7 @@ class Problem extends Model
 
     public function getProblemStatusAttribute()
     {
-        return $this->_presenter['problem_status'] ?? $this->_presenter['problem_status'] = $this->getProblemStatus();
+        return $this->_presenter['problem_status'] ?? $this->getProblemStatus();
     }
 
     public function getFileExtensionAttribute()
@@ -137,7 +137,7 @@ class Problem extends Model
 
     public function getStatisticsAttribute()
     {
-        return $this->_presenter['statistics'] ?? $this->_presenter['statistics'] = $this->getStatistics();
+        return $this->_presenter['statistics'] ?? $this->getStatistics();
     }
 
     public function getLastSubmission($userId)
@@ -152,12 +152,12 @@ class Problem extends Model
 
     public function getStatistics(int $currentContestId = 0)
     {
-        return ProblemService::getStatistics($this, $currentContestId);
+        return $this->_presenter['statistics'] = ProblemService::getStatistics($this, $currentContestId);
     }
 
     public function getProblemStatus($userID = null, $contestID = null, Carbon $till = null)
     {
-        return ProblemService::getProblemStatus($this, $userID, $contestID, $till);
+        return $this->_presenter['problem_status'] = ProblemService::getProblemStatus($this, $userID, $contestID, $till);
     }
 
     public function getDialect(int $dialectId = 0): array
