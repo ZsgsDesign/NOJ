@@ -7,10 +7,15 @@ use App\Models\Eloquent\Problem;
 
 class ProblemSolution extends Model
 {
-    protected $table='problem_solution';
-    protected $primaryKey='psoid';
+    protected $table = 'problem_solution';
+    protected $primaryKey = 'psoid';
 
-    public function problem() {
+    protected $casts = [
+        'audit' => 'integer',
+    ];
+
+    public function problem()
+    {
         return $this->belongsTo(Problem::class, 'pid', 'pid');
     }
 
@@ -19,13 +24,24 @@ class ProblemSolution extends Model
         return $this->belongsTo(User::class, 'uid');
     }
 
+    public function inteliAudit(): int
+    {
+        if (strpos($this->content, '```') !== false) {
+            $latestSolution = $this->author()->solutions()->whereNot('audit', 0)->orderByDesc('updated_at')->first();
+            if (filled($latestSolution) && $latestSolution->audit) {
+                return $this->audit = 1;
+            }
+        }
+        return $this->audit = 0;
+    }
+
     public static function boot()
     {
         parent::boot();
-        static::updating(function($model) {
+        static::updating(function ($model) {
             $problem = Problem::findOrFail($model->pid);
-            if($model->original['audit'] != $model->audit) {
-                if($model->audit == 1) {
+            if ($model->original['audit'] != $model->audit) {
+                if ($model->audit == 1) {
                     // passed
                     sendMessage([
                         'sender'   => config('app.official_sender'),
@@ -40,7 +56,7 @@ class ProblemSolution extends Model
                             ]]
                         ]
                     ]);
-                } elseif($model->audit == 2) {
+                } elseif ($model->audit == 2) {
                     // declined
                     sendMessage([
                         'sender'   => config('app.official_sender'),
