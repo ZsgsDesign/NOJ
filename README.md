@@ -50,6 +50,12 @@ We do not provide any support for Opera, which doesn't mean Opera cannot access 
 
 For installation options and troubleshooting tips, see [NOJ Documentation](https://njuptaaa.github.io/docs/).
 
+### Testing your Instance
+
+```bash
+php vendor/bin/phpunit
+```
+
 ### Supported Languages
 
 NOJ now supports 15 popular programming languages, you can start issues about new languages support. 
