@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Rating\GroupRatingCalculator;
+use App\Utils\Rating\GroupRatingCalculator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Cache;

@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Models\Rating;
+namespace App\Utils\Rating;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use App\Models\ContestModel;
+use Cache;
+use Storage;
 use Log;
 
-class GroupRatingCalculator extends Model
+class RatingCalculator
 {
     public $cid=0;
     public $contestants=[];
@@ -15,44 +17,28 @@ class GroupRatingCalculator extends Model
     public $INITIAL_RATING=1500;
 
     public function __construct($cid) {
-        $contestModel=new ContestModel();
         $this->cid=$cid;
-        $this->gid=$contestModel->gid($cid);
+
         // get rank
         $this->getRecord();
     }
 
     private function getRecord() {
-        $contestModel=new ContestModel();
-        $contestRankRaw=$contestModel->contestRank($this->cid);
-        foreach ($contestRankRaw as $key => $contestRank) {
-            if (isset($contestRank['remote']) && $contestRank['remote']) {
-                unset($contestRankRaw[$key]);
-            }
+        $contestRankRaw=Cache::tags(['contest', 'rank'])->get($this->cid);
+
+        if ($contestRankRaw==null) {
+            $contestModel=new ContestModel();
+            $contestRankRaw=$contestModel->contestRankCache($this->cid);
         }
-        $contestRankRaw=array_values($contestRankRaw);
-        $members=array_column($contestRankRaw, 'uid');
-        $ratings_temp=DB::table('group_member')
-            ->where([
-                'gid' => $this->gid,
-            ])->whereIn('uid', $members)
-            ->select('uid', 'ranking')
-            ->get()->all();
-        $ratings=[];
-        foreach ($ratings_temp as $rating) {
-            $ratings[$rating['uid']]=$rating['ranking'];
-        }
+
+        $this->totParticipants=count($contestRankRaw);
         foreach ($contestRankRaw as $c) {
-            if (!isset($ratings[$c['uid']])) {
-                continue;
-            }
             $this->contestants[]=[
                 "uid"=>$c["uid"],
                 "points"=>$c["score"],
-                "rating"=>$ratings[$c['uid']],
+                "rating"=>DB::table("users")->where(["id"=>$c["uid"]])->first()["professional_rate"]
             ];
         }
-        $this->totParticipants=count($this->contestants);
     }
 
     private function reassignRank() {
@@ -174,19 +160,23 @@ class GroupRatingCalculator extends Model
         DB::transaction(function() use ($contestants) {
             foreach ($contestants as $contestant) {
                 $newRating=$contestant["rating"]+$contestant["delta"];
-                DB::table("group_member")->where([
-                    'gid' => $this->gid,
-                    'uid' => $contestant['uid'],
+                DB::table("users")->where([
+                    "id"=>$contestant["uid"]
                 ])->update([
-                    "ranking"=>$newRating
+                    "professional_rate"=>$newRating
                 ]);
-                DB::table("group_rated_change_log")->insert([
-                    'gid' => $this->gid,
-                    "uid" => $contestant["uid"],
-                    "cid" => $this->cid,
-                    "ranking" => $newRating
+                DB::table("professional_rated_change_log")->insert([
+                    "uid"=>$contestant["uid"],
+                    "cid"=>$this->cid,
+                    "rated"=>$newRating
                 ]);
             }
+            // Mark
+            DB::table("contest")->where([
+                "cid"=>$this->cid
+            ])->update([
+                "is_rated"=>1
+            ]);
         }, 5);
     }
 

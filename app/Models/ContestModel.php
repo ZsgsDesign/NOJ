@@ -9,7 +9,7 @@ use App\Models\Submission\SubmissionModel;
 use App\Models\Eloquent\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use App\Models\Rating\RatingCalculator;
+use App\Utils\Rating\RatingCalculator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Contracts\Cache\LockTimeoutException;
 use Auth;
