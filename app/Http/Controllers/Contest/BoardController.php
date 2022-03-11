@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Contest;
 use App\Models\ContestModel;
 use App\Models\Submission\SubmissionModel;
 use App\Http\Controllers\Controller;
-use App\Models\Eloquent\Tool\MonacoTheme;
+use App\Utils\MonacoThemeUtil;
 use Illuminate\Http\Request;
 use Auth;
 use Redirect;
@@ -113,7 +113,7 @@ class BoardController extends Controller
         $accountExt = Auth::user()->getExtra(['editor_left_width', 'editor_theme']);
         $editor_left_width = isset($accountExt['editor_left_width']) ? $accountExt['editor_left_width'] : '40';
         $editor_theme = isset($accountExt['editor_theme']) ? $accountExt['editor_theme'] : config('app.editor_theme');
-        $themeConfig = MonacoTheme::getTheme($editor_theme);
+        $themeConfig = MonacoThemeUtil::getTheme($editor_theme);
         $dialect = $problem->getDialect(blank($challenge->problem_dialect_id) ? 0 : $challenge->problem_dialect_id);
 
         return view('contest.board.editor', [
@@ -134,7 +134,7 @@ class BoardController extends Controller
             'problem' => $problem,
             'statistics' => $challenge->statistics,
             'dialect' => $dialect,
-            'editor_themes' => MonacoTheme::getAll(),
+            'editor_themes' => MonacoThemeUtil::getAll(),
         ]);
     }
 

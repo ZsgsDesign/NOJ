@@ -3,7 +3,7 @@
 namespace App\Console\Commands\Scheduling;
 
 use Illuminate\Console\Command;
-use App\Models\Eloquent\Tool\SiteMap;
+use App\Utils\SiteMapUtil;
 use Carbon;
 
 class UpdateSiteMap extends Command
@@ -42,7 +42,7 @@ class UpdateSiteMap extends Command
         $time=Carbon::now();
         $this->line("<fg=yellow>[$time] Processing:  </>Update Site Map");
 
-        SiteMap::generate();
+        SiteMapUtil::generate();
 
         $time=Carbon::now();
         $this->line("<fg=green>[$time] Processed:   </>Successfully Updated Site Map");

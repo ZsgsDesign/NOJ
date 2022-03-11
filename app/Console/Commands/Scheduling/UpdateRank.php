@@ -3,7 +3,7 @@
 namespace App\Console\Commands\Scheduling;
 
 use Illuminate\Console\Command;
-use App\Models\Eloquent\Tool\SiteRank;
+use App\Utils\SiteRankUtil;
 use Carbon;
 
 class UpdateRank extends Command
@@ -42,7 +42,7 @@ class UpdateRank extends Command
         $time=Carbon::now();
         $this->line("<fg=yellow>[$time] Processing:  </>Update Site Rank");
 
-        SiteRank::rankList();
+        SiteRankUtil::rankList();
 
         $time=Carbon::now();
         $this->line("<fg=green>[$time] Processed:   </>Successfully Updated Site Rank");

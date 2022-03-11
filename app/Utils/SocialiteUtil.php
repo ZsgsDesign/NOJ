@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models\Eloquent\Tool;
+namespace App\Utils;
 
-class Socialite
+class SocialiteUtil
 {
     protected static $config=['github', 'aauth'];
 

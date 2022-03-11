@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models\Eloquent\Tool;
+namespace App\Utils;
 
-class MonacoTheme
+class MonacoThemeUtil
 {
     protected static $theme=[
         "material-design-darker"=>[

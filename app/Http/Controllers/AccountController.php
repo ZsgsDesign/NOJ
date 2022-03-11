@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\AccountModel;
 use App\Models\Eloquent\UserExtra;
-use App\Models\Eloquent\Tool\Socialite;
+use App\Utils\SocialiteUtil;
 use Auth;
 
 class AccountController extends Controller
@@ -43,7 +42,7 @@ class AccountController extends Controller
             'extra_info' => $extraInfo,
             'extraDict' => UserExtra::$extraDict,
             'socialite_info' => $socialiteInfo,
-            'socialites' => Socialite::getAvailable(),
+            'socialites' => SocialiteUtil::getAvailable(),
         ]);
     }
 
@@ -72,7 +71,7 @@ class AccountController extends Controller
             'extra_info' => $extraInfo,
             'extraDict' => UserExtra::$extraDict,
             'socialite_info' => $socialiteInfo,
-            'socialites' => Socialite::getAvailable(),
+            'socialites' => SocialiteUtil::getAvailable(),
         ]);
     }
 }

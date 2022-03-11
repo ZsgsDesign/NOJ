@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Eloquent\Tool;
+namespace App\Utils;
 
 use App\Models\Eloquent\Problem;
 use App\Models\Eloquent\Contest;
@@ -8,7 +8,7 @@ use App\Models\Eloquent\Group;
 use Carbon;
 use App;
 
-class SiteMap
+class SiteMapUtil
 {
     public static function generate()
     {

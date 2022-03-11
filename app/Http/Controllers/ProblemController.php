@@ -6,7 +6,7 @@ use App\Models\ProblemModel;
 use App\Models\Submission\SubmissionModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Eloquent\Tool\MonacoTheme;
+use App\Utils\MonacoThemeUtil;
 use App\Models\Services\ProblemService;
 use App\Models\Services\ProblemTagService;
 use App\Models\Services\OJService;
@@ -114,7 +114,7 @@ class ProblemController extends Controller
         $accountExt = Auth::user()->getExtra(['editor_left_width', 'editor_theme']);
         $editor_left_width = isset($accountExt['editor_left_width']) ? $accountExt['editor_left_width'] : '40';
         $editor_theme = isset($accountExt['editor_theme']) ? $accountExt['editor_theme'] : config('app.editor_theme');
-        $themeConfig = MonacoTheme::getTheme($editor_theme);
+        $themeConfig = MonacoThemeUtil::getTheme($editor_theme);
         $dialect = $problem->getDialect(0);
 
         return view('problem.editor', [
@@ -129,7 +129,7 @@ class ProblemController extends Controller
             'problem' => $problem,
             'statistics' => $problem->statistics,
             'dialect' => $dialect,
-            'editor_themes' => MonacoTheme::getAll(),
+            'editor_themes' => MonacoThemeUtil::getAll(),
         ]);
     }
 

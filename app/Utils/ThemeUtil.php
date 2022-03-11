@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models\Eloquent\Tool;
+namespace App\Utils;
 
-class Theme
+class ThemeUtil
 {
     protected static $theme=[
         "default"=>[

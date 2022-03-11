@@ -3,7 +3,7 @@
 namespace App\Models\Eloquent\Messager;
 
 use App\Models\Eloquent\Message;
-use App\Models\Eloquent\Tool\SiteRank;
+use App\Utils\SiteRankUtil;
 use Auth;
 
 class GlobalRankMessager extends UniversalMessager
@@ -20,7 +20,7 @@ class GlobalRankMessager extends UniversalMessager
             $data = json_decode($message->data, true);
             $data["currentRank"] = $config['data']["currentRank"];
 
-            if(SiteRank::isTopOneHundred($data["currentRank"]) === SiteRank::isTopOneHundred($data["originalRank"])) {
+            if(SiteRankUtil::isTopOneHundred($data["currentRank"]) === SiteRankUtil::isTopOneHundred($data["originalRank"])) {
                 $message->delete();
                 return true;
             }
@@ -37,17 +37,17 @@ class GlobalRankMessager extends UniversalMessager
 
     public static function formatRankInOutOneHundredMessageToUser($data)
     {
-        if(SiteRank::isTopOneHundred($data["currentRank"])) {
+        if(SiteRankUtil::isTopOneHundred($data["currentRank"])) {
             return self::formatUniversalMessage('message.rank.up.desc', [
-                'originalRank' => SiteRank::getRankString($data['originalRank']),
-                'currentRank' => SiteRank::getRankString($data['currentRank']),
+                'originalRank' => SiteRankUtil::getRankString($data['originalRank']),
+                'currentRank' => SiteRankUtil::getRankString($data['currentRank']),
                 'receiver' => $data['receiver'],
                 'sender' => $data['sender'],
             ]);
         }
         return self::formatUniversalMessage('message.rank.down.desc', [
-            'originalRank' => SiteRank::getRankString($data['originalRank']),
-            'currentRank' => SiteRank::getRankString($data['currentRank']),
+            'originalRank' => SiteRankUtil::getRankString($data['originalRank']),
+            'currentRank' => SiteRankUtil::getRankString($data['currentRank']),
             'receiver' => $data['receiver'],
             'sender' => $data['sender'],
         ]);

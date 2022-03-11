@@ -5,7 +5,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use App\Models\Eloquent\Message;
-use App\Models\Eloquent\Tool\Theme;
+use App\Utils\ThemeUtil;
 use App\Models\Eloquent\Tool\AppSettings;
 
 if (!function_exists('version')) {
@@ -207,7 +207,7 @@ if (!function_exists('getTheme')) {
         if (is_null($id)) {
             $id=config('app.theme');
         }
-        return Theme::getTheme($id);
+        return ThemeUtil::getTheme($id);
     }
 }
 

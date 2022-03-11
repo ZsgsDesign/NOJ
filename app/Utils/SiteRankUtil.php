@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Eloquent\Tool;
+namespace App\Utils;
 
 use App\Models\Eloquent\ProblemSolution;
 use App\Models\Eloquent\Submission;
@@ -10,7 +10,7 @@ use Cache;
 use Carbon;
 use DB;
 
-class SiteRank
+class SiteRankUtil
 {
     private static $professionalRanking = [
         "Legendary Grandmaster" => "cm-colorful-text",
