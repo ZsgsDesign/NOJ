@@ -45,7 +45,7 @@ class SettingsController extends Controller
         $form->method('POST');
         $form->action(route('admin.settings.index'));
         $form->disableReset();
-        $box->content($form);
+        $box->content($form->render());
         return $box;
     }
 

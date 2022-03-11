@@ -59,7 +59,7 @@ class CodeTesterController extends Controller
             'solution'=>request()->solution,
         ]);
         $form->method('POST');
-        $box->content($form);
+        $box->content($form->render());
         return $box;
     }
 

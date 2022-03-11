@@ -92,13 +92,17 @@ class AnnouncementController extends AdminController
         $grid->column('updated_at', __('admin.updated_at'));
 
         $grid->filter(function(Grid\Filter $filter) {
-            $filter->like('title', __('admin.announcements.title'));
-            $filter->equal('uid', __('admin.announcements.user'))->select(function($id) {
-                $user=User::find($id);
-                if ($user) {
-                    return [$user->id => $user->readable_name];
-                }
-            })->config('minimumInputLength', 4)->ajax(route('admin.api.users'));
+            $filter->column(6, function($filter) {
+                $filter->like('title', __('admin.announcements.title'));
+            });
+            $filter->column(6, function($filter) {
+                $filter->equal('uid', __('admin.announcements.user'))->select(function($id) {
+                    $user=User::find($id);
+                    if ($user) {
+                        return [$user->id => $user->readable_name];
+                    }
+                })->config('minimumInputLength', 4)->ajax(route('admin.api.users'));
+            });
         });
 
         return $grid;
