@@ -1,5 +1,11 @@
 {
     "blade.format.enable": true,
     "emmet.triggerExpansionOnTab": true,
-    "phpcs.standard": "PSR2"
+    "phpcs.standard": "PSR2",
+    "php.problems.exclude" : {
+        "*.blade.php": true,
+        "_ide_helper.php" : true,
+        "vendor/" : true,
+        "storage/framework/views/" : true,
+    }
 }
