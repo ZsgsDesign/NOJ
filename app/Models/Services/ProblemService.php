@@ -224,6 +224,15 @@ class ProblemService
         }
         $solution->content = $content;
         $solution->inteliAudit();
-        return $solution->save() !== false;
+        return $solution->save() === true;
+    }
+
+    public static function removeSolution(Problem $problem, int $user_id): bool
+    {
+        $solution = $problem->solutions()->where(['uid' => $user_id])->first();
+        if(blank($solution)) {
+            return false;
+        }
+        return $solution->delete() === true;
     }
 }

@@ -186,7 +186,6 @@ Route::group(['prefix' => 'ajax', 'as' => 'ajax.', 'namespace' => 'Ajax', 'middl
         Route::post('manualJudge', 'ProblemController@manualJudge')->name('manualJudge');
         Route::post('submitHistory', 'ProblemController@submitHistory')->name('submitHistory');
         Route::get('downloadCode', 'ProblemController@downloadCode')->name('downloadCode');
-        Route::post('deleteSolutionDiscussion', 'ProblemController@deleteSolutionDiscussion')->name('deleteSolutionDiscussion');
         Route::post('voteSolutionDiscussion', 'ProblemController@voteSolutionDiscussion')->name('voteSolutionDiscussion');
         Route::post('postDiscussion', 'ProblemController@postDiscussion')->name('postDiscussion');
         Route::post('addComment', 'ProblemController@addComment')->name('addComment');
@@ -206,6 +205,7 @@ Route::group(['prefix' => 'ajax', 'as' => 'ajax.', 'namespace' => 'Ajax', 'middl
                 Route::group(['prefix' => 'solution', 'as' => 'solution.'], function () {
                     Route::post('submit', 'ProblemController@submitSolutionDiscussion')->name('submit');
                     Route::post('update', 'ProblemController@updateSolutionDiscussion')->name('update');
+                    Route::post('delete', 'ProblemController@deleteSolutionDiscussion')->name('delete');
                 });
             });
         });

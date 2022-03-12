@@ -120,11 +120,7 @@ class ProblemController extends Controller
      */
     public function deleteSolutionDiscussion(Request $request)
     {
-        $all_data = $request->all();
-        $problemModel = new ProblemModel();
-        $psoid = $all_data["psoid"];
-        $ret = $problemModel->removeSolution($psoid, Auth::user()->id);
-        return $ret ? ResponseUtil::success(200) : ResponseUtil::err(3004);
+        return ProblemService::removeSolution(EloquentRequestUtil::problem($request), Auth::user()->id) ? ResponseUtil::success(200) : ResponseUtil::err(3004);
     }
     /**
      * The Ajax Problem Solution Discussion Vote.

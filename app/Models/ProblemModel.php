@@ -70,18 +70,6 @@ class ProblemModel extends Model
     /**
      * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
      */
-    public function removeSolution($psoid, $uid)
-    {
-        if (empty(DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->first())) {
-            return false;
-        }
-        DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->delete();
-        return true;
-    }
-
-    /**
-     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
-     */
     public function pid($pcode)
     {
         $temp=DB::table($this->table)->where(["pcode"=>$pcode])->select("pid")->first();

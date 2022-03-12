@@ -720,9 +720,9 @@
                     else updatingSolutionDiscussion=true;
                     $.ajax({
                         type: 'POST',
-                        url: '/ajax/deleteSolutionDiscussion',
+                        url: "{{route('ajax.problem.discussion.solution.delete')}}",
                         data: {
-                            psoid: '{{$submitted->psoid}}'
+                            pid: '{{$problem->pid}}'
                         },
                         dataType: 'json',
                         headers: {
