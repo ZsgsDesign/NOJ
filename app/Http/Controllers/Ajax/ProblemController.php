@@ -109,12 +109,7 @@ class ProblemController extends Controller
      */
     public function updateSolutionDiscussion(Request $request)
     {
-        $all_data = $request->all();
-        $problemModel = new ProblemModel();
-        $psoid = $all_data["psoid"];
-        $content = $all_data["content"];
-        $ret = $problemModel->updateSolution($psoid, Auth::user()->id, $content);
-        return $ret ? ResponseUtil::success(200) : ResponseUtil::err(3004);
+        return ProblemService::updateSolution(EloquentRequestUtil::problem($request), Auth::user()->id, $request->content) ? ResponseUtil::success(200) : ResponseUtil::err(3004);
     }
     /**
      * The Ajax Problem Solution Discussion Delete.

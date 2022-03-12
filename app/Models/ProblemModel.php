@@ -26,20 +26,6 @@ class ProblemModel extends Model
     /**
      * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
      */
-    private function inteliAudit($uid, $content)
-    {
-        if (strpos($content, '```')!==false) {
-            $userSolutionHistory=DB::table("problem_solution")->where(['uid'=>$uid])->orderByDesc('updated_at')->first();
-            if (!empty($userSolutionHistory) && $userSolutionHistory["audit"]==1) {
-                return 1;
-            }
-        }
-        return 0;
-    }
-
-    /**
-     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
-     */
     public function voteSolution($psoid, $uid, $type)
     {
         $val=$type ? 1 : -1;
@@ -90,22 +76,6 @@ class ProblemModel extends Model
             return false;
         }
         DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->delete();
-        return true;
-    }
-
-    /**
-     * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Problem::class` instead.
-     */
-    public function updateSolution($psoid, $uid, $content)
-    {
-        if (empty(DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->first())) {
-            return false;
-        }
-        DB::table("problem_solution")->where(['psoid'=>$psoid, 'uid'=>$uid])->update([
-            "content"=>$content,
-            "audit"=>$this->inteliAudit($uid, $content),
-            "updated_at"=>date("Y-m-d H:i:s"),
-        ]);
         return true;
     }
 

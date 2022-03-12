@@ -222,7 +222,7 @@
             var that=this;
             $.ajax({
                 type: 'POST',
-                url: "{{route('ajax.problem.submit.solution.rejudge')}}",
+                url: "{{route('ajax.problem.solution.rejudge')}}",
                 data: {
                     sid: sid
                 },

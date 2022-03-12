@@ -589,7 +589,7 @@
                 else submitingSolutionDiscussion=true;
                 $.ajax({
                     type: 'POST',
-                    url: "{{route('ajax.problem.submit.discussion.solution')}}",
+                    url: "{{route('ajax.problem.discussion.solution.submit')}}",
                     data: {
                         pid: '{{$problem->pid}}',
                         content: simplemde.value(),
@@ -678,9 +678,9 @@
                     else updatingSolutionDiscussion=true;
                     $.ajax({
                         type: 'POST',
-                        url: '/ajax/updateSolutionDiscussion',
+                        url: "{{route('ajax.problem.discussion.solution.update')}}",
                         data: {
-                            psoid: '{{$submitted->psoid}}',
+                            pid: '{{$problem->pid}}',
                             content: simplemde.value(),
                         },
                         dataType: 'json',

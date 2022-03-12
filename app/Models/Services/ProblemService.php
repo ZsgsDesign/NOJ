@@ -207,12 +207,23 @@ class ProblemService
 
     public static function createSolution(Problem $problem, int $user_id, string $content): bool
     {
-        if ($problem->solutions()->where(['uid' => $user_id])->count()>0) {
+        if ($problem->solutions()->where(['uid' => $user_id])->count()) {
             return false;
         } else {
             $solution = new ProblemSolution(['uid' => $user_id, 'content' => $content]);
             $solution->inteliAudit();
             return $problem->solutions()->save($solution) !== false;
         }
+    }
+
+    public static function updateSolution(Problem $problem, int $user_id, string $content): bool
+    {
+        $solution = $problem->solutions()->where(['uid' => $user_id])->first();
+        if(blank($solution)) {
+            return false;
+        }
+        $solution->content = $content;
+        $solution->inteliAudit();
+        return $solution->save() !== false;
     }
 }

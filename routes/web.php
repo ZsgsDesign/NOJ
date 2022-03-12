@@ -186,7 +186,6 @@ Route::group(['prefix' => 'ajax', 'as' => 'ajax.', 'namespace' => 'Ajax', 'middl
         Route::post('manualJudge', 'ProblemController@manualJudge')->name('manualJudge');
         Route::post('submitHistory', 'ProblemController@submitHistory')->name('submitHistory');
         Route::get('downloadCode', 'ProblemController@downloadCode')->name('downloadCode');
-        Route::post('updateSolutionDiscussion', 'ProblemController@updateSolutionDiscussion')->name('updateSolutionDiscussion');
         Route::post('deleteSolutionDiscussion', 'ProblemController@deleteSolutionDiscussion')->name('deleteSolutionDiscussion');
         Route::post('voteSolutionDiscussion', 'ProblemController@voteSolutionDiscussion')->name('voteSolutionDiscussion');
         Route::post('postDiscussion', 'ProblemController@postDiscussion')->name('postDiscussion');
@@ -199,13 +198,14 @@ Route::group(['prefix' => 'ajax', 'as' => 'ajax.', 'namespace' => 'Ajax', 'middl
         Route::group(['prefix' => 'problem', 'as' => 'problem.'], function () {
             Route::get('dialects', 'ProblemController@dialects')->middleware('problem.valid:pid')->name('dialects');
             Route::get('exists', 'ProblemController@exists')->middleware('problem.valid:pcode')->name('exists');
-            Route::group(['prefix' => 'submit', 'as' => 'submit.'], function () {
-                Route::group(['prefix' => 'solution', 'as' => 'solution.', 'middleware' => ['throttle:1,0.17']], function () {
-                    Route::post('judge', 'ProblemController@submitSolution')->middleware('problem.valid:pid,contest')->name('judge');
-                    Route::post('rejudge', 'ProblemController@resubmitSolution')->name('rejudge');
-                });
-                Route::group(['prefix' => 'discussion', 'as' => 'discussion.', 'middleware' => ['problem.valid:pid']], function () {
-                    Route::post('solution', 'ProblemController@submitSolutionDiscussion')->name('solution');
+            Route::group(['prefix' => 'solution', 'as' => 'solution.', 'middleware' => ['throttle:1,0.17']], function () {
+                Route::post('judge', 'ProblemController@submitSolution')->middleware('problem.valid:pid,contest')->name('judge');
+                Route::post('rejudge', 'ProblemController@resubmitSolution')->name('rejudge');
+            });
+            Route::group(['prefix' => 'discussion', 'as' => 'discussion.', 'middleware' => ['problem.valid:pid']], function () {
+                Route::group(['prefix' => 'solution', 'as' => 'solution.'], function () {
+                    Route::post('submit', 'ProblemController@submitSolutionDiscussion')->name('submit');
+                    Route::post('update', 'ProblemController@updateSolutionDiscussion')->name('update');
                 });
             });
         });
