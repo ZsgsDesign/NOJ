@@ -14,6 +14,11 @@ use Log;
 use Exception;
 use App\Models\Traits\LikeScope;
 
+/**
+ * Eloquent User Instance.
+ *
+ * @suppress PHP2414
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
