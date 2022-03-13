@@ -43,23 +43,23 @@ jobs:
     - name: Create Database
       env:
         DB_CONNECTION: mysql
-        DB_HOST: 127.0.0.1
+        DB_HOST: mysql
         DB_PORT: 3306
         DB_DATABASE: noj
         DB_USERNAME: root
         DB_PASSWORD: password
-        REDIS_HOST: 127.0.0.1
+        REDIS_HOST: redis
         REDIS_PORT: 6379
       run: php artisan migrate
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DB_CONNECTION: mysql
-        DB_HOST: 127.0.0.1
+        DB_HOST: mysql
         DB_PORT: 3306
         DB_DATABASE: noj
         DB_USERNAME: root
         DB_PASSWORD: password
-        REDIS_HOST: 127.0.0.1
+        REDIS_HOST: redis
         REDIS_PORT: 6379
       run: |
         vendor/bin/phpunit
