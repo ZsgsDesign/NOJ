@@ -122,7 +122,7 @@
             <div class="table-responsive">
                 <table class="table">
                     <thead>
-                            @if($contest_rule==1)
+                            @if($contest->rule == 1)
                             {{-- ACM/ICPC Mode --}}
                             <tr>
                                 <th scope="col" rowspan="2" style="text-align: left;">{{__("contest.inside.rank.title")}}</th>
@@ -152,7 +152,7 @@
                             @endif
                     </thead>
                     <tbody>
-                        @if($contest_rule==1)
+                        @if($contest->rule == 1)
                             {{-- ACM/ICPC Mode --}}
                             @foreach($contest_rank as $r)
                             <tr class="@if($r["uid"]==Auth::user()->id) cm-me @endif @if(isset($r["remote"]) && $r["remote"]) cm-remote @endif">

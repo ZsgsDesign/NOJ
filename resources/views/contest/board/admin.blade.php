@@ -214,7 +214,7 @@
                 <ul class="list-group bmd-list-group p-0">
                     <button class="list-group-item admin-tab-text wemd-white wemd-lighten-4" id="downloaAllCode" download> {{__("contest.inside.admin.nav.download")}}</button>
                 </ul>
-                @if($is_end && $basic['froze_length'] != 0 && $basic['registration'] && $basic['rule']==1)
+                @if($has_ended && $basic['froze_length'] != 0 && $basic['registration'] && $basic['rule']==1)
                 <ul class="list-group bmd-list-group p-0">
                     <a href="{{route('contest.board.admin.scrollboard', [$cid => $cid])}}" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> {{__("contest.inside.admin.nav.scrollboard")}}<beta-badge class="wemd-teal">Beta</beta-badge></a>
                 </ul>

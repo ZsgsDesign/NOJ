@@ -569,7 +569,7 @@
                 <div class="prob-header animated pre-animated cm-performance-optimistic">
                     <button class="btn btn-outline-secondary" id="backBtn"><i class="MDI arrow-left"></i>  {{__("problem.back")}}</button>
                     @if($contest_mode)
-                        @if($contest_rule==1)
+                        @if($contest->rule == 1)
                             <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.acratio")}}"><i class="MDI checkbox-multiple-marked-circle"></i> {{$statistics['passed_count']}} / {{$statistics['submission_count']}}</info-badge>
                         @else
                             <info-badge data-toggle="tooltip" data-placement="top" title="{{__("problem.totalpoints")}}"><i class="MDI checkbox-multiple-marked-circle"></i> {{$challenge->points}} Points</info-badge>
@@ -698,7 +698,7 @@
             </right-side>
         </top-side>
         <bottom-side>
-            <a tabindex="0" @if($status["verdict"]=="Compile Error") title="Compile Info" data-content="{{$status["compile_info"]}}"@endif style="color: #7a8e97" id="verdict_info" class="{{$status["color"]}}"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">{{$status["verdict"]}} @if($status["verdict"] == "Partially Accepted")({{round($status["score"] / $problem->tot_score * ($challenge->points ?? 0))}})@endif</span></a>
+            <a tabindex="0" @if($status["verdict"]=="Compile Error") title="Compile Info" data-content="{{$status["compile_info"]}}"@endif style="color: #7a8e97" id="verdict_info" class="{{$status["color"]}}"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">{{$status["verdict"] ?? 'Not Submitted'}} @if($status["verdict"] == "Partially Accepted")({{round($status["score"] / $problem->tot_score * ($challenge->points ?? 0))}})@endif</span></a>
             <div>
                 <div class="btn-group dropup">
                     <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_theme_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -725,7 +725,7 @@
                         </div>
                     @endif
                 </div>
-                @if($contest_mode && $contest_ended)
+                @if($contest_mode && $contest->has_ended)
                     <a href="/problem/{{$problem->pcode}}"><button type="button" class="btn btn-info" id="origialBtn"> <i class="MDI launch"></i> {{__("problem.editor.submit.original")}}</button></a>
                 @else
                     @if(blank($availableCompilers) || !$problem->online_judge->status)

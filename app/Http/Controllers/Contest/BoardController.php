@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Contest;
 
 use App\Models\ContestModel;
-use App\Models\Submission\SubmissionModel;
 use App\Http\Controllers\Controller;
+use App\Utils\EloquentRequestUtil;
 use App\Utils\MonacoThemeUtil;
 use Illuminate\Http\Request;
 use Auth;
@@ -27,8 +27,11 @@ class BoardController extends Controller
      *
      * @return \Illuminate\Contracts\View\View
      */
-    public function challenge($cid)
+    public function challenge(Request $request)
     {
+        $cid = $request->cid;
+        $contest = EloquentRequestUtil::contest($request);
+
         $contestModel = new ContestModel();
         $clearance = $contestModel->judgeClearance($cid, Auth::user()->id);
         $basicInfo = $contestModel->basic($cid);
@@ -39,8 +42,6 @@ class BoardController extends Controller
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
         }
-        $contest_name = $contestModel->contestName($cid);
-        $contest_rule = $contestModel->contestRule($cid);
         $problemSet = $contestModel->contestProblems($cid, Auth::user()->id);
         $remainingTime = $contestModel->remainingTime($cid);
         $customInfo = $contestModel->getCustomInfo($cid);
@@ -54,10 +55,9 @@ class BoardController extends Controller
         return view('contest.board.challenge', [
             'page_title' => "Challenge",
             'navigation' => "Contest",
-            'site_title' => $contest_name,
+            'site_title' => $contest->name,
             'cid' => $cid,
-            'contest_name' => $contest_name,
-            'contest_rule' => $contest_rule,
+            'contest' => $contest,
             'problem_set' => $problemSet,
             'remaining_time' => $remainingTime,
             'custom_info' => $customInfo,
@@ -75,9 +75,7 @@ class BoardController extends Controller
     public function editor(Request $request)
     {
         $cid = $request->cid;
-        $ncode = $request->ncode;
         $contestModel = new ContestModel();
-        $submissionModel = new SubmissionModel();
 
         $clearance = $contestModel->judgeClearance($cid, Auth::user()->id);
         $basicInfo = $contestModel->basic($cid);
@@ -92,23 +90,13 @@ class BoardController extends Controller
         if ($basicInfo['public'] && !$basicInfo['audit_status']) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
-        $contest_name = $contestModel->contestName($cid);
-        $contest_rule = $contestModel->rule($cid);
         $contest_ended = $contestModel->isContestEnded($cid);
 
-        $contest = $request->contest_instance;
-        $challenge = $request->challenge_instance;
-        $problem = $request->problem_instance;
+        $contest = EloquentRequestUtil::contest($request);
+        $challenge = EloquentRequestUtil::challenge($request);
+        $problem = EloquentRequestUtil::problem($request);
 
-        $prob_status = $submissionModel->getProblemStatus($problem->pid, Auth::user()->id, $cid);
         $problemSet = $contestModel->contestProblems($cid, Auth::user()->id);
-
-        if (empty($prob_status)) {
-            $prob_status = [
-                "verdict" => "NOT SUBMIT",
-                "color" => ""
-            ];
-        }
 
         $accountExt = Auth::user()->getExtra(['editor_left_width', 'editor_theme']);
         $editor_left_width = isset($accountExt['editor_left_width']) ? $accountExt['editor_left_width'] : '40';
@@ -120,13 +108,11 @@ class BoardController extends Controller
             'page_title' => "Problem $challenge->ncode Detail",
             'navigation' => "Contest",
             'site_title' => $contest->name,
-            'status' => $prob_status,
+            'status' => $challenge->getProblemStatus(Auth::user()->id),
             'preferable_compiler' => $challenge->getPreferableCompiler(Auth::user()->id),
             'contest_mode' => true,
-            'contest_ended' => $contest_ended,
             'challenge' => $challenge,
             'contest' => $contest,
-            'contest_rule' => $contest_rule,
             'problem_set' => $problemSet,
             'clearance' => $clearance,
             'editor_left_width' => $editor_left_width,
@@ -143,8 +129,11 @@ class BoardController extends Controller
      *
      * @return \Illuminate\Contracts\View\View
      */
-    public function rank($cid)
+    public function rank(Request $request)
     {
+        $cid = $request->cid;
+        $contest = EloquentRequestUtil::contest($request);
+
         $contestModel = new ContestModel();
         $clearance = $contestModel->judgeClearance($cid, Auth::user()->id);
         $basicInfo = $contestModel->basic($cid);
@@ -159,8 +148,7 @@ class BoardController extends Controller
         if ($basicInfo['public'] && !$basicInfo['audit_status']) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
-        $contest_name = $contestModel->contestName($cid);
-        $contest_rule = $contestModel->contestRule($cid);
+
         $problemSet = $contestModel->contestProblems($cid, Auth::user()->id);
         $customInfo = $contestModel->getCustomInfo($cid);
         $contestRank = $contestModel->contestRank($cid, Auth::user()->id);
@@ -168,7 +156,7 @@ class BoardController extends Controller
         // To determine the ranking
         foreach ($contestRank as $i => &$r) {
             if ($i != 0) {
-                if ($r['score'] == $contestRank[$i - 1]['score'] && ($contest_rule == 1 ? ($r['penalty'] == $contestRank[$i - 1]['penalty']) : 1)) {
+                if ($r['score'] == $contestRank[$i - 1]['score'] && ($contest->rule == 1 ? ($r['penalty'] == $contestRank[$i - 1]['penalty']) : 1)) {
                     $r['rank'] = $contestRank[$i - 1]['rank'];
                 } else {
                     $r['rank'] = $i + 1;
@@ -182,9 +170,8 @@ class BoardController extends Controller
         return view('contest.board.rank', [
             'page_title' => "Rank",
             'navigation' => "Contest",
-            'site_title' => $contest_name,
-            'contest_name' => $contest_name,
-            'contest_rule' => $contest_rule,
+            'site_title' => $contest->name,
+            'contest' => $contest,
             'cid' => $cid,
             'problem_set' => $problemSet,
             'custom_info' => $customInfo,
@@ -203,11 +190,14 @@ class BoardController extends Controller
      */
     public function status(Request $request)
     {
+        $cid = $request->cid;
+        $contest = EloquentRequestUtil::contest($request);
+
         $all_data = $request->all();
         $filter["ncode"] = isset($all_data["ncode"]) ? $all_data["ncode"] : null;
         $filter["result"] = isset($all_data["result"]) ? $all_data["result"] : null;
         $filter["account"] = isset($all_data["account"]) ? $all_data["account"] : null;
-        $cid = $request->cid;
+
         $contestModel = new ContestModel();
         $clearance = $contestModel->judgeClearance($cid, Auth::user()->id);
         $basicInfo = $contestModel->basic($cid);
@@ -222,16 +212,17 @@ class BoardController extends Controller
         if ($basicInfo['public'] && !$basicInfo['audit_status']) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
-        $contest_name = $contestModel->contestName($cid);
+
         $customInfo = $contestModel->getCustomInfo($cid);
         $submissionRecordSet = $contestModel->getContestRecord($filter, $cid);
         $rankFrozen = $contestModel->isFrozen($cid);
         $frozenTime = $contestModel->frozenTime($cid);
+
         return view('contest.board.status', [
             'page_title' => "Status",
             'navigation' => "Contest",
-            'site_title' => $contest_name,
-            'contest_name' => $contest_name,
+            'site_title' => $contest->name,
+            'contest' => $contest,
             'basic_info' => $basicInfo,
             'cid' => $cid,
             'custom_info' => $customInfo,
@@ -248,8 +239,11 @@ class BoardController extends Controller
      *
      * @return \Illuminate\Contracts\View\View
      */
-    public function clarification($cid)
+    public function clarification(Request $request)
     {
+        $cid = $request->cid;
+        $contest = EloquentRequestUtil::contest($request);
+
         $contestModel = new ContestModel();
         $clearance = $contestModel->judgeClearance($cid, Auth::user()->id);
         $basicInfo = $contestModel->basic($cid);
@@ -263,15 +257,16 @@ class BoardController extends Controller
         if ($basicInfo['public'] && !$basicInfo['audit_status']) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
-        $contest_name = $contestModel->contestName($cid);
+
         $customInfo = $contestModel->getCustomInfo($cid);
         $clarificationList = $contestModel->getClarificationList($cid);
         $contest_ended = $contestModel->isContestEnded($cid);
+
         return view('contest.board.clarification', [
             'page_title' => "Clarification",
             'navigation' => "Contest",
-            'site_title' => $contest_name,
-            'contest_name' => $contest_name,
+            'site_title' => $contest->name,
+            'contest' => $contest,
             'cid' => $cid,
             'custom_info' => $customInfo,
             'clarification_list' => $clarificationList,
@@ -286,8 +281,11 @@ class BoardController extends Controller
      *
      * @return \Illuminate\Contracts\View\View
      */
-    public function print($cid)
+    public function print(Request $request)
     {
+        $cid = $request->cid;
+        $contest = EloquentRequestUtil::contest($request);
+
         $contestModel = new ContestModel();
         $clearance = $contestModel->judgeClearance($cid, Auth::user()->id);
         $basicInfo = $contestModel->basic($cid);
@@ -301,13 +299,14 @@ class BoardController extends Controller
         if ($basicInfo['public'] && !$basicInfo['audit_status']) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
-        $contest_name = $contestModel->contestName($cid);
+
         $customInfo = $contestModel->getCustomInfo($cid);
+
         return view('contest.board.print', [
             'page_title' => "Print",
             'navigation' => "Contest",
-            'site_title' => $contest_name,
-            'contest_name' => $contest_name,
+            'site_title' => $contest->name,
+            'contest' => $contest,
             'cid' => $cid,
             'custom_info' => $customInfo,
             'clearance' => $clearance,
@@ -315,8 +314,11 @@ class BoardController extends Controller
         ]);
     }
 
-    public function analysis($cid)
+    public function analysis(Request $request)
     {
+        $cid = $request->cid;
+        $contest = EloquentRequestUtil::contest($request);
+
         $contestModel = new ContestModel();
         $clearance = $contestModel->judgeClearance($cid, Auth::user()->id);
         $basicInfo = $contestModel->basic($cid);
@@ -331,13 +333,14 @@ class BoardController extends Controller
         if ($basicInfo['public'] && !$basicInfo['audit_status']) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
-        $contest_name = $contestModel->contestName($cid);
+
         $customInfo = $contestModel->getCustomInfo($cid);
+
         return view('contest.board.analysis', [
             'page_title' => "Analysis",
             'navigation' => "Contest",
-            'site_title' => $contest_name,
-            'contest_name' => $contest_name,
+            'site_title' => $contest->name,
+            'contest' => $contest,
             'cid' => $cid,
             'custom_info' => $customInfo,
             'clearance' => $clearance,

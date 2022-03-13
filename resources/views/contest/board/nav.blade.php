@@ -27,7 +27,7 @@
         margin-bottom: -2px;
     }
 </style>
-<h5 class="sm-contest-title">{{$contest_name}}</h5>
+<h5 class="sm-contest-title">{{$contest->name}}</h5>
 <nav-div>
     @if(time() >= strtotime($basic['begin_time']))
         <a href="/contest/{{$cid}}/board/challenge" data-nav="challenge"><nav-item>{{__("contest.inside.topbar.challenge")}}</nav-item></a>

@@ -125,9 +125,7 @@ Route::group([ 'namespace' => 'Contest', 'prefix' => 'contest', 'as' => 'contest
                 });
                 Route::get('/pdfView', 'AdminController@pdfView')->middleware(['contest.board.admin.pdfview.clearance'])->name('admin.pdf.view');
             });
-
         });
-
     });
 
 });

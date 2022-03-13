@@ -101,16 +101,6 @@ class ProblemController extends Controller
     public function editor(Request $request)
     {
         $problem = EloquentRequestUtil::problem($request);
-        $submission = new SubmissionModel();
-
-        $prob_status = $submission->getProblemStatus($problem->pid, Auth::user()->id);
-
-        if (empty($prob_status)) {
-            $prob_status = [
-                "verdict" => "NOT SUBMIT",
-                "color" => ""
-            ];
-        }
 
         $accountExt = Auth::user()->getExtra(['editor_left_width', 'editor_theme']);
         $editor_left_width = isset($accountExt['editor_left_width']) ? $accountExt['editor_left_width'] : '40';
@@ -122,7 +112,7 @@ class ProblemController extends Controller
             'page_title' => $problem->title,
             'site_title' => config("app.name"),
             'navigation' => "Problem",
-            'status' => $prob_status,
+            'status' => $problem->getProblemStatus(Auth::user()->id),
             'preferable_compiler' => $problem->getPreferableCompiler(Auth::user()->id),
             'contest_mode' => false,
             'editor_left_width' => $editor_left_width,

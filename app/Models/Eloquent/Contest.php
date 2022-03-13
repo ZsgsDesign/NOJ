@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\ContestModel as OutdatedContestModel;
 use Cache;
+use Carbon;
 use DateTimeInterface;
 
 class Contest extends Model
@@ -157,13 +158,17 @@ class Contest extends Model
 
     public function getFrozenTimeAttribute()
     {
-        $end_time = strtotime($this->end_time);
-        return $end_time - $this->froze_length;
+        return $this->frozed_at->getTimestamp();
     }
 
-    public function getIsEndAttribute()
+    public function getFrozedAtAttribute()
     {
-        return strtotime($this->end_time) < time();
+        return Carbon::parse($this->end_time)->subSeconds($this->froze_length ?? 0);
+    }
+
+    public function getHasEndedAttribute()
+    {
+        return Carbon::parse($this->end_time)->isBefore(Carbon::now());
     }
 
     public function isJudgingComplete()

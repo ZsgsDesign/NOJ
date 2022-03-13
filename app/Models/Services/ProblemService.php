@@ -50,33 +50,39 @@ class ProblemService
 
     public static function getProblemStatus(Problem $problem, $userID = null, $contestID = null, Carbon $till = null)
     {
-        if (blank($userID)) {
-            if (Auth::guard('web')->check()) {
-                $userID = Auth::guard('web')->user()->id;
-            }
-        }
-
         if (filled($userID)) {
-            $probStatus = ProblemService::getProblemStatusFromDB($problem, $userID, $contestID, $till);
-            if (blank($probStatus)) {
+            $submission = ProblemService::getProblemStatusFromDB($problem, $userID, $contestID, $till);
+            if (blank($submission)) {
                 return [
                     "icon" => "checkbox-blank-circle-outline",
-                    "color" => "wemd-grey-text"
+                    "color" => "wemd-grey-text",
+                    "verdict" => null,
+                    "compile_info" => null,
+                    "score" => 0,
                 ];
             } else {
                 return [
-                    "icon" => $probStatus->verdict == "Accepted" ? "checkbox-blank-circle" : "cisco-webex",
-                    "color" => $probStatus->color
+                    "icon" => $submission->verdict == "Accepted" ? "checkbox-blank-circle" : "cisco-webex",
+                    "color" => $submission->color,
+                    "verdict" => $submission->verdict,
+                    "compile_info" => $submission->compile_info,
+                    "score" => $submission->score,
                 ];
             }
         } else {
             return [
                 "icon" => "checkbox-blank-circle-outline",
-                "color" => "wemd-grey-text"
+                "color" => "wemd-grey-text",
+                "verdict" => null,
+                "compile_info" => null,
+                "score" => 0,
             ];
         }
     }
 
+    /**
+     * @return \App\Models\Eloquent\Submission
+     */
     private static function getProblemStatusFromDB(Problem $problem, $userID, $contestID = null, Carbon $till = null)
     {
         $endedAt = Carbon::now();

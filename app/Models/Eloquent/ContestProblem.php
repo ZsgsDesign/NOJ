@@ -5,6 +5,7 @@ namespace App\Models\Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Eloquent\Compiler;
 use App\Models\Services\ProblemService;
+use Carbon;
 
 class ContestProblem extends Model
 {
@@ -45,6 +46,11 @@ class ContestProblem extends Model
     public function getPreferableCompiler($userId)
     {
         return ProblemService::getPreferableCompiler($this->problem, $userId, $this->cid);
+    }
+
+    public function getProblemStatus($userID)
+    {
+        return ProblemService::getProblemStatus($this->problem, $userID, $this->contest->id, $this->contest->frozed_at);
     }
 
     //This should be a repository...or service function ?
