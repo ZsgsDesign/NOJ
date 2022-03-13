@@ -144,31 +144,23 @@ Route::group(['prefix' => 'terms', 'middleware' => ['user.banned']], function ()
     Route::get('/user', 'TermsController@user')->name('terms.user');
 });
 
-Route::group(['namespace' => 'Tool', 'middleware' => ['contest_account', 'user.banned']], function () {
+Route::group(['namespace' => 'Tool', 'as' => 'tool.', 'middleware' => ['contest_account', 'user.banned']], function () {
+    Route::get('/pb/{code}', 'PastebinController@view')->name('pastebin.shortlink');
     Route::group(['prefix' => 'tool'], function () {
-        Route::redirect('/', '/', 301);
-        Route::group(['prefix' => 'pastebin'], function () {
-            Route::redirect('/', '/tool/pastebin/create', 301);
-            Route::get('/create', 'PastebinController@create')->middleware('auth')->name('tool.pastebin.create');
-            Route::get('/view/{code}', 'PastebinController@view')->name('tool.pastebin.view');
+        Route::redirect('/', '/', 301)->name('index');
+        Route::group(['prefix' => 'pastebin', 'as' => 'pastebin.'], function () {
+            Route::redirect('/', '/tool/pastebin/create', 301)->name('index');
+            Route::get('/create', 'PastebinController@create')->middleware('auth')->name('create');
+            Route::get('/view/{code}', 'PastebinController@view')->name('view');
         });
-        Route::group(['prefix' => 'imagehosting'], function () {
-            Route::redirect('/', '/tool/imagehosting/create', 301);
-            Route::get('/create', 'ImageHostingController@create')->middleware('auth')->name('tool.imagehosting.create');
-            Route::get('/list', 'ImageHostingController@list')->middleware('auth')->name('tool.imagehosting.list');
-            Route::redirect('/detail', '/tool/imagehosting/list', 301);
-            Route::get('/detail/{id}', 'ImageHostingController@detail')->middleware('auth')->name('tool.imagehosting.detail');
-        });
-        Route::group(['prefix' => 'ajax', 'namespace' => 'Ajax'], function () {
-            Route::group(['prefix' => 'pastebin'], function () {
-                Route::post('generate', 'PastebinController@generate')->middleware('auth')->name('tool.ajax.pastebin.generate');
-            });
-            Route::group(['prefix' => 'imagehosting'], function () {
-                Route::post('generate', 'ImageHostingController@generate')->middleware('auth')->name('tool.ajax.imagehosting.generate');
-            });
+        Route::group(['prefix' => 'imagehosting', 'as' => 'imagehosting.'], function () {
+            Route::redirect('/', '/tool/imagehosting/create', 301)->name('index');
+            Route::get('/create', 'ImageHostingController@create')->middleware('auth')->name('create');
+            Route::get('/list', 'ImageHostingController@list')->middleware('auth')->name('list');
+            Route::redirect('/detail', '/tool/imagehosting/list', 301)->name('detail.index');
+            Route::get('/detail/{id}', 'ImageHostingController@detail')->middleware('auth')->name('detail');
         });
     });
-    Route::get('/pb/{code}', 'PastebinController@view')->name('tool.pastebin.view.shortlink');
 });
 
 Route::group(['prefix' => 'ajax', 'as' => 'ajax.', 'namespace' => 'Ajax', 'middleware' => ['user.banned']], function () {
@@ -179,6 +171,15 @@ Route::group(['prefix' => 'ajax', 'as' => 'ajax.', 'namespace' => 'Ajax', 'middl
 
     Route::group(['middleware' => 'auth'], function () {
         Route::post('search', 'SearchController')->name('search');
+
+        Route::group(['prefix' => 'tool', 'as' => 'tool.', 'namespace' => 'Tool'], function () {
+            Route::group(['prefix' => 'pastebin', 'as' => 'pastebin.'], function () {
+                Route::post('generate', 'PastebinController@generate')->middleware('auth')->name('generate');
+            });
+            Route::group(['prefix' => 'imagehosting', 'as' => 'imagehosting.'], function () {
+                Route::post('generate', 'ImageHostingController@generate')->middleware('auth')->name('generate');
+            });
+        });
 
         Route::post('judgeStatus', 'ProblemController@judgeStatus')->name('judgeStatus');
         Route::post('manualJudge', 'ProblemController@manualJudge')->name('manualJudge');

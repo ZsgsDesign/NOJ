@@ -57,6 +57,7 @@ class SubmissionController extends Controller
             return empty($status) ? ResponseUtil::err(1001) : ResponseUtil::success(200, null, $status);
         } elseif ($all_data["method"]==2) {
             // Pastebin
+            if(!config('feature.tools.pastebin')) return ResponseUtil::err(1008);
             $status=$submissionModel->sharePB($all_data["sid"], Auth::check() ? Auth::user()->id : null);
             return empty($status) ? ResponseUtil::err(1001) : ResponseUtil::success(200, null, $status);
         } else {

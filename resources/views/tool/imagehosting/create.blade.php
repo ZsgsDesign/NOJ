@@ -238,7 +238,7 @@
                 image_data.append('image',file);
 
                 $.ajax({
-                    url : '{{route("tool.ajax.imagehosting.generate")}}',
+                    url : '{{route("ajax.tool.imagehosting.generate")}}',
                     type : 'POST',
                     data : image_data,
                     processData : false,

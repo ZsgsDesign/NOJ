@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Tool\Ajax;
+namespace App\Http\Controllers\Ajax\Tool;
 
 use App\Models\Eloquent\Tool\Pastebin;
 use App\Http\Controllers\Controller;

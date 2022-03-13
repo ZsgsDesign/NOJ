@@ -68,7 +68,7 @@ class User extends Authenticatable
 
     public function imagehostings()
     {
-        return $this->hasMany(ImageHosting::class);
+        return $this->hasMany(\App\Models\Eloquent\Tool\ImageHosting::class);
     }
 
     public function extras()

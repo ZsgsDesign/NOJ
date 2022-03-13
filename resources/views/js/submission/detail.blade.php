@@ -100,9 +100,11 @@
                     }else{
                         $(`#submission${id} pre`).remove();
                     }
-                    if(ret.data.owner){
-                        $(`#submission${id} .modal-footer button:nth-of-type(2)`).removeClass("d-none");
-                    }
+                    @if(config('feature.submission.sharing'))
+                        if(ret.data.owner){
+                            $(`#submission${id} .modal-footer button:nth-of-type(2)`).removeClass("d-none");
+                        }
+                    @endif
                     if(ret.data.verdict=='Compile Error'){
                         $(`#submission${id} .cm-ce-decoration`).attr('title',"Compile Info");
                         $(`#submission${id} .cm-ce-decoration`).attr('data-content',ret.data.compile_info);
@@ -142,6 +144,7 @@
         downloadingCode=false;
     }
 
+    @if(config('feature.submission.sharing'))
     function prepareShare(sid){
         if(fetchingSubmissionShare) return;
         fetchingSubmissionShare=true;
@@ -170,7 +173,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-info" onclick="share(${ret.data.sid},${id})"><i class="MDI cube-outline"></i> ${ret.data.share?'{{__("status.submitsharing.disabledirectshare")}}':'{{__("status.submitsharing.enabledirectshare")}}'}</button>
-                                    <button type="button" class="btn btn-warning" onclick="sharePB(${ret.data.sid},${id})"><i class="MDI note-plus"></i> {{__("status.submitsharing.pastebin", ['name' => config("app.name")])}}</button>
+                                    @if(config('feature.tools.pastebin'))<button type="button" class="btn btn-warning" onclick="sharePB(${ret.data.sid},${id})"><i class="MDI note-plus"></i> {{__("status.submitsharing.pastebin", ['name' => config("app.name")])}}</button>@endif
                                 </div>
                             </div>
                         </div>
@@ -220,6 +223,7 @@
         });
     }
 
+    @if(config('feature.tools.pastebin'))
     function sharePB(sid,id){
         if(sharing) return;
         sharing=true;
@@ -248,4 +252,6 @@
             }
         });
     }
+    @endif
+    @endif
 </script>

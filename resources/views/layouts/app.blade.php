@@ -164,9 +164,12 @@
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="{{route('admin.index')}}"><i class="MDI view-dashboard"></i> {{__('navigation.admin')}}</a>
                                     @endif
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/tool/pastebin/create"><i class="MDI content-paste"></i> {{__('navigation.pastebin')}}</a>
-                                    <a class="dropdown-item" href="/tool/imagehosting/create"><i class="MDI image-filter"></i> {{__('navigation.imagehosting')}}</a>
+
+                                    @if(config('feature.tools.imagehosting') || config('feature.tools.pastebin'))
+                                        <div class="dropdown-divider"></div>
+                                        @if(config('feature.tools.pastebin')) <a class="dropdown-item" href="/tool/pastebin/create"><i class="MDI content-paste"></i> {{__('navigation.pastebin')}}</a> @endif
+                                        @if(config('feature.tools.imagehosting')) <a class="dropdown-item" href="/tool/imagehosting/create"><i class="MDI image-filter"></i> {{__('navigation.imagehosting')}}</a> @endif
+                                    @endif
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/system/info"><i class="MDI information-outline"></i> {{__('navigation.systeminfo')}}</a>
                                     <a class="dropdown-item" href="https://github.com/ZsgsDesign/NOJ/issues"><i class="MDI bug"></i> {{__('navigation.report')}}</a>
@@ -224,8 +227,8 @@
                         <h5 class="title mb-4 mt-3 font-bold">{{__('footer.services')}}</h5>
                         <p class="mb-1"><a href="/status">{{__('footer.queue')}}</a></p>
                         <p class="mb-1"><a href="/system/info">{{__('navigation.systeminfo')}}</a></p>
-                        <p class="mb-1"><a href="/tool/pastebin/create">{{__('navigation.pastebin')}}</a></p>
-                        <p class="mb-1"><a href="/tool/imagehosting/create">{{__('navigation.imagehosting')}}</a></p>
+                        @if(config('feature.tools.pastebin')) <p class="mb-1"><a href="/tool/pastebin/create">{{__('navigation.pastebin')}}</a></p> @endif
+                        @if(config('feature.tools.pastebin')) <p class="mb-1"><a href="/tool/imagehosting/create">{{__('navigation.imagehosting')}}</a></p> @endif
                     </div>
 
                     <hr class="clearfix w-100 d-md-none">
