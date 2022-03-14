@@ -45,6 +45,16 @@ class Submitter extends Curl
             'spj_src' => $data['spj_src']
         ]);
     }
+
+    public function getMaxCPUTimeFactor($lang): int
+    {
+        $max_cpu_time_factor = 1;
+        if($lang=="java") $max_cpu_time_factor = 2;
+        elseif($lang=="py2") $max_cpu_time_factor = 4;
+        elseif($lang=="py3") $max_cpu_time_factor = 4;
+        return $max_cpu_time_factor;
+    }
+
     public function submit()
     {
         $validator = Validator::make($this->post_data, [
@@ -69,7 +79,7 @@ class Submitter extends Curl
         $submit_data = [
             "solution" => $this->post_data["solution"],
             "language" => $this->post_data["lang"],
-            "max_cpu_time" => $problem->time_limit * ($this->post_data["lang"] == "java" ? 3 : 1),
+            "max_cpu_time" => $problem->time_limit * $this->getMaxCPUTimeFactor($this->post_data["lang"]),
             "max_memory" => $problem->memory_limit * 1024,
             "test_case_id" => $problem->pcode,
             "token" => $bestServer["token"],
