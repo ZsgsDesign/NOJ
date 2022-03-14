@@ -22,7 +22,7 @@ class DojoController extends Controller
         $dojo_id=$request->input('dojo_id');
 
         try {
-            if (!Dojo::findOrFail($dojo_id)->canPass()) {
+            if (!Dojo::findOrFail($dojo_id)->canPass(Auth::user()->id)) {
                 return ResponseUtil::err(10001);
             }
         } catch (Throwable $e) {

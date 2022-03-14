@@ -247,11 +247,11 @@
                 <div>
                     <span class="badge badge-rule @if($filter['rule']==1) selected @endif" onclick="applyFilter('rule',this)" data-rule="1"><i class="MDI trophy"></i> {{__("contest.filter.icpc")}}</span>
                     <span class="badge badge-rule @if($filter['rule']==2) selected @endif" onclick="applyFilter('rule',this)" data-rule="2"><i class="MDI trophy"></i> {{__("contest.filter.ioi")}}</span>
-                    @if(Auth::check())<span class="badge badge-public @if($filter['public']=='1') selected @endif" onclick="applyFilter('public',this)" data-public="1"><i class="MDI incognito"></i> {{__("contest.filter.public")}}</span>@endif
-                    @if(Auth::check())<span class="badge badge-public @if($filter['public']=='0') selected @endif" onclick="applyFilter('public',this)" data-public="0"><i class="MDI incognito"></i> {{__("contest.filter.private")}}</span>@endif
+                    @if(Auth::check() && config('feature.group'))<span class="badge badge-public @if($filter['public']=='1') selected @endif" onclick="applyFilter('public',this)" data-public="1"><i class="MDI incognito"></i> {{__("contest.filter.public")}}</span>@endif
+                    @if(Auth::check() && config('feature.group'))<span class="badge badge-public @if($filter['public']=='0') selected @endif" onclick="applyFilter('public',this)" data-public="0"><i class="MDI incognito"></i> {{__("contest.filter.private")}}</span>@endif
                     <span class="badge badge-verified @if($filter['verified']==1) selected @endif" onclick="applyFilter('verified',this)" data-verified="1"><i class="MDI marker-check"></i> {{__("contest.filter.verified")}}</span>
-                    <span class="badge badge-practice @if($filter['practice']==1) selected @endif" onclick="applyFilter('practice',this)" data-practice="1"><i class="MDI sword"></i> {{__("contest.filter.practice")}}</span>
-                    <span class="badge badge-rated @if($filter['rated']==1) selected @endif" onclick="applyFilter('rated',this)" data-rated="1"><i class="MDI seal"></i> {{__("contest.filter.rated")}}</span>
+                    @if(config('feature.group'))<span class="badge badge-practice @if($filter['practice']==1) selected @endif" onclick="applyFilter('practice',this)" data-practice="1"><i class="MDI sword"></i> {{__("contest.filter.practice")}}</span>@endif
+                    @if(config('feature.rank'))<span class="badge badge-rated @if($filter['rated']==1) selected @endif" onclick="applyFilter('rated',this)" data-rated="1"><i class="MDI seal"></i> {{__("contest.filter.rated")}}</span>@endif
                     <span class="badge badge-anticheated @if($filter['anticheated']==1) selected @endif" onclick="applyFilter('anticheated',this)" data-anticheated="1"><i class="MDI do-not-disturb-off"></i> {{__("contest.filter.anticheated")}}</span>
                 </div>
             </paper-card>

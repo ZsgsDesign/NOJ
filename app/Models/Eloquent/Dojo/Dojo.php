@@ -28,12 +28,12 @@ class Dojo extends Model
         return $this->hasMany('App\Models\Eloquent\Dojo\DojoPass', 'dojo_id');
     }
 
-    public function canPass()
+    public function canPass($user_id)
     {
         $tot=0;
         foreach ($this->problems->sortBy('order') as $problem) {
             $problem=$problem->problem;
-            $tot+=$problem->problem_status['color']=='wemd-green-text';
+            $tot+=$problem->getProblemStatus($user_id)['color']=='wemd-green-text';
         }
         return $tot>=$this->passline;
     }

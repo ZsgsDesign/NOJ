@@ -165,7 +165,7 @@
                 <h5>{!!__('dashboard.feed.content', ['name' => htmlspecialchars($info["name"]), 'pcode' => $f["pcode"]])!!}</h5>
             </feed-info>
         </feed-header>
-        <feed-body onclick="location.href='/problem/{{$f["pcode"]}}/solution'">
+        <feed-body onclick="location.href='/problem/{{$f["pcode"]}}/discussion/solution'">
             <h1>{{$f["title"]}}</h1>
             <p>{{__('dashboard.feed.seeMore')}}</p>
         </feed-body>

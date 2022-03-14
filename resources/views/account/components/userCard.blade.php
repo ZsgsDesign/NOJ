@@ -166,8 +166,8 @@
         <h3>{{$info["name"]}}</h3>
         @if($info["admin"])<p class="mb-0"><small class="wemd-indigo-text">{{__('dashboard.badges.admin')}}</small></p>@endif
         @if($info["contest_account"])<p class="mb-0"><small class="wemd-amber-text">{{__('dashboard.badges.contestaccount')}}</small></p>@endif
-        @unless(is_null($info["professionalTitle"]))<p class="mb-0"><small class="{{$info["professionalTitleColor"]}}">{{$info["professionalTitle"]}}</small></p>@endunless
-        @unless(is_null($info["rankTitle"]))<p class="mb-0"><small class="{{$info["rankTitleColor"]}}">{{$info["rankTitle"]}}</small></p>@endunless
+        @unless(is_null($info["professionalTitle"]) || !config('feature.rank'))<p class="mb-0"><small class="{{$info["professionalTitleColor"]}}">{{$info["professionalTitle"]}}</small></p>@endunless
+        @unless(is_null($info["rankTitle"]) || !config('feature.rank'))<p class="mb-0"><small class="{{$info["rankTitleColor"]}}">{{$info["rankTitle"]}}</small></p>@endunless
         @unless(blank($info['describes']))<p class="user-description">{{$info['describes']}}</p>@endunless
         @if(!empty($extra_info))
             <div>
@@ -189,19 +189,20 @@
     </basic-section>
     <hr class="atsast-line">
     <statistic-section>
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-lg-4 col-12">
                 <statistic-block>
                     <h1>{{$info["solvedCount"]}}</h1>
                     <p>{{__('dashboard.solved')}}</p>
                 </statistic-block>
             </div>
-            {{-- <div class="col-lg-4 col-12">
+            <div class="col-lg-4 col-12">
                 <statistic-block>
                     <h1>{{$info["submissionCount"]}}</h1>
-                    <p>Submissions</p>
+                    <p>{{__('dashboard.submissions')}}</p>
                 </statistic-block>
-            </div> --}}
+            </div>
+            @if(config('feature.rank'))
             <div class="col-lg-4 col-12">
                 <statistic-block>
                     <h1>{{$info["professional_rate"]}}</h1>
@@ -214,6 +215,7 @@
                     <p>{{__('dashboard.rank')}}</p>
                 </statistic-block>
             </div>
+            @endif
         </div>
         {{-- <div class="row">
             <div class="col-lg-6 col-12">

@@ -113,9 +113,12 @@
                     </thead>
                     <tbody>
                         @foreach ($paginator->all() as $problem)
+                            @php
+                                $problemStatus = $problem->getProblemStatus(Auth::user()->id);
+                            @endphp
                             <tr>
                                 <th scope="row">{{$problem->pcode}}</th>
-                                <td><i class="MDI {{$problem->problem_status["icon"]}} {{$problem->problem_status["color"]}}"></i> <a href="{{route('problem.detail', ['pcode' => $problem->pcode])}}">{{$problem->title}}</a></td>
+                                <td><i class="MDI {{$problemStatus["icon"]}} {{$problemStatus["color"]}}"></i> <a href="{{route('problem.detail', ['pcode' => $problem->pcode])}}">{{$problem->title}}</a></td>
                                 <td>{{$problem->statistics['submission_count']}}</td>
                                 <td>{{$problem->statistics['passed_count']}}</td>
                                 <td>{{round($problem->statistics['ac_rate'], 2)}}%</td>

@@ -1151,7 +1151,7 @@
                                                             keyboard: false
                                                         }, function(deny){
                                                             if (!deny){
-                                                                location.href = '/problem/{{$problem->pcode}}/solution';
+                                                                location.href = '/problem/{{$problem->pcode}}/discussion/solution';
                                                             }else{
                                                                 cleanAnimation('editor-container');
                                                             }

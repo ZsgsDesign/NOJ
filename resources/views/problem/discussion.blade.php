@@ -331,6 +331,10 @@
         font-size: 1rem;
         color:rgba(0,0,0,0.54);
     }
+
+    .cm-action-group button:nth-of-type(2){
+        margin-top: 5px !important;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -360,7 +364,7 @@
                                 <p>{{trans_choice("problem.discussion.comments", $d['comment_count'])}}</p>
                             </div>
                             <div class="post-title">
-                            <h3><a href="{{route('problem.discussion.post', ['pcode'=> $problem->pcode, 'dcode' => $d['pdid']])}}">{{$d["title"]}}</a></h3>
+                            <h3><a href="{{route('problem.discussion.article.detail', ['pcode'=> $problem->pcode, 'dcode' => $d['pdid']])}}">{{$d["title"]}}</a></h3>
                                 <div class="user-section">
                                     <a href="/user/{{$d['uid']}}" class="wemd-grey-text wemd-text-darken-3"><img src="{{$d['avatar']}}" class="cm-avatar-square">{{$d["name"]}}</a> <span class="pl-1 wemd-grey-text"><i class="MDI clock"></i> {{$d['updated_at']}}</span>
                                 </div>
@@ -374,8 +378,8 @@
             <paper-card class="animated fadeInRight btn-group-vertical cm-action-group" role="group" aria-label="vertical button group">
                 <button type="button" class="btn btn-secondary" id="submitBtn"><i class="MDI send"></i>@guest {{__("problem.action.loginsubmit")}} @else {{__("problem.action.submit")}} @endguest</button>
                 <separate-line class="ultra-thin"></separate-line>
-                <button type="button" class="btn btn-secondary" style="margin-top: 5px;" id="descBtn"><i class="MDI comment-text-outline"></i> {{__("problem.action.description")}} </button>
-                <button type="button" class="btn btn-secondary" id="solutionBtn"><i class="MDI comment-check-outline"></i> {{__("problem.action.solution")}} </button>
+                <button type="button" class="btn btn-secondary" id="descBtn"><i class="MDI comment-text-outline"></i> {{__("problem.action.description")}} </button>
+                @if(config('feature.problem.discussion.solution')) <button type="button" class="btn btn-secondary" id="solutionBtn"><i class="MDI comment-check-outline"></i> {{__("problem.action.solution")}} </button> @endif
             </paper-card>
             <x-problem.sidebar :problem="$problem"></x-problem.sidebar>
         </div>
@@ -415,7 +419,7 @@
     },false)
 
     document.getElementById("solutionBtn").addEventListener("click",function(){
-        location.href="/problem/{{$problem->pcode}}/solution";
+        location.href="/problem/{{$problem->pcode}}/discussion/solution";
     },false)
 </script>
 @endsection
@@ -442,7 +446,7 @@
             ajaxing=true;
             $.ajax({
                 type: 'POST',
-                url: '/ajax/postDiscussion',
+                url: "{{route('ajax.problem.discussion.article.create')}}",
                 data: {
                     pid: '{{$problem->pid}}',
                     title: $('#post_title').val(),

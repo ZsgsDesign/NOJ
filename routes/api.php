@@ -2,6 +2,10 @@
 
 use Illuminate\Http\Request;
 
+if(!config('feature.api')) {
+    return;
+}
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,7 +26,7 @@ Route::group(['namespace' => 'Api'], function () {
     });
 
     Route::group(['prefix' => 'system','as' => 'system.'], function () {
-        Route::post('/info', 'SystemController@info')->name("info");
+        Route::any('/info', 'SystemController@info')->name("info");
     });
 
     Route::group(['prefix' => 'contest','as' => 'contest.','middleware' => ['auth:api']], function () {

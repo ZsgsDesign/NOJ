@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands=[
+    protected $commands = [
         //
     ];
 
@@ -25,13 +25,16 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 
-        $schedule->command('scheduling:updateSiteRank')->dailyAt('01:00')->description("Update Rank");
+        if (config('feature.rank')) {
+            $schedule->command('scheduling:updateSiteRank')->dailyAt('01:00')->description("Update Rank");
+        }
 
         $schedule->command('scheduling:updateSiteMap')->dailyAt('02:00')->description("Update SiteMap");
 
-        $schedule->command('scheduling:updateTrendingGroups')->dailyAt('03:00')->description("Update Trending Groups");
-
-        $schedule->command('scheduling:updateGroupElo')->dailyAt('04:00')->description("Update Group Elo");
+        if (config('feature.group')) {
+            $schedule->command('scheduling:updateTrendingGroups')->dailyAt('03:00')->description("Update Trending Groups");
+            $schedule->command('scheduling:updateGroupElo')->dailyAt('04:00')->description("Update Group Elo");
+        }
 
         $schedule->command('scheduling:syncRankClarification')->everyMinute()->description("Sync Remote Contest Rank and Clarification");
 
@@ -55,7 +58,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

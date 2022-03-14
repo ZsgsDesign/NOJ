@@ -98,7 +98,7 @@
                             <a class="nav-link @if ($navigation === "Problem") active @endif" href="/problem"> <i class="MDI book-multiple"></i> {{__('navigation.problem')}}</a>
                         </li>
                     @endif
-                    @if($userNotContestAccount)
+                    @if($userNotContestAccount && config('feature.dojo'))
                         <li class="nav-item">
                             <a class="nav-link @if ($navigation === "Dojo") active @endif" href="/dojo"> <i class="MDI coffee"></i> {{__('navigation.dojo')}}</a>
                         </li>
@@ -108,7 +108,7 @@
                             <a class="nav-link @if ($navigation === "Status") active @endif" href="/status"> <i class="MDI buffer"></i> {{__('navigation.status')}}</a>
                         </li>
                     @endif
-                    @if($userNotContestAccount)
+                    @if($userNotContestAccount && config('feature.rank'))
                         <li class="nav-item">
                             <a class="nav-link @if ($navigation === "Rank") active @endif" href="/rank"> <i class="MDI certificate"></i> {{__('navigation.rank')}}</a>
                         </li>

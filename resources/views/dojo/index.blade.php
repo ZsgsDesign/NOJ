@@ -195,7 +195,7 @@
                     </challenge-container>
                     @if($dojo->passed)
                         <button type="button" class="btn btn-raised btn-primary" disabled>{{__('dojo.action.completed')}}</button>
-                    @elseif($dojo->canPass())
+                    @elseif($dojo->canPass(Auth::user()->id))
                         <button type="button" class="btn btn-raised btn-primary" data-challenge="{{$dojo->id}}" data-dojo-complete-button>{{__('dojo.action.complete')}}</button>
                     @else
                         <button type="button" class="btn btn-raised btn-secondary" disabled>{{__('dojo.action.working')}}</button>

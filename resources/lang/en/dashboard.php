@@ -3,6 +3,7 @@
 return [
     'more'         => 'more information',
     'solved'       => 'Solved',
+    'submissions'  => 'Submissions',
     'rated'        => 'Rated',
     'rank'         => 'Casu. Rank',
     'listOfSolved' => 'List of solved problems',

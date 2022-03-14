@@ -423,6 +423,10 @@
         color: rgba(0, 0, 0, 0.93);
         border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     }
+
+    .cm-action-group button:nth-of-type(2){
+        margin-top: 5px !important;
+    }
 </style>
 
 <div class="container mundb-standard-container">
@@ -493,8 +497,8 @@
             <paper-card class="animated fadeInRight btn-group-vertical cm-action-group" role="group" aria-label="vertical button group">
                 <button type="button" class="btn btn-secondary" id="backBtn"><i class="MDI keyboard-return"></i>{{__("problem.action.backdiss")}}</button>
                 <separate-line class="ultra-thin"></separate-line>
-                <button type="button" class="btn btn-secondary" style="margin-top: 5px;" id="descBtn"><i class="MDI comment-text-outline"></i> {{__("problem.action.description")}} </button>
-                <button type="button" class="btn btn-secondary" id="solutionBtn"><i class="MDI comment-check-outline"></i> {{__("problem.action.solution")}} </button>
+                <button type="button" class="btn btn-secondary" id="descBtn"><i class="MDI comment-text-outline"></i> {{__("problem.action.description")}} </button>
+                @if(config('feature.problem.discussion.solution')) <button type="button" class="btn btn-secondary" id="solutionBtn"><i class="MDI comment-check-outline"></i> {{__("problem.action.solution")}} </button> @endif
             </paper-card>
             <x-problem.sidebar :problem="$problem"></x-problem.sidebar>
         </div>
@@ -522,13 +526,13 @@
     </div>
 <script>
     document.getElementById("backBtn").addEventListener("click",function(){
-        location.href="/problem/{{$problem->pcode}}/discussion";
+        location.href="/problem/{{$problem->pcode}}/discussion/article";
     },false)
     document.getElementById("descBtn").addEventListener("click",function(){
         location.href="/problem/{{$problem->pcode}}/";
     },false)
     document.getElementById("solutionBtn").addEventListener("click",function(){
-        location.href="/problem/{{$problem->pcode}}/solution";
+        location.href="/problem/{{$problem->pcode}}/discussion/solution";
     },false)
 </script>
 @endsection
@@ -560,8 +564,9 @@
             ajaxing=true;
             $.ajax({
                 type: 'POST',
-                url: '/ajax/addComment',
+                url: "{{route('ajax.problem.discussion.article.comment')}}",
                 data: {
+                    pid: '{{$problem->pid}}',
                     pdid: '{{$main['pdid']}}',
                     reply_id: replyid,
                     content: simplemde.value()

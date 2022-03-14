@@ -232,7 +232,7 @@ class ProblemController extends Controller
         }
         $ret = $problemModel->addDiscussion(Auth::user()->id, $pid, $title, $content);
         return $ret ? ResponseUtil::success(200, null, [
-            'url' => route('problem.discussion.post', ['pcode' => $basic['pcode'], 'dcode' => $ret])
+            'url' => route('problem.discussion.article.detail', ['pcode' => $basic['pcode'], 'dcode' => $ret])
         ]) : ResponseUtil::err(3003);
     }
 

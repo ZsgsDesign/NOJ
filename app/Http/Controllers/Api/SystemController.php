@@ -12,7 +12,7 @@ class SystemController extends Controller
             'success' => true,
             'message' => 'To Boldly Go',
             'ret' => [
-                'product' => "NOJ",
+                'product' => config('hasaaose.enable') ? "HASAAOSE" : "NOJ",
                 'version' => version()
             ],
             'err' => []

@@ -56,16 +56,21 @@ Route::group(['prefix' => 'user','as' => 'user.', 'middleware' => ['user.banned'
     Route::get('/{uid}', 'UserController@view')->name('view');
 });
 
-Route::group(['prefix' => 'problem', 'middleware' => ['user.banned', 'contest_account']], function () {
-    Route::get('/', 'ProblemController@index')->name('problem.index');
+Route::group(['prefix' => 'problem', 'as' => 'problem.', 'middleware' => ['user.banned', 'contest_account']], function () {
+    Route::get('/', 'ProblemController@index')->name('index');
     Route::group(['prefix' => '{pcode}', 'middleware' => ['problem.valid:pcode']], function () {
-        Route::get('/', 'ProblemController@detail')->name('problem.detail');
+        Route::get('/', 'ProblemController@detail')->name('detail');
         Route::group(['middleware' => ['auth']], function () {
-            Route::get('/editor', 'ProblemController@editor')->name('problem.editor');
-            Route::get('/solution', 'ProblemController@solution')->name('problem.solution');
-            Route::group(['prefix' => 'discussion'], function () {
-                Route::get('/', 'ProblemController@discussion')->name('problem.discussion');
-                Route::get('/{dcode}', 'ProblemController@discussionPost')->name('problem.discussion.post');
+            Route::get('/editor', 'ProblemController@editor')->name('editor');
+            Route::group(['prefix' => 'discussion', 'as' => 'discussion.'], function () {
+                Route::redirect('/', '/problem/{pcode}/discussion/article', 301);
+                Route::group(['prefix' => 'solution', 'as' => 'solution.'], function () {
+                    Route::get('/', 'ProblemController@solution')->name('index');
+                });
+                Route::group(['prefix' => 'article', 'as' => 'article.'], function () {
+                    Route::get('/', 'ProblemController@discussion')->name('index');
+                    Route::get('/{dcode}', 'ProblemController@discussionPost')->name('detail');
+                });
             });
         });
     });
@@ -135,8 +140,8 @@ Route::group(['prefix' => 'system', 'middleware' => ['user.banned']], function (
     Route::get('/info', 'SystemController@info')->name('system_info');
 });
 
-Route::group(['prefix' => 'rank', 'middleware' => ['user.banned']], function () {
-    Route::get('/', 'RankController@index')->middleware('contest_account')->name('rank_index');
+Route::group(['prefix' => 'rank', 'as' => 'rank.', 'middleware' => ['user.banned']], function () {
+    Route::get('/', 'RankController@index')->middleware('contest_account')->name('index');
 });
 
 Route::group(['prefix' => 'terms', 'middleware' => ['user.banned']], function () {
@@ -185,9 +190,6 @@ Route::group(['prefix' => 'ajax', 'as' => 'ajax.', 'namespace' => 'Ajax', 'middl
         Route::post('manualJudge', 'ProblemController@manualJudge')->name('manualJudge');
         Route::post('submitHistory', 'ProblemController@submitHistory')->name('submitHistory');
         Route::get('downloadCode', 'ProblemController@downloadCode')->name('downloadCode');
-        Route::post('voteSolutionDiscussion', 'ProblemController@voteSolutionDiscussion')->name('voteSolutionDiscussion');
-        Route::post('postDiscussion', 'ProblemController@postDiscussion')->name('postDiscussion');
-        Route::post('addComment', 'ProblemController@addComment')->name('addComment');
 
         Route::post('arrangeContest', 'GroupManageController@arrangeContest')->name('arrangeContest');
         Route::post('joinGroup', 'GroupController@joinGroup')->name('joinGroup');
@@ -205,6 +207,11 @@ Route::group(['prefix' => 'ajax', 'as' => 'ajax.', 'namespace' => 'Ajax', 'middl
                     Route::post('submit', 'ProblemController@submitSolutionDiscussion')->name('submit');
                     Route::post('update', 'ProblemController@updateSolutionDiscussion')->name('update');
                     Route::post('delete', 'ProblemController@deleteSolutionDiscussion')->name('delete');
+                    Route::post('vote', 'ProblemController@voteSolutionDiscussion')->name('vote');
+                });
+                Route::group(['prefix' => 'article', 'as' => 'article.'], function () {
+                    Route::post('create', 'ProblemController@postDiscussion')->name('create');
+                    Route::post('comment', 'ProblemController@addComment')->name('comment');
                 });
             });
         });

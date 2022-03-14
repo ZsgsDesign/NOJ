@@ -445,6 +445,10 @@
         font-size: 1rem;
         color:rgba(0,0,0,0.54);
     }
+
+    .cm-action-group button:nth-of-type(2){
+        margin-top: 5px !important;
+    }
 </style>
 <div class="container mundb-standard-container">
     <div class="row">
@@ -539,8 +543,8 @@
             <paper-card class="animated fadeInRight btn-group-vertical cm-action-group" role="group" aria-label="vertical button group">
                 <button type="button" class="btn btn-secondary" id="submitBtn"><i class="MDI send"></i>@guest {{__("problem.action.loginsubmit")}} @else {{__("problem.action.submit")}} @endguest</button>
                 <separate-line class="ultra-thin"></separate-line>
-                <button type="button" class="btn btn-secondary" style="margin-top: 5px;" id="descBtn"><i class="MDI comment-text-outline"></i> {{__("problem.action.description")}} </button>
-                <button type="button" class="btn btn-secondary" id="discussionBtn"><i class="MDI comment-multiple-outline"></i> {{__("problem.action.discussion")}} </button>
+                <button type="button" class="btn btn-secondary" id="descBtn"><i class="MDI comment-text-outline"></i> {{__("problem.action.description")}} </button>
+                @if(config('feature.problem.discussion.article')) <button type="button" class="btn btn-secondary" id="discussionBtn"><i class="MDI comment-multiple-outline"></i> {{__("problem.action.discussion")}} </button> @endif
             </paper-card>
             <x-problem.sidebar :problem="$problem"></x-problem.sidebar>
         </div>
@@ -556,7 +560,7 @@
     },false)
 
     document.getElementById("discussionBtn").addEventListener("click",function(){
-        location.href="/problem/{{$problem->pcode}}/discussion";
+        location.href="/problem/{{$problem->pcode}}/discussion/article";
     },false)
 </script>
 @endsection
@@ -632,7 +636,7 @@
                 else votingSolutionDiscussion=true;
                 $.ajax({
                     type: 'POST',
-                    url: '/ajax/voteSolutionDiscussion',
+                    url: "{{route('ajax.problem.discussion.solution.vote')}}",
                     data: {
                         psoid: psoid,
                         type: type,
