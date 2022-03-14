@@ -3,7 +3,7 @@
 
 @php
     $availableCompilers = $preferable_compiler['compilers'];
-    $submittedCode = (filled($preferable_compiler['submission']) && $contest->rule != 5 ) ? $preferable_compiler['submission']->solution : '';
+    $submittedCode = (filled($preferable_compiler['submission']) && (blank($contest) || $contest->rule != 5) ) ? $preferable_compiler['submission']->solution : '';
     $preferredId = $preferable_compiler['preferredId'] < 0 ? 0 : $preferable_compiler['preferredId'];
 @endphp
 
