@@ -1,5 +1,7 @@
 <?php
 
+$contestLocale = config('hasaaose.enable') ? '考试' : '比赛';
+
 return [
     'online'                => '在线',
     'login'                 => '登录',
@@ -113,7 +115,7 @@ return [
         'problems'          => '题目',
         'solutions'         => '题解',
         'submissions'       => '提交',
-        'contests'          => '比赛',
+        'contests'          => $contestLocale,
         'groups'            => '群组',
         'judgeserver'       => '评测机',
         'judger'            => '评测代理',
@@ -146,7 +148,7 @@ return [
         'problems'          => '题目',
         'solutions'         => '题解',
         'submissions'       => '提交',
-        'contests'          => '比赛',
+        'contests'          => $contestLocale,
         'users'             => '用户',
         'groups'            => '群组',
         'alreadylatest'     => '已经是最新版',
@@ -231,7 +233,7 @@ return [
         'language'          => '编程语言',
         'submission_date'   => '提交日期',
         'user_name'         => '用户名称',
-        'contest_name'      => '比赛名称',
+        'contest_name'      => "{$contestLocale}名称",
         'readable_name'     => '题目名称',
         'judger_name'       => '评测代理',
         'share'             => '提交分享',
@@ -240,12 +242,12 @@ return [
         'rawscore'          => '原始得分',
         'parsed_score'      => '得分',
         'remote_id'         => '远程ID',
-        'cid'               => '比赛',
+        'cid'               => $contestLocale,
         'uid'               => '用户',
         'pid'               => '题目',
         'jid'               => '评测代理',
         'coid'              => '编译器',
-        'vcid'              => '虚拟比赛',
+        'vcid'              => "虚拟$contestLocale",
         'solution'          => '提交解答',
         'index' => [
             'header'        => '提交',

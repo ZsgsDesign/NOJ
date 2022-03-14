@@ -1,35 +1,38 @@
 <?php
 
+$contestLocale = config('hasaaose.enable') ? '考试' : '比赛';
+$featureLocale = config('hasaaose.enable') ? '重点' : '推荐';
+
 return [
-    'empty'                 => '暂无比赛。',
+    'empty'                 => "暂无{$contestLocale}。",
     'featured' => [
-        'title'             => '推荐比赛',
+        'title'             => "{$featureLocale}{$contestLocale}",
         'action'            => '了解更多',
-        'empty'             => '暂无推荐。',
+        'empty'             => "暂无{$featureLocale}。",
     ],
     'filter' => [
         'title'             => '筛选器',
         'icpc'              => 'ICPC',
         'ioi'               => 'IOI',
-        'public'            => '公开比赛',
-        'private'           => '私有比赛',
-        'verified'          => '认证比赛',
+        'public'            => "公开$contestLocale",
+        'private'           => "私有$contestLocale",
+        'verified'          => "认证$contestLocale",
         'practice'          => '训练赛',
-        'rated'             => '评级比赛',
+        'rated'             => "评级$contestLocale",
         'anticheated'       => '反作弊',
     ],
     'badge' => [
         'desktop'           => '支持 NOJ Desktop 桌面客户端',
-        'audit'             => '这场比赛正在审核中',
-        'private'           => '这是一个私有比赛',
-        'verified'          => '这是一场认证比赛',
+        'audit'             => "这场{$contestLocale}正在审核中",
+        'private'           => "这是一个私有$contestLocale",
+        'verified'          => "这是一场认证$contestLocale",
         'practice'          => '这是一场训练赛',
-        'rated'             => '这场比赛将会评级',
-        'anticheated'       => '这场比赛将会进行反作弊检查',
+        'rated'             => "这场{$contestLocale}将会评级",
+        'anticheated'       => "这场{$contestLocale}将会进行反作弊检查",
     ],
     'desktop' => [
         'product'           => 'NOJ Desktop 桌面客户端',
-        'desc'              => '本场比赛使用 <strong>NOJ Desktop 桌面客户端</strong>，一款功能强大的OI/ICPC竞赛跨平台客户端，支持 <i class="MDI windows"></i> Windows、<i class="MDI apple"></i> MacOS 和 <i class="MDI ubuntu"></i> Ubuntu。',
+        'desc'              => '本场' . $contestLocale . '使用 <strong>NOJ Desktop 桌面客户端</strong>，一款功能强大的OI/ICPC竞赛跨平台客户端，支持 <i class="MDI windows"></i> Windows、<i class="MDI apple"></i> MacOS 和 <i class="MDI ubuntu"></i> Ubuntu。',
         'download'          => '下载',
     ],
     'lengthformatter' => [
@@ -39,9 +42,9 @@ return [
     ],
     'infobar' => [
         'begin'             => '开始时间',
-        'length'            => '比赛时长',
+        'length'            => "{$contestLocale}时长",
         'problems'          => '题目数量',
-        'organizer'         => '比赛组织',
+        'organizer'         => "{$contestLocale}组织",
         'action' => [
             'login'         => '请先登录',
             'review'        => '审核中',
@@ -51,13 +54,13 @@ return [
             'regist'        => '报名',
             'notstarted'    => '尚未开始',
             'desktoponly'   => '仅限客户端',
-            'enter'         => '进入比赛',
+            'enter'         => "进入{$contestLocale}",
         ],
     ],
     'inside' => [
         'topbar' => [
             'challenge'     => '试题集',
-            'rank'          => '比赛榜单',
+            'rank'          => "{$contestLocale}榜单",
             'status'        => '提交状态',
             'clarification' => '答疑服务',
             'print'         => '打印服务',
@@ -65,8 +68,8 @@ return [
             'admin'         => '管理面板',
         ],
         'counter' => [
-            'end'         => '比赛已结束',
-            'run'         => '比赛进行中',
+            'end'         => "{$contestLocale}已结束",
+            'run'         => "{$contestLocale}进行中",
         ],
         'challenge' => [
 
@@ -104,13 +107,13 @@ return [
         ],
         'admin' => [
             'nav' => [
-                'account'       => '比赛账号生成',
-                'announce'      => '发布比赛公告',
-                'manage'        => '比赛管理',
+                'account'       => "{$contestLocale}账号生成",
+                'announce'      => "发布{$contestLocale}公告",
+                'manage'        => "{$contestLocale}管理",
                 'pdf'           => '生成PDF试题集',
                 'anticheat'     => '反作弊',
                 'rejudge'       => '代码重测',
-                'refreshrank'   => '刷新比赛榜单',
+                'refreshrank'   => "刷新{$contestLocale}榜单",
                 'download'      => '下载选手代码',
                 'scrollboard'   => '滚榜',
             ],

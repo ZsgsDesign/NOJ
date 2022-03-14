@@ -1,12 +1,14 @@
 <?php
 
+$contestLocale = config('hasaaose.enable') ? '考试' : '比赛';
+
 return [
     'home'          => '主页',
     'problem'       => '题库',
     'dojo'          => '训练场',
     'status'        => '状态',
     'rank'          => '排行榜',
-    'contest'       => '比赛',
+    'contest'       => $contestLocale,
     'group'         => '群组',
     'search'        => '站内搜索',
     'dashboard'     => '个人主页',

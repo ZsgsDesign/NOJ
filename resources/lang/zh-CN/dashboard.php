@@ -1,8 +1,11 @@
 <?php
 
+$contestLocale = config('hasaaose.enable') ? '考试' : '比赛';
+
 return [
     'more'         => '更多信息',
     'solved'       => '解出',
+    'submissions'  => '提交',
     'rated'        => '评分',
     'rank'         => '排名',
     'listOfSolved' => '已解决的题目',
@@ -11,7 +14,7 @@ return [
     'waiting'      => '请稍后',
     'badges' => [
         'admin'           => '站点管理员',
-        'contestaccount'  => '比赛专用账号',
+        'contestaccount'  => "{$contestLocale}专用账号",
     ],
     'avatarChange' => [
         'title'           => '更换头像',
