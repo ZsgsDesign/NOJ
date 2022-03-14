@@ -267,6 +267,7 @@
             });
         });
 
+        @if (config('feature.account.extra.info'))
         $('#extra-info-update').on('click',function(){
             if($(this).is('.updating')){
                 alert('slow down');
@@ -299,6 +300,7 @@
                 }
             });
         });
+        @endif
 
         $('#password-change').on('click',function(){
             if($(this).is('.updating')){
@@ -356,6 +358,7 @@
         },1000);
         @endif
 
+        @if (config('feature.account.email.verification'))
         $('#send-email').on('click',function(){
             if($(this).attr('data-cooldown') > 0){
                 $(this).addClass('cooldown');
@@ -370,9 +373,8 @@
                 },
                 success : function(result){
                     if(result.data === 0){
-                        // window.location = "{{ route('verification.resend') }}";
                         $.ajax({
-                            url : '{{route('verification.resend')}}',
+                            url : "{{route('verification.resend')}}",
                             type : 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -409,6 +411,7 @@
                 }
             });
         });
+        @endif
 
         function slideUp(div_dom){
             $(div_dom).slideUp(100);
