@@ -23,11 +23,9 @@ return [
         'clarification' => env('FEATURE_ENABLE_CONTEST_CLARIFICATION', true),
         'print' => env('FEATURE_ENABLE_CONTEST_PRINT', true),
     ],
-    'feature' => [
-        'account' => [
-            'email' => [
-                'verification' => env('FEATURE_ENABLE_ACCOUNT_EMAIL_VERIFICATION', true)
-            ]
+    'account' => [
+        'email' => [
+            'verification' => env('FEATURE_ENABLE_ACCOUNT_EMAIL_VERIFICATION', true)
         ]
     ]
 ];
