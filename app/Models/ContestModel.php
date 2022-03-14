@@ -31,7 +31,7 @@ class ContestModel extends Model
     /**
      * @deprecated 0.18.0 Will be removed in the future.
      */
-    public $rule=["Unknown", "ICPC", "IOI", "Custom ICPC", "Custom IOI"];
+    public $rule=["Unknown", "ICPC", "IOI", "Custom ICPC", "Custom IOI", "HASAAOSE Paperless Examination"];
 
     /**
      * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.

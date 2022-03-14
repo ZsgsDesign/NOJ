@@ -11,19 +11,20 @@
 |
 */
 
-use App\Models\Eloquent\Group;
+Route::group(['as' => 'legacy.redirect.'], function () {
+    Route::redirect('/home', '/', 301)->name('home');
+    Route::redirect('/acmhome/welcome.do', '/', 301)->name('welcome');
+    Route::get('/acmhome/problemdetail.do','MainController@legacyRedirect')->name('problem');
+});
 
-
-Route::redirect('/home', '/', 301);
-Route::redirect('/acmhome/welcome.do', '/', 301);
-Route::get('/acmhome/problemdetail.do','MainController@legacyRedirect')->name('old.redirect');
-Route::get('/opensearch.xml', function () {
-    return response(getOpenSearchXML(), 200)->header("Content-type","text/xml");
+Route::group(['as' => 'search.'], function () {
+    Route::get('/opensearch.xml', function () {
+        return response(getOpenSearchXML(), 200)->header("Content-type","text/xml");
+    })->name('opensearch');
+    Route::get('/search', 'SearchController')->middleware('auth')->name('index');
 });
 
 Route::get('/', 'MainController@home')->middleware('contest_account')->name('home');
-
-Route::get('/search', 'SearchController')->middleware('auth')->name('search');
 
 Route::group(['prefix' => 'message','as' => 'message.','middleware' => ['user.banned','auth']], function () {
     Route::get('/', 'MessageController@index')->name('index');
@@ -175,7 +176,9 @@ Route::group(['prefix' => 'ajax', 'as' => 'ajax.', 'namespace' => 'Ajax', 'middl
     });
 
     Route::group(['middleware' => 'auth'], function () {
-        Route::post('search', 'SearchController')->name('search');
+        Route::group(['prefix' => 'search', 'as' => 'search.'], function () {
+            Route::post('action', 'SearchController')->name('action');
+        });
 
         Route::group(['prefix' => 'tool', 'as' => 'tool.', 'namespace' => 'Tool'], function () {
             Route::group(['prefix' => 'pastebin', 'as' => 'pastebin.'], function () {

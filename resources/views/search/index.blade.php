@@ -612,7 +612,7 @@
 
             function loadResult(){
                 $.ajax({
-                    url : '{{route("ajax.search")}}',
+                    url : '{{route("ajax.search.action")}}',
                     type : 'POST',
                     data : {
                         search_key : decodeURIComponent('{{rawurlencode($search_key)}}'),

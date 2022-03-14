@@ -131,7 +131,7 @@
                 </ul>
 
                 <ul class="navbar-nav mundb-nav-right">
-                    @if($userNotContestAccount)
+                    @if($userNotContestAccount && config('feature.search'))
                     <form id="search-box" action="/search" method="get" class="form-inline my-2 my-lg-0 mundb-inline">
                         <span class="bmd-form-group"><input id="search-key" class="form-control mr-sm-2 atsast-searchBox" name="q" type="search" value="{{$search_key ?? ''}}" placeholder="{{__('navigation.search')}}" autocomplete="off" aria-label="search"></span>
                         <input type="hidden" name="tab" value="{{

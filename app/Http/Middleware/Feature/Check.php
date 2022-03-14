@@ -29,7 +29,7 @@ class Check
 
     private function checkFeatures()
     {
-        return $this->checkToolFeatures() && $this->checkSubmissionFeatures() && $this->checkRankFeature() && $this->checkDojoFeature() && $this->checkProblemFeatures() && $this->checkContestFeatures() && $this->checkGroupFeature();
+        return $this->checkToolFeatures() && $this->checkSubmissionFeatures() && $this->checkRankFeature() && $this->checkDojoFeature() && $this->checkProblemFeatures() && $this->checkContestFeatures() && $this->checkGroupFeature() && $this->checkSearchFeature();
     }
 
     private function checkToolFeatures()
@@ -65,6 +65,11 @@ class Check
     private function checkGroupFeature()
     {
         return config('feature.group') || (!request()->routeIs('group.*') && !request()->routeIs('ajax.group.*'));
+    }
+
+    private function checkSearchFeature()
+    {
+        return config('feature.search') || (!request()->routeIs('search.*') && !request()->routeIs('ajax.search.*'));
     }
 
     private function checkContestClarificationFeature()

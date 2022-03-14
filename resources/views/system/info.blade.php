@@ -50,19 +50,40 @@ paper-card:hover {
     opacity: 0.4;
 }
 
+hr{
+    margin-bottom: 3rem;
+}
+
 </style>
 <div class="container mundb-standard-container">
+    @if(config('hasaaose.enable'))
+        <system-info data-catg="hasaaose">
+            <div style="width:100%;">
+                <div id="sys_logo"><img src="{{config('app.logo')}}"></div>
+                <h1 id="sys_title" class="wemd-grey-text wemd-text-darken-3">HASAAOSE</h1>
+                <p id="sys_subtitle"><strong>H</strong>igh <strong>A</strong>vailability and <strong>S</strong>afety <strong>A</strong>utomatic <strong>A</strong>lgorithm <strong>O</strong>nline-Judge <strong>S</strong>ystem for <strong>E</strong>xaminations based on NOJ</p>
+                <version-badge class="mb-5">
+                    <inline-div>Version</inline-div><inline-div>{{version()}}</inline-div>
+                </version-badge>
+                <div class="mb-5">
+                    <h1 id="sys_title" class="wemd-grey-text wemd-text-darken-3">John Zhang</h1>
+                    <p id="sys_subtitle"><a target="_blank" href="https://github.com/ZsgsDesign"><i class="MDI github-circle"></i></a> Maintainer / Full-Stack Engineer</p>
+                </div>
+            </div>
+        </system-info>
+        <hr>
+    @endif
     <system-info data-catg="general">
         <div style="width:100%;">
             <div id="sys_logo"><img src="{{config('app.logo')}}"></div>
             <h1 id="sys_title" class="wemd-grey-text wemd-text-darken-3">NOJ</h1>
-            <p id="sys_subtitle">Nanjing University of Posts and Telecommunications Online Judge</p>
+            <p id="sys_subtitle"><strong>N</strong>anjing University of Posts and Telecommunications <strong>O</strong>nline <strong>J</strong>udge</p>
             <version-badge class="mb-5">
                 <inline-div>Version</inline-div><inline-div>{{version()}}</inline-div>
             </version-badge>
             <div class="mb-5">
                 <h1 id="sys_title" class="wemd-grey-text wemd-text-darken-3">John Zhang</h1>
-                <p id="sys_subtitle"><a target="_blank" href="https://github.com/ZsgsDesign"><i class="MDI github-circle"></i></a> <a target="_blank" href="https://johnzhang.xyz"><i class="MDI web"></i></a> Executive Director / Full-Stack Engineer</p>
+                <p id="sys_subtitle"><a target="_blank" href="https://github.com/ZsgsDesign"><i class="MDI github-circle"></i></a> Executive Director / Full-Stack Engineer</p>
             </div>
             <div class="mb-5">
                 <h1 id="sys_title" class="wemd-grey-text wemd-text-darken-3">X3ZvaWQ</h1>
@@ -123,25 +144,26 @@ paper-card:hover {
         </div>
     </system-info>
     @unless(empty($judgeServer))
-    <system-info data-catg="judgeServer">
-        <div style="width:100%;">
-            <div class="mb-5">
-                <h1 id="sys_title" class="wemd-grey-text wemd-text-darken-3">Server Status</h1>
-                <p id="sys_subtitle">Hereby is a list of all the judge servers of {{config("app.name")}}.</p>
-            </div>
-            <div class="row justify-content-center">
-                @foreach($judgeServer as $j)
-                <div class="col-sm-12 col-md-6">
-                    <paper-card type="server">
-                        <h1>{{$j["name"]}}</h1>
-                        <p><small>Last Update: {{$j["status_update_at"]}}</small></p>
-                        <p class="{{$j["status_parsed"]["color"]}}"><i class="MDI {{$j["status_parsed"]["icon"]}}"></i> {{$j["status_parsed"]["text"]}}</p>
-                    </paper-card>
+        <hr>
+        <system-info data-catg="judgeServer">
+            <div style="width:100%;">
+                <div class="mb-5">
+                    <h1 id="sys_title" class="wemd-grey-text wemd-text-darken-3">Server Status</h1>
+                    <p id="sys_subtitle">Hereby is a list of all the judge servers of {{config("app.name")}}.</p>
                 </div>
-                @endforeach
+                <div class="row justify-content-center">
+                    @foreach($judgeServer as $j)
+                    <div class="col-sm-12 col-md-6">
+                        <paper-card type="server">
+                            <h1>{{$j["name"]}}</h1>
+                            <p><small>Last Update: {{$j["status_update_at"]}}</small></p>
+                            <p class="{{$j["status_parsed"]["color"]}}"><i class="MDI {{$j["status_parsed"]["icon"]}}"></i> {{$j["status_parsed"]["text"]}}</p>
+                        </paper-card>
+                    </div>
+                    @endforeach
+                </div>
             </div>
-        </div>
-    </system-info>
+        </system-info>
     @endunless
 </div>
 @endsection

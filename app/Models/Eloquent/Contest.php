@@ -21,7 +21,7 @@ class Contest extends Model
 
     public function getParsedRuleAttribute()
     {
-        $rule = ["Unknown", "ICPC", "IOI", "Custom ICPC", "Custom IOI", "HASAAOSE Compulter Exam"];
+        $rule = ["Unknown", "ICPC", "IOI", "Custom ICPC", "Custom IOI", "HASAAOSE Paperless Examination"];
         return $rule[$this->rule];
     }
 
