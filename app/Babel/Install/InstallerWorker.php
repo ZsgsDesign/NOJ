@@ -104,7 +104,7 @@ class InstallerWorker
         $modifications = $json["modifications"];
         foreach ($modifications as $m) {
             if ($m["method"] == "add") {
-                if (Compiler::where(['oid' => $this->oid, 'lcode' => $m["code"], 'delected' => false])->count()) {
+                if (Compiler::where(['oid' => $this->oid, 'lcode' => $m["code"], 'deleted' => false])->count()) {
                     throw new Exception("Duplicate Language Code");
                 }
                 $compiler = new Compiler();
