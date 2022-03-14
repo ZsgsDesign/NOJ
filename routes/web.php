@@ -246,20 +246,30 @@ Route::group(['prefix' => 'ajax', 'as' => 'ajax.', 'namespace' => 'Ajax', 'middl
         });
 
         Route::group(['prefix' => 'contest', 'as' => 'contest.'], function () {
+            Route::group(['prefix' => 'clarification', 'as' => 'clarification.'], function () {
+                Route::post('fetch', 'ContestController@fetchClarification')->name('fetch');
+                Route::post('request', 'ContestController@requestClarification')->middleware('throttle:1,0.34')->name('request');
+            });
+
             Route::get('updateProfessionalRate', 'ContestController@updateProfessionalRate')->name('updateProfessionalRate');
-            Route::post('fetchClarification', 'ContestController@fetchClarification')->name('fetchClarification');
-            Route::post('requestClarification', 'ContestController@requestClarification')->middleware('throttle:1,0.34')->name('requestClarification');
             Route::post('registContest', 'ContestController@registContest')->name('registContest');
             Route::post('getAnalysisData', 'ContestController@getAnalysisData')->name('getAnalysisData');
             Route::get('downloadPDF', 'ContestController@downloadPDF')->name('downloadPDF');
+
+            Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+                Route::group(['prefix' => 'clarification', 'as' => 'clarification.'], function () {
+                    Route::post('reply', 'ContestAdminController@replyClarification')->name('reply');
+                    Route::post('publicity', 'ContestAdminController@setClarificationPublic')->name('publicity');
+                });
+                Route::group(['prefix' => 'announcement', 'as' => 'announcement.'], function () {
+                    Route::post('issue', 'ContestAdminController@issueAnnouncement')->name('issue');
+                });
+            });
 
             Route::post('rejudge', 'ContestAdminController@rejudge')->name('rejudge');
             Route::post('details', 'ContestAdminController@details')->name('details');
             Route::post('assignMember', 'ContestAdminController@assignMember')->name('assignMember');
             Route::post('update', 'ContestAdminController@update')->name('update');
-            Route::post('issueAnnouncement', 'ContestAdminController@issueAnnouncement')->name('issueAnnouncement');
-            Route::post('replyClarification', 'ContestAdminController@replyClarification')->name('replyClarification');
-            Route::post('setClarificationPublic', 'ContestAdminController@setClarificationPublic')->name('setClarificationPublic');
             Route::post('generateContestAccount', 'ContestAdminController@generateContestAccount')->name('generateContestAccount');
             Route::post('getScrollBoardData', 'ContestAdminController@getScrollBoardData')->name('getScrollBoardData');
             Route::get('downloadCode', 'ContestAdminController@downloadCode')->name('downloadCode');

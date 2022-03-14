@@ -6,7 +6,7 @@
             function fetchClarification() {
                 $.ajax({
                     type: 'POST',
-                    url: '/ajax/contest/fetchClarification',
+                    url: "{{route('ajax.contest.clarification.fetch')}}",
                     data: {
                         cid: {{$contest->cid}}
                     },

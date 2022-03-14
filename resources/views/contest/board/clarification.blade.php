@@ -278,13 +278,18 @@
 
     var sending = false;
 
+    function getRequestAjaxUrl(type) {
+        if(type == "requestClarification") return "{{route('ajax.contest.clarification.request')}}";
+        if(type == "issueAnnouncement") return "{{route('ajax.contest.admin.announcement.issue')}}";
+    }
+
     function post(type){
         if(sending) return;
         sending=true;
         $("#" + type + "Btn > i").removeClass("d-none");
         $.ajax({
             type: 'POST',
-            url: '/ajax/contest/' + type ,
+            url: getRequestAjaxUrl(type) ,
             data: {
                 cid: {{$cid}},
                 title: $("#clarification_title").val(),
@@ -327,14 +332,15 @@
         if(sending) return;
         sending=true;
 
-        prompt({content:"Reply this Clarification",
-        title:"Reply",
-        placeholder:"",
+        prompt({
+            content:"Reply this Clarification",
+            title:"Reply",
+            placeholder:"",
         }, function (deny, text){
             if(deny) return;
             $.ajax({
                 type: 'POST',
-                url: '/ajax/contest/replyClarification',
+                url: "{{route('ajax.contest.admin.clarification.reply')}}",
                 data: {
                     cid: {{$cid}},
                     ccid: ccid,
@@ -377,7 +383,7 @@
         sending=true;
         $.ajax({
             type: 'POST',
-            url: '/ajax/contest/setClarificationPublic',
+            url: "{{route('ajax.contest.admin.clarification.publicity')}}",
             data: {
                 cid: {{$cid}},
                 ccid: ccid,

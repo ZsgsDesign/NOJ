@@ -182,7 +182,7 @@
                     <p class="cm-countdown" id="countdown">00:00:00</p>
                 </div>
             </paper-card>
-            @unless(empty($clarification_list))
+            @unless(empty($clarification_list) || !config('feature.contest.clarification'))
                 <paper-card>
                     <h5 style="word-break: break-all;">{{$clarification_list["title"]}}</h5>
                     <div>

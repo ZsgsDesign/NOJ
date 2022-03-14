@@ -33,9 +33,9 @@
         <a href="/contest/{{$cid}}/board/challenge" data-nav="challenge"><nav-item>{{__("contest.inside.topbar.challenge")}}</nav-item></a>
         <a href="/contest/{{$cid}}/board/rank" data-nav="rank"><nav-item>{{__("contest.inside.topbar.rank")}}</nav-item></a>
         <a href="/contest/{{$cid}}/board/status" data-nav="status"><nav-item>{{__("contest.inside.topbar.status")}}</nav-item></a>
-        <a href="/contest/{{$cid}}/board/clarification" data-nav="clarification"><nav-item>{{__("contest.inside.topbar.clarification")}}</nav-item></a>
-        <a href="/contest/{{$cid}}/board/print" data-nav="print"><nav-item>{{__("contest.inside.topbar.print")}}</nav-item></a>
-        @if($basic['practice'])
+        @if(config('feature.contest.clarification')) <a href="/contest/{{$cid}}/board/clarification" data-nav="clarification"><nav-item>{{__("contest.inside.topbar.clarification")}}</nav-item></a> @endif
+        @if(config('feature.contest.print')) <a href="/contest/{{$cid}}/board/print" data-nav="print"><nav-item>{{__("contest.inside.topbar.print")}}</nav-item></a> @endif
+        @if($basic['practice'] && config('feature.group'))
             <a href="/contest/{{$cid}}/board/analysis" data-nav="analysis"><nav-item>{{__("contest.inside.topbar.analysis")}}</nav-item></a>
         @endif
     @endif

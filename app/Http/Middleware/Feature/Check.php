@@ -29,7 +29,7 @@ class Check
 
     private function checkFeatures()
     {
-        return $this->checkToolFeatures() && $this->checkSubmissionFeatures() && $this->checkRankFeature() && $this->checkDojoFeature() && $this->checkProblemFeatures();
+        return $this->checkToolFeatures() && $this->checkSubmissionFeatures() && $this->checkRankFeature() && $this->checkDojoFeature() && $this->checkProblemFeatures() && $this->checkContestFeatures();
     }
 
     private function checkToolFeatures()
@@ -55,6 +55,21 @@ class Check
     private function checkProblemFeatures()
     {
         return $this->checkProblemDiscussionSolutionFeature() && $this->checkProblemDiscussionoArticleFeature();
+    }
+
+    private function checkContestFeatures()
+    {
+        return $this->checkContestClarificationFeature() && $this->checkContestPrintFeature();
+    }
+
+    private function checkContestClarificationFeature()
+    {
+        return config('feature.contest.clarification') || (!request()->routeIs('ajax.contest.clarification.*') && !request()->routeIs('ajax.contest.admin.clarification.*') && !request()->routeIs('ajax.contest.admin.announcement.*') && !request()->routeIs('contest.board.clarification'));
+    }
+
+    private function checkContestPrintFeature()
+    {
+        return config('feature.contest.print') || (!request()->routeIs('contest.board.print'));
     }
 
     private function checkProblemDiscussionSolutionFeature()
