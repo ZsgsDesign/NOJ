@@ -82,7 +82,11 @@
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": false,
-        "secure-http": false
+        "secure-http": false,
+        "allow-plugins": {
+            "composer/installers": true,
+            "oomphinc/composer-installers-extender": true
+        }
     },
     "extra": {
         "laravel": {
