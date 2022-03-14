@@ -302,8 +302,4 @@ Route::group(['prefix' => 'ajax', 'as' => 'ajax.', 'namespace' => 'Ajax', 'middl
     });
 });
 
-if(config("function.register")){
-    Auth::routes(['verify' => true]);
-} else {
-    Auth::routes(['verify' => true, 'register' => false]);
-}
+Auth::routes(['verify' => boolval(config("feature.account.email.verification")), 'reset' => boolval(config("feature.account.email.verification")), 'register' => boolval(config("function.register"))]);

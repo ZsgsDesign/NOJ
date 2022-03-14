@@ -29,7 +29,7 @@ class Check
 
     private function checkFeatures()
     {
-        return $this->checkToolFeatures() && $this->checkSubmissionFeatures() && $this->checkRankFeature() && $this->checkDojoFeature() && $this->checkProblemFeatures() && $this->checkContestFeatures() && $this->checkGroupFeature() && $this->checkSearchFeature();
+        return $this->checkToolFeatures() && $this->checkSubmissionFeatures() && $this->checkRankFeature() && $this->checkDojoFeature() && $this->checkProblemFeatures() && $this->checkContestFeatures() && $this->checkGroupFeature() && $this->checkSearchFeature() && $this->checkAccountFeatures();
     }
 
     private function checkToolFeatures()
@@ -70,6 +70,21 @@ class Check
     private function checkSearchFeature()
     {
         return config('feature.search') || (!request()->routeIs('search.*') && !request()->routeIs('ajax.search.*'));
+    }
+
+    private function checkAccountFeatures()
+    {
+        return $this->checkAccountExtraInfoFeaure() && $this->checkAccountEmailVerificationFeaure();
+    }
+
+    private function checkAccountEmailVerificationFeaure()
+    {
+        return config('feature.account.email.verification') || (!request()->routeIs('ajax.account.check.emailcooldown'));
+    }
+
+    private function checkAccountExtraInfoFeaure()
+    {
+        return config('feature.account.extra.info') || (!request()->routeIs('ajax.account.change.extrainfo'));
     }
 
     private function checkContestClarificationFeature()

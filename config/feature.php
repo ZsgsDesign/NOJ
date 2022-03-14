@@ -24,6 +24,9 @@ return [
         'print' => env('FEATURE_ENABLE_CONTEST_PRINT', true),
     ],
     'account' => [
+        'extra' => [
+            'info' => env('FEATURE_ENABLE_ACCOUNT_EXTRA_INFO', true)
+        ],
         'email' => [
             'verification' => env('FEATURE_ENABLE_ACCOUNT_EMAIL_VERIFICATION', true)
         ]

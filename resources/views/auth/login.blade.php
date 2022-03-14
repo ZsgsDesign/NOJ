@@ -156,7 +156,9 @@
                                 </div>
                             </div>
                             <div class="card-footer text-right">
-                                <a href="{{ route('password.request') }}"><button type="button" class="btn btn-secondary">{{__("account.forgetpassword")}}</button></a>
+                                @if (Route::has('password.request'))
+                                    <a href="{{ route('password.request') }}"><button type="button" class="btn btn-secondary">{{__("account.forgetpassword")}}</button></a>
+                                @endif
                                 <button type="submit" class="btn btn-danger">{{__("Login")}}</button>
                             </div>
                         </form>
