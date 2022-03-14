@@ -137,26 +137,31 @@
                 ])
                 <challenge-container>
 
-                    @foreach($problem_set as $p)
-
-                        <challenge-item class="btn" onclick="location.href='/contest/{{$cid}}/board/challenge/{{$p['ncode']}}'">
+                    @foreach($challenges as $challenge)
+                        @php
+                            $status = $challenge->getProblemStatus(Auth::user()->id);
+                        @endphp
+                        <challenge-item class="btn" onclick="location.href='/contest/{{$cid}}/board/challenge/{{$challenge->ncode}}'">
                             <div>
-                                <i class="MDI {{$p["prob_status"]["icon"]}} {{$p["prob_status"]["color"]}}"></i>
+                                <i class="MDI {{$status["icon"]}} {{$status["color"]}}"></i>
                             </div>
                             <div style="display: inline-block">
-                                <p class="mb-0"><span>{{$p["ncode"]}}.</span> {{$p["title"]}}</p>
+                                <p class="mb-0"><span>{{$challenge->ncode}}.</span> {{$challenge->title}}</p>
                                 @if($contest->rule == 1)
-                                    <small>{{$p["passed_count"]}} / {{$p["submission_count"]}}</small>
+                                    <small>{{$challenge->statistics["passed_count"]}} / {{$challenge->statistics["submission_count"]}}</small>
+                                @elseif($contest->rule == 5)
+                                    <small>{{$challenge->points}} Points</small>
                                 @else
-                                    <small>{{$p["score"]}} / {{$p["points"]}} Points</small>
+                                    <small>{{$status['score']}} / {{$challenge->points}} Points</small>
                                 @endif
                             </div>
                             <div class="text-right tag-list" style="display: inline-block; width:auto">
-                                @if(!empty($p['tags']))
-                                @foreach($p['tags'] as $tag)
-                                    <span class="badge badge-tag" data-toggle="tooltip" data-placement="top" title="{{$tag}}">{{$tag}}</span>
-                                @endforeach
-                                @endif
+                                {{-- /** @todo Disabled For Now */  --}}
+                                {{-- @if(!empty($p['tags']))
+                                    @foreach($p['tags'] as $tag)
+                                        <span class="badge badge-tag" data-toggle="tooltip" data-placement="top" title="{{$tag}}">{{$tag}}</span>
+                                    @endforeach
+                                @endif --}}
                             </div>
                         </challenge-item>
 

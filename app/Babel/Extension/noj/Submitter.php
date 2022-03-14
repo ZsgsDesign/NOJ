@@ -95,7 +95,7 @@ class Submitter extends Curl
         $temp = $this->submitJudger($submitURL, $submit_data);
         if (isset($this->post_data["contest"])) {
             $this->sub['cid'] = $this->post_data["contest"];
-            if ($contestModel->rule($this->sub['cid']) == 2) {
+            if ($contestModel->rule($this->sub['cid']) == 2 || $contestModel->rule($this->sub['cid']) == 5) {
                 // IOI Mode
                 $this->sub['verdict'] = "Accepted";
                 if (!is_null($temp["err"])) {

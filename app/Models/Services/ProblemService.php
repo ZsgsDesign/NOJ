@@ -61,6 +61,32 @@ class ProblemService
                     "score" => 0,
                 ];
             } else {
+                if(filled($contestID)) {
+                    $contest = Contest::find($contestID);
+                    if(filled($contest) && $contest->rule == 5) {
+                        if(in_array($submission->verdict, [
+                            "Runtime Error",
+                            "Wrong Answer",
+                            "Time Limit Exceed",
+                            "Real Time Limit Exceed",
+                            "Accepted",
+                            "Memory Limit Exceed",
+                            "Presentation Error",
+                            "Partially Accepted",
+                            "Output Limit Exceeded",
+                            "Idleness Limit Exceed",
+                        ])){
+                            // Turn into Judged Status
+                            return [
+                                "icon" => "checkbox-blank-circle",
+                                "color" => "wemd-indigo-text",
+                                "verdict" => "Judged",
+                                "compile_info" => null,
+                                "score" => 0,
+                            ];
+                        };
+                    }
+                }
                 return [
                     "icon" => $submission->verdict == "Accepted" ? "checkbox-blank-circle" : "cisco-webex",
                     "color" => $submission->color,

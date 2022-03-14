@@ -167,7 +167,8 @@ class ContestController extends Controller
             $form->simplemde('description', 'Contest Description')->required();
             $form->select('rule', 'Contest Rule')->options([
                 1 => "ICPC",
-                2 => "IOI"
+                2 => "IOI",
+                5 => "Examination",
             ])->default(0)->required();
             $form->datetimeRange('begin_time', 'end_time', 'Contest Time Arrangement')->required();
 
@@ -196,7 +197,7 @@ class ContestController extends Controller
             $form->text('custom_title', 'Custom Navigation Title');
             $form->image('custom_icon', 'Custom Navigation Icon')->uniqueName()->move("static/img/contest");
             $form->image('img', 'Contest Focus Image')->uniqueName()->move("static/img/contest");
-            $form->hasMany('problems', 'Contest Problems', function(Form\NestedForm $form) {
+            $form->hasMany('challenges', 'Contest Problems', function(Form\NestedForm $form) {
                 $form->number('number', 'Problem Numerical Index')->default(1)->required();
                 $ncodeArr=[];
                 foreach (range('A', 'Z') as $alpha) {

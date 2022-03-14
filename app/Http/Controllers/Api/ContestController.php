@@ -25,7 +25,7 @@ class ContestController extends Controller
                 "organizer" => $contest->group->name,
                 "description" => $contest->description,
                 "badges" => [
-                    "rule_parsed" => ["Unknown", "ICPC", "IOI", "Custom ICPC", "Custom IOI", "HASAAOSE Paperless Examination"][$contest->rule],
+                    "rule_parsed" => ["Unknown", "ICPC", "IOI", "Custom ICPC", "Custom IOI", "Examination"][$contest->rule],
                     "audit_status" => $contest->audit_status ? true : false,
                     "public" => $contest->public ? true : false,
                     "verified" => $contest->verified ? true : false,

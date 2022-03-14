@@ -5,6 +5,7 @@ namespace App\Models\Submission;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\ContestModel;
+use App\Models\Eloquent\Contest;
 
 /**
  * @deprecated 0.18.0 No longer accepts new methods, will be removed in the future.
@@ -366,7 +367,36 @@ class SubmissionModel extends Model
      */
     public function getProblemSubmission($pid, $uid, $cid=null)
     {
-        $statusList=DB::table($this->tableName)->where(['pid'=>$pid, 'uid'=>$uid, 'cid'=>$cid])->orderBy('submission_date', 'desc')->limit(10)->get()->all();
+        $statusList = DB::table($this->tableName)->where(['pid'=>$pid, 'uid'=>$uid, 'cid'=>$cid])->orderBy('submission_date', 'desc')->limit(10)->get()->map(function ($status) {
+            return collect($status)->only(['sid' ,'verdict', 'language', 'color', 'score', 'time', 'memory'])->all();
+        })->all();
+        if(filled($cid)) {
+            $contest = Contest::find($cid);
+            // HASAAOSE Judged Status Special Procedure
+            if(filled($contest) && $contest->rule == 5) {
+                foreach($statusList as $index => $status) {
+                    if (in_array($status["verdict"], [
+                        "Runtime Error",
+                        "Wrong Answer",
+                        "Time Limit Exceed",
+                        "Real Time Limit Exceed",
+                        "Accepted",
+                        "Memory Limit Exceed",
+                        "Presentation Error",
+                        "Partially Accepted",
+                        "Output Limit Exceeded",
+                        "Idleness Limit Exceed",
+                    ])) {
+                        // Turn into Judged Status
+                        $statusList[$index]["verdict"] = "Judged";
+                        $statusList[$index]["color"] = "wemd-indigo-text";
+                        $statusList[$index]["score"] = 0;
+                        $statusList[$index]["time"] = 0;
+                        $statusList[$index]["memory"] = 0;
+                    }
+                }
+            }
+        }
         return $statusList;
     }
 

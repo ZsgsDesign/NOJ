@@ -80,6 +80,7 @@ class Submission extends Model
             "Submitted"              => "wemd-blue-text",
             "Pending"                => "wemd-blue-text",
             "Judging"                => "wemd-blue-text",
+            "Judged"                 => "wemd-indigo-text",
             "Partially Accepted"     => "wemd-cyan-text",
             'Submission Error'       => 'wemd-black-text',
             'Output Limit Exceeded'  => 'wemd-deep-purple-text',

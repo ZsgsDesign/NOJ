@@ -58,7 +58,7 @@ class BoardController extends Controller
             'site_title' => $contest->name,
             'cid' => $cid,
             'contest' => $contest,
-            'problem_set' => $problemSet,
+            'challenges' => $contest->challenges,
             'remaining_time' => $remainingTime,
             'custom_info' => $customInfo,
             'clarification_list' => $clarificationList,

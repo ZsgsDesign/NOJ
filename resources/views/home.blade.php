@@ -100,6 +100,11 @@
         color:rgba(0,0,0,0.54);
     }
 
+    .cisco-webex{
+        transform: scale(1.10);
+        display: inline-block;
+    }
+
 </style>
 
 <div class="container mundb-standard-container">

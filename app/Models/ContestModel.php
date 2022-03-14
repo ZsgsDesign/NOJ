@@ -31,7 +31,7 @@ class ContestModel extends Model
     /**
      * @deprecated 0.18.0 Will be removed in the future.
      */
-    public $rule=["Unknown", "ICPC", "IOI", "Custom ICPC", "Custom IOI", "HASAAOSE Paperless Examination"];
+    public $rule=["Unknown", "ICPC", "IOI", "Custom ICPC", "Custom IOI", "Examination"];
 
     /**
      * @deprecated 0.18.0 Will be removed in the future, use `\App\Models\Eloquent\Contest::class` instead.
@@ -1390,7 +1390,33 @@ class ContestModel extends Model
             if (!$contestEnd) {
                 $r["share"]=0;
             }
+            if(filled($cid)){
+                $contest = Contest::find($cid);
+                if (filled($contest) && $contest->rule == 5) {
+                    // HASAAOSE Judged Status Special Procedure
+                    if (in_array($r["verdict"], [
+                        "Runtime Error",
+                        "Wrong Answer",
+                        "Time Limit Exceed",
+                        "Real Time Limit Exceed",
+                        "Accepted",
+                        "Memory Limit Exceed",
+                        "Presentation Error",
+                        "Partially Accepted",
+                        "Output Limit Exceeded",
+                        "Idleness Limit Exceed",
+                    ])) {
+                        # Turn into Judged Status
+                        $r["verdict"] = "Judged";
+                        $r["color"] = "wemd-indigo-text";
+                        $r["score"] = 0;
+                        $r["time"] = 0;
+                        $r["memory"] = 0;
+                    }
+                }
+            }
         }
+        unset($r);
         return [
             "paginator"=>$paginator,
             "records"=>$records

@@ -245,8 +245,9 @@
             <paper-card class="animated bounceInRight p-0" type="none">
                 <p class="cm-trending mb-3"><i class="MDI filter"></i> {{__("contest.filter.title")}}</p>
                 <div>
-                    <span class="badge badge-rule @if($filter['rule']==1) selected @endif" onclick="applyFilter('rule',this)" data-rule="1"><i class="MDI trophy"></i> {{__("contest.filter.icpc")}}</span>
-                    <span class="badge badge-rule @if($filter['rule']==2) selected @endif" onclick="applyFilter('rule',this)" data-rule="2"><i class="MDI trophy"></i> {{__("contest.filter.ioi")}}</span>
+                    @if(!config('hasaaose.enable'))<span class="badge badge-rule @if($filter['rule']==1) selected @endif" onclick="applyFilter('rule',this)" data-rule="1"><i class="MDI trophy"></i> {{__("contest.filter.icpc")}}</span>@endif
+                    @if(!config('hasaaose.enable'))<span class="badge badge-rule @if($filter['rule']==2) selected @endif" onclick="applyFilter('rule',this)" data-rule="2"><i class="MDI trophy"></i> {{__("contest.filter.ioi")}}</span>@endif
+                    @if(config('hasaaose.enable'))<span class="badge badge-rule @if($filter['rule']==5) selected @endif" onclick="applyFilter('rule',this)" data-rule="5"><i class="MDI trophy"></i> 机考</span>@endif
                     @if(Auth::check() && config('feature.group'))<span class="badge badge-public @if($filter['public']=='1') selected @endif" onclick="applyFilter('public',this)" data-public="1"><i class="MDI incognito"></i> {{__("contest.filter.public")}}</span>@endif
                     @if(Auth::check() && config('feature.group'))<span class="badge badge-public @if($filter['public']=='0') selected @endif" onclick="applyFilter('public',this)" data-public="0"><i class="MDI incognito"></i> {{__("contest.filter.private")}}</span>@endif
                     <span class="badge badge-verified @if($filter['verified']==1) selected @endif" onclick="applyFilter('verified',this)" data-verified="1"><i class="MDI marker-check"></i> {{__("contest.filter.verified")}}</span>

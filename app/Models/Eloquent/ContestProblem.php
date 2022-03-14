@@ -50,7 +50,12 @@ class ContestProblem extends Model
 
     public function getProblemStatus($userID)
     {
-        return ProblemService::getProblemStatus($this->problem, $userID, $this->contest->id, $this->contest->frozed_at);
+        return ProblemService::getProblemStatus($this->problem, $userID, $this->contest->cid, $this->contest->frozed_at);
+    }
+
+    public function getTitleAttribute()
+    {
+        return blank($this->alias) ? $this->problem->title : $this->alias;
     }
 
     //This should be a repository...or service function ?
