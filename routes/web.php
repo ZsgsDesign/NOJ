@@ -191,10 +191,6 @@ Route::group(['prefix' => 'ajax', 'as' => 'ajax.', 'namespace' => 'Ajax', 'middl
         Route::post('submitHistory', 'ProblemController@submitHistory')->name('submitHistory');
         Route::get('downloadCode', 'ProblemController@downloadCode')->name('downloadCode');
 
-        Route::post('arrangeContest', 'GroupManageController@arrangeContest')->name('arrangeContest');
-        Route::post('joinGroup', 'GroupController@joinGroup')->name('joinGroup');
-        Route::post('exitGroup', 'GroupController@exitGroup')->name('exitGroup');
-
         Route::group(['prefix' => 'problem', 'as' => 'problem.'], function () {
             Route::get('dialects', 'ProblemController@dialects')->middleware('problem.valid:pid')->name('dialects');
             Route::get('exists', 'ProblemController@exists')->middleware('problem.valid:pcode')->name('exists');
@@ -223,6 +219,10 @@ Route::group(['prefix' => 'ajax', 'as' => 'ajax.', 'namespace' => 'Ajax', 'middl
         });
 
         Route::group(['prefix' => 'group', 'as' => 'group.'], function () {
+            Route::post('arrangeContest', 'GroupManageController@arrangeContest')->name('arrangeContest');
+            Route::post('joinGroup', 'GroupController@joinGroup')->name('joinGroup');
+            Route::post('exitGroup', 'GroupController@exitGroup')->name('exitGroup');
+
             Route::post('changeNickName', 'GroupController@changeNickName')->name('changeNickName');
             Route::post('createGroup', 'GroupController@createGroup')->name('createGroup');
             Route::post('getPracticeStat', 'GroupController@getPracticeStat')->name('getPracticeStat');

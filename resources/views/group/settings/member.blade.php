@@ -505,7 +505,7 @@
             $("#joinGroup > i").removeClass("d-none");
             $.ajax({
                 type: 'POST',
-                url: '/ajax/joinGroup',
+                url: "{{route('ajax.group.joinGroup')}}",
                 data: {
                     gid: '{{$basic_info["gid"]}}'
                 },

@@ -185,14 +185,16 @@
                     <a data-panel="account_generate" href="#" class="list-group-item admin-tab-text wemd-light-blue wemd-lighten-4" onclick="showPanel('account_generate')"> {{__("contest.inside.admin.nav.account")}}</a>
                 </ul>
                 @endif
-                @if(time() >= strtotime($basic['begin_time']))
+                @if(time() >= strtotime($basic['begin_time']) && config('feature.contest.clarification'))
                 <ul class="list-group bmd-list-group p-0">
                     <a href="/contest/{{$cid}}/board/clarification" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> {{__("contest.inside.admin.nav.announce")}}</a>
                 </ul>
                 @endif
+                @if(config('feature.group'))
                 <ul class="list-group bmd-list-group p-0">
                     <a href="/group/{{$gcode}}/settings/contest" class="list-group-item admin-tab-text wemd-white wemd-lighten-4"> {{__("contest.inside.admin.nav.manage")}}</a>
                 </ul>
+                @endif
                 <ul class="list-group bmd-list-group p-0">
                     <a data-panel="generate_pdf" href="#" class="list-group-item admin-tab-text wemd-white wemd-lighten-4" onclick="showPanel('generate_pdf')"> {{__("contest.inside.admin.nav.pdf")}}<beta-badge class="wemd-teal">Beta</beta-badge></a>
                 </ul>

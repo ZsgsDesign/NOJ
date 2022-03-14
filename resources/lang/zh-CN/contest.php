@@ -1,6 +1,7 @@
 <?php
 
 $contestLocale = config('hasaaose.enable') ? '考试' : '比赛';
+$participantLocale = config('hasaaose.enable') ? '考生' : '选手';
 $featureLocale = config('hasaaose.enable') ? '重点' : '推荐';
 
 return [
@@ -114,7 +115,7 @@ return [
                 'anticheat'     => '反作弊',
                 'rejudge'       => '代码重测',
                 'refreshrank'   => "刷新{$contestLocale}榜单",
-                'download'      => '下载选手代码',
+                'download'      => "下载{$participantLocale}代码",
                 'scrollboard'   => '滚榜',
             ],
             'account' => [

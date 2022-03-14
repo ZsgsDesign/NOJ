@@ -772,7 +772,7 @@
             $("#arrangeBtn > i").removeClass("d-none");
             $.ajax({
                 type: 'POST',
-                url: '/ajax/arrangeContest',
+                url: "{{route('ajax.group.arrangeContest')}}",
                 data: {
                     problems: problemSet,
                     name: contestName,

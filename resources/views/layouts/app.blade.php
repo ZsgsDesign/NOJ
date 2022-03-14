@@ -114,9 +114,9 @@
                         </li>
                     @endif
                     <li class="nav-item">
-                        <a class="nav-link @if ($navigation === "Contest") active @endif" href="/contest"> <i class="MDI trophy-variant"></i> {{__('navigation.contest')}}</a>
+                        <a class="nav-link @if ($navigation === "Contest") active @endif" href="/contest"> <i class="MDI {{config('hasaaose.enable') ? 'library-books' : 'trophy-variant'}}"></i> {{__('navigation.contest')}}</a>
                     </li>
-                    @if($userNotContestAccount)
+                    @if($userNotContestAccount && config('feature.group'))
                     <li class="nav-item">
                         <a class="nav-link @if ($navigation === "Group") active @endif" href="/group"> <i class="MDI account-multiple"></i> {{__('navigation.group')}}</a>
                     </li>

@@ -230,7 +230,7 @@
             $("#joinGroup > i").removeClass("d-none");
             $.ajax({
                 type: 'POST',
-                url: '/ajax/joinGroup',
+                url: "{{route('ajax.group.joinGroup')}}",
                 data: {
                     gid: '{{$basic_info["gid"]}}'
                 },
@@ -280,7 +280,7 @@
                     $("#exitGroup > i").removeClass("d-none");
                     $.ajax({
                         type: 'POST',
-                        url: '/ajax/exitGroup',
+                        url: "{{route('ajax.group.exitGroup')}}",
                         data: {
                             gid: '{{$basic_info["gid"]}}'
                         },
