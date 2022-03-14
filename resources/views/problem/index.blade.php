@@ -114,7 +114,7 @@
                     <tbody>
                         @foreach ($paginator->all() as $problem)
                             @php
-                                $problemStatus = $problem->getProblemStatus(Auth::user()->id);
+                                $problemStatus = $problem->getProblemStatus(Auth::check() ? Auth::user()->id : null);
                             @endphp
                             <tr>
                                 <th scope="row">{{$problem->pcode}}</th>
