@@ -827,8 +827,8 @@
         });
     </script>
 
-    @if(!$contest_mode)
-    @include('components.congratulation')
+    @if(!$contest_mode && config('feature.problem.discussion.solution'))
+        @include('components.congratulation')
     @endif
 
     @component('components.vscode')
