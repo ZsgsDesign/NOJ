@@ -70,7 +70,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $userInstance = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
@@ -78,6 +78,10 @@ class RegisterController extends Controller
             'contest_account' => null,
             'professional_rate' => 1500
         ]);
+        if(!config('feature.account.email.verification')) {
+            $userInstance->markEmailAsVerified();
+        }
+        return $userInstance;
     }
 
     public function showRegistrationForm()
