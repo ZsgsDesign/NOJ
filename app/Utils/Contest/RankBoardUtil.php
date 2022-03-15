@@ -101,7 +101,7 @@ class RankBoardUtil
             }
             $rankUser = &$rankBoard[$submission->uid];
             $rankProblem = &$rankUser["problem_detail"][$challengeInfo[$submission->pid]['index']];
-            if(is_null($rankProblem['score']) || $rankProblem['score'] < $submission->score) {
+            if (is_null($rankProblem['score']) || $rankProblem['score'] < $submission->score) {
                 $points = $challengeInfo[$submission->pid]['points'];
                 $totalScore = $challengeInfo[$submission->pid]['tot_score'];
 
@@ -116,7 +116,7 @@ class RankBoardUtil
         return collect($rankBoard)->transform(function ($rankUser) {
             $rankUser['score'] = collect($rankUser['problem_detail'])->sum('score_parsed');
             return $rankUser;
-        })->sortByDesc(['score', 'solved'])->values()->all();
+        })->sortBy([['score', 'desc'], ['solved', 'desc']])->values()->all();
     }
 
     private function getProblemDetailTemplateIOI(): array
