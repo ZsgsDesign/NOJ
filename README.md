@@ -17,9 +17,9 @@ NOJ's another online judge platform, stands for NJUPT Online Judge. It's written
 
 <img style="width: 10rem;" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo.">
 
-## v0.17.0 Characinae
+## v0.18.0 Diapoma
 
-For more information, please visit [v0.17.0 Characinae Release Log](https://github.com/ZsgsDesign/NOJ/releases/tag/0.17.0) page.
+For more information, please visit [v0.18.0 Diapoma Release Log](https://github.com/ZsgsDesign/NOJ/releases/tag/0.18.0) page.
 
 ### Installation
 
@@ -53,7 +53,7 @@ For installation options and troubleshooting tips, see [NOJ Documentation](https
 ### Testing your Instance
 
 ```bash
-php vendor/bin/phpunit
+php artisan test
 ```
 
 ### Supported Languages
