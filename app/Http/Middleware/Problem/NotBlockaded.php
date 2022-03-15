@@ -14,10 +14,10 @@ class NotBlockaded
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $contestIdField = null)
+    public function handle($request, Closure $next)
     {
         $problem = $request->problem_instance;
-        if ($problem->checkContestBlockade(filled($request->$contestIdField) ? $request->$contestIdField : 0)) {
+        if ($problem->checkContestBlockade(filled($request->contest_instance) ? $request->contest_instance->cid : 0)) {
             if ($request->routeIs('ajax.*')) {
                 return ResponseUtil::err(3008);
             }

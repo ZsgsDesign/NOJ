@@ -17,13 +17,13 @@ class NotHidden
     public function handle($request, Closure $next)
     {
         $problem = $request->problem_instance;
-        if ($problem->is_hidden) {
+        if (!$problem->is_hidden || (filled($request->contest_instance) && $request->contest_instance->verified)) {
+            return $next($request);
+        } else {
             if ($request->routeIs('ajax.*')) {
                 return ResponseUtil::err(3001);
             }
             return redirect()->route('problem.index');
-        } else {
-            return $next($request);
         }
     }
 }
