@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Auth;
+use Exception;
 
 class AccountController extends Controller
 {
@@ -116,20 +117,19 @@ class AccountController extends Controller
     }
 
     public function saveEditorWidth(Request $request) {
-        $input=$request->input();
-        $allow_change=['editor_left_width'];
-        foreach ($input as $key => $value) {
-            if (!in_array($key, $allow_change)) {
-                return ResponseUtil::err(1007);
+        try {
+            $validator = Validator::make($request->all(), [
+                'editor_left_width' => 'required|integer|gte:25|lte:90',
+            ]);
+
+            if ($validator->fails()) {
+                throw new Exception($validator->errors()->first());
             }
+        } catch (Exception $e) {
+            return ResponseUtil::err(1007);
         }
-        foreach ($input as $key => $value) {
-            if (strlen($value)!=0) {
-                Auth::user()->setExtra($key, $value, 0);
-            } else {
-                Auth::user()->setExtra($key, null);
-            }
-        }
+        $editor_left_width = $request->editor_left_width;
+        Auth::user()->setExtra('editor_left_width', $editor_left_width, 0);
         return ResponseUtil::success();
     }
 
