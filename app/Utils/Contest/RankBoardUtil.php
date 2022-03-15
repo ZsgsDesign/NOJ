@@ -116,7 +116,7 @@ class RankBoardUtil
         return collect($rankBoard)->transform(function ($rankUser) {
             $rankUser['score'] = collect($rankUser['problem_detail'])->sum('score_parsed');
             return $rankUser;
-        })->sortBy(['score', 'solved'])->values()->all();
+        })->sortByDesc(['score', 'solved'])->values()->all();
     }
 
     private function getProblemDetailTemplateIOI(): array
