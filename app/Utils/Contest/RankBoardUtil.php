@@ -104,11 +104,12 @@ class RankBoardUtil
             if (is_null($rankProblem['score']) || $rankProblem['score'] < $submission->score) {
                 $points = $challengeInfo[$submission->pid]['points'];
                 $totalScore = $challengeInfo[$submission->pid]['tot_score'];
+                $solved = $submission->score == $totalScore;
 
-                $rankUser["solved"] += ($submission->score == $totalScore) ? 1 : 0;
+                $rankUser["solved"] += $solved ? 1 : 0;
 
                 $rankProblem['score'] = $submission->score;
-                $rankProblem["color"] = $rankUser["solved"] ? "wemd-teal-text" : "wemd-green-text";
+                $rankProblem["color"] = $solved ? "wemd-teal-text" : "wemd-green-text";
                 $rankProblem["score_parsed"] = $rankProblem["score"] / max($totalScore, 1) * ($points);
             }
         }
