@@ -1244,17 +1244,6 @@ class ContestModel extends Model
 
         $records=$paginator->all();
         foreach ($records as &$r) {
-            $r["submission_date_parsed"]=formatHumanReadableTime(date('Y-m-d H:i:s', $r["submission_date"]));
-            $r["submission_date"]=date('Y-m-d H:i:s', $r["submission_date"]);
-            $r["nick_name"]="";
-            $r["ncode"]=$problemSet[(string) $r["pid"]]["ncode"];
-            if ($r["verdict"]=="Partially Accepted") {
-                $score_parsed=round($r["score"] / $problemSet[(string) $r["pid"]]["tot_score"] * $problemSet[(string) $r["pid"]]["points"], 1);
-                $r["verdict"].=" ($score_parsed)";
-            }
-            if (!$contestEnd) {
-                $r["share"]=0;
-            }
             if(filled($cid)){
                 $contest = Contest::find($cid);
                 if (filled($contest) && $contest->rule == 5) {
@@ -1279,6 +1268,17 @@ class ContestModel extends Model
                         $r["memory"] = 0;
                     }
                 }
+            }
+            $r["submission_date_parsed"]=formatHumanReadableTime(date('Y-m-d H:i:s', $r["submission_date"]));
+            $r["submission_date"]=date('Y-m-d H:i:s', $r["submission_date"]);
+            $r["nick_name"]="";
+            $r["ncode"]=$problemSet[(string) $r["pid"]]["ncode"];
+            if ($r["verdict"]=="Partially Accepted") {
+                $score_parsed=round($r["score"] / $problemSet[(string) $r["pid"]]["tot_score"] * $problemSet[(string) $r["pid"]]["points"], 1);
+                $r["verdict"].=" ($score_parsed)";
+            }
+            if (!$contestEnd) {
+                $r["share"]=0;
             }
         }
         unset($r);
