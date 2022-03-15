@@ -9,6 +9,8 @@ class ContestParticipant extends Model
     protected $table='contest_participant';
     protected $primaryKey='cpid';
 
+    protected $fillable=['cid', 'uid', 'audit'];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'uid');

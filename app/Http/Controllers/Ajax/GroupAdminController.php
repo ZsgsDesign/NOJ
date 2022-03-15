@@ -14,27 +14,27 @@ use Auth;
 
 class GroupAdminController extends Controller
 {
-    public function generateContestAccount(Request $request)
-    {
-        $request->validate([
-            'cid' => 'required|integer',
-            'ccode' => 'required|min:3|max:10',
-            'num' => 'required|integer'
-        ]);
+    // public function generateContestAccount(Request $request)
+    // {
+    //     $request->validate([
+    //         'cid' => 'required|integer',
+    //         'ccode' => 'required|min:3|max:10',
+    //         'num' => 'required|integer'
+    //     ]);
 
-        $all_data=$request->all();
+    //     $all_data=$request->all();
 
-        $groupModel=new GroupModel();
-        $contestModel=new ContestModel();
-        $gid=$contestModel->gid($all_data["cid"]);
-        $clearance=$groupModel->judgeClearance($gid, Auth::user()->id);
-        if ($clearance<3) {
-            return ResponseUtil::err(2001);
-        }
-        $accountModel=new AccountModel();
-        $ret=$accountModel->generateContestAccount($all_data["cid"], $all_data["ccode"], $all_data["num"]);
-        return ResponseUtil::success(200, null, $ret);
-    }
+    //     $groupModel=new GroupModel();
+    //     $contestModel=new ContestModel();
+    //     $gid=$contestModel->gid($all_data["cid"]);
+    //     $clearance=$groupModel->judgeClearance($gid, Auth::user()->id);
+    //     if ($clearance<3) {
+    //         return ResponseUtil::err(2001);
+    //     }
+    //     $accountModel=new AccountModel();
+    //     $ret=$accountModel->generateContestAccount($all_data["cid"], $all_data["ccode"], $all_data["num"]);
+    //     return ResponseUtil::success(200, null, $ret);
+    // }
 
     public function addProblemTag(Request $request)
     {

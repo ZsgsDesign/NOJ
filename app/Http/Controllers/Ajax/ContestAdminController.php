@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Jobs\ProcessSubmission;
 use Illuminate\Validation\Validator;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Storage;
 use App\Jobs\GeneratePDF;
 use App\Jobs\AntiCheat;
@@ -246,27 +247,42 @@ class ContestAdminController extends Controller
         $request->validate([
             'cid' => 'required|integer',
             'ccode' => 'required|min:3|max:10',
-            'num' => 'required|integer|max:100'
+            'num' => 'required|integer|lte:100|gte:0',
+            'cdomain' => 'required|min:3|max:20',
+            'numFile' => 'file'
         ]);
 
-        $all_data=$request->all();
+        $userName = [];
+        $generateNum = $request->num;
 
-        $groupModel=new GroupModel();
-        $contestModel=new ContestModel();
-        $verified=$contestModel->isVerified($all_data["cid"]);
-        if (!$verified) {
+        if ($generateNum == 0) {
+            if (!$request->hasFile('numFile')) return ResponseUtil::err(2001);
+            $file = $request->file('numFile');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $filePath = $file->storeAs('contestAccountImport', $fileName, ['disk' => 'private']);
+            $url = storage_path("/app/private/$filePath");
+            $file = IOFactory::load($url);
+            $rows = $file->getSheet(0)->toArray(null, false, false, true);
+            foreach ($rows as $r) {
+                $userName[] = $r["A"];
+            }
+            $generateNum = count($userName);
+        }
+
+        $clearance = (new ContestModel())->judgeClearance($request->cid, Auth::user()->id);
+        if ($clearance < 3) {
             return ResponseUtil::err(2001);
         }
-        $gid=$contestModel->gid($all_data["cid"]);
-        $clearance=$groupModel->judgeClearance($gid, Auth::user()->id);
-        if ($clearance<3) {
+
+        $contest = Contest::find($request->cid);
+        if (!$contest->verified) {
             return ResponseUtil::err(2001);
         }
-        $accountModel=new AccountModel();
-        $ret=$accountModel->generateContestAccount($all_data["cid"], $all_data["ccode"], $all_data["num"]);
-        $cache_data=Cache::tags(['contest', 'account'])->get($all_data["cid"]);
-        $cache_data[]=$ret;
-        Cache::tags(['contest', 'account'])->put($all_data["cid"], $cache_data);
+
+        $ret = Contest::find($request->cid)->generateContestAccount($request->cid, $request->ccode, $request->cdomain , $generateNum, $userName);
+        $cache_data = Cache::tags(['contest', 'account'])->get($request->cid);
+        $cache_data[] = $ret;
+        Cache::tags(['contest', 'account'])->put($request->cid, $cache_data);
         return ResponseUtil::success(200, null, $ret);
     }
 

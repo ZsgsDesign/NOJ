@@ -3,9 +3,6 @@
 namespace App\Models\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-use App\Models\ContestModel as OutdatedContestModel;
-use Cache;
 use Carbon;
 use DateTimeInterface;
 use App\Models\Services\ContestService;
@@ -116,5 +113,10 @@ class Contest extends Model
     public function isJudgingComplete()
     {
         return $this->submissions->whereIn('verdict', ['Waiting', 'Pending'])->count() == 0;
+    }
+
+    public function generateContestAccount($ccode, $cdomain, $num, $userName = [])
+    {
+        return ContestService::generateContestAccount($this, $ccode, $cdomain, $num, $userName);
     }
 }

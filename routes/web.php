@@ -244,7 +244,7 @@ Route::group(['prefix' => 'ajax', 'as' => 'ajax.', 'namespace' => 'Ajax', 'middl
 
             Route::post('addProblemTag', 'GroupAdminController@addProblemTag')->name('addProblemTag');
             Route::post('removeProblemTag', 'GroupAdminController@removeProblemTag')->name('removeProblemTag');
-            Route::get('generateContestAccount', 'GroupAdminController@generateContestAccount')->name('generateContestAccount');
+            // Route::get('generateContestAccount', 'GroupAdminController@generateContestAccount')->name('generateContestAccount');
             Route::post('refreshElo', 'GroupAdminController@refreshElo')->name('refreshElo');
         });
 
