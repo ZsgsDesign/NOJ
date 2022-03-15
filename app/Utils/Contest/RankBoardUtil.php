@@ -83,9 +83,10 @@ class RankBoardUtil
     private function rankRefreshIOI(): array
     {
         $rankBoard = [];
+        $participantsIds = $this->contest->participants()->pluck('id');
         [$problemDetailTemplate, $challengeInfo] = $this->getProblemDetailTemplateIOI();
         foreach ($this->contest->submissions()->where("submission_date", "<", $this->contest->frozen_time)->get() as $submission) {
-            if (blank($challengeInfo[$submission->pid] ?? null)) {
+            if (blank($challengeInfo[$submission->pid] ?? null) || !$participantsIds->contains($submission->uid)) {
                 continue;
             }
             if (blank($rankBoard[$submission->uid] ?? null)) {

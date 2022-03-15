@@ -40,7 +40,7 @@ class Contest extends Model
     }
 
     //Repository function
-    public function participants($ignore_frozen = true)
+    public function participants(bool $ignoreFrozen = false)
     {
         if ($this->registration) {
             $participants = ContestParticipant::where('cid', $this->cid)->get();
@@ -53,11 +53,10 @@ class Contest extends Model
             return $users->unique();
         } else {
             $this->load('submissions.user');
-            if ($ignore_frozen) {
-                $frozen_time = $this->frozen_time;
-                $submissions = $this->submissions()->where('submission_date', '<', $frozen_time)->get();
-            } else {
+            if ($ignoreFrozen) {
                 $submissions = $this->submissions;
+            } else {
+                $submissions = $this->submissions()->where('submission_date', '<', $this->frozen_time)->get();
             }
             $users = collect();
             foreach ($submissions as $submission) {
