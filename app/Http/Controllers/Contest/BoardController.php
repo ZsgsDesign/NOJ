@@ -149,6 +149,10 @@ class BoardController extends Controller
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
 
+        if($contest->rule == 5 && $clearance <= 2) {
+            return Redirect::route('contest.detail', ['cid' => $cid]);
+        }
+
         $problemSet = $contestModel->contestProblems($cid, Auth::user()->id);
         $customInfo = $contestModel->getCustomInfo($cid);
         $contestRank = $contestModel->contestRank($cid, Auth::user()->id);
