@@ -71,7 +71,7 @@ NOJ now supports 15 popular programming languages, you can start issues about ne
 |Python2|/usr/bin/python -m py_compile {src_path}<br>/usr/bin/python {exe_path}|
 |Python3|/usr/bin/python3.7 -m py_compile {src_path}<br>/usr/bin/python3.7 {exe_path}|
 |PHP7|/usr/bin/php {exe_path}|
-|Javascript|/usr/bin/jsc {exe_path}|
+|Node.js 16|/usr/bin/node --stack-size=65536 {exe_path}|
 |Go|/usr/bin/go build -o {exe_path} {src_path}|
 |C#|/usr/bin/mcs -optimize+ -out:{exe_path} {src_path}|
 |Ruby|/usr/bin/ruby {exe_path}|
