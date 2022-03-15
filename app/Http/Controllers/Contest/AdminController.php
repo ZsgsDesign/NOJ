@@ -107,13 +107,7 @@ class AdminController extends Controller
             return Redirect::route('contest.detail', ['cid' => $contest->cid]);
         }
         $contest_eloquent = Contest::find($contest->cid);
-        $contestRankRaw = $contest_eloquent->rankRefresh();
-        Cache::tags(['contest', 'rank'])->put($contest->cid, $contestRankRaw);
-        Cache::tags(['contest', 'rank'])->put("contestAdmin$contest->cid", $contestRankRaw);
-        $end_time = strtotime(DB::table("contest")->where(["cid" => $contest->cid])->select("end_time")->first()["end_time"]);
-        if (time() > strtotime($end_time)) {
-            $contestModel->storeContestRankInMySQL($contest->cid, $contestRankRaw);
-        }
+        $contest_eloquent->rankRefresh();
         $contestModel->deleteZip("contestCodeZip/$contest->cid/");
         return Redirect::route('contest.board.rank', ['cid' => $contest->cid]);
     }

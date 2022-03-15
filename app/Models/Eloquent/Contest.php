@@ -8,6 +8,7 @@ use App\Models\ContestModel as OutdatedContestModel;
 use Cache;
 use Carbon;
 use DateTimeInterface;
+use App\Models\Services\ContestService;
 
 class Contest extends Model
 {
@@ -70,65 +71,7 @@ class Contest extends Model
     // Repository/Service? function
     public function rankRefresh()
     {
-        $ret = [];
-        $participants = $this->participants();
-        $contest_problems = $this->challenges;
-        $contest_problems->load('problem');
-        if ($this->rule == 1) {
-            // ACM/ICPC Mode
-            foreach ($participants as $participant) {
-                $prob_detail = [];
-                $totPen = 0;
-                $totScore = 0;
-                foreach ($contest_problems as $contest_problem) {
-                    $prob_stat = $contest_problem->userStatus($participant);
-                    $prob_detail[] = [
-                        'ncode' => $contest_problem->ncode,
-                        'pid' => $contest_problem->pid,
-                        'color' => $prob_stat['color'],
-                        'wrong_doings' => $prob_stat['wrong_doings'],
-                        'solved_time_parsed' => $prob_stat['solved_time_parsed']
-                    ];
-                    if ($prob_stat['solved']) {
-                        $totPen += $prob_stat['wrong_doings'] * 20;
-                        $totPen += $prob_stat['solved_time'] / 60;
-                        $totScore += $prob_stat['solved'];
-                    }
-                }
-                $ret[] = [
-                    "uid" => $participant->id,
-                    "name" => $participant->name,
-                    "nick_name" => DB::table("group_member")->where([
-                        "uid" => $participant->id,
-                        "gid" => $this->group->gid
-                    ])->where("role", ">", 0)->first()["nick_name"] ?? '',
-                    "score" => $totScore,
-                    "penalty" => $totPen,
-                    "problem_detail" => $prob_detail
-                ];
-            }
-            usort($ret, function ($a, $b) {
-                if ($a["score"] == $b["score"]) {
-                    if ($a["penalty"] == $b["penalty"]) {
-                        return 0;
-                    } elseif (($a["penalty"] > $b["penalty"])) {
-                        return 1;
-                    } else {
-                        return -1;
-                    }
-                } elseif ($a["score"] > $b["score"]) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            });
-            Cache::tags(['contest', 'rank'])->put($this->cid, $ret, 60);
-            return $ret;
-        } else {
-            // IO Mode
-            $c = new OutdatedContestModel();
-            return $c->contestRankCache($this->cid);
-        }
+        return ContestService::rankRefresh($this);
     }
 
     public function clarifications()
@@ -148,7 +91,7 @@ class Contest extends Model
 
     public function submissions()
     {
-        return $this->hasMany('App\Models\Eloquent\Submission', 'cid', 'cid');
+        return $this->hasMany('App\Models\Eloquent\Submission', 'cid', 'cid')->orderBy('submission_date');
     }
 
     public function group()

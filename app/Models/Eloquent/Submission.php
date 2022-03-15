@@ -50,17 +50,12 @@ class Submission extends Model
 
     public function getNcodeAttribute()
     {
-        $contest=$this->contest;
-        return $contest->challenges->where('pid', $this->pid)->first()->ncode;
+        return $this->contest->challenges->where('pid', $this->pid)->first()->ncode;
     }
 
     public function getNickNameAttribute()
     {
-        $member=$this->contest->group->members()->where('uid', $this->user->id)->first();
-        if (!empty($member)) {
-            return $member->nickname;
-        }
-        return null;
+        return $this->contest->group->members()->where('uid', $this->uid)->where('role', '>', 0)->first()->nick_name ?? null;
     }
 
     public function getColorAttribute()

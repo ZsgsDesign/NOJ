@@ -7,6 +7,7 @@ use App\Models\Eloquent\Compiler;
 use App\Models\Eloquent\Problem;
 use App\Models\Submission\SubmissionModel;
 use App\Models\Eloquent\User;
+use App\Models\Services\ContestService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Utils\Rating\RatingCalculator;
@@ -743,143 +744,7 @@ class ContestModel extends Model
      */
     public function contestRankCache($cid)
     {
-        // if(Cache::tags(['contest','rank'])->get($cid)!=null) return Cache::tags(['contest','rank'])->get($cid);
-        $ret=[];
-
-        $contest_info=DB::table("contest")->where("cid", $cid)->first();
-        $frozen_time=DB::table("contest")->where(["cid"=>$cid])->select(DB::raw("UNIX_TIMESTAMP(end_time)-froze_length as frozen_time"))->first()["frozen_time"];
-        $end_time=strtotime(DB::table("contest")->where(["cid"=>$cid])->select("end_time")->first()["end_time"]);
-
-        if ($contest_info["registration"]) {
-            $submissionUsers=DB::table("contest_participant")->where([
-                "cid"=>$cid,
-                "audit"=>1
-            ])->select('uid')->get()->all();
-        } else {
-            // Those who submitted are participants
-            $submissionUsers=DB::table("submission")->where([
-                "cid"=>$cid
-            ])->where(
-                "submission_date",
-                "<",
-                $frozen_time
-            )->select('uid')->groupBy('uid')->get()->all();
-        }
-
-        $problemSet=DB::table("contest_problem")->join("problem", "contest_problem.pid", "=", "problem.pid")->where([
-            "cid"=>$cid
-        ])->orderBy('number', 'asc')->select("ncode", "alias", "contest_problem.pid as pid", "title")->get()->all();
-
-        if ($contest_info["rule"]==1) {
-            // ACM/ICPC Mode
-            foreach ($submissionUsers as $s) {
-                $prob_detail=[];
-                $totPen=0;
-                $totScore=0;
-                foreach ($problemSet as $p) {
-                    $prob_stat=$this->contestProblemInfoACM($cid, $p["pid"], $s["uid"]);
-                    $prob_detail[]=[
-                        "ncode"=>$p["ncode"],
-                        "pid"=>$p["pid"],
-                        "color"=>$prob_stat["color"],
-                        "wrong_doings"=>$prob_stat["wrong_doings"],
-                        "solved_time_parsed"=>$prob_stat["solved_time_parsed"]
-                    ];
-                    if ($prob_stat["solved"]) {
-                        $totPen+=$prob_stat["wrong_doings"] * 20;
-                        $totPen+=$prob_stat["solved_time"] / 60;
-                        $totScore+=$prob_stat["solved"];
-                    }
-                }
-
-                $nickName=DB::table("group_member")->where([
-                    "uid" => $s["uid"],
-                    "gid" => $contest_info["gid"]
-                ])->where("role", ">", 0)->first();
-
-                $nickName=is_null($nickName) ?null:$nickName["nick_name"];
-                $ret[]=[
-                    "uid" => $s["uid"],
-                    "name" => DB::table("users")->where([
-                        "id"=>$s["uid"]
-                    ])->first()["name"],
-                    "nick_name" => $nickName,
-                    "score" => $totScore,
-                    "penalty" => $totPen,
-                    "problem_detail" => $prob_detail
-                ];
-            }
-            usort($ret, function($a, $b) {
-                if ($a["score"]==$b["score"]) {
-                    if ($a["penalty"]==$b["penalty"]) {
-                        return 0;
-                    } elseif (($a["penalty"]>$b["penalty"])) {
-                        return 1;
-                    } else {
-                        return -1;
-                    }
-                } elseif ($a["score"]>$b["score"]) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            });
-        } elseif ($contest_info["rule"]==2) {
-            // IOI Mode
-            foreach ($submissionUsers as $s) {
-                $prob_detail=[];
-                $totScore=0;
-                $totSolved=0;
-                foreach ($problemSet as $p) {
-                    $prob_stat=$this->contestProblemInfoIOI($cid, $p["pid"], $s["uid"]);
-                    $prob_detail[]=[
-                        "ncode"=>$p["ncode"],
-                        "pid"=>$p["pid"],
-                        "color"=>$prob_stat["color"],
-                        "score"=>$prob_stat["score"],
-                        "score_parsed"=>$prob_stat["score_parsed"]
-                    ];
-                    $totSolved+=$prob_stat["solved"];
-                    $totScore+=intval($prob_stat["score_parsed"]);
-                }
-
-                $nickName=DB::table("group_member")->where([
-                    "uid" => $s["uid"],
-                    "gid" => $contest_info["gid"]
-                ])->where("role", ">", 0)->first();
-
-                $nickName=is_null($nickName) ?null:$nickName["nick_name"];
-                $ret[]=[
-                    "uid" => $s["uid"],
-                    "name" => DB::table("users")->where([
-                        "id"=>$s["uid"]
-                    ])->first()["name"],
-                    "nick_name" => $nickName,
-                    "score" => $totScore,
-                    "solved" => $totSolved,
-                    "problem_detail" => $prob_detail
-                ];
-            }
-            usort($ret, function($a, $b) {
-                if ($a["score"]==$b["score"]) {
-                    if ($a["solved"]==$b["solved"]) {
-                        return 0;
-                    } elseif (($a["solved"]<$b["solved"])) {
-                        return 1;
-                    } else {
-                        return -1;
-                    }
-                } elseif ($a["score"]>$b["score"]) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            });
-        }
-
-        Cache::tags(['contest', 'rank'])->put($cid, $ret, 60);
-
-        return $ret;
+        return Contest::find($cid)->rankRefresh();
     }
 
     /**
@@ -1626,9 +1491,7 @@ class ContestModel extends Model
                     }
                 }
             }, 5);
-            $contestRankRaw=$this->contestRankCache($cid);
-            Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
-            Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $contestRankRaw);
+            Contest::find($cid)->rankRefresh();
         } else {
             DB::table($this->tableName)
                 ->where('cid', $cid)

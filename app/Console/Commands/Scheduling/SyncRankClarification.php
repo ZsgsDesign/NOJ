@@ -48,11 +48,7 @@ class SyncRankClarification extends Command
         $syncList=$contestModel->runningContest();
         foreach ($syncList as $syncContest) {
             if (!isset($syncContest['vcid'])) {
-                $contest=Contest::find($syncContest['cid']);
-                $contestRankRaw=$contest->rankRefresh();
-                $cid=$syncContest['cid'];
-                Cache::tags(['contest', 'rank'])->put($cid, $contestRankRaw);
-                Cache::tags(['contest', 'rank'])->put("contestAdmin$cid", $contestRankRaw);
+                Contest::find($syncContest['cid'])->rankRefresh();
                 continue;
             }
             $className="App\\Babel\\Extension\\hdu\\Synchronizer"; // TODO Add OJ judgement.

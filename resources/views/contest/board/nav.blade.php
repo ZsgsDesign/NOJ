@@ -30,17 +30,17 @@
 <h5 class="sm-contest-title">{{$contest->name}}</h5>
 <nav-div>
     @if(time() >= strtotime($basic['begin_time']))
-        <a href="/contest/{{$cid}}/board/challenge" data-nav="challenge"><nav-item>{{__("contest.inside.topbar.challenge")}}</nav-item></a>
-        @unless($contest->rule == 5 && $clearance <= 2) <a href="/contest/{{$cid}}/board/rank" data-nav="rank"><nav-item>{{__("contest.inside.topbar.rank")}}</nav-item></a> @endunless
-        <a href="/contest/{{$cid}}/board/status" data-nav="status"><nav-item>{{__("contest.inside.topbar.status")}}</nav-item></a>
-        @if(config('feature.contest.clarification')) <a href="/contest/{{$cid}}/board/clarification" data-nav="clarification"><nav-item>{{__("contest.inside.topbar.clarification")}}</nav-item></a> @endif
-        @if(config('feature.contest.print')) <a href="/contest/{{$cid}}/board/print" data-nav="print"><nav-item>{{__("contest.inside.topbar.print")}}</nav-item></a> @endif
-        @if($basic['practice'] && config('feature.group'))
-            <a href="/contest/{{$cid}}/board/analysis" data-nav="analysis"><nav-item>{{__("contest.inside.topbar.analysis")}}</nav-item></a>
+        <a href="/contest/{{$contest->cid}}/board/challenge" data-nav="challenge"><nav-item>{{__("contest.inside.topbar.challenge")}}</nav-item></a>
+        @unless($contest->rule == 5 && $clearance <= 2) <a href="/contest/{{$contest->cid}}/board/rank" data-nav="rank"><nav-item>{{__("contest.inside.topbar.rank")}}</nav-item></a> @endunless
+        <a href="/contest/{{$contest->cid}}/board/status" data-nav="status"><nav-item>{{__("contest.inside.topbar.status")}}</nav-item></a>
+        @if(config('feature.contest.clarification')) <a href="/contest/{{$contest->cid}}/board/clarification" data-nav="clarification"><nav-item>{{__("contest.inside.topbar.clarification")}}</nav-item></a> @endif
+        @if(config('feature.contest.print')) <a href="/contest/{{$contest->cid}}/board/print" data-nav="print"><nav-item>{{__("contest.inside.topbar.print")}}</nav-item></a> @endif
+        @if($contest->practice && config('feature.group'))
+            <a href="/contest/{{$contest->cid}}/board/analysis" data-nav="analysis"><nav-item>{{__("contest.inside.topbar.analysis")}}</nav-item></a>
         @endif
     @endif
     @if($clearance>2)
-        <a href="/contest/{{$cid}}/board/admin" data-nav="admin"><nav-item>{{__("contest.inside.topbar.admin")}}</nav-item></a>
+        <a href="/contest/{{$contest->cid}}/board/admin" data-nav="admin"><nav-item>{{__("contest.inside.topbar.admin")}}</nav-item></a>
     @endif
     <script>
         document.querySelector("nav-div > a[data-nav='{{$nav}}'] > nav-item").className="active";
