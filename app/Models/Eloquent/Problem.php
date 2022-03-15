@@ -22,7 +22,6 @@ class Problem extends Model
     const UPDATED_AT = "update_date";
 
     protected $casts = [
-        'update_date' => 'date',
         'force_raw' => 'boolean',
         'markdown' => 'boolean',
         'hide' => 'boolean',
