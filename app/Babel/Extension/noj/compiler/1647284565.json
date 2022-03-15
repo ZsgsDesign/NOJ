@@ -1,0 +1,9 @@
+{
+    "modifications":[{
+        "code": "jsc",
+        "new_code": "nodejs",
+        "icon": "devicon-nodejs-plain",
+        "display": "Node.js 16",
+        "method": "modify"
+    }]
+}

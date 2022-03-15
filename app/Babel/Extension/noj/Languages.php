@@ -198,11 +198,11 @@ class Languages
                     'memory_limit_check_only' => 1
                 ]
             ],
-            'jsc_lang_config' => [
+            'nodejs_lang_config' => [
                 'compile' => null,
                 'run' => [
                     'exe_name' => 'solution.js',
-                    'command' => '/usr/bin/jsc {exe_path}',
+                    'command' => '/usr/bin/node --stack-size=65536 {exe_path}',
                     'seccomp_rule' => null,
                     'memory_limit_check_only' => 1
                 ]
