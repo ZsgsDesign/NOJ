@@ -42,7 +42,6 @@ class BoardController extends Controller
                 return Redirect::route('contest.detail', ['cid' => $cid]);
             }
         }
-        $problemSet = $contestModel->contestProblems($cid, Auth::user()->id);
         $remainingTime = $contestModel->remainingTime($cid);
         $customInfo = $contestModel->getCustomInfo($cid);
         $clarificationList = $contestModel->getLatestClarification($cid);
@@ -96,8 +95,6 @@ class BoardController extends Controller
         $challenge = EloquentRequestUtil::challenge($request);
         $problem = EloquentRequestUtil::problem($request);
 
-        $problemSet = $contestModel->contestProblems($cid, Auth::user()->id);
-
         $accountExt = Auth::user()->getExtra(['editor_left_width', 'editor_theme']);
         $editor_left_width = isset($accountExt['editor_left_width']) ? $accountExt['editor_left_width'] : '40';
         $editor_theme = isset($accountExt['editor_theme']) ? $accountExt['editor_theme'] : config('app.editor_theme');
@@ -113,7 +110,6 @@ class BoardController extends Controller
             'contest_mode' => true,
             'challenge' => $challenge,
             'contest' => $contest,
-            'problem_set' => $problemSet,
             'clearance' => $clearance,
             'editor_left_width' => $editor_left_width,
             'theme_config' => $themeConfig,

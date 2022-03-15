@@ -588,9 +588,12 @@
                             <div class="dropdown" id="problemSwitcher">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{$challenge->ncode}}</button>
                                 <div class="dropdown-menu cm-scrollable-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: top, left; top: 40px; left: 0px;">
-                                    @foreach($problem_set as $p)
-                                        <a class="dropdown-item" href="@if($p["ncode"]==$challenge->ncode) # @else /contest/{{$contest->cid}}/board/challenge/{{$p["ncode"]}} @endif">
-                                            <span><i class="MDI {{$p["prob_status"]["icon"]}} {{$p["prob_status"]["color"]}}"></i> {{$p["ncode"]}}. {{$p["title"]}}</span>
+                                    @foreach($contest->challenges as $contestChallenge)
+                                        @php
+                                            $contestChallengeStat = $contestChallenge->getProblemStatus(Auth::user()->id);
+                                        @endphp
+                                        <a class="dropdown-item" href="@if($contestChallenge->ncode == $challenge->ncode) # @else /contest/{{$contest->cid}}/board/challenge/{{$contestChallenge->ncode}} @endif">
+                                            <span><i class="MDI {{$contestChallengeStat["icon"]}} {{$contestChallengeStat["color"]}}"></i> {{$contestChallenge->ncode}}. {{$contestChallenge->title}}</span>
                                         </a>
                                     @endforeach
                                 </div>
