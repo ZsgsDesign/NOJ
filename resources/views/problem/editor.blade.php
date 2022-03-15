@@ -615,7 +615,7 @@
                                     @endforeach
                                 </div>
                             </div>
-                            @endif <span data-problem-section="title">{{$problem->title}}</span>
+                            @endif <span data-problem-section="title">{{$contest_mode ? $challenge->title : $problem->title}}</span>
                         </h1>
 
                         @if($problem->file && filled($problem->file_url))
