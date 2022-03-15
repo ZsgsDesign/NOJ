@@ -149,7 +149,6 @@ class BoardController extends Controller
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
 
-        $problemSet = $contestModel->contestProblems($cid, Auth::user()->id);
         $customInfo = $contestModel->getCustomInfo($cid);
         $contestRank = $contestModel->contestRank($cid, Auth::user()->id);
 
@@ -173,7 +172,7 @@ class BoardController extends Controller
             'site_title' => $contest->name,
             'contest' => $contest,
             'cid' => $cid,
-            'problem_set' => $problemSet,
+            'challenges' => $contest->challenges,
             'custom_info' => $customInfo,
             'contest_rank' => $contestRank,
             'rank_frozen' => $rankFrozen,

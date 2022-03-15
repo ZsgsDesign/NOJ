@@ -129,13 +129,13 @@
                                 <th scope="col" rowspan="2">{{__("contest.inside.rank.account")}}</th>
                                 <th scope="col" rowspan="2">{{__("contest.inside.rank.score")}}</th>
                                 <th scope="col" rowspan="2">{{__("contest.inside.rank.penalty")}}</th>
-                                @foreach($problem_set as $p)
-                                    <th scope="col" class="cm-problem-header">{{$p["ncode"]}}</th>
+                                @foreach($challenges as $challenge)
+                                    <th scope="col" class="cm-problem-header">{{$challenge->ncode}}</th>
                                 @endforeach
                             </tr>
                             <tr>
-                                @foreach($problem_set as $p)
-                                    <th scope="col" class="cm-problem-subheader">{{$p["passed_count"]}} / {{$p["submission_count"]}}</th>
+                                @foreach($challenges as $challenge)
+                                    <th scope="col" class="cm-problem-subheader">{{$challenge->statistics["passed_count"]}} / {{$challenge->statistics["submission_count"]}}</th>
                                 @endforeach
                             </tr>
                             @else
@@ -145,8 +145,8 @@
                                     <th scope="col">{{__("contest.inside.rank.account")}}</th>
                                     <th scope="col">{{__("contest.inside.rank.score")}}</th>
                                     <th scope="col">{{__("contest.inside.rank.solved")}}</th>
-                                    @foreach($problem_set as $p)
-                                        <th scope="col" class="cm-problem-header">{{$p["ncode"]}}</th>
+                                    @foreach($challenges as $challenge)
+                                        <th scope="col" class="cm-problem-header">{{$challenge->ncode}}</th>
                                     @endforeach
                                 </tr>
                             @endif
@@ -160,7 +160,7 @@
                                 <td>{{$r["name"]}} @if($r["nick_name"])<span class="cm-subtext">({{$r["nick_name"]}})</span>@endif</td>
                                 <td>{{$r["score"]}}</td>
                                 <td>{{round($r["penalty"])}}</td>
-                                @foreach($problem_set as $p)
+                                @foreach($challenges as $challenge)
                                     @if(isset($r["problem_detail"][$loop->index])&&$rp=$r["problem_detail"][$loop->index])
                                         <td class="{{$rp["color"]}}">@if(!empty($rp["solved_time_parsed"])){{$rp["solved_time_parsed"]}}<br>@endif @if(!empty($rp["wrong_doings"]))<span class="cm-subtext">(-{{$rp["wrong_doings"]}})</span>@endif</td>
                                     @else
