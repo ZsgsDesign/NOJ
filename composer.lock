@@ -1185,16 +1185,16 @@
         },
         {
             "name": "encore/laravel-admin",
-            "version": "v1.8.17",
+            "version": "1.8.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/z-song/laravel-admin.git",
-                "reference": "45c58c656fcc6a8c57423d2256f3b7a73e783441"
+                "reference": "6727f64754f69599d44f1362a2963588c07e6f8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/45c58c656fcc6a8c57423d2256f3b7a73e783441",
-                "reference": "45c58c656fcc6a8c57423d2256f3b7a73e783441",
+                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/6727f64754f69599d44f1362a2963588c07e6f8c",
+                "reference": "6727f64754f69599d44f1362a2963588c07e6f8c",
                 "shasum": ""
             },
             "require": {
@@ -1253,9 +1253,9 @@
             ],
             "support": {
                 "issues": "https://github.com/z-song/laravel-admin/issues",
-                "source": "https://github.com/z-song/laravel-admin/tree/v1.8.17"
+                "source": "https://github.com/z-song/laravel-admin/tree/1.8.18"
             },
-            "time": "2021-12-31T08:36:33+00:00"
+            "time": "2022-03-16T06:56:41+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
