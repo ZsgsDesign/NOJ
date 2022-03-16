@@ -104,18 +104,17 @@ class RankBoardUtil
             if ($this->contest->rule == 5 || ((is_null($rankProblem['score']) || $rankProblem['score'] < $submission->score))) {
                 $points = $challengeInfo[$submission->pid]['points'];
                 $totalScore = $challengeInfo[$submission->pid]['tot_score'];
-                $solved = $submission->score == $totalScore;
 
-                $rankUser["solved"] += $solved ? 1 : 0;
-
+                $rankProblem["solved"] = $submission->score == $totalScore;
                 $rankProblem['score'] = $submission->score;
-                $rankProblem["color"] = $solved ? "wemd-teal-text" : "wemd-green-text";
+                $rankProblem["color"] = $rankProblem["solved"] ? "wemd-teal-text" : "wemd-green-text";
                 $rankProblem["score_parsed"] = $rankProblem["score"] / max($totalScore, 1) * ($points);
             }
         }
         unset($rankUser, $rankProblem);
         return collect($rankBoard)->transform(function ($rankUser) {
             $rankUser['score'] = collect($rankUser['problem_detail'])->sum('score_parsed');
+            $rankUser['solved'] = collect($rankUser['problem_detail'])->sum('solved');
             return $rankUser;
         })->sortBy([['score', 'desc'], ['solved', 'desc']])->values()->all();
     }
@@ -130,7 +129,8 @@ class RankBoardUtil
                 "pid" => $challenge->pid,
                 "color" => null,
                 "score" => null,
-                "score_parsed" => null
+                "score_parsed" => null,
+                "solved" => false
             ];
             $challengeInfo[$challenge->pid] = [
                 'index' => $index,
