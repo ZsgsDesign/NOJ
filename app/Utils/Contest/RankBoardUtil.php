@@ -101,7 +101,7 @@ class RankBoardUtil
             }
             $rankUser = &$rankBoard[$submission->uid];
             $rankProblem = &$rankUser["problem_detail"][$challengeInfo[$submission->pid]['index']];
-            if (is_null($rankProblem['score']) || $rankProblem['score'] < $submission->score) {
+            if ($this->contest->rule == 5 || ((is_null($rankProblem['score']) || $rankProblem['score'] < $submission->score))) {
                 $points = $challengeInfo[$submission->pid]['points'];
                 $totalScore = $challengeInfo[$submission->pid]['tot_score'];
                 $solved = $submission->score == $totalScore;
