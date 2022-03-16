@@ -38,7 +38,7 @@
         "ignore-loader": "^0.1.2",
         "jquery": "^3.3",
         "jquery-datetimepicker": "^2.5",
-        "marked": "^0.7.0",
+        "marked": "^4.0.10",
         "mathjax": "^2.7",
         "medium-zoom": "^1.0.6",
         "monaco-editor": "0.25.2",
