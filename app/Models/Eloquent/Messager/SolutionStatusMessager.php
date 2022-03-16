@@ -12,19 +12,23 @@ class SolutionStatusMessager extends UniversalMessager
             'receiver' => $config['receiver'],
             'type'     => $config['type'],
             'unread'   => true
-        ])->first();
+        ])->orderBy('created_at', 'desc')->first();
 
         if (filled($message)) {
             $data = json_decode($message->data, true);
-            foreach ($data['problem'] as $problem) {
-                if($problem['pcode'] != $config['data']['problem'][0]['pcode']) {
-                    array_push($data['problem'], $config['data']['problem'][0]);
+            if (blank($data)) {
+                $message->delete();
+            } elseif (count($data['problem']) < 5) {
+                foreach ($data['problem'] as $problem) {
+                    if ($problem['pcode'] != $config['data']['problem'][0]['pcode']) {
+                        array_push($data['problem'], $config['data']['problem'][0]);
+                    }
                 }
+                $message->data = json_encode($data);
+                $message->level = $config['level'];
+                $message->save();
+                return true;
             }
-            $message->data = json_encode($data);
-            $message->level = $config['level'];
-            $message->save();
-            return true;
         }
 
         return self::sendUniversalMessage($config);

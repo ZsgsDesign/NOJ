@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Validator;
+use Str;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -34,7 +35,7 @@ class AuthServiceProvider extends ServiceProvider
         Passport::routes();
 
         Validator::extend('allowed_email_domain', function($attribute, $value, $parameters, $validator) {
-            return !in_array(explode('@', $value)[1], $this->forbiddenDomains);
+            return Str::contains($value, '@') && !in_array(explode('@', $value)[1], $this->forbiddenDomains);
         }, 'Domain not valid for registration.');
     }
 }
