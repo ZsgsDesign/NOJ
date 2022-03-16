@@ -78,7 +78,7 @@
 @foreach ($problemset as $contestProblem)
     @include('pdf.contest.problem', [
         'contestProblem' => $contestProblem,
-        'dialect' => $contestProblem->problem->getDialect($contestProblem->problem_dialect_id)
+        'dialect' => $contestProblem->problem->getDialect(blank($contestProblem->problem_dialect_id) ? 0 : $contestProblem->problem_dialect_id)
     ])
 
     @unless($loop->last)
