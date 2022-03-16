@@ -41,11 +41,19 @@ class AdminController extends Controller
         $contest_accounts = $accountModel->getContestAccount($contest->cid);
         $gcode = $contestModel->gcode($contest->cid);
         $isEnd = $contestModel->remainingTime($contest->cid) < 0;
+
         $generatePDFStatus = JobStatus::find(Cache::tags(['contest', 'admin', 'PDFGenerate'])->get($contest->cid, 0));
         $generatePDFStatus = is_null($generatePDFStatus) ? 'empty' : $generatePDFStatus->status;
         if (in_array($generatePDFStatus, ['finished', 'failed'])) {
             Cache::tags(['contest', 'admin', 'PDFGenerate'])->forget($contest->cid);
         }
+
+        $generateAccountStatus = JobStatus::find(Cache::tags(['contest', 'admin', 'ContestAccountGenerate'])->get($contest->cid, 0));
+        $generateAccountStatus = is_null($generateAccountStatus) ? 'empty' : $generateAccountStatus->status;
+        if (in_array($generateAccountStatus, ['finished', 'failed'])) {
+            Cache::tags(['contest', 'admin', 'ContestAccountGenerate'])->forget($contest->cid);
+        }
+
         $anticheatStatus = JobStatus::find(Cache::tags(['contest', 'admin', 'anticheat'])->get($contest->cid, 0));
         $anticheatProgress = is_null($anticheatStatus) ? 0 : $anticheatStatus->progress_percentage;
         $anticheatStatus = is_null($anticheatStatus) ? 'empty' : $anticheatStatus->status;
@@ -71,6 +79,7 @@ class AdminController extends Controller
             'basic' => $basicInfo,
             'has_ended' => $isEnd,
             'generatePDFStatus' => $generatePDFStatus,
+            'generateAccountStatus' => $generateAccountStatus,
             'anticheat' => [
                 'status' => $anticheatStatus,
                 'progress' => $anticheatProgress
@@ -88,13 +97,12 @@ class AdminController extends Controller
             return Redirect::route('contest.detail', ['cid' => $contest->cid]);
         }
         $account = $contestModel->getContestAccount($contest->cid);
-        if ($account == null) {
-            return;
-        } else {
-            $AccountExport = new AccountExport($account);
-            $filename = "ContestAccount$contest->cid";
-            return Excel::download($AccountExport, $filename . '.xlsx');
+        if(blank($account)) {
+            $account = [];
         }
+        $AccountExport = new AccountExport($account);
+        $filename = "ContestAccount$contest->cid";
+        return Excel::download($AccountExport, $filename . '.xlsx');
     }
 
     public function refreshContestRank(Request $request)

@@ -2,7 +2,7 @@
     <div class="tab-body">
         <div class="text-center">
             <div>
-            @if(in_array($anticheat['status'],['queued','executing']))
+            @if(in_array($anticheat['status'], ['queued','executing']))
                 <button data-role="progress" class="btn btn-outline-info" style="background-image: linear-gradient(to right, var(--wemd-light-blue-lighten-4) {{$anticheat['progress']}}%,#fff {{$anticheat['progress']}}%);"><i class="MDI coffee-outline"></i> {{__("contest.inside.admin.anticheat.running")}}</button>
             @else
                 <button data-role="progress" class="btn btn-outline-info d-none" style="background-image: linear-gradient(to right, var(--wemd-light-blue-lighten-4) 0%,#fff 0%);"><i class="MDI coffee-outline"></i> {{__("contest.inside.admin.anticheat.running")}}</button>

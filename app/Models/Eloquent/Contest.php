@@ -90,6 +90,11 @@ class Contest extends Model
         return $this->hasMany('App\Models\Eloquent\Submission', 'cid', 'cid')->orderBy('submission_date');
     }
 
+    public function granted_participants()
+    {
+        return $this->hasMany(ContestParticipant::class, 'cid', 'cid');
+    }
+
     public function group()
     {
         return $this->hasOne('App\Models\Eloquent\Group', 'gid', 'gid');

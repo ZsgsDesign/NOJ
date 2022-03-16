@@ -45,7 +45,7 @@ class ContestService
             $userInstance->save();
             $userInstance->markEmailAsVerified();
 
-            $contest->participants()->save(new ContestParticipant(['uid' => $userInstance->id, 'audit' => 1]));
+            $contest->granted_participants()->save(new ContestParticipant(['uid' => $userInstance->id, 'audit' => 1]));
 
             $ret[] = [
                 "uid" => $userInstance->id,

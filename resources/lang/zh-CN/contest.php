@@ -120,8 +120,13 @@ return [
             ],
             'account' => [
                 'prefix'        => '账号前缀',
+                'domain'        => '账号域',
                 'count'         => '生成数量',
+                'file'          => '导入名单Excel以生成账号',
                 'generate'      => '开始生成',
+                'generating'    => '生成中',
+                'generated'     => '生成成功',
+                'failed'        => '生成失败',
                 'download'      => '下载为XLSX格式',
                 'field' => [
                     'name'      => '用户名',

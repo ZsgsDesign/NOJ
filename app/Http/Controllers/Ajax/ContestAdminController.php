@@ -2,24 +2,21 @@
 
 namespace App\Http\Controllers\Ajax;
 
+use App\Http\Controllers\Controller;
+use App\Jobs\AntiCheat;
+use App\Jobs\GenerateContestAccount;
+use App\Jobs\GeneratePDF;
+use App\Jobs\ProcessSubmission;
 use App\Models\ContestModel;
 use App\Models\Eloquent\Contest;
 use App\Models\GroupModel;
 use App\Utils\ResponseUtil;
-use App\Models\AccountModel;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Jobs\ProcessSubmission;
-use Illuminate\Validation\Validator;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use Illuminate\Support\Facades\Storage;
-use App\Jobs\GeneratePDF;
-use App\Jobs\AntiCheat;
 use Arr;
-use Log;
 use Auth;
 use Cache;
-use Response;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class ContestAdminController extends Controller
 {
@@ -247,10 +244,24 @@ class ContestAdminController extends Controller
         $request->validate([
             'cid' => 'required|integer',
             'ccode' => 'required|min:3|max:10',
-            'num' => 'required|integer|lte:100|gte:0',
+            'num' => 'required|integer|lte:9999|gte:0',
             'cdomain' => 'required|min:3|max:20',
             'numFile' => 'file'
         ]);
+
+        $clearance = (new ContestModel())->judgeClearance($request->cid, Auth::user()->id);
+        if ($clearance < 3) {
+            return ResponseUtil::err(2001);
+        }
+
+        $contest = Contest::find($request->cid);
+        if (!$contest->verified) {
+            return ResponseUtil::err(4001);
+        }
+
+        if (filled(Cache::tags(['contest', 'admin', 'ContestAccountGenerate'])->get($request->cid))) {
+            return ResponseUtil::err(8001);
+        }
 
         $userName = [];
         $generateNum = $request->num;
@@ -269,21 +280,12 @@ class ContestAdminController extends Controller
             $generateNum = count($userName);
         }
 
-        $clearance = (new ContestModel())->judgeClearance($request->cid, Auth::user()->id);
-        if ($clearance < 3) {
-            return ResponseUtil::err(2001);
-        }
-
-        $contest = Contest::find($request->cid);
-        if (!$contest->verified) {
-            return ResponseUtil::err(2001);
-        }
-
-        $ret = Contest::find($request->cid)->generateContestAccount($request->cid, $request->ccode, $request->cdomain , $generateNum, $userName);
-        $cache_data = Cache::tags(['contest', 'account'])->get($request->cid);
-        $cache_data[] = $ret;
-        Cache::tags(['contest', 'account'])->put($request->cid, $cache_data);
-        return ResponseUtil::success(200, null, $ret);
+        $generateProcess = new GenerateContestAccount($request->cid, $request->ccode, $request->cdomain, $generateNum, $userName);
+        dispatch($generateProcess)->onQueue('normal');
+        Cache::tags(['contest', 'admin', 'ContestAccountGenerate'])->put($request->cid, $generateProcess->getJobStatusId());
+        return ResponseUtil::success(200, null, [
+            'JobStatusId' => $generateProcess->getJobStatusId()
+        ]);
     }
 
     public function getScrollBoardData(Request $request)

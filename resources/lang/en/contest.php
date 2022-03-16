@@ -116,8 +116,13 @@ return [
             ],
             'account' => [
                 'prefix'        => 'Account Prefix',
+                'domain'        => 'Account Domain',
                 'count'         => 'Account Count',
+                'file'          => 'Import Named List Excel for Generation',
                 'generate'      => 'Generate',
+                'generating'    => 'Generating',
+                'generated'     => 'Generated',
+                'failed'        => 'Failed',
                 'download'      => 'Download as xlsx...',
                 'field' => [
                     'name'      => 'Name',
