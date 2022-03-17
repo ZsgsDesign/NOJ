@@ -186,42 +186,34 @@ class Message extends Model
                 case 1:
                     // to a leader that member apply to join the group
                     return GroupMemberMessager::formatApplyJoinMessageToLeader($data);
-                    break;
 
                 case 2:
                     // to a leader that member agree to join the group
                     return GroupMemberMessager::formatAgreedJoinMessageToLeader($data);
-                    break;
 
                 case 3:
                     // to a person that solution was passed
                     return SolutionStatusMessager::formatSolutionPassedMessageToUser($data);
-                    break;
 
                 case 4:
                     // to a person that solution was rejected
                     return SolutionStatusMessager::formatSolutionRejectedMessageToUser($data);
-                    break;
 
                 case 5:
                     // to a person that received new homework
                     return HomeworkMessager::formatNewHomeworkMessageToUser($data);
-                    break;
 
                 case 6:
                     // to a person that global rank in or out top 100
                     return GlobalRankMessager::formatRankInOutOneHundredMessageToUser($data);
-                    break;
 
                 case 7:
                     // to a person that got invited to a group
                     return GroupMemberMessager::formatInvitedMessageToUser($data);
-                    break;
 
                 default:
                     // unregistered type falls back to universal message formatter
                     return $value;
-                    break;
             }
 
         } else {

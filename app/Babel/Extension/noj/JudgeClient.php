@@ -58,7 +58,14 @@ class JudgeClient
             'spj_src' => null,
             'output' => false
         ];
-        return $this->post($this->serverBaseUrl . '/judge', array_merge($default, $config));
+        $config = array_merge($default, $config);
+        if (filled($config['max_cpu_time'])) {
+            $config['max_cpu_time'] = $config['max_cpu_time'] * $languageConfig['factors']['cpu']['factor'] + $languageConfig['factors']['cpu']['constant'];
+        }
+        if (filled($config['max_memory'])) {
+            $config['max_memory'] = $config['max_memory'] * $languageConfig['factors']['memory']['factor'] + $languageConfig['factors']['memory']['constant'];
+        }
+        return $this->post($this->serverBaseUrl . '/judge', $config);
     }
 
     public function compileSpj($src, $spjVersion, $spjCompileConfig)

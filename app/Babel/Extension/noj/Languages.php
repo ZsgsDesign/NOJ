@@ -1,11 +1,13 @@
 <?php
+
 namespace App\Babel\Extension\noj;
 
 class Languages
 {
     public static function get()
     {
-        $default_env=["LANG=en_US.UTF-8", "LANGUAGE=en_US:en", "LC_ALL=en_US.UTF-8"];
+        $default_env = ["LANG=en_US.UTF-8", "LANGUAGE=en_US:en", "LC_ALL=en_US.UTF-8"];
+        $default_factors = ['cpu' => ['factor' => 1, 'constant' => 0], 'memory' => ['factor' => 1, 'constant' => 0]];
         return [
             'c_lang_config' => [
                 'compile' => [
@@ -21,7 +23,8 @@ class Languages
                     'seccomp_rule' => 'c_cpp',
                     'env' => $default_env,
                     'memory_limit_check_only' => 1
-                ]
+                ],
+                'factors' => $default_factors
             ],
             'c_lang_config_spj' => [
                 'compile' => [
@@ -37,7 +40,8 @@ class Languages
                     'command' => '{exe_path} {in_file_path} {out_file_path} {user_out_file_path}',
                     'seccomp_rule' => 'c_cpp',
                     'env' => $default_env
-                ]
+                ],
+                'factors' => $default_factors
             ],
             'c11_lang_config' => [
                 'compile' => [
@@ -53,7 +57,8 @@ class Languages
                     'seccomp_rule' => 'general',
                     'env' => $default_env,
                     'memory_limit_check_only' => 1
-                ]
+                ],
+                'factors' => $default_factors
             ],
             'cpp_lang_config' => [
                 'name' => 'cpp',
@@ -70,7 +75,8 @@ class Languages
                     'seccomp_rule' => 'c_cpp',
                     'env' => $default_env,
                     'memory_limit_check_only' => 1
-                ]
+                ],
+                'factors' => $default_factors
             ],
             'cpp_lang_config_spj' => [
                 'name' => 'cpp',
@@ -88,7 +94,8 @@ class Languages
                     'seccomp_rule' => 'general',
                     'env' => $default_env,
                     'memory_limit_check_only' => 1
-                ]
+                ],
+                'factors' => $default_factors
             ],
             'cpp14_lang_config' => [
                 'name' => 'cpp14',
@@ -105,7 +112,8 @@ class Languages
                     'seccomp_rule' => 'c_cpp',
                     'env' => $default_env,
                     'memory_limit_check_only' => 1
-                ]
+                ],
+                'factors' => $default_factors
             ],
             'cpp17_lang_config' => [
                 'name' => 'cpp17',
@@ -122,7 +130,8 @@ class Languages
                     'seccomp_rule' => 'c_cpp',
                     'env' => $default_env,
                     'memory_limit_check_only' => 1
-                ]
+                ],
+                'factors' => $default_factors
             ],
             'java_lang_config' => [
                 'name' => 'java',
@@ -139,6 +148,10 @@ class Languages
                     'seccomp_rule' => null,
                     'env' => $default_env,
                     'memory_limit_check_only' => 1
+                ],
+                'factors' => [
+                    'cpu' => ['factor' => 2, 'constant' => 1],
+                    'memory' => ['factor' => 2, 'constant' => 16 * 1024 * 1024]
                 ]
             ],
             'py2_lang_config' => [
@@ -154,6 +167,10 @@ class Languages
                     'command' => '/usr/bin/python {exe_path}',
                     'seccomp_rule' => 'general',
                     'env' => $default_env
+                ],
+                'factors' => [
+                    'cpu' => ['factor' => 3, 'constant' => 2],
+                    'memory' => ['factor' => 2, 'constant' => 32 * 1024 * 1024]
                 ]
             ],
             'py3_lang_config' => [
@@ -169,6 +186,10 @@ class Languages
                     'command' => '/usr/bin/python3.7 {exe_path}',
                     'seccomp_rule' => 'general',
                     'env' => array_merge(['MALLOC_ARENA_MAX=1', 'PYTHONIOENCODING=UTF-8'], $default_env)
+                ],
+                'factors' => [
+                    'cpu' => ['factor' => 3, 'constant' => 2],
+                    'memory' => ['factor' => 2, 'constant' => 32 * 1024 * 1024]
                 ]
             ],
             'php7_lang_config' => [
@@ -179,6 +200,10 @@ class Languages
                     'seccomp_rule' => null,
                     'env' => $default_env,
                     'memory_limit_check_only' => 1
+                ],
+                'factors' => [
+                    'cpu' => ['factor' => 1, 'constant' => 0],
+                    'memory' => ['factor' => 1, 'constant' => 512 * 1024 * 1024]
                 ]
             ],
             'php7_lang_config_spj' => [
@@ -196,6 +221,10 @@ class Languages
                     'seccomp_rule' => null,
                     'env' => $default_env,
                     'memory_limit_check_only' => 1
+                ],
+                'factors' => [
+                    'cpu' => ['factor' => 1, 'constant' => 0],
+                    'memory' => ['factor' => 1, 'constant' => 512 * 1024 * 1024]
                 ]
             ],
             'nodejs_lang_config' => [
@@ -205,6 +234,10 @@ class Languages
                     'command' => '/usr/bin/node --stack-size=65536 {exe_path}',
                     'seccomp_rule' => null,
                     'memory_limit_check_only' => 1
+                ],
+                'factors' => [
+                    'cpu' => ['factor' => 3, 'constant' => 2],
+                    'memory' => ['factor' => 2, 'constant' => 0]
                 ]
             ],
             'go_lang_config' => [
@@ -222,6 +255,10 @@ class Languages
                     'seccomp_rule' => "",
                     'env' => array_merge(["GODEBUG=madvdontneed=1", "GOCACHE=off"], $default_env),
                     'memory_limit_check_only' => 1
+                ],
+                'factors' => [
+                    'cpu' => ['factor' => 1, 'constant' => 2],
+                    'memory' => ['factor' => 1, 'constant' => 512 * 1024 * 1024]
                 ]
             ],
             'csharp_lang_config' => [
@@ -238,6 +275,10 @@ class Languages
                     'seccomp_rule' => null,
                     'env' => $default_env,
                     'memory_limit_check_only' => 1
+                ],
+                'factors' => [
+                    'cpu' => ['factor' => 2, 'constant' => 1],
+                    'memory' => ['factor' => 2, 'constant' => 16 * 1024 * 1024]
                 ]
             ],
             'ruby_lang_config' => [
@@ -247,6 +288,10 @@ class Languages
                     'command' => '/usr/bin/ruby {exe_path}',
                     'seccomp_rule' => null,
                     'memory_limit_check_only' => 1
+                ],
+                'factors' => [
+                    'cpu' => ['factor' => 2, 'constant' => 1],
+                    'memory' => ['factor' => 1, 'constant' => 512 * 1024 * 1024]
                 ]
             ],
             'rust_lang_config' => [
@@ -263,6 +308,10 @@ class Languages
                     'seccomp_rule' => "general",
                     'env' => $default_env,
                     'memory_limit_check_only' => 1
+                ],
+                'factors' => [
+                    'cpu' => ['factor' => 1, 'constant' => 0],
+                    'memory' => ['factor' => 1, 'constant' => 16 * 1024 * 1024]
                 ]
             ],
             'haskell_lang_config' => [
@@ -279,7 +328,8 @@ class Languages
                     'seccomp_rule' => "general",
                     'env' => $default_env,
                     'memory_limit_check_only' => 1
-                ]
+                ],
+                'factors' => $default_factors
             ],
             'pascal_lang_config' => [
                 'compile' => [
@@ -294,7 +344,8 @@ class Languages
                     'command' => '{exe_path}',
                     'seccomp_rule' => "general",
                     'env' => $default_env
-                ]
+                ],
+                'factors' => $default_factors
             ],
             'plaintext_lang_config' => [
                 'compile' => null,
@@ -303,7 +354,8 @@ class Languages
                     'command' => '/bin/cat {exe_path}',
                     'seccomp_rule' => "general",
                     'memory_limit_check_only' => 1
-                ]
+                ],
+                'factors' => $default_factors
             ],
             'basic_lang_config' => [
                 'compile' => [
@@ -318,7 +370,8 @@ class Languages
                     'command' => '{exe_path}',
                     'seccomp_rule' => "general",
                     'env' => $default_env
-                ]
+                ],
+                'factors' => $default_factors
             ],
         ];
     }

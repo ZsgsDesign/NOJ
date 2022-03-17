@@ -84,7 +84,7 @@
                 },
                 success : function(result){
                     if(result.ret == 200){
-                        $('#tip-text').text('{{__('dashboard.avatarChange.success')}}');
+                        $('#tip-text').text("{{__('dashboard.avatarChange.success')}}");
                         $('#tip-text').removeClass('text-danger');
                         $('#tip-text').addClass('text-success');
                         $('#avatar-error-tip').animate({opacity:'1'},200);
