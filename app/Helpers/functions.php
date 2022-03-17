@@ -79,7 +79,12 @@ if (!function_exists('glob_recursive')) {
 if (!function_exists('adminMenu')) {
     function adminMenu()
     {
-        return json_decode(file_get_contents(app_path('Admin/menu.json')), true);
+        $menu = json_decode(file_get_contents(app_path('Admin/menu.json')), true);
+        foreach($menu as $index => $item) {
+            if($item['title'] == 'admin.menu_titles.carousels' && !config('feature.home.carousel')) unset($menu[$index]);
+            if($item['title'] == 'admin.menu_titles.groups' && !config('feature.group')) unset($menu[$index]);
+        }
+        return $menu;
     }
 }
 

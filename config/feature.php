@@ -30,5 +30,11 @@ return [
         'email' => [
             'verification' => env('FEATURE_ENABLE_ACCOUNT_EMAIL_VERIFICATION', true)
         ]
-    ]
+    ],
+    'home' => [
+        'carousel' => env('FEATURE_ENABLE_HOME_CAROUSEL', true)
+    ],
+    'admin' => [
+        'avatar' => env('FEATURE_ENABLE_ADMIN_AVATAR', true)
+    ],
 ];

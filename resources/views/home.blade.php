@@ -116,7 +116,7 @@
                     <inline-div>{{__('homepage.version')}}</inline-div><inline-div>{{version()}}</inline-div>
                 </version-badge>
             </div>
-            @unless(blank($carousel))
+            @if(filled($carousel) && config('feature.home.carousel'))
                 <div id="NOJFocusCarousel" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         @foreach ($carousel as $c)
@@ -148,7 +148,7 @@
                         <x-hasaaose.info.limits></x-hasaaose.info.limits>
                     @endif
                 </div>
-            @endunless
+            @endif
             <p class="cm-anno mt-5"><i class="MDI power-plug"></i> {{__('homepage.babel')}}</p>
             <div class="row">
                 @foreach ($onlineJudges as $onlineJudge)
