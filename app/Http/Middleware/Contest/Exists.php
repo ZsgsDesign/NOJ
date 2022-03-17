@@ -8,13 +8,14 @@ use App\Models\Eloquent\Contest;
 
 class Exists
 {
-    public function handle($request, Closure $next, string $contestField = 'cid')
+    public function handle($request, Closure $next, string $contestField = 'cid', bool $canBeEmpty = false)
     {
-        $contest = Contest::find($request->$contestField);
-        if (filled($contest)) {
-            $request->merge([
-                'contest_instance' => $contest
-            ]);
+        if ($canBeEmpty || filled($request->$contestField)) {
+            if(filled($contest = Contest::find($request->$contestField))) {
+                $request->merge([
+                    'contest_instance' => $contest
+                ]);
+            }
             return $next($request);
         } else {
             if ($request->routeIs('ajax.*')) {
