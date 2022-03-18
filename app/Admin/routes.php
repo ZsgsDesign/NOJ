@@ -11,6 +11,7 @@ Route::group([
 ], function(Router $router) {
 
     $router->get('/', 'HomeController@index')->name('admin.index');
+    $router->resource('auth/users', AdminUserController::class)->names('admin.auth.users');
     $router->resource('users', UserController::class);
     $router->resource('announcements', AnnouncementController::class);
     $router->get('problems/import', 'ProblemController@import');
