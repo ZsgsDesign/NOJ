@@ -86,6 +86,7 @@ class ResponseUtil
             '4009' => 'Only freeze contest can join scrollboard',
             '4010' => 'Contest Still Under Judging.',
             '4011' => 'Illegal PDF Option.',
+            '4012' => 'Contest Already Ended',
 
             '5000' => "Status-Related Error",
             '5001' => "Status Not Found",

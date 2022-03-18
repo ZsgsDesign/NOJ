@@ -115,6 +115,16 @@ class Contest extends Model
         return Carbon::parse($this->end_time)->isBefore(Carbon::now());
     }
 
+    public function getHasBegunAttribute()
+    {
+        return Carbon::parse($this->begin_time)->isBefore(Carbon::now());
+    }
+
+    public function getIsRunningAttribute()
+    {
+        return !$this->has_ended && $this->has_begun;
+    }
+
     public function isJudgingComplete()
     {
         return $this->submissions->whereIn('verdict', ['Waiting', 'Pending'])->count() == 0;

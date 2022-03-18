@@ -198,7 +198,7 @@ Route::group(['prefix' => 'ajax', 'as' => 'ajax.', 'namespace' => 'Ajax', 'middl
             Route::get('dialects', 'ProblemController@dialects')->middleware('problem.valid:pid')->name('dialects');
             Route::get('exists', 'ProblemController@exists')->middleware('problem.valid:pcode')->name('exists');
             Route::group(['prefix' => 'solution', 'as' => 'solution.', 'middleware' => ['throttle:1,0.17']], function () {
-                Route::post('judge', 'ProblemController@submitSolution')->middleware('contest.exists:contest,true', 'problem.valid:pid')->name('judge');
+                Route::post('judge', 'ProblemController@submitSolution')->middleware('problem.valid:pid')->name('judge');
                 Route::post('rejudge', 'ProblemController@resubmitSolution')->name('rejudge');
             });
             Route::group(['prefix' => 'discussion', 'as' => 'discussion.', 'middleware' => ['problem.valid:pid']], function () {
@@ -252,6 +252,10 @@ Route::group(['prefix' => 'ajax', 'as' => 'ajax.', 'namespace' => 'Ajax', 'middl
             Route::group(['prefix' => 'clarification', 'as' => 'clarification.'], function () {
                 Route::post('fetch', 'ContestController@fetchClarification')->name('fetch');
                 Route::post('request', 'ContestController@requestClarification')->middleware('throttle:1,0.34')->name('request');
+            });
+
+            Route::group(['prefix' => 'solution', 'as' => 'solution.', 'middleware' => ['throttle:1,0.17']], function () {
+                Route::post('judge', 'ProblemController@submitSolution')->middleware('contest.exists:contest', 'contest.running', 'problem.valid:pid')->name('judge');
             });
 
             Route::get('updateProfessionalRate', 'ContestController@updateProfessionalRate')->name('updateProfessionalRate');

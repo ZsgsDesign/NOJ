@@ -21,6 +21,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrustProxies::class,
         \App\Http\Middleware\EncryptCookies::class,
         \Illuminate\Session\Middleware\StartSession::class,
+        \App\Http\Middleware\EloquentReset::class,
     ];
 
     /**
@@ -85,6 +86,7 @@ class Kernel extends HttpKernel
         'problem.not_blockaded' => \App\Http\Middleware\Problem\NotBlockaded::class,
 
         'contest.exists' => \App\Http\Middleware\Contest\Exists::class,
+        'contest.running' => \App\Http\Middleware\Contest\Running::class,
         'contest.desktop' => \App\Http\Middleware\Contest\IsDesktop::class,
         'contest.board.admin.pdfview.clearance' => \App\Http\Middleware\Contest\Board\Admin\PDFView\Clearance::class,
         'contest.challenge.exists' => \App\Http\Middleware\Contest\Challenge\Exists::class,

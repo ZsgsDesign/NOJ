@@ -1088,7 +1088,7 @@
             $("#verdict_info").addClass("wemd-blue-text");
             $.ajax({
                 type: 'POST',
-                url: "{{route('ajax.problem.solution.judge')}}",
+                url: "{{$contest_mode ? route('ajax.contest.solution.judge') : route('ajax.problem.solution.judge')}}",
                 data: {
                     lang: chosen_lang,
                     pid:"{{$problem->pid}}",
