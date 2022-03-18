@@ -212,7 +212,7 @@ class ProblemController extends Controller
             $form->select('spj_lang', 'SPJ Compile Language')->options([
                 'c' => 'C99',
                 'cpp' => 'C++11 (testlib supported)',
-                'php7' => 'PHP 7.3',
+                'php8' => 'PHP 8.1',
             ])->default('cpp');
             $form->textarea('spj_src', 'SPJ Source Code')->rows(20); // $form->clang('spj_src', 'SPJ Source Code');
         })->tab('Test Cases', function (Form $form) {
@@ -262,7 +262,7 @@ class ProblemController extends Controller
                 if(blank($form->spj_src)) {
                     return $err('The SPJ problem must provide spj_src', 'create problem error');
                 }
-                if(!in_array($form->spj_lang, ['c', 'cpp', 'php7'])) {
+                if(!in_array($form->spj_lang, ['c', 'cpp', 'php8'])) {
                     return $err('The SPJ problem must have valid SPJ lang', 'create problem error');
                 }
             }

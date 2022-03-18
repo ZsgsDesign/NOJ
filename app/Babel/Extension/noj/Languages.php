@@ -213,7 +213,7 @@ class Languages
                     'memory' => ['factor' => 2, 'constant' => 32 * 1024 * 1024]
                 ]
             ],
-            'php7_lang_config' => [
+            'php8_lang_config' => [
                 'compile' => null,
                 'run' => [
                     'exe_name' => 'solution.php',
@@ -227,7 +227,7 @@ class Languages
                     'memory' => ['factor' => 1, 'constant' => 512 * 1024 * 1024]
                 ]
             ],
-            'php7_lang_config_spj' => [
+            'php8_lang_config_spj' => [
                 'compile' => [
                     'src_name' => 'spj-{spj_version}.php',
                     'exe_name' => 'spj-{spj_version}',

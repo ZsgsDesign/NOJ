@@ -15,5 +15,10 @@
         "code": "py3",
         "display": "Python 3.10",
         "method": "modify"
+    },{
+        "code": "php7",
+        "new_code": "php8",
+        "display": "PHP 8.1",
+        "method": "modify"
     }]
 }
