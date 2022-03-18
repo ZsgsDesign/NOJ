@@ -190,12 +190,14 @@
     <hr class="atsast-line">
     <statistic-section>
         <div class="row justify-content-center">
-            <div class="col-lg-4 col-12">
-                <statistic-block>
-                    <h1>{{$info["solvedCount"]}}</h1>
-                    <p>{{__('dashboard.solved')}}</p>
-                </statistic-block>
-            </div>
+            @if(!config('hasaaose.enable'))
+                <div class="col-lg-4 col-12">
+                    <statistic-block>
+                        <h1>{{$info["solvedCount"]}}</h1>
+                        <p>{{__('dashboard.solved')}}</p>
+                    </statistic-block>
+                </div>
+            @endif
             <div class="col-lg-4 col-12">
                 <statistic-block>
                     <h1>{{$info["submissionCount"]}}</h1>
@@ -203,18 +205,18 @@
                 </statistic-block>
             </div>
             @if(config('feature.rank'))
-            <div class="col-lg-4 col-12">
-                <statistic-block>
-                    <h1>{{$info["professional_rate"]}}</h1>
-                    <p>{{__('dashboard.rated')}}</p>
-                </statistic-block>
-            </div>
-            <div class="col-lg-4 col-12">
-                <statistic-block>
-                    <h1>{{$info["rank"]}}</h1>
-                    <p>{{__('dashboard.rank')}}</p>
-                </statistic-block>
-            </div>
+                <div class="col-lg-4 col-12">
+                    <statistic-block>
+                        <h1>{{$info["professional_rate"]}}</h1>
+                        <p>{{__('dashboard.rated')}}</p>
+                    </statistic-block>
+                </div>
+                <div class="col-lg-4 col-12">
+                    <statistic-block>
+                        <h1>{{$info["rank"]}}</h1>
+                        <p>{{__('dashboard.rank')}}</p>
+                    </statistic-block>
+                </div>
             @endif
         </div>
         {{-- <div class="row">
@@ -232,21 +234,23 @@
             </div>
         </div> --}}
     </statistic-section>
-    <hr class="atsast-line">
-    <solved-section>
-        <p class="text-center">{{__('dashboard.listOfSolved')}}</p>
-        @if(empty($info["solved"]))
-        <div class="cm-empty">
-            <info-badge>{{__('dashboard.emptySolved')}}</info-badge>
-        </div>
-        @else
-        <div>
-            @foreach ($info["solved"] as $prob)
-                <a href="/problem/{{$prob["pcode"]}}"><prob-badge>{{$prob["pcode"]}}</prob-badge></a>
-            @endforeach
-        </div>
-        @endif
-    </solved-section>
+    @if(!config('hasaaose.enable'))
+        <hr class="atsast-line">
+        <solved-section>
+            <p class="text-center">{{__('dashboard.listOfSolved')}}</p>
+            @if(empty($info["solved"]))
+            <div class="cm-empty">
+                <info-badge>{{__('dashboard.emptySolved')}}</info-badge>
+            </div>
+            @else
+            <div>
+                @foreach ($info["solved"] as $prob)
+                    <a href="/problem/{{$prob["pcode"]}}"><prob-badge>{{$prob["pcode"]}}</prob-badge></a>
+                @endforeach
+            </div>
+            @endif
+        </solved-section>
+    @endif
     <social-section>
         @if(config('services.github.enable'))
             @if(empty($socialite_info['github']))
