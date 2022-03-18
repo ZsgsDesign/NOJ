@@ -58,7 +58,12 @@
             <td>1倍</td>
         </tr>
         <tr>
-            <th scope="row"><i class="devicon-java-plain colored"></i> Java</th>
+            <th scope="row"><i class="devicon-java-plain colored"></i> Java 8</th>
+            <td>2倍 + 1秒</td>
+            <td>2倍 + 16兆</td>
+        </tr>
+        <tr>
+            <th scope="row"><i class="devicon-java-plain colored"></i> Java 17</th>
             <td>2倍 + 1秒</td>
             <td>2倍 + 16兆</td>
         </tr>
@@ -68,7 +73,7 @@
             <td>2倍</td>
         </tr>
         <tr>
-            <th scope="row"><i class="devicon-php-plain colored"></i> PHP 7.3</th>
+            <th scope="row"><i class="devicon-php-plain colored"></i> PHP 8.1</th>
             <td>1倍</td>
             <td>1倍 + 512兆</td>
         </tr>
@@ -78,7 +83,7 @@
             <td>2倍 + 32兆</td>
         </tr>
         <tr>
-            <th scope="row"><i class="devicon-python-plain colored"></i> Python 3.7</th>
+            <th scope="row"><i class="devicon-python-plain colored"></i> Python 3.10</th>
             <td>3倍 + 2秒</td>
             <td>2倍 + 32兆</td>
         </tr>
