@@ -1185,16 +1185,16 @@
         },
         {
             "name": "encore/laravel-admin",
-            "version": "v1.8.17",
+            "version": "1.8.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/z-song/laravel-admin.git",
-                "reference": "45c58c656fcc6a8c57423d2256f3b7a73e783441"
+                "reference": "6727f64754f69599d44f1362a2963588c07e6f8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/45c58c656fcc6a8c57423d2256f3b7a73e783441",
-                "reference": "45c58c656fcc6a8c57423d2256f3b7a73e783441",
+                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/6727f64754f69599d44f1362a2963588c07e6f8c",
+                "reference": "6727f64754f69599d44f1362a2963588c07e6f8c",
                 "shasum": ""
             },
             "require": {
@@ -1253,9 +1253,9 @@
             ],
             "support": {
                 "issues": "https://github.com/z-song/laravel-admin/issues",
-                "source": "https://github.com/z-song/laravel-admin/tree/v1.8.17"
+                "source": "https://github.com/z-song/laravel-admin/tree/1.8.18"
             },
-            "time": "2021-12-31T08:36:33+00:00"
+            "time": "2022-03-16T06:56:41+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -1524,16 +1524,16 @@
         },
         {
             "name": "fonts-asset/langicon",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ZsgsDesign/fonts-asset-Langicon.git",
-                "reference": "fe0b92166873c043fa336196f9324ea7609478dc"
+                "reference": "aa9dd2cc11f21b948d09b211906b5883b9899d40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Langicon/zipball/fe0b92166873c043fa336196f9324ea7609478dc",
-                "reference": "fe0b92166873c043fa336196f9324ea7609478dc",
+                "url": "https://api.github.com/repos/ZsgsDesign/fonts-asset-Langicon/zipball/aa9dd2cc11f21b948d09b211906b5883b9899d40",
+                "reference": "aa9dd2cc11f21b948d09b211906b5883b9899d40",
                 "shasum": ""
             },
             "type": "fonts-asset",
@@ -1550,9 +1550,9 @@
             "description": "Langicon for composer.",
             "support": {
                 "issues": "https://github.com/ZsgsDesign/fonts-asset-Langicon/issues",
-                "source": "https://github.com/ZsgsDesign/fonts-asset-Langicon/tree/1.0.5"
+                "source": "https://github.com/ZsgsDesign/fonts-asset-Langicon/tree/1.0.6"
             },
-            "time": "2021-08-19T14:04:04+00:00"
+            "time": "2022-03-18T10:16:51+00:00"
         },
         {
             "name": "fonts-asset/mdi-wxss",
@@ -2473,16 +2473,16 @@
         },
         {
             "name": "jaybizzle/crawler-detect",
-            "version": "v1.2.110",
+            "version": "v1.2.111",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JayBizzle/Crawler-Detect.git",
-                "reference": "f9d63a3581428fd8a3858e161d072f0b9debc26f"
+                "reference": "d572ed4a65a70a2d2871dc5137c9c5b7e69745ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/f9d63a3581428fd8a3858e161d072f0b9debc26f",
-                "reference": "f9d63a3581428fd8a3858e161d072f0b9debc26f",
+                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/d572ed4a65a70a2d2871dc5137c9c5b7e69745ab",
+                "reference": "d572ed4a65a70a2d2871dc5137c9c5b7e69745ab",
                 "shasum": ""
             },
             "require": {
@@ -2519,9 +2519,9 @@
             ],
             "support": {
                 "issues": "https://github.com/JayBizzle/Crawler-Detect/issues",
-                "source": "https://github.com/JayBizzle/Crawler-Detect/tree/v1.2.110"
+                "source": "https://github.com/JayBizzle/Crawler-Detect/tree/v1.2.111"
             },
-            "time": "2021-12-07T18:35:06+00:00"
+            "time": "2022-03-15T22:19:01+00:00"
         },
         {
             "name": "jenssegers/agent",
@@ -10808,16 +10808,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.2.7",
+            "version": "2.2.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "061d154dfdde157cbf453c4695e6af21c0e93903"
+                "reference": "07eccf080ad63d55d95a7c9133506db7d9029264"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/061d154dfdde157cbf453c4695e6af21c0e93903",
-                "reference": "061d154dfdde157cbf453c4695e6af21c0e93903",
+                "url": "https://api.github.com/repos/composer/composer/zipball/07eccf080ad63d55d95a7c9133506db7d9029264",
+                "reference": "07eccf080ad63d55d95a7c9133506db7d9029264",
                 "shasum": ""
             },
             "require": {
@@ -10887,7 +10887,7 @@
             "support": {
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/composer/issues",
-                "source": "https://github.com/composer/composer/tree/2.2.7"
+                "source": "https://github.com/composer/composer/tree/2.2.9"
             },
             "funding": [
                 {
@@ -10903,7 +10903,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-25T10:12:27+00:00"
+            "time": "2022-03-15T21:13:37+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -11047,16 +11047,16 @@
         },
         {
             "name": "composer/semver",
-            "version": "3.2.9",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/semver.git",
-                "reference": "a951f614bd64dcd26137bc9b7b2637ddcfc57649"
+                "reference": "5d8e574bb0e69188786b8ef77d43341222a41a71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/semver/zipball/a951f614bd64dcd26137bc9b7b2637ddcfc57649",
-                "reference": "a951f614bd64dcd26137bc9b7b2637ddcfc57649",
+                "url": "https://api.github.com/repos/composer/semver/zipball/5d8e574bb0e69188786b8ef77d43341222a41a71",
+                "reference": "5d8e574bb0e69188786b8ef77d43341222a41a71",
                 "shasum": ""
             },
             "require": {
@@ -11108,7 +11108,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/semver/issues",
-                "source": "https://github.com/composer/semver/tree/3.2.9"
+                "source": "https://github.com/composer/semver/tree/3.3.1"
             },
             "funding": [
                 {
@@ -11124,7 +11124,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-04T13:58:43+00:00"
+            "time": "2022-03-16T11:22:07+00:00"
         },
         {
             "name": "composer/spdx-licenses",
@@ -13933,5 +13933,5 @@
         "php": "^7.4"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.1.0"
 }
