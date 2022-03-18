@@ -165,7 +165,7 @@ class Languages
                     'compile_command' => '/usr/bin/javac17 {src_path} -d {exe_dir} -encoding UTF8'
                 ],
                 'run' => [
-                    'command' => '/usr/bin/java17 -cp {exe_dir} -XX:MaxRAM={max_memory}k -Djava.security.manager -Dfile.encoding=UTF-8 -Djava.security.policy==/etc/java_policy -Djava.awt.headless=true Main',
+                    'command' => '/usr/bin/java17 -cp {exe_dir} -XX:MaxRAM={max_memory}k -Dfile.encoding=UTF-8 -Djava.awt.headless=true Main',
                     'seccomp_rule' => null,
                     'env' => $default_env,
                     'memory_limit_check_only' => 1
