@@ -1,0 +1,15 @@
+{
+    "modifications":[{
+        "code": "java",
+        "new_code": "java8",
+        "display": "Java 8",
+        "method": "modify"
+    },{
+        "code":"java17",
+        "compability":"java",
+        "language":"java",
+        "icon":"devicon-java-plain",
+        "display":"Java 17",
+        "method":"add"
+    }]
+}

@@ -133,18 +133,39 @@ class Languages
                 ],
                 'factors' => $default_factors
             ],
-            'java_lang_config' => [
-                'name' => 'java',
+            'java8_lang_config' => [
+                'name' => 'java8',
                 'compile' => [
                     'src_name' => 'Main.java',
                     'exe_name' => 'Main',
                     'max_cpu_time' => 3000,
                     'max_real_time' => 10000,
                     'max_memory' => -1,
-                    'compile_command' => '/usr/bin/javac {src_path} -d {exe_dir} -encoding UTF8'
+                    'compile_command' => '/usr/bin/javac8 {src_path} -d {exe_dir} -encoding UTF8'
                 ],
                 'run' => [
-                    'command' => '/usr/bin/java -cp {exe_dir} -XX:MaxRAM={max_memory}k -Djava.security.manager -Dfile.encoding=UTF-8 -Djava.security.policy==/etc/java_policy -Djava.awt.headless=true Main',
+                    'command' => '/usr/bin/java8 -cp {exe_dir} -XX:MaxRAM={max_memory}k -Djava.security.manager -Dfile.encoding=UTF-8 -Djava.security.policy==/etc/java_policy -Djava.awt.headless=true Main',
+                    'seccomp_rule' => null,
+                    'env' => $default_env,
+                    'memory_limit_check_only' => 1
+                ],
+                'factors' => [
+                    'cpu' => ['factor' => 2, 'constant' => 1],
+                    'memory' => ['factor' => 2, 'constant' => 16 * 1024 * 1024]
+                ]
+            ],
+            'java17_lang_config' => [
+                'name' => 'java17',
+                'compile' => [
+                    'src_name' => 'Main.java',
+                    'exe_name' => 'Main',
+                    'max_cpu_time' => 3000,
+                    'max_real_time' => 10000,
+                    'max_memory' => -1,
+                    'compile_command' => '/usr/bin/javac17 {src_path} -d {exe_dir} -encoding UTF8'
+                ],
+                'run' => [
+                    'command' => '/usr/bin/java17 -cp {exe_dir} -XX:MaxRAM={max_memory}k -Djava.security.manager -Dfile.encoding=UTF-8 -Djava.security.policy==/etc/java_policy -Djava.awt.headless=true Main',
                     'seccomp_rule' => null,
                     'env' => $default_env,
                     'memory_limit_check_only' => 1
