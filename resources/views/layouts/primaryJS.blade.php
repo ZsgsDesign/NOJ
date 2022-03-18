@@ -35,8 +35,7 @@
         // Console Text
 
         var consoleCSS = `background: url("${NOJVariables.consoleSVG}") left top no-repeat; font-size: 100px;line-height:140px;`;
-        console.log('%c   ', consoleCSS);
-        console.info("%c\n{{config('app.displayName')}}"+"%c is based on NOJ - Nanjing University of Posts and Telecommunications Online Judge"+"%c\n\nDevelopment Team Leader: {{config('version.leader')}}\nOrganization: {{config('version.organization')}}\nDevelopers: {{config('version.developers')}}\nVersion: {{version()}} {{config('version.name')}} {{config('version.build')}}\nInsider Alias: {{config('version.alias')}}\n\n", "font-weight:900", "font-style:normal", "font-style:italic;color:#555");
+        console.info("%c   \n" + "%c\n{{config('app.displayName')}}"+"%c is based on NOJ - Nanjing University of Posts and Telecommunications Online Judge"+"%c\n\nDevelopment Team Leader: {{config('version.leader')}}\nOrganization: {{config('version.organization')}}\nDevelopers: {{config('version.developers')}}\nVersion: {{version()}} {{config('version.name')}} {{config('version.build')}}\nInsider Alias: {{config('version.alias')}}\n\n", consoleCSS, "font-weight:900", "font-style:normal", "font-style:italic;color:#555");
 
         $('.modal').on('shown.bs.modal', function (e) {
             changeDepth();
