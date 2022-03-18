@@ -214,7 +214,14 @@ class Languages
                 ]
             ],
             'php8_lang_config' => [
-                'compile' => null,
+                'compile' => [
+                    'src_name' => 'solution.php',
+                    'exe_name' => 'solution.php',
+                    'max_cpu_time' => 3000,
+                    'max_real_time' => 10000,
+                    'max_memory' => 1024 * 1024 * 1024,
+                    'compile_command' => '/usr/bin/php -l {src_path}'
+                ],
                 'run' => [
                     'exe_name' => 'solution.php',
                     'command' => '/usr/bin/php -d error_reporting=0 -f {exe_path}',
