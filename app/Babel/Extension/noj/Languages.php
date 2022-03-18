@@ -256,7 +256,14 @@ class Languages
                 ]
             ],
             'nodejs_lang_config' => [
-                'compile' => null,
+                'compile' => [
+                    'src_name' => 'solution.js',
+                    'exe_name' => 'solution.js',
+                    'max_cpu_time' => 3000,
+                    'max_real_time' => 10000,
+                    'max_memory' => 1024 * 1024 * 1024,
+                    'compile_command' => '/usr/bin/node --check {src_path}'
+                ],
                 'run' => [
                     'exe_name' => 'solution.js',
                     'command' => '/usr/bin/node --stack-size=65536 {exe_path}',
