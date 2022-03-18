@@ -11,5 +11,9 @@
         "icon":"devicon-java-plain",
         "display":"Java 17",
         "method":"add"
+    },{
+        "code": "py3",
+        "display": "Python 3.10",
+        "method": "modify"
     }]
 }

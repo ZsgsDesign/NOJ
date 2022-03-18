@@ -182,10 +182,10 @@ class Languages
                     'max_cpu_time' => 3000,
                     'max_real_time' => 10000,
                     'max_memory' => 1024 * 1024 * 1024,
-                    'compile_command' => '/usr/bin/python -m py_compile {src_path}',
+                    'compile_command' => '/usr/bin/python2.7 -m py_compile {src_path}',
                 ],
                 'run' => [
-                    'command' => '/usr/bin/python {exe_path}',
+                    'command' => '/usr/bin/python2.7 {exe_path}',
                     'seccomp_rule' => 'general',
                     'env' => $default_env
                 ],
@@ -197,14 +197,14 @@ class Languages
             'py3_lang_config' => [
                 'compile' => [
                     'src_name' => 'solution.py',
-                    'exe_name' => '__pycache__/solution.cpython-37.pyc',
+                    'exe_name' => '__pycache__/solution.cpython-310.pyc',
                     'max_cpu_time' => 3000,
                     'max_real_time' => 10000,
                     'max_memory' => 1024 * 1024 * 1024,
-                    'compile_command' => '/usr/bin/python3.7 -m py_compile {src_path}',
+                    'compile_command' => '/usr/bin/python3.10 -m py_compile {src_path}',
                 ],
                 'run' => [
-                    'command' => '/usr/bin/python3.7 {exe_path}',
+                    'command' => '/usr/bin/python3.10 {exe_path}',
                     'seccomp_rule' => 'general',
                     'env' => array_merge(['MALLOC_ARENA_MAX=1', 'PYTHONIOENCODING=UTF-8'], $default_env)
                 ],
