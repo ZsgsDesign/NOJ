@@ -36,6 +36,8 @@ class ProblemService
                 if (filled($contest)) {
                     $statistics = $statistics->where('cid', $currentContestId)->where("submission_date", "<", $contest->frozen_time);
                 }
+            } else {
+                $statistics = $statistics->whereNull('cid');
             }
 
             $statistics = $statistics->first()->only(['submission_count', 'passed_count', 'ac_rate']);
@@ -61,10 +63,10 @@ class ProblemService
                     "score" => 0,
                 ];
             } else {
-                if(filled($contestID)) {
+                if (filled($contestID)) {
                     $contest = Contest::find($contestID);
-                    if(filled($contest) && $contest->rule == 5) {
-                        if(in_array($submission->verdict, [
+                    if (filled($contest) && $contest->rule == 5) {
+                        if (in_array($submission->verdict, [
                             "Runtime Error",
                             "Wrong Answer",
                             "Time Limit Exceed",
@@ -75,7 +77,7 @@ class ProblemService
                             "Partially Accepted",
                             "Output Limit Exceeded",
                             "Idleness Limit Exceed",
-                        ])){
+                        ])) {
                             // Turn into Judged Status
                             return [
                                 "icon" => "checkbox-blank-circle",
@@ -171,6 +173,7 @@ class ProblemService
     {
         $lastUserSubmission = $problem->submissions()->where("uid", $userId);
         if ($contestId != 0) $lastUserSubmission = $lastUserSubmission->where("cid", $contestId);
+        else $lastUserSubmission = $lastUserSubmission->whereNull("cid");
         return $lastUserSubmission->orderBy('submission_date', 'desc')->first();
     }
 
@@ -251,7 +254,7 @@ class ProblemService
     public static function updateSolution(Problem $problem, int $user_id, string $content): bool
     {
         $solution = $problem->solutions()->where(['uid' => $user_id])->first();
-        if(blank($solution)) {
+        if (blank($solution)) {
             return false;
         }
         $solution->content = $content;
@@ -262,7 +265,7 @@ class ProblemService
     public static function removeSolution(Problem $problem, int $user_id): bool
     {
         $solution = $problem->solutions()->where(['uid' => $user_id])->first();
-        if(blank($solution)) {
+        if (blank($solution)) {
             return false;
         }
         return $solution->delete() === true;
