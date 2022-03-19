@@ -58,19 +58,20 @@ php artisan test
 
 ### Supported Languages
 
-NOJ now supports 15 popular programming languages, you can start issues about new languages support. 
+NOJ now supports 19 popular programming languages, you can start issues about new languages support. 
 
 |Language|Compile/Run Command|
 |--------|-------------------|
 |C|/usr/bin/gcc -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c99 {src_path} -lm -o {exe_path}|
-|C11|/usr/bin/gcc -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c11 {src_path} -lm -o {exe_path}|
+|C 11|/usr/bin/gcc -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c11 {src_path} -lm -o {exe_path}|
 |C++|/usr/bin/g++ -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c++11 {src_path} -lm -o {exe_path}|
-|C++14|/usr/bin/g++ -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c++14 {src_path} -lm -o {exe_path}|
-|C++17|/usr/bin/g++ -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c++17 {src_path} -lm -o {exe_path}|
-|Java|/usr/bin/javac {src_path} -d {exe_dir} -encoding UTF8<br>/usr/bin/java -cp {exe_dir} -XX:MaxRAM={max_memory}k -Djava.security.manager -Dfile.encoding=UTF-8 -Djava.security.policy==/etc/java_policy -Djava.awt.headless=true Main|
-|Python2|/usr/bin/python -m py_compile {src_path}<br>/usr/bin/python {exe_path}|
-|Python3|/usr/bin/python3.7 -m py_compile {src_path}<br>/usr/bin/python3.7 {exe_path}|
-|PHP7|/usr/bin/php {exe_path}|
+|C++ 14|/usr/bin/g++ -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c++14 {src_path} -lm -o {exe_path}|
+|C++ 17|/usr/bin/g++ -DONLINE_JUDGE -O2 -w -fmax-errors=3 -std=c++17 {src_path} -lm -o {exe_path}|
+|Java 8|/usr/bin/javac8 {src_path} -d {exe_dir} -encoding UTF8<br>/usr/bin/java8 -cp {exe_dir} -XX:MaxRAM={max_memory}k -Djava.security.manager -Dfile.encoding=UTF-8 -Djava.security.policy==/etc/java_policy -Djava.awt.headless=true Main|
+|Java 17|/usr/bin/javac17 {src_path} -d {exe_dir} -encoding UTF8<br>/usr/bin/java17 -cp {exe_dir} -XX:MaxRAM={max_memory}k -Dfile.encoding=UTF-8 -Djava.awt.headless=true Main|
+|Python 2.7|/usr/bin/python2.7 -m py_compile {src_path}<br>/usr/bin/python2.7 {exe_path}|
+|Python 3.10|/usr/bin/python3.10 -m py_compile {src_path}<br>/usr/bin/python3.10 {exe_path}|
+|PHP 8.1|/usr/bin/php {exe_path}|
 |Node.js 16|/usr/bin/node --stack-size=65536 {exe_path}|
 |Go|/usr/bin/go build -o {exe_path} {src_path}|
 |C#|/usr/bin/mcs -optimize+ -out:{exe_path} {src_path}|
