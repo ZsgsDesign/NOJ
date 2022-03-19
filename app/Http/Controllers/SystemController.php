@@ -16,10 +16,10 @@ class SystemController extends Controller
      */
     public function info()
     {
-        $judgerModel=new JudgerModel();
-        $judgeServer=$judgerModel->fetchServer(0);
+        $judgerModel = new JudgerModel();
+        $judgeServer = $judgerModel->fetchServer(0);
         return view('system.info', [
-            'page_title' => "System Info",
+            'page_title' => __('navigation.systeminfo'),
             'site_title' => config("app.name"),
             'navigation' => "System",
             'judgeServer' => $judgeServer

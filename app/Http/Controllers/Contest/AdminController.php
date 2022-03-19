@@ -65,9 +65,9 @@ class AdminController extends Controller
             Cache::tags(['contest', 'admin', 'anticheat'])->forget($contest->cid);
         }
         return view('contest.board.admin', [
-            'page_title' => "Admin",
+            'page_title' => __('contest.inside.topbar.admin'),
+            'site_title' => $contest->name,
             'navigation' => "Contest",
-            'site_title' => $contest_name,
             'contest' => $contest,
             'contest_name' => $contest_name,
             'cid' => $contest->cid,
@@ -140,9 +140,9 @@ class AdminController extends Controller
             return Redirect::route('contest.board.admin', ['cid' => $contest->cid]);
         }
         return view('contest.board.scrollBoard', [
-            'page_title' => "ScrollBoard",
-            'navigation' => "Contest",
+            'page_title' => __('contest.admin.nav.scrollboard'),
             'site_title' => config("app.name"),
+            'navigation' => "Contest",
             'contest' => $contest,
             'basic_info' => $basicInfo,
         ]);

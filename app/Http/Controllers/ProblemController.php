@@ -33,7 +33,7 @@ class ProblemController extends Controller
                 return redirect()->route('problem.index');
             } else {
                 return view('problem.index', [
-                    'page_title' => "Problem",
+                    'page_title' => __('navigation.problem'),
                     'site_title' => config("app.name"),
                     'navigation' => "Problem",
                     'paginator' => null,
@@ -44,7 +44,7 @@ class ProblemController extends Controller
             }
         } else {
             return view('problem.index', [
-                'page_title' => "Problem",
+                'page_title' => __('navigation.problem'),
                 'site_title' => config("app.name"),
                 'navigation' => "Problem",
                 'paginator' => $paginator,
@@ -66,8 +66,8 @@ class ProblemController extends Controller
 
         $dialect = $problem->getDialect(0);
         return view('problem.detail', [
-            'page_title' => $problem->title,
-            'site_title' => config("app.name"),
+            'page_title' => __('navigation.problems.description'),
+            'site_title' => $problem->title,
             'navigation' => "Problem",
             'problem' => $problem,
             'dialect' => $dialect,
@@ -84,9 +84,9 @@ class ProblemController extends Controller
         $problem = EloquentRequestUtil::problem($request);
 
         return view('problem.solution', [
-            'page_title' => "Solution",
-            'site_title' => config("app.name"),
-            'navigation' => $problem->title,
+            'page_title' => __('navigation.problems.solution'),
+            'site_title' => $problem->title,
+            'navigation' => "Problem",
             'problem' => $problem,
             'solutions' => $problem->solutions()->whereAudit(true)->get(),
             'submitted' => $problem->solutions->where('uid', Auth::user()->id)->first()
@@ -109,8 +109,8 @@ class ProblemController extends Controller
         $dialect = $problem->getDialect(0);
 
         return view('problem.editor', [
-            'page_title' => $problem->title,
-            'site_title' => config("app.name"),
+            'page_title' => __('navigation.problems.editor'),
+            'site_title' => $problem->title,
             'navigation' => "Problem",
             'status' => $problem->getProblemStatus(Auth::user()->id),
             'preferable_compiler' => $problem->getPreferableCompiler(Auth::user()->id),
@@ -137,8 +137,8 @@ class ProblemController extends Controller
         $discussion = $list['list'];
         $paginator = $list['paginator'];
         return view('problem.discussion', [
-            'page_title' => $problem->title,
-            'site_title' => config("app.name"),
+            'page_title' => __('navigation.problems.article'),
+            'site_title' => $problem->title,
             'navigation' => "Problem",
             'problem' => $problem,
             'discussion' => $discussion,
@@ -163,8 +163,8 @@ class ProblemController extends Controller
         $comment_count = $detail['comment_count'];
 
         return view('problem.discussion_post', [
-            'page_title' => $problem->title,
-            'site_title' => config("app.name"),
+            'page_title' => $main['title'],
+            'site_title' => $problem->title,
             'navigation' => "Problem",
             'problem' => $problem,
             'main' => $main,

@@ -69,7 +69,7 @@ return [
             'run'         => 'Contest is running',
         ],
         'challenge' => [
-
+            'title'       => 'Problem :ncode',
         ],
         'rank' => [
             'title'       => 'Rank',

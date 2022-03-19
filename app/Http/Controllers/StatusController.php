@@ -23,7 +23,7 @@ class StatusController extends Controller
         $submissionModel=new SubmissionModel();
         $records=$submissionModel->getRecord($filter);
         return view('status.index', [
-            'page_title' => "Status",
+            'page_title' => __('navigation.status'),
             'site_title' => config("app.name"),
             'navigation' => "Status",
             'records' => $records,

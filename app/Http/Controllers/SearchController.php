@@ -15,7 +15,7 @@ class SearchController extends Controller
     public function __invoke(Request $request)
     {
         return view('search.index', [
-            'page_title' => "Search",
+            'page_title' => __('navigation.search'),
             'site_title' => config("app.name"),
             'navigation' => null,
             'search_key' => $request->input('q'),

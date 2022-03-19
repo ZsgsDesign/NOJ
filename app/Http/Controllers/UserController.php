@@ -28,22 +28,22 @@ class UserController extends Controller
      */
     public function view($uid)
     {
-        $accountModel=new AccountModel();
-        $info=$accountModel->detail($uid);
-        if ($info==null) {
+        $accountModel = new AccountModel();
+        $info = $accountModel->detail($uid);
+        if ($info == null) {
             return redirect("/");
         }
-        $feed=$accountModel->feed($uid);
-        $extraInfo=User::find($uid)->getExtra(['gender', 'contact', 'school', 'country', 'location'], 0);
-        $socialiteInfo=User::find($uid)->getSocialiteInfo(0);
+        $feed = $accountModel->feed($uid);
+        $extraInfo = User::find($uid)->getExtra(['gender', 'contact', 'school', 'country', 'location'], 0);
+        $socialiteInfo = User::find($uid)->getSocialiteInfo(0);
         return view("account.dashboard", [
-            'page_title'=>$info["name"],
-            'site_title'=>config("app.name"),
-            'navigation'=>"DashBoard",
-            'info'=>$info,
-            'userView'=>true,
+            'page_title' => $info["name"],
+            'site_title' => __('navigation.dashboard'),
+            'navigation' => "DashBoard",
+            'info' => $info,
+            'userView' => true,
             'settingsView' => false,
-            'feed'=>$feed,
+            'feed' => $feed,
             'extra_info' => $extraInfo,
             'extraDict' => UserExtra::$extraDict,
             'socialite_info' => $socialiteInfo,

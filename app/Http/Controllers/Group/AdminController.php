@@ -21,7 +21,7 @@ class AdminController extends Controller
      */
     public function settings($gcode)
     {
-        return Redirect::route('group.settings.general', ['gcode' => $gcode]); ;
+        return Redirect::route('group.settings.general', ['gcode' => $gcode]);;
     }
 
     /**
@@ -31,7 +31,7 @@ class AdminController extends Controller
      */
     public function settingsReturn($gcode)
     {
-        return Redirect::route('group.detail', ['gcode' => $gcode]); ;
+        return Redirect::route('group.detail', ['gcode' => $gcode]);;
     }
 
     /**
@@ -41,17 +41,17 @@ class AdminController extends Controller
      */
     public function settingsGeneral($gcode)
     {
-        $groupModel=new GroupModel();
-        $basic_info=$groupModel->details($gcode);
-        $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
-        $member_list=$groupModel->userList($basic_info["gid"]);
+        $groupModel = new GroupModel();
+        $basic_info = $groupModel->details($gcode);
+        $clearance = $groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
+        $member_list = $groupModel->userList($basic_info["gid"]);
         return view('group.settings.general', [
-            'page_title'=>"Group Setting General",
-            'site_title'=>config("app.name"),
-            'navigation'=>"Group",
-            "basic_info"=>$basic_info,
-            'member_list'=>$member_list,
-            'group_clearance'=>$clearance
+            'page_title' => __('group.common.generalSettings'),
+            'site_title' => $basic_info['name'],
+            'navigation' => "Group",
+            "basic_info" => $basic_info,
+            'member_list' => $member_list,
+            'group_clearance' => $clearance
         ]);
     }
 
@@ -60,18 +60,19 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Contracts\View\View
      */
-    public function problems($gcode) {
-        $groupModel=new GroupModel();
-        $group_info=$groupModel->details($gcode);
-        $problems=$groupModel->problems($group_info['gid']);
-        $basic_info=$groupModel->details($gcode);
+    public function problems($gcode)
+    {
+        $groupModel = new GroupModel();
+        $group_info = $groupModel->details($gcode);
+        $problems = $groupModel->problems($group_info['gid']);
+        $basic_info = $groupModel->details($gcode);
         return view('group.settings.problems', [
-            'page_title'=>"Group Problems",
-            'site_title'=>config("app.name"),
-            'navigation'=>"Group",
-            'basic_info'=>$basic_info,
-            'group_info'=>$group_info,
-            'problems'=>$problems,
+            'page_title' => __('group.common.problemsManagement'),
+            'site_title' => $basic_info['name'],
+            'navigation' => "Group",
+            'basic_info' => $basic_info,
+            'group_info' => $group_info,
+            'problems' => $problems,
         ]);
     }
 
@@ -80,18 +81,19 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Contracts\View\View
      */
-    public function homework($gcode) {
-        $groupModel=new GroupModel();
-        $group_info=$groupModel->details($gcode);
-        $homework=[];
-        $basic_info=$groupModel->details($gcode);
+    public function homework($gcode)
+    {
+        $groupModel = new GroupModel();
+        $group_info = $groupModel->details($gcode);
+        $homework = [];
+        $basic_info = $groupModel->details($gcode);
         return view('group.settings.homework', [
-            'page_title'=>"Group Homework",
-            'site_title'=>config("app.name"),
-            'navigation'=>"Group",
-            'basic_info'=>$basic_info,
-            'group_info'=>$group_info,
-            'homework'=>$homework,
+            'page_title' => __('group.common.homeworkManagement'),
+            'site_title' => $basic_info['name'],
+            'navigation' => "Group",
+            'basic_info' => $basic_info,
+            'group_info' => $group_info,
+            'homework' => $homework,
         ]);
     }
 
@@ -102,14 +104,14 @@ class AdminController extends Controller
      */
     public function settingsDanger($gcode)
     {
-        $groupModel=new GroupModel();
-        $basic_info=$groupModel->details($gcode);
+        $groupModel = new GroupModel();
+        $basic_info = $groupModel->details($gcode);
         return view('group.settings.danger', [
-            'page_title'=>"Group Setting danger",
-            'site_title'=>config("app.name"),
-            'navigation'=>"Group",
-            "basic_info"=>$basic_info,
-            ]);
+            'page_title' => __('group.common.dangerField'),
+            'site_title' => $basic_info['name'],
+            'navigation' => "Group",
+            "basic_info" => $basic_info,
+        ]);
     }
 
     /**
@@ -119,45 +121,45 @@ class AdminController extends Controller
      */
     public function settingsMember($gcode)
     {
-        $groupModel=new GroupModel();
-        $basic_info=$groupModel->details($gcode);
-        $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
-        $member_list=$groupModel->userList($basic_info["gid"]);
-        $group_notice=$groupModel->detailNotice($gcode);
+        $groupModel = new GroupModel();
+        $basic_info = $groupModel->details($gcode);
+        $clearance = $groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
+        $member_list = $groupModel->userList($basic_info["gid"]);
+        $group_notice = $groupModel->detailNotice($gcode);
         // PHP 7.4 Fix
         if (is_null($group_notice)) {
-            $group_notice=[
-                'content'=>null,
-                'title'=>null,
+            $group_notice = [
+                'content' => null,
+                'title' => null,
             ];
         }
         return view('group.settings.member', [
-            'page_title'=>"Group Setting Member",
-            'site_title'=>config("app.name"),
-            'navigation'=>"Group",
-            "basic_info"=>$basic_info,
-            'member_list'=>$member_list,
-            'group_clearance'=>$clearance,
-            'group_notice'=>$group_notice,
+            'page_title' => __('group.common.memberSettings'),
+            'site_title' => $basic_info['name'],
+            'navigation' => "Group",
+            "basic_info" => $basic_info,
+            'member_list' => $member_list,
+            'group_clearance' => $clearance,
+            'group_notice' => $group_notice,
         ]);
     }
 
     public function settingsContest($gcode)
     {
-        $groupModel=new GroupModel();
-        $contestModel=new ContestModel();
-        $basic_info=$groupModel->details($gcode);
-        $clearance=$groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
-        $contest_list=$contestModel->listForSetting($basic_info["gid"]);
-        $member_list=$groupModel->userList($basic_info["gid"]);
+        $groupModel = new GroupModel();
+        $contestModel = new ContestModel();
+        $basic_info = $groupModel->details($gcode);
+        $clearance = $groupModel->judgeClearance($basic_info["gid"], Auth::user()->id);
+        $contest_list = $contestModel->listForSetting($basic_info["gid"]);
+        $member_list = $groupModel->userList($basic_info["gid"]);
         return view('group.settings.contest', [
-            'page_title'=>"Group Setting Contest",
-            'site_title'=>config("app.name"),
-            'navigation'=>"Group",
-            "basic_info"=>$basic_info,
-            'contest_list'=>$contest_list,
-            'group_clearance'=>$clearance,
-            'member_list'=>$member_list,
+            'page_title' => __('group.common.contestManagement'),
+            'site_title' => $basic_info['name'],
+            'navigation' => "Group",
+            "basic_info" => $basic_info,
+            'contest_list' => $contest_list,
+            'group_clearance' => $clearance,
+            'member_list' => $member_list,
         ]);
     }
 }

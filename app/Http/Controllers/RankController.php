@@ -1,10 +1,10 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Utils\SiteRankUtil;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Auth;
 
 class RankController extends Controller
 {
@@ -17,12 +17,12 @@ class RankController extends Controller
      */
     public function index(Request $request)
     {
-        $rankingList=SiteRankUtil::list(100);
+        $rankingList = SiteRankUtil::list(100);
         return view('rank.index', [
-                'page_title'=>"Rank",
-                'site_title'=>config("app.name"),
-                'navigation' => "Rank",
-                'rankingList' => $rankingList
-            ]);
+            'page_title' => __('navigation.rank'),
+            'site_title' => config("app.name"),
+            'navigation' => "Rank",
+            'rankingList' => $rankingList
+        ]);
     }
 }

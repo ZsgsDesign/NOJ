@@ -29,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo='/';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -56,7 +56,7 @@ class RegisterController extends Controller
             'agreement' => ['required'],
         ];
         $messages = [];
-        if(config('function.password.strong')) {
+        if (config('function.password.strong')) {
             $validator['password'][] = 'regex:/^(?![A-Za-z0-9]+$)(?![a-z0-9\\W]+$)(?![A-Za-z\\W]+$)(?![A-Z0-9\\W]+$)[a-zA-Z0-9\\W]{8,}$/';
             $messages['password.regex'] = __('validation.noj.password.strong');
         }
@@ -82,7 +82,7 @@ class RegisterController extends Controller
             'contest_account' => null,
             'professional_rate' => 1500
         ]);
-        if(!config('feature.account.email.verification')) {
+        if (!config('feature.account.email.verification')) {
             $userInstance->markEmailAsVerified();
         }
         return $userInstance;
@@ -91,8 +91,8 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         return view("auth.register", [
-            'page_title'=>"Register",
-            'site_title'=>config("app.name"),
+            'page_title' => __('Register'),
+            'site_title' => config("app.name"),
             'navigation' => "Account"
         ]);
     }

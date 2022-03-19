@@ -26,7 +26,7 @@ class VerificationController extends Controller
      *
      * @var string
      */
-    protected $redirectTo='/account/settings';
+    protected $redirectTo = '/account/settings';
 
     /**
      * Create a new controller instance.
@@ -43,11 +43,11 @@ class VerificationController extends Controller
     public function show(Request $request)
     {
         return $request->user()->hasVerifiedEmail()
-                        ? redirect($this->redirectPath())
-                        : view('auth.verify', [
-                            'page_title'=>"Verify Email",
-                            'site_title'=>config("app.name"),
-                            'navigation' => "Account"
-                        ]);
+            ? redirect($this->redirectPath())
+            : view('auth.verify', [
+                'page_title' => __('Verify Email Address'),
+                'site_title' => config("app.name"),
+                'navigation' => "Account"
+            ]);
     }
 }

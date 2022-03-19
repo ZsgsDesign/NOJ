@@ -26,7 +26,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo='/';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -41,8 +41,8 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         return view("auth.login", [
-            'page_title'=>"Login",
-            'site_title'=>config("app.name"),
+            'page_title' => __('Login'),
+            'site_title' => config("app.name"),
             'navigation' => "Account",
             'socialites' => SocialiteUtil::getAvailable(),
         ]);

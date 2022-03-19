@@ -147,6 +147,7 @@ return [
             'member' => 'Member',
             'solved' => 'Solved',
             'attempted' => 'Attempted',
+            'title' => 'Homework Statistics',
         ],
     ],
     'contest' =>[

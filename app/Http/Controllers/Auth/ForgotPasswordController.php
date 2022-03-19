@@ -38,8 +38,8 @@ class ForgotPasswordController extends Controller
     public function showLinkRequestForm()
     {
         return view('auth.passwords.email', [
-            'page_title'=>"Reset Password",
-            'site_title'=>config("app.name"),
+            'page_title' => __('Reset Password'),
+            'site_title' => config("app.name"),
             'navigation' => "Account"
         ]);
     }

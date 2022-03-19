@@ -52,9 +52,9 @@ class BoardController extends Controller
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
         return view('contest.board.challenge', [
-            'page_title' => "Challenge",
-            'navigation' => "Contest",
+            'page_title' => __('contest.inside.topbar.challenge'),
             'site_title' => $contest->name,
+            'navigation' => "Contest",
             'cid' => $cid,
             'contest' => $contest,
             'challenges' => $contest->challenges,
@@ -102,9 +102,9 @@ class BoardController extends Controller
         $dialect = $problem->getDialect(blank($challenge->problem_dialect_id) ? 0 : $challenge->problem_dialect_id);
 
         return view('contest.board.editor', [
-            'page_title' => "Problem $challenge->ncode Detail",
-            'navigation' => "Contest",
+            'page_title' => __('contest.inside.challenge.title', ['ncode' => $challenge->ncode]),
             'site_title' => $contest->name,
+            'navigation' => "Contest",
             'status' => $challenge->getProblemStatus(Auth::user()->id),
             'preferable_compiler' => $challenge->getPreferableCompiler(Auth::user()->id),
             'contest_mode' => true,
@@ -145,7 +145,7 @@ class BoardController extends Controller
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
 
-        if($contest->rule == 5 && $clearance <= 2) {
+        if ($contest->rule == 5 && $clearance <= 2) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
 
@@ -167,9 +167,9 @@ class BoardController extends Controller
         $rankFrozen = $contestModel->isFrozen($cid);
         $frozenTime = $contestModel->frozenTime($cid);
         return view('contest.board.rank', [
-            'page_title' => "Rank",
-            'navigation' => "Contest",
+            'page_title' => __('contest.inside.topbar.rank'),
             'site_title' => $contest->name,
+            'navigation' => "Contest",
             'contest' => $contest,
             'cid' => $cid,
             'challenges' => $contest->challenges,
@@ -218,9 +218,9 @@ class BoardController extends Controller
         $frozenTime = $contestModel->frozenTime($cid);
 
         return view('contest.board.status', [
-            'page_title' => "Status",
-            'navigation' => "Contest",
+            'page_title' => __('contest.inside.topbar.status'),
             'site_title' => $contest->name,
+            'navigation' => "Contest",
             'contest' => $contest,
             'basic_info' => $basicInfo,
             'cid' => $cid,
@@ -262,9 +262,9 @@ class BoardController extends Controller
         $contest_ended = $contestModel->isContestEnded($cid);
 
         return view('contest.board.clarification', [
-            'page_title' => "Clarification",
-            'navigation' => "Contest",
+            'page_title' => __('contest.inside.topbar.clarification'),
             'site_title' => $contest->name,
+            'navigation' => "Contest",
             'contest' => $contest,
             'cid' => $cid,
             'custom_info' => $customInfo,
@@ -302,9 +302,9 @@ class BoardController extends Controller
         $customInfo = $contestModel->getCustomInfo($cid);
 
         return view('contest.board.print', [
-            'page_title' => "Print",
-            'navigation' => "Contest",
+            'page_title' => __('contest.inside.topbar.print'),
             'site_title' => $contest->name,
+            'navigation' => "Contest",
             'contest' => $contest,
             'cid' => $cid,
             'custom_info' => $customInfo,
@@ -336,9 +336,9 @@ class BoardController extends Controller
         $customInfo = $contestModel->getCustomInfo($cid);
 
         return view('contest.board.analysis', [
-            'page_title' => "Analysis",
-            'navigation' => "Contest",
+            'page_title' => __('contest.inside.topbar.analysis'),
             'site_title' => $contest->name,
+            'navigation' => "Contest",
             'contest' => $contest,
             'cid' => $cid,
             'custom_info' => $customInfo,

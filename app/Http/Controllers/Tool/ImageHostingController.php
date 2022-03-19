@@ -17,8 +17,8 @@ class ImageHostingController extends Controller
     public function create()
     {
         return view('tool.imagehosting.create', [
-            'page_title' => "Create",
-            'site_title' => "Image Hosting",
+            'page_title' => __('imagehosting.create.title'),
+            'site_title' => __('navigation.imagehosting'),
             'navigation' => "Image Hosting",
             'permission' => Auth::user()->hasPermission(26)
         ]);
@@ -31,16 +31,16 @@ class ImageHostingController extends Controller
      */
     public function detail($id)
     {
-        $image=ImageHosting::find($id);
+        $image = ImageHosting::find($id);
         if (is_null($image)) {
             return abort('404');
         }
-        if (Auth::user()->id!=$image->user_id) {
+        if (Auth::user()->id != $image->user_id) {
             return abort('403');
         }
         return view('tool.imagehosting.detail', [
-            'page_title' => "Detail",
-            'site_title' => "Image Hosting",
+            'page_title' => basename($image->relative_path),
+            'site_title' => __('navigation.imagehosting'),
             'navigation' => "Image Hosting",
             'image' => $image,
         ]);
@@ -53,10 +53,10 @@ class ImageHostingController extends Controller
      */
     public function list()
     {
-        $images=Auth::user()->imagehostings()->orderBy('created_at', 'desc')->get();
+        $images = Auth::user()->imagehostings()->orderBy('created_at', 'desc')->get();
         return view('tool.imagehosting.list', [
-            'page_title' => "List",
-            'site_title' => "Image Hosting",
+            'page_title' => __('imagehosting.list.title'),
+            'site_title' => __('navigation.imagehosting'),
             'navigation' => "Image Hosting",
             'images' => $images,
         ]);

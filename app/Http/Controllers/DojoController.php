@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Eloquent\Dojo\DojoPhase;
@@ -19,7 +20,7 @@ class DojoController extends Controller
     {
         $status = Auth::check() ? Auth::user()->getDojoStatistics() : false;
         return view('dojo.index', [
-            'page_title' => "Dojo",
+            'page_title' => __('navigation.dojo'),
             'site_title' => config("app.name"),
             'navigation' => "Dojo",
             'phases' => DojoPhase::all()->sortBy('order'),

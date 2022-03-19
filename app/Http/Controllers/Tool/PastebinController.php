@@ -15,17 +15,17 @@ class PastebinController extends Controller
      */
     public function view($code)
     {
-        $detail=Pastebin::where('code', $code)->first();
+        $detail = Pastebin::where('code', $code)->first();
         if (is_null($detail)) {
             return abort('404');
         }
-        if (!is_null($detail->expired_at) && strtotime($detail->expired_at)<strtotime(date("y-m-d h:i:s"))) {
+        if (!is_null($detail->expired_at) && strtotime($detail->expired_at) < strtotime(date("y-m-d h:i:s"))) {
             Pastebin::where('code', $code)->delete();
             return abort('404');
         }
         return view('tool.pastebin.view', [
-            'page_title' => "Detail",
-            'site_title' => "PasteBin",
+            'page_title' => $detail->title,
+            'site_title' => __('navigation.pastebin'),
             'navigation' => "PasteBin",
             'detail' => $detail
         ]);
@@ -39,8 +39,8 @@ class PastebinController extends Controller
     public function create()
     {
         return view('tool.pastebin.create', [
-            'page_title' => "Create",
-            'site_title' => "PasteBin",
+            'page_title' => __('pastebin.create'),
+            'site_title' => __('navigation.pastebin'),
             'navigation' => "PasteBin"
         ]);
     }

@@ -3,6 +3,12 @@
 return [
     'home'          => 'Home',
     'problem'       => 'Problem',
+    'problems' => [
+        'description' => 'Description',
+        'article'     => 'Discussions',
+        'solution'    => 'Solutions',
+        'editor'      => 'Editor',
+    ],
     'dojo'          => 'Dojo',
     'status'        => 'Status',
     'rank'          => 'Rank',
@@ -19,11 +25,12 @@ return [
     'logout'        => 'Logout',
     'account'       => 'Account',
     'emailverify'   => '<strong>Boost your security!</strong> You have not verified your email address, please verify it in your Settings Page.',
-    // 'message'    => '{0}You have no messages.|{1} You have 1 new message.|[2,*] You have :count new messages.',
+    'terms'         => 'Terms ans Conditions',
     'message' => [
         'empty'     => 'You have no messages.',
         'tip_head'  => 'You have ',
-        'tip_foot'  => ' new messages.'
+        'tip_foot'  => ' new messages.',
+        'center'    => 'Message',
     ],
     'greeting' => [
         'morning'   => 'Good morning',

@@ -73,7 +73,7 @@ return [
             'run'         => "{$contestLocale}进行中",
         ],
         'challenge' => [
-
+            'title'       => '题目:ncode',
         ],
         'rank' => [
             'title'       => '排名',

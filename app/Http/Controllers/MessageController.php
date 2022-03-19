@@ -11,7 +11,7 @@ class MessageController extends Controller
     public function index()
     {
         return view('message.index', [
-            'page_title' => "Message",
+            'page_title' => __('navigation.message.center'),
             'site_title' => config("app.name"),
             'navigation' => "Home",
             'messages' => Message::listAll(Auth::user()->id),
@@ -29,9 +29,9 @@ class MessageController extends Controller
         $message->read();
 
         return view('message.detail', [
-            'page_title'=>"Message",
-            'site_title'=>config("app.name"),
-            'navigation'=>"Home",
+            'page_title' => __('navigation.message.center'),
+            'site_title' => config("app.name"),
+            'navigation' => "Home",
             'message' => $message
         ]);
     }

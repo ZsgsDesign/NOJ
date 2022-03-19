@@ -3,6 +3,7 @@
 return [
     'title'                 => "Drag & Drop images and have them hosted.",
     'list' => [
+        'title'             => "All Images",
         'empty'             => "You haven't upload any image yet, press upload button above to upload your first image.",
         'button'            => "Upload New Image",
         'path'              => "Relative Path",
@@ -17,6 +18,7 @@ return [
         'imageurl'          => "Image URL",
     ],
     'create' => [
+        'title'             => 'Upload Images',
         'button'            => "View Your Uploaded Images",
         'denied'            => "Sorry, you do not have permission for this feature. Please contact site administrator for permission.",
         'tooltip' => [

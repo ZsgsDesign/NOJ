@@ -44,7 +44,7 @@ return [
         'analysis' => '查看分析',
         'notice' => '发布公告',
         'homework' => '查看作业',
-        'contest' => '发布$contestLocale',
+        'contest' => "发布$contestLocale",
         'invite' => '邀请成员',
         'problems' => '题目管理',
         'settings' => '更多设置',
@@ -149,6 +149,7 @@ return [
             'member' => '成员',
             'solved' => '解决题目数',
             'attempted' => '尝试题目数',
+            'title' => '作业统计',
         ],
     ],
     'contest' =>[

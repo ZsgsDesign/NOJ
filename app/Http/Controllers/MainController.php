@@ -23,7 +23,7 @@ class MainController extends Controller
     {
         $onlineJudges = OJService::list();
         return view('home', [
-            'page_title' => "Home",
+            'page_title' => __('navigation.home'),
             'site_title' => config("app.name"),
             'navigation' => "Home",
             'announcements' => Announcement::orderBy('created_at', 'desc')->get(),
