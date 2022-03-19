@@ -109,6 +109,11 @@
         animation-fill-mode: both;
     }
 </style>
+
+@if (config('recaptcha.enable.user.register'))
+    {!! ReCaptcha::htmlScriptTagJsApi() !!}
+@endif
+
 <div class="container mundb-standard-container">
     <div class="row justify-content-sm-center">
         <div class="col-sm-12 col-md-8 col-lg-6">
@@ -130,12 +135,12 @@
                 </div>
                 <div class="tab-content" id="accountTabContent">
                     <div class="tab-pane fade show active" id="register" role="tabpanel" aria-labelledby="register-tab">
-                        <form class="needs-validation" method="POST" action="{{ route('register') }}" id="register_form" novalidate>
+                        <form class="needs-validation" method="POST" action="{{ route('register') }}" id="register_form">
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="email" class="bmd-label-floating">{{__("Name")}}</label>
-                                    <input type="email" name="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" id="register_nick_name" value="{{ old('name') }}" maxlength="16" required>
+                                    <label for="name" class="bmd-label-floating">{{__("Name")}}</label>
+                                    <input type="text" name="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" id="register_nick_name" value="{{ old('name') }}" maxlength="16" required>
                                     @if ($errors->has('name'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('name') }}</strong>
@@ -164,12 +169,24 @@
                                     <label for="password" class="bmd-label-floating">{{__("Confirm Password")}}</label>
                                     <input type="password" name="password_confirmation" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" id="register_password_again" required>
                                 </div>
+
+                                @if (config('recaptcha.enable.user.register'))
+
+                                    {!! ReCaptcha::htmlFormSnippet() !!}
+
+                                    @error('g-recaptcha-response')
+                                        <span class="invalid-feedback d-block" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+
+                                @endif
+
                                 <div class="form-group">
                                     <div class="checkbox">
                                         <label for="agreement"><input class="form-control" type="checkbox" name="agreement" id="agreement" required><span style="transition: .2s ease-out .0s;">{{__("account.agree")}} <a href="{{route('terms.user')}}" target="_blank">{{__("account.terms")}}</a></span></label>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="card-footer text-right">
                                 <button type="submit" class="btn btn-danger">{{__("Register")}}</button>
@@ -187,9 +204,19 @@
             e.preventDefault();
             location.href="/login";
         })
+
         $('#register-tab').on('click', function (e) {
             e.preventDefault();
         })
+
+        @if (config('recaptcha.enable.user.register'))
+            $("#register_form").submit(function(event) {
+                if ($("#g-recaptcha-response").val() === "") {
+                    event.preventDefault();
+                    alert("{{__('validation.recaptcha')}}", "ReCaptcha", "security");
+                }
+            });
+        @endif
 
         $('input:-webkit-autofill').each(function(){
             if ($(this).val().length !== "") {

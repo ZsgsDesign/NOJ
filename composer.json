@@ -65,7 +65,8 @@
         "zsgsdesign/noj-admin-clike-editor": "^1.0.0",
         "lcobucci/jwt": "4.0.4",
         "nesk/puphpeteer": "^2.0",
-        "barryvdh/laravel-dompdf": "^0.9.0"
+        "barryvdh/laravel-dompdf": "^0.9.0",
+        "biscolab/laravel-recaptcha": "^5.3"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

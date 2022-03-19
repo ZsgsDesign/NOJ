@@ -404,13 +404,13 @@ return [
         //     },
         // ]
         'auth-captcha' => [
-            'enable' => env('ADMIN_ENABLE_RECAPTCHAV2', false),
+            'enable' => env('RECAPTCHAV2_ENABLE_ADMIN_LOGIN', false),
             'provider' => 'recaptchav2',
-            'style' => env('ADMIN_RECAPTCHAV2_STYLE', 'invisible'),
-            'appid' => env('ADMIN_RECAPTCHAV2_SITEKEY', null),
-            'secret' => env('ADMIN_RECAPTCHAV2_SECRET', null),
-            'domain' => env('ADMIN_RECAPTCHAV2_DOMAIN', 'https://recaptcha.net'),
-            'timeout' => env('ADMIN_RECAPTCHAV2_TIMEOUT', 30),
+            'style' => env('RECAPTCHAV2_STYLE', 'invisible'),
+            'appid' => env('RECAPTCHAV2_SITEKEY', null),
+            'secret' => env('RECAPTCHAV2_SECRET', null),
+            'domain' => 'https://' . env('RECAPTCHAV2_DOMAIN', 'recaptcha.net'),
+            'timeout' => env('RECAPTCHAV2_TIMEOUT', 30),
         ],
     ],
 ];

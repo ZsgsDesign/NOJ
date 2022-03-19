@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use ReCaptcha;
 
 class RegisterController extends Controller
 {
@@ -58,6 +59,9 @@ class RegisterController extends Controller
         if(config('function.password.strong')) {
             $validator['password'][] = 'regex:/^(?![A-Za-z0-9]+$)(?![a-z0-9\\W]+$)(?![A-Za-z\\W]+$)(?![A-Z0-9\\W]+$)[a-zA-Z0-9\\W]{8,}$/';
             $messages['password.regex'] = __('validation.noj.password.strong');
+        }
+        if (config('recaptcha.enable.user.register')) {
+            $validator['g-recaptcha-response'] = ['recaptcha'];
         }
         return Validator::make($data, $validator, $messages);
     }
