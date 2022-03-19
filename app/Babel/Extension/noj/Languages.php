@@ -150,7 +150,7 @@ class Languages
                     'memory_limit_check_only' => 1
                 ],
                 'factors' => [
-                    'cpu' => ['factor' => 2, 'constant' => 1],
+                    'cpu' => ['factor' => 2, 'constant' => 1 * 1000],
                     'memory' => ['factor' => 2, 'constant' => 16 * 1024 * 1024]
                 ]
             ],
@@ -171,7 +171,7 @@ class Languages
                     'memory_limit_check_only' => 1
                 ],
                 'factors' => [
-                    'cpu' => ['factor' => 2, 'constant' => 1],
+                    'cpu' => ['factor' => 2, 'constant' => 1 * 1000],
                     'memory' => ['factor' => 2, 'constant' => 16 * 1024 * 1024]
                 ]
             ],
@@ -190,7 +190,7 @@ class Languages
                     'env' => $default_env
                 ],
                 'factors' => [
-                    'cpu' => ['factor' => 3, 'constant' => 2],
+                    'cpu' => ['factor' => 3, 'constant' => 2 * 1000],
                     'memory' => ['factor' => 2, 'constant' => 32 * 1024 * 1024]
                 ]
             ],
@@ -209,7 +209,7 @@ class Languages
                     'env' => array_merge(['MALLOC_ARENA_MAX=1', 'PYTHONIOENCODING=UTF-8'], $default_env)
                 ],
                 'factors' => [
-                    'cpu' => ['factor' => 3, 'constant' => 2],
+                    'cpu' => ['factor' => 3, 'constant' => 2 * 1000],
                     'memory' => ['factor' => 2, 'constant' => 32 * 1024 * 1024]
                 ]
             ],
@@ -271,7 +271,7 @@ class Languages
                     'memory_limit_check_only' => 1
                 ],
                 'factors' => [
-                    'cpu' => ['factor' => 3, 'constant' => 2],
+                    'cpu' => ['factor' => 3, 'constant' => 2 * 1000],
                     'memory' => ['factor' => 2, 'constant' => 0]
                 ]
             ],
@@ -292,7 +292,7 @@ class Languages
                     'memory_limit_check_only' => 1
                 ],
                 'factors' => [
-                    'cpu' => ['factor' => 1, 'constant' => 2],
+                    'cpu' => ['factor' => 1, 'constant' => 2 * 1000],
                     'memory' => ['factor' => 1, 'constant' => 512 * 1024 * 1024]
                 ]
             ],
@@ -312,7 +312,7 @@ class Languages
                     'memory_limit_check_only' => 1
                 ],
                 'factors' => [
-                    'cpu' => ['factor' => 2, 'constant' => 1],
+                    'cpu' => ['factor' => 2, 'constant' => 1 * 1000],
                     'memory' => ['factor' => 2, 'constant' => 16 * 1024 * 1024]
                 ]
             ],
@@ -332,7 +332,7 @@ class Languages
                     'memory_limit_check_only' => 1
                 ],
                 'factors' => [
-                    'cpu' => ['factor' => 2, 'constant' => 1],
+                    'cpu' => ['factor' => 2, 'constant' => 1 * 1000],
                     'memory' => ['factor' => 1, 'constant' => 512 * 1024 * 1024]
                 ]
             ],
