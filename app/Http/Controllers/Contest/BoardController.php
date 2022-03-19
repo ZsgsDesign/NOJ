@@ -145,7 +145,7 @@ class BoardController extends Controller
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
 
-        if ($contest->rule == 5 && $clearance <= 2) {
+        if ($clearance <= 2 && !$contest->rankboard_should_display) {
             return Redirect::route('contest.detail', ['cid' => $cid]);
         }
 

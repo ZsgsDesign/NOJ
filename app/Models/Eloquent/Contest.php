@@ -125,6 +125,35 @@ class Contest extends Model
         return !$this->has_ended && $this->has_begun;
     }
 
+    public function getRankboardVisibilityConfigAttribute()
+    {
+        // binary ba, a: ongoing show rankboard, b: ended show rankboard
+        $config = $this->rankboard_visibility;
+        if(blank($config) || $config < 0) {
+            if($this->rule == 5) {
+                $config = 0b00;
+            } else {
+                $config = 0b11;
+            }
+        }
+        return (int) $config;
+    }
+
+    public function getRankboardShowOngoingAttribute()
+    {
+        return ($this->rankboard_visibility_config >> 0) % 2 == 1;
+    }
+
+    public function getRankboardShowEndedAttribute()
+    {
+        return ($this->rankboard_visibility_config >> 1) % 2 == 1;
+    }
+
+    public function getRankboardShouldDisplayAttribute()
+    {
+        return ($this->is_running && $this->rankboard_show_ongoing) || ($this->has_ended && $this->rankboard_show_ended);
+    }
+
     public function isJudgingComplete()
     {
         return $this->submissions->whereIn('verdict', ['Waiting', 'Pending'])->count() == 0;

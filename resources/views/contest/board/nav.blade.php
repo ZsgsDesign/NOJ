@@ -31,7 +31,7 @@
 <nav-div>
     @if(time() >= strtotime($basic['begin_time']))
         <a href="/contest/{{$contest->cid}}/board/challenge" data-nav="challenge"><nav-item>{{__("contest.inside.topbar.challenge")}}</nav-item></a>
-        @unless($contest->rule == 5 && $clearance <= 2) <a href="/contest/{{$contest->cid}}/board/rank" data-nav="rank"><nav-item>{{__("contest.inside.topbar.rank")}}</nav-item></a> @endunless
+        @if ($clearance > 2 || $contest->rankboard_should_display) <a href="/contest/{{$contest->cid}}/board/rank" data-nav="rank"><nav-item>{{__("contest.inside.topbar.rank")}}</nav-item></a> @endif
         <a href="/contest/{{$contest->cid}}/board/status" data-nav="status"><nav-item>{{__("contest.inside.topbar.status")}}</nav-item></a>
         @if(config('feature.contest.clarification')) <a href="/contest/{{$contest->cid}}/board/clarification" data-nav="clarification"><nav-item>{{__("contest.inside.topbar.clarification")}}</nav-item></a> @endif
         @if(config('feature.contest.print')) <a href="/contest/{{$contest->cid}}/board/print" data-nav="print"><nav-item>{{__("contest.inside.topbar.print")}}</nav-item></a> @endif
