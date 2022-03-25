@@ -5,6 +5,7 @@ namespace App\Models\Eloquent;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
 use Laravel\Passport\HasApiTokens;
 use App\Models\Eloquent\UserExtra;
 use App\Models\Eloquent\Dojo\DojoProblem;
@@ -23,6 +24,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
     use LikeScope;
+    use AuthenticationLoggable;
 
     protected $table = 'users';
 

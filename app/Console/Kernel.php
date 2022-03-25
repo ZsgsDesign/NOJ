@@ -24,12 +24,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-
         if (config('feature.rank')) {
             $schedule->command('scheduling:updateSiteRank')->dailyAt('01:00')->description("Update Rank");
         }
 
         $schedule->command('scheduling:updateSiteMap')->dailyAt('02:00')->description("Update SiteMap");
+
+        $schedule->command('authentication-log:purge')->dailyAt('02:30');
 
         if (config('feature.group')) {
             $schedule->command('scheduling:updateTrendingGroups')->dailyAt('03:00')->description("Update Trending Groups");
