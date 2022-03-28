@@ -1142,7 +1142,7 @@
                                         $("#verdict_info").addClass(ret.data.color);
                                         if(ret.data.verdict!="Pending" && ret.data.verdict!="Waiting" && ret.data.verdict!="Judging") {
                                             clearInterval(tempInterval);
-                                            notify(ret.data.verdict, 'Your submission to problem {{$problem->title}} has been proceed.',(ret.data.verdict=="Partially Accepted"||ret.data.verdict=="Accepted")?"/static/img/notify/checked.png":"/static/img/notify/cancel.png",'{{$problem->pid}}');
+                                            notify(ret.data.verdict, 'Your submission to problem {{$problem->title}} has been proceed.',(ret.data.verdict=="Partially Accepted"||ret.data.verdict=="Accepted")?"/static/img/notify/checked.png":((ret.data.verdict=="Judged")?"/static/img/notify/pending.png":"/static/img/notify/cancel.png"),'{{$problem->pid}}');
                                             @if(!$contest_mode)
                                                 if (ret.data.verdict=="Accepted"){
                                                     localStorage.setItem('{{$problem->pcode}}','```\n' + editor.getValue() + '\n```')
