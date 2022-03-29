@@ -415,6 +415,57 @@ class Languages
                 ],
                 'factors' => $default_factors
             ],
+            'systemverilog_lang_config' => [
+                'compile' => [
+                    'src_name' => 'Main.sv',
+                    'exe_name' => 'Main',
+                    'max_cpu_time' => 3000,
+                    'max_real_time' => 10000,
+                    'max_memory' => 1024 * 1024 * 1024,
+                    'compile_command' => '/usr/bin/iverilog -g2012 -o {exe_path} {src_path}',
+                ],
+                'run' => [
+                    'command' => '/usr/bin/vvp {exe_path}',
+                    'seccomp_rule' => 'general',
+                    'env' => $default_env,
+                    'memory_limit_check_only' => 1
+                ],
+                'factors' => $default_factors
+            ],
+            'asm32_lang_config' => [
+                'compile' => [
+                    'src_name' => 'Main.asm',
+                    'exe_name' => 'Main',
+                    'max_cpu_time' => 3000,
+                    'max_real_time' => 10000,
+                    'max_memory' => 1024 * 1024 * 1024,
+                    'compile_command' => '/usr/bin/nojasm-compiler 32 {exe_path} {src_path}',
+                ],
+                'run' => [
+                    'command' => '{exe_path}',
+                    'seccomp_rule' => null,
+                    'env' => $default_env,
+                    'memory_limit_check_only' => 1
+                ],
+                'factors' => $default_factors
+            ],
+            'asm64_lang_config' => [
+                'compile' => [
+                    'src_name' => 'Main.asm',
+                    'exe_name' => 'Main',
+                    'max_cpu_time' => 3000,
+                    'max_real_time' => 10000,
+                    'max_memory' => 1024 * 1024 * 1024,
+                    'compile_command' => '/usr/bin/nojasm-compiler 64 {exe_path} {src_path}',
+                ],
+                'run' => [
+                    'command' => '{exe_path}',
+                    'seccomp_rule' => null,
+                    'env' => $default_env,
+                    'memory_limit_check_only' => 1
+                ],
+                'factors' => $default_factors
+            ],
         ];
     }
 }

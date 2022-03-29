@@ -156,6 +156,16 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
             aliases: languagesArray['pascal'].aliases,
             mimetypes: languagesArray['pascal'].mimetypes
         },
+        {
+            id: "asm",
+            extensions: [".asm", ".list", ".lis", ".a80", ".z80", ".inc", ".s"],
+            aliases: ["ASM", "Assembly"],
+        },
+        {
+            id: "systemverilog",
+            extensions: [".sv", ".v", ".svh", ".vh"],
+            aliases: ["SystemVerilog"],
+        },
     ];
 
     const grammars: { [scopeName: string]: NOJScopeNameInfo } = {
@@ -265,6 +275,14 @@ async function main(language: LanguageId, themeKey: string, elementID: string, d
         'source.pascal': {
             language: "pascal",
             path: "pascal.tmLanguage"
+        },
+        'source.asm': {
+            language: "asm",
+            path: "asm.tmLanguage.json"
+        },
+        'source.systemverilog': {
+            language: "systemverilog",
+            path: "systemverilog.tmLanguage"
         },
     };
 

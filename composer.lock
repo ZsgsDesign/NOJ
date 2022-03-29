@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2522f8d5a5ae69e9a3033af67cdf1064",
+    "content-hash": "5db72e9ac34772013f97d165de52115a",
     "packages": [
         {
             "name": "asundust/auth-captcha",
@@ -339,16 +339,16 @@
         },
         {
             "name": "composer/installers",
-            "version": "v2.0.1",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "a241e78aaeb09781f5f5b92ac01ffd13ab43e5e8"
+                "reference": "75e5ef05436c90ac565a48176cc7465991908352"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/a241e78aaeb09781f5f5b92ac01ffd13ab43e5e8",
-                "reference": "a241e78aaeb09781f5f5b92ac01ffd13ab43e5e8",
+                "url": "https://api.github.com/repos/composer/installers/zipball/75e5ef05436c90ac565a48176cc7465991908352",
+                "reference": "75e5ef05436c90ac565a48176cc7465991908352",
                 "shasum": ""
             },
             "require": {
@@ -368,7 +368,8 @@
                 "class": "Composer\\Installers\\Plugin",
                 "branch-alias": {
                     "dev-main": "2.x-dev"
-                }
+                },
+                "plugin-modifies-install-path": true
             },
             "autoload": {
                 "psr-4": {
@@ -462,7 +463,7 @@
             ],
             "support": {
                 "issues": "https://github.com/composer/installers/issues",
-                "source": "https://github.com/composer/installers/tree/v2.0.1"
+                "source": "https://github.com/composer/installers/tree/v2.1.0"
             },
             "funding": [
                 {
@@ -478,7 +479,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-13T08:21:20+00:00"
+            "time": "2022-03-18T12:27:54+00:00"
         },
         {
             "name": "defuse/php-encryption",
@@ -1060,16 +1061,16 @@
         },
         {
             "name": "dompdf/dompdf",
-            "version": "v1.2.0",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dompdf/dompdf.git",
-                "reference": "60b704331479a69e9bcdb3496da2315b5c4f94fd"
+                "reference": "c6dfd9bb8b0040609f04754f729d4cb3016e0575"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/60b704331479a69e9bcdb3496da2315b5c4f94fd",
-                "reference": "60b704331479a69e9bcdb3496da2315b5c4f94fd",
+                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/c6dfd9bb8b0040609f04754f729d4cb3016e0575",
+                "reference": "c6dfd9bb8b0040609f04754f729d4cb3016e0575",
                 "shasum": ""
             },
             "require": {
@@ -1121,9 +1122,9 @@
             "homepage": "https://github.com/dompdf/dompdf",
             "support": {
                 "issues": "https://github.com/dompdf/dompdf/issues",
-                "source": "https://github.com/dompdf/dompdf/tree/v1.2.0"
+                "source": "https://github.com/dompdf/dompdf/tree/v1.2.1"
             },
-            "time": "2022-02-07T13:02:10+00:00"
+            "time": "2022-03-24T12:57:42+00:00"
         },
         {
             "name": "dragonmantank/cron-expression",
@@ -2076,16 +2077,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.4.1",
+            "version": "7.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "ee0a041b1760e6a53d2a39c8c34115adc2af2c79"
+                "reference": "ac1ec1cd9b5624694c3a40be801d94137afb12b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/ee0a041b1760e6a53d2a39c8c34115adc2af2c79",
-                "reference": "ee0a041b1760e6a53d2a39c8c34115adc2af2c79",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/ac1ec1cd9b5624694c3a40be801d94137afb12b4",
+                "reference": "ac1ec1cd9b5624694c3a40be801d94137afb12b4",
                 "shasum": ""
             },
             "require": {
@@ -2180,7 +2181,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.4.1"
+                "source": "https://github.com/guzzle/guzzle/tree/7.4.2"
             },
             "funding": [
                 {
@@ -2196,7 +2197,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-12-06T18:43:05+00:00"
+            "time": "2022-03-20T14:16:28+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -2284,16 +2285,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.1.0",
+            "version": "2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "089edd38f5b8abba6cb01567c2a8aaa47cec4c72"
+                "reference": "c94a94f120803a18554c1805ef2e539f8285f9a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/089edd38f5b8abba6cb01567c2a8aaa47cec4c72",
-                "reference": "089edd38f5b8abba6cb01567c2a8aaa47cec4c72",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/c94a94f120803a18554c1805ef2e539f8285f9a2",
+                "reference": "c94a94f120803a18554c1805ef2e539f8285f9a2",
                 "shasum": ""
             },
             "require": {
@@ -2317,7 +2318,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev"
+                    "dev-master": "2.2-dev"
                 }
             },
             "autoload": {
@@ -2379,7 +2380,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.1.0"
+                "source": "https://github.com/guzzle/psr7/tree/2.2.1"
             },
             "funding": [
                 {
@@ -2395,7 +2396,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-06T17:43:30+00:00"
+            "time": "2022-03-20T21:55:58+00:00"
         },
         {
             "name": "imtigger/laravel-job-status",
@@ -4381,16 +4382,16 @@
         },
         {
             "name": "maatwebsite/excel",
-            "version": "3.1.37",
+            "version": "3.1.38",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SpartnerNL/Laravel-Excel.git",
-                "reference": "49ccd4142d3d7bce492d6bfb9dd9a27b12935408"
+                "reference": "dff132ce4d30b19863f4e84de1613fca99604992"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SpartnerNL/Laravel-Excel/zipball/49ccd4142d3d7bce492d6bfb9dd9a27b12935408",
-                "reference": "49ccd4142d3d7bce492d6bfb9dd9a27b12935408",
+                "url": "https://api.github.com/repos/SpartnerNL/Laravel-Excel/zipball/dff132ce4d30b19863f4e84de1613fca99604992",
+                "reference": "dff132ce4d30b19863f4e84de1613fca99604992",
                 "shasum": ""
             },
             "require": {
@@ -4443,7 +4444,7 @@
             ],
             "support": {
                 "issues": "https://github.com/SpartnerNL/Laravel-Excel/issues",
-                "source": "https://github.com/SpartnerNL/Laravel-Excel/tree/3.1.37"
+                "source": "https://github.com/SpartnerNL/Laravel-Excel/tree/3.1.38"
             },
             "funding": [
                 {
@@ -4455,7 +4456,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-02-28T10:20:04+00:00"
+            "time": "2022-03-24T16:00:29+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -5422,16 +5423,16 @@
         },
         {
             "name": "noj-language-service/configurations",
-            "version": "1.0.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NJUPTAAA/NOJ_Language_Services_Configurations.git",
-                "reference": "1a3e7f12a0bd3952432adb0988f54e3c308d0b1b"
+                "reference": "7bba04aa6d98dd16517a9d055171fe7045989599"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NJUPTAAA/NOJ_Language_Services_Configurations/zipball/1a3e7f12a0bd3952432adb0988f54e3c308d0b1b",
-                "reference": "1a3e7f12a0bd3952432adb0988f54e3c308d0b1b",
+                "url": "https://api.github.com/repos/NJUPTAAA/NOJ_Language_Services_Configurations/zipball/7bba04aa6d98dd16517a9d055171fe7045989599",
+                "reference": "7bba04aa6d98dd16517a9d055171fe7045989599",
                 "shasum": ""
             },
             "type": "noj-language-services",
@@ -5448,22 +5449,22 @@
             "description": "Standalone Configurations for Language Services of NOJ.",
             "support": {
                 "issues": "https://github.com/NJUPTAAA/NOJ_Language_Services_Configurations/issues",
-                "source": "https://github.com/NJUPTAAA/NOJ_Language_Services_Configurations/tree/1.0.0"
+                "source": "https://github.com/NJUPTAAA/NOJ_Language_Services_Configurations/tree/1.2.0"
             },
-            "time": "2021-08-24T02:59:34+00:00"
+            "time": "2022-03-29T06:31:36+00:00"
         },
         {
             "name": "noj-language-service/grammars",
-            "version": "1.0.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NJUPTAAA/NOJ_Language_Services_Grammars.git",
-                "reference": "02037d63a9309e6927af1ffbfd4cdaf99df6cf59"
+                "reference": "1fd939243d6fae1a1e81d36dc7482083c7daa294"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NJUPTAAA/NOJ_Language_Services_Grammars/zipball/02037d63a9309e6927af1ffbfd4cdaf99df6cf59",
-                "reference": "02037d63a9309e6927af1ffbfd4cdaf99df6cf59",
+                "url": "https://api.github.com/repos/NJUPTAAA/NOJ_Language_Services_Grammars/zipball/1fd939243d6fae1a1e81d36dc7482083c7daa294",
+                "reference": "1fd939243d6fae1a1e81d36dc7482083c7daa294",
                 "shasum": ""
             },
             "type": "noj-language-services",
@@ -5480,9 +5481,9 @@
             "description": "Standalone Grammars for Language Services of NOJ.",
             "support": {
                 "issues": "https://github.com/NJUPTAAA/NOJ_Language_Services_Grammars/issues",
-                "source": "https://github.com/NJUPTAAA/NOJ_Language_Services_Grammars/tree/1.0.0"
+                "source": "https://github.com/NJUPTAAA/NOJ_Language_Services_Grammars/tree/1.2.0"
             },
-            "time": "2021-08-24T02:59:24+00:00"
+            "time": "2022-03-29T06:31:35+00:00"
         },
         {
             "name": "noj-language-service/themes",

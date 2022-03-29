@@ -1,0 +1,24 @@
+{
+    "modifications":[{
+        "code": "systemverilog",
+        "compability": "systemverilog",
+        "language": "systemverilog",
+        "icon": "langicon-verilog",
+        "display": "SystemVerilog 2012",
+        "method": "add"
+    }, {
+        "code": "asm32",
+        "compability": "asm",
+        "language": "asm",
+        "icon": "langicon-assembly",
+        "display": "ASM (nasm 32bit)",
+        "method": "add"
+    }, {
+        "code": "asm64",
+        "compability": "asm",
+        "language": "asm",
+        "icon": "langicon-assembly",
+        "display": "ASM (nasm 64bit)",
+        "method": "add"
+    }]
+}

@@ -81,6 +81,9 @@ NOJ now supports 19 popular programming languages, you can start issues about ne
 |Free Pascal|/usr/bin/fpc -O2 -o{exe_path} {src_path}|
 |Plaintext|/bin/cat {exe_path}|
 |Free Basic|/usr/local/bin/fbc {src_path}|
+|Assembly (32bit)|/usr/bin/nasm -f elf32 -o {exe_path}.o {src_path} && /usr/bin/gcc -m32 -o {exe_path} {exe_path}.o|
+|Assembly (64bit)|/usr/bin/nasm -f elf64 -o {exe_path}.o {src_path} && /usr/bin/gcc -o {exe_path} {exe_path}.o|
+|SystemVerilog 2012|/usr/bin/iverilog -g2012 -o {exe_path} {src_path}<br>/usr/bin/vvp {exe_path}|
 
 ### Supported Feature
 
