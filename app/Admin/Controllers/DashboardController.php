@@ -63,7 +63,7 @@ class DashboardController
         }
 
         // PHP Version Check
-        $installedVersion=new Version(PHP_VERSION);
+        $installedVersion=new Version(explode("-", PHP_VERSION)[0]);
         $requireVersion=new Version("7.4.0");
         if (!($installedVersion->isGreaterThan($requireVersion) || $installedVersion->getVersionString()===$requireVersion->getVersionString())) {
             $envs[0]['icon']="close-circle";
