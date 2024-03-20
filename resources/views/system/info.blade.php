@@ -125,7 +125,7 @@ hr{
                     </div>
                     <div class="col-sm-12 col-md-4 col-lg-3 mb-5 decommissioned">
                         <h1 id="sys_title" class="wemd-grey-text wemd-text-darken-3">Brethland</h1>
-                        <p id="sys_subtitle"><a target="_blank" href="https://github.com/Brethland"><i class="MDI github-circle"></i></a> <a target="_blank" href="http://www.brethland.com/blog/"><i class="MDI web"></i></a> BackEnd Engineer</p>
+                        <p id="sys_subtitle"><a target="_blank" href="https://github.com/Brethland"><i class="MDI github-circle"></i></a> BackEnd Engineer</p>
                     </div>
                     <div class="col-sm-12 col-md-4 col-lg-3 mb-5 decommissioned">
                         <h1 id="sys_title" class="wemd-grey-text wemd-text-darken-3">Cone Pi</h1>
