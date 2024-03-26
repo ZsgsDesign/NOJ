@@ -32,23 +32,23 @@
 </div>
 
 <div class="problem-container">
-    @unless(blank($dialect->description))
+    @unless(blank($dialect["description"]))
         <div data-section="description">
-            {!! $dialect->description !!}
+            {!! $dialect["description"] !!}
         </div>
     @endunless
 
-    @unless(blank($dialect->input))
+    @unless(blank($dialect["input"]))
         <h3>Input</h3>
         <div data-section="input">
-            {!! $dialect->input !!}
+            {!! $dialect["input"] !!}
         </div>
     @endunless
 
-    @unless(blank($dialect->output))
+    @unless(blank($dialect["output"]))
         <h3>Output</h3>
         <div data-section="output">
-            {!! $dialect->output !!}
+            {!! $dialect["output"] !!}
         </div>
     @endunless
 
@@ -60,10 +60,10 @@
         ])
     @endforeach
 
-    @unless(blank($dialect->note))
+    @unless(blank($dialect["note"]))
         <h3>Note</h3>
         <div data-section="note">
-            {!! $dialect->note !!}
+            {!! $dialect["note"] !!}
         </div>
     @endunless
 </div>
